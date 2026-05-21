@@ -5,7 +5,6 @@
 #include "render/scene/model.hpp"
 
 #include "geometry/mat4x4.hpp"
-#include "geometry/utils.hpp"
 
 namespace lili {
 
@@ -14,28 +13,17 @@ Renderer::Renderer() {
 	depth_texture = nullptr;
 	current_swapchain_texture = nullptr;
 	current_cmd_buffer = nullptr;
-	world_shader = nullptr;
 	ui_shader = nullptr;
-	world_pipeline = nullptr;
 	ui_pipeline = nullptr;
-	world_pass = nullptr;
 	ui_pass = nullptr;
-	directional_light = {
-		{ 0.5f, -1.0f, 0.3f, 0.0f },
-		{ 1.0f, 0.9f, 0.8f, 0.6f },
-		{ 0.3f, 0.3f, 0.3f, 1.0f }
-	};
 }
 
 Renderer::~Renderer() {
 	SDL_WaitForGPUIdle(device);
 
 	if (ui_pass) delete ui_pass;
-	if (world_pass) delete world_pass;
 	if (ui_pipeline) delete ui_pipeline;
-	if (world_pipeline) delete world_pipeline;
 	if (ui_shader) delete ui_shader;
-	if (world_shader) delete world_shader;
 	if (depth_texture) SDL_ReleaseGPUTexture(device, depth_texture);
 	if (device) SDL_DestroyGPUDevice(device);
 }
@@ -49,36 +37,16 @@ void Renderer::set_window(Window *window) {
 	init_passes();
 }
 
-void Renderer::on_window_resized(int new_width, int new_height) {
+void Renderer::on_window_resized() {
 	SDL_ReleaseGPUTexture(device, depth_texture);
-
-	SDL_GPUTextureCreateInfo depth_info{
-		.type = SDL_GPU_TEXTURETYPE_2D,
-		.format = SDL_GPU_TEXTUREFORMAT_D32_FLOAT,
-		.usage = SDL_GPU_TEXTUREUSAGE_DEPTH_STENCIL_TARGET,
-		.width = static_cast<uint32_t>(new_width),
-		.height = static_cast<uint32_t>(new_height),
-		.layer_count_or_depth = 1,
-		.num_levels = 1
-	};
-	depth_texture = SDL_CreateGPUTexture(device, &depth_info);
-	if (!depth_texture)
-		throw std::runtime_error("Failed to create depth texture");
+	init_depth_texture();
 }
 
 SDL_GPUDevice *Renderer::get_device() const {
 	return device;
 }
 
-void Renderer::set_directional_light(Vec3 direction, Vec4 color, Vec4 ambient) {
-	directional_light = {
-		{ direction.x, direction.y, direction.z, 0.0f },
-		color,
-		ambient
-	};
-}
-
-bool Renderer::begin_frame(Camera camera) {
+bool Renderer::begin_frame() {
 	current_cmd_buffer = SDL_AcquireGPUCommandBuffer(device);
 	if (!current_cmd_buffer)
 		throw std::runtime_error("Failed to acquire command buffer!");
@@ -100,69 +68,50 @@ bool Renderer::begin_frame(Camera camera) {
 		return false;
 	}
 
-	int win_w, win_h;
-	SDL_GetWindowSize(window->get_sdl_window(), &win_w, &win_h);
+	if (width != swapchain_width || height != swapchain_height) {
+		swapchain_width = width;
+		swapchain_height = height;
+		on_window_resized();
+	}
 
-	Mat4 view = camera.get_view_matrix();
-	Mat4 proj = Mat4::perspective(
-		deg_to_rad(camera.fov_y),
-		(float)win_w / (float)win_h,
-		camera.near_dist,
-		camera.far_dist
-	);
-	projection_view_3d = proj * view;
 	projection_2d = Mat4::orthographic(
-		0.0f, static_cast<float>(win_w),
-		static_cast<float>(win_h), 0.0f,
+		0.0f, static_cast<float>(width),
+		static_cast<float>(height), 0.0f,
 		-1.0f, 1.0f
 	);
 	return true;
 }
 
 void Renderer::submit(const Model &model, Mat4 transform, RenderLayer layer) {
-	if (layer == RenderLayer::World3D) {
-		world_queue.push_back({ model, transform });
-	} else if (layer == RenderLayer::UI2D) {
+	if (layer == RenderLayer::UI2D)
 		ui_queue.push_back({ model, transform });
-	}
 }
 
 void Renderer::end_frame() {
-	SDL_GPUColorTargetInfo color_target_info{
-		.texture = current_swapchain_texture,
-		.clear_color = SDL_FColor{ 0.1f, 0.1f, 0.1f, 1.0f },
-		.load_op = SDL_GPU_LOADOP_CLEAR,
-		.store_op = SDL_GPU_STOREOP_STORE,
-	};
-	SDL_GPUDepthStencilTargetInfo depth_target_info{
-		.texture = depth_texture,
-		.clear_depth = 1.0f,
-		.load_op = SDL_GPU_LOADOP_CLEAR,
-		.store_op = SDL_GPU_STOREOP_DONT_CARE,
-		.stencil_load_op = SDL_GPU_LOADOP_DONT_CARE,
-		.stencil_store_op = SDL_GPU_STOREOP_DONT_CARE,
-		.cycle = false,
-		.clear_stencil = 0
-	};
+	SDL_GPUColorTargetInfo color_target_info{};
+	color_target_info.texture = current_swapchain_texture;
+	color_target_info.clear_color = SDL_FColor{ 0.1f, 0.1f, 0.1f, 1.0f };
+	color_target_info.load_op = SDL_GPU_LOADOP_CLEAR;
+	color_target_info.store_op = SDL_GPU_STOREOP_STORE;
+
+	SDL_GPUDepthStencilTargetInfo depth_target_info{};
+	depth_target_info.texture = depth_texture;
+	depth_target_info.clear_depth = 1.0f;
+	depth_target_info.load_op = SDL_GPU_LOADOP_CLEAR;
+	depth_target_info.store_op = SDL_GPU_STOREOP_DONT_CARE;
+	depth_target_info.stencil_load_op = SDL_GPU_LOADOP_DONT_CARE;
+	depth_target_info.stencil_store_op = SDL_GPU_STOREOP_DONT_CARE;
+	depth_target_info.cycle = false;
+	depth_target_info.clear_stencil = 0;
+
 	SDL_GPURenderPass *main_pass = SDL_BeginGPURenderPass(
-		current_cmd_buffer,
-		&color_target_info,
-		1,
-		&depth_target_info
+		current_cmd_buffer,	&color_target_info, 1, &depth_target_info
 	);
 
-	world_pass->render(
-		main_pass,
-		current_cmd_buffer,
-		projection_view_3d,
-		directional_light,
-		world_queue
-	);
 	ui_pass->render(
 		main_pass, current_cmd_buffer, projection_2d, ui_queue
 	);
 
-	world_queue.clear();
 	ui_queue.clear();
 	SDL_EndGPURenderPass(main_pass);
 	SDL_SubmitGPUCommandBuffer(current_cmd_buffer);
@@ -200,37 +149,25 @@ void Renderer::init_device() {
 void Renderer::init_depth_texture() {
 	int win_w, win_h;
 	SDL_GetWindowSize(window->get_sdl_window(), &win_w, &win_h);
-	SDL_GPUTextureCreateInfo depth_info{
-		.type = SDL_GPU_TEXTURETYPE_2D,
-		.format = SDL_GPU_TEXTUREFORMAT_D32_FLOAT,
-		.usage = SDL_GPU_TEXTUREUSAGE_DEPTH_STENCIL_TARGET,
-		.width = static_cast<uint32_t>(win_w),
-		.height = static_cast<uint32_t>(win_h),
-		.layer_count_or_depth = 1,
-		.num_levels = 1,
-		.sample_count = SDL_GPU_SAMPLECOUNT_1,
-		.props = 0
-	};
+
+	SDL_GPUTextureCreateInfo depth_info{};
+	depth_info.type = SDL_GPU_TEXTURETYPE_2D;
+	depth_info.format = SDL_GPU_TEXTUREFORMAT_D32_FLOAT;
+	depth_info.usage = SDL_GPU_TEXTUREUSAGE_DEPTH_STENCIL_TARGET;
+	depth_info.width = static_cast<uint32_t>(win_w);
+	depth_info.height = static_cast<uint32_t>(win_h);
+	depth_info.layer_count_or_depth = 1;
+	depth_info.num_levels = 1;
+	depth_info.sample_count = SDL_GPU_SAMPLECOUNT_1;
+
 	depth_texture = SDL_CreateGPUTexture(device, &depth_info);
-	if (!depth_texture) {
+	if (!depth_texture)
 		throw std::runtime_error(
 			"Depth texture creation failed!\n-> " + std::string(SDL_GetError())
 		);
-	}
 }
 
 void Renderer::init_shaders() {
-	world_shader = new Shader(
-		device, "shader/world.vert.spv", "shader/world.frag.spv",
-		(ShaderInfo){
-			.num_uniform_buffers = 1
-		},
-		(ShaderInfo){
-			.num_samplers = 1,
-			.num_storage_buffers = 1,
-			.num_uniform_buffers = 1
-		}
-	);
 	ui_shader = new Shader(
 		device, "shader/ui.vert.spv", "shader/ui.frag.spv",
 		(ShaderInfo){
@@ -244,16 +181,10 @@ void Renderer::init_shaders() {
 }
 
 void Renderer::init_pipelines() {
-	world_pipeline = new WorldPipeline(
-		device, window->get_sdl_window(), world_shader
-	);
-	ui_pipeline = new UIPipeline(
-		device, window->get_sdl_window(), ui_shader
-	);
+	ui_pipeline = new UIPipeline(device, window->get_sdl_window(), ui_shader);
 }
 
 void Renderer::init_passes() {
-	world_pass = new WorldPass(device, world_pipeline->get_sdl_pipeline());
 	ui_pass = new UIPass(device, ui_pipeline->get_sdl_pipeline());
 }
 

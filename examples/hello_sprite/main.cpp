@@ -1,7 +1,15 @@
 #include <iostream>
 
+#include "app.hpp"
+
 int main() {
-	std::cout << "Hello Lili2D\n";
+	HelloSprite app;
+
+	try {
+		app.run();
+	} catch (std::exception &e) {
+		std::cerr << e.what() << '\n';
+	}
 
 	return 0;
 }

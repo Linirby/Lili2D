@@ -22,8 +22,7 @@ Shader::Shader(
 		.num_samplers = vert_infos.num_samplers,
 		.num_storage_textures = vert_infos.num_storage_textures,
 		.num_storage_buffers = vert_infos.num_storage_buffers,
-		.num_uniform_buffers = vert_infos.num_uniform_buffers,
-		.props = 0
+		.num_uniform_buffers = vert_infos.num_uniform_buffers
 	};
 	vertex_shader = SDL_CreateGPUShader(this->device, &vertex_create_info);
 	if (!vertex_shader) {
@@ -43,8 +42,7 @@ Shader::Shader(
 		.num_samplers = frag_infos.num_samplers,
 		.num_storage_textures = frag_infos.num_storage_textures,
 		.num_storage_buffers = frag_infos.num_storage_buffers,
-		.num_uniform_buffers = frag_infos.num_uniform_buffers,
-		.props = 0
+		.num_uniform_buffers = frag_infos.num_uniform_buffers
 	};
 	fragment_shader = SDL_CreateGPUShader(this->device, &fragment_create_info);
 	if (!fragment_shader) {

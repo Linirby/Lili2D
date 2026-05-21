@@ -5,7 +5,7 @@
 #include <memory>
 
 #include "render/core/texture.hpp"
-#include "world/material.hpp"
+#include "render/scene/material.hpp"
 #include "render/core/gpu_mesh.hpp"
 #include "render/scene/model.hpp"
 #include "geometry/vec3.hpp"

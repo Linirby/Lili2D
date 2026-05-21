@@ -2,14 +2,51 @@
 
 namespace lili {
 
+MeshData create_unit_quad() {
+	MeshData quad;
+
+	quad.vertices = {
+		(Vertex){
+			.x = -0.5f, .y = -0.5f, .z = 0.0f,
+			.nx = 0.0f, .ny = 0.0f, .nz = 0.0f,
+			.u = 0.0f, .v = 0.0f,
+			.material_id = 0
+		},
+		(Vertex){
+			.x = 0.5f, .y = -0.5f, .z = 0.0f,
+			.nx = 0.0f, .ny = 0.0f, .nz = 0.0f,
+			.u = 1.0f, .v = 0.0f,
+			.material_id = 0
+		},
+		(Vertex){
+			.x = 0.5f, .y = 0.5f, .z = 0.0f,
+			.nx = 0.0f, .ny = 0.0f, .nz = 0.0f,
+			.u = 1.0f, .v = 1.0f,
+			.material_id = 0
+		},
+		(Vertex){
+			.x = -0.5f, .y = 0.5f, .z = 0.0f,
+			.nx = 0.0f, .ny = 0.0f, .nz = 0.0f,
+			.u = 0.0f, .v = 1.0f,
+			.material_id = 0
+		}
+	};
+	quad.indices = {
+		0, 1, 2,
+		2, 3, 0
+	};
+	return quad;
+}
+
+
 Sprite::Sprite() {
 	texture = nullptr;
 	material = nullptr;
 	mesh = nullptr;
 	model = {};
-	position = {};
-	scale = {};
-	rotation = {};
+	position = { 0.0f, 0.0f, 0.0f };
+	scale = { 0.0f, 0.0f, 0.0f };
+	rotation = { 0.0f, 0.0f, 0.0f };
 }
 
 void Sprite::set_texture(Renderer *renderer, const std::string &path) {

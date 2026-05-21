@@ -5,15 +5,9 @@
 #include "core/window.hpp"
 
 #include "render/core/shader.hpp"
-
-#include "render/scene/camera.hpp"
 #include "render/scene/model.hpp"
-
 #include "render/passes/pass_types.hpp"
-#include "render/passes/world_pass.hpp"
 #include "render/passes/ui_pass.hpp"
-
-#include "render/pipelines/world_pipeline.hpp"
 #include "render/pipelines/ui_pipeline.hpp"
 
 namespace lili {
@@ -24,13 +18,13 @@ public:
 	~Renderer();
 
 	void set_window(Window *window);
-	void on_window_resized(int new_width, int new_height);
+	void on_window_resized();
 
 	SDL_GPUDevice *get_device() const;
 
 	void set_directional_light(Vec3 direction, Vec4 color, Vec4 ambient);
 
-	bool begin_frame(Camera camera);
+	bool begin_frame();
 	void submit(const Model &model, Mat4 transform, RenderLayer layer);
 	void end_frame();
 
@@ -40,24 +34,20 @@ private:
 
 	SDL_GPUTexture *depth_texture;
 
+	uint32_t swapchain_width, swapchain_height;
 	SDL_GPUTexture *current_swapchain_texture;
 	SDL_GPUCommandBuffer *current_cmd_buffer;
 
-	Shader *world_shader;
 	Shader *ui_shader;
 
-	WorldPipeline *world_pipeline;
 	UIPipeline *ui_pipeline;
 
-	WorldPass *world_pass;
 	UIPass *ui_pass;
 
-	std::vector<DrawCommand> world_queue;
 	std::vector<DrawCommand> ui_queue;
 
 	Mat4 projection_view_3d;
 	Mat4 projection_2d;
-	DirectionalLightGPU directional_light;
 
 	void init_device();
 	void init_depth_texture();

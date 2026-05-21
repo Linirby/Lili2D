@@ -1,10 +1,21 @@
 #pragma once
 
 #include <SDL3/SDL_gpu.h>
-
-#include "meshing/primitives.hpp"
+#include <vector>
 
 namespace lili {
+
+struct Vertex {
+	float x, y, z;
+	float nx, ny, nz;
+	float u, v;
+	float material_id;
+};
+
+struct MeshData {
+	std::vector<Vertex> vertices;
+	std::vector<uint32_t> indices;
+};
 
 class GPUMesh {
 public:

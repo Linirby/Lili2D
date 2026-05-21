@@ -66,11 +66,29 @@ void Window::set_relative_mouse_mode(bool activate) {
 		);
 }
 
-const std::string Window::get_title() {
+const std::string Window::get_title() const {
 	return std::string(SDL_GetWindowTitle(window));
 }
 
-std::array<int, 2> Window::get_size() {
+int Window::get_width() const {
+	int w = 0;
+	if (!SDL_GetWindowSize(window, &w, nullptr))
+		throw std::runtime_error(
+			"Failed to get window size: " + std::string(SDL_GetError())
+		);
+	return w;
+}
+
+int Window::get_height() const {
+	int h = 0;
+	if (!SDL_GetWindowSize(window, nullptr, &h))
+		throw std::runtime_error(
+			"Failed to get window size: " + std::string(SDL_GetError())
+		);
+	return h;
+}
+
+std::array<int, 2> Window::get_size() const {
 	int w, h = 0;
 	if (!SDL_GetWindowSize(window, &w, &h))
 		throw std::runtime_error(
@@ -79,23 +97,23 @@ std::array<int, 2> Window::get_size() {
 	return {w, h};
 }
 
-bool Window::is_resizable() {
+bool Window::is_resizable() const {
 	return resizable;
 }
 
-bool Window::is_borderless() {
+bool Window::is_borderless() const {
 	return borderless;
 }
 
-bool Window::is_fullscreen() {
+bool Window::is_fullscreen() const {
 	return fullscreen;
 }
 
-bool Window::is_relative_mouse_mode() {
+bool Window::is_relative_mouse_mode() const {
 	return SDL_GetWindowRelativeMouseMode(window);
 }
 
-SDL_Window *Window::get_sdl_window() {
+SDL_Window *Window::get_sdl_window() const {
 	return window;
 }
 

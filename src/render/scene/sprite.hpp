@@ -6,9 +6,11 @@
 
 #include "render/renderer.hpp"
 #include "render/core/texture.hpp"
-#include "world/material.hpp"
+#include "render/scene/material.hpp"
 
 namespace lili {
+
+MeshData create_unit_quad();
 
 class Sprite {
 public:
@@ -22,9 +24,9 @@ public:
 	void draw(Renderer *renderer);
 
 private:
-	std::unique_ptr<Texture> texture = nullptr;
-	std::unique_ptr<Material> material = nullptr;
-	std::unique_ptr<GPUMesh> mesh = nullptr;
+	std::unique_ptr<Texture> texture;
+	std::unique_ptr<Material> material;
+	std::unique_ptr<GPUMesh> mesh;
 	Model model;
 
 	Vec3 position;

@@ -18,14 +18,16 @@ public:
 	void set_fullscreen(bool activate);
 	void set_relative_mouse_mode(bool activate);
 
-	const std::string get_title();
-	std::array<int, 2> get_size();
-	bool is_resizable();
-	bool is_borderless();
-	bool is_fullscreen();
-	bool is_relative_mouse_mode();
+	const std::string get_title() const;
+	int get_width() const;
+	int get_height() const;
+	std::array<int, 2> get_size() const;
+	bool is_resizable() const;
+	bool is_borderless() const;
+	bool is_fullscreen() const;
+	bool is_relative_mouse_mode() const;
 
-	SDL_Window *get_sdl_window();
+	SDL_Window *get_sdl_window() const;
 
 private:
 	SDL_Window *window;

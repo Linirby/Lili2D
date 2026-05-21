@@ -5,6 +5,7 @@ namespace lili {
 struct Vec4 {
 	float x, y, z, w;
 
+	Vec4() = default;
 	Vec4(float x, float y, float z, float w);
 	Vec4(const Vec4 &);
 

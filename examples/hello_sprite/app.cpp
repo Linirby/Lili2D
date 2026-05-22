@@ -20,6 +20,10 @@ void HelloSprite::init() {
 	renderer = std::make_unique<lili::Renderer>();
 	renderer->set_window(window.get());
 
+	sprite = std::make_unique<lili::Sprite>();
+	sprite->set_texture(renderer.get(), "hello_sprite/cube.png");
+	sprite->set_scale({ 100.0f, 100.0f });
+
 	running = true;
 }
 
@@ -38,6 +42,8 @@ void HelloSprite::handle_events() {
 
 void HelloSprite::render() {
 	if (!renderer->begin_frame()) return;
+
+	sprite->draw(renderer.get());
 
 	renderer->end_frame();
 }

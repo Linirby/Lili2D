@@ -6,10 +6,6 @@ layout(location = 2) flat in uint v_material_id;
 layout(set = 2, binding = 0) uniform sampler2D u_albedo_map;
 struct MaterialGPU {
 	vec4 color_tint;
-	float roughness;
-	float metallic;
-	float emission;
-	float padding;
 };
 layout(std430, set = 2, binding = 1) readonly buffer MaterialBuffer {
 	MaterialGPU materials[];

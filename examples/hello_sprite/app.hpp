@@ -1,8 +1,8 @@
 #pragma once
 
 #include <memory>
-#include "lili/core.hpp"
-#include "lili/render.hpp"
+#include <lili/core.hpp>
+#include <lili/render.hpp>
 
 class HelloSprite {
 public:
@@ -14,6 +14,8 @@ public:
 private:
 	std::unique_ptr<lili::Window> window;
 	std::unique_ptr<lili::Renderer> renderer;
+
+	std::unique_ptr<lili::Sprite> sprite;
 
 	bool running;
 

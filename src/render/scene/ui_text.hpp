@@ -8,7 +8,7 @@
 #include "render/scene/material.hpp"
 #include "render/core/gpu_mesh.hpp"
 #include "render/scene/model.hpp"
-#include "geometry/vec3.hpp"
+#include "geometry/vec2.hpp"
 #include "render/renderer.hpp"
 
 namespace lili {
@@ -44,7 +44,8 @@ public:
 	float advance = 6.0f;
 
 	void set_text(const std::string &value);
-	void draw(const Vec3 &position);
+	void set_layer(float layer);
+	void draw(const Vec2 &position);
 
 private:
 	Renderer *renderer = nullptr;
@@ -54,6 +55,7 @@ private:
 	std::unique_ptr<Material> material;
 	std::unique_ptr<GPUMesh> mesh;
 	Model model;
+	float layer = 0.0f;
 
 	void rebuild_mesh();
 };

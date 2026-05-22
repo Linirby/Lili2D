@@ -7,6 +7,7 @@
 #include "render/renderer.hpp"
 #include "render/core/texture.hpp"
 #include "render/scene/material.hpp"
+#include "geometry/vec2.hpp"
 
 namespace lili {
 
@@ -18,9 +19,10 @@ public:
 	~Sprite() = default;
 
 	void set_texture(Renderer *renderer, const std::string &path);
-	void set_position(Vec3 position);
-	void set_scale(Vec3 scale);
-	void set_rotation(Vec3 rotation);
+	void set_position(Vec2 position);
+	void set_scale(Vec2 scale);
+	void set_rotation(float rotation);
+	void set_layer(float layer);
 	void draw(Renderer *renderer);
 
 private:
@@ -29,9 +31,10 @@ private:
 	std::unique_ptr<GPUMesh> mesh;
 	Model model;
 
-	Vec3 position;
-	Vec3 scale;
-	Vec3 rotation;
+	Vec2 position;
+	Vec2 scale;
+	float rotation;
+	float layer;
 };
 
 }  // namespace lili

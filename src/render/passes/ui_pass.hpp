@@ -12,7 +12,7 @@ public:
 	void render(
 		SDL_GPURenderPass *pass,
 		SDL_GPUCommandBuffer *cmd,
-		const Mat4 &proj_view,
+		const Mat3 &proj_view,
 		const std::vector<DrawCommand> &queue
 	);
 

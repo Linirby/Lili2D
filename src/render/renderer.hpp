@@ -5,6 +5,7 @@
 #include "core/window.hpp"
 
 #include "render/core/shader.hpp"
+#include "render/scene/camera.hpp"
 #include "render/scene/model.hpp"
 #include "render/passes/pass_types.hpp"
 #include "render/passes/ui_pass.hpp"
@@ -22,17 +23,16 @@ public:
 
 	SDL_GPUDevice *get_device() const;
 
-	void set_directional_light(Vec3 direction, Vec4 color, Vec4 ambient);
-
 	bool begin_frame();
-	void submit(const Model &model, Mat4 transform, RenderLayer layer);
+	void submit(
+		const Model &model, const Mat3 &transform, float layer, RenderLayer layer_type
+	);
 	void end_frame();
+	void set_camera(Camera *camera);
 
 private:
 	Window *window;
 	SDL_GPUDevice *device;
-
-	SDL_GPUTexture *depth_texture;
 
 	uint32_t swapchain_width, swapchain_height;
 	SDL_GPUTexture *current_swapchain_texture;
@@ -46,11 +46,10 @@ private:
 
 	std::vector<DrawCommand> ui_queue;
 
-	Mat4 projection_view_3d;
-	Mat4 projection_2d;
+	Mat3 projection_view_2d;
+	Camera *camera = nullptr;
 
 	void init_device();
-	void init_depth_texture();
 	void init_shaders();
 	void init_pipelines();
 	void init_passes();

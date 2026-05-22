@@ -1,4 +1,5 @@
 #include "render/scene/sprite.hpp"
+#include "geometry/mat3x3.hpp"
 
 namespace lili {
 
@@ -8,25 +9,21 @@ MeshData create_unit_quad() {
 	quad.vertices = {
 		(Vertex){
 			.x = -0.5f, .y = -0.5f, .z = 0.0f,
-			.nx = 0.0f, .ny = 0.0f, .nz = 0.0f,
 			.u = 0.0f, .v = 0.0f,
 			.material_id = 0
 		},
 		(Vertex){
 			.x = 0.5f, .y = -0.5f, .z = 0.0f,
-			.nx = 0.0f, .ny = 0.0f, .nz = 0.0f,
 			.u = 1.0f, .v = 0.0f,
 			.material_id = 0
 		},
 		(Vertex){
 			.x = 0.5f, .y = 0.5f, .z = 0.0f,
-			.nx = 0.0f, .ny = 0.0f, .nz = 0.0f,
 			.u = 1.0f, .v = 1.0f,
 			.material_id = 0
 		},
 		(Vertex){
 			.x = -0.5f, .y = 0.5f, .z = 0.0f,
-			.nx = 0.0f, .ny = 0.0f, .nz = 0.0f,
 			.u = 0.0f, .v = 1.0f,
 			.material_id = 0
 		}
@@ -44,9 +41,10 @@ Sprite::Sprite() {
 	material = nullptr;
 	mesh = nullptr;
 	model = {};
-	position = { 0.0f, 0.0f, 0.0f };
-	scale = { 0.0f, 0.0f, 0.0f };
-	rotation = { 0.0f, 0.0f, 0.0f };
+	position = { 0.0f, 0.0f };
+	scale = { 0.0f, 0.0f };
+	rotation = 0.0f;
+	layer = 0.0f;
 }
 
 void Sprite::set_texture(Renderer *renderer, const std::string &path) {
@@ -59,25 +57,29 @@ void Sprite::set_texture(Renderer *renderer, const std::string &path) {
 	model = Model(mesh.get(), material.get());
 }
 
-void Sprite::set_position(Vec3 position) {
+void Sprite::set_position(Vec2 position) {
 	this->position = position;
 }
 
-void Sprite::set_scale(Vec3 scale) {
+void Sprite::set_scale(Vec2 scale) {
 	this->scale = scale;
 }
 
-void Sprite::set_rotation(Vec3 rotation) {
+void Sprite::set_rotation(float rotation) {
 	this->rotation = rotation;
 }
 
+void Sprite::set_layer(float layer) {
+	this->layer = layer;
+}
+
 void Sprite::draw(Renderer *renderer) {
-	Mat4 mat_transform = (
-		Mat4::translate(position) *
-		Mat4::scale(scale) *
-		Mat4::rotation_xyz(rotation)
+	Mat3 mat_transform = (
+		Mat3::translate(position) *
+		Mat3::rotation(rotation) *
+		Mat3::scale(scale)
 	);
-	renderer->submit(model, mat_transform, RenderLayer::UI2D);
+	renderer->submit(model, mat_transform, layer, RenderLayer::UI2D);
 }
 
 }  // namespace lili

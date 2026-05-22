@@ -1,18 +1,23 @@
 #pragma once
 
 #include "render/scene/model.hpp"
-#include "geometry/mat4x4.hpp"
+#include "geometry/mat3x3.hpp"
 
 namespace lili {
 
 enum class RenderLayer {
-	World3D,
+	WORLD2D,
 	UI2D
 };
 
 struct DrawCommand {
-	const Model &model;
-	Mat4 transform;
+	const Model *model;
+	Mat3 transform;
+	float layer;
+};
+
+struct MaterialGPU {
+	float color_tint[4];
 };
 
 }  // namespace lili

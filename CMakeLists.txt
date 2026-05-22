@@ -29,6 +29,7 @@ target_include_directories(LiliCore PUBLIC
 target_link_libraries(LiliCore PRIVATE SDL3::SDL3)
 
 add_library(LiliGeometry OBJECT
+    src/geometry/mat3x3.cpp
     src/geometry/mat4x4.cpp
     src/geometry/vec2.cpp
     src/geometry/vec3.cpp

@@ -1,4 +1,5 @@
 #include "render/scene/ui_text.hpp"
+#include "geometry/mat3x3.hpp"
 
 namespace lili {
 
@@ -57,12 +58,16 @@ void UIText::set_text(const std::string &value) {
 	rebuild_mesh();
 }
 
-void UIText::draw(const Vec3 &position) {
+void UIText::set_layer(float layer) {
+	this->layer = layer;
+}
+
+void UIText::draw(const Vec2 &position) {
 	if (!mesh) return;
-	Mat4 translation = Mat4::translate(position);
-	Mat4 scaling = Mat4::scale({ scale, scale, 1.0f });
-	Mat4 transform = translation * scaling;
-	renderer->submit(model, transform, RenderLayer::UI2D);
+	Mat3 translation = Mat3::translate(position);
+	Mat3 scaling = Mat3::scale({ scale, scale });
+	Mat3 transform = translation * scaling;
+	renderer->submit(model, transform, layer, RenderLayer::UI2D);
 }
 
 void UIText::rebuild_mesh() {
@@ -85,25 +90,21 @@ void UIText::rebuild_mesh() {
 
 		mesh_data.vertices.push_back((Vertex){
 			.x = offset_x, .y = offset_y, .z = 0.0f,
-			.nx = 0.0f, .ny = 0.0f, .nz = 0.0f,
 			.u = uv.u0, .v = uv.v0,
 			.material_id = 0
 		});
 		mesh_data.vertices.push_back((Vertex){
 			.x = offset_x + glyph_w, .y = offset_y, .z = 0.0f,
-			.nx = 0.0f, .ny = 0.0f, .nz = 0.0f,
 			.u = uv.u1, .v = uv.v0,
 			.material_id = 0
 		});
 		mesh_data.vertices.push_back((Vertex){
 			.x = offset_x + glyph_w, .y = offset_y - glyph_h, .z = 0.0f,
-			.nx = 0.0f, .ny = 0.0f, .nz = 0.0f,
 			.u = uv.u1, .v = uv.v1,
 			.material_id = 0
 		});
 		mesh_data.vertices.push_back((Vertex){
 			.x = offset_x, .y = offset_y - glyph_h, .z = 0.0f,
-			.nx = 0.0f, .ny = 0.0f, .nz = 0.0f,
 			.u = uv.u0, .v = uv.v1,
 			.material_id = 0
 		});

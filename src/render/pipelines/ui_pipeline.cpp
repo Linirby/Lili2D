@@ -16,7 +16,7 @@ UIPipeline::UIPipeline(
 
 	SDL_GPUVertexBufferDescription vertex_buffer_desc{
 		.slot = 0,
-		.pitch = sizeof(float) * 10,
+		.pitch = sizeof(float) * 6,
 		.input_rate = SDL_GPU_VERTEXINPUTRATE_VERTEX,
 		.instance_step_rate = 0
 	};
@@ -31,13 +31,13 @@ UIPipeline::UIPipeline(
 			.location = 2,
 			.buffer_slot = 0,
 			.format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2,
-			.offset = sizeof(float) * 6
+			.offset = sizeof(float) * 3
 		},
 		(SDL_GPUVertexAttribute){
 			.location = 3,
 			.buffer_slot = 0,
 			.format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT,
-			.offset = sizeof(float) * 8
+			.offset = sizeof(float) * 5
 		}
 	};
 	SDL_GPUColorTargetDescription color_target_desc{
@@ -91,7 +91,7 @@ UIPipeline::UIPipeline(
 			.color_target_descriptions = &color_target_desc,
 			.num_color_targets = 1,
 			.depth_stencil_format = SDL_GPU_TEXTUREFORMAT_D32_FLOAT,
-			.has_depth_stencil_target = true
+			.has_depth_stencil_target = false
 		},
 		.props = 0
 	};

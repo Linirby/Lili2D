@@ -13,6 +13,7 @@ public:
 
 private:
 	std::unique_ptr<lili::Window> window;
+	std::unique_ptr<lili::Camera> camera;
 	std::unique_ptr<lili::Renderer> renderer;
 
 	std::unique_ptr<lili::Sprite> sprite;
@@ -21,6 +22,7 @@ private:
 
 	void init();
 	void handle_events();
+	void update();
 	void render();
 	void mainloop();
 };

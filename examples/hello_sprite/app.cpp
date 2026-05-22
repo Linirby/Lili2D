@@ -17,8 +17,11 @@ void HelloSprite::init() {
 	window->set_size(800, 800);
 	window->set_resizable(true);
 
+	camera = std::make_unique<lili::Camera>();
+
 	renderer = std::make_unique<lili::Renderer>();
 	renderer->set_window(window.get());
+	renderer->set_camera(camera.get());
 
 	sprite = std::make_unique<lili::Sprite>();
 	sprite->set_texture(renderer.get(), "hello_sprite/cube.png");
@@ -40,6 +43,13 @@ void HelloSprite::handle_events() {
 	}
 }
 
+void HelloSprite::update() {
+	camera->set_position({
+		-window->get_width() / 2.0f,
+		-window->get_height() / 2.0f
+	});
+}
+
 void HelloSprite::render() {
 	if (!renderer->begin_frame()) return;
 
@@ -51,6 +61,7 @@ void HelloSprite::render() {
 void HelloSprite::mainloop() {
 	while (running) {
 		handle_events();
+		update();
 		render();
 	}
 }

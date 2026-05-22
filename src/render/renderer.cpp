@@ -13,17 +13,17 @@ Renderer::Renderer() {
 	device = nullptr;
 	current_swapchain_texture = nullptr;
 	current_cmd_buffer = nullptr;
-	ui_shader = nullptr;
-	ui_pipeline = nullptr;
-	ui_pass = nullptr;
+	world_2d_shader = nullptr;
+	world_2d_pipeline = nullptr;
+	world_2d_pass = nullptr;
 }
 
 Renderer::~Renderer() {
 	SDL_WaitForGPUIdle(device);
 
-	if (ui_pass) delete ui_pass;
-	if (ui_pipeline) delete ui_pipeline;
-	if (ui_shader) delete ui_shader;
+	if (world_2d_pass) delete world_2d_pass;
+	if (world_2d_pipeline) delete world_2d_pipeline;
+	if (world_2d_shader) delete world_2d_shader;
 	if (device) SDL_DestroyGPUDevice(device);
 }
 
@@ -33,9 +33,6 @@ void Renderer::set_window(Window *window) {
 	init_shaders();
 	init_pipelines();
 	init_passes();
-}
-
-void Renderer::on_window_resized() {
 }
 
 SDL_GPUDevice *Renderer::get_device() const {
@@ -67,7 +64,6 @@ bool Renderer::begin_frame() {
 	if (width != swapchain_width || height != swapchain_height) {
 		swapchain_width = width;
 		swapchain_height = height;
-		on_window_resized();
 	}
 
 	Mat3 projection = Mat3::orthographic(
@@ -91,7 +87,7 @@ void Renderer::submit(
 	RenderLayer layer_type
 ) {
 	if (layer_type == RenderLayer::UI2D || layer_type == RenderLayer::WORLD2D)
-		ui_queue.push_back({ &model, transform, layer });
+		world_2d_queue.push_back({ &model, transform, layer });
 }
 
 void Renderer::end_frame() {
@@ -106,16 +102,16 @@ void Renderer::end_frame() {
 	);
 
 	std::sort(
-		ui_queue.begin(), ui_queue.end(),
+		world_2d_queue.begin(), world_2d_queue.end(),
 		[](const DrawCommand &a, const DrawCommand &b) {
 			return a.layer < b.layer;
 		}
 	);
-	ui_pass->render(
-		main_pass, current_cmd_buffer, projection_view_2d, ui_queue
+	world_2d_pass->render(
+		main_pass, current_cmd_buffer, projection_view_2d, world_2d_queue
 	);
 
-	ui_queue.clear();
+	world_2d_queue.clear();
 	SDL_EndGPURenderPass(main_pass);
 	SDL_SubmitGPUCommandBuffer(current_cmd_buffer);
 	current_cmd_buffer = nullptr;
@@ -150,7 +146,7 @@ void Renderer::init_device() {
 }
 
 void Renderer::init_shaders() {
-	ui_shader = new Shader(
+	world_2d_shader = new Shader(
 		device, "shader/ui.vert.spv", "shader/ui.frag.spv",
 		(ShaderInfo){
 			.num_uniform_buffers = 1
@@ -163,11 +159,13 @@ void Renderer::init_shaders() {
 }
 
 void Renderer::init_pipelines() {
-	ui_pipeline = new UIPipeline(device, window->get_sdl_window(), ui_shader);
+	world_2d_pipeline = new UIPipeline(
+		device, window->get_sdl_window(), world_2d_shader
+	);
 }
 
 void Renderer::init_passes() {
-	ui_pass = new UIPass(device, ui_pipeline->get_sdl_pipeline());
+	world_2d_pass = new UIPass(device, world_2d_pipeline->get_sdl_pipeline());
 }
 
 void Renderer::set_camera(Camera *camera) {

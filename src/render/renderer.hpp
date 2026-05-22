@@ -19,7 +19,6 @@ public:
 	~Renderer();
 
 	void set_window(Window *window);
-	void on_window_resized();
 
 	SDL_GPUDevice *get_device() const;
 
@@ -38,13 +37,13 @@ private:
 	SDL_GPUTexture *current_swapchain_texture;
 	SDL_GPUCommandBuffer *current_cmd_buffer;
 
-	Shader *ui_shader;
+	Shader *world_2d_shader;
 
-	UIPipeline *ui_pipeline;
+	UIPipeline *world_2d_pipeline;
 
-	UIPass *ui_pass;
+	UIPass *world_2d_pass;
 
-	std::vector<DrawCommand> ui_queue;
+	std::vector<DrawCommand> world_2d_queue;
 
 	Mat3 projection_view_2d;
 	Camera *camera = nullptr;

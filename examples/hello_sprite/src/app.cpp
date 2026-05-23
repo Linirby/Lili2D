@@ -1,0 +1,43 @@
+#include "app.hpp"
+
+App::App() {
+	window = std::make_unique<lili::Window>("hello_sprite - Lili2D", 800, 800);
+	window->set_resizable(true);
+	renderer = std::make_unique<lili::Renderer>(window.get());
+
+	cat_sprite = std::make_unique<lili::Sprite>(renderer.get(), "cat.png");
+	cat_sprite->set_scale({ 0.5f, 0.5f });
+
+	running = true;
+}
+
+void App::run() {
+	while (running) {
+		handle_events();
+		render();
+	}
+}
+
+void App::handle_events() {
+	lili::Event event;
+
+	while (event.poll()) {
+		lili::KeyboardEvent keyboard = event.keyboard();
+
+		if (event.type() == lili::EventType::QUIT)
+			running = false;
+		if (keyboard.key == SDLK_ESCAPE)
+			running = false;
+	}
+}
+
+void App::render() {
+	if (!renderer->begin_frame()) return;
+
+	cat_sprite->set_position({
+		window->get_width() / 2.0f, window->get_height() / 2.0f
+	});
+	cat_sprite->draw();
+
+	renderer->end_frame();
+}

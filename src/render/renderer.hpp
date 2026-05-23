@@ -15,10 +15,8 @@ namespace lili {
 
 class Renderer {
 public:
-	Renderer();
+	Renderer(Window *window);
 	~Renderer();
-
-	void set_window(Window *window);
 
 	SDL_GPUDevice *get_device() const;
 

@@ -8,12 +8,8 @@ add_compile_options(-Wall -Wextra)
 
 find_package(Lili2D REQUIRED)
 
-# ==============================================================================
-#  > EXAMPLES
-# ==============================================================================
-
 add_executable(hello_sprite
-    hello_sprite/main.cpp
-    hello_sprite/app.cpp
+    src/main.cpp
+    src/app.cpp
 )
 target_link_libraries(hello_sprite PRIVATE lili::Lili2D)

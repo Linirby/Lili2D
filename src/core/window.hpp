@@ -8,7 +8,7 @@ namespace lili {
 
 class Window {
 public:
-	Window();
+	Window(const std::string &title, int width, int height);
 	~Window();
 
 	void set_title(const std::string &title);
@@ -30,8 +30,8 @@ public:
 	SDL_Window *get_sdl_window() const;
 
 private:
-	SDL_Window *window;
 	bool resizable, borderless, fullscreen;
+	SDL_Window *window;
 };
 
 }  // namespace lili

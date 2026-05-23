@@ -3,14 +3,11 @@
 
 namespace lili {
 
-Window::Window() {
-	window = nullptr;
+Window::Window(const std::string &title, int width, int height) {
 	resizable = false;
 	borderless = false;
 	fullscreen = false;
-	window = SDL_CreateWindow(
-		"HelloVoxel - made by Lili (aka. Linirby)", 640, 480, 0
-	);
+	window = SDL_CreateWindow(title.c_str(), width, height, 0);
 }
 
 Window::~Window() {

@@ -1,5 +1,6 @@
 #include "render/scene/sprite.hpp"
 #include "geometry/mat3x3.hpp"
+#include "geometry/utils.hpp"
 
 namespace lili {
 
@@ -36,18 +37,23 @@ MeshData create_unit_quad() {
 }
 
 
-Sprite::Sprite() {
-	texture = nullptr;
-	material = nullptr;
-	mesh = nullptr;
-	model = {};
+Sprite::Sprite(Renderer *renderer, const std::string &path) {
+	this->renderer = renderer;
+	texture = std::make_unique<Texture>(renderer->get_device(), path);
+	material = std::make_unique<Material>(texture.get());
+	material->properties.color_tint = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+	MeshData mesh_data = create_unit_quad();
+	mesh = std::make_unique<GPUMesh>(renderer->get_device(), mesh_data);
+	model = Model(mesh.get(), material.get());
+
 	position = { 0.0f, 0.0f };
 	scale = { 0.0f, 0.0f };
 	rotation = 0.0f;
 	layer = 0.0f;
 }
 
-void Sprite::set_texture(Renderer *renderer, const std::string &path) {
+void Sprite::set_image(const std::string &path) {
 	texture = std::make_unique<Texture>(renderer->get_device(), path);
 	material = std::make_unique<Material>(texture.get());
 	material->properties.color_tint = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -65,19 +71,22 @@ void Sprite::set_scale(Vec2 scale) {
 	this->scale = scale;
 }
 
-void Sprite::set_rotation(float rotation) {
-	this->rotation = rotation;
+void Sprite::set_rotation(float degree) {
+	this->rotation = lili::deg_to_rad(degree);
 }
 
 void Sprite::set_layer(float layer) {
 	this->layer = layer;
 }
 
-void Sprite::draw(Renderer *renderer) {
+void Sprite::draw() {
 	Mat3 mat_transform = (
 		Mat3::translate(position) *
 		Mat3::rotation(rotation) *
-		Mat3::scale(scale)
+		Mat3::scale({
+			scale.x * texture->get_width(),
+			scale.y * texture->get_height()
+		})
 	);
 	renderer->submit(model, mat_transform, layer, RenderLayer::UI2D);
 }

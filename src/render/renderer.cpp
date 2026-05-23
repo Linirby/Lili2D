@@ -13,13 +13,12 @@
 
 namespace lili {
 
-Renderer::Renderer() {
-	device = nullptr;
-	current_swapchain_texture = nullptr;
-	current_cmd_buffer = nullptr;
-	world_2d_shader = nullptr;
-	world_2d_pipeline = nullptr;
-	world_2d_pass = nullptr;
+Renderer::Renderer(Window *window) {
+	this->window = window;
+	init_device();
+	init_shaders();
+	init_pipelines();
+	init_passes();
 }
 
 Renderer::~Renderer() {
@@ -29,14 +28,6 @@ Renderer::~Renderer() {
 	if (world_2d_pipeline) delete world_2d_pipeline;
 	if (world_2d_shader) delete world_2d_shader;
 	if (device) SDL_DestroyGPUDevice(device);
-}
-
-void Renderer::set_window(Window *window) {
-	this->window = window;
-	init_device();
-	init_shaders();
-	init_pipelines();
-	init_passes();
 }
 
 SDL_GPUDevice *Renderer::get_device() const {

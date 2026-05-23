@@ -3,7 +3,7 @@
 #include "app.hpp"
 
 int main() {
-	HelloSprite app;
+	App app;
 
 	try {
 		app.run();

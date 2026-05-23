@@ -15,17 +15,19 @@ MeshData create_unit_quad();
 
 class Sprite {
 public:
-	Sprite();
+	Sprite(Renderer *renderer, const std::string &path);
 	~Sprite() = default;
 
-	void set_texture(Renderer *renderer, const std::string &path);
+	void set_image(const std::string &path);
 	void set_position(Vec2 position);
 	void set_scale(Vec2 scale);
-	void set_rotation(float rotation);
+	void set_rotation(float degree);
 	void set_layer(float layer);
-	void draw(Renderer *renderer);
+	void draw();
 
 private:
+	Renderer *renderer;
+
 	std::unique_ptr<Texture> texture;
 	std::unique_ptr<Material> material;
 	std::unique_ptr<GPUMesh> mesh;

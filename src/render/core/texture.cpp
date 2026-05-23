@@ -16,6 +16,8 @@ Texture::Texture(SDL_GPUDevice *device, const std::string &img_path) {
 		temp_surface, SDL_PIXELFORMAT_ABGR8888
 	);
 	SDL_DestroySurface(temp_surface);
+	width = surface->w;
+	height = surface->h;
 	SDL_GPUTextureCreateInfo texture_create_info{
 		.type = SDL_GPU_TEXTURETYPE_2D,
 		.format = SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM,
@@ -51,6 +53,14 @@ Texture::Texture(SDL_GPUDevice *device, const std::string &img_path) {
 Texture::~Texture() {
 	if (sampler) SDL_ReleaseGPUSampler(device, sampler);
 	if (texture) SDL_ReleaseGPUTexture(device, texture);
+}
+
+int Texture::get_width() const {
+	return width;
+}
+
+int Texture::get_height() const {
+	return height;
 }
 
 SDL_GPUTexture *Texture::get_texture() const {

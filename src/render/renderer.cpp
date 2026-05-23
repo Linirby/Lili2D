@@ -5,6 +5,10 @@
 #include "render/renderer.hpp"
 #include "render/scene/model.hpp"
 
+// Creation in cmake
+#include "shader/ui_vert_spv.hpp"
+#include "shader/ui_frag_spv.hpp"
+
 #include "geometry/mat3x3.hpp"
 
 namespace lili {
@@ -147,7 +151,9 @@ void Renderer::init_device() {
 
 void Renderer::init_shaders() {
 	world_2d_shader = new Shader(
-		device, "shader/ui.vert.spv", "shader/ui.frag.spv",
+		device,
+		ui_vert_spv, ui_vert_spv_len,
+		ui_frag_spv, ui_frag_spv_len,
 		(ShaderInfo){
 			.num_uniform_buffers = 1
 		},

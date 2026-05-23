@@ -27,6 +27,15 @@ public:
 		ShaderInfo vert_infos = {},
 		ShaderInfo frag_infos = {}
 	);
+	Shader(
+		SDL_GPUDevice *device,
+		const uint8_t *vert_code,
+		size_t vert_size,
+		const uint8_t *frag_code,
+		size_t frag_size,
+		ShaderInfo vert_infos = {},
+		ShaderInfo frag_infos = {}
+	);
 	~Shader();
 
 	SDL_GPUShader *get_vertex() const;

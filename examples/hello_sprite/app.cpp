@@ -24,7 +24,7 @@ void HelloSprite::init() {
 	renderer->set_camera(camera.get());
 
 	sprite = std::make_unique<lili::Sprite>();
-	sprite->set_texture(renderer.get(), "hello_sprite/cube.png");
+	sprite->set_texture(renderer.get(), "hello_sprite/cat.png");
 	sprite->set_scale({ 100.0f, 100.0f });
 
 	running = true;

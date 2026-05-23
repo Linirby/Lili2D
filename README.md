@@ -5,7 +5,7 @@
 ![SDL3](https://img.shields.io/badge/SDL3-Powered-orange.svg)
 
 **Lili2D** is a lightweight, easy-to-use C++ library designed to help you create
-2D games with a cool, intuitive API! :3 
+2D games with a cool, intuitive API! :3
 
 Whether you are prototyping a quick idea, participating in a game jam, or
 building a full 2D game, Lili2D provides you with the modern tools you need to

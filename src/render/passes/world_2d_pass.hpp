@@ -4,10 +4,10 @@
 
 namespace lili {
 
-class UIPass {
+class World2DPass {
 public:
-	UIPass(SDL_GPUDevice *device, SDL_GPUGraphicsPipeline *pipeline);
-	~UIPass();
+	World2DPass(SDL_GPUDevice *device, SDL_GPUGraphicsPipeline *pipeline);
+	~World2DPass();
 
 	void render(
 		SDL_GPURenderPass *pass,

@@ -8,8 +8,8 @@
 #include "render/scene/camera.hpp"
 #include "render/scene/model.hpp"
 #include "render/passes/pass_types.hpp"
-#include "render/passes/ui_pass.hpp"
-#include "render/pipelines/ui_pipeline.hpp"
+#include "render/passes/world_2d_pass.hpp"
+#include "render/pipelines/world_2d_pipeline.hpp"
 
 namespace lili {
 
@@ -39,7 +39,7 @@ private:
 
 	UIPipeline *world_2d_pipeline;
 
-	UIPass *world_2d_pass;
+	World2DPass *world_2d_pass;
 
 	std::vector<DrawCommand> world_2d_queue;
 

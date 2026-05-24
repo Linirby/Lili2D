@@ -1,4 +1,4 @@
-#include "render/pipelines/ui_pipeline.hpp"
+#include "render/pipelines/world_2d_pipeline.hpp"
 
 #include <vector>
 #include <stdexcept>

@@ -60,8 +60,8 @@ target_link_libraries(LiliPhysics PRIVATE LiliGeometry)
 find_program(GLSLC_COMPILER glslc REQUIRED)
 
 set(SHADER_FILES
-    src/shader/ui.vert
-    src/shader/ui.frag
+    src/shader/world_2d.vert
+    src/shader/world_2d.frag
 )
 
 set(EMBEDDED_SHADERS "")
@@ -91,15 +91,15 @@ add_library(LiliRender OBJECT
     src/render/core/shader.cpp
     src/render/core/texture.cpp
 
-    src/render/passes/ui_pass.cpp
+    src/render/passes/world_2d_pass.cpp
 
-    src/render/pipelines/ui_pipeline.cpp
+    src/render/pipelines/world_2d_pipeline.cpp
 
     src/render/scene/camera.cpp
     src/render/scene/material.cpp
     src/render/scene/model.cpp
     src/render/scene/sprite.cpp
-    src/render/scene/ui_text.cpp
+    src/render/scene/text.cpp
 
     src/render/renderer.cpp
 )

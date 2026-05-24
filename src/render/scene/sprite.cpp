@@ -88,7 +88,7 @@ void Sprite::draw() {
 			scale.y * texture->get_height()
 		})
 	);
-	renderer->submit(model, mat_transform, layer, RenderLayer::UI2D);
+	renderer->submit(model, mat_transform, layer, RenderLayer::WORLD2D);
 }
 
 }  // namespace lili

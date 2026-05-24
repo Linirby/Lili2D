@@ -137,6 +137,10 @@ int main() {
 Check out the `examples/` directory in the repository for more details and
 complete projects!
 
+### Available Examples:
+- **`hello_sprite`**: Learn how to initialize a window, load a texture, and render a basic sprite.
+- **`hello_text`**: See how to load a bitmap font and render dynamic text on the screen.
+
 ## Support the Project ❤️
 
 If you like Lili2D and want to support its development, you can buy me a coffee!

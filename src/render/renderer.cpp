@@ -5,9 +5,9 @@
 #include "render/renderer.hpp"
 #include "render/scene/model.hpp"
 
-// Creation in cmake
-#include "shader/ui_vert_spv.hpp"
-#include "shader/ui_frag_spv.hpp"
+// Creation of those 2 headers in cmake
+#include "shader/world_2d_vert_spv.hpp"
+#include "shader/world_2d_frag_spv.hpp"
 
 #include "geometry/mat3x3.hpp"
 
@@ -63,7 +63,7 @@ bool Renderer::begin_frame() {
 
 	Mat3 projection = Mat3::orthographic(
 		0.0f, static_cast<float>(width),
-		static_cast<float>(height), 0.0f
+		0.0f, static_cast<float>(height)
 	);
 	Mat3 view = Mat3::identity();
 	if (camera) {
@@ -81,7 +81,7 @@ void Renderer::submit(
 	const Model &model, const Mat3 &transform, float layer,
 	RenderLayer layer_type
 ) {
-	if (layer_type == RenderLayer::UI2D || layer_type == RenderLayer::WORLD2D)
+	if (layer_type == RenderLayer::WORLD2D)
 		world_2d_queue.push_back({ &model, transform, layer });
 }
 
@@ -143,8 +143,8 @@ void Renderer::init_device() {
 void Renderer::init_shaders() {
 	world_2d_shader = new Shader(
 		device,
-		ui_vert_spv, ui_vert_spv_len,
-		ui_frag_spv, ui_frag_spv_len,
+		world_2d_vert_spv, world_2d_vert_spv_len,
+		world_2d_frag_spv, world_2d_frag_spv_len,
 		(ShaderInfo){
 			.num_uniform_buffers = 1
 		},
@@ -162,7 +162,9 @@ void Renderer::init_pipelines() {
 }
 
 void Renderer::init_passes() {
-	world_2d_pass = new UIPass(device, world_2d_pipeline->get_sdl_pipeline());
+	world_2d_pass = new World2DPass(
+		device, world_2d_pipeline->get_sdl_pipeline()
+	);
 }
 
 void Renderer::set_camera(Camera *camera) {

@@ -13,7 +13,7 @@ layout(set = 1, binding = 0) uniform UniformBlock {
 } ubo;
 
 void main() {
-	vec3 pos2d = ubo.matrix * vec3(in_pos.x, -in_pos.y, 1.0);
+	vec3 pos2d = ubo.matrix * vec3(in_pos.x, in_pos.y, 1.0);
 	gl_Position = vec4(pos2d.xy, in_pos.z + ubo.layer, 1.0);
 	v_uv = in_uv;
 	v_material_id = uint(in_material_id + 0.5);

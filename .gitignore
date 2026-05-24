@@ -1,4 +1,4 @@
 build/
-src/shader/*.spv
-src/shader/*_spv.hpp
+# src/shader/*.spv
+# src/shader/*_spv.hpp
 .antigravitycli

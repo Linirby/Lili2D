@@ -22,7 +22,6 @@ private:
 	SDL_GPUTexture *texture = nullptr;
 	SDL_GPUSampler *sampler = nullptr;
 
-
 	void transfer_to_gpu(SDL_Surface *surface);
 };
 

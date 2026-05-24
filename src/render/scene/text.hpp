@@ -19,38 +19,47 @@ struct GlyphUV {
 
 class BitmapFont {
 public:
-	BitmapFont();
+	BitmapFont(
+		Renderer *renderer, const std::string &path, uint8_t cols, uint8_t rows
+	);
 	~BitmapFont() = default;
 
-	void set_atlas_map(Renderer *renderer, const std::string &path);
-	void set_size(uint8_t cols, uint8_t rows);
-
 	Texture *get_texture() const;
+	int get_glyph_w() const;
+	int get_glyph_h() const;
 	GlyphUV glyph_uv(char c) const;
 
 private:
 	std::unique_ptr<Texture> texture;
 	int cols;
 	int rows;
+
+	int glyph_w;
+	int glyph_h;
 };
 
-class UIText {
+class Text {
 public:
-	UIText(Renderer *renderer, BitmapFont *font, const std::string &text);
-
-	float scale = 3.0f;
-	float glyph_w = 5.0f;
-	float glyph_h = 8.0f;
-	float advance = 6.0f;
+	Text(Renderer *renderer, BitmapFont *font, const std::string &text);
 
 	void set_text(const std::string &value);
+	void set_position(const Vec2 &position);
+	void set_spacing(float value);
+	void set_scale(float value);
 	void set_layer(float layer);
-	void draw(const Vec2 &position);
+	void draw();
 
 private:
 	Renderer *renderer = nullptr;
 	BitmapFont *font = nullptr;
+
 	std::string text;
+	Vec2 pos;
+
+	float scale = 1.0f;
+	float glyph_w = 1.0f;
+	float glyph_h = 1.0f;
+	float advance = 1.0f;
 
 	std::unique_ptr<Material> material;
 	std::unique_ptr<GPUMesh> mesh;

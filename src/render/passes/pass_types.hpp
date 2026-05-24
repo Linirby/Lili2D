@@ -7,7 +7,6 @@ namespace lili {
 
 enum class RenderLayer {
 	WORLD2D,
-	UI2D
 };
 
 struct DrawCommand {

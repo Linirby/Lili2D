@@ -1,4 +1,4 @@
-#include "render/passes/ui_pass.hpp"
+#include "render/passes/world_2d_pass.hpp"
 
 #include <cstring>
 #include <stdexcept>
@@ -104,7 +104,7 @@ static SDL_GPUBuffer *create_materials_buffer(SDL_GPUDevice *device) {
 	return materials_buffer;
 }
 
-UIPass::UIPass(
+World2DPass::World2DPass(
 	SDL_GPUDevice *device, SDL_GPUGraphicsPipeline *pipeline
 ) {
 	this->device = device;
@@ -112,12 +112,12 @@ UIPass::UIPass(
 	this->materials_buffer = create_materials_buffer(device);
 }
 
-UIPass::~UIPass() {
+World2DPass::~World2DPass() {
 	if (materials_buffer)
 		SDL_ReleaseGPUBuffer(device, materials_buffer);
 }
 
-void UIPass::render(
+void World2DPass::render(
 	SDL_GPURenderPass *pass,
 	SDL_GPUCommandBuffer *cmd,
 	const Mat3 &proj_view,
@@ -131,19 +131,19 @@ void UIPass::render(
 	for (const DrawCommand &draw_cmd : queue) {
 		if (!draw_cmd.model)
 			throw std::runtime_error(
-				"UIPass received draw command without model."
+				"World2DPass received draw command without model."
 			);
 		if (!draw_cmd.model->mesh)
 			throw std::runtime_error(
-				"UIPass received draw command without mesh."
+				"World2DPass received draw command without mesh."
 			);
 		if (!draw_cmd.model->material)
 			throw std::runtime_error(
-				"UIPass received draw command without material."
+				"World2DPass received draw command without material."
 			);
 		if (!draw_cmd.model->material->albedo_map)
 			throw std::runtime_error(
-				"UIPass received draw command with material missing albedo map."
+				"World2DPass received draw command with material missing albedo map."
 			);
 
 		Mat3 mvp = proj_view * draw_cmd.transform;

@@ -4,7 +4,7 @@
 #include "render/scene/material.hpp"  // IWYU pragma: keep
 #include "render/scene/model.hpp"  // IWYU pragma: keep
 #include "render/scene/sprite.hpp"  // IWYU pragma: keep
-#include "render/scene/ui_text.hpp"  // IWYU pragma: keep
+#include "render/scene/text.hpp"  // IWYU pragma: keep
 
 #include "render/renderer.hpp"  // IWYU pragma: keep
 
@@ -21,7 +21,7 @@ struct Model;
 class Sprite;
 
 class BitmapFont;
-class UIText;
+class Text;
 
 class Renderer;
 

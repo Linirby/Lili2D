@@ -140,6 +140,7 @@ Check out the `examples/` directory in the repository for more details and
 complete projects!
 
 ### Available Examples:
+- **`hello_rect`**: Demonstrates the basics of window creation and rendering simple colored rectangles.
 - **`hello_sprite`**: Learn how to initialize a window, load a texture, and render a basic sprite.
 - **`hello_text`**: See how to load a bitmap font and render dynamic text on the screen.
 

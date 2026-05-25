@@ -1,33 +1,32 @@
 # Examples
 
+This directory contains example projects demonstrating how to use the **Lili2D** engine.
+
+## Available Examples
+
+- **`hello_rect`**: Demonstrates the basics of window creation and rendering simple colored rectangles.
+- **`hello_sprite`**: Shows how to load a texture and render a 2D sprite to the screen.
+- **`hello_text`**: Explains how to load bitmap fonts and render dynamic text.
+
 ## Build and run examples
 
-Each example folder will have a `src/` folder with code example, a
-CMakeLists.txt as an example of how to add the lib to your project.
-And to easily use the `CMakeLists.txt` (on linux) there's 3 bash scripts:
+Each example folder has a `src/` folder containing the example code, and a `CMakeLists.txt` demonstrating how to link the Lili2D library to your own projects. 
 
-- `run.sh` to run the build example
+To easily build and run the examples (on Linux), each folder contains three bash scripts:
+
+- `run.sh` to run the built example
 - `build.sh` to build the example
 - `build_and_run.sh` to do both
 
-Bash scripts need to be executed at the root of the example folder/ (where
-scripts are placed).
+These bash scripts need to be executed from the root of the specific example folder (where the scripts are located).
 
-## Smart Pointer mention
+## Note on Smart Pointers
 
-I'll use the smart pointer `unique_ptr` during those examples. If you're not
-used to them, don't panic.
+These examples use the `std::unique_ptr` smart pointer for memory management. If you are not familiar with them, don't panic!
 
-Here are some basics rules to easily replace my smart pointers (`unique_ptr`,
-`shared_ptr`, `weak_ptr`) to raw pointer `*` (in your mind or directly in the
-code):
+Here are some basic rules to easily replace smart pointers (`unique_ptr`, `shared_ptr`, `weak_ptr`) with raw pointers (`*`), either in your head or in the code:
 
-1. Replace every `var = std::make_unique<type>(args);` by `var = new type(args);`
-and check where this variable goes out of scope and put `delete var` right
-before it goes out of the scope.
-2. Replace every `std::unique_ptr<type> var;` by `type *var`.
-3. Most of the time if a `unique_ptr` is in the `App` class, for a `*` the
-`delete` of this pointer could be place after the `while (running)` loop in
-`App::run()`.
-4. When I use `.get()` on a `unique_ptr` is to get the raw pointer version, so
-if you are using `*` you can remove the `.get()`.
+1. Replace every `var = std::make_unique<type>(args);` with `var = new type(args);`. Make sure to find where this variable goes out of scope and put `delete var;` right before that happens.
+2. Replace every `std::unique_ptr<type> var;` with `type *var;`.
+3. Most of the time, if a `unique_ptr` is in the `App` class, the `delete` for its raw pointer equivalent could be placed after the `while (running)` loop in `App::run()`.
+4. Using `.get()` on a `unique_ptr` retrieves the underlying raw pointer. If you are already using a raw pointer `*`, you can just remove the `.get()`.

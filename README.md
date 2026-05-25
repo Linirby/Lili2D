@@ -11,14 +11,16 @@ Whether you are prototyping a quick idea, participating in a game jam, or
 building a full 2D game, Lili2D provides you with the modern tools you need to
 get things running on screen fast.
 
+## Repository Structure
+
+- **[`lili2d/`](lili2d/)**: The core engine source code. See the [Engine README](lili2d/README.md) for build instructions and architecture details.
+- **[`examples/`](examples/)**: Example projects demonstrating how to use Lili2D.
+
 ## Features
 
-- **Cool & Intuitive API**: Modern Object-Oriented design that gets out of your
-way.
-- **Modern C++20**: Built with modern C++ features for maximum performance and
-safety.
-- **Rendering & Shaders**: Custom rendering pipeline using SDL3 and compiled
-SPIR-V shaders.
+- **Cool & Intuitive API**: Modern Object-Oriented design that gets out of your way.
+- **Modern C++20**: Built with modern C++ features for maximum performance and safety.
+- **Rendering & Shaders**: Custom rendering pipeline using SDL3 and compiled SPIR-V shaders.
 - **Core Systems Included**:
   - **Render**: Windows, Sprites, UI Text, Cameras, and Materials.
   - **Geometry**: Vectors and Matrices (Vec2, Vec3, Vec4, Mat3, Mat4).

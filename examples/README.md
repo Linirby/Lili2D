@@ -4,7 +4,7 @@ This directory contains example projects demonstrating how to use the **Lili2D**
 
 ## Available Examples
 
-- **`hello_rect`**: Demonstrates the basics of window creation and rendering simple colored rectangles.
+- **`hello_shapes`**: Demonstrates the basics of window creation and rendering simples colored shapes.
 - **`hello_sprite`**: Shows how to load a texture and render a 2D sprite to the screen.
 - **`hello_text`**: Explains how to load bitmap fonts and render dynamic text.
 
@@ -20,13 +20,14 @@ To easily build and run the examples (on Linux), each folder contains three bash
 
 These bash scripts need to be executed from the root of the specific example folder (where the scripts are located).
 
-## Note on Smart Pointers
+## Memory Management Note
 
-These examples use the `std::unique_ptr` smart pointer for memory management. If you are not familiar with them, don't panic!
+These examples demonstrate a modern, safe C++ approach to memory management without manual `new`/`delete`:
 
-Here are some basic rules to easily replace smart pointers (`unique_ptr`, `shared_ptr`, `weak_ptr`) with raw pointers (`*`), either in your head or in the code:
+1. **Core Systems & Assets (`Window`, `Renderer`, `BitmapFont`, `Texture`)**:
+   These are "heavy" objects that manage external resources (like SDL windows or GPU buffers). They are stored using `std::unique_ptr` in the `App` class. This safely pins them in memory and ensures their resources are automatically freed when the app closes.
 
-1. Replace every `var = std::make_unique<type>(args);` with `var = new type(args);`. Make sure to find where this variable goes out of scope and put `delete var;` right before that happens.
-2. Replace every `std::unique_ptr<type> var;` with `type *var;`.
-3. Most of the time, if a `unique_ptr` is in the `App` class, the `delete` for its raw pointer equivalent could be placed after the `while (running)` loop in `App::run()`.
-4. Using `.get()` on a `unique_ptr` retrieves the underlying raw pointer. If you are already using a raw pointer `*`, you can just remove the `.get()`.
+2. **Gameplay Objects (like `Rect`, `Line`, `Sprite`, `Text`)**:
+   These are stored directly on the stack as standard variables (e.g., `lili::Rect rect;`). This is fast, clean, and avoids unnecessary heap allocations. Under the hood, these shapes manage their own meshes and materials using `unique_ptr`s, so you never have to worry about memory leaks!
+
+If you are unfamiliar with `std::unique_ptr`, you can think of it as an automatic raw pointer (`*`). To access its methods, you use `->` (like `renderer->begin_frame()`), and you can retrieve the raw pointer using `.get()` if another function requires it (like `renderer.get()`).

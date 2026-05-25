@@ -11,6 +11,10 @@ Vec2 &Vec2::operator=(const Vec2 &o) {
 	return *this;
 }
 
+Vec2 Vec2::operator-(const Vec2 &o) const {
+	return { x - o.x, y - o.y };
+}
+
 Vec2 Vec2::operator-=(const Vec2 &o) {
 	x = x - o.x;
 	y = y - o.y;

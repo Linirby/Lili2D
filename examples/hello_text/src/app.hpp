@@ -17,8 +17,8 @@ private:
 
 	std::unique_ptr<lili::BitmapFont> font_example;
 	float letter_spacing;
-	std::unique_ptr<lili::Text> welcome_text;
-	std::unique_ptr<lili::Text> info_text;
+	lili::Text welcome_text;
+	lili::Text info_text;
 
 	bool running;
 

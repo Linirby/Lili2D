@@ -8,8 +8,8 @@ add_compile_options(-Wall -Wextra)
 
 find_package(Lili2D REQUIRED)
 
-add_executable(hello_rect
+add_executable(hello_shapes
     src/main.cpp
     src/app.cpp
 )
-target_link_libraries(hello_rect PRIVATE lili::Lili2D)
+target_link_libraries(hello_shapes PRIVATE lili::Lili2D)

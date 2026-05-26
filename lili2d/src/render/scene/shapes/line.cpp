@@ -69,7 +69,7 @@ void Line::draw() {
 	Mat3 mat_transform = (
 		Mat3::translate(shape.start) *
 		Mat3::rotation(angle) *
-		Mat3::translate({ length * 0.5f, 0.0 }) *
+		Mat3::translate({ 0.0f, -shape.thickness * 0.5f }) *
 		Mat3::scale({ length, shape.thickness })
 	);
 	renderer->submit(

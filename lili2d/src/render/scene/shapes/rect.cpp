@@ -68,7 +68,6 @@ void Rect::draw() {
 	Mat3 mat_transform = (
 		Mat3::translate({ shape.x, shape.y }) *
 		Mat3::rotation(rotation) *
-		Mat3::translate({ shape.w * 0.5f, shape.h * 0.5f }) *
 		Mat3::scale({ shape.w, shape.h })
 	);
 	renderer->submit(

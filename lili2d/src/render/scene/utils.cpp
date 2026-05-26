@@ -8,22 +8,22 @@ MeshData create_unit_quad() {
 
 	quad.vertices = {
 		(Vertex){
-			.x = -0.5f, .y = -0.5f, .z = 0.0f,
+			.x = 0.0f, .y = 0.0f, .z = 0.0f,
 			.u = 0.0f, .v = 0.0f,
 			.material_id = 0
 		},
 		(Vertex){
-			.x = 0.5f, .y = -0.5f, .z = 0.0f,
+			.x = 1.0f, .y = 0.0f, .z = 0.0f,
 			.u = 1.0f, .v = 0.0f,
 			.material_id = 0
 		},
 		(Vertex){
-			.x = 0.5f, .y = 0.5f, .z = 0.0f,
+			.x = 1.0f, .y = 1.0f, .z = 0.0f,
 			.u = 1.0f, .v = 1.0f,
 			.material_id = 0
 		},
 		(Vertex){
-			.x = -0.5f, .y = 0.5f, .z = 0.0f,
+			.x = 0.0f, .y = 1.0f, .z = 0.0f,
 			.u = 0.0f, .v = 1.0f,
 			.material_id = 0
 		}

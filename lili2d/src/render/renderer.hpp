@@ -17,20 +17,52 @@
 
 namespace lili {
 
+/**
+ * \brief Main renderer class responsible for handling drawing operations.
+ */
 class Renderer {
 public:
+	/**
+	 * \brief Constructor for the renderer.
+	 * \param window The window to render to.
+	 */
 	Renderer(Window *window);
+	/// \brief Destructor.
 	~Renderer();
 
+	/**
+	 * \brief Gets the SDL GPU device.
+	 * \return Pointer to the SDL_GPUDevice.
+	 */
 	SDL_GPUDevice *get_device() const;
 
+	/**
+	 * \brief Begins the rendering frame.
+	 * \return True if the frame was successfully started, false otherwise.
+	 */
 	bool begin_frame();
+	/**
+	 * \brief Submits a model for rendering.
+	 * \param model The model to render.
+	 * \param transform The transformation matrix.
+	 * \param layer The rendering layer depth.
+	 * \param layer_type The type of the rendering layer.
+	 */
 	void submit(
 		Model model, const Mat3 &transform, float layer, RenderLayer layer_type
 	);
+	/// \brief Ends the rendering frame.
 	void end_frame();
+	/**
+	 * \brief Sets the active camera.
+	 * \param camera Pointer to the camera.
+	 */
 	void set_camera(Camera *camera);
 
+	/**
+	 * \brief Gets the default white pixel texture.
+	 * \return Pointer to the white pixel texture.
+	 */
 	Texture *get_the_white_pixel() const;
 
 private:

@@ -5,11 +5,20 @@
 
 namespace lili {
 
+/**
+ * \brief Associates a GPU mesh with a material for rendering.
+ */
 struct Model {
-	GPUMesh *mesh;
-	Material *material;
+	GPUMesh *mesh;       ///< Pointer to the GPU mesh.
+	Material *material;  ///< Pointer to the material.
 
+	/// \brief Default constructor.
 	Model();
+	/**
+	 * \brief Constructs a model with a mesh and material.
+	 * \param mesh Pointer to the GPU mesh.
+	 * \param material Pointer to the material.
+	 */
 	Model(GPUMesh *mesh, Material *material);
 };
 

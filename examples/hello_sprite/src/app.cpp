@@ -34,10 +34,6 @@ void App::handle_events() {
 void App::render() {
 	if (!renderer->begin_frame()) return;
 
-	// Window centered cat sprite
-	cat_sprite.set_position({
-		window->get_width() / 2.0f, window->get_height() / 2.0f
-	});
 	cat_sprite.draw();
 
 	renderer->end_frame();

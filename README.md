@@ -155,14 +155,14 @@ complete projects!
 - **`hello_sprite`**: Learn how to initialize a window, load a texture, and render a basic sprite.
 - **`hello_text`**: See how to load a bitmap font and render dynamic text on the screen.
 
-## Join the Community 💬
+## Join the Community
 
 Whether you want to follow the daily development logs, ask questions about integrating the library, or share the cool 2D games you are building, we'd love to have you!
 
 Join **Lili's | Dev Lounge** on Discord:
 **[https://discord.gg/6S6HyKWgK3](https://discord.gg/6S6HyKWgK3)**
 
-## Support the Project ❤️
+## Support the Project
 
 If you like Lili2D and want to support its development, you can buy me a coffee!
 Your support helps me spend more time making this library even cooler. :3

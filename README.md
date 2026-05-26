@@ -160,7 +160,7 @@ complete projects!
 Whether you want to follow the daily development logs, ask questions about integrating the library, or share the cool 2D games you are building, we'd love to have you!
 
 Join **Lili's | Dev Lounge** on Discord:
-**[https://discord.gg/YOUR_INVITE_CODE](https://discord.gg/YOUR_INVITE_CODE)**
+**[https://discord.gg/6S6HyKWgK3](https://discord.gg/6S6HyKWgK3)**
 
 ## Support the Project ❤️
 

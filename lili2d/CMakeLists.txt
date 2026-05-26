@@ -94,6 +94,7 @@ endforeach()
 add_library(LiliRender OBJECT
     ${EMBEDDED_SHADERS}
     ${EMBEDDED_ASSETS}
+    src/render/scene/shapes/circle.cpp
     src/render/scene/shapes/line.cpp
     src/render/scene/shapes/rect.cpp
     src/render/core/gpu_mesh.cpp

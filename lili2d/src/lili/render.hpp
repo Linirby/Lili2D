@@ -2,6 +2,7 @@
 
 #include "render/scene/shapes/line.hpp"  // IWYU pragma: keep
 #include "render/scene/shapes/rect.hpp"  // IWYU pragma: keep
+#include "render/scene/shapes/circle.hpp"  // IWYU pragma: keep
 #include "render/scene/camera.hpp"  // IWYU pragma: keep
 #include "render/scene/material.hpp"  // IWYU pragma: keep
 #include "render/scene/model.hpp"  // IWYU pragma: keep
@@ -15,6 +16,8 @@ struct LineShape;
 class Line;
 struct RectShape;
 class Rect;
+struct CircleShape;
+class Circle;
 
 class Camera;
 

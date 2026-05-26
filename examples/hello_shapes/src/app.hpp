@@ -15,6 +15,7 @@ private:
 	std::unique_ptr<lili::Renderer> renderer;
 	lili::Line line;
 	lili::Rect rect;
+	lili::Circle circle;
 
 	bool running;
 

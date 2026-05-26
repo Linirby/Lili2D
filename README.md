@@ -60,23 +60,32 @@ Here is how simple it is to get a window open and draw shapes with Lili2D!
 **1. Create your application class:**
 
 ```cpp
-#include <lili/core.hpp>
-#include <lili/render.hpp>
+#include <lili/lili2d.hpp>
 #include <memory>
 
 class App {
 public:
     App() {
         // Create a resizable window and a renderer
-        window = std::make_unique<lili::Window>("Hello Lili2D :3", 800, 600);
+        window = std::make_unique<lili::Window>("Hello Lili2D :3", 800, 800);
         window->set_resizable(true);
         renderer = std::make_unique<lili::Renderer>(window.get());
 
-        // Create a red rectangle!
+        // Create some cool shapes!
+        line = lili::Line(
+            renderer.get(),
+            lili::LineShape({ 50.0f, 50.0f }, { 100.0f, 300.0f }, 1.0f),
+            lili::Vec4(0.0f, 1.0f, 0.0f, 1.0f)
+        );
         rect = lili::Rect(
             renderer.get(),
-            lili::RectShape(300.0f, 250.0f, 200.0f, 100.0f),
+            lili::RectShape(350.0f, 375.0f, 100.0f, 50.0f),
             lili::Vec4(1.0f, 0.0f, 0.0f, 1.0f)
+        );
+        circle = lili::Circle(
+            renderer.get(),
+            lili::CircleShape({ 400.0f, 100.0f }, 50.0f, 32.0f),
+            lili::Vec4(0.0f, 0.0f, 1.0f, 1.0f)
         );
 
         running = true;
@@ -92,7 +101,9 @@ public:
 private:
     std::unique_ptr<lili::Window> window;
     std::unique_ptr<lili::Renderer> renderer;
+    lili::Line line;
     lili::Rect rect;
+    lili::Circle circle;
     bool running;
 
     void handle_events() {
@@ -110,7 +121,9 @@ private:
     void render() {
         if (!renderer->begin_frame()) return;
 
+        line.draw();
         rect.draw();
+        circle.draw();
 
         renderer->end_frame();
     }

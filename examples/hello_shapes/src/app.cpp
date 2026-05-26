@@ -19,6 +19,11 @@ App::App() {
 		),
 		lili::Vec4(1.0f, 0.0f, 0.0f, 1.0f)
 	);
+	circle = lili::Circle(
+		renderer.get(),
+		lili::CircleShape({ 400.0f, 100.0f }, 50.0f, 32.0f),
+		lili::Vec4(0.0f, 0.0f, 1.0f, 1.0f)
+	);
 
 	running = true;
 }
@@ -64,6 +69,8 @@ void App::render() {
 		window->get_height() / 2.0f - rect.get_size().y / 2.0f
 	});
 	rect.draw();
+	
+	circle.draw();
 
 	renderer->end_frame();
 }

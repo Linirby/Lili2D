@@ -56,6 +56,8 @@ struct LineShape;
 class Line;
 struct RectShape;
 class Rect;
+struct CircleShape;
+class Circle;
 
 class Camera;
 

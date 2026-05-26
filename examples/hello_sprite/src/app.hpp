@@ -14,7 +14,7 @@ public:
 private:
 	std::unique_ptr<lili::Window> window;
 	std::unique_ptr<lili::Renderer> renderer;
-	std::unique_ptr<lili::Sprite> cat_sprite;
+	lili::Sprite cat_sprite;
 
 	bool running;
 

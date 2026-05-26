@@ -13,8 +13,12 @@ namespace lili {
 
 class Sprite {
 public:
+	Sprite() = default;
 	Sprite(Renderer *renderer, const std::string &path);
 	~Sprite() = default;
+
+	Sprite(Sprite&&) = default;
+	Sprite& operator=(Sprite&&) = default;
 
 	void set_image(const std::string &path);
 	void set_color_tint(const Vec4 &color);
@@ -25,16 +29,16 @@ public:
 	void draw();
 
 private:
-	Renderer *renderer;
+	Renderer *renderer = nullptr;
 
 	std::unique_ptr<Texture> texture;
 	std::unique_ptr<GPUMesh> mesh;
 	std::unique_ptr<Material> material;
 
-	Vec2 position;
-	Vec2 scale;
-	float rotation;
-	float layer;
+	Vec2 position{};
+	Vec2 scale{1.0f, 1.0f};
+	float rotation = 0.0f;
+	float layer = 0.0f;
 };
 
 }  // namespace lili

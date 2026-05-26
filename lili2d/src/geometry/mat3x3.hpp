@@ -13,9 +13,9 @@ struct Mat3 {
 	static Mat3 orthographic(
 		float left, float right, float bottom, float top
 	);
-	static Mat3 translate(const Vec2 &pos);
+	static Mat3 translate(Vec2 pos);
 	static Mat3 rotation(float radians);
-	static Mat3 scale(const Vec2 &v);
+	static Mat3 scale(Vec2 v);
 };
 
 }  // namespace lili

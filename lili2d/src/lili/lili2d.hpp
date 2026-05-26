@@ -52,6 +52,13 @@ struct RaycastResult;
 //
 //  RENDER
 //
+struct LineShape;
+class Line;
+struct RectShape;
+class Rect;
+struct CircleShape;
+class Circle;
+
 class Camera;
 
 struct MaterialProps;
@@ -60,13 +67,10 @@ class MaterialRegistry;
 
 struct Model;
 
-struct RectShape;
-class Rect;
-
 class Sprite;
 
 class BitmapFont;
-class UIText;
+class Text;
 
 class Renderer;
 

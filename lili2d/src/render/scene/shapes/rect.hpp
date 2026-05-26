@@ -20,8 +20,12 @@ struct RectShape {
 
 class Rect {
 public:
+	Rect() = default;
 	Rect(Renderer *renderer, RectShape shape, Vec4 color);
 	~Rect() = default;
+
+	Rect(Rect&&) = default;
+	Rect& operator=(Rect&&) = default;
 
 	void set_position(Vec2 pos);
 	void set_size(Vec2 size);
@@ -38,11 +42,11 @@ public:
 	void draw();
 
 private:
-	Renderer *renderer;
-	RectShape shape;
+	Renderer *renderer = nullptr;
+	RectShape shape{};
 
-	float rotation;
-	float layer;
+	float rotation = 0.0f;
+	float layer = 0.0f;
 	std::unique_ptr<GPUMesh> mesh;
 	std::unique_ptr<Material> material;
 };

@@ -5,7 +5,12 @@ App::App() {
 	window->set_resizable(true);
 	renderer = std::make_unique<lili::Renderer>(window.get());
 
-	rect = std::make_unique<lili::Rect>(
+	line = lili::Line(
+		renderer.get(),
+		lili::LineShape({ 50.0f, 50.0f }, { 100.0f, 300.0f }, 1.0f),
+		lili::Vec4(0.0f, 1.0f, 0.0f, 1.0f)
+	);
+	rect = lili::Rect(
 		renderer.get(),
 		lili::RectShape(
 			window->get_width() / 2.0f - 50.0f,
@@ -13,6 +18,11 @@ App::App() {
 			100.0f, 50.0f
 		),
 		lili::Vec4(1.0f, 0.0f, 0.0f, 1.0f)
+	);
+	circle = lili::Circle(
+		renderer.get(),
+		lili::CircleShape({ 400.0f, 100.0f }, 50.0f, 32.0f),
+		lili::Vec4(0.0f, 0.0f, 1.0f, 1.0f)
 	);
 
 	running = true;
@@ -41,11 +51,26 @@ void App::handle_events() {
 void App::render() {
 	if (!renderer->begin_frame()) return;
 
-	rect->set_position({
-		window->get_width() / 2.0f - rect->get_size().x / 2.0f,
-		window->get_height() / 2.0f - rect->get_size().y / 2.0f
+	// The five green lines
+	for (int i = 0; i <= 5; ++i) {
+		lili::Vec2 offset = lili::Vec2(i * 5.0f, 0.0f);
+		line.set_shape(lili::LineShape(
+			line.get_start() + offset,
+			line.get_end() + offset,
+			i
+		));
+		line.draw();
+	}
+	line.set_shape(lili::LineShape({ 50.0f, 50.0f }, { 100.0f, 300.0f }, 1.0f));
+
+	// Window centered red rect
+	rect.set_position({
+		window->get_width() / 2.0f - rect.get_size().x / 2.0f,
+		window->get_height() / 2.0f - rect.get_size().y / 2.0f
 	});
-	rect->draw();
+	rect.draw();
+	
+	circle.draw();
 
 	renderer->end_frame();
 }

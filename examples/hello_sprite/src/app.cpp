@@ -5,8 +5,8 @@ App::App() {
 	window->set_resizable(true);
 	renderer = std::make_unique<lili::Renderer>(window.get());
 
-	cat_sprite = std::make_unique<lili::Sprite>(renderer.get(), "cat.png");
-	cat_sprite->set_scale({ 0.5f, 0.5f });
+	cat_sprite = lili::Sprite(renderer.get(), "cat.png");
+	cat_sprite.set_scale({ 0.5f, 0.5f });
 
 	running = true;
 }
@@ -34,10 +34,11 @@ void App::handle_events() {
 void App::render() {
 	if (!renderer->begin_frame()) return;
 
-	cat_sprite->set_position({
+	// Window centered cat sprite
+	cat_sprite.set_position({
 		window->get_width() / 2.0f, window->get_height() / 2.0f
 	});
-	cat_sprite->draw();
+	cat_sprite.draw();
 
 	renderer->end_frame();
 }

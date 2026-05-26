@@ -1,4 +1,4 @@
-#include "render/scene/rect.hpp"
+#include "render/scene/shapes/rect.hpp"
 
 #include "geometry/utils.hpp"
 #include "render/scene/utils.hpp"

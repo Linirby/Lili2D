@@ -13,7 +13,9 @@ public:
 private:
 	std::unique_ptr<lili::Window> window;
 	std::unique_ptr<lili::Renderer> renderer;
-	std::unique_ptr<lili::Rect> rect;
+	lili::Line line;
+	lili::Rect rect;
+	lili::Circle circle;
 
 	bool running;
 

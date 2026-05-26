@@ -94,6 +94,9 @@ endforeach()
 add_library(LiliRender OBJECT
     ${EMBEDDED_SHADERS}
     ${EMBEDDED_ASSETS}
+    src/render/scene/shapes/circle.cpp
+    src/render/scene/shapes/line.cpp
+    src/render/scene/shapes/rect.cpp
     src/render/core/gpu_mesh.cpp
     src/render/core/shader.cpp
     src/render/core/texture.cpp
@@ -102,7 +105,6 @@ add_library(LiliRender OBJECT
     src/render/scene/camera.cpp
     src/render/scene/material.cpp
     src/render/scene/model.cpp
-    src/render/scene/rect.cpp
     src/render/scene/sprite.cpp
     src/render/scene/text.cpp
     src/render/scene/utils.cpp

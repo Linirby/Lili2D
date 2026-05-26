@@ -84,7 +84,7 @@ Mat4 Mat4::orthographic(
 	return result;
 }
 
-Mat4 Mat4::translate(const Vec3 &pos) {
+Mat4 Mat4::translate(Vec3 pos) {
 	Mat4 result = identity();
 
 	result.m[12] = pos.x;
@@ -136,7 +136,7 @@ Mat4 Mat4::rotation_xyz(Vec3 radians) {
 	);
 }
 
-Mat4 Mat4::scale(const Vec3 &v) {
+Mat4 Mat4::scale(Vec3 v) {
 	Mat4 result = identity();
 
 	result.m[0] = v.x;

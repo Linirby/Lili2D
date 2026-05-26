@@ -41,7 +41,7 @@ Mat3 Mat3::orthographic(
 	return result;
 }
 
-Mat3 Mat3::translate(const Vec2 &pos) {
+Mat3 Mat3::translate(Vec2 pos) {
 	Mat3 result = identity();
 
 	result.m[6] = pos.x;
@@ -61,7 +61,7 @@ Mat3 Mat3::rotation(float radians) {
 	return result;
 }
 
-Mat3 Mat3::scale(const Vec2 &v) {
+Mat3 Mat3::scale(Vec2 v) {
 	Mat3 result = identity();
 
 	result.m[0] = v.x;

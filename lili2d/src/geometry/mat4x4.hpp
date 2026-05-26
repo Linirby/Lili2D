@@ -17,12 +17,12 @@ struct Mat4 {
 	static Mat4 orthographic(
 		float left, float right, float bottom, float top, float near, float far
 	);
-	static Mat4 translate(const Vec3 &pos);
+	static Mat4 translate(Vec3 pos);
 	static Mat4 rotation_x(float radian);
 	static Mat4 rotation_y(float radian);
 	static Mat4 rotation_z(float radian);
 	static Mat4 rotation_xyz(Vec3 radians);
-	static Mat4 scale(const Vec3 &v);
+	static Mat4 scale(Vec3 v);
 };
 
 }  // namespace lili

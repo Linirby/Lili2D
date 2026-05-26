@@ -40,7 +40,11 @@ private:
 
 class Text {
 public:
+	Text() = default;
 	Text(Renderer *renderer, BitmapFont *font, const std::string &text);
+
+	Text(Text&&) = default;
+	Text& operator=(Text&&) = default;
 
 	void set_text(const std::string &value);
 	void set_position(const Vec2 &position);

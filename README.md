@@ -53,28 +53,40 @@ make -j$(nproc)
 sudo make install
 ```
 
-## Quick Start: Hello Sprite
+## Quick Start: Hello Shapes
 
-Here is how simple it is to get a window open and draw a sprite with Lili2D!
+Here is how simple it is to get a window open and draw shapes with Lili2D!
 
 **1. Create your application class:**
 
 ```cpp
-#include <lili/core.hpp>
-#include <lili/render.hpp>
+#include <lili/lili2d.hpp>
 #include <memory>
 
 class App {
 public:
     App() {
         // Create a resizable window and a renderer
-        window = std::make_unique<lili::Window>("Hello Lili2D :3", 800, 600);
+        window = std::make_unique<lili::Window>("Hello Lili2D :3", 800, 800);
         window->set_resizable(true);
         renderer = std::make_unique<lili::Renderer>(window.get());
 
-        // Load a cute cat sprite!
-        cat_sprite = std::make_unique<lili::Sprite>(renderer.get(), "cat.png");
-        cat_sprite->set_scale({ 0.5f, 0.5f });
+        // Create some cool shapes!
+        line = lili::Line(
+            renderer.get(),
+            lili::LineShape({ 50.0f, 50.0f }, { 100.0f, 300.0f }, 1.0f),
+            lili::Vec4(0.0f, 1.0f, 0.0f, 1.0f)
+        );
+        rect = lili::Rect(
+            renderer.get(),
+            lili::RectShape(350.0f, 375.0f, 100.0f, 50.0f),
+            lili::Vec4(1.0f, 0.0f, 0.0f, 1.0f)
+        );
+        circle = lili::Circle(
+            renderer.get(),
+            lili::CircleShape({ 400.0f, 100.0f }, 50.0f, 32.0f),
+            lili::Vec4(0.0f, 0.0f, 1.0f, 1.0f)
+        );
 
         running = true;
     }
@@ -89,7 +101,9 @@ public:
 private:
     std::unique_ptr<lili::Window> window;
     std::unique_ptr<lili::Renderer> renderer;
-    std::unique_ptr<lili::Sprite> cat_sprite;
+    lili::Line line;
+    lili::Rect rect;
+    lili::Circle circle;
     bool running;
 
     void handle_events() {
@@ -107,13 +121,9 @@ private:
     void render() {
         if (!renderer->begin_frame()) return;
 
-        // Center the sprite in the window
-        cat_sprite->set_position({
-            window->get_width() / 2.0f, 
-            window->get_height() / 2.0f
-        });
-
-        cat_sprite->draw();
+        line.draw();
+        rect.draw();
+        circle.draw();
 
         renderer->end_frame();
     }
@@ -140,7 +150,8 @@ Check out the `examples/` directory in the repository for more details and
 complete projects!
 
 ### Available Examples:
-- **`hello_rect`**: Demonstrates the basics of window creation and rendering simple colored rectangles.
+
+- **`hello_shapes`**: Demonstrates the basics of window creation and rendering simples colored shapes.
 - **`hello_sprite`**: Learn how to initialize a window, load a texture, and render a basic sprite.
 - **`hello_text`**: See how to load a bitmap font and render dynamic text on the screen.
 

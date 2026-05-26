@@ -13,9 +13,11 @@ public:
 private:
 	std::unique_ptr<lili::Window> window;
 	std::unique_ptr<lili::Renderer> renderer;
-	lili::Line line;
+	lili::Line thin_line;
+	lili::Line large_line;
 	lili::Rect rect;
-	lili::Circle circle;
+	lili::Circle clean_circle;
+	lili::Circle low_poly_circle;
 
 	bool running;
 

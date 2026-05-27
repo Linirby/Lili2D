@@ -52,7 +52,10 @@ Text::Text(
 	glyph_w = font->get_glyph_w();
 	glyph_h = font->get_glyph_h();
 	advance = glyph_w + 1.0f;
-	this->text = text;
+	if (!text.empty())
+		this->text = text;
+	else
+		this->text = "text";
 	material = std::make_unique<Material>(font->get_texture());
 	material->properties.color_tint = { 1.0f, 1.0f, 1.0f, 1.0f };
 	rebuild_mesh();
@@ -81,12 +84,16 @@ void Text::set_layer(float layer) {
 	this->layer = layer;
 }
 
+void Text::set_render(RenderLayer render_layer) {
+	this->render_layer = render_layer;
+}
+
 void Text::draw() {
 	if (!mesh) return;
 	Mat3 translation = Mat3::translate(pos);
 	Mat3 scaling = Mat3::scale({ scale, scale });
 	Mat3 transform = translation * scaling;
-	renderer->submit(model, transform, layer, RenderLayer::WORLD2D);
+	renderer->submit(model, transform, layer, render_layer);
 }
 
 void Text::rebuild_mesh() {

@@ -45,7 +45,7 @@ public:
 	Mat3 get_projection(float width, float height) const;
 
 private:
-	Vec2 position = { 0.0f, 0.0f };
+	Vec2 position;
 	float rotation = 0.0f;
 	float zoom = 1.0f;
 };

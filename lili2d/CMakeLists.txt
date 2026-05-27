@@ -100,6 +100,8 @@ add_library(LiliRender OBJECT
     src/render/core/gpu_mesh.cpp
     src/render/core/shader.cpp
     src/render/core/texture.cpp
+    src/render/passes/ui_pass.cpp
+    src/render/pipelines/ui_pipeline.cpp
     src/render/passes/world_2d_pass.cpp
     src/render/pipelines/world_2d_pipeline.cpp
     src/render/scene/camera.cpp

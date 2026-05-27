@@ -15,8 +15,8 @@ namespace lili {
  */
 struct CircleShape {
 	Vec2 center;  ///< The center position.
-	float radius; ///< The radius.
-	int segments; ///< The number of segments.
+	float radius = 0; ///< The radius.
+	int segments = 3; ///< The number of segments.
 
 	/// \brief Default constructor.
 	CircleShape() = default;
@@ -82,10 +82,23 @@ public:
 	 */
 	void set_color(Vec4 color);
 	/**
-	 * \brief Sets the rendering layer.
+	 * \brief Sets the depth value for Z-ordering.
+	 * 
+	 * This determines the drawing order relative to other objects within the same render pass.
+	 * To change which render pass this object belongs to, use set_render().
+	 * 
 	 * \param value The new layer depth.
 	 */
 	void set_layer(float value);
+	/**
+	 * \brief Sets the render pass layer.
+	 * 
+	 * This determines which overall pass (e.g., WORLD2D or UI) the object is drawn in.
+	 * To change the depth ordering within a pass, use set_layer().
+	 * 
+	 * \param render_layer The new render pass layer.
+	 */
+	void set_render(RenderLayer render_layer);
 
 	/**
 	 * \brief Gets the center position.
@@ -113,11 +126,12 @@ public:
 
 private:
 	Renderer *renderer = nullptr;
-	CircleShape shape{};
+	CircleShape shape;
 
-	float layer = 0.0f;
-	std::unique_ptr<GPUMesh> mesh;
-	std::unique_ptr<Material> material;
+	float layer = 0;
+	RenderLayer render_layer = RenderLayer::WORLD2D;
+	std::unique_ptr<GPUMesh> mesh = nullptr;
+	std::unique_ptr<Material> material = nullptr;
 };
 
 }  // namespace lili

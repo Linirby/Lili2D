@@ -45,6 +45,10 @@ void Circle::set_layer(float value) {
 	layer = value;
 }
 
+void Circle::set_render(RenderLayer render_layer) {
+	this->render_layer = render_layer;
+}
+
 Vec2 Circle::get_center() const {
 	return shape.center;
 }
@@ -70,7 +74,7 @@ void Circle::draw() {
 		(Model){ mesh.get(), material.get() },
 		mat_transform,
 		layer,
-		RenderLayer::WORLD2D
+		render_layer
 	);
 }
 

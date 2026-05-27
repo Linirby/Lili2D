@@ -1,4 +1,4 @@
-#include "render/pipelines/world_2d_pipeline.hpp"
+#include "render/pipelines/ui_pipeline.hpp"
 
 #include <vector>
 #include <stdexcept>
@@ -7,7 +7,7 @@
 
 namespace lili {
 
-WorldPipeline::WorldPipeline(
+UIPipeline::UIPipeline(
 	SDL_GPUDevice *device, SDL_Window *window, Shader *shader
 ) {
 	this->device = device;
@@ -104,11 +104,11 @@ WorldPipeline::WorldPipeline(
 	}
 }
 
-WorldPipeline::~WorldPipeline() {
+UIPipeline::~UIPipeline() {
 	if (pipeline) SDL_ReleaseGPUGraphicsPipeline(device, pipeline);
 }
 
-SDL_GPUGraphicsPipeline *WorldPipeline::get_sdl_pipeline() {
+SDL_GPUGraphicsPipeline *UIPipeline::get_sdl_pipeline() {
 	return pipeline;
 }
 

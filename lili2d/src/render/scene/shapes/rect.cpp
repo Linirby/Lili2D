@@ -48,6 +48,10 @@ void Rect::set_layer(float value) {
 	layer = value;
 }
 
+void Rect::set_render(RenderLayer render_layer) {
+	this->render_layer = render_layer;
+}
+
 Vec2 Rect::get_position() const {
 	return { shape.x, shape.y };
 }
@@ -74,7 +78,7 @@ void Rect::draw() {
 		(Model){ mesh.get(), material.get() },
 		mat_transform,
 		layer,
-		RenderLayer::WORLD2D
+		render_layer
 	);
 }
 

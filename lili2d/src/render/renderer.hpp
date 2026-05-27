@@ -12,8 +12,10 @@
 
 #include "render/passes/pass_types.hpp"
 #include "render/passes/world_2d_pass.hpp"
+#include "render/passes/ui_pass.hpp"
 
 #include "render/pipelines/world_2d_pipeline.hpp"
+#include "render/pipelines/ui_pipeline.hpp"
 
 namespace lili {
 
@@ -66,22 +68,27 @@ public:
 	Texture *get_the_white_pixel() const;
 
 private:
-	Window *window;
-	SDL_GPUDevice *device;
+	Window *window = nullptr;
+	SDL_GPUDevice *device = nullptr;
 
-	uint32_t swapchain_width, swapchain_height;
-	SDL_GPUTexture *current_swapchain_texture;
-	SDL_GPUCommandBuffer *current_cmd_buffer;
+	uint32_t swapchain_width, swapchain_height = 0;
+	SDL_GPUTexture *current_swapchain_texture = nullptr;
+	SDL_GPUCommandBuffer *current_cmd_buffer = nullptr;
 
-	Shader *world_2d_shader;
-	UIPipeline *world_2d_pipeline;
-	World2DPass *world_2d_pass;
+	Shader *world_2d_shader = nullptr;
+	WorldPipeline *world_2d_pipeline = nullptr;
+	World2DPass *world_2d_pass = nullptr;
 	std::vector<DrawCommand> world_2d_queue;
 
-	Mat3 projection_view_2d;
+	UIPipeline *ui_pipeline = nullptr;
+	UIPass *ui_pass = nullptr;
+	std::vector<DrawCommand> ui_queue;
+
+	Mat3 proj_view_world2d;
+	Mat3 proj_view_ui;
 	Camera *camera = nullptr;
 
-	Texture *the_white_pixel;
+	Texture *the_white_pixel = nullptr;
 
 	void init_device();
 	void init_shaders();

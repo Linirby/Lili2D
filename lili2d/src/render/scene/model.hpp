@@ -9,8 +9,8 @@ namespace lili {
  * \brief Associates a GPU mesh with a material for rendering.
  */
 struct Model {
-	GPUMesh *mesh;       ///< Pointer to the GPU mesh.
-	Material *material;  ///< Pointer to the material.
+	GPUMesh *mesh = nullptr;  ///< Pointer to the GPU mesh.
+	Material *material = nullptr;  ///< Pointer to the material.
 
 	/// \brief Default constructor.
 	Model();

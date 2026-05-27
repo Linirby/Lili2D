@@ -71,14 +71,14 @@ public:
 private:
 	Renderer *renderer = nullptr;
 
-	std::unique_ptr<Texture> texture;
-	std::unique_ptr<GPUMesh> mesh;
-	std::unique_ptr<Material> material;
+	std::unique_ptr<Texture> texture = nullptr;
+	std::unique_ptr<GPUMesh> mesh = nullptr;
+	std::unique_ptr<Material> material = nullptr;
 
-	Vec2 position{};
-	Vec2 scale{1.0f, 1.0f};
-	float rotation = 0.0f;
-	float layer = 0.0f;
+	Vec2 position;
+	Vec2 scale = { 1, 1 };
+	float rotation = 0;
+	float layer = 0;
 };
 
 }  // namespace lili

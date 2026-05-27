@@ -9,7 +9,8 @@ namespace lili {
  * \brief Enum defining different rendering layers/passes.
  */
 enum class RenderLayer {
-	WORLD2D, ///< The 2D world layer.
+	WORLD2D,  ///< The 2D world layer.
+	UI,  ///< The UI world layer.
 };
 
 /**

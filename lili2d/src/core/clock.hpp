@@ -9,6 +9,7 @@ class Clock {
 public:
 	/// \brief Constructs the Clock.
 	Clock();
+	Clock(float tick_per_second);
 
 	/// \brief Destroys the Clock.
 	~Clock() = default;
@@ -17,7 +18,7 @@ public:
 	 * \brief Sets the fixed delta time for physics or fixed updates.
 	 * \param value The fixed delta time in seconds.
 	 */
-	void set_fixed_dt(float value);
+	void set_tps(float value);
 
 	/// \brief Updates the clock, calculating delta time since the last update.
 	void update();
@@ -53,16 +54,16 @@ public:
 	int get_fps() const;
 
 private:
-	uint64_t last;
-	uint64_t now;
+	uint64_t last = 0;
+	uint64_t now = 0;
 
-	float fixed_dt;
-	float dt;
-	float accumulator;
-	float second_counter;
+	float fixed_dt = 0;
+	float dt = 0;
+	float accumulator = 0;
+	float second_counter = 0;
 
-	int fps;
-	int temp_fps;
+	int fps = 0;
+	int temp_fps = 0;
 };
 
 }  // namespace lili

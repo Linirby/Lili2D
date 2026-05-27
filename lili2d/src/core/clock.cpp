@@ -6,19 +6,16 @@ namespace lili {
 
 Clock::Clock() {
 	last = SDL_GetTicks();
-	now = 0;
-
-	fixed_dt = 1.0f / 60.0f;
-	dt = 0.0f;
-	accumulator = 0.0f;
-	second_counter = 0.0f;
-
-	fps = 0;
-	temp_fps = 0;
+	fixed_dt = 1.0f / 30.0f;
 }
 
-void Clock::set_fixed_dt(const float value) {
-	fixed_dt = value;
+Clock::Clock(float tick_per_second) {
+	last = SDL_GetTicks();
+	fixed_dt = 1.0f / tick_per_second;
+}
+
+void Clock::set_tps(float value) {
+	fixed_dt = 1.0f / value;
 }
 
 void Clock::update() {

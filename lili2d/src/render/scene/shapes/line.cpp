@@ -45,6 +45,10 @@ void Line::set_layer(float value) {
 	layer = value;
 }
 
+void Line::set_render(RenderLayer render_layer) {
+	this->render_layer = render_layer;
+}
+
 Vec2 Line::get_start() const {
 	return shape.start;
 }
@@ -76,7 +80,7 @@ void Line::draw() {
 		(Model){ mesh.get(), material.get() },
 		mat_transform,
 		layer,
-		RenderLayer::WORLD2D
+		render_layer
 	);
 }
 

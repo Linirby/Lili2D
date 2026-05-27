@@ -17,7 +17,7 @@ namespace lili {
  * \brief Defines the UV coordinates for a single glyph in a bitmap font.
  */
 struct GlyphUV {
-	float u0, v0, u1, v1; ///< UV coordinates.
+	float u0, v0, u1, v1 = 0; ///< UV coordinates.
 };
 
 /**
@@ -61,12 +61,12 @@ public:
 	GlyphUV glyph_uv(char c) const;
 
 private:
-	std::unique_ptr<Texture> texture;
-	int cols;
-	int rows;
+	std::unique_ptr<Texture> texture = nullptr;
+	int cols = 1;
+	int rows = 1;
 
-	int glyph_w;
-	int glyph_h;
+	int glyph_w = 1;
+	int glyph_h = 1;
 };
 
 /**
@@ -113,10 +113,23 @@ public:
 	 */
 	void set_scale(float value);
 	/**
-	 * \brief Sets the text's rendering layer.
+	 * \brief Sets the depth value for Z-ordering.
+	 * 
+	 * This determines the drawing order relative to other objects within the same render pass.
+	 * To change which render pass this object belongs to, use set_render().
+	 * 
 	 * \param layer The new layer depth.
 	 */
 	void set_layer(float layer);
+	/**
+	 * \brief Sets the render pass layer.
+	 * 
+	 * This determines which overall pass (e.g., WORLD2D or UI) the object is drawn in.
+	 * To change the depth ordering within a pass, use set_layer().
+	 * 
+	 * \param render_layer The new render pass layer.
+	 */
+	void set_render(RenderLayer render_layer);
 	/// \brief Submits the text for drawing.
 	void draw();
 
@@ -124,7 +137,7 @@ private:
 	Renderer *renderer = nullptr;
 	BitmapFont *font = nullptr;
 
-	std::string text;
+	std::string text = "default";
 	Vec2 pos;
 
 	float scale = 1.0f;
@@ -132,10 +145,12 @@ private:
 	float glyph_h = 1.0f;
 	float advance = 1.0f;
 
-	std::unique_ptr<Material> material;
-	std::unique_ptr<GPUMesh> mesh;
+	std::unique_ptr<Material> material = nullptr;
+	std::unique_ptr<GPUMesh> mesh = nullptr;
 	Model model;
 	float layer = 0.0f;
+
+	RenderLayer render_layer = RenderLayer::WORLD2D;
 
 	void rebuild_mesh();
 };

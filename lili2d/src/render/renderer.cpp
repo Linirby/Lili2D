@@ -6,9 +6,11 @@
 #include "render/scene/model.hpp"
 
 // Creation of those 3 headers in cmake
+#include "render/white_1x1_png.hpp"
 #include "shader/world_2d_vert_spv.hpp"
 #include "shader/world_2d_frag_spv.hpp"
-#include "render/white_1x1_png.hpp"
+// #include "shader/ui_vert_spv.hpp"
+// #include "shader/ui_frag_spv.hpp"
 
 #include "geometry/mat3x3.hpp"
 
@@ -27,6 +29,8 @@ Renderer::~Renderer() {
 	SDL_WaitForGPUIdle(device);
 
 	if (the_white_pixel) delete the_white_pixel;
+	if (ui_pass) delete ui_pass;
+	if (ui_pipeline) delete ui_pipeline;
 	if (world_2d_pass) delete world_2d_pass;
 	if (world_2d_pipeline) delete world_2d_pipeline;
 	if (world_2d_shader) delete world_2d_shader;
@@ -76,7 +80,13 @@ bool Renderer::begin_frame() {
 		);
 		view = camera->get_view_matrix();
 	}
-	projection_view_2d = projection * view;
+	proj_view_world2d = projection * view;
+
+	Mat3 ui_translation = Mat3::translate({ 0.0f, 0.0f });
+	Mat3 ui_rotation = Mat3::rotation(0.0f);
+	Mat3 ui_scale = Mat3::scale({ 1.0f, 1.0f });
+	Mat3 ui_view = ui_scale * ui_rotation * ui_translation;
+	proj_view_ui = projection * ui_view;
 	return true;
 }
 
@@ -86,6 +96,8 @@ void Renderer::submit(
 ) {
 	if (layer_type == RenderLayer::WORLD2D)
 		world_2d_queue.push_back({ model, transform, layer });
+	if (layer_type == RenderLayer::UI)
+		ui_queue.push_back({ model, transform, layer });
 }
 
 void Renderer::end_frame() {
@@ -99,17 +111,27 @@ void Renderer::end_frame() {
 		current_cmd_buffer,	&color_target_info, 1, nullptr
 	);
 
-	std::sort(
+	std::stable_sort(
 		world_2d_queue.begin(), world_2d_queue.end(),
 		[](const DrawCommand &a, const DrawCommand &b) {
 			return a.layer < b.layer;
 		}
 	);
 	world_2d_pass->render(
-		main_pass, current_cmd_buffer, projection_view_2d, world_2d_queue
+		main_pass, current_cmd_buffer, proj_view_world2d, world_2d_queue
+	);
+	std::stable_sort(
+		ui_queue.begin(), ui_queue.end(),
+		[](const DrawCommand &a, const DrawCommand &b) {
+			return a.layer < b.layer;
+		}
+	);
+	ui_pass->render(
+		main_pass, current_cmd_buffer, proj_view_ui, ui_queue
 	);
 
 	world_2d_queue.clear();
+	ui_queue.clear();
 	SDL_EndGPURenderPass(main_pass);
 	SDL_SubmitGPUCommandBuffer(current_cmd_buffer);
 	current_cmd_buffer = nullptr;
@@ -162,7 +184,10 @@ void Renderer::init_shaders() {
 }
 
 void Renderer::init_pipelines() {
-	world_2d_pipeline = new UIPipeline(
+	world_2d_pipeline = new WorldPipeline(
+		device, window->get_sdl_window(), world_2d_shader
+	);
+	ui_pipeline = new UIPipeline(
 		device, window->get_sdl_window(), world_2d_shader
 	);
 }
@@ -170,6 +195,9 @@ void Renderer::init_pipelines() {
 void Renderer::init_passes() {
 	world_2d_pass = new World2DPass(
 		device, world_2d_pipeline->get_sdl_pipeline()
+	);
+	ui_pass = new UIPass(
+		device, ui_pipeline->get_sdl_pipeline()
 	);
 }
 

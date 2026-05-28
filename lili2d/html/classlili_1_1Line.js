@@ -14,6 +14,7 @@ var classlili_1_1Line =
     [ "set_color", "classlili_1_1Line.html#a8139c3fb6c8a42a9dddd1d5777ef9e31", null ],
     [ "set_end", "classlili_1_1Line.html#a377da9ea971d0fdf289989c1e5150aa6", null ],
     [ "set_layer", "classlili_1_1Line.html#af30b7d87f5c421b819dcdba5ed74bfb0", null ],
+    [ "set_render", "classlili_1_1Line.html#a39e0970e5f88d1b4dd9225c789a61af1", null ],
     [ "set_shape", "classlili_1_1Line.html#a6a8b0ddb5228c657a7bdb973181ad2df", null ],
     [ "set_start", "classlili_1_1Line.html#ac98984ea5f6eaac8a8f1c7df330e8198", null ],
     [ "set_thickness", "classlili_1_1Line.html#a87d0e1a41ddef18bd3f12cf49df59d0a", null ]

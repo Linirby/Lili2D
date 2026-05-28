@@ -104,6 +104,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5e950df53179246cd4af975714229778" id="r_a5e950df53179246cd4af975714229778"><td class="memItemLeft"><a id="a5e950df53179246cd4af975714229778" name="a5e950df53179246cd4af975714229778"></a>
 &#160;</td><td class="memItemRight"><b>~Window</b> ()</td></tr>
 <tr class="memdesc:a5e950df53179246cd4af975714229778"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the window and cleans up resources. <br /></td></tr>
+<tr class="memitem:a4028c270918d8bfe222cfd37eef07bf2" id="r_a4028c270918d8bfe222cfd37eef07bf2"><td class="memItemLeft"><a id="a4028c270918d8bfe222cfd37eef07bf2" name="a4028c270918d8bfe222cfd37eef07bf2"></a>
+&#160;</td><td class="memItemRight"><b>Window</b> (const Window &amp;)=delete</td></tr>
+<tr class="memdesc:a4028c270918d8bfe222cfd37eef07bf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor is deleted to prevent double-freeing the SDL_Window pointer. <br /></td></tr>
+<tr class="memitem:aabe7b2dd948f99c97ce6618baaa36dbb" id="r_aabe7b2dd948f99c97ce6618baaa36dbb"><td class="memItemLeft"><a id="aabe7b2dd948f99c97ce6618baaa36dbb" name="aabe7b2dd948f99c97ce6618baaa36dbb"></a>
+<a class="el" href="#a9a786d610bb2c12379e6b4062c0a835d">Window</a> &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (const <a class="el" href="#a9a786d610bb2c12379e6b4062c0a835d">Window</a> &amp;)=delete</td></tr>
+<tr class="memdesc:aabe7b2dd948f99c97ce6618baaa36dbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy assignment is deleted to prevent double-freeing the SDL_Window pointer. <br /></td></tr>
 <tr class="memitem:a37ac9f4d44a15b99ab1c01d5b9242323" id="r_a37ac9f4d44a15b99ab1c01d5b9242323"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a37ac9f4d44a15b99ab1c01d5b9242323">set_title</a> (const std::string &amp;title)</td></tr>
 <tr class="memdesc:a37ac9f4d44a15b99ab1c01d5b9242323"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the window title.  <br /></td></tr>
 <tr class="memitem:a5c4ad36a6090404d60a15de97c5c4251" id="r_a5c4ad36a6090404d60a15de97c5c4251"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a5c4ad36a6090404d60a15de97c5c4251">set_size</a> (int width, int height)</td></tr>

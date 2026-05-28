@@ -18,12 +18,13 @@ void UIPass::render(
 	SDL_GPURenderPass *pass,
 	SDL_GPUCommandBuffer *cmd,
 	const Mat3 &proj_view,
-	const std::vector<DrawCommand> &queue
+	const std::map<float, std::vector<DrawCommand>> &queue
 ) {
 	if (queue.empty()) return;
 
 	SDL_BindGPUGraphicsPipeline(pass, pipeline);
-	for (const DrawCommand &draw_cmd : queue) {
+	for (auto& pair : queue) {
+		for (const DrawCommand &draw_cmd : pair.second) {
 
 		if (!draw_cmd.model.mesh)
 			throw std::runtime_error(
@@ -90,6 +91,7 @@ void UIPass::render(
 		SDL_DrawGPUIndexedPrimitives(
 			pass, draw_cmd.model.mesh->get_index_count(), 1, 0, 0, 0
 		);
+		}
 	}
 }
 

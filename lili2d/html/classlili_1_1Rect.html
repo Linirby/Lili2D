@@ -123,7 +123,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3042c9d9038c8ee24997b178f01ae74b" id="r_a3042c9d9038c8ee24997b178f01ae74b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3042c9d9038c8ee24997b178f01ae74b">set_color</a> (<a class="el" href="structlili_1_1Vec4.html">Vec4</a> color)</td></tr>
 <tr class="memdesc:a3042c9d9038c8ee24997b178f01ae74b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the rectangle's color.  <br /></td></tr>
 <tr class="memitem:aed37d0d161588c034484fda5e64b4389" id="r_aed37d0d161588c034484fda5e64b4389"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aed37d0d161588c034484fda5e64b4389">set_layer</a> (float value)</td></tr>
-<tr class="memdesc:aed37d0d161588c034484fda5e64b4389"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the rendering layer.  <br /></td></tr>
+<tr class="memdesc:aed37d0d161588c034484fda5e64b4389"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the depth value for Z-ordering.  <br /></td></tr>
+<tr class="memitem:a0ef3faad0ff54d385421045778890206" id="r_a0ef3faad0ff54d385421045778890206"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0ef3faad0ff54d385421045778890206">set_render</a> (RenderLayer render_layer)</td></tr>
+<tr class="memdesc:a0ef3faad0ff54d385421045778890206"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the render pass layer.  <br /></td></tr>
 <tr class="memitem:af6933fe6f5ad271eed0b2fb08a5ebfe9" id="r_af6933fe6f5ad271eed0b2fb08a5ebfe9"><td class="memItemLeft"><a class="el" href="structlili_1_1Vec2.html">Vec2</a>&#160;</td><td class="memItemRight"><a class="el" href="#af6933fe6f5ad271eed0b2fb08a5ebfe9">get_position</a> () const</td></tr>
 <tr class="memdesc:af6933fe6f5ad271eed0b2fb08a5ebfe9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the position.  <br /></td></tr>
 <tr class="memitem:aa17e7875864afacfabd9e14f19667ef2" id="r_aa17e7875864afacfabd9e14f19667ef2"><td class="memItemLeft"><a class="el" href="structlili_1_1Vec2.html">Vec2</a>&#160;</td><td class="memItemRight"><a class="el" href="#aa17e7875864afacfabd9e14f19667ef2">get_size</a> () const</td></tr>
@@ -324,7 +326,8 @@ void&#160;</td><td class="memItemRight"><b>draw</b> ()</td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Sets the rendering layer. </p>
+<p>Sets the depth value for Z-ordering. </p>
+<p>This determines the drawing order relative to other objects within the same render pass. To change which render pass this object belongs to, use <a class="el" href="#a0ef3faad0ff54d385421045778890206" title="Sets the render pass layer.">set_render()</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">value</td><td>The new layer depth. </td></tr>
@@ -353,6 +356,32 @@ void&#160;</td><td class="memItemRight"><b>draw</b> ()</td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pos</td><td>The new position. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0ef3faad0ff54d385421045778890206" name="a0ef3faad0ff54d385421045778890206"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ef3faad0ff54d385421045778890206">&#9670;&#160;</a></span>set_render()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lili::Rect::set_render </td>
+          <td>(</td>
+          <td class="paramtype">RenderLayer</td>          <td class="paramname"><span class="paramname"><em>render_layer</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the render pass layer. </p>
+<p>This determines which overall pass (e.g., WORLD2D or UI) the object is drawn in. To change the depth ordering within a pass, use <a class="el" href="#aed37d0d161588c034484fda5e64b4389" title="Sets the depth value for Z-ordering.">set_layer()</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">render_layer</td><td>The new render pass layer. </td></tr>
   </table>
   </dd>
 </dl>

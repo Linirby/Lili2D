@@ -14,6 +14,7 @@ var classlili_1_1Circle =
     [ "set_color", "classlili_1_1Circle.html#aafe5182abd43847608061113c58ddb3b", null ],
     [ "set_layer", "classlili_1_1Circle.html#a722398c4fde3b88a39a533e98f59a206", null ],
     [ "set_radius", "classlili_1_1Circle.html#a28055b91ebbd5f84172a031ba47caae4", null ],
+    [ "set_render", "classlili_1_1Circle.html#a40afdf62d8506484198e53ec099dd67a", null ],
     [ "set_segments", "classlili_1_1Circle.html#a3b44c723eeef4278253a8c764ebb5296", null ],
     [ "set_shape", "classlili_1_1Circle.html#add627822cdb8c084bf4ed9db9a053e45", null ]
 ];

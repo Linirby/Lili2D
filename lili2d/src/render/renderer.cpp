@@ -1,9 +1,9 @@
-#include <algorithm>
 #include <string>
 #include <stdexcept>
 
 #include "render/renderer.hpp"
 #include "render/scene/model.hpp"
+#include "render/scene/utils.hpp"
 
 // Creation of those 3 headers in cmake
 #include "render/white_1x1_png.hpp"
@@ -28,6 +28,10 @@ Renderer::Renderer(Window *window) {
 Renderer::~Renderer() {
 	SDL_WaitForGPUIdle(device);
 
+	if (unit_quad) delete unit_quad;
+	for (auto& pair : unit_circles) {
+		delete pair.second;
+	}
 	if (the_white_pixel) delete the_white_pixel;
 	if (ui_pass) delete ui_pass;
 	if (ui_pipeline) delete ui_pipeline;
@@ -98,9 +102,9 @@ void Renderer::submit(
 	RenderLayer layer_type
 ) {
 	if (layer_type == RenderLayer::WORLD2D)
-		world_2d_queue.push_back({ model, transform, layer });
+		world_2d_queue[layer].push_back({ model, transform, layer });
 	if (layer_type == RenderLayer::UI)
-		ui_queue.push_back({ model, transform, layer });
+		ui_queue[layer].push_back({ model, transform, layer });
 }
 
 void Renderer::end_frame() {
@@ -114,27 +118,16 @@ void Renderer::end_frame() {
 		current_cmd_buffer,	&color_target_info, 1, nullptr
 	);
 
-	std::stable_sort(
-		world_2d_queue.begin(), world_2d_queue.end(),
-		[](const DrawCommand &a, const DrawCommand &b) {
-			return a.layer < b.layer;
-		}
-	);
 	world_2d_pass->render(
 		main_pass, current_cmd_buffer, proj_view_world2d, world_2d_queue
 	);
-	std::stable_sort(
-		ui_queue.begin(), ui_queue.end(),
-		[](const DrawCommand &a, const DrawCommand &b) {
-			return a.layer < b.layer;
-		}
-	);
+
 	ui_pass->render(
 		main_pass, current_cmd_buffer, proj_view_ui, ui_queue
 	);
 
-	world_2d_queue.clear();
-	ui_queue.clear();
+	for (auto& pair : world_2d_queue) pair.second.clear();
+	for (auto& pair : ui_queue) pair.second.clear();
 	SDL_EndGPURenderPass(main_pass);
 	SDL_SubmitGPUCommandBuffer(current_cmd_buffer);
 	current_cmd_buffer = nullptr;
@@ -142,6 +135,22 @@ void Renderer::end_frame() {
 
 Texture *Renderer::get_the_white_pixel() const {
 	return the_white_pixel;
+}
+
+GPUMesh* Renderer::get_unit_quad() {
+	if (!unit_quad) {
+		unit_quad = new GPUMesh(device, create_unit_quad());
+	}
+	return unit_quad;
+}
+
+GPUMesh* Renderer::get_unit_circle(int segments) {
+	if (unit_circles.find(segments) == unit_circles.end()) {
+		unit_circles[segments] = new GPUMesh(
+			device, create_unit_circle(segments)
+		);
+	}
+	return unit_circles[segments];
 }
 
 void Renderer::init_device() {

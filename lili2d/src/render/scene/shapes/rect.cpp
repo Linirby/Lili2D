@@ -11,8 +11,7 @@ RectShape::RectShape(float x, float y, float w, float h)
 Rect::Rect(Renderer *renderer, RectShape shape, Vec4 color) {
 	this->renderer = renderer;
 
-	MeshData mesh_data = create_unit_quad();
-	mesh = std::make_unique<GPUMesh>(renderer->get_device(), mesh_data);
+	mesh = renderer->get_unit_quad();
 	material = std::make_unique<Material>(renderer->get_the_white_pixel());
 
 	set_shape(shape);
@@ -75,7 +74,7 @@ void Rect::draw() {
 		Mat3::scale({ shape.w, shape.h })
 	);
 	renderer->submit(
-		(Model){ mesh.get(), material.get() },
+		(Model){ mesh, material.get() },
 		mat_transform,
 		layer,
 		render_layer

@@ -26,6 +26,11 @@ public:
 	/// \brief Destructor.
 	~Texture();
 
+	/// \brief Copy constructor is deleted to prevent double-freeing the GPU texture.
+	Texture(const Texture &) = delete;
+	/// \brief Copy assignment is deleted to prevent double-freeing the GPU texture.
+	Texture& operator=(const Texture &) = delete;
+
 	/**
 	 * \brief Gets the width of the texture.
 	 * \return The width in pixels.

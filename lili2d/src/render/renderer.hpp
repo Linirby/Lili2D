@@ -1,6 +1,8 @@
 #pragma once
 
 #include <SDL3/SDL.h>
+#include <map>
+#include <vector>
 
 #include "core/window.hpp"
 
@@ -31,6 +33,11 @@ public:
 	Renderer(Window *window);
 	/// \brief Destructor.
 	~Renderer();
+
+	/// \brief Copy constructor is deleted to prevent double-freeing the SDL GPU device.
+	Renderer(const Renderer &) = delete;
+	/// \brief Copy assignment is deleted to prevent double-freeing the SDL GPU device.
+	Renderer& operator=(const Renderer &) = delete;
 
 	/**
 	 * \brief Gets the SDL GPU device.
@@ -67,6 +74,19 @@ public:
 	 */
 	Texture *get_the_white_pixel() const;
 
+	/**
+	 * \brief Gets the shared unit quad mesh.
+	 * \return Pointer to the shared GPUMesh for a unit quad.
+	 */
+	GPUMesh* get_unit_quad();
+
+	/**
+	 * \brief Gets or creates a shared unit circle mesh.
+	 * \param segments The number of segments (resolution) of the circle.
+	 * \return Pointer to the shared GPUMesh for a unit circle.
+	 */
+	GPUMesh* get_unit_circle(int segments);
+
 private:
 	Window *window = nullptr;
 	SDL_GPUDevice *device = nullptr;
@@ -78,17 +98,19 @@ private:
 	Shader *world_2d_shader = nullptr;
 	WorldPipeline *world_2d_pipeline = nullptr;
 	World2DPass *world_2d_pass = nullptr;
-	std::vector<DrawCommand> world_2d_queue;
+	std::map<float, std::vector<DrawCommand>> world_2d_queue;
 
 	UIPipeline *ui_pipeline = nullptr;
 	UIPass *ui_pass = nullptr;
-	std::vector<DrawCommand> ui_queue;
+	std::map<float, std::vector<DrawCommand>> ui_queue;
 
 	Mat3 proj_view_world2d;
 	Mat3 proj_view_ui;
 	Camera *camera = nullptr;
 
 	Texture *the_white_pixel = nullptr;
+	GPUMesh *unit_quad = nullptr;
+	std::map<int, GPUMesh*> unit_circles;
 
 	void init_device();
 	void init_shaders();

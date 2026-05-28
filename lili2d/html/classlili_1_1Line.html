@@ -123,7 +123,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8139c3fb6c8a42a9dddd1d5777ef9e31" id="r_a8139c3fb6c8a42a9dddd1d5777ef9e31"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a8139c3fb6c8a42a9dddd1d5777ef9e31">set_color</a> (<a class="el" href="structlili_1_1Vec4.html">Vec4</a> color)</td></tr>
 <tr class="memdesc:a8139c3fb6c8a42a9dddd1d5777ef9e31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the color.  <br /></td></tr>
 <tr class="memitem:af30b7d87f5c421b819dcdba5ed74bfb0" id="r_af30b7d87f5c421b819dcdba5ed74bfb0"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af30b7d87f5c421b819dcdba5ed74bfb0">set_layer</a> (float value)</td></tr>
-<tr class="memdesc:af30b7d87f5c421b819dcdba5ed74bfb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the rendering layer.  <br /></td></tr>
+<tr class="memdesc:af30b7d87f5c421b819dcdba5ed74bfb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the depth value for Z-ordering.  <br /></td></tr>
+<tr class="memitem:a39e0970e5f88d1b4dd9225c789a61af1" id="r_a39e0970e5f88d1b4dd9225c789a61af1"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a39e0970e5f88d1b4dd9225c789a61af1">set_render</a> (RenderLayer render_layer)</td></tr>
+<tr class="memdesc:a39e0970e5f88d1b4dd9225c789a61af1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the render pass layer.  <br /></td></tr>
 <tr class="memitem:a7d1d7eb9df742b34ad9ff4890e6490c6" id="r_a7d1d7eb9df742b34ad9ff4890e6490c6"><td class="memItemLeft"><a class="el" href="structlili_1_1Vec2.html">Vec2</a>&#160;</td><td class="memItemRight"><a class="el" href="#a7d1d7eb9df742b34ad9ff4890e6490c6">get_start</a> () const</td></tr>
 <tr class="memdesc:a7d1d7eb9df742b34ad9ff4890e6490c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the start position.  <br /></td></tr>
 <tr class="memitem:a51e57d02da7744a147da3a005ee06e47" id="r_a51e57d02da7744a147da3a005ee06e47"><td class="memItemLeft"><a class="el" href="structlili_1_1Vec2.html">Vec2</a>&#160;</td><td class="memItemRight"><a class="el" href="#a51e57d02da7744a147da3a005ee06e47">get_end</a> () const</td></tr>
@@ -371,10 +373,37 @@ void&#160;</td><td class="memItemRight"><b>draw</b> ()</td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Sets the rendering layer. </p>
+<p>Sets the depth value for Z-ordering. </p>
+<p>This determines the drawing order relative to other objects within the same render pass. To change which render pass this object belongs to, use <a class="el" href="#a39e0970e5f88d1b4dd9225c789a61af1" title="Sets the render pass layer.">set_render()</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">value</td><td>The new layer depth. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a39e0970e5f88d1b4dd9225c789a61af1" name="a39e0970e5f88d1b4dd9225c789a61af1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39e0970e5f88d1b4dd9225c789a61af1">&#9670;&#160;</a></span>set_render()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lili::Line::set_render </td>
+          <td>(</td>
+          <td class="paramtype">RenderLayer</td>          <td class="paramname"><span class="paramname"><em>render_layer</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the render pass layer. </p>
+<p>This determines which overall pass (e.g., WORLD2D or UI) the object is drawn in. To change the depth ordering within a pass, use <a class="el" href="#af30b7d87f5c421b819dcdba5ed74bfb0" title="Sets the depth value for Z-ordering.">set_layer()</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">render_layer</td><td>The new render pass layer. </td></tr>
   </table>
   </dd>
 </dl>

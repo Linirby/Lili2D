@@ -2,6 +2,7 @@ var classlili_1_1Window =
 [
     [ "Window", "classlili_1_1Window.html#a9a786d610bb2c12379e6b4062c0a835d", null ],
     [ "~Window", "classlili_1_1Window.html#a5e950df53179246cd4af975714229778", null ],
+    [ "Window", "classlili_1_1Window.html#a4028c270918d8bfe222cfd37eef07bf2", null ],
     [ "get_height", "classlili_1_1Window.html#abe655ed7b7cdef1a0ccc1c4cd10f5d94", null ],
     [ "get_sdl_window", "classlili_1_1Window.html#af4d8a5449e63735615fdd3c129b60611", null ],
     [ "get_size", "classlili_1_1Window.html#afbef893d39b911ac64312ca6777707e6", null ],
@@ -11,6 +12,7 @@ var classlili_1_1Window =
     [ "is_fullscreen", "classlili_1_1Window.html#a0f3a148046627d2b2cacb2dea97a0f43", null ],
     [ "is_relative_mouse_mode", "classlili_1_1Window.html#acae438792aec3a28b38c621497027fdb", null ],
     [ "is_resizable", "classlili_1_1Window.html#a4a9d3332b6eab529d8cc913ba1a06dd2", null ],
+    [ "operator=", "classlili_1_1Window.html#aabe7b2dd948f99c97ce6618baaa36dbb", null ],
     [ "set_borderless", "classlili_1_1Window.html#a1c9f2b271c0696eebde08a55a75cf1f4", null ],
     [ "set_fullscreen", "classlili_1_1Window.html#abb8a18ae9c7ac82003afd8deb5e1cae1", null ],
     [ "set_relative_mouse_mode", "classlili_1_1Window.html#a44ddcc916e596217da28c4c75f3fa075", null ],

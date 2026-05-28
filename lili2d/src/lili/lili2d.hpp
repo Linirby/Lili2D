@@ -47,8 +47,6 @@ class Keyboard;
 /// \brief Handles mouse input state and queries.
 class Mouse;
 
-/// \brief Manages SDL subsystem initialization and lifecycle.
-struct SDLSystem;
 
 /// \brief Represents an operating system window.
 class Window;

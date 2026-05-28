@@ -20,6 +20,11 @@ public:
 	/// \brief Destroys the window and cleans up resources.
 	~Window();
 
+	/// \brief Copy constructor is deleted to prevent double-freeing the SDL_Window pointer.
+	Window(const Window &) = delete;
+	/// \brief Copy assignment is deleted to prevent double-freeing the SDL_Window pointer.
+	Window& operator=(const Window &) = delete;
+
 	/**
 	 * \brief Sets the window title.
 	 * \param title The new title.

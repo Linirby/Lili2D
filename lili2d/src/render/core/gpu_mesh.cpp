@@ -5,7 +5,7 @@
 
 namespace lili {
 
-GPUMesh::GPUMesh(SDL_GPUDevice *device, MeshData &mesh) {
+GPUMesh::GPUMesh(SDL_GPUDevice *device, const MeshData &mesh) {
 	this->device = device;
 	index_count = static_cast<uint32_t>(mesh.indices.size());
 

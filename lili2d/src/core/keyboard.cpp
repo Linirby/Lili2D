@@ -12,7 +12,7 @@ Keyboard::Keyboard() {
 
 void Keyboard::update() {
 	if (current)
-		std::memcpy(previous, current, key_count * sizeof(bool));
+		std::memcpy(previous, current, key_count * sizeof(uint8_t));
 	current = SDL_GetKeyboardState(&key_count);
 	if (key_count > SDL_SCANCODE_COUNT)
 		key_count = SDL_SCANCODE_COUNT;

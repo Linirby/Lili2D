@@ -104,6 +104,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab9ac0abcd6a802224db6a095b36e5bb5" id="r_ab9ac0abcd6a802224db6a095b36e5bb5"><td class="memItemLeft"><a id="ab9ac0abcd6a802224db6a095b36e5bb5" name="ab9ac0abcd6a802224db6a095b36e5bb5"></a>
 &#160;</td><td class="memItemRight"><b>~Renderer</b> ()</td></tr>
 <tr class="memdesc:ab9ac0abcd6a802224db6a095b36e5bb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br /></td></tr>
+<tr class="memitem:abc77c68ab9209d97d676c0fe875c078a" id="r_abc77c68ab9209d97d676c0fe875c078a"><td class="memItemLeft"><a id="abc77c68ab9209d97d676c0fe875c078a" name="abc77c68ab9209d97d676c0fe875c078a"></a>
+&#160;</td><td class="memItemRight"><b>Renderer</b> (const Renderer &amp;)=delete</td></tr>
+<tr class="memdesc:abc77c68ab9209d97d676c0fe875c078a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor is deleted to prevent double-freeing the SDL GPU device. <br /></td></tr>
+<tr class="memitem:a967ec6c7f4d986b06bcce3a8b2365e81" id="r_a967ec6c7f4d986b06bcce3a8b2365e81"><td class="memItemLeft"><a id="a967ec6c7f4d986b06bcce3a8b2365e81" name="a967ec6c7f4d986b06bcce3a8b2365e81"></a>
+<a class="el" href="#a081112bfe1dd5040104bc865624b2b89">Renderer</a> &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (const <a class="el" href="#a081112bfe1dd5040104bc865624b2b89">Renderer</a> &amp;)=delete</td></tr>
+<tr class="memdesc:a967ec6c7f4d986b06bcce3a8b2365e81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy assignment is deleted to prevent double-freeing the SDL GPU device. <br /></td></tr>
 <tr class="memitem:a7efb6248f8fd539eb5a9e10520f23a97" id="r_a7efb6248f8fd539eb5a9e10520f23a97"><td class="memItemLeft">SDL_GPUDevice *&#160;</td><td class="memItemRight"><a class="el" href="#a7efb6248f8fd539eb5a9e10520f23a97">get_device</a> () const</td></tr>
 <tr class="memdesc:a7efb6248f8fd539eb5a9e10520f23a97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the SDL GPU device.  <br /></td></tr>
 <tr class="memitem:a1ac02c1580056aac202894bf202b5c26" id="r_a1ac02c1580056aac202894bf202b5c26"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a1ac02c1580056aac202894bf202b5c26">begin_frame</a> ()</td></tr>
@@ -117,6 +123,10 @@ void&#160;</td><td class="memItemRight"><b>end_frame</b> ()</td></tr>
 <tr class="memdesc:aff30d5159d2f50e548024ed028b97a4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the active camera.  <br /></td></tr>
 <tr class="memitem:a057420e8cd7d61a07073da6a53afad5d" id="r_a057420e8cd7d61a07073da6a53afad5d"><td class="memItemLeft"><a class="el" href="classlili_1_1Texture.html">Texture</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a057420e8cd7d61a07073da6a53afad5d">get_the_white_pixel</a> () const</td></tr>
 <tr class="memdesc:a057420e8cd7d61a07073da6a53afad5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the default white pixel texture.  <br /></td></tr>
+<tr class="memitem:a387000b31c50d08cbedaf95a6e96f3e9" id="r_a387000b31c50d08cbedaf95a6e96f3e9"><td class="memItemLeft"><a class="el" href="classlili_1_1GPUMesh.html">GPUMesh</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a387000b31c50d08cbedaf95a6e96f3e9">get_unit_quad</a> ()</td></tr>
+<tr class="memdesc:a387000b31c50d08cbedaf95a6e96f3e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the shared unit quad mesh.  <br /></td></tr>
+<tr class="memitem:aba76e840d1fe3dc84fb9ae1d27b71469" id="r_aba76e840d1fe3dc84fb9ae1d27b71469"><td class="memItemLeft"><a class="el" href="classlili_1_1GPUMesh.html">GPUMesh</a> *&#160;</td><td class="memItemRight"><a class="el" href="#aba76e840d1fe3dc84fb9ae1d27b71469">get_unit_circle</a> (int segments)</td></tr>
+<tr class="memdesc:aba76e840d1fe3dc84fb9ae1d27b71469"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets or creates a shared unit circle mesh.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Main renderer class responsible for handling drawing operations. </p>
@@ -204,6 +214,52 @@ void&#160;</td><td class="memItemRight"><b>end_frame</b> ()</td></tr>
 
 <p>Gets the default white pixel texture. </p>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the white pixel texture. </dd></dl>
+
+</div>
+</div>
+<a id="aba76e840d1fe3dc84fb9ae1d27b71469" name="aba76e840d1fe3dc84fb9ae1d27b71469"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba76e840d1fe3dc84fb9ae1d27b71469">&#9670;&#160;</a></span>get_unit_circle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classlili_1_1GPUMesh.html">GPUMesh</a> * lili::Renderer::get_unit_circle </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>segments</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets or creates a shared unit circle mesh. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">segments</td><td>The number of segments (resolution) of the circle. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the shared <a class="el" href="classlili_1_1GPUMesh.html" title="Represents a mesh stored on the GPU.">GPUMesh</a> for a unit circle. </dd></dl>
+
+</div>
+</div>
+<a id="a387000b31c50d08cbedaf95a6e96f3e9" name="a387000b31c50d08cbedaf95a6e96f3e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a387000b31c50d08cbedaf95a6e96f3e9">&#9670;&#160;</a></span>get_unit_quad()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classlili_1_1GPUMesh.html">GPUMesh</a> * lili::Renderer::get_unit_quad </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the shared unit quad mesh. </p>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the shared <a class="el" href="classlili_1_1GPUMesh.html" title="Represents a mesh stored on the GPU.">GPUMesh</a> for a unit quad. </dd></dl>
 
 </div>
 </div>

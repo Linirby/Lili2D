@@ -13,6 +13,7 @@ var classlili_1_1Rect =
     [ "set_color", "classlili_1_1Rect.html#a3042c9d9038c8ee24997b178f01ae74b", null ],
     [ "set_layer", "classlili_1_1Rect.html#aed37d0d161588c034484fda5e64b4389", null ],
     [ "set_position", "classlili_1_1Rect.html#a925a2025083b7b40aa67f059158ae00a", null ],
+    [ "set_render", "classlili_1_1Rect.html#a0ef3faad0ff54d385421045778890206", null ],
     [ "set_rotation", "classlili_1_1Rect.html#aaf4db2451ec3ee449ff87203821e28cc", null ],
     [ "set_shape", "classlili_1_1Rect.html#a18cdbf041741dbeda344b4b27736aaed", null ],
     [ "set_size", "classlili_1_1Rect.html#ae1f808d8fc46c38e1259fd616e9d0661", null ]

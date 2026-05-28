@@ -108,7 +108,7 @@ $(function(){initNavTree('text_8hpp_source.html','',''); });
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span></div>
 <div class="foldopen" id="foldopen00019" data-start="{" data-end="};">
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="structlili_1_1GlyphUV.html">   19</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structlili_1_1GlyphUV.html">GlyphUV</a> {</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="structlili_1_1GlyphUV.html#a4d750281752634553d42544503f74013">   20</a></span>    <span class="keywordtype">float</span> u0, v0, u1, <a class="code hl_variable" href="structlili_1_1GlyphUV.html#a4d750281752634553d42544503f74013">v1</a>; </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="structlili_1_1GlyphUV.html#a4d750281752634553d42544503f74013">   20</a></span>    <span class="keywordtype">float</span> u0, v0, u1, <a class="code hl_variable" href="structlili_1_1GlyphUV.html#a4d750281752634553d42544503f74013">v1</a> = 0; </div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>};</div>
 </div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span></div>
@@ -126,12 +126,12 @@ $(function(){initNavTree('text_8hpp_source.html','',''); });
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <a class="code hl_struct" href="structlili_1_1GlyphUV.html">GlyphUV</a> <a class="code hl_function" href="classlili_1_1BitmapFont.html#ac386ce806e67cce216d7ffe8b024ef84">glyph_uv</a>(<span class="keywordtype">char</span> c) <span class="keyword">const</span>;</div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    std::unique_ptr&lt;Texture&gt; texture;</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keywordtype">int</span> cols;</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="keywordtype">int</span> rows;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    std::unique_ptr&lt;Texture&gt; texture = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keywordtype">int</span> cols = 1;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="keywordtype">int</span> rows = 1;</div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordtype">int</span> glyph_w;</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keywordtype">int</span> glyph_h;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordtype">int</span> glyph_w = 1;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keywordtype">int</span> glyph_h = 1;</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>};</div>
 </div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span></div>
@@ -148,31 +148,34 @@ $(function(){initNavTree('text_8hpp_source.html','',''); });
 <div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classlili_1_1Text.html#a1f133846a6018dda8216fa03e29f18b4">set_position</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structlili_1_1Vec2.html">Vec2</a> &amp;position);</div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classlili_1_1Text.html#a000573ad531f67b7143a57c55e8c2c6e">set_spacing</a>(<span class="keywordtype">float</span> value);</div>
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classlili_1_1Text.html#a85e14f6e4fa38e45e19dc4a998b84dfe">set_scale</a>(<span class="keywordtype">float</span> value);</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classlili_1_1Text.html#a2a00ab9e6b0b4f96f562016d8de60d05">set_layer</a>(<span class="keywordtype">float</span> layer);</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classlili_1_1Text.html#ac7e18cb0d26cf9b6843f04ca39852361">draw</a>();</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span> </div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    <a class="code hl_class" href="classlili_1_1Renderer.html">Renderer</a> *renderer = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    <a class="code hl_class" href="classlili_1_1BitmapFont.html">BitmapFont</a> *font = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    std::string text;</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    <a class="code hl_struct" href="structlili_1_1Vec2.html">Vec2</a> pos;</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <span class="keywordtype">float</span> scale = 1.0f;</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <span class="keywordtype">float</span> glyph_w = 1.0f;</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <span class="keywordtype">float</span> glyph_h = 1.0f;</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    <span class="keywordtype">float</span> advance = 1.0f;</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    std::unique_ptr&lt;Material&gt; material;</div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    std::unique_ptr&lt;GPUMesh&gt; mesh;</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    <a class="code hl_struct" href="structlili_1_1Model.html">Model</a> model;</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    <span class="keywordtype">float</span> layer = 0.0f;</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classlili_1_1Text.html#a2a00ab9e6b0b4f96f562016d8de60d05">set_layer</a>(<span class="keywordtype">float</span> layer);</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classlili_1_1Text.html#aba56171a164413ad5afdfc36d056bddc">set_render</a>(RenderLayer render_layer);</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classlili_1_1Text.html#ac7e18cb0d26cf9b6843f04ca39852361">draw</a>();</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    <a class="code hl_class" href="classlili_1_1Renderer.html">Renderer</a> *renderer = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    <a class="code hl_class" href="classlili_1_1BitmapFont.html">BitmapFont</a> *font = <span class="keyword">nullptr</span>;</div>
 <div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    <span class="keywordtype">void</span> rebuild_mesh();</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>};</div>
-</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    std::string text = <span class="stringliteral">&quot;default&quot;</span>;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    <a class="code hl_struct" href="structlili_1_1Vec2.html">Vec2</a> pos;</div>
 <div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>}  <span class="comment">// namespace lili</span></div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    <span class="keywordtype">float</span> scale = 1.0f;</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    <span class="keywordtype">float</span> glyph_w = 1.0f;</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    <span class="keywordtype">float</span> glyph_h = 1.0f;</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    <span class="keywordtype">float</span> advance = 1.0f;</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    std::unique_ptr&lt;Material&gt; material = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    std::unique_ptr&lt;GPUMesh&gt; mesh = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <a class="code hl_struct" href="structlili_1_1Model.html">Model</a> model;</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <span class="keywordtype">float</span> layer = 0.0f;</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    RenderLayer render_layer = RenderLayer::WORLD2D;</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span> </div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    <span class="keywordtype">void</span> rebuild_mesh();</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>};</div>
+</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>}  <span class="comment">// namespace lili</span></div>
 <div class="ttc" id="aclasslili_1_1BitmapFont_html"><div class="ttname"><a href="classlili_1_1BitmapFont.html">lili::BitmapFont</a></div><div class="ttdoc">Represents a bitmap font loaded from an image.</div><div class="ttdef"><b>Definition</b> text.hpp:26</div></div>
 <div class="ttc" id="aclasslili_1_1BitmapFont_html_a35ff8d28f1710b6845642ef508889bf5"><div class="ttname"><a href="classlili_1_1BitmapFont.html#a35ff8d28f1710b6845642ef508889bf5">lili::BitmapFont::get_glyph_w</a></div><div class="ttdeci">int get_glyph_w() const</div><div class="ttdoc">Gets the width of a single glyph.</div><div class="ttdef"><b>Definition</b> text.cpp:20</div></div>
 <div class="ttc" id="aclasslili_1_1BitmapFont_html_a5962059ee7452d8c844d48d7904908ed"><div class="ttname"><a href="classlili_1_1BitmapFont.html#a5962059ee7452d8c844d48d7904908ed">lili::BitmapFont::~BitmapFont</a></div><div class="ttdeci">~BitmapFont()=default</div><div class="ttdoc">Default destructor.</div></div>
@@ -180,16 +183,17 @@ $(function(){initNavTree('text_8hpp_source.html','',''); });
 <div class="ttc" id="aclasslili_1_1BitmapFont_html_ac13a29b50835d71736d25744bd07cd25"><div class="ttname"><a href="classlili_1_1BitmapFont.html#ac13a29b50835d71736d25744bd07cd25">lili::BitmapFont::BitmapFont</a></div><div class="ttdeci">BitmapFont(Renderer *renderer, const std::string &amp;path, uint8_t cols, uint8_t rows)</div><div class="ttdoc">Constructs a bitmap font.</div><div class="ttdef"><b>Definition</b> text.cpp:6</div></div>
 <div class="ttc" id="aclasslili_1_1BitmapFont_html_ac386ce806e67cce216d7ffe8b024ef84"><div class="ttname"><a href="classlili_1_1BitmapFont.html#ac386ce806e67cce216d7ffe8b024ef84">lili::BitmapFont::glyph_uv</a></div><div class="ttdeci">GlyphUV glyph_uv(char c) const</div><div class="ttdoc">Calculates the UV coordinates for a specific character.</div><div class="ttdef"><b>Definition</b> text.cpp:28</div></div>
 <div class="ttc" id="aclasslili_1_1BitmapFont_html_acfa06726a699573d61a57af08311d992"><div class="ttname"><a href="classlili_1_1BitmapFont.html#acfa06726a699573d61a57af08311d992">lili::BitmapFont::get_texture</a></div><div class="ttdeci">Texture * get_texture() const</div><div class="ttdoc">Gets the font&#39;s underlying texture.</div><div class="ttdef"><b>Definition</b> text.cpp:16</div></div>
-<div class="ttc" id="aclasslili_1_1Renderer_html"><div class="ttname"><a href="classlili_1_1Renderer.html">lili::Renderer</a></div><div class="ttdoc">Main renderer class responsible for handling drawing operations.</div><div class="ttdef"><b>Definition</b> renderer.hpp:23</div></div>
-<div class="ttc" id="aclasslili_1_1Text_html_a000573ad531f67b7143a57c55e8c2c6e"><div class="ttname"><a href="classlili_1_1Text.html#a000573ad531f67b7143a57c55e8c2c6e">lili::Text::set_spacing</a></div><div class="ttdeci">void set_spacing(float value)</div><div class="ttdoc">Sets the spacing between characters.</div><div class="ttdef"><b>Definition</b> text.cpp:71</div></div>
-<div class="ttc" id="aclasslili_1_1Text_html_a0e0a8aa2eb496c882954b0d7bfafffba"><div class="ttname"><a href="classlili_1_1Text.html#a0e0a8aa2eb496c882954b0d7bfafffba">lili::Text::set_text</a></div><div class="ttdeci">void set_text(const std::string &amp;value)</div><div class="ttdoc">Sets the text string.</div><div class="ttdef"><b>Definition</b> text.cpp:61</div></div>
-<div class="ttc" id="aclasslili_1_1Text_html_a1f133846a6018dda8216fa03e29f18b4"><div class="ttname"><a href="classlili_1_1Text.html#a1f133846a6018dda8216fa03e29f18b4">lili::Text::set_position</a></div><div class="ttdeci">void set_position(const Vec2 &amp;position)</div><div class="ttdoc">Sets the text&#39;s position.</div><div class="ttdef"><b>Definition</b> text.cpp:67</div></div>
-<div class="ttc" id="aclasslili_1_1Text_html_a2a00ab9e6b0b4f96f562016d8de60d05"><div class="ttname"><a href="classlili_1_1Text.html#a2a00ab9e6b0b4f96f562016d8de60d05">lili::Text::set_layer</a></div><div class="ttdeci">void set_layer(float layer)</div><div class="ttdoc">Sets the text&#39;s rendering layer.</div><div class="ttdef"><b>Definition</b> text.cpp:80</div></div>
+<div class="ttc" id="aclasslili_1_1Renderer_html"><div class="ttname"><a href="classlili_1_1Renderer.html">lili::Renderer</a></div><div class="ttdoc">Main renderer class responsible for handling drawing operations.</div><div class="ttdef"><b>Definition</b> renderer.hpp:27</div></div>
+<div class="ttc" id="aclasslili_1_1Text_html_a000573ad531f67b7143a57c55e8c2c6e"><div class="ttname"><a href="classlili_1_1Text.html#a000573ad531f67b7143a57c55e8c2c6e">lili::Text::set_spacing</a></div><div class="ttdeci">void set_spacing(float value)</div><div class="ttdoc">Sets the spacing between characters.</div><div class="ttdef"><b>Definition</b> text.cpp:74</div></div>
+<div class="ttc" id="aclasslili_1_1Text_html_a0e0a8aa2eb496c882954b0d7bfafffba"><div class="ttname"><a href="classlili_1_1Text.html#a0e0a8aa2eb496c882954b0d7bfafffba">lili::Text::set_text</a></div><div class="ttdeci">void set_text(const std::string &amp;value)</div><div class="ttdoc">Sets the text string.</div><div class="ttdef"><b>Definition</b> text.cpp:64</div></div>
+<div class="ttc" id="aclasslili_1_1Text_html_a1f133846a6018dda8216fa03e29f18b4"><div class="ttname"><a href="classlili_1_1Text.html#a1f133846a6018dda8216fa03e29f18b4">lili::Text::set_position</a></div><div class="ttdeci">void set_position(const Vec2 &amp;position)</div><div class="ttdoc">Sets the text&#39;s position.</div><div class="ttdef"><b>Definition</b> text.cpp:70</div></div>
+<div class="ttc" id="aclasslili_1_1Text_html_a2a00ab9e6b0b4f96f562016d8de60d05"><div class="ttname"><a href="classlili_1_1Text.html#a2a00ab9e6b0b4f96f562016d8de60d05">lili::Text::set_layer</a></div><div class="ttdeci">void set_layer(float layer)</div><div class="ttdoc">Sets the depth value for Z-ordering.</div><div class="ttdef"><b>Definition</b> text.cpp:83</div></div>
 <div class="ttc" id="aclasslili_1_1Text_html_a6c19f9a6e1d0fd1287d0afbee5d539b0"><div class="ttname"><a href="classlili_1_1Text.html#a6c19f9a6e1d0fd1287d0afbee5d539b0">lili::Text::operator=</a></div><div class="ttdeci">Text &amp; operator=(Text &amp;&amp;)=default</div><div class="ttdoc">Move assignment operator.</div></div>
-<div class="ttc" id="aclasslili_1_1Text_html_a85e14f6e4fa38e45e19dc4a998b84dfe"><div class="ttname"><a href="classlili_1_1Text.html#a85e14f6e4fa38e45e19dc4a998b84dfe">lili::Text::set_scale</a></div><div class="ttdeci">void set_scale(float value)</div><div class="ttdoc">Sets the text&#39;s scale.</div><div class="ttdef"><b>Definition</b> text.cpp:76</div></div>
+<div class="ttc" id="aclasslili_1_1Text_html_a85e14f6e4fa38e45e19dc4a998b84dfe"><div class="ttname"><a href="classlili_1_1Text.html#a85e14f6e4fa38e45e19dc4a998b84dfe">lili::Text::set_scale</a></div><div class="ttdeci">void set_scale(float value)</div><div class="ttdoc">Sets the text&#39;s scale.</div><div class="ttdef"><b>Definition</b> text.cpp:79</div></div>
 <div class="ttc" id="aclasslili_1_1Text_html_aa61a6bf1efdd2215048e0cc0714ff6b8"><div class="ttname"><a href="classlili_1_1Text.html#aa61a6bf1efdd2215048e0cc0714ff6b8">lili::Text::Text</a></div><div class="ttdeci">Text()=default</div><div class="ttdoc">Default constructor.</div></div>
+<div class="ttc" id="aclasslili_1_1Text_html_aba56171a164413ad5afdfc36d056bddc"><div class="ttname"><a href="classlili_1_1Text.html#aba56171a164413ad5afdfc36d056bddc">lili::Text::set_render</a></div><div class="ttdeci">void set_render(RenderLayer render_layer)</div><div class="ttdoc">Sets the render pass layer.</div><div class="ttdef"><b>Definition</b> text.cpp:87</div></div>
 <div class="ttc" id="aclasslili_1_1Text_html_ac141f50caabffcdf99b810e75c64bdba"><div class="ttname"><a href="classlili_1_1Text.html#ac141f50caabffcdf99b810e75c64bdba">lili::Text::Text</a></div><div class="ttdeci">Text(Text &amp;&amp;)=default</div><div class="ttdoc">Move constructor.</div></div>
-<div class="ttc" id="aclasslili_1_1Text_html_ac7e18cb0d26cf9b6843f04ca39852361"><div class="ttname"><a href="classlili_1_1Text.html#ac7e18cb0d26cf9b6843f04ca39852361">lili::Text::draw</a></div><div class="ttdeci">void draw()</div><div class="ttdoc">Submits the text for drawing.</div><div class="ttdef"><b>Definition</b> text.cpp:84</div></div>
+<div class="ttc" id="aclasslili_1_1Text_html_ac7e18cb0d26cf9b6843f04ca39852361"><div class="ttname"><a href="classlili_1_1Text.html#ac7e18cb0d26cf9b6843f04ca39852361">lili::Text::draw</a></div><div class="ttdeci">void draw()</div><div class="ttdoc">Submits the text for drawing.</div><div class="ttdef"><b>Definition</b> text.cpp:91</div></div>
 <div class="ttc" id="aclasslili_1_1Texture_html"><div class="ttname"><a href="classlili_1_1Texture.html">lili::Texture</a></div><div class="ttdoc">Represents a 2D texture on the GPU.</div><div class="ttdef"><b>Definition</b> texture.hpp:11</div></div>
 <div class="ttc" id="astructlili_1_1GlyphUV_html"><div class="ttname"><a href="structlili_1_1GlyphUV.html">lili::GlyphUV</a></div><div class="ttdoc">Defines the UV coordinates for a single glyph in a bitmap font.</div><div class="ttdef"><b>Definition</b> text.hpp:19</div></div>
 <div class="ttc" id="astructlili_1_1GlyphUV_html_a4d750281752634553d42544503f74013"><div class="ttname"><a href="structlili_1_1GlyphUV.html#a4d750281752634553d42544503f74013">lili::GlyphUV::v1</a></div><div class="ttdeci">float v1</div><div class="ttdoc">UV coordinates.</div><div class="ttdef"><b>Definition</b> text.hpp:20</div></div>

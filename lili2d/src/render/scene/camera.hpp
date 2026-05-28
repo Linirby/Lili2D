@@ -60,6 +60,9 @@ private:
 	Vec2 position;
 	float rotation = 0.0f;
 	float zoom = 1.0f;
+
+	mutable bool is_dirty = true;
+	mutable Mat3 cached_view_matrix;
 };
 
 }  // namespace lili

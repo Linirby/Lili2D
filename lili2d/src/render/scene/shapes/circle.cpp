@@ -11,8 +11,7 @@ Circle::Circle(Renderer *renderer, CircleShape shape, Vec4 color) {
 	this->renderer = renderer;
 
 	// Create circle with 32 segments
-	MeshData mesh_data = create_unit_circle(shape.segments);
-	mesh = std::make_unique<GPUMesh>(renderer->get_device(), mesh_data);
+	mesh = renderer->get_unit_circle(shape.segments);
 	material = std::make_unique<Material>(renderer->get_the_white_pixel());
 
 	set_shape(shape);
@@ -31,6 +30,7 @@ void Circle::set_radius(float r) {
 
 void Circle::set_segments(int n) {
 	shape.segments = n;
+	mesh = renderer->get_unit_circle(n);
 }
 
 void Circle::set_shape(CircleShape shape) {
@@ -71,7 +71,7 @@ void Circle::draw() {
 		Mat3::scale({ shape.radius * 2.0f, shape.radius * 2.0f })
 	);
 	renderer->submit(
-		(Model){ mesh.get(), material.get() },
+		(Model){ mesh, material.get() },
 		mat_transform,
 		layer,
 		render_layer

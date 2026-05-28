@@ -135,7 +135,7 @@ private:
 
 	float layer = 0;
 	RenderLayer render_layer = RenderLayer::WORLD2D;
-	std::unique_ptr<GPUMesh> mesh = nullptr;
+	GPUMesh *mesh = nullptr;
 	std::unique_ptr<Material> material = nullptr;
 };
 

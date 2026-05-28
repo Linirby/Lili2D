@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Lili2D: lili::World2DPass Class Reference</title>
+<title>Lili2D: lili::UIPass Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,7 +62,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(function(){initNavTree('classlili_1_1World2DPass.html','','classlili_1_1World2DPass-members'); });
+$(function(){initNavTree('classlili_1_1UIPass.html','','classlili_1_1UIPass-members'); });
 </script>
 <div id="container">
 <div id="doc-content">
@@ -88,36 +88,36 @@ $(function(){initNavTree('classlili_1_1World2DPass.html','','classlili_1_1World2
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lili::World2DPass Class Reference</div></div>
+  <div class="headertitle"><div class="title">lili::UIPass Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Rendering pass for the 2D world.  
+<p>Rendering pass for the UI.  
  <a href="#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="world__2d__pass_8hpp_source.html">world_2d_pass.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="ui__pass_8hpp_source.html">ui_pass.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a393f6956e687762e42f26422c8506050" id="r_a393f6956e687762e42f26422c8506050"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a393f6956e687762e42f26422c8506050">World2DPass</a> (SDL_GPUDevice *device, SDL_GPUGraphicsPipeline *pipeline)</td></tr>
-<tr class="memdesc:a393f6956e687762e42f26422c8506050"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a 2D world pass.  <br /></td></tr>
-<tr class="memitem:a3c06a92f6e68ef9a6a3bfd8b0cae06df" id="r_a3c06a92f6e68ef9a6a3bfd8b0cae06df"><td class="memItemLeft"><a id="a3c06a92f6e68ef9a6a3bfd8b0cae06df" name="a3c06a92f6e68ef9a6a3bfd8b0cae06df"></a>
-&#160;</td><td class="memItemRight"><b>~World2DPass</b> ()=default</td></tr>
-<tr class="memdesc:a3c06a92f6e68ef9a6a3bfd8b0cae06df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor. <br /></td></tr>
-<tr class="memitem:a2c4f1f1ecdea82dfc24d17827e5e4882" id="r_a2c4f1f1ecdea82dfc24d17827e5e4882"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a2c4f1f1ecdea82dfc24d17827e5e4882">render</a> (SDL_GPURenderPass *pass, SDL_GPUCommandBuffer *cmd, const <a class="el" href="structlili_1_1Mat3.html">Mat3</a> &amp;proj_view, const std::map&lt; float, std::vector&lt; <a class="el" href="structlili_1_1DrawCommand.html">DrawCommand</a> &gt; &gt; &amp;queue)</td></tr>
-<tr class="memdesc:a2c4f1f1ecdea82dfc24d17827e5e4882"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders the queued commands.  <br /></td></tr>
+<tr class="memitem:a21c48a45039e9dc15b5d46e44673590e" id="r_a21c48a45039e9dc15b5d46e44673590e"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a21c48a45039e9dc15b5d46e44673590e">UIPass</a> (SDL_GPUDevice *device, SDL_GPUGraphicsPipeline *pipeline)</td></tr>
+<tr class="memdesc:a21c48a45039e9dc15b5d46e44673590e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a UI pass.  <br /></td></tr>
+<tr class="memitem:a8a1d3c3dd88743285c7be2fc9719833d" id="r_a8a1d3c3dd88743285c7be2fc9719833d"><td class="memItemLeft"><a id="a8a1d3c3dd88743285c7be2fc9719833d" name="a8a1d3c3dd88743285c7be2fc9719833d"></a>
+&#160;</td><td class="memItemRight"><b>~UIPass</b> ()=default</td></tr>
+<tr class="memdesc:a8a1d3c3dd88743285c7be2fc9719833d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor. <br /></td></tr>
+<tr class="memitem:a0a92a78e53127e0752156b634d6f2f4e" id="r_a0a92a78e53127e0752156b634d6f2f4e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0a92a78e53127e0752156b634d6f2f4e">render</a> (SDL_GPURenderPass *pass, SDL_GPUCommandBuffer *cmd, const <a class="el" href="structlili_1_1Mat3.html">Mat3</a> &amp;proj_view, const std::map&lt; float, std::vector&lt; <a class="el" href="structlili_1_1DrawCommand.html">DrawCommand</a> &gt; &gt; &amp;queue)</td></tr>
+<tr class="memdesc:a0a92a78e53127e0752156b634d6f2f4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders the queued commands.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Rendering pass for the 2D world. </p>
+<div class="textblock"><p>Rendering pass for the UI. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a393f6956e687762e42f26422c8506050" name="a393f6956e687762e42f26422c8506050"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a393f6956e687762e42f26422c8506050">&#9670;&#160;</a></span>World2DPass()</h2>
+<a id="a21c48a45039e9dc15b5d46e44673590e" name="a21c48a45039e9dc15b5d46e44673590e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21c48a45039e9dc15b5d46e44673590e">&#9670;&#160;</a></span>UIPass()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">lili::World2DPass::World2DPass </td>
+          <td class="memname">lili::UIPass::UIPass </td>
           <td>(</td>
           <td class="paramtype">SDL_GPUDevice *</td>          <td class="paramname"><span class="paramname"><em>device</em></span>, </td>
         </tr>
@@ -129,7 +129,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Constructs a 2D world pass. </p>
+<p>Constructs a UI pass. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">device</td><td>The SDL GPU device. </td></tr>
@@ -141,14 +141,14 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a2c4f1f1ecdea82dfc24d17827e5e4882" name="a2c4f1f1ecdea82dfc24d17827e5e4882"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2c4f1f1ecdea82dfc24d17827e5e4882">&#9670;&#160;</a></span>render()</h2>
+<a id="a0a92a78e53127e0752156b634d6f2f4e" name="a0a92a78e53127e0752156b634d6f2f4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a92a78e53127e0752156b634d6f2f4e">&#9670;&#160;</a></span>render()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void lili::World2DPass::render </td>
+          <td class="memname">void lili::UIPass::render </td>
           <td>(</td>
           <td class="paramtype">SDL_GPURenderPass *</td>          <td class="paramname"><span class="paramname"><em>pass</em></span>, </td>
         </tr>
@@ -184,8 +184,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>src/render/passes/<a class="el" href="world__2d__pass_8hpp_source.html">world_2d_pass.hpp</a></li>
-<li>src/render/passes/<b>world_2d_pass.cpp</b></li>
+<li>src/render/passes/<a class="el" href="ui__pass_8hpp_source.html">ui_pass.hpp</a></li>
+<li>src/render/passes/<b>ui_pass.cpp</b></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -200,7 +200,7 @@ Public Member Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>lili</b></li><li class="navelem"><a href="classlili_1_1World2DPass.html">World2DPass</a></li>
+    <li class="navelem"><b>lili</b></li><li class="navelem"><a href="classlili_1_1UIPass.html">UIPass</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "render/passes/pass_types.hpp"
+#include <map>
 
 namespace lili {
 
@@ -29,7 +30,7 @@ public:
 		SDL_GPURenderPass *pass,
 		SDL_GPUCommandBuffer *cmd,
 		const Mat3 &proj_view,
-		const std::vector<DrawCommand> &queue
+		const std::map<float, std::vector<DrawCommand>> &queue
 	);
 
 private:

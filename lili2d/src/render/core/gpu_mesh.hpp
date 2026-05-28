@@ -32,7 +32,7 @@ public:
 	 * \param device The SDL GPU device.
 	 * \param mesh The CPU mesh data.
 	 */
-	GPUMesh(SDL_GPUDevice *device, MeshData &mesh);
+	GPUMesh(SDL_GPUDevice *device, const MeshData &mesh);
 	/// \brief Destructor.
 	~GPUMesh();
 

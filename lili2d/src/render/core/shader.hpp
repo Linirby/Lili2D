@@ -66,6 +66,11 @@ public:
 	/// \brief Destructor.
 	~Shader();
 
+	/// \brief Copy constructor is deleted to prevent double-freeing the compiled shader programs.
+	Shader(const Shader &) = delete;
+	/// \brief Copy assignment is deleted to prevent double-freeing the compiled shader programs.
+	Shader& operator=(const Shader &) = delete;
+
 	/**
 	 * \brief Gets the underlying SDL GPU vertex shader.
 	 * \return Pointer to the vertex shader.

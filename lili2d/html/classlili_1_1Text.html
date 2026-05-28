@@ -118,7 +118,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a85e14f6e4fa38e45e19dc4a998b84dfe" id="r_a85e14f6e4fa38e45e19dc4a998b84dfe"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a85e14f6e4fa38e45e19dc4a998b84dfe">set_scale</a> (float value)</td></tr>
 <tr class="memdesc:a85e14f6e4fa38e45e19dc4a998b84dfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the text's scale.  <br /></td></tr>
 <tr class="memitem:a2a00ab9e6b0b4f96f562016d8de60d05" id="r_a2a00ab9e6b0b4f96f562016d8de60d05"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a2a00ab9e6b0b4f96f562016d8de60d05">set_layer</a> (float layer)</td></tr>
-<tr class="memdesc:a2a00ab9e6b0b4f96f562016d8de60d05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the text's rendering layer.  <br /></td></tr>
+<tr class="memdesc:a2a00ab9e6b0b4f96f562016d8de60d05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the depth value for Z-ordering.  <br /></td></tr>
+<tr class="memitem:aba56171a164413ad5afdfc36d056bddc" id="r_aba56171a164413ad5afdfc36d056bddc"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aba56171a164413ad5afdfc36d056bddc">set_render</a> (RenderLayer render_layer)</td></tr>
+<tr class="memdesc:aba56171a164413ad5afdfc36d056bddc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the render pass layer.  <br /></td></tr>
 <tr class="memitem:ac7e18cb0d26cf9b6843f04ca39852361" id="r_ac7e18cb0d26cf9b6843f04ca39852361"><td class="memItemLeft"><a id="ac7e18cb0d26cf9b6843f04ca39852361" name="ac7e18cb0d26cf9b6843f04ca39852361"></a>
 void&#160;</td><td class="memItemRight"><b>draw</b> ()</td></tr>
 <tr class="memdesc:ac7e18cb0d26cf9b6843f04ca39852361"><td class="mdescLeft">&#160;</td><td class="mdescRight">Submits the text for drawing. <br /></td></tr>
@@ -206,7 +208,8 @@ void&#160;</td><td class="memItemRight"><b>draw</b> ()</td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Sets the text's rendering layer. </p>
+<p>Sets the depth value for Z-ordering. </p>
+<p>This determines the drawing order relative to other objects within the same render pass. To change which render pass this object belongs to, use <a class="el" href="#aba56171a164413ad5afdfc36d056bddc" title="Sets the render pass layer.">set_render()</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">layer</td><td>The new layer depth. </td></tr>
@@ -235,6 +238,32 @@ void&#160;</td><td class="memItemRight"><b>draw</b> ()</td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">position</td><td>The new position. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aba56171a164413ad5afdfc36d056bddc" name="aba56171a164413ad5afdfc36d056bddc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba56171a164413ad5afdfc36d056bddc">&#9670;&#160;</a></span>set_render()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lili::Text::set_render </td>
+          <td>(</td>
+          <td class="paramtype">RenderLayer</td>          <td class="paramname"><span class="paramname"><em>render_layer</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the render pass layer. </p>
+<p>This determines which overall pass (e.g., WORLD2D or UI) the object is drawn in. To change the depth ordering within a pass, use <a class="el" href="#a2a00ab9e6b0b4f96f562016d8de60d05" title="Sets the depth value for Z-ordering.">set_layer()</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">render_layer</td><td>The new render pass layer. </td></tr>
   </table>
   </dd>
 </dl>

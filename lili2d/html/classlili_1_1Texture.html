@@ -106,6 +106,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8c3a817e5aef2c7634262b6911e73f45" id="r_a8c3a817e5aef2c7634262b6911e73f45"><td class="memItemLeft"><a id="a8c3a817e5aef2c7634262b6911e73f45" name="a8c3a817e5aef2c7634262b6911e73f45"></a>
 &#160;</td><td class="memItemRight"><b>~Texture</b> ()</td></tr>
 <tr class="memdesc:a8c3a817e5aef2c7634262b6911e73f45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br /></td></tr>
+<tr class="memitem:a210862b9cf1d47cdacff11d43c41a150" id="r_a210862b9cf1d47cdacff11d43c41a150"><td class="memItemLeft"><a id="a210862b9cf1d47cdacff11d43c41a150" name="a210862b9cf1d47cdacff11d43c41a150"></a>
+&#160;</td><td class="memItemRight"><b>Texture</b> (const Texture &amp;)=delete</td></tr>
+<tr class="memdesc:a210862b9cf1d47cdacff11d43c41a150"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor is deleted to prevent double-freeing the GPU texture. <br /></td></tr>
+<tr class="memitem:a7b7c1d0b177fb6e10118d527a28c07cd" id="r_a7b7c1d0b177fb6e10118d527a28c07cd"><td class="memItemLeft"><a id="a7b7c1d0b177fb6e10118d527a28c07cd" name="a7b7c1d0b177fb6e10118d527a28c07cd"></a>
+<a class="el" href="#ae5cfcf7d9d3ff41e627095724f517a41">Texture</a> &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (const <a class="el" href="#ae5cfcf7d9d3ff41e627095724f517a41">Texture</a> &amp;)=delete</td></tr>
+<tr class="memdesc:a7b7c1d0b177fb6e10118d527a28c07cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy assignment is deleted to prevent double-freeing the GPU texture. <br /></td></tr>
 <tr class="memitem:a0ea37b6c665b006adaa433cadfc83e11" id="r_a0ea37b6c665b006adaa433cadfc83e11"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a0ea37b6c665b006adaa433cadfc83e11">get_width</a> () const</td></tr>
 <tr class="memdesc:a0ea37b6c665b006adaa433cadfc83e11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the width of the texture.  <br /></td></tr>
 <tr class="memitem:a08306e4873e744e845636a8b64db9f84" id="r_a08306e4873e744e845636a8b64db9f84"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a08306e4873e744e845636a8b64db9f84">get_height</a> () const</td></tr>

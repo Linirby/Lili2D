@@ -40,8 +40,8 @@ public:
 	bool released(Scancode key) const;
 
 private:
-	const bool *current;	
-	bool previous[SDL_SCANCODE_COUNT];
+	const uint8_t *current;	
+	uint8_t previous[SDL_SCANCODE_COUNT];
 	int key_count;
 };
 

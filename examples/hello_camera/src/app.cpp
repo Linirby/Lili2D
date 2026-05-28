@@ -15,10 +15,6 @@ App::App() {
 	camera_zoom = camera.get_zoom();
 	renderer->set_camera(&camera);
 
-	text_cam_pos = lili::Text(renderer.get(), font.get(), "");
-	text_cam_pos.set_scale(2);
-	text_cam_pos.set_render(lili::RenderLayer::UI);
-
 	red_rect = lili::Rect(
 		renderer.get(),
 		lili::RectShape(250, 200, 100, 50),
@@ -44,6 +40,17 @@ App::App() {
 		lili::Vec4(1, 1, 1, 0.5)
 	);
 	camera_center.set_render(lili::RenderLayer::UI);
+
+	text_cam_pos = lili::Text(renderer.get(), font.get(), "");
+	text_cam_pos.set_scale(2);
+	text_cam_pos.set_position({ 10, 10 });
+	text_cam_pos.set_render(lili::RenderLayer::UI);
+	text_controls = lili::Text(
+		renderer.get(), font.get(), "IJKL = move the camera | ZX = zoom/dezoom"
+	);
+	text_controls.set_scale(2);
+	text_controls.set_position({ 10, 32 });
+	text_controls.set_render(lili::RenderLayer::UI);
 
 	running = true;
 }
@@ -83,9 +90,9 @@ void App::update(float dt) {
 	camera.set_position(cam_pos);
 
 	if (keyboard.held(SDL_SCANCODE_Z))
-		camera_zoom += 10.0f * dt;
+		camera_zoom += 2.0f * dt;
 	if (keyboard.held(SDL_SCANCODE_X))
-		camera_zoom -= 10.0f * dt;
+		camera_zoom -= 2.0f * dt;
 	camera.set_zoom(camera_zoom);
 
 	text_cam_pos.set_text(
@@ -95,7 +102,6 @@ void App::update(float dt) {
 		std::to_string(cam_pos.y) +
 		")"
 	);
-	text_cam_pos.set_position({ 10, 10 });
 
 	camera_center.set_center(
 		lili::Vec2(window->get_width() / 2.0f, window->get_height() / 2.0f)
@@ -105,13 +111,13 @@ void App::update(float dt) {
 void App::render() {
 	if (!renderer->begin_frame()) return;
 
-	text_cam_pos.draw();
-
 	red_rect.draw();
 	green_rect.draw();
 	blue_rect.draw();
 
 	camera_center.draw();
+	text_cam_pos.draw();
+	text_controls.draw();
 
 	renderer->end_frame();
 }

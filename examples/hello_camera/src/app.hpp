@@ -19,7 +19,6 @@ private:
 	lili::Keyboard keyboard;
 
 	lili::Camera camera;
-	lili::Text text_cam_pos;
 
 	lili::Rect red_rect;
 	lili::Rect green_rect;
@@ -28,6 +27,9 @@ private:
 	lili::Circle camera_center;
 	lili::Vec2 cam_pos;
 	float camera_zoom;
+
+	lili::Text text_cam_pos;
+	lili::Text text_controls;
 
 	bool running;
 

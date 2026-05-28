@@ -154,6 +154,7 @@ complete projects!
 - **`hello_shapes`**: Demonstrates the basics of window creation and rendering simples colored shapes.
 - **`hello_sprite`**: Learn how to initialize a window, load a texture, and render a basic sprite.
 - **`hello_text`**: See how to load a bitmap font and render dynamic text on the screen.
+- **`hello_camera`**: Show how to use camera and different render layer (WORLD2D / UI)
 
 ## Join the Community
 

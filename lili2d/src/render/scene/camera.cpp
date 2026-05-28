@@ -10,16 +10,25 @@ void Camera::set_rotation(float degree) {
 	rotation = degree;
 }
 
+void Camera::set_zoom(float value) {
+	zoom = value;
+}
+
 Vec2 Camera::get_position() const {
 	return position;
 }
 
-Mat3 Camera::get_view_matrix() const {
+float Camera::get_zoom() const {
+	return zoom;
+}
+
+Mat3 Camera::get_view_matrix(float width, float height) const {
 	Mat3 translate = Mat3::translate({ -position.x, -position.y });
 	Mat3 rotate = Mat3::rotation(-rotation);
 	Mat3 scale = Mat3::scale({ zoom, zoom });
+	Mat3 center = Mat3::translate({ width / 2.0f, height / 2.0f });
 
-	return scale * rotate * translate;
+	return center * scale * rotate * translate;
 }
 
 Mat3 Camera::get_projection(float width, float height) const {

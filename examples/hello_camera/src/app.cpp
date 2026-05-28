@@ -10,7 +10,11 @@ App::App() {
 	clock = lili::Clock(20.0f);
 
 	camera = lili::Camera();
+	cam_pos = { 250, 250 };
+	camera.set_position(cam_pos);
+	camera_zoom = camera.get_zoom();
 	renderer->set_camera(&camera);
+
 	text_cam_pos = lili::Text(renderer.get(), font.get(), "");
 	text_cam_pos.set_scale(2);
 	text_cam_pos.set_render(lili::RenderLayer::UI);
@@ -77,6 +81,12 @@ void App::update(float dt) {
 	if (keyboard.held(SDL_SCANCODE_L))
 		cam_pos.x += 100.0f * dt;
 	camera.set_position(cam_pos);
+
+	if (keyboard.held(SDL_SCANCODE_Z))
+		camera_zoom += 10.0f * dt;
+	if (keyboard.held(SDL_SCANCODE_X))
+		camera_zoom -= 10.0f * dt;
+	camera.set_zoom(camera_zoom);
 
 	text_cam_pos.set_text(
 		"Camera Position: (X=" +

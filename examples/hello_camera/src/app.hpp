@@ -18,7 +18,6 @@ private:
 	lili::Clock clock;
 	lili::Keyboard keyboard;
 
-	lili::Vec2 cam_pos;
 	lili::Camera camera;
 	lili::Text text_cam_pos;
 
@@ -27,6 +26,8 @@ private:
 	lili::Rect blue_rect;
 
 	lili::Circle camera_center;
+	lili::Vec2 cam_pos;
+	float camera_zoom;
 
 	bool running;
 

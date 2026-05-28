@@ -25,6 +25,11 @@ public:
 	 * \param degree The rotation in degrees.
 	 */
 	void set_rotation(float degree);
+	/**
+	 * \brief Sets the camera's zoom level.
+	 * \param value The zoom level.
+	 */
+	void set_zoom(float value);
 
 	/**
 	 * \brief Gets the camera's position.
@@ -32,10 +37,17 @@ public:
 	 */
 	Vec2 get_position() const;
 	/**
+	 * \brief Gets the camera's zoom level.
+	 * \return The current zoom level.
+	 */
+	float get_zoom() const;
+	/**
 	 * \brief Gets the view matrix.
+	 * \param width The viewport width.
+	 * \param height The viewport height.
 	 * \return The view transformation matrix.
 	 */
-	Mat3 get_view_matrix() const;
+	Mat3 get_view_matrix(float width, float height) const;
 	/**
 	 * \brief Gets the projection matrix.
 	 * \param width The viewport width.

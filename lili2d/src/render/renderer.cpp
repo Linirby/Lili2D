@@ -78,7 +78,10 @@ bool Renderer::begin_frame() {
 			static_cast<float>(width),
 			static_cast<float>(height)
 		);
-		view = camera->get_view_matrix();
+		view = camera->get_view_matrix(
+			static_cast<float>(width),
+			static_cast<float>(height)
+		);
 	}
 	proj_view_world2d = projection * view;
 

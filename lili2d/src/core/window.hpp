@@ -1,8 +1,9 @@
 #pragma once
 
 #include <string>
-#include <array>
 #include <SDL3/SDL.h>
+
+#include "geometry/vec2.hpp"
 
 namespace lili {
 
@@ -84,7 +85,7 @@ public:
 	 * \brief Gets the window size.
 	 * \return An array containing width and height.
 	 */
-	std::array<int, 2> get_size() const;
+	Vec2 get_size() const;
 
 	/**
 	 * \brief Checks if the window is resizable.

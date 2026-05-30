@@ -129,11 +129,13 @@ $(function(){initNavTree('gpu__mesh_8hpp_source.html','',''); });
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    SDL_GPUBuffer *index_buffer = <span class="keyword">nullptr</span>;</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    uint32_t index_count = 0;</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordtype">void</span> transfer_to_gpu(<span class="keywordtype">void</span> *data, SDL_GPUBuffer *buffer, uint32_t size);</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>};</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordtype">void</span> transfer_to_gpu(</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <span class="keyword">const</span> <span class="keywordtype">void</span> *data, SDL_GPUBuffer *buffer, uint32_t size</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    );</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>};</div>
 </div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>}  <span class="comment">// namespace lili</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>}  <span class="comment">// namespace lili</span></div>
 <div class="ttc" id="aclasslili_1_1GPUMesh_html_a2db292fd29a65564ec0253a94064018c"><div class="ttname"><a href="classlili_1_1GPUMesh.html#a2db292fd29a65564ec0253a94064018c">lili::GPUMesh::get_vertex</a></div><div class="ttdeci">SDL_GPUBuffer * get_vertex() const</div><div class="ttdoc">Gets the vertex buffer.</div><div class="ttdef"><b>Definition</b> gpu_mesh.cpp:60</div></div>
 <div class="ttc" id="aclasslili_1_1GPUMesh_html_a31e5063c4f20fc6691c02f4b742a7037"><div class="ttname"><a href="classlili_1_1GPUMesh.html#a31e5063c4f20fc6691c02f4b742a7037">lili::GPUMesh::GPUMesh</a></div><div class="ttdeci">GPUMesh(SDL_GPUDevice *device, const MeshData &amp;mesh)</div><div class="ttdoc">Constructs a GPU mesh from CPU data.</div><div class="ttdef"><b>Definition</b> gpu_mesh.cpp:8</div></div>
 <div class="ttc" id="aclasslili_1_1GPUMesh_html_a3d5445dc8c213324589868f37161b222"><div class="ttname"><a href="classlili_1_1GPUMesh.html#a3d5445dc8c213324589868f37161b222">lili::GPUMesh::get_index</a></div><div class="ttdeci">SDL_GPUBuffer * get_index() const</div><div class="ttdoc">Gets the index buffer.</div><div class="ttdef"><b>Definition</b> gpu_mesh.cpp:64</div></div>

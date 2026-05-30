@@ -56,6 +56,11 @@ public:
 	 */
 	void set_scale(const Vec2 &scale);
 	/**
+	 * \brief Sets the sprite's size (in px).
+	 * \param size The new size.
+	 */
+	void set_size(const Vec2 &size);
+	/**
 	 * \brief Sets the sprite's rotation.
 	 * \param degree The rotation in degrees.
 	 */
@@ -77,6 +82,7 @@ private:
 
 	Vec2 position;
 	Vec2 scale = { 1, 1 };
+	Vec2 size = { 1, 1 };
 	float rotation = 0;
 	float layer = 0;
 };

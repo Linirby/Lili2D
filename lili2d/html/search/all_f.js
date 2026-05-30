@@ -21,7 +21,7 @@ var searchData=
   ['set_5fscale_18',['set_scale',['../classlili_1_1Sprite.html#a429f056501521f0a9b50b04ace47212b',1,'lili::Sprite::set_scale()'],['../classlili_1_1Text.html#a85e14f6e4fa38e45e19dc4a998b84dfe',1,'lili::Text::set_scale()']]],
   ['set_5fsegments_19',['set_segments',['../classlili_1_1Circle.html#a3b44c723eeef4278253a8c764ebb5296',1,'lili::Circle']]],
   ['set_5fshape_20',['set_shape',['../classlili_1_1Circle.html#add627822cdb8c084bf4ed9db9a053e45',1,'lili::Circle::set_shape()'],['../classlili_1_1Line.html#a6a8b0ddb5228c657a7bdb973181ad2df',1,'lili::Line::set_shape()'],['../classlili_1_1Rect.html#a18cdbf041741dbeda344b4b27736aaed',1,'lili::Rect::set_shape()']]],
-  ['set_5fsize_21',['set_size',['../classlili_1_1Window.html#a5c4ad36a6090404d60a15de97c5c4251',1,'lili::Window::set_size()'],['../classlili_1_1Rect.html#ae1f808d8fc46c38e1259fd616e9d0661',1,'lili::Rect::set_size()']]],
+  ['set_5fsize_21',['set_size',['../classlili_1_1Window.html#a5c4ad36a6090404d60a15de97c5c4251',1,'lili::Window::set_size()'],['../classlili_1_1Rect.html#ae1f808d8fc46c38e1259fd616e9d0661',1,'lili::Rect::set_size()'],['../classlili_1_1Sprite.html#a5ccf80d1a79f247764638147374ec318',1,'lili::Sprite::set_size()']]],
   ['set_5fspacing_22',['set_spacing',['../classlili_1_1Text.html#a000573ad531f67b7143a57c55e8c2c6e',1,'lili::Text']]],
   ['set_5fstart_23',['set_start',['../classlili_1_1Line.html#ac98984ea5f6eaac8a8f1c7df330e8198',1,'lili::Line']]],
   ['set_5ftext_24',['set_text',['../classlili_1_1Text.html#a0e0a8aa2eb496c882954b0d7bfafffba',1,'lili::Text']]],

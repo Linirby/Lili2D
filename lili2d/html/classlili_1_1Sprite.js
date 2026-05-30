@@ -11,5 +11,6 @@ var classlili_1_1Sprite =
     [ "set_layer", "classlili_1_1Sprite.html#ae484d0c7ed51fc3b79566e32a0519995", null ],
     [ "set_position", "classlili_1_1Sprite.html#a07276e352a05e5eb923302bf4996efe9", null ],
     [ "set_rotation", "classlili_1_1Sprite.html#ae14b9b7742754c058b954db9e2072205", null ],
-    [ "set_scale", "classlili_1_1Sprite.html#a429f056501521f0a9b50b04ace47212b", null ]
+    [ "set_scale", "classlili_1_1Sprite.html#a429f056501521f0a9b50b04ace47212b", null ],
+    [ "set_size", "classlili_1_1Sprite.html#a5ccf80d1a79f247764638147374ec318", null ]
 ];

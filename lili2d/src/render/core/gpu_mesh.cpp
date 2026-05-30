@@ -69,7 +69,9 @@ uint32_t GPUMesh::get_index_count() const {
 	return index_count;
 }
 
-void GPUMesh::transfer_to_gpu(void *data, SDL_GPUBuffer *buffer, uint32_t size) {
+void GPUMesh::transfer_to_gpu(
+	const void *data, SDL_GPUBuffer *buffer, uint32_t size
+) {
 	SDL_GPUTransferBufferCreateInfo transfer_buffer_info{
 		.usage = SDL_GPU_TRANSFERBUFFERUSAGE_UPLOAD,
 		.size = size,

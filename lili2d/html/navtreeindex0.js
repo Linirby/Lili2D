@@ -156,6 +156,7 @@ var NAVTREEINDEX0 =
 "classlili_1_1Sprite.html#a175886d6e26fc4f2d355e6fade4d0722":[0,0,0,42,1],
 "classlili_1_1Sprite.html#a2f99ae7840ab97bfe21dc3a22fde4583":[0,0,0,42,5],
 "classlili_1_1Sprite.html#a429f056501521f0a9b50b04ace47212b":[0,0,0,42,11],
+"classlili_1_1Sprite.html#a5ccf80d1a79f247764638147374ec318":[0,0,0,42,12],
 "classlili_1_1Sprite.html#a73aab0c5ef9b04a3111734a1c7e2bf90":[0,0,0,42,4],
 "classlili_1_1Sprite.html#a95183abb4eccc691ba54f8e50f140ff0":[0,0,0,42,3],
 "classlili_1_1Sprite.html#aa038d3367ec10b6e3791c7057c5d5aa0":[0,0,0,42,0],
@@ -200,6 +201,7 @@ var NAVTREEINDEX0 =
 "classlili_1_1Window.html#a1c9f2b271c0696eebde08a55a75cf1f4":[0,0,0,8,13],
 "classlili_1_1Window.html#a23c204a3f1fba64a10fb96ff2e1c93aa":[0,0,0,8,16],
 "classlili_1_1Window.html#a37ac9f4d44a15b99ab1c01d5b9242323":[0,0,0,8,18],
+"classlili_1_1Window.html#a3d0d3a018bb77403ae8c8213efbc4c98":[0,0,0,8,5],
 "classlili_1_1Window.html#a4028c270918d8bfe222cfd37eef07bf2":[0,0,0,8,2],
 "classlili_1_1Window.html#a44ddcc916e596217da28c4c75f3fa075":[0,0,0,8,15],
 "classlili_1_1Window.html#a4a9d3332b6eab529d8cc913ba1a06dd2":[0,0,0,8,11],
@@ -213,7 +215,6 @@ var NAVTREEINDEX0 =
 "classlili_1_1Window.html#abe655ed7b7cdef1a0ccc1c4cd10f5d94":[0,0,0,8,3],
 "classlili_1_1Window.html#acae438792aec3a28b38c621497027fdb":[0,0,0,8,10],
 "classlili_1_1Window.html#af4d8a5449e63735615fdd3c129b60611":[0,0,0,8,4],
-"classlili_1_1Window.html#afbef893d39b911ac64312ca6777707e6":[0,0,0,8,5],
 "classlili_1_1World2DPass.html":[0,0,0,27],
 "classlili_1_1World2DPass.html#a2c4f1f1ecdea82dfc24d17827e5e4882":[0,0,0,27,2],
 "classlili_1_1World2DPass.html#a393f6956e687762e42f26422c8506050":[0,0,0,27,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX0 =
 "functions_e.html":[0,2,0,4],
 "functions_func.html":[0,2,1],
 "functions_func.html":[0,2,1,0],
-"functions_func_c.html":[0,2,1,1],
-"functions_func_d.html":[0,2,1,2]
+"functions_func_c.html":[0,2,1,1]
 };

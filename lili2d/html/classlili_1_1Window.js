@@ -5,7 +5,7 @@ var classlili_1_1Window =
     [ "Window", "classlili_1_1Window.html#a4028c270918d8bfe222cfd37eef07bf2", null ],
     [ "get_height", "classlili_1_1Window.html#abe655ed7b7cdef1a0ccc1c4cd10f5d94", null ],
     [ "get_sdl_window", "classlili_1_1Window.html#af4d8a5449e63735615fdd3c129b60611", null ],
-    [ "get_size", "classlili_1_1Window.html#afbef893d39b911ac64312ca6777707e6", null ],
+    [ "get_size", "classlili_1_1Window.html#a3d0d3a018bb77403ae8c8213efbc4c98", null ],
     [ "get_title", "classlili_1_1Window.html#a4f80f8f9f1e91c7901a196a32719f3fb", null ],
     [ "get_width", "classlili_1_1Window.html#a057290347b19ea726e69038167fb6e86", null ],
     [ "is_borderless", "classlili_1_1Window.html#ab688e700e4cbbefba453a0056905afe2", null ],

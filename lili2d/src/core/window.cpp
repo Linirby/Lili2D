@@ -103,13 +103,13 @@ int Window::get_height() const {
 	return h;
 }
 
-std::array<int, 2> Window::get_size() const {
+Vec2 Window::get_size() const {
 	int w, h = 0;
 	if (!SDL_GetWindowSize(window, &w, &h))
 		throw std::runtime_error(
 			"Failed to get window size: " + std::string(SDL_GetError())
 		);
-	return {w, h};
+	return {(float)w, (float)h};
 }
 
 bool Window::is_resizable() const {

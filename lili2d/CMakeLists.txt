@@ -10,20 +10,6 @@ add_compile_options(-Wall -Wextra)
 find_package(SDL3 REQUIRED CONFIG)
 find_package(SDL3_image REQUIRED CONFIG)
 
-add_library(LiliCore OBJECT
-    src/core/clock.cpp
-    src/core/sdl_system.cpp
-    src/core/window.cpp
-    src/core/event.cpp
-    src/core/keyboard.cpp
-    src/core/mouse.cpp
-)
-target_include_directories(LiliCore PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
-    $<INSTALL_INTERFACE:include/lili2d>
-)
-target_link_libraries(LiliCore PRIVATE SDL3::SDL3)
-
 add_library(LiliGeometry OBJECT
     src/geometry/mat3x3.cpp
     src/geometry/mat4x4.cpp
@@ -35,6 +21,19 @@ target_include_directories(LiliGeometry PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
     $<INSTALL_INTERFACE:include/lili2d>
 )
+
+add_library(LiliCore OBJECT
+    src/core/clock.cpp
+    src/core/window.cpp
+    src/core/event.cpp
+    src/core/keyboard.cpp
+    src/core/mouse.cpp
+)
+target_include_directories(LiliCore PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    $<INSTALL_INTERFACE:include/lili2d>
+)
+target_link_libraries(LiliCore PRIVATE SDL3::SDL3 LiliGeometry)
 
 add_library(LiliPhysics OBJECT
     src/physics/collision.cpp

@@ -58,7 +58,9 @@ private:
 	SDL_GPUBuffer *index_buffer = nullptr;
 	uint32_t index_count = 0;
 
-	void transfer_to_gpu(void *data, SDL_GPUBuffer *buffer, uint32_t size);
+	void transfer_to_gpu(
+		const void *data, SDL_GPUBuffer *buffer, uint32_t size
+	);
 };
 
 }  // namespace lili

@@ -17,7 +17,8 @@ Sprite::Sprite(Renderer *renderer, const std::string &path) {
 	material->properties.color_tint = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 	position = { 0.0f, 0.0f };
-	scale = { 0.0f, 0.0f };
+	scale = { 1.0f, 1.0f };
+	size = { (float)texture->get_width(), (float)texture->get_height() };
 	rotation = 0.0f;
 	layer = 0.0f;
 }
@@ -43,6 +44,10 @@ void Sprite::set_scale(const Vec2 &scale) {
 	this->scale = scale;
 }
 
+void Sprite::set_size(const Vec2 &size) {
+	this->size = size;
+}
+
 void Sprite::set_rotation(float degree) {
 	rotation = lili::deg_to_rad(degree);
 }
@@ -55,10 +60,7 @@ void Sprite::draw() {
 	Mat3 mat_transform = (
 		Mat3::translate(position) *
 		Mat3::rotation(rotation) *
-		Mat3::scale({
-			scale.x * texture->get_width(),
-			scale.y * texture->get_height()
-		})
+		Mat3::scale(Vec2(size.x * scale.x, size.y * scale.y))
 	);
 	renderer->submit(
 		(Model){ mesh.get(), material.get() },

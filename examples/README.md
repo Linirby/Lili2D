@@ -7,6 +7,8 @@ This directory contains example projects demonstrating how to use the **Lili2D**
 - **`hello_shapes`**: Demonstrates the basics of window creation and rendering simples colored shapes.
 - **`hello_sprite`**: Shows how to load a texture and render a 2D sprite to the screen.
 - **`hello_text`**: Explains how to load bitmap fonts and render dynamic text.
+- **`hello_camera`**: Show how to use camera and different render layer (WORLD2D / UI).
+- **`hello_layer`**: Demonstrates the use of rendering layers to control the drawing order of sprites and shapes.
 
 ## Build and run examples
 

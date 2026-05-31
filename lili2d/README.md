@@ -17,8 +17,8 @@ Lili2D is broken down into several core subsystems:
 
 - **Core & Events (`lili/core.hpp`)**: Manages the application lifecycle, window creation, and event polling (keyboard, mouse, window events).
 - **Render (`lili/render.hpp`)**: A custom 2D rendering pipeline powered by SDL3 and Vulkan/SPIR-V shaders. Includes abstractions for:
-  - `Renderer`: The main rendering context.
-  - `Sprite` & `Texture`: Image loading and drawing.
+  - `Renderer`: The main rendering context, supporting custom render layers.
+  - `Sprite` & `Texture`: Image loading and drawing, with support for sizing and scaling.
   - `Camera`: 2D view manipulations.
   - `Text`: Bitmap font rendering.
 - **Geometry & Math**: Provides foundational math types like `Vec2`, `Vec3`, `Mat3`, and `Mat4`.

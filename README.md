@@ -155,6 +155,7 @@ complete projects!
 - **`hello_sprite`**: Learn how to initialize a window, load a texture, and render a basic sprite.
 - **`hello_text`**: See how to load a bitmap font and render dynamic text on the screen.
 - **`hello_camera`**: Show how to use camera and different render layer (WORLD2D / UI)
+- **`hello_layer`**: Demonstrates the use of rendering layers to control the drawing order of sprites and shapes.
 
 ## Join the Community
 

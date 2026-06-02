@@ -1,6 +1,7 @@
 #include "render/scene/sprite.hpp"
 
 #include "render/scene/utils.hpp"
+#include "render/scene/atlas_map.hpp"
 #include "geometry/mat3x3.hpp"
 #include "geometry/utils.hpp"
 
@@ -30,6 +31,31 @@ void Sprite::set_image(const std::string &path) {
 
 	MeshData mesh_data = create_unit_quad();
 	mesh = std::make_unique<GPUMesh>(renderer->get_device(), mesh_data);
+}
+
+void Sprite::set_frame(const AnimationFrame &frame) {
+	// Release the locally owned texture if we had one
+	texture.reset();
+
+	// Use the frame's texture (owned by AtlasMap)
+	if (!material) {
+		material = std::make_unique<Material>(frame.texture);
+		material->properties.color_tint = { 1.0f, 1.0f, 1.0f, 1.0f };
+	} else {
+		material->albedo_map = frame.texture;
+	}
+
+	// Update mesh with custom UVs
+	MeshData mesh_data = create_unit_quad();
+	mesh_data.vertices[0].u = frame.u_min; mesh_data.vertices[0].v = frame.v_min; // top-left
+	mesh_data.vertices[1].u = frame.u_max; mesh_data.vertices[1].v = frame.v_min; // top-right
+	mesh_data.vertices[2].u = frame.u_max; mesh_data.vertices[2].v = frame.v_max; // bottom-right
+	mesh_data.vertices[3].u = frame.u_min; mesh_data.vertices[3].v = frame.v_max; // bottom-left
+
+	mesh = std::make_unique<GPUMesh>(renderer->get_device(), mesh_data);
+	
+	// Set the base size to the frame's size
+	this->size = { frame.width, frame.height };
 }
 
 void Sprite::set_color_tint(const Vec4 &color) {

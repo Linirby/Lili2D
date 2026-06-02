@@ -11,6 +11,8 @@
 
 namespace lili {
 
+struct AnimationFrame;
+
 /**
  * \brief Represents a renderable 2D sprite.
  */
@@ -40,6 +42,11 @@ public:
 	 * \param path Path to the new image file.
 	 */
 	void set_image(const std::string &path);
+	/**
+	 * \brief Sets the sprite's image from an animation frame.
+	 * \param frame The animation frame containing texture and UVs.
+	 */
+	void set_frame(const AnimationFrame &frame);
 	/**
 	 * \brief Sets the sprite's color tint.
 	 * \param color The new color tint.

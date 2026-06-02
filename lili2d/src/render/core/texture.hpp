@@ -26,10 +26,23 @@ public:
 	/// \brief Destructor.
 	~Texture();
 
+	/// \brief Move constructor.
+	Texture(Texture &&other) noexcept;
+	/// \brief Move assignment.
+	Texture& operator=(Texture &&other) noexcept;
+
 	/// \brief Copy constructor is deleted to prevent double-freeing the GPU texture.
 	Texture(const Texture &) = delete;
 	/// \brief Copy assignment is deleted to prevent double-freeing the GPU texture.
 	Texture& operator=(const Texture &) = delete;
+
+	/**
+	 * \brief Constructs a texture directly from an SDL_Surface.
+	 * \param device The SDL GPU device.
+	 * \param surface The surface (will be destroyed after upload).
+	 */
+	Texture(SDL_GPUDevice *device, SDL_Surface *surface);
+
 
 	/**
 	 * \brief Gets the width of the texture.

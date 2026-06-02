@@ -2,28 +2,34 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
+#include "geometry/point2.hpp"
+#include "render/renderer.hpp"
 #include "render/core/texture.hpp"
+#include "render/scene/animation.hpp"
 
 namespace lili {
 
 class AtlasMap {
 public:
 	AtlasMap() = default;
-	AtlasMap(const std::string &filename);
-
+	AtlasMap(Renderer *renderer, const std::string &filename);
 	~AtlasMap() = default;
 
 	void slice(int num_columns, int num_rows);
-	Texture *get_texture(int col, int row) const;
-	Texture *get_texture(int index) const;
-	std::vector<Texture> *get_textures(
-		int start_col, int start_row, int end_col, int end_row
-	) const;
-	std::vector<Texture> *get_textures(int start_index, int end_index) const;
+	
+	AnimationFrame get_frame(Point2 at_pos) const;
+	AnimationFrame get_frame(int index) const;
+
+	Animation get_animation(int start_index, int count) const;
+	Animation get_animation(Point2 start, Point2 end) const;
 
 private:
-	std::vector<Texture> textures;
+	std::unique_ptr<Texture> full_texture;
+	std::vector<AnimationFrame> slices;
+	int n_cols = 1, n_rows = 1;
+	Point2 unit_size;
 };
 
 }  // namespace lili

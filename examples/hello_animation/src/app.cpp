@@ -13,7 +13,7 @@ App::App() {
 
 	head_sprite = lili::AnimatedSprite(renderer.get(), head_animation);
 	head_sprite.set_scale({ 15, 15 });
-	head_sprite.set_frame_speed(0.2f);
+	head_sprite.set_frame_speed(0.15f);
 
 	running = true;
 }

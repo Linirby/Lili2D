@@ -15,6 +15,15 @@ class AtlasMap {
 public:
 	AtlasMap() = default;
 	AtlasMap(Renderer *renderer, const std::string &filename);
+
+	/// \brief Move constructor.
+	AtlasMap(AtlasMap &&) = default;
+	/**
+	 * \brief Move assignment operator.
+	 * \return Reference to the assigned sprite.
+	 */
+	AtlasMap &operator=(AtlasMap &&) = default;
+
 	~AtlasMap() = default;
 
 	void slice(int num_columns, int num_rows);

@@ -44,7 +44,7 @@ AnimationFrame AtlasMap::get_frame(Point2 at_pos) const {
 }
 
 AnimationFrame AtlasMap::get_frame(int index) const {
-	if (index >= 0 && index < slices.size()) {
+	if (index >= 0 && (size_t)index < slices.size()) {
 		return slices[index];
 	}
 	return AnimationFrame();

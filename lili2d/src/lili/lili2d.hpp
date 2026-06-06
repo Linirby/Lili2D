@@ -134,10 +134,12 @@ class Sprite;
 
 /// \brief Represents a single animation frame within a texture atlas.
 struct AnimationFrame;
-/// \brief Defines an animation as a sliceable image.
+/// \brief Represents an animation as a sequence of frames.
 class Animation;
 /// \brief A renderable animated 2D sprite driven by an Animation.
 class AnimatedSprite;
+/// \brief Loads and slices a texture atlas into frames and animations.
+class AtlasMap;
 
 /// \brief A font based on a bitmap texture.
 class BitmapFont;

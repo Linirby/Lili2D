@@ -28,12 +28,12 @@ public:
 	~Sprite() = default;
 
 	/// \brief Move constructor.
-	Sprite(Sprite&&) = default;
+	Sprite(Sprite &&) = default;
 	/**
 	 * \brief Move assignment operator.
 	 * \return Reference to the assigned sprite.
 	 */
-	Sprite& operator=(Sprite&&) = default;
+	Sprite &operator=(Sprite &&) = default;
 
 	/**
 	 * \brief Sets the sprite's image.

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <cstdint>
-#include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -9,8 +8,6 @@
 #include "render/core/texture.hpp"
 
 namespace lili {
-
-class Renderer;
 
 /**
  * \brief Represents a single frame within an atlas texture.
@@ -23,40 +20,22 @@ struct AnimationFrame {
 };
 
 /**
- * \brief Defines an animation as an image that can be sliced into frames.
+ * \brief Represents an animation as a sequence of frames.
  *
- * An Animation owns a texture loaded from an image file. Call slice()
- * to divide it into a grid of frames. Without slicing, the animation
- * is treated as a single-frame animation covering the entire image.
+ * An Animation is a simple container for a list of AnimationFrame objects.
+ * Use AtlasMap to load and slice a spritesheet, then extract Animation
+ * objects from it.
  */
 class Animation {
 public:
-	/// \brief Default constructor.
+	/// \brief Default constructor (empty animation).
 	Animation() = default;
-
-	/**
-	 * \brief Constructs an animation from an image file.
-	 * \param renderer The renderer (provides the GPU device).
-	 * \param path Path to the image file (sprite sheet).
-	 */
-	Animation(Renderer *renderer, const std::string &path);
 
 	/**
 	 * \brief Constructs an animation from a pre-built list of frames.
 	 * \param frames The sequence of frames.
 	 */
 	Animation(const std::vector<AnimationFrame> &frames);
-
-	/**
-	 * \brief Slices the image into a grid of frames.
-	 *
-	 * Divides the texture into num_cols x num_rows equal cells,
-	 * stored in row-major order (left-to-right, top-to-bottom).
-	 *
-	 * \param num_cols Number of columns in the grid.
-	 * \param num_rows Number of rows in the grid.
-	 */
-	void slice(int num_cols, int num_rows);
 
 	/**
 	 * \brief Gets the number of frames.
@@ -72,11 +51,7 @@ public:
 	const AnimationFrame& get_frame(size_t index) const;
 
 private:
-	std::shared_ptr<Texture> texture;
 	std::vector<AnimationFrame> frames;
-	int n_cols = 1, n_rows = 1;
-
-	void build_single_frame();
 };
 
 /**

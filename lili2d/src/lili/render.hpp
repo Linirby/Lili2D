@@ -13,6 +13,7 @@
 #include "render/scene/sprite.hpp"  // IWYU pragma: keep
 #include "render/scene/animation.hpp"  // IWYU pragma: keep
 #include "render/scene/animated_sprite.hpp"  // IWYU pragma: keep
+#include "render/scene/atlas_map.hpp"  // IWYU pragma: keep
 #include "render/scene/text.hpp"  // IWYU pragma: keep
 #include "render/renderer.hpp"  // IWYU pragma: keep
 
@@ -49,12 +50,14 @@ class Sprite;
 
 /// \brief Represents a single animation frame within a texture atlas.
 struct AnimationFrame;
-/// \brief Defines an animation as a sliceable image.
+/// \brief Represents an animation as a sequence of frames.
 class Animation;
 /// \brief A renderable animated 2D sprite driven by an Animation.
 class AnimatedSprite;
 /// \brief Manage the creation and storage of animations.
 class AnimationRegistry;
+/// \brief Loads and slices a texture atlas into frames and animations.
+class AtlasMap;
 
 /// \brief A font based on a bitmap texture.
 class BitmapFont;

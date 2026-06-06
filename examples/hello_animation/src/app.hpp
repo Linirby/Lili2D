@@ -16,7 +16,7 @@ private:
 	std::unique_ptr<lili::Renderer> renderer;
 	lili::Clock clock;
 
-	lili::Animation head_animation;
+	lili::AtlasMap head_atlas;
 	lili::AnimatedSprite head_sprite;
 
 	bool running;

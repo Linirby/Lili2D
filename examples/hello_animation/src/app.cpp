@@ -8,12 +8,14 @@ App::App() {
 	renderer = std::make_unique<lili::Renderer>(window.get());
 	clock = lili::Clock(20.0f);
 
-	head_animation = lili::Animation(renderer.get(), "head_animation.png");
-	head_animation.slice(8, 1);
+	head_atlas = lili::AtlasMap(renderer.get(), "head_animation.png");
+	head_atlas.slice(8, 1);
 
-	head_sprite = lili::AnimatedSprite(renderer.get(), head_animation);
+	head_sprite = lili::AnimatedSprite(
+		renderer.get(), head_atlas.get_animation(0, 8)
+	);
 	head_sprite.set_scale({ 15, 15 });
-	head_sprite.set_frame_speed(0.15f);
+	head_sprite.set_frame_speed(0.2f);
 
 	running = true;
 }

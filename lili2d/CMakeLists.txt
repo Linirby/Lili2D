@@ -16,6 +16,7 @@ add_library(LiliGeometry OBJECT
     src/geometry/vec2.cpp
     src/geometry/vec3.cpp
     src/geometry/vec4.cpp
+    src/geometry/point2.cpp
 )
 target_include_directories(LiliGeometry PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
@@ -107,6 +108,9 @@ add_library(LiliRender OBJECT
     src/render/scene/material.cpp
     src/render/scene/model.cpp
     src/render/scene/sprite.cpp
+    src/render/scene/animated_sprite.cpp
+    src/render/scene/animation.cpp
+    src/render/scene/atlas_map.cpp
     src/render/scene/text.cpp
     src/render/scene/utils.cpp
     src/render/renderer.cpp

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -8,6 +9,8 @@
 #include "render/core/texture.hpp"
 
 namespace lili {
+
+class Renderer;
 
 /**
  * \brief Represents a single frame within an atlas texture.
@@ -20,36 +23,60 @@ struct AnimationFrame {
 };
 
 /**
- * \brief Defines an animation sequence and its state.
+ * \brief Defines an animation as an image that can be sliced into frames.
+ *
+ * An Animation owns a texture loaded from an image file. Call slice()
+ * to divide it into a grid of frames. Without slicing, the animation
+ * is treated as a single-frame animation covering the entire image.
  */
-struct Animation {
-	std::vector<AnimationFrame> frames; ///< The frames in the animation.
-	size_t current_frame = 0;           ///< The index of the current frame.
-
+class Animation {
+public:
 	/// \brief Default constructor.
 	Animation() = default;
 
 	/**
-	 * \brief Constructs an animation from a list of frames.
+	 * \brief Constructs an animation from an image file.
+	 * \param renderer The renderer (provides the GPU device).
+	 * \param path Path to the image file (sprite sheet).
+	 */
+	Animation(Renderer *renderer, const std::string &path);
+
+	/**
+	 * \brief Constructs an animation from a pre-built list of frames.
 	 * \param frames The sequence of frames.
 	 */
 	Animation(const std::vector<AnimationFrame> &frames);
 
 	/**
-	 * \brief Gets the current active frame.
-	 * \return Reference to the current AnimationFrame.
+	 * \brief Slices the image into a grid of frames.
+	 *
+	 * Divides the texture into num_cols x num_rows equal cells,
+	 * stored in row-major order (left-to-right, top-to-bottom).
+	 *
+	 * \param num_cols Number of columns in the grid.
+	 * \param num_rows Number of rows in the grid.
 	 */
-	const AnimationFrame& get_current_frame() const;
+	void slice(int num_cols, int num_rows);
 
 	/**
-	 * \brief Advances the animation to the next frame.
+	 * \brief Gets the number of frames.
+	 * \return The frame count.
 	 */
-	void step();
+	size_t frame_count() const;
 
 	/**
-	 * \brief Resets the animation to the first frame.
+	 * \brief Gets a frame by index.
+	 * \param index The frame index.
+	 * \return Reference to the AnimationFrame.
 	 */
-	void reset();
+	const AnimationFrame& get_frame(size_t index) const;
+
+private:
+	std::shared_ptr<Texture> texture;
+	std::vector<AnimationFrame> frames;
+	int n_cols = 1, n_rows = 1;
+
+	void build_single_frame();
 };
 
 /**
@@ -72,7 +99,9 @@ public:
 	 * \param animation The animation to register.
 	 * \return The assigned animation ID.
 	 */
-	uint16_t register_animation(const std::string &key, const Animation &animation);
+	uint16_t register_animation(
+		const std::string &key, const Animation &animation
+	);
 
 	/**
 	 * \brief Checks if an animation exists.

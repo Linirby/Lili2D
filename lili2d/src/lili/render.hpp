@@ -1,7 +1,8 @@
 #pragma once
 
 /// \file render.hpp
-/// \brief Aggregates the rendering components of the Lili2D engine, including shapes, sprites, models, and text.
+/// \brief Aggregates the rendering components of the Lili2D engine, including
+/// shapes, sprites, models, and text.
 
 #include "render/scene/shapes/line.hpp"  // IWYU pragma: keep
 #include "render/scene/shapes/rect.hpp"  // IWYU pragma: keep
@@ -10,6 +11,8 @@
 #include "render/scene/material.hpp"  // IWYU pragma: keep
 #include "render/scene/model.hpp"  // IWYU pragma: keep
 #include "render/scene/sprite.hpp"  // IWYU pragma: keep
+#include "render/scene/animation.hpp"  // IWYU pragma: keep
+#include "render/scene/animated_sprite.hpp"  // IWYU pragma: keep
 #include "render/scene/text.hpp"  // IWYU pragma: keep
 #include "render/renderer.hpp"  // IWYU pragma: keep
 
@@ -44,6 +47,15 @@ struct Model;
 /// \brief A renderable 2D sprite.
 class Sprite;
 
+/// \brief Represents a single animation frame within a texture atlas.
+struct AnimationFrame;
+/// \brief Defines an animation as a sliceable image.
+class Animation;
+/// \brief A renderable animated 2D sprite driven by an Animation.
+class AnimatedSprite;
+/// \brief Manage the creation and storage of animations.
+class AnimationRegistry;
+
 /// \brief A font based on a bitmap texture.
 class BitmapFont;
 /// \brief Renderable text using a specific font.
@@ -53,3 +65,4 @@ class Text;
 class Renderer;
 
 }  // namespace lili
+

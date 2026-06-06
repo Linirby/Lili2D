@@ -1,25 +1,67 @@
 #include "render/scene/animation.hpp"
+#include "render/renderer.hpp"
 #include <stdexcept>
 
 namespace lili {
 
+Animation::Animation(Renderer *renderer, const std::string &path) {
+	texture = std::make_shared<Texture>(renderer->get_device(), path);
+	build_single_frame();
+}
+
 Animation::Animation(const std::vector<AnimationFrame> &frames) {
 	this->frames = frames;
-	this->current_frame = 0;
 }
 
-const AnimationFrame& Animation::get_current_frame() const {
-	return frames[current_frame];
-}
+void Animation::slice(int num_cols, int num_rows) {
+	if (!texture)
+		throw std::runtime_error(
+			"Animation::slice: no texture loaded. "
+			"Use the Animation(Renderer*, path) constructor first."
+		);
 
-void Animation::step() {
-	if (!frames.empty()) {
-		current_frame = (current_frame + 1) % frames.size();
+	n_cols = num_cols;
+	n_rows = num_rows;
+	frames.clear();
+	frames.reserve(num_cols * num_rows);
+
+	float u_step = 1.0f / n_cols;
+	float v_step = 1.0f / n_rows;
+	float cell_w = static_cast<float>(texture->get_width()) / n_cols;
+	float cell_h = static_cast<float>(texture->get_height()) / n_rows;
+
+	for (int row = 0; row < num_rows; ++row) {
+		for (int col = 0; col < num_cols; ++col) {
+			AnimationFrame frame;
+			frame.texture = texture.get();
+			frame.u_min = col * u_step;
+			frame.v_min = row * v_step;
+			frame.u_max = (col + 1) * u_step;
+			frame.v_max = (row + 1) * v_step;
+			frame.width = cell_w;
+			frame.height = cell_h;
+			frames.push_back(frame);
+		}
 	}
 }
 
-void Animation::reset() {
-	current_frame = 0;
+size_t Animation::frame_count() const {
+	return frames.size();
+}
+
+const AnimationFrame& Animation::get_frame(size_t index) const {
+	return frames.at(index);
+}
+
+void Animation::build_single_frame() {
+	frames.clear();
+	AnimationFrame frame;
+	frame.texture = texture.get();
+	frame.u_min = 0.0f; frame.v_min = 0.0f;
+	frame.u_max = 1.0f; frame.v_max = 1.0f;
+	frame.width = static_cast<float>(texture->get_width());
+	frame.height = static_cast<float>(texture->get_height());
+	frames.push_back(frame);
 }
 
 AnimationRegistry &AnimationRegistry::get() {
@@ -58,7 +100,9 @@ uint16_t AnimationRegistry::get_animation_id(const std::string &key) const {
 	return it->second;
 }
 
-const Animation &AnimationRegistry::get_animation(const std::string &key) const {
+const Animation &AnimationRegistry::get_animation(
+	const std::string &key
+) const {
 	return get_animation(get_animation_id(key));
 }
 

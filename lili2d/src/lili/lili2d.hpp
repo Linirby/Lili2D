@@ -1,7 +1,8 @@
 #pragma once
 
 /// \file lili2d.hpp
-/// \brief Main include header for the Lili2D engine. Aggregates all major engine subsystems and forward declarations.
+/// \brief Main include header for the Lili2D engine. Aggregates all major
+/// engine subsystems and forward declarations.
 
 #include "lili/core.hpp"  // IWYU pragma: keep
 #include "lili/geometry.hpp"  // IWYU pragma: keep
@@ -130,6 +131,13 @@ struct Model;
 
 /// \brief A renderable 2D sprite.
 class Sprite;
+
+/// \brief Represents a single animation frame within a texture atlas.
+struct AnimationFrame;
+/// \brief Defines an animation as a sliceable image.
+class Animation;
+/// \brief A renderable animated 2D sprite driven by an Animation.
+class AnimatedSprite;
 
 /// \brief A font based on a bitmap texture.
 class BitmapFont;

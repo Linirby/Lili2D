@@ -11,8 +11,6 @@
 
 namespace lili {
 
-struct AnimationFrame;
-
 /**
  * \brief Represents a renderable 2D sprite.
  */
@@ -43,11 +41,6 @@ public:
 	 */
 	void set_image(const std::string &path);
 	/**
-	 * \brief Sets the sprite's image from an animation frame.
-	 * \param frame The animation frame containing texture and UVs.
-	 */
-	void set_frame(const AnimationFrame &frame);
-	/**
 	 * \brief Sets the sprite's color tint.
 	 * \param color The new color tint.
 	 */
@@ -77,6 +70,23 @@ public:
 	 * \param layer The new layer depth.
 	 */
 	void set_layer(float layer);
+
+	/**
+	 * \brief Get the render width of the sprite.
+	 * \return The width.
+	 */
+	float get_width() const;
+	/**
+	 * \brief Get the render height of the sprite.
+	 * \return The height.
+	 */
+	float get_height() const;
+	/**
+	 * \brief Get the render size of the sprite.
+	 * \return A 2D vector of the width and height.
+	 */
+	Vec2 get_size() const;
+
 	/// \brief Submits the sprite for drawing.
 	void draw();
 

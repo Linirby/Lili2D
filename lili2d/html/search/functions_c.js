@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['perspective_0',['perspective',['../structlili_1_1Mat4.html#a89d161033365c43e00812a9d4fc0871c',1,'lili::Mat4']]],
-  ['poll_1',['poll',['../classlili_1_1Event.html#abfd185f1ce067200ccb6fe38f5d6fa72',1,'lili::Event']]],
-  ['pressed_2',['pressed',['../classlili_1_1Keyboard.html#aa2a81b4c7709a394dc75532f052b0ff8',1,'lili::Keyboard::pressed()'],['../classlili_1_1Mouse.html#a9350aa0fa90a9b74c9da3bfde0aacb7f',1,'lili::Mouse::pressed()']]]
+  ['normalized_0',['normalized',['../structlili_1_1Vec2.html#a101ac8b723b323ddd7ff279d632d203e',1,'lili::Vec2::normalized()'],['../structlili_1_1Vec3.html#a9c76a05697576c281acd82e4043a9c37',1,'lili::Vec3::normalized()'],['../structlili_1_1Vec4.html#af5ca7658d3254c8446f52847b2272733',1,'lili::Vec4::normalized()']]]
 ];

@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['dot_0',['dot',['../structlili_1_1Vec2.html#aecfc290d077d95a879b0505eac8efc21',1,'lili::Vec2::dot()'],['../structlili_1_1Vec3.html#a8d28607a7d0be0e5a6dfdb558a9449b0',1,'lili::Vec3::dot()'],['../structlili_1_1Vec4.html#aeb394df2375b614462a28630f976ec59',1,'lili::Vec4::dot()']]],
-  ['draw_1',['draw',['../classlili_1_1Circle.html#a8c3e59e693c5e15cfad3faf429298bc8',1,'lili::Circle::draw()'],['../classlili_1_1Line.html#a28ed77b1a9965b9ece10c9606ff227f5',1,'lili::Line::draw()'],['../classlili_1_1Rect.html#aea18d65719272421b6e76db70f6899b0',1,'lili::Rect::draw()'],['../classlili_1_1Sprite.html#a73aab0c5ef9b04a3111734a1c7e2bf90',1,'lili::Sprite::draw()'],['../classlili_1_1Text.html#ac7e18cb0d26cf9b6843f04ca39852361',1,'lili::Text::draw()']]]
+  ['camera_0',['Camera',['../classlili_1_1Camera.html#a078235156c98e85b9febcb6446563272',1,'lili::Camera']]],
+  ['circle_1',['Circle',['../classlili_1_1Circle.html#a4f4d8a7eca89d057bf3523f1782e4ad6',1,'lili::Circle::Circle()=default'],['../classlili_1_1Circle.html#a2cb52be2eccc3f829cbb7f7bf458638f',1,'lili::Circle::Circle(Renderer *renderer, CircleShape shape, Vec4 color)'],['../classlili_1_1Circle.html#a0a2b9028377173da31c7fdc5d03f3eab',1,'lili::Circle::Circle(Circle &amp;&amp;)=default']]],
+  ['circleshape_2',['CircleShape',['../structlili_1_1CircleShape.html#a2a2005544d8b7e825ce1035ec5938a98',1,'lili::CircleShape::CircleShape()=default'],['../structlili_1_1CircleShape.html#aaaced1acdf3cf78b15f2c9c0d5585e56',1,'lili::CircleShape::CircleShape(const CircleShape &amp;)=default'],['../structlili_1_1CircleShape.html#a547fe1745357408c2d32a5519882b593',1,'lili::CircleShape::CircleShape(Vec2 center, float radius, int segments)']]],
+  ['clock_3',['Clock',['../classlili_1_1Clock.html#a31d9f0ce9cddfb22a7ab7e28d9a6e5b4',1,'lili::Clock']]],
+  ['cross_4',['cross',['../structlili_1_1Vec2.html#a852c2c253ffd78d8cdcc5bf6af644ac3',1,'lili::Vec2::cross()'],['../structlili_1_1Vec3.html#adc95c252fe5d40782b5fceabc1534d0d',1,'lili::Vec3::cross()'],['../structlili_1_1Vec4.html#a84e2c28ebfccfa29134264b439569201',1,'lili::Vec4::cross()']]]
 ];

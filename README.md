@@ -13,14 +13,17 @@ get things running on screen fast.
 
 ## Repository Structure
 
-- **[`lili2d/`](lili2d/)**: The core engine source code. See the [Engine README](lili2d/README.md) for build instructions and architecture details.
+- **[`lili2d/`](lili2d/)**: The core engine source code. See the
+[Engine README](lili2d/README.md) for build instructions and architecture details.
 - **[`examples/`](examples/)**: Example projects demonstrating how to use Lili2D.
 
 ## Features
 
-- **Cool & Intuitive API**: Modern Object-Oriented design that gets out of your way.
+- **Cool & Intuitive API**: Modern Object-Oriented design that gets out of your
+way. Fully documented.
 - **Modern C++20**: Built with modern C++ features for maximum performance and safety.
-- **Rendering & Shaders**: Custom rendering pipeline using SDL3 and compiled SPIR-V shaders.
+- **Rendering & Shaders**: Custom rendering pipeline using SDL3 and compiled
+SPIR-V shaders.
 - **Core Systems Included**:
   - **Render**: Windows, Sprites, UI Text, Cameras, and Materials.
   - **Geometry**: Vectors and Matrices (Vec2, Vec3, Vec4, Mat3, Mat4).
@@ -51,6 +54,16 @@ mkdir build && cd build
 cmake ..
 make -j$(nproc)
 sudo make install
+```
+
+### Generating Documentation
+
+You can generate the HTML documentation for the API by running Doxygen in the
+`lili2d/` directory:
+
+```bash
+cd lili2d
+doxygen Doxyfile
 ```
 
 ## Quick Start: Hello Shapes
@@ -149,17 +162,26 @@ int main() {
 Check out the `examples/` directory in the repository for more details and
 complete projects!
 
-### Available Examples:
+### Available Examples
 
-- **`hello_shapes`**: Demonstrates the basics of window creation and rendering simples colored shapes.
-- **`hello_sprite`**: Learn how to initialize a window, load a texture, and render a basic sprite.
-- **`hello_text`**: See how to load a bitmap font and render dynamic text on the screen.
-- **`hello_camera`**: Show how to use camera and different render layer (WORLD2D / UI)
-- **`hello_layer`**: Demonstrates the use of rendering layers to control the drawing order of sprites and shapes.
+- **`hello_shapes`**: Demonstrates the basics of window creation and rendering
+simples colored shapes.
+- **`hello_sprite`**: Learn how to initialize a window, load a texture, and
+render a basic sprite.
+- **`hello_text`**: See how to load a bitmap font and render dynamic text on the
+screen.
+- **`hello_camera`**: Show how to use camera and different render layer (WORLD2D
+/ UI)
+- **`hello_layer`**: Demonstrates the use of rendering layers to control the
+drawing order of sprites and shapes.
+- `hello_animation`: An example of how to load an AtlasMap and create Animations
+from it.
 
 ## Join the Community
 
-Whether you want to follow the daily development logs, ask questions about integrating the library, or share the cool 2D games you are building, we'd love to have you!
+Whether you want to follow the daily development logs, ask questions about
+integrating the library, or share the cool 2D games you are building, we'd love
+to have you!
 
 Join **Lili's | Dev Lounge** on Discord:
 **[https://discord.gg/6S6HyKWgK3](https://discord.gg/6S6HyKWgK3)**

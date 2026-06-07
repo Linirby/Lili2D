@@ -149,6 +149,7 @@ private:
 	float rotation = 0;
 	float layer = 0;
 
+	/// \brief apply_frame method.
 	void apply_frame(const AnimationFrame &frame);
 };
 

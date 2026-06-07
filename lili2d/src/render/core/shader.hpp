@@ -87,6 +87,7 @@ private:
 	SDL_GPUShader *vertex_shader = nullptr;
 	SDL_GPUShader *fragment_shader = nullptr;
 
+	/// \brief get_code_info method.
 	CodeInfo get_code_info(const std::string &code_path);
 };
 

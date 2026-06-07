@@ -152,6 +152,7 @@ private:
 
 	RenderLayer render_layer = RenderLayer::WORLD2D;
 
+	/// \brief rebuild_mesh method.
 	void rebuild_mesh();
 };
 

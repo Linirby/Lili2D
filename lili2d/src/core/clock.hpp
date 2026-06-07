@@ -9,6 +9,7 @@ class Clock {
 public:
 	/// \brief Constructs the Clock.
 	Clock();
+	/// \brief Clock method.
 	Clock(float tick_per_second);
 
 	/// \brief Destroys the Clock.

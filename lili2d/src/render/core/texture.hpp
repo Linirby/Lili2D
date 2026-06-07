@@ -72,8 +72,10 @@ private:
 	SDL_GPUTexture *texture = nullptr;
 	SDL_GPUSampler *sampler = nullptr;
 
+	/// \brief init_from_surface method.
 	void init_from_surface(SDL_Surface *surface);
 
+	/// \brief transfer_to_gpu method.
 	void transfer_to_gpu(SDL_Surface *surface);
 };
 

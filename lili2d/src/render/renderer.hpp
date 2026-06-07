@@ -112,9 +112,13 @@ private:
 	GPUMesh *unit_quad = nullptr;
 	std::map<int, GPUMesh*> unit_circles;
 
+	/// \brief init_device method.
 	void init_device();
+	/// \brief init_shaders method.
 	void init_shaders();
+	/// \brief init_pipelines method.
 	void init_pipelines();
+	/// \brief init_passes method.
 	void init_passes();
 };
 

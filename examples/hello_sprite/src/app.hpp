@@ -4,11 +4,14 @@
 #include <lili/core.hpp>
 #include <lili/render.hpp>
 
+/// \brief App class.
 class App {
 public:
+	/// \brief App method.
 	App();
 	~App() = default;
 
+	/// \brief run method.
 	void run();
 
 private:
@@ -18,6 +21,8 @@ private:
 
 	bool running;
 
+	/// \brief handle_events method.
 	void handle_events();
+	/// \brief render method.
 	void render();
 };

@@ -131,6 +131,7 @@ private:
 	SDL_Event sdl_event;
 	EventType current_type;
 
+	/// \brief resolve_type method.
 	EventType resolve_type() const;
 };
 

@@ -4,6 +4,7 @@
 
 namespace lili {
 
+/// @brief Represents Shader.
 class Shader;
 
 /**

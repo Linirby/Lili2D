@@ -101,6 +101,7 @@ private:
 	std::unordered_map<std::string, uint16_t> key_to_id;
 	std::vector<Material> id_to_material;
 
+	/// \brief MaterialRegistry method.
 	MaterialRegistry();
 };
 

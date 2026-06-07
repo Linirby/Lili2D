@@ -124,6 +124,7 @@ private:
 	std::unordered_map<std::string, uint16_t> key_to_id;
 	std::vector<Animation> id_to_animation;
 
+	/// \brief AnimationRegistry method.
 	AnimationRegistry();
 };
 

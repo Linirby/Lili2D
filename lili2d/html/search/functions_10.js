@@ -30,7 +30,7 @@ var searchData=
   ['set_5ftps_27',['set_tps',['../classlili_1_1Clock.html#abfa1786366d556314ad27ce7e866e778',1,'lili::Clock']]],
   ['set_5fzoom_28',['set_zoom',['../classlili_1_1Camera.html#a7cb6ab0d3c0894bc4d7051f9d4e3223c',1,'lili::Camera']]],
   ['shader_29',['Shader',['../classlili_1_1Shader.html#aec1ea66c1e2b6c9d163f28b388d148d7',1,'lili::Shader::Shader(SDL_GPUDevice *device, const std::string &amp;vert_path, const std::string &amp;frag_path, ShaderInfo vert_infos={}, ShaderInfo frag_infos={})'],['../classlili_1_1Shader.html#ab91c4868a8accef5a9fa2e7e8be6b8e6',1,'lili::Shader::Shader(SDL_GPUDevice *device, const uint8_t *vert_code, size_t vert_size, const uint8_t *frag_code, size_t frag_size, ShaderInfo vert_infos={}, ShaderInfo frag_infos={})'],['../classlili_1_1Shader.html#aa8849d2dc458c26a67cf5df882e8ee7b',1,'lili::Shader::Shader(const Shader &amp;)=delete']]],
-  ['slice_30',['slice',['../classlili_1_1Animation.html#a63600552d5758b88cfc8ab473481d128',1,'lili::Animation']]],
+  ['slice_30',['slice',['../classlili_1_1AtlasMap.html#adfcc1334f7b984af7ff3fc5add0d5445',1,'lili::AtlasMap']]],
   ['sprite_31',['Sprite',['../classlili_1_1Sprite.html#aa038d3367ec10b6e3791c7057c5d5aa0',1,'lili::Sprite::Sprite()=default'],['../classlili_1_1Sprite.html#a175886d6e26fc4f2d355e6fade4d0722',1,'lili::Sprite::Sprite(Renderer *renderer, const std::string &amp;path)'],['../classlili_1_1Sprite.html#a95183abb4eccc691ba54f8e50f140ff0',1,'lili::Sprite::Sprite(Sprite &amp;&amp;)=default']]],
   ['step_32',['step',['../classlili_1_1Clock.html#ab79180738569d0ce4de1bdff4e186408',1,'lili::Clock']]],
   ['submit_33',['submit',['../classlili_1_1Renderer.html#ac7dca78bed1998ba621dfd662a70644a',1,'lili::Renderer']]]

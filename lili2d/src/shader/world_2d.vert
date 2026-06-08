@@ -12,6 +12,7 @@ layout(set = 1, binding = 0) uniform UniformBlock {
 	mat3 matrix;
 	vec4 color_tint;
 	float layer;
+	float time;
 } ubo;
 
 void main() {

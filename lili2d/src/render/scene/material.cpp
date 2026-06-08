@@ -6,6 +6,12 @@ namespace lili {
 
 Material::Material(Texture *texture) {
 	albedo_map = texture;
+	custom_pipeline = nullptr;
+}
+
+Material::Material(Texture *texture, SDL_GPUGraphicsPipeline *pipeline) {
+	albedo_map = texture;
+	custom_pipeline = pipeline;
 }
 
 MaterialRegistry &MaterialRegistry::get() {

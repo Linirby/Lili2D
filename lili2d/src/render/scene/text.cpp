@@ -88,6 +88,10 @@ void Text::set_render(RenderLayer render_layer) {
 	this->render_layer = render_layer;
 }
 
+Material* Text::get_material() const {
+	return material.get();
+}
+
 void Text::draw() {
 	if (!mesh) return;
 	Mat3 translation = Mat3::translate(pos);

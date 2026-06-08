@@ -121,6 +121,14 @@ void&#160;</td><td class="memItemRight"><b>end_frame</b> ()</td></tr>
 <tr class="memdesc:a29e522004cb3e78c9754ac8cc6558493"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ends the rendering frame. <br /></td></tr>
 <tr class="memitem:aff30d5159d2f50e548024ed028b97a4c" id="r_aff30d5159d2f50e548024ed028b97a4c"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aff30d5159d2f50e548024ed028b97a4c">set_camera</a> (<a class="el" href="classlili_1_1Camera.html">Camera</a> *camera)</td></tr>
 <tr class="memdesc:aff30d5159d2f50e548024ed028b97a4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the active camera.  <br /></td></tr>
+<tr class="memitem:a6be8ae7d57533ba24b5e638682166987" id="r_a6be8ae7d57533ba24b5e638682166987"><td class="memItemLeft"><a class="el" href="classlili_1_1Shader.html">Shader</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a6be8ae7d57533ba24b5e638682166987">create_shader</a> (const std::string &amp;vert_path, const std::string &amp;frag_path, <a class="el" href="structlili_1_1ShaderInfo.html">ShaderInfo</a> vert_infos={}, <a class="el" href="structlili_1_1ShaderInfo.html">ShaderInfo</a> frag_infos={})</td></tr>
+<tr class="memdesc:a6be8ae7d57533ba24b5e638682166987"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a shader from file paths.  <br /></td></tr>
+<tr class="memitem:a88be948e2bfd22adf5d92f97232543c8" id="r_a88be948e2bfd22adf5d92f97232543c8"><td class="memItemLeft"><a class="el" href="classlili_1_1Shader.html">Shader</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a88be948e2bfd22adf5d92f97232543c8">create_shader</a> (const uint8_t *vert_code, size_t vert_size, const uint8_t *frag_code, size_t frag_size, <a class="el" href="structlili_1_1ShaderInfo.html">ShaderInfo</a> vert_infos={}, <a class="el" href="structlili_1_1ShaderInfo.html">ShaderInfo</a> frag_infos={})</td></tr>
+<tr class="memdesc:a88be948e2bfd22adf5d92f97232543c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a shader from memory.  <br /></td></tr>
+<tr class="memitem:aacf71f811a4625b6fd6a63564e0ef914" id="r_aacf71f811a4625b6fd6a63564e0ef914"><td class="memItemLeft"><a class="el" href="classlili_1_1WorldPipeline.html">WorldPipeline</a> *&#160;</td><td class="memItemRight"><a class="el" href="#aacf71f811a4625b6fd6a63564e0ef914">create_world_pipeline</a> (<a class="el" href="classlili_1_1Shader.html">Shader</a> *shader)</td></tr>
+<tr class="memdesc:aacf71f811a4625b6fd6a63564e0ef914"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a custom world 2D pipeline with a given shader.  <br /></td></tr>
+<tr class="memitem:a34457d6d900f5b6cbeb2d9674a0ba4e6" id="r_a34457d6d900f5b6cbeb2d9674a0ba4e6"><td class="memItemLeft"><a class="el" href="classlili_1_1UIPipeline.html">UIPipeline</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a34457d6d900f5b6cbeb2d9674a0ba4e6">create_ui_pipeline</a> (<a class="el" href="classlili_1_1Shader.html">Shader</a> *shader)</td></tr>
+<tr class="memdesc:a34457d6d900f5b6cbeb2d9674a0ba4e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a custom UI pipeline with a given shader.  <br /></td></tr>
 <tr class="memitem:a057420e8cd7d61a07073da6a53afad5d" id="r_a057420e8cd7d61a07073da6a53afad5d"><td class="memItemLeft"><a class="el" href="classlili_1_1Texture.html">Texture</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a057420e8cd7d61a07073da6a53afad5d">get_the_white_pixel</a> () const</td></tr>
 <tr class="memdesc:a057420e8cd7d61a07073da6a53afad5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the default white pixel texture.  <br /></td></tr>
 <tr class="memitem:a387000b31c50d08cbedaf95a6e96f3e9" id="r_a387000b31c50d08cbedaf95a6e96f3e9"><td class="memItemLeft"><a class="el" href="classlili_1_1GPUMesh.html">GPUMesh</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a387000b31c50d08cbedaf95a6e96f3e9">get_unit_quad</a> ()</td></tr>
@@ -174,6 +182,156 @@ void&#160;</td><td class="memItemRight"><b>end_frame</b> ()</td></tr>
 
 <p>Begins the rendering frame. </p>
 <dl class="section return"><dt>Returns</dt><dd>True if the frame was successfully started, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a6be8ae7d57533ba24b5e638682166987" name="a6be8ae7d57533ba24b5e638682166987"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6be8ae7d57533ba24b5e638682166987">&#9670;&#160;</a></span>create_shader() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classlili_1_1Shader.html">Shader</a> * lili::Renderer::create_shader </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>vert_path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>frag_path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structlili_1_1ShaderInfo.html">ShaderInfo</a></td>          <td class="paramname"><span class="paramname"><em>vert_infos</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structlili_1_1ShaderInfo.html">ShaderInfo</a></td>          <td class="paramname"><span class="paramname"><em>frag_infos</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a shader from file paths. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vert_path</td><td>Path to the vertex shader file. </td></tr>
+    <tr><td class="paramname">frag_path</td><td>Path to the fragment shader file. </td></tr>
+    <tr><td class="paramname">vert_infos</td><td>Binding info for the vertex shader. </td></tr>
+    <tr><td class="paramname">frag_infos</td><td>Binding info for the fragment shader. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="classlili_1_1Shader.html" title="Represents a compiled shader program.">Shader</a> instance. </dd></dl>
+
+</div>
+</div>
+<a id="a88be948e2bfd22adf5d92f97232543c8" name="a88be948e2bfd22adf5d92f97232543c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88be948e2bfd22adf5d92f97232543c8">&#9670;&#160;</a></span>create_shader() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classlili_1_1Shader.html">Shader</a> * lili::Renderer::create_shader </td>
+          <td>(</td>
+          <td class="paramtype">const uint8_t *</td>          <td class="paramname"><span class="paramname"><em>vert_code</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>vert_size</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint8_t *</td>          <td class="paramname"><span class="paramname"><em>frag_code</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>frag_size</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structlili_1_1ShaderInfo.html">ShaderInfo</a></td>          <td class="paramname"><span class="paramname"><em>vert_infos</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structlili_1_1ShaderInfo.html">ShaderInfo</a></td>          <td class="paramname"><span class="paramname"><em>frag_infos</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a shader from memory. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vert_code</td><td>Pointer to the vertex shader code. </td></tr>
+    <tr><td class="paramname">vert_size</td><td>Size of the vertex shader code. </td></tr>
+    <tr><td class="paramname">frag_code</td><td>Pointer to the fragment shader code. </td></tr>
+    <tr><td class="paramname">frag_size</td><td>Size of the fragment shader code. </td></tr>
+    <tr><td class="paramname">vert_infos</td><td>Binding info for the vertex shader. </td></tr>
+    <tr><td class="paramname">frag_infos</td><td>Binding info for the fragment shader. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="classlili_1_1Shader.html" title="Represents a compiled shader program.">Shader</a> instance. </dd></dl>
+
+</div>
+</div>
+<a id="a34457d6d900f5b6cbeb2d9674a0ba4e6" name="a34457d6d900f5b6cbeb2d9674a0ba4e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34457d6d900f5b6cbeb2d9674a0ba4e6">&#9670;&#160;</a></span>create_ui_pipeline()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classlili_1_1UIPipeline.html">UIPipeline</a> * lili::Renderer::create_ui_pipeline </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classlili_1_1Shader.html">Shader</a> *</td>          <td class="paramname"><span class="paramname"><em>shader</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a custom UI pipeline with a given shader. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">shader</td><td>The custom shader. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="classlili_1_1UIPipeline.html" title="Graphics pipeline for UI and world rendering.">UIPipeline</a> instance. </dd></dl>
+
+</div>
+</div>
+<a id="aacf71f811a4625b6fd6a63564e0ef914" name="aacf71f811a4625b6fd6a63564e0ef914"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacf71f811a4625b6fd6a63564e0ef914">&#9670;&#160;</a></span>create_world_pipeline()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classlili_1_1WorldPipeline.html">WorldPipeline</a> * lili::Renderer::create_world_pipeline </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classlili_1_1Shader.html">Shader</a> *</td>          <td class="paramname"><span class="paramname"><em>shader</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a custom world 2D pipeline with a given shader. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">shader</td><td>The custom shader. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="classlili_1_1WorldPipeline.html" title="Graphics pipeline for World and 2D world rendering.">WorldPipeline</a> instance. </dd></dl>
 
 </div>
 </div>

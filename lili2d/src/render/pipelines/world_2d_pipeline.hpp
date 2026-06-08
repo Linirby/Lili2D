@@ -12,6 +12,8 @@ class Shader;
  */
 class WorldPipeline {
 public:
+	WorldPipeline() = default;
+	WorldPipeline(WorldPipeline &&) = default;
 	/**
 	 * \brief Constructs the World pipeline.
 	 * \param device The SDL GPU device.

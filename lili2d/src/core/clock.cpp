@@ -48,5 +48,6 @@ float Clock::get_fixed_dt() const { return fixed_dt; }
 float Clock::get_dt() const { return dt; }
 float Clock::get_alpha() const { return accumulator / fixed_dt; }
 int Clock::get_fps() const { return fps; }
+float Clock::get_time() const { return SDL_GetTicks() / 1000.0f; }
 
 }  // namespace lili

@@ -86,6 +86,11 @@ public:
 	 * \return A 2D vector of the width and height.
 	 */
 	Vec2 get_size() const;
+	/**
+	 * \brief Gets the material.
+	 * \return Pointer to the material.
+	 */
+	Material* get_material() const;
 
 	/// \brief Submits the sprite for drawing.
 	void draw();

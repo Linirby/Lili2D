@@ -2,6 +2,7 @@
 
 #include <stdexcept>
 #include <vector>
+#include <SDL3/SDL_timer.h>
 
 #include "render/scene/model.hpp"
 
@@ -22,7 +23,8 @@ void UIPass::render(
 ) {
 	if (queue.empty()) return;
 
-	SDL_BindGPUGraphicsPipeline(pass, pipeline);
+	SDL_GPUGraphicsPipeline *current_pipeline = pipeline;
+	SDL_BindGPUGraphicsPipeline(pass, current_pipeline);
 	for (auto& pair : queue) {
 		for (const DrawCommand &draw_cmd : pair.second) {
 
@@ -40,12 +42,22 @@ void UIPass::render(
 				"albedo map."
 			);
 
+		SDL_GPUGraphicsPipeline *target_pipeline = (
+			draw_cmd.model.material->custom_pipeline
+		);
+		if (!target_pipeline) target_pipeline = pipeline;
+		if (target_pipeline != current_pipeline) {
+			SDL_BindGPUGraphicsPipeline(pass, target_pipeline);
+			current_pipeline = target_pipeline;
+		}
+
 		Mat3 mvp = proj_view * draw_cmd.transform;
 		struct UIUniforms {
 			float matrix[12];
 			float color[4];
 			float layer;
-			float padding[3];
+			float time;
+			float padding[2];
 		};
 		UIUniforms uniforms{};
 		uniforms.matrix[0] = mvp.m[0];
@@ -65,28 +77,45 @@ void UIPass::render(
 		uniforms.color[2] = draw_cmd.model.material->properties.color_tint.z;
 		uniforms.color[3] = draw_cmd.model.material->properties.color_tint.w;
 		uniforms.layer = draw_cmd.layer;
+		uniforms.time = SDL_GetTicks() / 1000.0f;
 
 		SDL_PushGPUVertexUniformData(cmd, 0, &uniforms, sizeof(uniforms));
 
-		SDL_GPUBufferBinding vertex_binding{
-			.buffer = draw_cmd.model.mesh->get_vertex(),
-			.offset = 0
-		};
+		// Push custom user uniforms if available!
+		if (!draw_cmd.model.material->custom_vertex_uniforms.empty()) {
+			SDL_PushGPUVertexUniformData(
+				cmd, 1, 
+				draw_cmd.model.material->custom_vertex_uniforms.data(), 
+				draw_cmd.model.material->custom_vertex_uniforms.size()
+			);
+		}
+		if (!draw_cmd.model.material->custom_fragment_uniforms.empty()) {
+			SDL_PushGPUFragmentUniformData(
+				cmd, 0, 
+				draw_cmd.model.material->custom_fragment_uniforms.data(), 
+				draw_cmd.model.material->custom_fragment_uniforms.size()
+			);
+		}
+
+		SDL_GPUBufferBinding vertex_binding{};
+		vertex_binding.buffer = draw_cmd.model.mesh->get_vertex();
+		vertex_binding.offset = 0;
+
 		SDL_BindGPUVertexBuffers(pass, 0, &vertex_binding, 1);
 
-		SDL_GPUBufferBinding index_binding{
-			.buffer = draw_cmd.model.mesh->get_index(),
-			.offset = 0
-		};
+		SDL_GPUBufferBinding index_binding{};
+		index_binding.buffer = draw_cmd.model.mesh->get_index();
+		index_binding.offset = 0;
+
 		SDL_BindGPUIndexBuffer(
 			pass, &index_binding, SDL_GPU_INDEXELEMENTSIZE_32BIT
 		);
 
-		SDL_GPUTextureSamplerBinding texture_sampler_binding{
-			.texture = draw_cmd.model.material->albedo_map->get_texture(),
-			.sampler = draw_cmd.model.material->albedo_map->get_sampler()
-		};
-		SDL_BindGPUFragmentSamplers(pass, 0, &texture_sampler_binding, 1);
+		SDL_GPUTextureSamplerBinding texture_sb{};
+		texture_sb.texture = draw_cmd.model.material->albedo_map->get_texture();
+		texture_sb.sampler = draw_cmd.model.material->albedo_map->get_sampler();
+
+		SDL_BindGPUFragmentSamplers(pass, 0, &texture_sb, 1);
 
 		SDL_DrawGPUIndexedPrimitives(
 			pass, draw_cmd.model.mesh->get_index_count(), 1, 0, 0, 0

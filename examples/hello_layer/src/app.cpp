@@ -1,7 +1,7 @@
 #include "app.hpp"
 
 App::App() {
-	window = std::make_unique<lili::Window>("hello_sprite - Lili2D", 1024, 576);
+	window = std::make_unique<lili::Window>("hello_layer - Lili2D", 1024, 576);
 	window->set_resizable(true);
 
 	renderer = std::make_unique<lili::Renderer>(window.get());

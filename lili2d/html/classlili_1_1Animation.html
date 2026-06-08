@@ -92,7 +92,7 @@ $(function(){initNavTree('classlili_1_1Animation.html','','classlili_1_1Animatio
 </div><!--header-->
 <div class="contents">
 
-<p>Defines an animation as an image that can be sliced into frames.  
+<p>Represents an animation as a sequence of frames.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="animation_8hpp_source.html">animation.hpp</a>&gt;</code></p>
@@ -101,54 +101,20 @@ $(function(){initNavTree('classlili_1_1Animation.html','','classlili_1_1Animatio
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a8fb691a6b76394c3b7d0b73d1a3ba85f" id="r_a8fb691a6b76394c3b7d0b73d1a3ba85f"><td class="memItemLeft"><a id="a8fb691a6b76394c3b7d0b73d1a3ba85f" name="a8fb691a6b76394c3b7d0b73d1a3ba85f"></a>
 &#160;</td><td class="memItemRight"><b>Animation</b> ()=default</td></tr>
-<tr class="memdesc:a8fb691a6b76394c3b7d0b73d1a3ba85f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. <br /></td></tr>
-<tr class="memitem:a12c65e610a0b7ef28c2bbe8e53d3862e" id="r_a12c65e610a0b7ef28c2bbe8e53d3862e"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a12c65e610a0b7ef28c2bbe8e53d3862e">Animation</a> (<a class="el" href="classlili_1_1Renderer.html">Renderer</a> *renderer, const std::string &amp;path)</td></tr>
-<tr class="memdesc:a12c65e610a0b7ef28c2bbe8e53d3862e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an animation from an image file.  <br /></td></tr>
+<tr class="memdesc:a8fb691a6b76394c3b7d0b73d1a3ba85f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor (empty animation). <br /></td></tr>
 <tr class="memitem:a79ea2e3c7a332618cec1b9950445aa16" id="r_a79ea2e3c7a332618cec1b9950445aa16"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a79ea2e3c7a332618cec1b9950445aa16">Animation</a> (const std::vector&lt; <a class="el" href="structlili_1_1AnimationFrame.html">AnimationFrame</a> &gt; &amp;frames)</td></tr>
 <tr class="memdesc:a79ea2e3c7a332618cec1b9950445aa16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an animation from a pre-built list of frames.  <br /></td></tr>
-<tr class="memitem:a63600552d5758b88cfc8ab473481d128" id="r_a63600552d5758b88cfc8ab473481d128"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a63600552d5758b88cfc8ab473481d128">slice</a> (int num_cols, int num_rows)</td></tr>
-<tr class="memdesc:a63600552d5758b88cfc8ab473481d128"><td class="mdescLeft">&#160;</td><td class="mdescRight">Slices the image into a grid of frames.  <br /></td></tr>
 <tr class="memitem:a86e6542540b2389c6ebb59b6cbc4bce4" id="r_a86e6542540b2389c6ebb59b6cbc4bce4"><td class="memItemLeft">size_t&#160;</td><td class="memItemRight"><a class="el" href="#a86e6542540b2389c6ebb59b6cbc4bce4">frame_count</a> () const</td></tr>
 <tr class="memdesc:a86e6542540b2389c6ebb59b6cbc4bce4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the number of frames.  <br /></td></tr>
 <tr class="memitem:a1d350eeeba9e9f452a93b8bbf2a9ea49" id="r_a1d350eeeba9e9f452a93b8bbf2a9ea49"><td class="memItemLeft">const <a class="el" href="structlili_1_1AnimationFrame.html">AnimationFrame</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a1d350eeeba9e9f452a93b8bbf2a9ea49">get_frame</a> (size_t index) const</td></tr>
 <tr class="memdesc:a1d350eeeba9e9f452a93b8bbf2a9ea49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a frame by index.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Defines an animation as an image that can be sliced into frames. </p>
-<p>An <a class="el" href="classlili_1_1Animation.html" title="Defines an animation as an image that can be sliced into frames.">Animation</a> owns a texture loaded from an image file. Call <a class="el" href="#a63600552d5758b88cfc8ab473481d128" title="Slices the image into a grid of frames.">slice()</a> to divide it into a grid of frames. Without slicing, the animation is treated as a single-frame animation covering the entire image. </p>
+<div class="textblock"><p>Represents an animation as a sequence of frames. </p>
+<p>An <a class="el" href="classlili_1_1Animation.html" title="Represents an animation as a sequence of frames.">Animation</a> is a simple container for a list of <a class="el" href="structlili_1_1AnimationFrame.html" title="Represents a single frame within an atlas texture.">AnimationFrame</a> objects. Use <a class="el" href="classlili_1_1AtlasMap.html" title="Represents AtlasMap.">AtlasMap</a> to load and slice a spritesheet, then extract <a class="el" href="classlili_1_1Animation.html" title="Represents an animation as a sequence of frames.">Animation</a> objects from it. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a12c65e610a0b7ef28c2bbe8e53d3862e" name="a12c65e610a0b7ef28c2bbe8e53d3862e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a12c65e610a0b7ef28c2bbe8e53d3862e">&#9670;&#160;</a></span>Animation() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">lili::Animation::Animation </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classlili_1_1Renderer.html">Renderer</a> *</td>          <td class="paramname"><span class="paramname"><em>renderer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Constructs an animation from an image file. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">renderer</td><td>The renderer (provides the GPU device). </td></tr>
-    <tr><td class="paramname">path</td><td>Path to the image file (sprite sheet). </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a id="a79ea2e3c7a332618cec1b9950445aa16" name="a79ea2e3c7a332618cec1b9950445aa16"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79ea2e3c7a332618cec1b9950445aa16">&#9670;&#160;</a></span>Animation() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a79ea2e3c7a332618cec1b9950445aa16">&#9670;&#160;</a></span>Animation()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -216,37 +182,6 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Reference to the <a class="el" href="structlili_1_1AnimationFrame.html" title="Represents a single frame within an atlas texture.">AnimationFrame</a>. </dd></dl>
-
-</div>
-</div>
-<a id="a63600552d5758b88cfc8ab473481d128" name="a63600552d5758b88cfc8ab473481d128"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a63600552d5758b88cfc8ab473481d128">&#9670;&#160;</a></span>slice()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lili::Animation::slice </td>
-          <td>(</td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>num_cols</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>num_rows</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Slices the image into a grid of frames. </p>
-<p>Divides the texture into num_cols x num_rows equal cells, stored in row-major order (left-to-right, top-to-bottom).</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">num_cols</td><td>Number of columns in the grid. </td></tr>
-    <tr><td class="paramname">num_rows</td><td>Number of rows in the grid. </td></tr>
-  </table>
-  </dd>
-</dl>
 
 </div>
 </div>

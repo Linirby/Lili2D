@@ -69,6 +69,54 @@ public:
 	void set_camera(Camera *camera);
 
 	/**
+	 * \brief Creates a shader from file paths.
+	 * \param vert_path Path to the vertex shader file.
+	 * \param frag_path Path to the fragment shader file.
+	 * \param vert_infos Binding info for the vertex shader.
+	 * \param frag_infos Binding info for the fragment shader.
+	 * \return A new Shader instance.
+	 */
+	Shader* create_shader(
+		const std::string &vert_path,
+		const std::string &frag_path,
+		ShaderInfo vert_infos = {},
+		ShaderInfo frag_infos = {}
+	);
+
+	/**
+	 * \brief Creates a shader from memory.
+	 * \param vert_code Pointer to the vertex shader code.
+	 * \param vert_size Size of the vertex shader code.
+	 * \param frag_code Pointer to the fragment shader code.
+	 * \param frag_size Size of the fragment shader code.
+	 * \param vert_infos Binding info for the vertex shader.
+	 * \param frag_infos Binding info for the fragment shader.
+	 * \return A new Shader instance.
+	 */
+	Shader* create_shader(
+		const uint8_t *vert_code,
+		size_t vert_size,
+		const uint8_t *frag_code,
+		size_t frag_size,
+		ShaderInfo vert_infos = {},
+		ShaderInfo frag_infos = {}
+	);
+
+	/**
+	 * \brief Creates a custom world 2D pipeline with a given shader.
+	 * \param shader The custom shader.
+	 * \return A new WorldPipeline instance.
+	 */
+	WorldPipeline* create_world_pipeline(Shader *shader);
+
+	/**
+	 * \brief Creates a custom UI pipeline with a given shader.
+	 * \param shader The custom shader.
+	 * \return A new UIPipeline instance.
+	 */
+	UIPipeline* create_ui_pipeline(Shader *shader);
+
+	/**
 	 * \brief Gets the default white pixel texture.
 	 * \return Pointer to the white pixel texture.
 	 */

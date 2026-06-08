@@ -14,88 +14,69 @@ UIPipeline::UIPipeline(
 	this->window = window;
 	this->shader = shader;
 
-	SDL_GPUVertexBufferDescription vertex_buffer_desc{
-		.slot = 0,
-		.pitch = sizeof(float) * 6,
-		.input_rate = SDL_GPU_VERTEXINPUTRATE_VERTEX,
-		.instance_step_rate = 0
-	};
-	std::vector<SDL_GPUVertexAttribute> vertex_attributes{
-		(SDL_GPUVertexAttribute){
-			.location = 0,
-			.buffer_slot = 0,
-			.format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3,
-			.offset = 0
-		},
-		(SDL_GPUVertexAttribute){
-			.location = 2,
-			.buffer_slot = 0,
-			.format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2,
-			.offset = sizeof(float) * 3
-		},
-		(SDL_GPUVertexAttribute){
-			.location = 3,
-			.buffer_slot = 0,
-			.format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT,
-			.offset = sizeof(float) * 5
-		}
-	};
-	SDL_GPUColorTargetDescription color_target_desc{
-		.format = SDL_GetGPUSwapchainTextureFormat(device, window),
-		.blend_state = {
-			.src_color_blendfactor = SDL_GPU_BLENDFACTOR_SRC_ALPHA,
-			.dst_color_blendfactor = SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA,
-			.color_blend_op = SDL_GPU_BLENDOP_ADD,
-			.src_alpha_blendfactor = SDL_GPU_BLENDFACTOR_SRC_ALPHA,
-			.dst_alpha_blendfactor = SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA,
-			.alpha_blend_op = SDL_GPU_BLENDOP_ADD,
-			.color_write_mask = SDL_GPU_COLORCOMPONENT_R |
-				SDL_GPU_COLORCOMPONENT_G |
-				SDL_GPU_COLORCOMPONENT_B |
-				SDL_GPU_COLORCOMPONENT_A,
-			.enable_blend = true,
-			.enable_color_write_mask = true,
-		}
-	};
-	SDL_GPUGraphicsPipelineCreateInfo create_info{
-		.vertex_shader = shader->get_vertex(),
-		.fragment_shader = shader->get_fragment(),
-		.vertex_input_state = {
-			.vertex_buffer_descriptions = &vertex_buffer_desc,
-			.num_vertex_buffers = 1,
-			.vertex_attributes = vertex_attributes.data(),
-			.num_vertex_attributes = static_cast<uint32_t>(
-				vertex_attributes.size()
-			)
-		},
-		.primitive_type = SDL_GPU_PRIMITIVETYPE_TRIANGLELIST,
-		.rasterizer_state = {
-			.fill_mode = SDL_GPU_FILLMODE_FILL,
-			.cull_mode = SDL_GPU_CULLMODE_NONE,
-			.front_face = SDL_GPU_FRONTFACE_CLOCKWISE,
-		},
-		.multisample_state = {
-			.sample_count = SDL_GPU_SAMPLECOUNT_1,
-		},
-		.depth_stencil_state = {
-			.compare_op = SDL_GPU_COMPAREOP_ALWAYS,
-			.back_stencil_state = { SDL_GPU_STENCILOP_ZERO },
-			.front_stencil_state = { SDL_GPU_STENCILOP_ZERO },
-			.compare_mask = 0,
-			.write_mask = 0,
-			.enable_depth_test = false,
-			.enable_depth_write = false,
-			.enable_stencil_test = false
-		},
-		.target_info = {
-			.color_target_descriptions = &color_target_desc,
-			.num_color_targets = 1,
-			.depth_stencil_format = SDL_GPU_TEXTUREFORMAT_D32_FLOAT,
-			.has_depth_stencil_target = false
-		},
-		.props = 0
-	};
-	pipeline = SDL_CreateGPUGraphicsPipeline(device, &create_info);
+	SDL_GPUVertexBufferDescription vertex_bd{};
+	vertex_bd.slot = 0;
+	vertex_bd.pitch = sizeof(float) * 6;
+	vertex_bd.input_rate = SDL_GPU_VERTEXINPUTRATE_VERTEX;
+	vertex_bd.instance_step_rate = 0;
+
+	std::vector<SDL_GPUVertexAttribute> vertex_attrs(3);
+	vertex_attrs[0].location = 0;
+	vertex_attrs[0].buffer_slot = 0;
+	vertex_attrs[0].format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
+	vertex_attrs[0].offset = 0;
+
+	vertex_attrs[1].location = 2;
+	vertex_attrs[1].buffer_slot = 0;
+	vertex_attrs[1].format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2;
+	vertex_attrs[1].offset = sizeof(float) * 3;
+
+	vertex_attrs[2].location = 3;
+	vertex_attrs[2].buffer_slot = 0;
+	vertex_attrs[2].format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT;
+	vertex_attrs[2].offset = sizeof(float) * 5;
+
+	SDL_GPUColorTargetDescription color_td{};
+	color_td.format = SDL_GetGPUSwapchainTextureFormat(device, window);
+	color_td.blend_state.src_color_blendfactor = SDL_GPU_BLENDFACTOR_SRC_ALPHA;
+	color_td.blend_state.dst_color_blendfactor = SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA;
+	color_td.blend_state.color_blend_op = SDL_GPU_BLENDOP_ADD;
+	color_td.blend_state.src_alpha_blendfactor = SDL_GPU_BLENDFACTOR_SRC_ALPHA;
+	color_td.blend_state.dst_alpha_blendfactor = SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA;
+	color_td.blend_state.alpha_blend_op = SDL_GPU_BLENDOP_ADD;
+	color_td.blend_state.color_write_mask = SDL_GPU_COLORCOMPONENT_R |
+		SDL_GPU_COLORCOMPONENT_G |
+		SDL_GPU_COLORCOMPONENT_B |
+		SDL_GPU_COLORCOMPONENT_A;
+	color_td.blend_state.enable_blend = true;
+	color_td.blend_state.enable_color_write_mask = true;
+
+	SDL_GPUGraphicsPipelineCreateInfo ci{};
+	ci.vertex_shader = shader->get_vertex();
+	ci.fragment_shader = shader->get_fragment();
+	ci.vertex_input_state.vertex_buffer_descriptions = &vertex_bd;
+	ci.vertex_input_state.num_vertex_buffers = 1;
+	ci.vertex_input_state.vertex_attributes = vertex_attrs.data();
+	ci.vertex_input_state.num_vertex_attributes = static_cast<uint32_t>(vertex_attrs.size());
+	ci.primitive_type = SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
+	ci.rasterizer_state.fill_mode = SDL_GPU_FILLMODE_FILL;
+	ci.rasterizer_state.cull_mode = SDL_GPU_CULLMODE_NONE;
+	ci.rasterizer_state.front_face = SDL_GPU_FRONTFACE_CLOCKWISE;
+	ci.multisample_state.sample_count = SDL_GPU_SAMPLECOUNT_1;
+	ci.depth_stencil_state.compare_op = SDL_GPU_COMPAREOP_ALWAYS;
+	ci.depth_stencil_state.back_stencil_state.fail_op = SDL_GPU_STENCILOP_ZERO;
+	ci.depth_stencil_state.front_stencil_state.fail_op = SDL_GPU_STENCILOP_ZERO;
+	ci.depth_stencil_state.compare_mask = 0;
+	ci.depth_stencil_state.write_mask = 0;
+	ci.depth_stencil_state.enable_depth_test = false;
+	ci.depth_stencil_state.enable_depth_write = false;
+	ci.depth_stencil_state.enable_stencil_test = false;
+	ci.target_info.color_target_descriptions = &color_td;
+	ci.target_info.num_color_targets = 1;
+	ci.target_info.depth_stencil_format = SDL_GPU_TEXTUREFORMAT_D32_FLOAT;
+	ci.target_info.has_depth_stencil_target = false;
+
+	pipeline = SDL_CreateGPUGraphicsPipeline(device, &ci);
 	if (!pipeline) {
 		throw std::runtime_error(
 			"World graphics pipeline creation failed!\n-> " +

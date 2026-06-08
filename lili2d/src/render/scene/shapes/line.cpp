@@ -1,7 +1,6 @@
 #include "render/scene/shapes/line.hpp"
 
 #include <cmath>
-#include "render/scene/utils.hpp"
 
 namespace lili {
 
@@ -62,6 +61,10 @@ LineShape Line::get_shape() const {
 
 Vec4 Line::get_color() const {
 	return material->properties.color_tint;
+}
+
+Material* Line::get_material() const {
+	return material.get();
 }
 
 void Line::draw() {

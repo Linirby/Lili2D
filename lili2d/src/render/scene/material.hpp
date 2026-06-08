@@ -23,6 +23,31 @@ struct MaterialProps {
 struct Material {
 	MaterialProps properties;      ///< Material properties.
 	Texture *albedo_map = nullptr; ///< Albedo texture map.
+	SDL_GPUGraphicsPipeline *custom_pipeline = nullptr;
+	///< Custom graphics pipeline.
+
+	std::vector<uint8_t> custom_vertex_uniforms;   ///< Custom vertex uniforms for binding 1.
+	std::vector<uint8_t> custom_fragment_uniforms; ///< Custom fragment uniforms for binding 0.
+
+	/**
+	 * \brief Sets custom vertex uniforms.
+	 * \param data The uniform data struct.
+	 */
+	template<typename T>
+	void set_vertex_uniforms(const T& data) {
+		const uint8_t* ptr = reinterpret_cast<const uint8_t*>(&data);
+		custom_vertex_uniforms.assign(ptr, ptr + sizeof(T));
+	}
+
+	/**
+	 * \brief Sets custom fragment uniforms.
+	 * \param data The uniform data struct.
+	 */
+	template<typename T>
+	void set_fragment_uniforms(const T& data) {
+		const uint8_t* ptr = reinterpret_cast<const uint8_t*>(&data);
+		custom_fragment_uniforms.assign(ptr, ptr + sizeof(T));
+	}
 
 	/// \brief Default constructor.
 	Material() = default;
@@ -31,6 +56,12 @@ struct Material {
 	 * \param texture Pointer to the texture.
 	 */
 	Material(Texture *texture);
+	/**
+	 * \brief Constructs a material with an albedo map and custom pipeline.
+	 * \param texture Pointer to the texture.
+	 * \param pipeline Pointer to the custom pipeline.
+	 */
+	Material(Texture *texture, SDL_GPUGraphicsPipeline *pipeline);
 };
 
 /**
@@ -53,7 +84,9 @@ public:
 	 * \param material The material to register.
 	 * \return The assigned material ID.
 	 */
-	uint16_t register_material(const std::string &key, const Material &material);
+	uint16_t register_material(
+		const std::string &key, const Material &material
+	);
 
 	/**
 	 * \brief Checks if a material exists.

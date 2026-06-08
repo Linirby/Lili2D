@@ -68,6 +68,10 @@ Vec2 Sprite::get_size() const {
 	return Vec2(size.x * scale.x, size.y * scale.y);
 }
 
+Material* Sprite::get_material() const {
+	return material.get();
+}
+
 void Sprite::draw() {
 	Mat3 mat_transform = (
 		Mat3::translate(position) *

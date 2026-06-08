@@ -1,7 +1,5 @@
 #include "render/scene/shapes/circle.hpp"
 
-#include "render/scene/utils.hpp"
-
 namespace lili {
 
 CircleShape::CircleShape(Vec2 center, float radius, int segments)
@@ -63,6 +61,10 @@ CircleShape Circle::get_shape() const {
 
 Vec4 Circle::get_color() const {
 	return material->properties.color_tint;
+}
+
+Material* Circle::get_material() const {
+	return material.get();
 }
 
 void Circle::draw() {

@@ -3,7 +3,7 @@ var searchData=
   ['m_0',['m',['../structlili_1_1Mat3.html#aa9b36e0e692519fa57cf9a3feaf2d43c',1,'lili::Mat3::m'],['../structlili_1_1Mat4.html#abe67272a75d689d84485163d9caaafb5',1,'lili::Mat4::m']]],
   ['mat3_1',['Mat3',['../structlili_1_1Mat3.html',1,'lili']]],
   ['mat4_2',['Mat4',['../structlili_1_1Mat4.html',1,'lili']]],
-  ['material_3',['Material',['../structlili_1_1Material.html',1,'lili::Material'],['../structlili_1_1Material.html#a85537884a4b3667a93a97388997a8f44',1,'lili::Material::Material()=default'],['../structlili_1_1Material.html#a7a1964782e5919564cb587921d2c0fab',1,'lili::Material::Material(Texture *texture)']]],
+  ['material_3',['Material',['../structlili_1_1Material.html',1,'lili::Material'],['../structlili_1_1Material.html#a85537884a4b3667a93a97388997a8f44',1,'lili::Material::Material()=default'],['../structlili_1_1Material.html#a7a1964782e5919564cb587921d2c0fab',1,'lili::Material::Material(Texture *texture)'],['../structlili_1_1Material.html#a477d0b06863c186382632c3444c9b887',1,'lili::Material::Material(Texture *texture, SDL_GPUGraphicsPipeline *pipeline)']]],
   ['material_4',['material',['../structlili_1_1Model.html#a29babe2d069352867010243952a0897f',1,'lili::Model']]],
   ['material_5fcount_5',['material_count',['../classlili_1_1MaterialRegistry.html#a0d56a197788d05b7f026cd3808f3286f',1,'lili::MaterialRegistry']]],
   ['material_5fdata_6',['material_data',['../classlili_1_1MaterialRegistry.html#a302d5bb71b7eca16c632b2e9dc5c8da5',1,'lili::MaterialRegistry']]],

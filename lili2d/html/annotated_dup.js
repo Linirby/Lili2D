@@ -37,7 +37,7 @@ var annotated_dup =
       [ "AnimationFrame", "structlili_1_1AnimationFrame.html", null ],
       [ "Animation", "classlili_1_1Animation.html", "classlili_1_1Animation" ],
       [ "AnimationRegistry", "classlili_1_1AnimationRegistry.html", "classlili_1_1AnimationRegistry" ],
-      [ "AtlasMap", "classlili_1_1AtlasMap.html", null ],
+      [ "AtlasMap", "classlili_1_1AtlasMap.html", "classlili_1_1AtlasMap" ],
       [ "Camera", "classlili_1_1Camera.html", "classlili_1_1Camera" ],
       [ "MaterialProps", "structlili_1_1MaterialProps.html", "structlili_1_1MaterialProps" ],
       [ "Material", "structlili_1_1Material.html", "structlili_1_1Material" ],

@@ -125,29 +125,28 @@ SDL_GPUSampler *Texture::get_sampler() const {
 
 void Texture::transfer_to_gpu(SDL_Surface *surface) {
 	uint32_t image_size = surface->w * surface->h * 4;
-	SDL_GPUTransferBufferCreateInfo transfer_buffer_info{
-		.usage = SDL_GPU_TRANSFERBUFFERUSAGE_UPLOAD,
-		.size = image_size,
-		.props = 0
-	};
+	SDL_GPUTransferBufferCreateInfo transfer_bi{};
+	transfer_bi.usage = SDL_GPU_TRANSFERBUFFERUSAGE_UPLOAD;
+	transfer_bi.size = image_size;
+
 	SDL_GPUTransferBuffer *transfer_buffer = SDL_CreateGPUTransferBuffer(
-		device, &transfer_buffer_info
+		device, &transfer_bi
 	);
 	void *map = SDL_MapGPUTransferBuffer(device, transfer_buffer, false);
 	std::memcpy(map, surface->pixels, image_size);
 	SDL_UnmapGPUTransferBuffer(device, transfer_buffer);
 	SDL_GPUCommandBuffer *cmd = SDL_AcquireGPUCommandBuffer(device);
 	SDL_GPUCopyPass *copy_pass = SDL_BeginGPUCopyPass(cmd);
-	SDL_GPUTextureTransferInfo src{
-		.transfer_buffer = transfer_buffer,
-		.offset = 0
-	};
-	SDL_GPUTextureRegion dst{
-		.texture = texture,
-		.w = static_cast<uint32_t>(surface->w),
-		.h = static_cast<uint32_t>(surface->h),
-		.d = 1
-	};
+	SDL_GPUTextureTransferInfo src{};
+	src.transfer_buffer = transfer_buffer;
+	src.offset = 0;
+
+	SDL_GPUTextureRegion dst{};
+	dst.texture = texture;
+	dst.w = static_cast<uint32_t>(surface->w);
+	dst.h = static_cast<uint32_t>(surface->h);
+	dst.d = 1;
+
 	SDL_UploadToGPUTexture(copy_pass, &src, &dst, false);
 	SDL_EndGPUCopyPass(copy_pass);
 	SDL_SubmitGPUCommandBuffer(cmd);

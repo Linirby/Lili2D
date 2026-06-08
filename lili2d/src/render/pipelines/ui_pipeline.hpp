@@ -12,6 +12,9 @@ class Shader;
  */
 class UIPipeline {
 public:
+	/// \brief Constructs the WorldPipeline.
+	UIPipeline() = default;
+	UIPipeline(UIPipeline &&) = default;
 	/**
 	 * \brief Constructs the UI pipeline.
 	 * \param device The SDL GPU device.

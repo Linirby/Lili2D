@@ -97,6 +97,10 @@ Vec2 AnimatedSprite::get_size() const {
 	return Vec2(size.x * scale.x, size.y * scale.y);
 }
 
+Material* AnimatedSprite::get_material() const {
+	return material.get();
+}
+
 void AnimatedSprite::update(float dt) {
 	if (animation.frame_count() <= 1) return;
 

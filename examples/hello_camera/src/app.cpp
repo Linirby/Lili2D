@@ -1,7 +1,7 @@
 #include "app.hpp"
 
 App::App() {
-	window = std::make_unique<lili::Window>("hello_sprite - Lili2D", 600, 400);
+	window = std::make_unique<lili::Window>("hello_camera - Lili2D", 600, 400);
 	window->set_resizable(true);
 	renderer = std::make_unique<lili::Renderer>(window.get());
 	font = std::make_unique<lili::BitmapFont>(

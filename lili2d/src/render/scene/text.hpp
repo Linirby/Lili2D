@@ -130,6 +130,13 @@ public:
 	 * \param render_layer The new render pass layer.
 	 */
 	void set_render(RenderLayer render_layer);
+
+	/**
+	 * \brief Gets the material.
+	 * \return Pointer to the material.
+	 */
+	Material* get_material() const;
+
 	/// \brief Submits the text for drawing.
 	void draw();
 

@@ -29,9 +29,8 @@ Renderer::~Renderer() {
 	SDL_WaitForGPUIdle(device);
 
 	if (unit_quad) delete unit_quad;
-	for (auto& pair : unit_circles) {
+	for (auto& pair : unit_circles)
 		delete pair.second;
-	}
 	if (the_white_pixel) delete the_white_pixel;
 	if (ui_pass) delete ui_pass;
 	if (ui_pipeline) delete ui_pipeline;
@@ -108,14 +107,14 @@ void Renderer::submit(
 }
 
 void Renderer::end_frame() {
-	SDL_GPUColorTargetInfo color_target_info{};
-	color_target_info.texture = current_swapchain_texture;
-	color_target_info.clear_color = SDL_FColor{ 0.1f, 0.1f, 0.1f, 1.0f };
-	color_target_info.load_op = SDL_GPU_LOADOP_CLEAR;
-	color_target_info.store_op = SDL_GPU_STOREOP_STORE;
+	SDL_GPUColorTargetInfo color_ti{};
+	color_ti.texture = current_swapchain_texture;
+	color_ti.clear_color = SDL_FColor{ 0.1f, 0.1f, 0.1f, 1.0f };
+	color_ti.load_op = SDL_GPU_LOADOP_CLEAR;
+	color_ti.store_op = SDL_GPU_STOREOP_STORE;
 
 	SDL_GPURenderPass *main_pass = SDL_BeginGPURenderPass(
-		current_cmd_buffer,	&color_target_info, 1, nullptr
+		current_cmd_buffer,	&color_ti, 1, nullptr
 	);
 
 	world_2d_pass->render(
@@ -215,6 +214,37 @@ void Renderer::init_passes() {
 
 void Renderer::set_camera(Camera *camera) {
 	this->camera = camera;
+}
+
+Shader* Renderer::create_shader(
+	const std::string &vert_path,
+	const std::string &frag_path,
+	ShaderInfo vert_infos,
+	ShaderInfo frag_infos
+) {
+	return new Shader(device, vert_path, frag_path, vert_infos, frag_infos);
+}
+
+Shader* Renderer::create_shader(
+	const uint8_t *vert_code,
+	size_t vert_size,
+	const uint8_t *frag_code,
+	size_t frag_size,
+	ShaderInfo vert_infos,
+	ShaderInfo frag_infos
+) {
+	return new Shader(
+		device, vert_code, vert_size, frag_code, frag_size,
+		vert_infos, frag_infos
+	);
+}
+
+WorldPipeline* Renderer::create_world_pipeline(Shader *shader) {
+	return new WorldPipeline(device, window->get_sdl_window(), shader);
+}
+
+UIPipeline* Renderer::create_ui_pipeline(Shader *shader) {
+	return new UIPipeline(device, window->get_sdl_window(), shader);
 }
 
 }  // namespace lili

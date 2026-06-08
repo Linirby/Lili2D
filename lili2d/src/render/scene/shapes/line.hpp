@@ -125,6 +125,11 @@ public:
 	 * \return The color.
 	 */
 	Vec4 get_color() const;
+	/**
+	 * \brief Gets the material.
+	 * \return Pointer to the material.
+	 */
+	Material* get_material() const;
 
 	/// \brief Submits the line for drawing.
 	void draw();

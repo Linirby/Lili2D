@@ -1,7 +1,6 @@
 #include "render/scene/shapes/rect.hpp"
 
 #include "geometry/utils.hpp"
-#include "render/scene/utils.hpp"
 
 namespace lili {
 
@@ -65,6 +64,10 @@ RectShape Rect::get_shape() const {
 
 Vec4 Rect::get_color() const {
 	return material->properties.color_tint;
+}
+
+Material* Rect::get_material() const {
+	return material.get();
 }
 
 void Rect::draw() {

@@ -1,6 +1,7 @@
 var classlili_1_1Clock =
 [
     [ "Clock", "classlili_1_1Clock.html#a31d9f0ce9cddfb22a7ab7e28d9a6e5b4", null ],
+    [ "Clock", "classlili_1_1Clock.html#ab07d1c69114f43d9a173e7027a10bcfe", null ],
     [ "~Clock", "classlili_1_1Clock.html#aa50b729eed82bfb4bb2925fc7e163a9f", null ],
     [ "get_alpha", "classlili_1_1Clock.html#aa74c5fbbddd7ed2e1183d06c0c2849f8", null ],
     [ "get_dt", "classlili_1_1Clock.html#aad2fd6f35c2991844e7a20b4a62f7b20", null ],

@@ -37,10 +37,17 @@ App::App() {
 	font = std::make_unique<lili::BitmapFont>(
 		renderer.get(), "lili_font.png", 16, 6
 	);
-	text = lili::Text(renderer.get(), font.get(), "Welcome to HelloShader");
-	text.set_position(lili::Vec2(200.0f, 75.0f));
+	text = lili::Text(renderer.get(), font.get(), "Yay, shaders :D");
+	text.set_position(lili::Vec2(250.0f, 75.0f));
 	text.set_scale(3.0f);
 	text.get_material()->custom_pipeline = text_pipeline->get_sdl_pipeline();
+	text_info = lili::Text(
+		renderer.get(), font.get(), "SPACE: toggle custom shaders"
+	);
+	text_info.set_position(lili::Vec2(10.0, window->get_height() - 32.0f));
+	text_info.set_scale(3.0f);
+
+	toggle_custom_shaders = true;
 
 	running = true;
 }
@@ -60,28 +67,50 @@ void App::handle_events() {
 
 		if (event.type() == lili::EventType::QUIT)
 			running = false;
-		if (keyboard.key == SDLK_ESCAPE)
-			running = false;
+		if (keyboard.action == lili::KeyAction::PRESSED) {
+			if (keyboard.key == SDLK_ESCAPE)
+				running = false;
+			if (keyboard.key == SDLK_SPACE && keyboard.repeat == false)
+				toggle_custom_shaders = !toggle_custom_shaders;
+		}
 	}
 }
 
 void App::render() {
 	if (!renderer->begin_frame()) return;
 
-	TextUB text_uniform{};
-	text_uniform.speed = 2.0f;
-	text_uniform.time = clock.get_time();
-
-	text.get_material()->set_vertex_uniforms(text_uniform);
+	if (toggle_custom_shaders) {
+		TextUB text_uniform{};
+		text_uniform.speed = 2.0f;
+		text_uniform.time = clock.get_time();
+		text.get_material()->custom_pipeline = (
+			text_pipeline->get_sdl_pipeline()
+		);
+		text.get_material()->set_vertex_uniforms(text_uniform);
+		text.set_text("Yay, shaders :D");
+	} else {
+		text.get_material()->custom_pipeline = nullptr;
+		text.set_text("Oh, no shaders :(");
+	}
 	text.draw();
+	text_info.draw();
 
-	RectUB rect_uniform{};
-	rect_uniform.time = clock.get_time();
-	rect_uniform.amplitude = 0.2f;
-	rect_uniform.frequency = 30.0f;
-	rect_uniform.speed = 5.0f;
-
-	rect.get_material()->set_vertex_uniforms(rect_uniform);
+	rect.get_material()->custom_pipeline = toggle_custom_shaders ? rect_pipeline->get_sdl_pipeline() : nullptr;
+	if (toggle_custom_shaders) {
+		RectUB rect_uniform{};
+		rect_uniform.time = clock.get_time();
+		rect_uniform.amplitude = 0.2f;
+		rect_uniform.frequency = 30.0f;
+		rect_uniform.speed = 5.0f;
+		rect.get_material()->custom_pipeline = (
+			rect_pipeline->get_sdl_pipeline()
+		);
+		rect.get_material()->set_vertex_uniforms(rect_uniform);
+		text.set_text("Yay, shaders :D");
+	} else {
+		text.get_material()->custom_pipeline = nullptr;
+		text.set_text("Oh, no shaders :(");
+	}
 	rect.draw();
 
 	renderer->end_frame();

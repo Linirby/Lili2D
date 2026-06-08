@@ -17,9 +17,9 @@ enum class RenderLayer {
  * \brief A command to draw a model.
  */
 struct DrawCommand {
-	Model model;    ///< The model to draw.
-	Mat3 transform; ///< The transformation matrix.
-	float layer;    ///< The layer depth.
+	Model model;  ///< The model to draw.
+	Mat3 transform;  ///< The transformation matrix.
+	float layer;  ///< The layer depth.
 };
 
 /**

@@ -6,8 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_compile_options(-Wall -Wextra)
 
-# Build the local Lili2D library
-add_subdirectory(../../lili2d lili2d_build)
+find_package(Lili2D REQUIRED)
 
 find_program(GLSLC_COMPILER glslc REQUIRED)
 
@@ -50,5 +49,4 @@ add_executable(hello_shader
 )
 add_dependencies(hello_shader compile_shaders)
 
-target_link_libraries(hello_shader PRIVATE Lili2D)
-target_include_directories(hello_shader PRIVATE ../../lili2d/src)
+target_link_libraries(hello_shader PRIVATE lili::Lili2D)

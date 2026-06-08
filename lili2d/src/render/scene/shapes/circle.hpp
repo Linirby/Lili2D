@@ -15,8 +15,8 @@ namespace lili {
  */
 struct CircleShape {
 	Vec2 center;  ///< The center position.
-	float radius = 0; ///< The radius.
-	int segments = 3; ///< The number of segments.
+	float radius = 0;  ///< The radius.
+	int segments = 3;  ///< The number of segments.
 
 	/// \brief Default constructor.
 	CircleShape() = default;

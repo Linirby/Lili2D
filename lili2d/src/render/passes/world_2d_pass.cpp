@@ -81,18 +81,17 @@ void World2DPass::render(
 
 		SDL_PushGPUVertexUniformData(cmd, 0, &uniforms, sizeof(uniforms));
 
-		// Push custom user uniforms if available!
 		if (!draw_cmd.model.material->custom_vertex_uniforms.empty()) {
 			SDL_PushGPUVertexUniformData(
-				cmd, 1, 
-				draw_cmd.model.material->custom_vertex_uniforms.data(), 
+				cmd, 1,
+				draw_cmd.model.material->custom_vertex_uniforms.data(),
 				draw_cmd.model.material->custom_vertex_uniforms.size()
 			);
 		}
 		if (!draw_cmd.model.material->custom_fragment_uniforms.empty()) {
 			SDL_PushGPUFragmentUniformData(
-				cmd, 0, 
-				draw_cmd.model.material->custom_fragment_uniforms.data(), 
+				cmd, 0,
+				draw_cmd.model.material->custom_fragment_uniforms.data(),
 				draw_cmd.model.material->custom_fragment_uniforms.size()
 			);
 		}

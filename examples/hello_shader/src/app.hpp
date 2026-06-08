@@ -35,6 +35,9 @@ private:
 	std::unique_ptr<lili::WorldPipeline> text_pipeline;
 	std::unique_ptr<lili::BitmapFont> font;
 	lili::Text text;
+	lili::Text text_info;
+
+	bool toggle_custom_shaders;
 
 	bool running;
 

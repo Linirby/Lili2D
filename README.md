@@ -174,7 +174,7 @@ screen.
 / UI)
 - **`hello_layer`**: Demonstrates the use of rendering layers to control the
 drawing order of sprites and shapes.
-- `hello_animation`: An example of how to load an AtlasMap and create Animations
+- **`hello_animation`**: An example of how to load an AtlasMap and create Animations
 from it.
 
 ## Join the Community

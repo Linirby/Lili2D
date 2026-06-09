@@ -99,6 +99,12 @@ $(function(){initNavTree('structlili_1_1Material.html','','structlili_1_1Materia
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a24dee5a33d81d98e3a9c4e9209a9501b" id="r_a24dee5a33d81d98e3a9c4e9209a9501b"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a24dee5a33d81d98e3a9c4e9209a9501b template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a24dee5a33d81d98e3a9c4e9209a9501b">set_vertex_uniforms</a> (const T &amp;data)</td></tr>
+<tr class="memdesc:a24dee5a33d81d98e3a9c4e9209a9501b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets custom vertex uniforms.  <br /></td></tr>
+<tr class="memitem:aacc4f467e1751c2249e6326ab7ad3a28" id="r_aacc4f467e1751c2249e6326ab7ad3a28"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:aacc4f467e1751c2249e6326ab7ad3a28 template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aacc4f467e1751c2249e6326ab7ad3a28">set_fragment_uniforms</a> (const T &amp;data)</td></tr>
+<tr class="memdesc:aacc4f467e1751c2249e6326ab7ad3a28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets custom fragment uniforms.  <br /></td></tr>
 <tr class="memitem:a85537884a4b3667a93a97388997a8f44" id="r_a85537884a4b3667a93a97388997a8f44"><td class="memItemLeft"><a id="a85537884a4b3667a93a97388997a8f44" name="a85537884a4b3667a93a97388997a8f44"></a>
 &#160;</td><td class="memItemRight"><b>Material</b> ()=default</td></tr>
 <tr class="memdesc:a85537884a4b3667a93a97388997a8f44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. <br /></td></tr>
@@ -118,6 +124,12 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:aa7b70533c7325ebba771b936caf4b912" id="r_aa7b70533c7325ebba771b936caf4b912"><td class="memItemLeft"><a id="aa7b70533c7325ebba771b936caf4b912" name="aa7b70533c7325ebba771b936caf4b912"></a>
 SDL_GPUGraphicsPipeline *&#160;</td><td class="memItemRight"><b>custom_pipeline</b> = nullptr</td></tr>
 <tr class="memdesc:aa7b70533c7325ebba771b936caf4b912"><td class="mdescLeft">&#160;</td><td class="mdescRight">Custom graphics pipeline. <br /></td></tr>
+<tr class="memitem:a9a0afaf43c26556a25c1e7b060b50a93" id="r_a9a0afaf43c26556a25c1e7b060b50a93"><td class="memItemLeft"><a id="a9a0afaf43c26556a25c1e7b060b50a93" name="a9a0afaf43c26556a25c1e7b060b50a93"></a>
+std::vector&lt; uint8_t &gt;&#160;</td><td class="memItemRight"><b>custom_vertex_uniforms</b></td></tr>
+<tr class="memdesc:a9a0afaf43c26556a25c1e7b060b50a93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Custom vertex uniforms for binding 1. <br /></td></tr>
+<tr class="memitem:a93bea48371e1edf33500f4f4fca2b5cb" id="r_a93bea48371e1edf33500f4f4fca2b5cb"><td class="memItemLeft"><a id="a93bea48371e1edf33500f4f4fca2b5cb" name="a93bea48371e1edf33500f4f4fca2b5cb"></a>
+std::vector&lt; uint8_t &gt;&#160;</td><td class="memItemRight"><b>custom_fragment_uniforms</b></td></tr>
+<tr class="memdesc:a93bea48371e1edf33500f4f4fca2b5cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Custom fragment uniforms for binding 0. <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Defines how a model is rendered. </p>
@@ -171,6 +183,77 @@ SDL_GPUGraphicsPipeline *&#160;</td><td class="memItemRight"><b>custom_pipeline<
   <table class="params">
     <tr><td class="paramname">texture</td><td>Pointer to the texture. </td></tr>
     <tr><td class="paramname">pipeline</td><td>Pointer to the custom pipeline. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="aacc4f467e1751c2249e6326ab7ad3a28" name="aacc4f467e1751c2249e6326ab7ad3a28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacc4f467e1751c2249e6326ab7ad3a28">&#9670;&#160;</a></span>set_fragment_uniforms()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lili::Material::set_fragment_uniforms </td>
+          <td>(</td>
+          <td class="paramtype">const T &amp;</td>          <td class="paramname"><span class="paramname"><em>data</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets custom fragment uniforms. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>The uniform data struct. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a24dee5a33d81d98e3a9c4e9209a9501b" name="a24dee5a33d81d98e3a9c4e9209a9501b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24dee5a33d81d98e3a9c4e9209a9501b">&#9670;&#160;</a></span>set_vertex_uniforms()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lili::Material::set_vertex_uniforms </td>
+          <td>(</td>
+          <td class="paramtype">const T &amp;</td>          <td class="paramname"><span class="paramname"><em>data</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets custom vertex uniforms. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>The uniform data struct. </td></tr>
   </table>
   </dd>
 </dl>

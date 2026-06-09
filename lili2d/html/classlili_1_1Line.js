@@ -2,11 +2,11 @@ var classlili_1_1Line =
 [
     [ "Line", "classlili_1_1Line.html#ae2db2f28eba98e19d345b3b572dbef0a", null ],
     [ "Line", "classlili_1_1Line.html#ad6bdfc53ed1d4faa2a05f0446a39f6e1", null ],
-    [ "~Line", "classlili_1_1Line.html#a1d82b6b8969330d121d4f2dfaf6eefe2", null ],
     [ "Line", "classlili_1_1Line.html#a5373ec3dead8853ea96e7c689448f306", null ],
     [ "draw", "classlili_1_1Line.html#a28ed77b1a9965b9ece10c9606ff227f5", null ],
     [ "get_color", "classlili_1_1Line.html#aa263ec651b803672022a3c61ebb32255", null ],
     [ "get_end", "classlili_1_1Line.html#a51e57d02da7744a147da3a005ee06e47", null ],
+    [ "get_material", "classlili_1_1Line.html#aa1d4f08d58ffe35ae4533b8e38eac142", null ],
     [ "get_shape", "classlili_1_1Line.html#af206dc4ec87139a16741fc04fcef5969", null ],
     [ "get_start", "classlili_1_1Line.html#a7d1d7eb9df742b34ad9ff4890e6490c6", null ],
     [ "get_thickness", "classlili_1_1Line.html#abd17191bb102f50354a6444b1cb40381", null ],

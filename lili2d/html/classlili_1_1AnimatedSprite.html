@@ -108,9 +108,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:abe69fbac178ccd7f57a16debc9e38562"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an animated sprite from a registered animation key.  <br /></td></tr>
 <tr class="memitem:a0eb8a108f46c033b3742bed30a5343a8" id="r_a0eb8a108f46c033b3742bed30a5343a8"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a0eb8a108f46c033b3742bed30a5343a8">AnimatedSprite</a> (<a class="el" href="classlili_1_1Renderer.html">Renderer</a> *renderer, uint16_t animation_id)</td></tr>
 <tr class="memdesc:a0eb8a108f46c033b3742bed30a5343a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an animated sprite from a registered animation ID.  <br /></td></tr>
-<tr class="memitem:ae0ffaf84f736a33ebeacac66bd76b166" id="r_ae0ffaf84f736a33ebeacac66bd76b166"><td class="memItemLeft"><a id="ae0ffaf84f736a33ebeacac66bd76b166" name="ae0ffaf84f736a33ebeacac66bd76b166"></a>
-&#160;</td><td class="memItemRight"><b>~AnimatedSprite</b> ()=default</td></tr>
-<tr class="memdesc:ae0ffaf84f736a33ebeacac66bd76b166"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor. <br /></td></tr>
 <tr class="memitem:a6a180adb6b7cc10c3721c2fa5dca1b1d" id="r_a6a180adb6b7cc10c3721c2fa5dca1b1d"><td class="memItemLeft"><a id="a6a180adb6b7cc10c3721c2fa5dca1b1d" name="a6a180adb6b7cc10c3721c2fa5dca1b1d"></a>
 &#160;</td><td class="memItemRight"><b>AnimatedSprite</b> (AnimatedSprite &amp;&amp;)=default</td></tr>
 <tr class="memdesc:a6a180adb6b7cc10c3721c2fa5dca1b1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor. <br /></td></tr>
@@ -142,6 +139,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a7797807692e78a08108b09c6a730ad12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the render height of the current frame.  <br /></td></tr>
 <tr class="memitem:a8f5ffca475d45309099c4f81999671c0" id="r_a8f5ffca475d45309099c4f81999671c0"><td class="memItemLeft"><a class="el" href="structlili_1_1Vec2.html">Vec2</a>&#160;</td><td class="memItemRight"><a class="el" href="#a8f5ffca475d45309099c4f81999671c0">get_size</a> () const</td></tr>
 <tr class="memdesc:a8f5ffca475d45309099c4f81999671c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the render size of the current frame.  <br /></td></tr>
+<tr class="memitem:a8919e26fb2beae15a18a364887113477" id="r_a8919e26fb2beae15a18a364887113477"><td class="memItemLeft"><a class="el" href="structlili_1_1Material.html">Material</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a8919e26fb2beae15a18a364887113477">get_material</a> () const</td></tr>
+<tr class="memdesc:a8919e26fb2beae15a18a364887113477"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the material.  <br /></td></tr>
 <tr class="memitem:a050f6f71546f670705845406e7bb0693" id="r_a050f6f71546f670705845406e7bb0693"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a050f6f71546f670705845406e7bb0693">update</a> (float dt)</td></tr>
 <tr class="memdesc:a050f6f71546f670705845406e7bb0693"><td class="mdescLeft">&#160;</td><td class="mdescRight">Advances the animation by dt seconds.  <br /></td></tr>
 <tr class="memitem:a17b5bab571f4567a6b6e9b51e1f43730" id="r_a17b5bab571f4567a6b6e9b51e1f43730"><td class="memItemLeft"><a id="a17b5bab571f4567a6b6e9b51e1f43730" name="a17b5bab571f4567a6b6e9b51e1f43730"></a>
@@ -263,6 +262,26 @@ void&#160;</td><td class="memItemRight"><b>draw</b> ()</td></tr>
 
 <p>Get the render height of the current frame. </p>
 <dl class="section return"><dt>Returns</dt><dd>The height. </dd></dl>
+
+</div>
+</div>
+<a id="a8919e26fb2beae15a18a364887113477" name="a8919e26fb2beae15a18a364887113477"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8919e26fb2beae15a18a364887113477">&#9670;&#160;</a></span>get_material()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structlili_1_1Material.html">Material</a> * lili::AnimatedSprite::get_material </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the material. </p>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the material. </dd></dl>
 
 </div>
 </div>

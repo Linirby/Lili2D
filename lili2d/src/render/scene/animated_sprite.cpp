@@ -6,12 +6,8 @@
 
 namespace lili {
 
-AnimatedSprite::AnimatedSprite(
-	Renderer *renderer, const Animation &animation
-) {
-	this->renderer = renderer;
-	this->animation = animation;
-
+AnimatedSprite::AnimatedSprite(Renderer *renderer, const Animation &animation)
+	: renderer(renderer), animation(animation) {
 	MeshData mesh_data = create_unit_quad();
 	mesh = std::make_unique<GPUMesh>(renderer->get_device(), mesh_data);
 	material = std::make_unique<Material>(renderer->get_the_white_pixel());
@@ -34,9 +30,8 @@ AnimatedSprite::AnimatedSprite(
 	renderer, AnimationRegistry::get().get_animation(animation_key)
 ) {}
 
-AnimatedSprite::AnimatedSprite(
-	Renderer *renderer, uint16_t animation_id
-) : AnimatedSprite(
+AnimatedSprite::AnimatedSprite(Renderer *renderer, uint16_t animation_id)
+	: AnimatedSprite(
 	renderer, AnimationRegistry::get().get_animation(animation_id)
 ) {}
 

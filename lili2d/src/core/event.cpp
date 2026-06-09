@@ -2,11 +2,6 @@
 
 namespace lili {
 
-Event::Event() {
-	sdl_event = SDL_Event();
-	current_type = EventType::NONE;
-}
-
 bool Event::poll() {
 	if (SDL_PollEvent(&sdl_event)) {
 		current_type = resolve_type();

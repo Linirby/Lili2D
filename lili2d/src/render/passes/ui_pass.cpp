@@ -8,12 +8,8 @@
 
 namespace lili {
 
-UIPass::UIPass(
-	SDL_GPUDevice *device, SDL_GPUGraphicsPipeline *pipeline
-) {
-	this->device = device;
-	this->pipeline = pipeline;
-}
+UIPass::UIPass(SDL_GPUDevice *device, SDL_GPUGraphicsPipeline *pipeline)
+	: device(device), pipeline(pipeline) {}
 
 void UIPass::render(
 	SDL_GPURenderPass *pass,

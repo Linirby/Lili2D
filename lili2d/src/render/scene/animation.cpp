@@ -3,9 +3,8 @@
 
 namespace lili {
 
-Animation::Animation(const std::vector<AnimationFrame> &frames) {
-	this->frames = frames;
-}
+Animation::Animation(const std::vector<AnimationFrame> &frames)
+	: frames(frames) {}
 
 size_t Animation::frame_count() const {
 	return frames.size();

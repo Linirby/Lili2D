@@ -16,8 +16,7 @@
 
 namespace lili {
 
-Renderer::Renderer(Window *window) {
-	this->window = window;
+Renderer::Renderer(Window *window) : window(window) {
 	init_device();
 	init_shaders();
 	init_pipelines();
@@ -26,7 +25,7 @@ Renderer::Renderer(Window *window) {
 }
 
 Renderer::~Renderer() {
-	SDL_WaitForGPUIdle(device);
+	if (device) SDL_WaitForGPUIdle(device);
 
 	if (unit_quad) delete unit_quad;
 	for (auto& pair : unit_circles)
@@ -38,6 +37,87 @@ Renderer::~Renderer() {
 	if (world_2d_pipeline) delete world_2d_pipeline;
 	if (world_2d_shader) delete world_2d_shader;
 	if (device) SDL_DestroyGPUDevice(device);
+}
+
+Renderer::Renderer(Renderer &&other) noexcept
+	: window(other.window),
+	  device(other.device),
+	  swapchain_width(other.swapchain_width),
+	  swapchain_height(other.swapchain_height),
+	  current_swapchain_texture(other.current_swapchain_texture),
+	  current_cmd_buffer(other.current_cmd_buffer),
+	  world_2d_shader(other.world_2d_shader),
+	  world_2d_pipeline(other.world_2d_pipeline),
+	  world_2d_pass(other.world_2d_pass),
+	  world_2d_queue(std::move(other.world_2d_queue)),
+	  ui_pipeline(other.ui_pipeline),
+	  ui_pass(other.ui_pass),
+	  ui_queue(std::move(other.ui_queue)),
+	  proj_view_world2d(other.proj_view_world2d),
+	  proj_view_ui(other.proj_view_ui),
+	  camera(other.camera),
+	  the_white_pixel(other.the_white_pixel),
+	  unit_quad(other.unit_quad),
+	  unit_circles(std::move(other.unit_circles)) {
+	other.device = nullptr;
+	other.current_cmd_buffer = nullptr;
+	other.world_2d_shader = nullptr;
+	other.world_2d_pipeline = nullptr;
+	other.world_2d_pass = nullptr;
+	other.ui_pipeline = nullptr;
+	other.ui_pass = nullptr;
+	other.the_white_pixel = nullptr;
+	other.unit_quad = nullptr;
+	other.unit_circles.clear();
+}
+
+Renderer& Renderer::operator=(Renderer &&other) noexcept {
+	if (this != &other) {
+		if (device) SDL_WaitForGPUIdle(device);
+
+		if (unit_quad) delete unit_quad;
+		for (auto& pair : unit_circles)
+			delete pair.second;
+		if (the_white_pixel) delete the_white_pixel;
+		if (ui_pass) delete ui_pass;
+		if (ui_pipeline) delete ui_pipeline;
+		if (world_2d_pass) delete world_2d_pass;
+		if (world_2d_pipeline) delete world_2d_pipeline;
+		if (world_2d_shader) delete world_2d_shader;
+		if (device) SDL_DestroyGPUDevice(device);
+		
+		window = other.window;
+		device = other.device;
+		swapchain_width = other.swapchain_width;
+		swapchain_height = other.swapchain_height;
+		current_swapchain_texture = other.current_swapchain_texture;
+		current_cmd_buffer = other.current_cmd_buffer;
+		world_2d_shader = other.world_2d_shader;
+		world_2d_pipeline = other.world_2d_pipeline;
+		world_2d_pass = other.world_2d_pass;
+		world_2d_queue = std::move(other.world_2d_queue);
+		ui_pipeline = other.ui_pipeline;
+		ui_pass = other.ui_pass;
+		ui_queue = std::move(other.ui_queue);
+		proj_view_world2d = other.proj_view_world2d;
+		proj_view_ui = other.proj_view_ui;
+		camera = other.camera;
+		the_white_pixel = other.the_white_pixel;
+		unit_quad = other.unit_quad;
+		unit_circles = std::move(other.unit_circles);
+
+		other.device = nullptr;
+		other.current_cmd_buffer = nullptr;
+		other.world_2d_shader = nullptr;
+		other.world_2d_pipeline = nullptr;
+		other.world_2d_pass = nullptr;
+		other.ui_pipeline = nullptr;
+		other.ui_pass = nullptr;
+		other.the_white_pixel = nullptr;
+		other.unit_quad = nullptr;
+		other.unit_circles.clear();
+	}
+	return *this;
 }
 
 SDL_GPUDevice *Renderer::get_device() const {

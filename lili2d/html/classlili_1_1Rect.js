@@ -2,10 +2,10 @@ var classlili_1_1Rect =
 [
     [ "Rect", "classlili_1_1Rect.html#a1d9a49f592087e6b713b7a53f3dcfc63", null ],
     [ "Rect", "classlili_1_1Rect.html#a416d8be630e0b39a7138a89d8b686435", null ],
-    [ "~Rect", "classlili_1_1Rect.html#a56fd85ce028549ef34f2f7b699893f40", null ],
     [ "Rect", "classlili_1_1Rect.html#af671549735fd72668d8bb5bb72c1ced4", null ],
     [ "draw", "classlili_1_1Rect.html#aea18d65719272421b6e76db70f6899b0", null ],
     [ "get_color", "classlili_1_1Rect.html#a95bfd25e796e4aa8b6001ab78307a123", null ],
+    [ "get_material", "classlili_1_1Rect.html#a318d0e9051db9e68221b4976bce5b552", null ],
     [ "get_position", "classlili_1_1Rect.html#af6933fe6f5ad271eed0b2fb08a5ebfe9", null ],
     [ "get_shape", "classlili_1_1Rect.html#aed6cfd603355b8318ea9cf9273fee3fe", null ],
     [ "get_size", "classlili_1_1Rect.html#aa17e7875864afacfabd9e14f19667ef2", null ],

@@ -15,18 +15,13 @@ namespace lili {
 class AtlasMap {
 public:
 	AtlasMap() = default;
-	/// \brief AtlasMap method.
+	/// @brief AtlasMap method.
 	AtlasMap(Renderer *renderer, const std::string &filename);
-
-	/// \brief Move constructor.
+	/// @brief Move constructor.
 	AtlasMap(AtlasMap &&) = default;
-	/**
-	 * \brief Move assignment operator.
-	 * \return Reference to the assigned sprite.
-	 */
+	/// @brief Move assignment operator.
+	/// @return Reference to the assigned sprite.
 	AtlasMap &operator=(AtlasMap &&) = default;
-
-	~AtlasMap() = default;
 
 	/// @brief Documentation for slice.
 	/// @param num_columns The num_columns parameter.
@@ -41,7 +36,6 @@ public:
 	/// @param index The index parameter.
 	/// @return The result of get_frame.
 	AnimationFrame get_frame(int index) const;
-
 	/// @brief Documentation for get_animation.
 	/// @param start_index The start_index parameter.
 	/// @param count The count parameter.

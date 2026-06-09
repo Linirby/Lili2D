@@ -5,8 +5,8 @@
 
 namespace lili {
 
-GPUMesh::GPUMesh(SDL_GPUDevice *device, const MeshData &mesh) {
-	this->device = device;
+GPUMesh::GPUMesh(SDL_GPUDevice *device, const MeshData &mesh)
+	: device(device) {
 	index_count = static_cast<uint32_t>(mesh.indices.size());
 
 	uint32_t vertices_buffer_size = (
@@ -53,6 +53,35 @@ GPUMesh::~GPUMesh() {
 		SDL_ReleaseGPUBuffer(device, index_buffer);
 	if (vertex_buffer)
 		SDL_ReleaseGPUBuffer(device, vertex_buffer);
+}
+
+GPUMesh::GPUMesh(GPUMesh &&other) noexcept
+	: device(other.device),
+	  vertex_buffer(other.vertex_buffer),
+	  index_buffer(other.index_buffer),
+	  index_count(other.index_count) {
+	other.vertex_buffer = nullptr;
+	other.index_buffer = nullptr;
+	other.index_count = 0;
+}
+
+GPUMesh& GPUMesh::operator=(GPUMesh &&other) noexcept {
+	if (this != &other) {
+		if (index_buffer)
+			SDL_ReleaseGPUBuffer(device, index_buffer);
+		if (vertex_buffer)
+			SDL_ReleaseGPUBuffer(device, vertex_buffer);
+
+		device = other.device;
+		vertex_buffer = other.vertex_buffer;
+		index_buffer = other.index_buffer;
+		index_count = other.index_count;
+
+		other.vertex_buffer = nullptr;
+		other.index_buffer = nullptr;
+		other.index_count = 0;
+	}
+	return *this;
 }
 
 SDL_GPUBuffer *GPUMesh::get_vertex() const {

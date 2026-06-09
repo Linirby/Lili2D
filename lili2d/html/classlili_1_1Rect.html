@@ -104,12 +104,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a1d9a49f592087e6b713b7a53f3dcfc63"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. <br /></td></tr>
 <tr class="memitem:a416d8be630e0b39a7138a89d8b686435" id="r_a416d8be630e0b39a7138a89d8b686435"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a416d8be630e0b39a7138a89d8b686435">Rect</a> (<a class="el" href="classlili_1_1Renderer.html">Renderer</a> *renderer, <a class="el" href="structlili_1_1RectShape.html">RectShape</a> shape, <a class="el" href="structlili_1_1Vec4.html">Vec4</a> color)</td></tr>
 <tr class="memdesc:a416d8be630e0b39a7138a89d8b686435"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a renderable rectangle.  <br /></td></tr>
-<tr class="memitem:a56fd85ce028549ef34f2f7b699893f40" id="r_a56fd85ce028549ef34f2f7b699893f40"><td class="memItemLeft"><a id="a56fd85ce028549ef34f2f7b699893f40" name="a56fd85ce028549ef34f2f7b699893f40"></a>
-&#160;</td><td class="memItemRight"><b>~Rect</b> ()=default</td></tr>
-<tr class="memdesc:a56fd85ce028549ef34f2f7b699893f40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor. <br /></td></tr>
-<tr class="memitem:af671549735fd72668d8bb5bb72c1ced4" id="r_af671549735fd72668d8bb5bb72c1ced4"><td class="memItemLeft"><a id="af671549735fd72668d8bb5bb72c1ced4" name="af671549735fd72668d8bb5bb72c1ced4"></a>
-&#160;</td><td class="memItemRight"><b>Rect</b> (Rect &amp;&amp;)=default</td></tr>
-<tr class="memdesc:af671549735fd72668d8bb5bb72c1ced4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor. <br /></td></tr>
+<tr class="memitem:af671549735fd72668d8bb5bb72c1ced4" id="r_af671549735fd72668d8bb5bb72c1ced4"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#af671549735fd72668d8bb5bb72c1ced4">Rect</a> (Rect &amp;&amp;)=default</td></tr>
+<tr class="memdesc:af671549735fd72668d8bb5bb72c1ced4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor.  <br /></td></tr>
 <tr class="memitem:adff010475f71624acb6091516f22980e" id="r_adff010475f71624acb6091516f22980e"><td class="memItemLeft"><a class="el" href="#a1d9a49f592087e6b713b7a53f3dcfc63">Rect</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#adff010475f71624acb6091516f22980e">operator=</a> (<a class="el" href="#a1d9a49f592087e6b713b7a53f3dcfc63">Rect</a> &amp;&amp;)=default</td></tr>
 <tr class="memdesc:adff010475f71624acb6091516f22980e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assignment operator.  <br /></td></tr>
 <tr class="memitem:a925a2025083b7b40aa67f059158ae00a" id="r_a925a2025083b7b40aa67f059158ae00a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a925a2025083b7b40aa67f059158ae00a">set_position</a> (<a class="el" href="structlili_1_1Vec2.html">Vec2</a> pos)</td></tr>
@@ -134,6 +130,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aed6cfd603355b8318ea9cf9273fee3fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the shape geometry.  <br /></td></tr>
 <tr class="memitem:a95bfd25e796e4aa8b6001ab78307a123" id="r_a95bfd25e796e4aa8b6001ab78307a123"><td class="memItemLeft"><a class="el" href="structlili_1_1Vec4.html">Vec4</a>&#160;</td><td class="memItemRight"><a class="el" href="#a95bfd25e796e4aa8b6001ab78307a123">get_color</a> () const</td></tr>
 <tr class="memdesc:a95bfd25e796e4aa8b6001ab78307a123"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the color.  <br /></td></tr>
+<tr class="memitem:a318d0e9051db9e68221b4976bce5b552" id="r_a318d0e9051db9e68221b4976bce5b552"><td class="memItemLeft"><a class="el" href="structlili_1_1Material.html">Material</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a318d0e9051db9e68221b4976bce5b552">get_material</a> () const</td></tr>
+<tr class="memdesc:a318d0e9051db9e68221b4976bce5b552"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the material.  <br /></td></tr>
 <tr class="memitem:aea18d65719272421b6e76db70f6899b0" id="r_aea18d65719272421b6e76db70f6899b0"><td class="memItemLeft"><a id="aea18d65719272421b6e76db70f6899b0" name="aea18d65719272421b6e76db70f6899b0"></a>
 void&#160;</td><td class="memItemRight"><b>draw</b> ()</td></tr>
 <tr class="memdesc:aea18d65719272421b6e76db70f6899b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Submits the rectangle for drawing. <br /></td></tr>
@@ -142,7 +140,7 @@ void&#160;</td><td class="memItemRight"><b>draw</b> ()</td></tr>
 <div class="textblock"><p>A renderable rectangle. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a416d8be630e0b39a7138a89d8b686435" name="a416d8be630e0b39a7138a89d8b686435"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a416d8be630e0b39a7138a89d8b686435">&#9670;&#160;</a></span>Rect()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a416d8be630e0b39a7138a89d8b686435">&#9670;&#160;</a></span>Rect() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -177,6 +175,34 @@ void&#160;</td><td class="memItemRight"><b>draw</b> ()</td></tr>
 
 </div>
 </div>
+<a id="af671549735fd72668d8bb5bb72c1ced4" name="af671549735fd72668d8bb5bb72c1ced4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af671549735fd72668d8bb5bb72c1ced4">&#9670;&#160;</a></span>Rect() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lili::Rect::Rect </td>
+          <td>(</td>
+          <td class="paramtype">Rect &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel default">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Default destructor. </p>
+<p>Move constructor. </p>
+
+</div>
+</div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="a95bfd25e796e4aa8b6001ab78307a123" name="a95bfd25e796e4aa8b6001ab78307a123"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a95bfd25e796e4aa8b6001ab78307a123">&#9670;&#160;</a></span>get_color()</h2>
@@ -195,6 +221,26 @@ void&#160;</td><td class="memItemRight"><b>draw</b> ()</td></tr>
 
 <p>Gets the color. </p>
 <dl class="section return"><dt>Returns</dt><dd>The color. </dd></dl>
+
+</div>
+</div>
+<a id="a318d0e9051db9e68221b4976bce5b552" name="a318d0e9051db9e68221b4976bce5b552"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a318d0e9051db9e68221b4976bce5b552">&#9670;&#160;</a></span>get_material()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structlili_1_1Material.html">Material</a> * lili::Rect::get_material </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the material. </p>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the material. </dd></dl>
 
 </div>
 </div>

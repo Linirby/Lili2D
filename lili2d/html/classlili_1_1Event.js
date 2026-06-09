@@ -1,7 +1,5 @@
 var classlili_1_1Event =
 [
-    [ "Event", "classlili_1_1Event.html#ae9e7f9231ebd43ece602953e82534ad1", null ],
-    [ "~Event", "classlili_1_1Event.html#aa478e5bdb116dbf097ed390c1a4fd763", null ],
     [ "key_just_pressed", "classlili_1_1Event.html#a0c1968796f169dccaf0357e3cb0b6a39", null ],
     [ "keyboard", "classlili_1_1Event.html#a21aa207ccc97f149ad0f055c869e90c9", null ],
     [ "mouse_button", "classlili_1_1Event.html#a9e1830d42e7efa3418cfdb36629b02b6", null ],

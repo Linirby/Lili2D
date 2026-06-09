@@ -5,7 +5,7 @@ namespace lili {
 
 BitmapFont::BitmapFont(
 	Renderer *renderer, const std::string &path, uint8_t cols, uint8_t rows
-) {
+) : cols(cols), rows(rows) {
 	texture = std::make_unique<Texture>(renderer->get_device(), path);
 	this->cols = cols;
 	this->rows = rows;

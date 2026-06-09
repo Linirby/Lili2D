@@ -102,13 +102,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af56b6e1268591c9ea86e00d26860d887" id="r_af56b6e1268591c9ea86e00d26860d887"><td class="memItemLeft"><a id="af56b6e1268591c9ea86e00d26860d887" name="af56b6e1268591c9ea86e00d26860d887"></a>
 &#160;</td><td class="memItemRight"><b>Vec2</b> ()=default</td></tr>
 <tr class="memdesc:af56b6e1268591c9ea86e00d26860d887"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. <br /></td></tr>
-<tr class="memitem:a0b3704405fb26288ade57e6032067c4e" id="r_a0b3704405fb26288ade57e6032067c4e"><td class="memItemLeft"><a id="a0b3704405fb26288ade57e6032067c4e" name="a0b3704405fb26288ade57e6032067c4e"></a>
-&#160;</td><td class="memItemRight"><b>Vec2</b> (const Vec2 &amp;)=default</td></tr>
-<tr class="memdesc:a0b3704405fb26288ade57e6032067c4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor. <br /></td></tr>
-<tr class="memitem:a0c4ee79db920c1cdc64598f30de54e54" id="r_a0c4ee79db920c1cdc64598f30de54e54"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a0c4ee79db920c1cdc64598f30de54e54">Vec2</a> (float x, float y)</td></tr>
+<tr class="memitem:a0c4ee79db920c1cdc64598f30de54e54" id="r_a0c4ee79db920c1cdc64598f30de54e54"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a0c4ee79db920c1cdc64598f30de54e54">Vec2</a> (float x, float <a class="el" href="#addd3794e9ec734608d25c70f52cc5423">y</a>)</td></tr>
 <tr class="memdesc:a0c4ee79db920c1cdc64598f30de54e54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a 2D vector with given values.  <br /></td></tr>
-<tr class="memitem:a726568b7d9c0d10d36b574c71935edfb" id="r_a726568b7d9c0d10d36b574c71935edfb"><td class="memItemLeft"><a class="el" href="#af56b6e1268591c9ea86e00d26860d887">Vec2</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a726568b7d9c0d10d36b574c71935edfb">operator=</a> (const <a class="el" href="#af56b6e1268591c9ea86e00d26860d887">Vec2</a> &amp;o)</td></tr>
-<tr class="memdesc:a726568b7d9c0d10d36b574c71935edfb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assignment operator.  <br /></td></tr>
 <tr class="memitem:a7ff86901dd90bc8ce154fb3467c74ba9" id="r_a7ff86901dd90bc8ce154fb3467c74ba9"><td class="memItemLeft"><a class="el" href="#af56b6e1268591c9ea86e00d26860d887">Vec2</a>&#160;</td><td class="memItemRight"><a class="el" href="#a7ff86901dd90bc8ce154fb3467c74ba9">operator-</a> (const <a class="el" href="#af56b6e1268591c9ea86e00d26860d887">Vec2</a> &amp;o) const</td></tr>
 <tr class="memdesc:a7ff86901dd90bc8ce154fb3467c74ba9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subtraction operator.  <br /></td></tr>
 <tr class="memitem:a8fbbd8786ff786f013d250cef5a7e9ef" id="r_a8fbbd8786ff786f013d250cef5a7e9ef"><td class="memItemLeft"><a class="el" href="#af56b6e1268591c9ea86e00d26860d887">Vec2</a>&#160;</td><td class="memItemRight"><a class="el" href="#a8fbbd8786ff786f013d250cef5a7e9ef">operator-=</a> (const <a class="el" href="#af56b6e1268591c9ea86e00d26860d887">Vec2</a> &amp;o)</td></tr>
@@ -135,9 +130,10 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a2b2aeff127e7b846997cee120b7254a3" id="r_a2b2aeff127e7b846997cee120b7254a3"><td class="memItemLeft"><a id="a2b2aeff127e7b846997cee120b7254a3" name="a2b2aeff127e7b846997cee120b7254a3"></a>
-float&#160;</td><td class="memItemRight"><b>x</b></td></tr>
+float&#160;</td><td class="memItemRight"><b>x</b> = 0.0f</td></tr>
 <tr class="memitem:addd3794e9ec734608d25c70f52cc5423" id="r_addd3794e9ec734608d25c70f52cc5423"><td class="memItemLeft"><a id="addd3794e9ec734608d25c70f52cc5423" name="addd3794e9ec734608d25c70f52cc5423"></a>
-float&#160;</td><td class="memItemRight"><b>y</b></td></tr>
+float&#160;</td><td class="memItemRight"><b>y</b> = 0.0f</td></tr>
+<tr class="memdesc:addd3794e9ec734608d25c70f52cc5423"><td class="mdescLeft">&#160;</td><td class="mdescRight">2D Coordinates of the vector <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a 2D mathematical vector. </p>
@@ -165,7 +161,7 @@ float&#160;</td><td class="memItemRight"><b>y</b></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>The X component. </td></tr>
-    <tr><td class="paramname">y</td><td>The Y component. </td></tr>
+    <tr><td class="paramname"><a class="el" href="#addd3794e9ec734608d25c70f52cc5423" title="2D Coordinates of the vector">y</a></td><td>The Y component. </td></tr>
   </table>
   </dd>
 </dl>
@@ -440,32 +436,6 @@ float&#160;</td><td class="memItemRight"><b>y</b></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">o</td><td>The vector to subtract. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A reference to this vector. </dd></dl>
-
-</div>
-</div>
-<a id="a726568b7d9c0d10d36b574c71935edfb" name="a726568b7d9c0d10d36b574c71935edfb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a726568b7d9c0d10d36b574c71935edfb">&#9670;&#160;</a></span>operator=()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="#af56b6e1268591c9ea86e00d26860d887">Vec2</a> &amp; lili::Vec2::operator= </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="#af56b6e1268591c9ea86e00d26860d887">Vec2</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>o</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Assignment operator. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">o</td><td>The vector to copy from. </td></tr>
   </table>
   </dd>
 </dl>

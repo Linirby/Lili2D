@@ -2,70 +2,42 @@
 
 namespace lili {
 
-/// \brief Represents a 2D mathematical point.
+/// @brief Represents a 2D mathematical point.
 struct Point2 {
-	int x, y = 0;
+	int x = 0;
+	int y = 0;
+	///< 2D Coordinates of the point
 
-	/// \brief Default constructor.
+	/// @brief Default constructor.
 	Point2() = default;
-
-	/// \brief Copy constructor.
-	Point2(const Point2 &) = default;
-
-	/**
-	 * \brief Constructs a 2D point with given values.
-	 * \param x The X component.
-	 * \param y The Y component.
-	 */
+	/// @brief Constructs a 2D point with given values.
+	/// @param x The X component.
+	/// @param y The Y component.
 	Point2(int x, int y);
 
-	/**
-	 * \brief Assignment operator.
-	 * \param o The point to copy from.
-	 * \return A reference to this point.
-	 */
-	Point2 &operator=(const Point2 &o);
-
-	/**
-	 * \brief Subtraction operator.
-	 * \param o The point to subtract.
-	 * \return The result of subtraction.
-	 */
+	/// @brief Subtraction operator.
+	/// @param o The point to subtract.
+	/// @return The result of subtraction.
 	Point2 operator-(const Point2 &o) const;
-
-	/**
-	 * \brief Subtraction assignment operator.
-	 * \param o The point to subtract.
-	 * \return A reference to this point.
-	 */
+	/// @brief Subtraction assignment operator.
+	/// @param o The point to subtract.
+	/// @return A reference to this point.
 	Point2 operator-=(const Point2 &o);
-
-	/**
-	 * \brief Addition operator.
-	 * \param o The point to add.
-	 * \return The result of addition.
-	 */
+	/// @brief Addition operator.
+	/// @param o The point to add.
+	/// @return The result of addition.
 	Point2 operator+(const Point2 &o) const;
-
-	/**
-	 * \brief Addition assignment operator.
-	 * \param o The point to add.
-	 * \return A reference to this point.
-	 */
+	/// @brief Addition assignment operator.
+	/// @param o The point to add.
+	/// @return A reference to this point.
 	Point2 operator+=(const Point2 &o);
-
-	/**
-	 * \brief Scalar multiplication operator.
-	 * \param scalar The scalar value.
-	 * \return The scaled point.
-	 */
+	/// @brief Scalar multiplication operator.
+	/// @param scalar The scalar value.
+	/// @return The scaled point.
 	Point2 operator*(const int scalar) const;
-
-	/**
-	 * \brief Scalar multiplication assignment operator.
-	 * \param scalar The scalar value.
-	 * \return A reference to this point.
-	 */
+	/// @brief Scalar multiplication assignment operator.
+	/// @param scalar The scalar value.
+	/// @return A reference to this point.
 	Point2 operator*=(const float scalar);
 };
 

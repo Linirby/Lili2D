@@ -1,7 +1,6 @@
 var structlili_1_1Vec3 =
 [
     [ "Vec3", "structlili_1_1Vec3.html#a565ea3bf1e636125052fe5a117b4fc67", null ],
-    [ "Vec3", "structlili_1_1Vec3.html#a00eeeeb747ab2ba2f095ae9df1713ab9", null ],
     [ "Vec3", "structlili_1_1Vec3.html#aa397ec3932214aebc0117fb23032b864", null ],
     [ "cross", "structlili_1_1Vec3.html#adc95c252fe5d40782b5fceabc1534d0d", null ],
     [ "dot", "structlili_1_1Vec3.html#a8d28607a7d0be0e5a6dfdb558a9449b0", null ],
@@ -14,5 +13,5 @@ var structlili_1_1Vec3 =
     [ "operator+=", "structlili_1_1Vec3.html#ae03909e0cd2eba2fa213267abbd839d2", null ],
     [ "operator-", "structlili_1_1Vec3.html#a89711174e2cb90bd2de9c2a1c6e98cb2", null ],
     [ "operator-=", "structlili_1_1Vec3.html#a690c19c96b651cf90768012d57a754fa", null ],
-    [ "operator=", "structlili_1_1Vec3.html#a34a1413a923b3db38907cde66b5e1b44", null ]
+    [ "z", "structlili_1_1Vec3.html#a7c392faca7f40ad332ef32c59b2ee889", null ]
 ];

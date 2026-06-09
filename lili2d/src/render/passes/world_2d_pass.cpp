@@ -10,10 +10,7 @@ namespace lili {
 
 World2DPass::World2DPass(
 	SDL_GPUDevice *device, SDL_GPUGraphicsPipeline *pipeline
-) {
-	this->device = device;
-	this->pipeline = pipeline;
-}
+) : device(device), pipeline(pipeline) {}
 
 void World2DPass::render(
 	SDL_GPURenderPass *pass,

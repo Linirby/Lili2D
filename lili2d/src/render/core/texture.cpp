@@ -6,8 +6,8 @@
 
 namespace lili {
 
-Texture::Texture(SDL_GPUDevice *device, const std::string &img_path) {
-	this->device = device;
+Texture::Texture(SDL_GPUDevice *device, const std::string &img_path)
+	: device(device) {
 	SDL_Surface *temp_surface = IMG_Load(img_path.c_str());
 	if (!temp_surface)
 		throw std::runtime_error("Failed to load image " + img_path);
@@ -18,8 +18,10 @@ Texture::Texture(SDL_GPUDevice *device, const std::string &img_path) {
 	init_from_surface(surface);
 }
 
-Texture::Texture(SDL_GPUDevice *device, const unsigned char *data, unsigned int len) {
-	this->device = device;
+Texture::Texture(
+	SDL_GPUDevice *device, const unsigned char *data, unsigned int len
+)
+	: device(device) {
 	SDL_IOStream *io = SDL_IOFromConstMem(data, len);
 	if (!io)
 		throw std::runtime_error("Failed to create IOStream from memory");
@@ -38,13 +40,12 @@ Texture::Texture(SDL_GPUDevice *device, SDL_Surface *surface) {
 	init_from_surface(surface);
 }
 
-Texture::Texture(Texture &&other) noexcept {
-	device = other.device;
-	width = other.width;
-	height = other.height;
-	texture = other.texture;
-	sampler = other.sampler;
-
+Texture::Texture(Texture &&other) noexcept
+	: device(other.device),
+	width(other.width),
+	height(other.height),
+	texture(other.texture),
+	sampler(other.sampler) {
 	other.device = nullptr;
 	other.texture = nullptr;
 	other.sampler = nullptr;

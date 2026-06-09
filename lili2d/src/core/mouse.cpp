@@ -4,15 +4,6 @@
 
 namespace lili {
 
-Mouse::Mouse() {
-	current = 0;
-	previous = 0;
-	current_x = 0.0f;
-	current_y = 0.0f;
-	current_dx = 0.0f;
-	current_dy = 0.0f;
-}
-
 void Mouse::update() {
 	previous = current;
 	current_dx = 0.0f;

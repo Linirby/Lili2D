@@ -2,10 +2,10 @@ var classlili_1_1Sprite =
 [
     [ "Sprite", "classlili_1_1Sprite.html#aa038d3367ec10b6e3791c7057c5d5aa0", null ],
     [ "Sprite", "classlili_1_1Sprite.html#a175886d6e26fc4f2d355e6fade4d0722", null ],
-    [ "~Sprite", "classlili_1_1Sprite.html#ab86c8c067dc88badfd8a57215b085db8", null ],
     [ "Sprite", "classlili_1_1Sprite.html#a95183abb4eccc691ba54f8e50f140ff0", null ],
     [ "draw", "classlili_1_1Sprite.html#a73aab0c5ef9b04a3111734a1c7e2bf90", null ],
     [ "get_height", "classlili_1_1Sprite.html#aeb1f4a72a039c2ef1bfb8aa36799c437", null ],
+    [ "get_material", "classlili_1_1Sprite.html#a69ae7744435503d80ba56718d2128518", null ],
     [ "get_size", "classlili_1_1Sprite.html#a8a214098e36ffc75a1e13538bb36cb8d", null ],
     [ "get_width", "classlili_1_1Sprite.html#ac28235f83704b90399e582a27e97ff23", null ],
     [ "operator=", "classlili_1_1Sprite.html#a2f99ae7840ab97bfe21dc3a22fde4583", null ],

@@ -21,78 +21,64 @@
 
 namespace lili {
 
-/**
- * \brief Main renderer class responsible for handling drawing operations.
- */
+/// @brief Main renderer class responsible for handling drawing operations.
 class Renderer {
 public:
-	/**
-	 * \brief Constructor for the renderer.
-	 * \param window The window to render to.
-	 */
+	/// @brief Constructor for the renderer.
+	/// @param window The window to render to.
 	Renderer(Window *window);
-	/// \brief Destructor.
+	/// @brief Destructor.
 	~Renderer();
-
-	/// \brief Copy constructor is deleted to prevent double-freeing the SDL GPU device.
+	/// @brief Move constructor.
+	Renderer(Renderer &&other) noexcept;
+	/// @brief Move assignment.
+	Renderer& operator=(Renderer &&other) noexcept;
+	/// @brief Copy constructor is deleted to prevent double-freeing the SDL GPU device.
 	Renderer(const Renderer &) = delete;
-	/// \brief Copy assignment is deleted to prevent double-freeing the SDL GPU device.
+	/// @brief Copy assignment is deleted to prevent double-freeing the SDL GPU device.
 	Renderer& operator=(const Renderer &) = delete;
 
-	/**
-	 * \brief Gets the SDL GPU device.
-	 * \return Pointer to the SDL_GPUDevice.
-	 */
+	/// @brief Gets the SDL GPU device.
+	/// @return Pointer to the SDL_GPUDevice.
 	SDL_GPUDevice *get_device() const;
 
-	/**
-	 * \brief Begins the rendering frame.
-	 * \return True if the frame was successfully started, false otherwise.
-	 */
+	/// @brief Begins the rendering frame.
+	/// @return True if the frame was successfully started, false otherwise.
 	bool begin_frame();
-	/**
-	 * \brief Submits a model for rendering.
-	 * \param model The model to render.
-	 * \param transform The transformation matrix.
-	 * \param layer The rendering layer depth.
-	 * \param layer_type The type of the rendering layer.
-	 */
+	/// @brief Submits a model for rendering.
+	/// @param model The model to render.
+	/// @param transform The transformation matrix.
+	/// @param layer The rendering layer depth.
+	/// @param layer_type The type of the rendering layer.
 	void submit(
 		Model model, const Mat3 &transform, float layer, RenderLayer layer_type
 	);
-	/// \brief Ends the rendering frame.
+	/// @brief Ends the rendering frame.
 	void end_frame();
-	/**
-	 * \brief Sets the active camera.
-	 * \param camera Pointer to the camera.
-	 */
+	/// @brief Sets the active camera.
+	/// @param camera Pointer to the camera.
 	void set_camera(Camera *camera);
 
-	/**
-	 * \brief Creates a shader from file paths.
-	 * \param vert_path Path to the vertex shader file.
-	 * \param frag_path Path to the fragment shader file.
-	 * \param vert_infos Binding info for the vertex shader.
-	 * \param frag_infos Binding info for the fragment shader.
-	 * \return A new Shader instance.
-	 */
+	/// @brief Creates a shader from file paths.
+	/// @param vert_path Path to the vertex shader file.
+	/// @param frag_path Path to the fragment shader file.
+	/// @param vert_infos Binding info for the vertex shader.
+	/// @param frag_infos Binding info for the fragment shader.
+	/// @return A new Shader instance.
 	Shader* create_shader(
 		const std::string &vert_path,
 		const std::string &frag_path,
 		ShaderInfo vert_infos = {},
 		ShaderInfo frag_infos = {}
 	);
-
-	/**
-	 * \brief Creates a shader from memory.
-	 * \param vert_code Pointer to the vertex shader code.
-	 * \param vert_size Size of the vertex shader code.
-	 * \param frag_code Pointer to the fragment shader code.
-	 * \param frag_size Size of the fragment shader code.
-	 * \param vert_infos Binding info for the vertex shader.
-	 * \param frag_infos Binding info for the fragment shader.
-	 * \return A new Shader instance.
-	 */
+	/// @brief Creates a shader from memory.
+	/// @param vert_code Pointer to the vertex shader code.
+	/// @param vert_size Size of the vertex shader code.
+	/// @param frag_code Pointer to the fragment shader code.
+	/// @param frag_size Size of the fragment shader code.
+	/// @param vert_infos Binding info for the vertex shader.
+	/// @param frag_infos Binding info for the fragment shader.
+	/// @return A new Shader instance.
 	Shader* create_shader(
 		const uint8_t *vert_code,
 		size_t vert_size,
@@ -102,37 +88,24 @@ public:
 		ShaderInfo frag_infos = {}
 	);
 
-	/**
-	 * \brief Creates a custom world 2D pipeline with a given shader.
-	 * \param shader The custom shader.
-	 * \return A new WorldPipeline instance.
-	 */
+	/// @brief Creates a custom world 2D pipeline with a given shader.
+	/// @param shader The custom shader.
+	/// @return A new WorldPipeline instance.
 	WorldPipeline* create_world_pipeline(Shader *shader);
-
-	/**
-	 * \brief Creates a custom UI pipeline with a given shader.
-	 * \param shader The custom shader.
-	 * \return A new UIPipeline instance.
-	 */
+	/// @brief Creates a custom UI pipeline with a given shader.
+	/// @param shader The custom shader.
+	/// @return A new UIPipeline instance.
 	UIPipeline* create_ui_pipeline(Shader *shader);
 
-	/**
-	 * \brief Gets the default white pixel texture.
-	 * \return Pointer to the white pixel texture.
-	 */
+	/// @brief Gets the default white pixel texture.
+	/// @return Pointer to the white pixel texture.
 	Texture *get_the_white_pixel() const;
-
-	/**
-	 * \brief Gets the shared unit quad mesh.
-	 * \return Pointer to the shared GPUMesh for a unit quad.
-	 */
+	/// @brief Gets the shared unit quad mesh.
+	/// @return Pointer to the shared GPUMesh for a unit quad.
 	GPUMesh* get_unit_quad();
-
-	/**
-	 * \brief Gets or creates a shared unit circle mesh.
-	 * \param segments The number of segments (resolution) of the circle.
-	 * \return Pointer to the shared GPUMesh for a unit circle.
-	 */
+	/// @brief Gets or creates a shared unit circle mesh.
+	/// @param segments The number of segments (resolution) of the circle.
+	/// @return Pointer to the shared GPUMesh for a unit circle.
 	GPUMesh* get_unit_circle(int segments);
 
 private:
@@ -160,13 +133,13 @@ private:
 	GPUMesh *unit_quad = nullptr;
 	std::map<int, GPUMesh*> unit_circles;
 
-	/// \brief init_device method.
+	/// @brief init_device method.
 	void init_device();
-	/// \brief init_shaders method.
+	/// @brief init_shaders method.
 	void init_shaders();
-	/// \brief init_pipelines method.
+	/// @brief init_pipelines method.
 	void init_pipelines();
-	/// \brief init_passes method.
+	/// @brief init_passes method.
 	void init_passes();
 };
 

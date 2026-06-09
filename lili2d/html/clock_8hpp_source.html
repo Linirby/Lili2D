@@ -94,55 +94,53 @@ $(function(){initNavTree('clock_8hpp_source.html','',''); });
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span>lili {</div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span></div>
-<div class="foldopen" id="foldopen00008" data-start="{" data-end="};">
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="classlili_1_1Clock.html">    8</a></span><span class="keyword">class </span><a class="code hl_function" href="classlili_1_1Clock.html#a31d9f0ce9cddfb22a7ab7e28d9a6e5b4">Clock</a> {</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    <a class="code hl_function" href="classlili_1_1Clock.html#a31d9f0ce9cddfb22a7ab7e28d9a6e5b4">Clock</a>();</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <a class="code hl_function" href="classlili_1_1Clock.html#a31d9f0ce9cddfb22a7ab7e28d9a6e5b4">Clock</a>(<span class="keywordtype">float</span> tick_per_second);</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="classlili_1_1Clock.html#aa50b729eed82bfb4bb2925fc7e163a9f">   16</a></span>    <a class="code hl_function" href="classlili_1_1Clock.html#aa50b729eed82bfb4bb2925fc7e163a9f">~Clock</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classlili_1_1Clock.html#abfa1786366d556314ad27ce7e866e778">set_tps</a>(<span class="keywordtype">float</span> value);</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classlili_1_1Clock.html#a4f0279692d19a72ab73c3abed7e55c62">update</a>();</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;SDL3/SDL_timer.h&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span>lili {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span></div>
+<div class="foldopen" id="foldopen00010" data-start="{" data-end="};">
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="classlili_1_1Clock.html">   10</a></span><span class="keyword">class </span><a class="code hl_function" href="classlili_1_1Clock.html#ac37a911acf5ce969a8682dfe2de8a4d3">Clock</a> {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="classlili_1_1Clock.html#ac37a911acf5ce969a8682dfe2de8a4d3">   13</a></span>    <a class="code hl_function" href="classlili_1_1Clock.html#ac37a911acf5ce969a8682dfe2de8a4d3">Clock</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <a class="code hl_function" href="classlili_1_1Clock.html#ac37a911acf5ce969a8682dfe2de8a4d3">Clock</a>(<span class="keywordtype">float</span> tick_per_second);</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classlili_1_1Clock.html#abfa1786366d556314ad27ce7e866e778">set_tps</a>(<span class="keywordtype">float</span> value);</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classlili_1_1Clock.html#a4f0279692d19a72ab73c3abed7e55c62">update</a>();</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classlili_1_1Clock.html#ab79180738569d0ce4de1bdff4e186408">step</a>();</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span></div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classlili_1_1Clock.html#ab79180738569d0ce4de1bdff4e186408">step</a>();</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keywordtype">float</span> <a class="code hl_function" href="classlili_1_1Clock.html#a25604c55f1ecedf7304acc228cfc828d">get_fixed_dt</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keywordtype">float</span> <a class="code hl_function" href="classlili_1_1Clock.html#aad2fd6f35c2991844e7a20b4a62f7b20">get_dt</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordtype">float</span> <a class="code hl_function" href="classlili_1_1Clock.html#aa74c5fbbddd7ed2e1183d06c0c2849f8">get_alpha</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classlili_1_1Clock.html#a918ffef16e93cafa7441f521868c8d76">get_fps</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    uint64_t last = 0;</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    uint64_t now = 0;</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordtype">float</span> fixed_dt = 0;</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keywordtype">float</span> dt = 0;</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keywordtype">float</span> accumulator = 0;</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keywordtype">float</span> second_counter = 0;</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="keywordtype">int</span> fps = 0;</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="keywordtype">int</span> temp_fps = 0;</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>};</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keywordtype">float</span> <a class="code hl_function" href="classlili_1_1Clock.html#a25604c55f1ecedf7304acc228cfc828d">get_fixed_dt</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordtype">float</span> <a class="code hl_function" href="classlili_1_1Clock.html#aad2fd6f35c2991844e7a20b4a62f7b20">get_dt</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keywordtype">float</span> <a class="code hl_function" href="classlili_1_1Clock.html#aa74c5fbbddd7ed2e1183d06c0c2849f8">get_alpha</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classlili_1_1Clock.html#a918ffef16e93cafa7441f521868c8d76">get_fps</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordtype">float</span> <a class="code hl_function" href="classlili_1_1Clock.html#a2b103f7c3b58d1d8cc4013e1a009fc3f">get_time</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    uint64_t last = SDL_GetTicks();</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    uint64_t now = 0;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordtype">float</span> fixed_dt = 1.0f / 20.0f;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordtype">float</span> dt = 0.0f;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordtype">float</span> accumulator = 0.0f;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keywordtype">float</span> second_counter = 0.0f;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keywordtype">int</span> fps = 0;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keywordtype">int</span> temp_fps = 0;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>};</div>
 </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>}  <span class="comment">// namespace lili</span></div>
-<div class="ttc" id="aclasslili_1_1Clock_html_a25604c55f1ecedf7304acc228cfc828d"><div class="ttname"><a href="classlili_1_1Clock.html#a25604c55f1ecedf7304acc228cfc828d">lili::Clock::get_fixed_dt</a></div><div class="ttdeci">float get_fixed_dt() const</div><div class="ttdoc">Gets the fixed delta time.</div><div class="ttdef"><b>Definition</b> clock.cpp:47</div></div>
-<div class="ttc" id="aclasslili_1_1Clock_html_a31d9f0ce9cddfb22a7ab7e28d9a6e5b4"><div class="ttname"><a href="classlili_1_1Clock.html#a31d9f0ce9cddfb22a7ab7e28d9a6e5b4">lili::Clock::Clock</a></div><div class="ttdeci">Clock()</div><div class="ttdoc">Constructs the Clock.</div><div class="ttdef"><b>Definition</b> clock.cpp:7</div></div>
-<div class="ttc" id="aclasslili_1_1Clock_html_a4f0279692d19a72ab73c3abed7e55c62"><div class="ttname"><a href="classlili_1_1Clock.html#a4f0279692d19a72ab73c3abed7e55c62">lili::Clock::update</a></div><div class="ttdeci">void update()</div><div class="ttdoc">Updates the clock, calculating delta time since the last update.</div><div class="ttdef"><b>Definition</b> clock.cpp:21</div></div>
-<div class="ttc" id="aclasslili_1_1Clock_html_a918ffef16e93cafa7441f521868c8d76"><div class="ttname"><a href="classlili_1_1Clock.html#a918ffef16e93cafa7441f521868c8d76">lili::Clock::get_fps</a></div><div class="ttdeci">int get_fps() const</div><div class="ttdoc">Gets the current frames per second.</div><div class="ttdef"><b>Definition</b> clock.cpp:50</div></div>
-<div class="ttc" id="aclasslili_1_1Clock_html_aa50b729eed82bfb4bb2925fc7e163a9f"><div class="ttname"><a href="classlili_1_1Clock.html#aa50b729eed82bfb4bb2925fc7e163a9f">lili::Clock::~Clock</a></div><div class="ttdeci">~Clock()=default</div><div class="ttdoc">Destroys the Clock.</div></div>
-<div class="ttc" id="aclasslili_1_1Clock_html_aa74c5fbbddd7ed2e1183d06c0c2849f8"><div class="ttname"><a href="classlili_1_1Clock.html#aa74c5fbbddd7ed2e1183d06c0c2849f8">lili::Clock::get_alpha</a></div><div class="ttdeci">float get_alpha() const</div><div class="ttdoc">Gets the interpolation alpha for rendering between fixed steps.</div><div class="ttdef"><b>Definition</b> clock.cpp:49</div></div>
-<div class="ttc" id="aclasslili_1_1Clock_html_aad2fd6f35c2991844e7a20b4a62f7b20"><div class="ttname"><a href="classlili_1_1Clock.html#aad2fd6f35c2991844e7a20b4a62f7b20">lili::Clock::get_dt</a></div><div class="ttdeci">float get_dt() const</div><div class="ttdoc">Gets the delta time since the last frame.</div><div class="ttdef"><b>Definition</b> clock.cpp:48</div></div>
-<div class="ttc" id="aclasslili_1_1Clock_html_ab79180738569d0ce4de1bdff4e186408"><div class="ttname"><a href="classlili_1_1Clock.html#ab79180738569d0ce4de1bdff4e186408">lili::Clock::step</a></div><div class="ttdeci">bool step()</div><div class="ttdoc">Steps the fixed accumulator.</div><div class="ttdef"><b>Definition</b> clock.cpp:39</div></div>
-<div class="ttc" id="aclasslili_1_1Clock_html_abfa1786366d556314ad27ce7e866e778"><div class="ttname"><a href="classlili_1_1Clock.html#abfa1786366d556314ad27ce7e866e778">lili::Clock::set_tps</a></div><div class="ttdeci">void set_tps(float value)</div><div class="ttdoc">Sets the fixed delta time for physics or fixed updates.</div><div class="ttdef"><b>Definition</b> clock.cpp:17</div></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>}  <span class="comment">// namespace lili</span></div>
+<div class="ttc" id="aclasslili_1_1Clock_html_a25604c55f1ecedf7304acc228cfc828d"><div class="ttname"><a href="classlili_1_1Clock.html#a25604c55f1ecedf7304acc228cfc828d">lili::Clock::get_fixed_dt</a></div><div class="ttdeci">float get_fixed_dt() const</div><div class="ttdoc">Gets the fixed delta time.</div><div class="ttdef"><b>Definition</b> clock.cpp:37</div></div>
+<div class="ttc" id="aclasslili_1_1Clock_html_a2b103f7c3b58d1d8cc4013e1a009fc3f"><div class="ttname"><a href="classlili_1_1Clock.html#a2b103f7c3b58d1d8cc4013e1a009fc3f">lili::Clock::get_time</a></div><div class="ttdeci">float get_time() const</div><div class="ttdoc">Gets the current time in seconds.</div><div class="ttdef"><b>Definition</b> clock.cpp:41</div></div>
+<div class="ttc" id="aclasslili_1_1Clock_html_a4f0279692d19a72ab73c3abed7e55c62"><div class="ttname"><a href="classlili_1_1Clock.html#a4f0279692d19a72ab73c3abed7e55c62">lili::Clock::update</a></div><div class="ttdeci">void update()</div><div class="ttdoc">Updates the clock, calculating delta time since the last update.</div><div class="ttdef"><b>Definition</b> clock.cpp:11</div></div>
+<div class="ttc" id="aclasslili_1_1Clock_html_a918ffef16e93cafa7441f521868c8d76"><div class="ttname"><a href="classlili_1_1Clock.html#a918ffef16e93cafa7441f521868c8d76">lili::Clock::get_fps</a></div><div class="ttdeci">int get_fps() const</div><div class="ttdoc">Gets the current frames per second.</div><div class="ttdef"><b>Definition</b> clock.cpp:40</div></div>
+<div class="ttc" id="aclasslili_1_1Clock_html_aa74c5fbbddd7ed2e1183d06c0c2849f8"><div class="ttname"><a href="classlili_1_1Clock.html#aa74c5fbbddd7ed2e1183d06c0c2849f8">lili::Clock::get_alpha</a></div><div class="ttdeci">float get_alpha() const</div><div class="ttdoc">Gets the interpolation alpha for rendering between fixed steps.</div><div class="ttdef"><b>Definition</b> clock.cpp:39</div></div>
+<div class="ttc" id="aclasslili_1_1Clock_html_aad2fd6f35c2991844e7a20b4a62f7b20"><div class="ttname"><a href="classlili_1_1Clock.html#aad2fd6f35c2991844e7a20b4a62f7b20">lili::Clock::get_dt</a></div><div class="ttdeci">float get_dt() const</div><div class="ttdoc">Gets the delta time since the last frame.</div><div class="ttdef"><b>Definition</b> clock.cpp:38</div></div>
+<div class="ttc" id="aclasslili_1_1Clock_html_ab79180738569d0ce4de1bdff4e186408"><div class="ttname"><a href="classlili_1_1Clock.html#ab79180738569d0ce4de1bdff4e186408">lili::Clock::step</a></div><div class="ttdeci">bool step()</div><div class="ttdoc">Steps the fixed accumulator.</div><div class="ttdef"><b>Definition</b> clock.cpp:29</div></div>
+<div class="ttc" id="aclasslili_1_1Clock_html_abfa1786366d556314ad27ce7e866e778"><div class="ttname"><a href="classlili_1_1Clock.html#abfa1786366d556314ad27ce7e866e778">lili::Clock::set_tps</a></div><div class="ttdeci">void set_tps(float value)</div><div class="ttdoc">Sets the fixed delta time for physics or fixed updates.</div><div class="ttdef"><b>Definition</b> clock.cpp:7</div></div>
+<div class="ttc" id="aclasslili_1_1Clock_html_ac37a911acf5ce969a8682dfe2de8a4d3"><div class="ttname"><a href="classlili_1_1Clock.html#ac37a911acf5ce969a8682dfe2de8a4d3">lili::Clock::Clock</a></div><div class="ttdeci">Clock()=default</div><div class="ttdoc">Constructs the Clock.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

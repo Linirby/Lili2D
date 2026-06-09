@@ -10,8 +10,8 @@ Shader::Shader(
 	const std::string &frag_path,
 	ShaderInfo vert_infos,
 	ShaderInfo frag_infos
-) {
-	this->device = device;
+)
+	: device(device) {
 	CodeInfo vertex_code_info = get_code_info(vert_path);
 	SDL_GPUShaderCreateInfo vertex_ci{};
 	vertex_ci.code_size = vertex_code_info.size;
@@ -61,8 +61,8 @@ Shader::Shader(
 	size_t frag_size,
 	ShaderInfo vert_infos,
 	ShaderInfo frag_infos
-) {
-	this->device = device;
+)
+	: device(device) {
 	SDL_GPUShaderCreateInfo vertex_ci{};
 	vertex_ci.code_size = vert_size;
 	vertex_ci.code = vert_code;
@@ -107,6 +107,29 @@ Shader::~Shader() {
 		SDL_ReleaseGPUShader(device, fragment_shader);
 	if (vertex_shader)
 		SDL_ReleaseGPUShader(device, vertex_shader);
+}
+
+Shader::Shader(Shader &&other) noexcept
+	: device(other.device),
+	  vertex_shader(other.vertex_shader),
+	  fragment_shader(other.fragment_shader) {
+	other.vertex_shader = nullptr;
+	other.fragment_shader = nullptr;
+}
+
+Shader& Shader::operator=(Shader &&other) noexcept {
+	if (this != &other) {
+		if (fragment_shader)
+			SDL_ReleaseGPUShader(device, fragment_shader);
+		if (vertex_shader)
+			SDL_ReleaseGPUShader(device, vertex_shader);
+		device = other.device;
+		vertex_shader = other.vertex_shader;
+		fragment_shader = other.fragment_shader;
+		other.vertex_shader = nullptr;
+		other.fragment_shader = nullptr;
+	}
+	return *this;
 }
 
 SDL_GPUShader *Shader::get_vertex() const {

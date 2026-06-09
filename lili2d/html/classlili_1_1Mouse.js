@@ -1,7 +1,5 @@
 var classlili_1_1Mouse =
 [
-    [ "Mouse", "classlili_1_1Mouse.html#a5837f0abf65f0ed96dcfe100535e6c46", null ],
-    [ "~Mouse", "classlili_1_1Mouse.html#a8e8ca0704e4f52e8fdd8d893576f66c0", null ],
     [ "get_dx", "classlili_1_1Mouse.html#a5eb6f8e03df6852ae3109cb77ceb73d1", null ],
     [ "get_dy", "classlili_1_1Mouse.html#a46036048338cf103862718daa60dc035", null ],
     [ "get_x", "classlili_1_1Mouse.html#a82fa10af044a51d4507850ba034d5d9d", null ],

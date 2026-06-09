@@ -4,12 +4,6 @@
 
 namespace lili {
 
-Keyboard::Keyboard() {
-	current = nullptr;
-	std::memset(previous, 0, sizeof(previous));
-	key_count = 0;
-}
-
 void Keyboard::update() {
 	if (current)
 		std::memcpy(previous, current, key_count * sizeof(bool));

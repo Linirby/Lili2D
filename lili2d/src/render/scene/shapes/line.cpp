@@ -7,15 +7,12 @@ namespace lili {
 LineShape::LineShape(Vec2 start, Vec2 end, float thickness)
 	: start(start), end(end), thickness(thickness) {}
 
-Line::Line(Renderer *renderer, LineShape shape, Vec4 color) {
-	this->renderer = renderer;
-
+Line::Line(Renderer *renderer, LineShape shape, Vec4 color)
+	: renderer(renderer) {
 	mesh = renderer->get_unit_quad();
 	material = std::make_unique<Material>(renderer->get_the_white_pixel());
-
 	set_shape(shape);
 	set_color(color);
-
 	layer = 0.0f;
 }
 

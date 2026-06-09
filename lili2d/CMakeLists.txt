@@ -7,6 +7,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 add_compile_options(-Wall -Wextra)
 
+
 find_package(SDL3 REQUIRED CONFIG)
 find_package(SDL3_image REQUIRED CONFIG)
 
@@ -126,6 +127,14 @@ target_link_libraries(LiliRender PRIVATE
 )
 
 add_library(Lili2D SHARED)
+
+include(CheckIPOSupported)
+check_ipo_supported(RESULT result OUTPUT output)
+if(result)
+    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+else()
+    message(WARNING "IPO is not supported: ${output}")
+endif()
 target_sources(Lili2D PRIVATE
     $<TARGET_OBJECTS:LiliCore>
     $<TARGET_OBJECTS:LiliGeometry>

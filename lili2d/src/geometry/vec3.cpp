@@ -5,13 +5,6 @@ namespace lili {
 
 Vec3::Vec3(float x, float y, float z) : x(x), y(y), z(z) {}
 
-Vec3 Vec3::operator=(const Vec3 &o) {
-	x = o.x;
-	y = o.y;
-	z = o.z;
-	return *this;
-}
-
 Vec3 Vec3::operator-(const Vec3 &o) const {
 	return { x - o.x, y - o.y, z - o.z };
 }

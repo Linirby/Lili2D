@@ -9,27 +9,54 @@ static int window_count = 0;
 Window::Window(const std::string &title, int width, int height) {
 	if (window_count == 0) {
 		if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS)) {
-			throw std::runtime_error("Failed to initialize SDL: " + std::string(SDL_GetError()));
+			throw std::runtime_error(
+				"Failed to initialize SDL: " + std::string(SDL_GetError())
+			);
 		}
 	}
 	window_count++;
-
-	resizable = false;
-	borderless = false;
-	fullscreen = false;
 	window = SDL_CreateWindow(title.c_str(), width, height, 0);
 	if (!window) {
-		throw std::runtime_error("Failed to create SDL_Window: " + std::string(SDL_GetError()));
+		throw std::runtime_error(
+			"Failed to create SDL_Window: " + std::string(SDL_GetError())
+		);
 	}
 }
 
 Window::~Window() {
-	if (window) SDL_DestroyWindow(window);
-
-	window_count--;
-	if (window_count == 0) {
-		SDL_Quit();
+	if (window) {
+		SDL_DestroyWindow(window);
+		window_count--;
+		if (window_count == 0) {
+			SDL_Quit();
+		}
 	}
+}
+
+Window::Window(Window &&other) noexcept
+	: resizable(other.resizable),
+	  borderless(other.borderless),
+	  fullscreen(other.fullscreen),
+	  window(other.window) {
+	other.window = nullptr;
+}
+
+Window& Window::operator=(Window &&other) noexcept {
+	if (this != &other) {
+		if (window) {
+			SDL_DestroyWindow(window);
+			window_count--;
+			if (window_count == 0) {
+				SDL_Quit();
+			}
+		}
+		resizable = other.resizable;
+		borderless = other.borderless;
+		fullscreen = other.fullscreen;
+		window = other.window;
+		other.window = nullptr;
+	}
+	return *this;
 }
 
 void Window::set_title(const std::string &title) {

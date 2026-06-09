@@ -7,28 +7,31 @@ namespace lili {
 /// @brief Represents Shader.
 class Shader;
 
-/**
- * \brief Graphics pipeline for UI and world rendering.
- */
+/// @brief Graphics pipeline for UI and world rendering.
 class UIPipeline {
 public:
-	/// \brief Constructs the WorldPipeline.
+	/// @brief Constructs the UIPipeline.
 	UIPipeline() = default;
-	UIPipeline(UIPipeline &&) = default;
-	/**
-	 * \brief Constructs the UI pipeline.
-	 * \param device The SDL GPU device.
-	 * \param window The window to render to.
-	 * \param shader The shader program.
-	 */
+
+	/// @brief Move constructor.
+	UIPipeline(UIPipeline &&other) noexcept;
+	/// @brief Move assignment.
+	UIPipeline& operator=(UIPipeline &&other) noexcept;
+
+	/// @brief Copy constructor is deleted.
+	UIPipeline(const UIPipeline &) = delete;
+	/// @brief Copy assignment is deleted.
+	UIPipeline& operator=(const UIPipeline &) = delete;
+	/// @brief Constructs the UI pipeline.
+	/// @param device The SDL GPU device.
+	/// @param window The window to render to.
+	/// @param shader The shader program.
 	UIPipeline(SDL_GPUDevice *device, SDL_Window *window, Shader *shader);
-	/// \brief Destructor.
+	/// @brief Destructor.
 	~UIPipeline();
 
-	/**
-	 * \brief Gets the underlying SDL GPU pipeline.
-	 * \return Pointer to the SDL_GPUGraphicsPipeline.
-	 */
+	/// @brief Gets the underlying SDL GPU pipeline.
+	/// @return Pointer to the SDL_GPUGraphicsPipeline.
 	SDL_GPUGraphicsPipeline *get_sdl_pipeline();
 
 private:

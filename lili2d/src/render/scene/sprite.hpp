@@ -11,88 +11,57 @@
 
 namespace lili {
 
-/**
- * \brief Represents a renderable 2D sprite.
- */
+/// @brief Represents a renderable 2D sprite.
 class Sprite {
 public:
-	/// \brief Default constructor.
+	/// @brief Default constructor.
 	Sprite() = default;
-	/**
-	 * \brief Constructs a sprite from an image file.
-	 * \param renderer The renderer.
-	 * \param path Path to the image file.
-	 */
+	/// @brief Constructs a sprite from an image file.
+	/// @param renderer The renderer.
+	/// @param path Path to the image file.
 	Sprite(Renderer *renderer, const std::string &path);
-	/// \brief Default destructor.
-	~Sprite() = default;
-
-	/// \brief Move constructor.
+	/// @brief Move constructor.
 	Sprite(Sprite &&) = default;
-	/**
-	 * \brief Move assignment operator.
-	 * \return Reference to the assigned sprite.
-	 */
+	/// @brief Move assignment operator.
+	/// @return Reference to the assigned sprite.
 	Sprite &operator=(Sprite &&) = default;
 
-	/**
-	 * \brief Sets the sprite's image.
-	 * \param path Path to the new image file.
-	 */
+	/// @brief Sets the sprite's image.
+	/// @param path Path to the new image file.
 	void set_image(const std::string &path);
-	/**
-	 * \brief Sets the sprite's color tint.
-	 * \param color The new color tint.
-	 */
+	/// @brief Sets the sprite's color tint.
+	/// @param color The new color tint.
 	void set_color_tint(const Vec4 &color);
-	/**
-	 * \brief Sets the sprite's position.
-	 * \param position The new position.
-	 */
+	/// @brief Sets the sprite's position.
+	/// @param position The new position.
 	void set_position(const Vec2 &position);
-	/**
-	 * \brief Sets the sprite's scale.
-	 * \param scale The new scale.
-	 */
+	/// @brief Sets the sprite's scale.
+	/// @param scale The new scale.
 	void set_scale(const Vec2 &scale);
-	/**
-	 * \brief Sets the sprite's size (in px).
-	 * \param size The new size.
-	 */
+	/// @brief Sets the sprite's size (in px).
+	/// @param size The new size.
 	void set_size(const Vec2 &size);
-	/**
-	 * \brief Sets the sprite's rotation.
-	 * \param degree The rotation in degrees.
-	 */
+	/// @brief Sets the sprite's rotation.
+	/// @param degree The rotation in degrees.
 	void set_rotation(float degree);
-	/**
-	 * \brief Sets the sprite's rendering layer.
-	 * \param layer The new layer depth.
-	 */
+	/// @brief Sets the sprite's rendering layer.
+	/// @param layer The new layer depth.
 	void set_layer(float layer);
 
-	/**
-	 * \brief Get the render width of the sprite.
-	 * \return The width.
-	 */
+	/// @brief Get the render width of the sprite.
+	/// @return The width.
 	float get_width() const;
-	/**
-	 * \brief Get the render height of the sprite.
-	 * \return The height.
-	 */
+	/// @brief Get the render height of the sprite.
+	/// @return The height.
 	float get_height() const;
-	/**
-	 * \brief Get the render size of the sprite.
-	 * \return A 2D vector of the width and height.
-	 */
+	/// @brief Get the render size of the sprite.
+	/// @return A 2D vector of the width and height.
 	Vec2 get_size() const;
-	/**
-	 * \brief Gets the material.
-	 * \return Pointer to the material.
-	 */
+	/// @brief Gets the material.
+	/// @return Pointer to the material.
 	Material* get_material() const;
 
-	/// \brief Submits the sprite for drawing.
+	/// @brief Submits the sprite for drawing.
 	void draw();
 
 private:

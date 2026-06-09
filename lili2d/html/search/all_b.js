@@ -17,7 +17,7 @@ var searchData=
   ['min_14',['min',['../structlili_1_1AABB.html#a8fcd22a8860a5dc92625d48285a74253',1,'lili::AABB']]],
   ['model_15',['Model',['../structlili_1_1Model.html',1,'lili::Model'],['../structlili_1_1Model.html#a3c3a3fe2b563ae3b5be14eab927f8ad4',1,'lili::Model::Model()'],['../structlili_1_1Model.html#a9c495005407605b5466f4aa4c7d9d02b',1,'lili::Model::Model(GPUMesh *mesh, Material *material)']]],
   ['model_16',['model',['../structlili_1_1DrawCommand.html#ae836ca4bfb52a4af30d12250a1d43237',1,'lili::DrawCommand']]],
-  ['mouse_17',['Mouse',['../classlili_1_1Mouse.html',1,'lili::Mouse'],['../classlili_1_1Mouse.html#a5837f0abf65f0ed96dcfe100535e6c46',1,'lili::Mouse::Mouse()']]],
+  ['mouse_17',['Mouse',['../classlili_1_1Mouse.html',1,'lili']]],
   ['mouse_5fbutton_18',['mouse_button',['../classlili_1_1Event.html#a9e1830d42e7efa3418cfdb36629b02b6',1,'lili::Event']]],
   ['mouse_5fbutton_5fpressed_19',['mouse_button_pressed',['../classlili_1_1Event.html#ad3261472fd18ecae9e765e6822ddd4be',1,'lili::Event']]],
   ['mouse_5fmotion_20',['mouse_motion',['../classlili_1_1Event.html#ab5e64c3845037b71ce948904a8ba2843',1,'lili::Event']]],

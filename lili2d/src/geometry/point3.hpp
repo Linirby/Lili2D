@@ -2,16 +2,12 @@
 
 namespace lili {
 
-/// \brief Represents an integer point in 3D space.
+/// @brief Represents an integer point in 3D space.
 struct Point3 {
-	int x, y, z;
-
-	/**
-	 * \brief Assignment operator.
-	 * \param o The point to copy from.
-	 * \return A reference to this point.
-	 */
-	Point3 operator=(const Point3 &o);
+	int x = 0;
+	int y = 0;
+	int z = 0;
+	///< 3D Coordinates of the point
 };
 
 }  // namespace lili

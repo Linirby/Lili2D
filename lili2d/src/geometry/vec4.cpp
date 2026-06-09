@@ -5,14 +5,6 @@ namespace lili {
 
 Vec4::Vec4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
 
-Vec4 Vec4::operator=(const Vec4 &o) {
-	x = o.x;
-	y = o.y;
-	z = o.z;
-	w = o.w;
-	return *this;
-}
-
 Vec4 Vec4::operator-(const Vec4 &o) const {
 	return { x - o.x, y - o.y, z - o.z, w - o.w };
 }

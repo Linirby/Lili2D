@@ -1,18 +1,8 @@
 #include "core/clock.hpp"
 
-#include <SDL3/SDL_timer.h>
-
 namespace lili {
 
-Clock::Clock() {
-	last = SDL_GetTicks();
-	fixed_dt = 1.0f / 30.0f;
-}
-
-Clock::Clock(float tick_per_second) {
-	last = SDL_GetTicks();
-	fixed_dt = 1.0f / tick_per_second;
-}
+Clock::Clock(float tick_per_second) : fixed_dt(1.0f / tick_per_second) {}
 
 void Clock::set_tps(float value) {
 	fixed_dt = 1.0f / value;

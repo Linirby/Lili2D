@@ -6,8 +6,8 @@
 
 namespace lili {
 
-Sprite::Sprite(Renderer *renderer, const std::string &path) {
-	this->renderer = renderer;
+Sprite::Sprite(Renderer *renderer, const std::string &path)
+	: renderer(renderer) {
 	texture = std::make_unique<Texture>(renderer->get_device(), path);
 
 	MeshData mesh_data = create_unit_quad();

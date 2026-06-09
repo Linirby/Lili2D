@@ -5,16 +5,12 @@ namespace lili {
 CircleShape::CircleShape(Vec2 center, float radius, int segments)
 	: center(center), radius(radius), segments(segments) {}
 
-Circle::Circle(Renderer *renderer, CircleShape shape, Vec4 color) {
-	this->renderer = renderer;
-
-	// Create circle with 32 segments
+Circle::Circle(Renderer *renderer, CircleShape shape, Vec4 color)
+	: renderer(renderer) {
 	mesh = renderer->get_unit_circle(shape.segments);
 	material = std::make_unique<Material>(renderer->get_the_white_pixel());
-
 	set_shape(shape);
 	set_color(color);
-
 	layer = 0.0f;
 }
 

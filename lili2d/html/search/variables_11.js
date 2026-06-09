@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['y_0',['y',['../structlili_1_1MouseButtonEvent.html#a6d890622984dd55076b1e405dcfc9bf3',1,'lili::MouseButtonEvent::y'],['../structlili_1_1MouseMotionEvent.html#a9750fd0e00f24a63333588faa2667647',1,'lili::MouseMotionEvent::y']]]
+  ['x_0',['x',['../structlili_1_1MouseButtonEvent.html#a32f2a2f3230053ea8bd4cb3f3112dd15',1,'lili::MouseButtonEvent::x'],['../structlili_1_1MouseMotionEvent.html#aa8868c05bdc58c5d26fc64e66d78d055',1,'lili::MouseMotionEvent::x']]]
 ];

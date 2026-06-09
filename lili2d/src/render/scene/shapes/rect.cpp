@@ -7,15 +7,12 @@ namespace lili {
 RectShape::RectShape(float x, float y, float w, float h)
 	: x(x), y(y), w(w), h(h) {}
 
-Rect::Rect(Renderer *renderer, RectShape shape, Vec4 color) {
-	this->renderer = renderer;
-
+Rect::Rect(Renderer *renderer, RectShape shape, Vec4 color)
+	: renderer(renderer) {
 	mesh = renderer->get_unit_quad();
 	material = std::make_unique<Material>(renderer->get_the_white_pixel());
-
 	set_shape(shape);
 	set_color(color);
-
 	rotation = 0.0f;
 	layer = 0.0f;
 }

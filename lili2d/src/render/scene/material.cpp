@@ -4,15 +4,11 @@
 
 namespace lili {
 
-Material::Material(Texture *texture) {
-	albedo_map = texture;
-	custom_pipeline = nullptr;
-}
+Material::Material(Texture *texture)
+	: albedo_map(texture), custom_pipeline(nullptr) {}
 
-Material::Material(Texture *texture, SDL_GPUGraphicsPipeline *pipeline) {
-	albedo_map = texture;
-	custom_pipeline = pipeline;
-}
+Material::Material(Texture *texture, SDL_GPUGraphicsPipeline *pipeline)
+	: albedo_map(texture), custom_pipeline(pipeline) {}
 
 MaterialRegistry &MaterialRegistry::get() {
 	static MaterialRegistry instance;
@@ -66,10 +62,6 @@ const Material &MaterialRegistry::get_material(uint8_t material_id) const {
 
 MaterialRegistry::MaterialRegistry() {
 	register_material("core:none", Material());
-
-	Material debug_mat;
-	debug_mat.properties.color_tint = { 1.0f, 0.9f, 0.8f, 1.0f };
-	register_material("core:debug", debug_mat);
 }
 
 size_t MaterialRegistry::material_count() const {

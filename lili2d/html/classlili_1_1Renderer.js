@@ -2,6 +2,7 @@ var classlili_1_1Renderer =
 [
     [ "Renderer", "classlili_1_1Renderer.html#a081112bfe1dd5040104bc865624b2b89", null ],
     [ "~Renderer", "classlili_1_1Renderer.html#ab9ac0abcd6a802224db6a095b36e5bb5", null ],
+    [ "Renderer", "classlili_1_1Renderer.html#ab9ebbc79cc213d541085d0a72fc1b3e9", null ],
     [ "Renderer", "classlili_1_1Renderer.html#abc77c68ab9209d97d676c0fe875c078a", null ],
     [ "begin_frame", "classlili_1_1Renderer.html#a1ac02c1580056aac202894bf202b5c26", null ],
     [ "create_shader", "classlili_1_1Renderer.html#a6be8ae7d57533ba24b5e638682166987", null ],
@@ -14,6 +15,7 @@ var classlili_1_1Renderer =
     [ "get_unit_circle", "classlili_1_1Renderer.html#aba76e840d1fe3dc84fb9ae1d27b71469", null ],
     [ "get_unit_quad", "classlili_1_1Renderer.html#a387000b31c50d08cbedaf95a6e96f3e9", null ],
     [ "operator=", "classlili_1_1Renderer.html#a967ec6c7f4d986b06bcce3a8b2365e81", null ],
+    [ "operator=", "classlili_1_1Renderer.html#a952e6a24a7aa3402326443f276ce39fb", null ],
     [ "set_camera", "classlili_1_1Renderer.html#aff30d5159d2f50e548024ed028b97a4c", null ],
     [ "submit", "classlili_1_1Renderer.html#ac7dca78bed1998ba621dfd662a70644a", null ]
 ];

@@ -99,15 +99,12 @@ $(function(){initNavTree('classlili_1_1Clock.html','','classlili_1_1Clock-member
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a31d9f0ce9cddfb22a7ab7e28d9a6e5b4" id="r_a31d9f0ce9cddfb22a7ab7e28d9a6e5b4"><td class="memItemLeft"><a id="a31d9f0ce9cddfb22a7ab7e28d9a6e5b4" name="a31d9f0ce9cddfb22a7ab7e28d9a6e5b4"></a>
-&#160;</td><td class="memItemRight"><b>Clock</b> ()</td></tr>
-<tr class="memdesc:a31d9f0ce9cddfb22a7ab7e28d9a6e5b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs the <a class="el" href="classlili_1_1Clock.html" title="Manages time and framerate calculations.">Clock</a>. <br /></td></tr>
+<tr class="memitem:ac37a911acf5ce969a8682dfe2de8a4d3" id="r_ac37a911acf5ce969a8682dfe2de8a4d3"><td class="memItemLeft"><a id="ac37a911acf5ce969a8682dfe2de8a4d3" name="ac37a911acf5ce969a8682dfe2de8a4d3"></a>
+&#160;</td><td class="memItemRight"><b>Clock</b> ()=default</td></tr>
+<tr class="memdesc:ac37a911acf5ce969a8682dfe2de8a4d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs the <a class="el" href="classlili_1_1Clock.html" title="Manages time and framerate calculations.">Clock</a>. <br /></td></tr>
 <tr class="memitem:ab07d1c69114f43d9a173e7027a10bcfe" id="r_ab07d1c69114f43d9a173e7027a10bcfe"><td class="memItemLeft"><a id="ab07d1c69114f43d9a173e7027a10bcfe" name="ab07d1c69114f43d9a173e7027a10bcfe"></a>
 &#160;</td><td class="memItemRight"><b>Clock</b> (float tick_per_second)</td></tr>
 <tr class="memdesc:ab07d1c69114f43d9a173e7027a10bcfe"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classlili_1_1Clock.html" title="Manages time and framerate calculations.">Clock</a> method. <br /></td></tr>
-<tr class="memitem:aa50b729eed82bfb4bb2925fc7e163a9f" id="r_aa50b729eed82bfb4bb2925fc7e163a9f"><td class="memItemLeft"><a id="aa50b729eed82bfb4bb2925fc7e163a9f" name="aa50b729eed82bfb4bb2925fc7e163a9f"></a>
-&#160;</td><td class="memItemRight"><b>~Clock</b> ()=default</td></tr>
-<tr class="memdesc:aa50b729eed82bfb4bb2925fc7e163a9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the <a class="el" href="classlili_1_1Clock.html" title="Manages time and framerate calculations.">Clock</a>. <br /></td></tr>
 <tr class="memitem:abfa1786366d556314ad27ce7e866e778" id="r_abfa1786366d556314ad27ce7e866e778"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#abfa1786366d556314ad27ce7e866e778">set_tps</a> (float value)</td></tr>
 <tr class="memdesc:abfa1786366d556314ad27ce7e866e778"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the fixed delta time for physics or fixed updates.  <br /></td></tr>
 <tr class="memitem:a4f0279692d19a72ab73c3abed7e55c62" id="r_a4f0279692d19a72ab73c3abed7e55c62"><td class="memItemLeft"><a id="a4f0279692d19a72ab73c3abed7e55c62" name="a4f0279692d19a72ab73c3abed7e55c62"></a>
@@ -123,6 +120,8 @@ void&#160;</td><td class="memItemRight"><b>update</b> ()</td></tr>
 <tr class="memdesc:aa74c5fbbddd7ed2e1183d06c0c2849f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the interpolation alpha for rendering between fixed steps.  <br /></td></tr>
 <tr class="memitem:a918ffef16e93cafa7441f521868c8d76" id="r_a918ffef16e93cafa7441f521868c8d76"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a918ffef16e93cafa7441f521868c8d76">get_fps</a> () const</td></tr>
 <tr class="memdesc:a918ffef16e93cafa7441f521868c8d76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the current frames per second.  <br /></td></tr>
+<tr class="memitem:a2b103f7c3b58d1d8cc4013e1a009fc3f" id="r_a2b103f7c3b58d1d8cc4013e1a009fc3f"><td class="memItemLeft">float&#160;</td><td class="memItemRight"><a class="el" href="#a2b103f7c3b58d1d8cc4013e1a009fc3f">get_time</a> () const</td></tr>
+<tr class="memdesc:a2b103f7c3b58d1d8cc4013e1a009fc3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the current time in seconds.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Manages time and framerate calculations. </p>
@@ -204,6 +203,26 @@ void&#160;</td><td class="memItemRight"><b>update</b> ()</td></tr>
 
 <p>Gets the current frames per second. </p>
 <dl class="section return"><dt>Returns</dt><dd>The frames per second. </dd></dl>
+
+</div>
+</div>
+<a id="a2b103f7c3b58d1d8cc4013e1a009fc3f" name="a2b103f7c3b58d1d8cc4013e1a009fc3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b103f7c3b58d1d8cc4013e1a009fc3f">&#9670;&#160;</a></span>get_time()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float lili::Clock::get_time </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the current time in seconds. </p>
+<dl class="section return"><dt>Returns</dt><dd>The time value (float) </dd></dl>
 
 </div>
 </div>

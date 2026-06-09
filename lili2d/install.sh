@@ -1,14 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "Building Lili2D..."
-cmake -B build -DCMAKE_BUILD_TYPE=Release
-
-echo "Compiling..."
-cmake --build build --parallel
-
-echo "Installing (may require sudo)..."
-sudo cmake --install build
+./build.sh
 
 echo ""
 echo "Done! You can now use Lili2D in your projects with:"

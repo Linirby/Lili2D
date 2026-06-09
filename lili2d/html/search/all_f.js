@@ -9,7 +9,7 @@ var searchData=
   ['released_6',['released',['../classlili_1_1Keyboard.html#ac54aebc7ba3160745f69253f293674e3',1,'lili::Keyboard::released()'],['../classlili_1_1Mouse.html#ad081a71e5b5f4dbe6bd0bfe3fef662df',1,'lili::Mouse::released()']]],
   ['render_7',['render',['../classlili_1_1UIPass.html#a0a92a78e53127e0752156b634d6f2f4e',1,'lili::UIPass::render()'],['../classlili_1_1World2DPass.html#a2c4f1f1ecdea82dfc24d17827e5e4882',1,'lili::World2DPass::render()']]],
   ['render_2ehpp_8',['render.hpp',['../render_8hpp.html',1,'']]],
-  ['renderer_9',['Renderer',['../classlili_1_1Renderer.html',1,'lili::Renderer'],['../classlili_1_1Renderer.html#a081112bfe1dd5040104bc865624b2b89',1,'lili::Renderer::Renderer(Window *window)'],['../classlili_1_1Renderer.html#abc77c68ab9209d97d676c0fe875c078a',1,'lili::Renderer::Renderer(const Renderer &amp;)=delete']]],
+  ['renderer_9',['Renderer',['../classlili_1_1Renderer.html',1,'lili::Renderer'],['../classlili_1_1Renderer.html#a081112bfe1dd5040104bc865624b2b89',1,'lili::Renderer::Renderer(Window *window)'],['../classlili_1_1Renderer.html#ab9ebbc79cc213d541085d0a72fc1b3e9',1,'lili::Renderer::Renderer(Renderer &amp;&amp;other) noexcept'],['../classlili_1_1Renderer.html#abc77c68ab9209d97d676c0fe875c078a',1,'lili::Renderer::Renderer(const Renderer &amp;)=delete']]],
   ['repeat_10',['repeat',['../structlili_1_1KeyboardEvent.html#ac890f8a5a9bab3420073c32c400ee18c',1,'lili::KeyboardEvent']]],
   ['reset_11',['reset',['../classlili_1_1AnimatedSprite.html#a17b5bab571f4567a6b6e9b51e1f43730',1,'lili::AnimatedSprite']]],
   ['rotation_12',['rotation',['../structlili_1_1Mat3.html#ac0eb66b205cab1f31f1b29b76b04e9fb',1,'lili::Mat3']]],

@@ -9,11 +9,7 @@ namespace lili {
 
 UIPipeline::UIPipeline(
 	SDL_GPUDevice *device, SDL_Window *window, Shader *shader
-) {
-	this->device = device;
-	this->window = window;
-	this->shader = shader;
-
+) : device(device), window(window), shader(shader) {
 	SDL_GPUVertexBufferDescription vertex_bd{};
 	vertex_bd.slot = 0;
 	vertex_bd.pitch = sizeof(float) * 6;
@@ -87,6 +83,26 @@ UIPipeline::UIPipeline(
 
 UIPipeline::~UIPipeline() {
 	if (pipeline) SDL_ReleaseGPUGraphicsPipeline(device, pipeline);
+}
+
+UIPipeline::UIPipeline(UIPipeline &&other) noexcept
+	: device(other.device),
+	  window(other.window),
+	  shader(other.shader),
+	  pipeline(other.pipeline) {
+	other.pipeline = nullptr;
+}
+
+UIPipeline& UIPipeline::operator=(UIPipeline &&other) noexcept {
+	if (this != &other) {
+		if (pipeline) SDL_ReleaseGPUGraphicsPipeline(device, pipeline);
+		device = other.device;
+		window = other.window;
+		shader = other.shader;
+		pipeline = other.pipeline;
+		other.pipeline = nullptr;
+	}
+	return *this;
 }
 
 SDL_GPUGraphicsPipeline *UIPipeline::get_sdl_pipeline() {

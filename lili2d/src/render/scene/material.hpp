@@ -18,7 +18,7 @@ struct MaterialProps {
 /// @brief Defines how a model is rendered.
 struct Material {
 	MaterialProps properties;       ///< Material properties.
-	Texture *albedo_map = nullptr;  ///< Albedo texture map.
+	Texture *albedoMap = nullptr;  ///< Albedo texture map.
 	SDL_GPUGraphicsPipeline *custom_pipeline = nullptr;
 	///< Custom graphics pipeline.
 
@@ -30,7 +30,7 @@ struct Material {
 	/// @brief Sets custom vertex uniforms.
 	/// @param data The uniform data struct.
 	template<typename T>
-	void set_vertex_uniforms(const T& data) {
+	void setVertexUniforms(const T& data) {
 		const uint8_t* ptr = reinterpret_cast<const uint8_t*>(&data);
 		custom_vertex_uniforms.assign(ptr, ptr + sizeof(T));
 	}
@@ -38,7 +38,7 @@ struct Material {
 	/// @brief Sets custom fragment uniforms.
 	/// @param data The uniform data struct.
 	template<typename T>
-	void set_fragment_uniforms(const T& data) {
+	void setFragmentUniforms(const T& data) {
 		const uint8_t* ptr = reinterpret_cast<const uint8_t*>(&data);
 		custom_fragment_uniforms.assign(ptr, ptr + sizeof(T));
 	}
@@ -68,34 +68,34 @@ public:
 	/// @param key The unique string key.
 	/// @param material The material to register.
 	/// @return The assigned material ID.
-	uint16_t register_material(
+	uint16_t registerMaterial(
 		const std::string &key, const Material &material
 	);
 
 	/// @brief Checks if a material exists.
 	/// @param key The material key.
 	/// @return True if the material exists.
-	bool has_material(const std::string &key) const;
+	bool hasMaterial(const std::string &key) const;
 	/// @brief Gets a material ID by key.
 	/// @param key The material key.
 	/// @return The material ID.
-	uint16_t get_material_id(const std::string &key) const;
+	uint16_t getMaterialId(const std::string &key) const;
 	/// @brief Gets a material by key.
 	/// @param key The material key.
 	/// @return Reference to the material.
-	const Material &get_material(const std::string &key) const;
+	const Material &getMaterial(const std::string &key) const;
 	/// @brief Gets a material by 16-bit ID.
 	/// @param material_id The material ID.
 	/// @return Reference to the material.
-	const Material &get_material(uint16_t material_id) const;
+	const Material &getMaterial(uint16_t material_id) const;
 	/// @brief Gets a material by 8-bit ID.
 	/// @param material_id The material ID.
 	/// @return Reference to the material.
-	const Material &get_material(uint8_t material_id) const;
+	const Material &getMaterial(uint8_t material_id) const;
 
 	/// @brief Gets the total number of registered materials.
 	/// @return The number of materials.
-	size_t material_count() const;
+	size_t materialCount() const;
 	/// @brief Gets the raw material data array.
 	/// @return Pointer to the material data.
 	const Material *material_data() const;

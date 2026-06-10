@@ -40,16 +40,16 @@ public:
 
 	/// @brief Gets the width of the texture.
 	/// @return The width in pixels.
-	int get_width() const;
+	int getWidth() const;
 	/// @brief Gets the height of the texture.
 	/// @return The height in pixels.
-	int get_height() const;
+	int getHeight() const;
 	/// @brief Gets the underlying SDL GPU texture.
 	/// @return Pointer to the SDL_GPUTexture.
-	SDL_GPUTexture *get_texture() const;
+	SDL_GPUTexture *getTexture() const;
 	/// @brief Gets the underlying SDL GPU sampler.
 	/// @return Pointer to the SDL_GPUSampler.
-	SDL_GPUSampler *get_sampler() const;
+	SDL_GPUSampler *getSampler() const;
 
 private:
 	SDL_GPUDevice *device = nullptr;
@@ -58,11 +58,11 @@ private:
 	SDL_GPUTexture *texture = nullptr;
 	SDL_GPUSampler *sampler = nullptr;
 
-	/// @brief init_from_surface method.
-	void init_from_surface(SDL_Surface *surface);
+	/// @brief initFromSurface method.
+	void initFromSurface(SDL_Surface *surface);
 
-	/// @brief transfer_to_gpu method.
-	void transfer_to_gpu(SDL_Surface *surface);
+	/// @brief transferToGpu method.
+	void transferToGpu(SDL_Surface *surface);
 };
 
 }  // namespace lili

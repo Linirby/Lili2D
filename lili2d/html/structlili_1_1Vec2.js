@@ -13,5 +13,6 @@ var structlili_1_1Vec2 =
     [ "operator+=", "structlili_1_1Vec2.html#a00c4a5812e7c3fd706f2e0d7fc355767", null ],
     [ "operator-", "structlili_1_1Vec2.html#a7ff86901dd90bc8ce154fb3467c74ba9", null ],
     [ "operator-=", "structlili_1_1Vec2.html#a8fbbd8786ff786f013d250cef5a7e9ef", null ],
+    [ "x", "structlili_1_1Vec2.html#a2b2aeff127e7b846997cee120b7254a3", null ],
     [ "y", "structlili_1_1Vec2.html#addd3794e9ec734608d25c70f52cc5423", null ]
 ];

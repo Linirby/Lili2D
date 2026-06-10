@@ -12,7 +12,7 @@ Shader::Shader(
 	ShaderInfo frag_infos
 )
 	: device(device) {
-	CodeInfo vertex_code_info = get_code_info(vert_path);
+	CodeInfo vertex_code_info = getCodeInfo(vert_path);
 	SDL_GPUShaderCreateInfo vertex_ci{};
 	vertex_ci.code_size = vertex_code_info.size;
 	vertex_ci.code = reinterpret_cast<uint8_t *>(vertex_code_info.buffer.data());
@@ -32,10 +32,12 @@ Shader::Shader(
 		);
 	}
 
-	CodeInfo fragment_code_info = get_code_info(frag_path);
+	CodeInfo fragment_code_info = getCodeInfo(frag_path);
 	SDL_GPUShaderCreateInfo fragment_ci{};
 	fragment_ci.code_size = fragment_code_info.size;
-	fragment_ci.code = reinterpret_cast<uint8_t *>(fragment_code_info.buffer.data());
+	fragment_ci.code = (
+		reinterpret_cast<uint8_t *>(fragment_code_info.buffer.data())
+	);
 	fragment_ci.entrypoint = "main";
 	fragment_ci.format = SDL_GPU_SHADERFORMAT_SPIRV;
 	fragment_ci.stage = SDL_GPU_SHADERSTAGE_FRAGMENT;
@@ -111,8 +113,8 @@ Shader::~Shader() {
 
 Shader::Shader(Shader &&other) noexcept
 	: device(other.device),
-	  vertex_shader(other.vertex_shader),
-	  fragment_shader(other.fragment_shader) {
+			vertex_shader(other.vertex_shader),
+			fragment_shader(other.fragment_shader) {
 	other.vertex_shader = nullptr;
 	other.fragment_shader = nullptr;
 }
@@ -132,15 +134,15 @@ Shader& Shader::operator=(Shader &&other) noexcept {
 	return *this;
 }
 
-SDL_GPUShader *Shader::get_vertex() const {
+SDL_GPUShader *Shader::getVertex() const {
 	return vertex_shader;
 }
 
-SDL_GPUShader *Shader::get_fragment() const {
+SDL_GPUShader *Shader::getFragment() const {
 	return fragment_shader;
 }
 
-CodeInfo Shader::get_code_info(const std::string &code_path) {
+CodeInfo Shader::getCodeInfo(const std::string &code_path) {
 	CodeInfo code_info;
 
 	std::ifstream file(

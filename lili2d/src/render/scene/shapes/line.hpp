@@ -48,54 +48,54 @@ public:
 
 	/// @brief Sets the start position.
 	/// @param pos The new start position.
-	void set_start(Vec2 pos);
+	void setStart(Vec2 pos);
 	/// @brief Sets the end position.
 	/// @param pos The new end position.
-	void set_end(Vec2 pos);
+	void setEnd(Vec2 pos);
 	/// @brief Sets the thickness.
 	/// @param value The new thickness.
-	void set_thickness(float value);
+	void setThickness(float value);
 	/// @brief Sets the line shape.
 	/// @param shape The new shape.
-	void set_shape(LineShape shape);
+	void setShape(LineShape shape);
 	/// @brief Sets the color.
 	/// @param color The new color.
-	void set_color(Vec4 color);
+	void setColor(Vec4 color);
 	/// @brief Sets the depth value for Z-ordering.
 	///
 	/// This determines the drawing order relative to other objects within the
 	/// same render pass.
-	/// To change which render pass this object belongs to, use set_render().
+	/// To change which render pass this object belongs to, use setRender().
 	///
 	/// @param value The new layer depth.
-	void set_layer(float value);
+	void setLayer(float value);
 	/// @brief Sets the render pass layer.
 	///
 	/// This determines which overall pass (e.g., WORLD2D or UI) the object is
 	/// drawn in.
-	/// To change the depth ordering within a pass, use set_layer().
+	/// To change the depth ordering within a pass, use setLayer().
 	///
 	/// @param render_layer The new render pass layer.
-	void set_render(RenderLayer render_layer);
+	void setRender(RenderLayer render_layer);
 
 	/// @brief Gets the start position.
 	/// @return The start position.
-	Vec2 get_start() const;
+	Vec2 getStart() const;
 	/// @brief Gets the end position.
 	/// @return The end position.
-	Vec2 get_end() const;
+	Vec2 getEnd() const;
 	/// @brief Gets the thickness.
 	/// @return The thickness.
-	Vec2 get_thickness() const;
+	Vec2 getThickness() const;
 	/// @brief Gets the shape geometry.
 	/// @return The shape.
-	LineShape get_shape() const;
+	LineShape getShape() const;
 	/// @brief Gets the color.
 	/// @return The color.
-	Vec4 get_color() const;
+	Vec4 getColor() const;
 	/// @brief Gets the material.
 	/// @return Pointer to the material.
-	Material* get_material() const;
+	Material* getMaterial() const;
 
 	/// @brief Submits the line for drawing.
 	void draw();

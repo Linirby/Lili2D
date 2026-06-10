@@ -6,41 +6,41 @@ namespace lili {
 BitmapFont::BitmapFont(
 	Renderer *renderer, const std::string &path, uint8_t cols, uint8_t rows
 ) : cols(cols), rows(rows) {
-	texture = std::make_unique<Texture>(renderer->get_device(), path);
+	texture = std::make_unique<Texture>(renderer->getDevice(), path);
 	this->cols = cols;
 	this->rows = rows;
-	glyph_w = texture->get_width() / cols;
-	glyph_h = texture->get_height() / rows;
+	glyph_w = texture->getWidth() / cols;
+	glyph_h = texture->getHeight() / rows;
 }
 
-Texture *BitmapFont::get_texture() const {
+Texture *BitmapFont::getTexture() const {
 	return texture.get();
 }
 
-int BitmapFont::get_glyph_w() const {
+int BitmapFont::getGlyphW() const {
 	return glyph_w;
 }
 
-int BitmapFont::get_glyph_h() const {
+int BitmapFont::getGlyphH() const {
 	return glyph_h;
 }
 
-GlyphUV BitmapFont::glyph_uv(char c) const {
-	const int ascii = static_cast<unsigned char>(c);
-	const int first = static_cast<unsigned char>(' ');
-	int idx = ascii - first;
-	if (ascii < first || ascii > 126)
-		idx = '?' - first;
-	const int current_x = idx % cols;
-	const int current_y = idx / cols;
-	const float delta_u = 1.0f / static_cast<float>(cols);
-	const float delta_v = 1.0f / static_cast<float>(rows);
+GlyphUV BitmapFont::glyphUv(char c) const {
+	const int ASCII = static_cast<unsigned char>(c);
+	const int FIRST = static_cast<unsigned char>(' ');
+	int idx = ASCII - FIRST;
+	if (ASCII < FIRST || ASCII > 126)
+		idx = '?' - FIRST;
+	const int CURRENT_X = idx % cols;
+	const int CURRENT_Y = idx / cols;
+	const float DELTA_U = 1.0f / static_cast<float>(cols);
+	const float DELTA_V = 1.0f / static_cast<float>(rows);
 
 	return (GlyphUV){
-		.u0 = current_x * delta_u,
-		.v0 = current_y * delta_v,
-		.u1 = (current_x + 1) * delta_u,
-		.v1 = (current_y + 1) * delta_v
+		.u0 = CURRENT_X * DELTA_U,
+		.v0 = CURRENT_Y * DELTA_V,
+		.u1 = (CURRENT_X + 1) * DELTA_U,
+		.v1 = (CURRENT_Y + 1) * DELTA_V
 	};
 }
 
@@ -49,46 +49,46 @@ Text::Text(
 ) {
 	this->renderer = renderer;
 	this->font = font;
-	glyph_w = font->get_glyph_w();
-	glyph_h = font->get_glyph_h();
+	glyph_w = font->getGlyphW();
+	glyph_h = font->getGlyphH();
 	advance = glyph_w + 1.0f;
 	if (!text.empty())
 		this->text = text;
 	else
 		this->text = "text";
-	material = std::make_unique<Material>(font->get_texture());
+	material = std::make_unique<Material>(font->getTexture());
 	material->properties.color_tint = { 1.0f, 1.0f, 1.0f, 1.0f };
-	rebuild_mesh();
+	rebuildMesh();
 }
 
-void Text::set_text(const std::string &value) {
+void Text::setText(const std::string &value) {
 	if (value == text) return;
 	text = value;
-	rebuild_mesh();
+	rebuildMesh();
 }
 
-void Text::set_position(const Vec2 &position) {
+void Text::setPosition(const Vec2 &position) {
 	pos = position;
 }
 
-void Text::set_spacing(float value) {
+void Text::setSpacing(float value) {
 	advance = glyph_w + value;
-	rebuild_mesh();
+	rebuildMesh();
 }
 
-void Text::set_scale(float value) {
+void Text::setScale(float value) {
 	scale = value;
 }
 
-void Text::set_layer(float layer) {
+void Text::setLayer(float layer) {
 	this->layer = layer;
 }
 
-void Text::set_render(RenderLayer render_layer) {
+void Text::setRender(RenderLayer render_layer) {
 	this->render_layer = render_layer;
 }
 
-Material* Text::get_material() const {
+Material* Text::getMaterial() const {
 	return material.get();
 }
 
@@ -100,7 +100,7 @@ void Text::draw() {
 	renderer->submit(model, transform, layer, render_layer);
 }
 
-void Text::rebuild_mesh() {
+void Text::rebuildMesh() {
 	MeshData mesh_data;
 	mesh_data.vertices.reserve(text.size() * 4);
 	mesh_data.indices.reserve(text.size() * 6);
@@ -116,7 +116,7 @@ void Text::rebuild_mesh() {
 			continue;
 		}
 
-		GlyphUV uv = font->glyph_uv(c);
+		GlyphUV uv = font->glyphUv(c);
 
 		mesh_data.vertices.push_back((Vertex){
 			.x = offset_x, .y = offset_y, .z = 0.0f,
@@ -150,7 +150,7 @@ void Text::rebuild_mesh() {
 		offset_x += advance;
 	}
 
-	mesh = std::make_unique<GPUMesh>(renderer->get_device(), mesh_data);
+	mesh = std::make_unique<GPUMesh>(renderer->getDevice(), mesh_data);
 	model = Model(mesh.get(), material.get());
 }
 

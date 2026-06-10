@@ -17,10 +17,10 @@
 namespace lili {
 
 Renderer::Renderer(Window *window) : window(window) {
-	init_device();
-	init_shaders();
-	init_pipelines();
-	init_passes();
+	initDevice();
+	initShaders();
+	initPipelines();
+	initPasses();
 	the_white_pixel = new Texture(device, white_1x1_png, white_1x1_png_len);
 }
 
@@ -41,24 +41,24 @@ Renderer::~Renderer() {
 
 Renderer::Renderer(Renderer &&other) noexcept
 	: window(other.window),
-	  device(other.device),
-	  swapchain_width(other.swapchain_width),
-	  swapchain_height(other.swapchain_height),
-	  current_swapchain_texture(other.current_swapchain_texture),
-	  current_cmd_buffer(other.current_cmd_buffer),
-	  world_2d_shader(other.world_2d_shader),
-	  world_2d_pipeline(other.world_2d_pipeline),
-	  world_2d_pass(other.world_2d_pass),
-	  world_2d_queue(std::move(other.world_2d_queue)),
-	  ui_pipeline(other.ui_pipeline),
-	  ui_pass(other.ui_pass),
-	  ui_queue(std::move(other.ui_queue)),
-	  proj_view_world2d(other.proj_view_world2d),
-	  proj_view_ui(other.proj_view_ui),
-	  camera(other.camera),
-	  the_white_pixel(other.the_white_pixel),
-	  unit_quad(other.unit_quad),
-	  unit_circles(std::move(other.unit_circles)) {
+	device(other.device),
+	swapchain_width(other.swapchain_width),
+	swapchain_height(other.swapchain_height),
+	current_swapchain_texture(other.current_swapchain_texture),
+	current_cmd_buffer(other.current_cmd_buffer),
+	world_2d_shader(other.world_2d_shader),
+	world_2d_pipeline(other.world_2d_pipeline),
+	world_2d_pass(other.world_2d_pass),
+	world_2d_queue(std::move(other.world_2d_queue)),
+	ui_pipeline(other.ui_pipeline),
+	ui_pass(other.ui_pass),
+	ui_queue(std::move(other.ui_queue)),
+	proj_view_world2d(other.proj_view_world2d),
+	proj_view_ui(other.proj_view_ui),
+	camera(other.camera),
+	the_white_pixel(other.the_white_pixel),
+	unit_quad(other.unit_quad),
+	unit_circles(std::move(other.unit_circles)) {
 	other.device = nullptr;
 	other.current_cmd_buffer = nullptr;
 	other.world_2d_shader = nullptr;
@@ -85,7 +85,7 @@ Renderer& Renderer::operator=(Renderer &&other) noexcept {
 		if (world_2d_pipeline) delete world_2d_pipeline;
 		if (world_2d_shader) delete world_2d_shader;
 		if (device) SDL_DestroyGPUDevice(device);
-		
+
 		window = other.window;
 		device = other.device;
 		swapchain_width = other.swapchain_width;
@@ -120,11 +120,11 @@ Renderer& Renderer::operator=(Renderer &&other) noexcept {
 	return *this;
 }
 
-SDL_GPUDevice *Renderer::get_device() const {
+SDL_GPUDevice *Renderer::getDevice() const {
 	return device;
 }
 
-bool Renderer::begin_frame() {
+bool Renderer::beginFrame() {
 	current_cmd_buffer = SDL_AcquireGPUCommandBuffer(device);
 	if (!current_cmd_buffer)
 		throw std::runtime_error("Failed to acquire command buffer!");
@@ -133,7 +133,7 @@ bool Renderer::begin_frame() {
 	uint32_t height = 0;
 	bool success = SDL_WaitAndAcquireGPUSwapchainTexture(
 		current_cmd_buffer,
-		window->get_sdl_window(),
+		window->getSdlWindow(),
 		&current_swapchain_texture,
 		&width,
 		&height
@@ -157,11 +157,11 @@ bool Renderer::begin_frame() {
 	);
 	Mat3 view = Mat3::identity();
 	if (camera) {
-		projection = camera->get_projection(
+		projection = camera->getProjection(
 			static_cast<float>(width),
 			static_cast<float>(height)
 		);
-		view = camera->get_view_matrix(
+		view = camera->getViewMatrix(
 			static_cast<float>(width),
 			static_cast<float>(height)
 		);
@@ -186,7 +186,7 @@ void Renderer::submit(
 		ui_queue[layer].push_back({ model, transform, layer });
 }
 
-void Renderer::end_frame() {
+void Renderer::endFrame() {
 	SDL_GPUColorTargetInfo color_ti{};
 	color_ti.texture = current_swapchain_texture;
 	color_ti.clear_color = SDL_FColor{ 0.1f, 0.1f, 0.1f, 1.0f };
@@ -212,34 +212,34 @@ void Renderer::end_frame() {
 	current_cmd_buffer = nullptr;
 }
 
-Texture *Renderer::get_the_white_pixel() const {
+Texture *Renderer::getTheWhitePixel() const {
 	return the_white_pixel;
 }
 
-GPUMesh* Renderer::get_unit_quad() {
+GPUMesh* Renderer::getUnitQuad() {
 	if (!unit_quad) {
-		unit_quad = new GPUMesh(device, create_unit_quad());
+		unit_quad = new GPUMesh(device, createUnitQuad());
 	}
 	return unit_quad;
 }
 
-GPUMesh* Renderer::get_unit_circle(int segments) {
+GPUMesh* Renderer::getUnitCircle(int segments) {
 	if (unit_circles.find(segments) == unit_circles.end()) {
 		unit_circles[segments] = new GPUMesh(
-			device, create_unit_circle(segments)
+			device, createUnitCircle(segments)
 		);
 	}
 	return unit_circles[segments];
 }
 
-void Renderer::init_device() {
+void Renderer::initDevice() {
 	device = SDL_CreateGPUDevice(SDL_GPU_SHADERFORMAT_SPIRV, true, nullptr);
 	if (!device) {
 		throw std::runtime_error(
 			"Device creation failed!\n-> " + std::string(SDL_GetError())
 		);
 	}
-	if (!SDL_ClaimWindowForGPUDevice(device, window->get_sdl_window())) {
+	if (!SDL_ClaimWindowForGPUDevice(device, window->getSdlWindow())) {
 		throw std::runtime_error(
 			"SDL_ClaimWindowForGPUDevice() failed!\n-> " +
 			std::string(SDL_GetError())
@@ -247,20 +247,20 @@ void Renderer::init_device() {
 	}
 	if (!SDL_SetGPUSwapchainParameters(
 		device,
-		window->get_sdl_window(),
+		window->getSdlWindow(),
 		SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
 		SDL_GPU_PRESENTMODE_MAILBOX
 	)) {
 		SDL_SetGPUSwapchainParameters(
 			device,
-			window->get_sdl_window(),
+			window->getSdlWindow(),
 			SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
 			SDL_GPU_PRESENTMODE_IMMEDIATE
 		);
 	}
 }
 
-void Renderer::init_shaders() {
+void Renderer::initShaders() {
 	world_2d_shader = new Shader(
 		device,
 		world_2d_vert_spv, world_2d_vert_spv_len,
@@ -274,29 +274,29 @@ void Renderer::init_shaders() {
 	);
 }
 
-void Renderer::init_pipelines() {
+void Renderer::initPipelines() {
 	world_2d_pipeline = new WorldPipeline(
-		device, window->get_sdl_window(), world_2d_shader
+		device, window->getSdlWindow(), world_2d_shader
 	);
 	ui_pipeline = new UIPipeline(
-		device, window->get_sdl_window(), world_2d_shader
+		device, window->getSdlWindow(), world_2d_shader
 	);
 }
 
-void Renderer::init_passes() {
+void Renderer::initPasses() {
 	world_2d_pass = new World2DPass(
-		device, world_2d_pipeline->get_sdl_pipeline()
+		device, world_2d_pipeline->getSdlPipeline()
 	);
 	ui_pass = new UIPass(
-		device, ui_pipeline->get_sdl_pipeline()
+		device, ui_pipeline->getSdlPipeline()
 	);
 }
 
-void Renderer::set_camera(Camera *camera) {
+void Renderer::setCamera(Camera *camera) {
 	this->camera = camera;
 }
 
-Shader* Renderer::create_shader(
+Shader* Renderer::createShader(
 	const std::string &vert_path,
 	const std::string &frag_path,
 	ShaderInfo vert_infos,
@@ -305,7 +305,7 @@ Shader* Renderer::create_shader(
 	return new Shader(device, vert_path, frag_path, vert_infos, frag_infos);
 }
 
-Shader* Renderer::create_shader(
+Shader* Renderer::createShader(
 	const uint8_t *vert_code,
 	size_t vert_size,
 	const uint8_t *frag_code,
@@ -319,12 +319,12 @@ Shader* Renderer::create_shader(
 	);
 }
 
-WorldPipeline* Renderer::create_world_pipeline(Shader *shader) {
-	return new WorldPipeline(device, window->get_sdl_window(), shader);
+WorldPipeline* Renderer::createWorldPipeline(Shader *shader) {
+	return new WorldPipeline(device, window->getSdlWindow(), shader);
 }
 
-UIPipeline* Renderer::create_ui_pipeline(Shader *shader) {
-	return new UIPipeline(device, window->get_sdl_window(), shader);
+UIPipeline* Renderer::createUiPipeline(Shader *shader) {
+	return new UIPipeline(device, window->getSdlWindow(), shader);
 }
 
 }  // namespace lili

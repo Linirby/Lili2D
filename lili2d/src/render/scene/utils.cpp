@@ -3,7 +3,7 @@
 
 namespace lili {
 
-MeshData create_unit_quad() {
+MeshData createUnitQuad() {
 	MeshData quad;
 
 	quad.vertices = {
@@ -35,7 +35,7 @@ MeshData create_unit_quad() {
 	return quad;
 }
 
-MeshData create_unit_circle(int segments) {
+MeshData createUnitCircle(int segments) {
 	MeshData circle;
 
 	if (segments < 3) segments = 3;

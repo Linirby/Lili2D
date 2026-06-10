@@ -4,7 +4,7 @@ namespace lili {
 
 bool Event::poll() {
 	if (SDL_PollEvent(&sdl_event)) {
-		current_type = resolve_type();
+		current_type = resolveType();
 		return true;
 	}
 	return false;
@@ -14,11 +14,11 @@ EventType Event::type() const {
 	return current_type;
 }
 
-bool Event::key_just_pressed(const KeyboardEvent &keyboard) const {
+bool Event::keyJustPressed(const KeyboardEvent &keyboard) const {
 	return keyboard.action == KeyAction::PRESSED && !keyboard.repeat;
 }
 
-bool Event::mouse_button_pressed(const MouseButtonEvent &mouse_button) const {
+bool Event::mouseButtonPressed(const MouseButtonEvent &mouse_button) const {
 	return mouse_button.action == MouseAction::PRESSED;
 }
 
@@ -73,7 +73,7 @@ const MouseWheelEvent Event::mouse_wheel() const {
 	};
 }
 
-EventType Event::resolve_type() const {
+EventType Event::resolveType() const {
 	switch (sdl_event.type) {
 		case SDL_EVENT_QUIT: return EventType::QUIT;
 		case SDL_EVENT_WINDOW_RESIZED: return EventType::WINDOW_RESIZED;

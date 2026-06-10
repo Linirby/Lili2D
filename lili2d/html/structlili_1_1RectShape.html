@@ -105,20 +105,23 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5286a7fa6cb9e3b970b9ac899472236d" id="r_a5286a7fa6cb9e3b970b9ac899472236d"><td class="memItemLeft"><a id="a5286a7fa6cb9e3b970b9ac899472236d" name="a5286a7fa6cb9e3b970b9ac899472236d"></a>
 &#160;</td><td class="memItemRight"><b>RectShape</b> (const RectShape &amp;)=default</td></tr>
 <tr class="memdesc:a5286a7fa6cb9e3b970b9ac899472236d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor. <br /></td></tr>
-<tr class="memitem:aca22cf2b5b73760fb23782ebea0e09af" id="r_aca22cf2b5b73760fb23782ebea0e09af"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aca22cf2b5b73760fb23782ebea0e09af">RectShape</a> (float x, float y, float w, float <a class="el" href="#afbdb82ee9044fdd10f9e7631dcbb85a3">h</a>)</td></tr>
+<tr class="memitem:aca22cf2b5b73760fb23782ebea0e09af" id="r_aca22cf2b5b73760fb23782ebea0e09af"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aca22cf2b5b73760fb23782ebea0e09af">RectShape</a> (float <a class="el" href="#a5d46d0c68858063758699cff68e91926">x</a>, float <a class="el" href="#a601df2042a6c82eb56b8d8b18a63940c">y</a>, float <a class="el" href="#a74a8415a534921b3f0cc655827655b48">w</a>, float <a class="el" href="#afbdb82ee9044fdd10f9e7631dcbb85a3">h</a>)</td></tr>
 <tr class="memdesc:aca22cf2b5b73760fb23782ebea0e09af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a rectangle shape.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a5d46d0c68858063758699cff68e91926" id="r_a5d46d0c68858063758699cff68e91926"><td class="memItemLeft"><a id="a5d46d0c68858063758699cff68e91926" name="a5d46d0c68858063758699cff68e91926"></a>
-float&#160;</td><td class="memItemRight"><b>x</b></td></tr>
+float&#160;</td><td class="memItemRight"><b>x</b> = 0</td></tr>
+<tr class="memdesc:a5d46d0c68858063758699cff68e91926"><td class="mdescLeft">&#160;</td><td class="mdescRight">X position. <br /></td></tr>
 <tr class="memitem:a601df2042a6c82eb56b8d8b18a63940c" id="r_a601df2042a6c82eb56b8d8b18a63940c"><td class="memItemLeft"><a id="a601df2042a6c82eb56b8d8b18a63940c" name="a601df2042a6c82eb56b8d8b18a63940c"></a>
-float&#160;</td><td class="memItemRight"><b>y</b></td></tr>
+float&#160;</td><td class="memItemRight"><b>y</b> = 0</td></tr>
+<tr class="memdesc:a601df2042a6c82eb56b8d8b18a63940c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Y position. <br /></td></tr>
 <tr class="memitem:a74a8415a534921b3f0cc655827655b48" id="r_a74a8415a534921b3f0cc655827655b48"><td class="memItemLeft"><a id="a74a8415a534921b3f0cc655827655b48" name="a74a8415a534921b3f0cc655827655b48"></a>
-float&#160;</td><td class="memItemRight"><b>w</b></td></tr>
+float&#160;</td><td class="memItemRight"><b>w</b> = 0</td></tr>
+<tr class="memdesc:a74a8415a534921b3f0cc655827655b48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Width. <br /></td></tr>
 <tr class="memitem:afbdb82ee9044fdd10f9e7631dcbb85a3" id="r_afbdb82ee9044fdd10f9e7631dcbb85a3"><td class="memItemLeft"><a id="afbdb82ee9044fdd10f9e7631dcbb85a3" name="afbdb82ee9044fdd10f9e7631dcbb85a3"></a>
 float&#160;</td><td class="memItemRight"><b>h</b> = 0</td></tr>
-<tr class="memdesc:afbdb82ee9044fdd10f9e7631dcbb85a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Position and dimensions. <br /></td></tr>
+<tr class="memdesc:afbdb82ee9044fdd10f9e7631dcbb85a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Height. <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Defines the geometry of a rectangle. </p>
@@ -155,10 +158,10 @@ float&#160;</td><td class="memItemRight"><b>h</b> = 0</td></tr>
 <p>Constructs a rectangle shape. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">x</td><td>X coordinate. </td></tr>
-    <tr><td class="paramname">y</td><td>Y coordinate. </td></tr>
-    <tr><td class="paramname">w</td><td>Width. </td></tr>
-    <tr><td class="paramname"><a class="el" href="#afbdb82ee9044fdd10f9e7631dcbb85a3" title="Position and dimensions.">h</a></td><td>Height. </td></tr>
+    <tr><td class="paramname"><a class="el" href="#a5d46d0c68858063758699cff68e91926" title="X position.">x</a></td><td>X coordinate. </td></tr>
+    <tr><td class="paramname"><a class="el" href="#a601df2042a6c82eb56b8d8b18a63940c" title="Y position.">y</a></td><td>Y coordinate. </td></tr>
+    <tr><td class="paramname"><a class="el" href="#a74a8415a534921b3f0cc655827655b48" title="Width.">w</a></td><td>Width. </td></tr>
+    <tr><td class="paramname"><a class="el" href="#afbdb82ee9044fdd10f9e7631dcbb85a3" title="Height.">h</a></td><td>Height. </td></tr>
   </table>
   </dd>
 </dl>

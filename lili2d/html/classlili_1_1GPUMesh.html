@@ -116,12 +116,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a33b2f8636faa88ec5a99b0f268d66efa" id="r_a33b2f8636faa88ec5a99b0f268d66efa"><td class="memItemLeft"><a id="a33b2f8636faa88ec5a99b0f268d66efa" name="a33b2f8636faa88ec5a99b0f268d66efa"></a>
 <a class="el" href="#a31e5063c4f20fc6691c02f4b742a7037">GPUMesh</a> &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (const <a class="el" href="#a31e5063c4f20fc6691c02f4b742a7037">GPUMesh</a> &amp;)=delete</td></tr>
 <tr class="memdesc:a33b2f8636faa88ec5a99b0f268d66efa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy assignment is deleted to prevent double-freeing GPU memory. <br /></td></tr>
-<tr class="memitem:a2db292fd29a65564ec0253a94064018c" id="r_a2db292fd29a65564ec0253a94064018c"><td class="memItemLeft">SDL_GPUBuffer *&#160;</td><td class="memItemRight"><a class="el" href="#a2db292fd29a65564ec0253a94064018c">get_vertex</a> () const</td></tr>
-<tr class="memdesc:a2db292fd29a65564ec0253a94064018c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the vertex buffer.  <br /></td></tr>
-<tr class="memitem:a3d5445dc8c213324589868f37161b222" id="r_a3d5445dc8c213324589868f37161b222"><td class="memItemLeft">SDL_GPUBuffer *&#160;</td><td class="memItemRight"><a class="el" href="#a3d5445dc8c213324589868f37161b222">get_index</a> () const</td></tr>
-<tr class="memdesc:a3d5445dc8c213324589868f37161b222"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the index buffer.  <br /></td></tr>
-<tr class="memitem:a98c2c892e826e402d511e352b6b29037" id="r_a98c2c892e826e402d511e352b6b29037"><td class="memItemLeft">uint32_t&#160;</td><td class="memItemRight"><a class="el" href="#a98c2c892e826e402d511e352b6b29037">get_index_count</a> () const</td></tr>
-<tr class="memdesc:a98c2c892e826e402d511e352b6b29037"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the number of indices in the mesh.  <br /></td></tr>
+<tr class="memitem:ae0884b881c2646b23cf43caa892f5bd8" id="r_ae0884b881c2646b23cf43caa892f5bd8"><td class="memItemLeft">SDL_GPUBuffer *&#160;</td><td class="memItemRight"><a class="el" href="#ae0884b881c2646b23cf43caa892f5bd8">getVertex</a> () const</td></tr>
+<tr class="memdesc:ae0884b881c2646b23cf43caa892f5bd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the vertex buffer.  <br /></td></tr>
+<tr class="memitem:ae5dec176a44cf6f3ff08959333480a72" id="r_ae5dec176a44cf6f3ff08959333480a72"><td class="memItemLeft">SDL_GPUBuffer *&#160;</td><td class="memItemRight"><a class="el" href="#ae5dec176a44cf6f3ff08959333480a72">getIndex</a> () const</td></tr>
+<tr class="memdesc:ae5dec176a44cf6f3ff08959333480a72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the index buffer.  <br /></td></tr>
+<tr class="memitem:a4b21b67e682d0c2442d13fb5f65b9016" id="r_a4b21b67e682d0c2442d13fb5f65b9016"><td class="memItemLeft">uint32_t&#160;</td><td class="memItemRight"><a class="el" href="#a4b21b67e682d0c2442d13fb5f65b9016">getIndexCount</a> () const</td></tr>
+<tr class="memdesc:a4b21b67e682d0c2442d13fb5f65b9016"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the number of indices in the mesh.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a mesh stored on the GPU. </p>
@@ -157,14 +157,14 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a3d5445dc8c213324589868f37161b222" name="a3d5445dc8c213324589868f37161b222"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3d5445dc8c213324589868f37161b222">&#9670;&#160;</a></span>get_index()</h2>
+<a id="ae5dec176a44cf6f3ff08959333480a72" name="ae5dec176a44cf6f3ff08959333480a72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5dec176a44cf6f3ff08959333480a72">&#9670;&#160;</a></span>getIndex()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">SDL_GPUBuffer * lili::GPUMesh::get_index </td>
+          <td class="memname">SDL_GPUBuffer * lili::GPUMesh::getIndex </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -177,14 +177,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a98c2c892e826e402d511e352b6b29037" name="a98c2c892e826e402d511e352b6b29037"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a98c2c892e826e402d511e352b6b29037">&#9670;&#160;</a></span>get_index_count()</h2>
+<a id="a4b21b67e682d0c2442d13fb5f65b9016" name="a4b21b67e682d0c2442d13fb5f65b9016"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b21b67e682d0c2442d13fb5f65b9016">&#9670;&#160;</a></span>getIndexCount()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t lili::GPUMesh::get_index_count </td>
+          <td class="memname">uint32_t lili::GPUMesh::getIndexCount </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -197,14 +197,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a2db292fd29a65564ec0253a94064018c" name="a2db292fd29a65564ec0253a94064018c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2db292fd29a65564ec0253a94064018c">&#9670;&#160;</a></span>get_vertex()</h2>
+<a id="ae0884b881c2646b23cf43caa892f5bd8" name="ae0884b881c2646b23cf43caa892f5bd8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0884b881c2646b23cf43caa892f5bd8">&#9670;&#160;</a></span>getVertex()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">SDL_GPUBuffer * lili::GPUMesh::get_vertex </td>
+          <td class="memname">SDL_GPUBuffer * lili::GPUMesh::getVertex </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>

@@ -34,7 +34,7 @@ var annotated_dup =
       [ "WorldPipeline", "classlili_1_1WorldPipeline.html", "classlili_1_1WorldPipeline" ],
       [ "Renderer", "classlili_1_1Renderer.html", "classlili_1_1Renderer" ],
       [ "AnimatedSprite", "classlili_1_1AnimatedSprite.html", "classlili_1_1AnimatedSprite" ],
-      [ "AnimationFrame", "structlili_1_1AnimationFrame.html", null ],
+      [ "AnimationFrame", "structlili_1_1AnimationFrame.html", "structlili_1_1AnimationFrame" ],
       [ "Animation", "classlili_1_1Animation.html", "classlili_1_1Animation" ],
       [ "AnimationRegistry", "classlili_1_1AnimationRegistry.html", "classlili_1_1AnimationRegistry" ],
       [ "AtlasMap", "classlili_1_1AtlasMap.html", "classlili_1_1AtlasMap" ],

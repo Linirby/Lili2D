@@ -32,7 +32,7 @@ void UIPass::render(
 			throw std::runtime_error(
 				"UIPass received draw command without material."
 			);
-		if (!draw_cmd.model.material->albedo_map)
+		if (!draw_cmd.model.material->albedoMap)
 			throw std::runtime_error(
 				"UIPass received draw command with material missing "
 				"albedo map."
@@ -93,13 +93,13 @@ void UIPass::render(
 		}
 
 		SDL_GPUBufferBinding vertex_binding{};
-		vertex_binding.buffer = draw_cmd.model.mesh->get_vertex();
+		vertex_binding.buffer = draw_cmd.model.mesh->getVertex();
 		vertex_binding.offset = 0;
 
 		SDL_BindGPUVertexBuffers(pass, 0, &vertex_binding, 1);
 
 		SDL_GPUBufferBinding index_binding{};
-		index_binding.buffer = draw_cmd.model.mesh->get_index();
+		index_binding.buffer = draw_cmd.model.mesh->getIndex();
 		index_binding.offset = 0;
 
 		SDL_BindGPUIndexBuffer(
@@ -107,13 +107,13 @@ void UIPass::render(
 		);
 
 		SDL_GPUTextureSamplerBinding texture_sb{};
-		texture_sb.texture = draw_cmd.model.material->albedo_map->get_texture();
-		texture_sb.sampler = draw_cmd.model.material->albedo_map->get_sampler();
+		texture_sb.texture = draw_cmd.model.material->albedoMap->getTexture();
+		texture_sb.sampler = draw_cmd.model.material->albedoMap->getSampler();
 
 		SDL_BindGPUFragmentSamplers(pass, 0, &texture_sb, 1);
 
 		SDL_DrawGPUIndexedPrimitives(
-			pass, draw_cmd.model.mesh->get_index_count(), 1, 0, 0, 0
+			pass, draw_cmd.model.mesh->getIndexCount(), 1, 0, 0, 0
 		);
 		}
 	}

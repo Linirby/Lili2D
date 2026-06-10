@@ -1,10 +1,10 @@
 var classlili_1_1Camera =
 [
-    [ "get_position", "classlili_1_1Camera.html#a0664e53b2647fb1f89b18c34c33b84f1", null ],
-    [ "get_projection", "classlili_1_1Camera.html#a7bb71857ec86c6f3da2e8cd5a15141f6", null ],
-    [ "get_view_matrix", "classlili_1_1Camera.html#ae66cd2898ac07b5eb90ba9e10b2d6b29", null ],
-    [ "get_zoom", "classlili_1_1Camera.html#a08e3b885a330a7ac90b060fc173ddb03", null ],
-    [ "set_position", "classlili_1_1Camera.html#a8b68f66a488386c82ccaa5a7e2f2865f", null ],
-    [ "set_rotation", "classlili_1_1Camera.html#af2c94e2d318a115352405025d3d5850a", null ],
-    [ "set_zoom", "classlili_1_1Camera.html#a7cb6ab0d3c0894bc4d7051f9d4e3223c", null ]
+    [ "getPosition", "classlili_1_1Camera.html#aef41b0f6afdef593181b4882f3ee1d4c", null ],
+    [ "getProjection", "classlili_1_1Camera.html#a56612ed833b46081889c1b0587420694", null ],
+    [ "getViewMatrix", "classlili_1_1Camera.html#a025a5a54c1e9c8ac28dfa92bf56a1cec", null ],
+    [ "getZoom", "classlili_1_1Camera.html#abc50f84db6ef52b88b281137485dcb1c", null ],
+    [ "setPosition", "classlili_1_1Camera.html#a6755543dcfde732d970693f0228d1eb7", null ],
+    [ "setRotation", "classlili_1_1Camera.html#a697bc4dad875b5833e30af17239dc019", null ],
+    [ "setZoom", "classlili_1_1Camera.html#a617d6a71a20e9613d2324639cea4e36c", null ]
 ];

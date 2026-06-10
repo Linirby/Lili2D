@@ -103,10 +103,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:abfd185f1ce067200ccb6fe38f5d6fa72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Polls the next event from the queue.  <br /></td></tr>
 <tr class="memitem:a28bd979ccb93682b8ed0c4e8154072f0" id="r_a28bd979ccb93682b8ed0c4e8154072f0"><td class="memItemLeft">EventType&#160;</td><td class="memItemRight"><a class="el" href="#a28bd979ccb93682b8ed0c4e8154072f0">type</a> () const</td></tr>
 <tr class="memdesc:a28bd979ccb93682b8ed0c4e8154072f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the type of the current event.  <br /></td></tr>
-<tr class="memitem:a0c1968796f169dccaf0357e3cb0b6a39" id="r_a0c1968796f169dccaf0357e3cb0b6a39"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a0c1968796f169dccaf0357e3cb0b6a39">key_just_pressed</a> (const <a class="el" href="structlili_1_1KeyboardEvent.html">KeyboardEvent</a> &amp;<a class="el" href="#a21aa207ccc97f149ad0f055c869e90c9">keyboard</a>) const</td></tr>
-<tr class="memdesc:a0c1968796f169dccaf0357e3cb0b6a39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a specific key was just pressed based on an event.  <br /></td></tr>
-<tr class="memitem:ad3261472fd18ecae9e765e6822ddd4be" id="r_ad3261472fd18ecae9e765e6822ddd4be"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ad3261472fd18ecae9e765e6822ddd4be">mouse_button_pressed</a> (const <a class="el" href="structlili_1_1MouseButtonEvent.html">MouseButtonEvent</a> &amp;<a class="el" href="#a21aa207ccc97f149ad0f055c869e90c9">keyboard</a>) const</td></tr>
-<tr class="memdesc:ad3261472fd18ecae9e765e6822ddd4be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a specific mouse button was pressed based on an event.  <br /></td></tr>
+<tr class="memitem:a04d9b5392444379298e40439c2da78a9" id="r_a04d9b5392444379298e40439c2da78a9"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a04d9b5392444379298e40439c2da78a9">keyJustPressed</a> (const <a class="el" href="structlili_1_1KeyboardEvent.html">KeyboardEvent</a> &amp;<a class="el" href="#a21aa207ccc97f149ad0f055c869e90c9">keyboard</a>) const</td></tr>
+<tr class="memdesc:a04d9b5392444379298e40439c2da78a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a specific key was just pressed based on an event.  <br /></td></tr>
+<tr class="memitem:aa06a029b8695a2bd763539c3b0868987" id="r_aa06a029b8695a2bd763539c3b0868987"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aa06a029b8695a2bd763539c3b0868987">mouseButtonPressed</a> (const <a class="el" href="structlili_1_1MouseButtonEvent.html">MouseButtonEvent</a> &amp;<a class="el" href="#a21aa207ccc97f149ad0f055c869e90c9">keyboard</a>) const</td></tr>
+<tr class="memdesc:aa06a029b8695a2bd763539c3b0868987"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a specific mouse button was pressed based on an event.  <br /></td></tr>
 <tr class="memitem:a21aa207ccc97f149ad0f055c869e90c9" id="r_a21aa207ccc97f149ad0f055c869e90c9"><td class="memItemLeft">const <a class="el" href="structlili_1_1KeyboardEvent.html">KeyboardEvent</a>&#160;</td><td class="memItemRight"><a class="el" href="#a21aa207ccc97f149ad0f055c869e90c9">keyboard</a> () const</td></tr>
 <tr class="memdesc:a21aa207ccc97f149ad0f055c869e90c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the keyboard event data.  <br /></td></tr>
 <tr class="memitem:a9e1830d42e7efa3418cfdb36629b02b6" id="r_a9e1830d42e7efa3418cfdb36629b02b6"><td class="memItemLeft">const <a class="el" href="structlili_1_1MouseButtonEvent.html">MouseButtonEvent</a>&#160;</td><td class="memItemRight"><a class="el" href="#a9e1830d42e7efa3418cfdb36629b02b6">mouse_button</a> () const</td></tr>
@@ -119,32 +119,6 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Processes and provides access to system events. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a0c1968796f169dccaf0357e3cb0b6a39" name="a0c1968796f169dccaf0357e3cb0b6a39"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c1968796f169dccaf0357e3cb0b6a39">&#9670;&#160;</a></span>key_just_pressed()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lili::Event::key_just_pressed </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="structlili_1_1KeyboardEvent.html">KeyboardEvent</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>keyboard</em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Checks if a specific key was just pressed based on an event. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname"><a class="el" href="#a21aa207ccc97f149ad0f055c869e90c9" title="Gets the keyboard event data.">keyboard</a></td><td>The keyboard event to check against. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the key was just pressed, false otherwise. </dd></dl>
-
-</div>
-</div>
 <a id="a21aa207ccc97f149ad0f055c869e90c9" name="a21aa207ccc97f149ad0f055c869e90c9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a21aa207ccc97f149ad0f055c869e90c9">&#9670;&#160;</a></span>keyboard()</h2>
 
@@ -165,6 +139,32 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a04d9b5392444379298e40439c2da78a9" name="a04d9b5392444379298e40439c2da78a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04d9b5392444379298e40439c2da78a9">&#9670;&#160;</a></span>keyJustPressed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lili::Event::keyJustPressed </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structlili_1_1KeyboardEvent.html">KeyboardEvent</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>keyboard</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if a specific key was just pressed based on an event. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname"><a class="el" href="#a21aa207ccc97f149ad0f055c869e90c9" title="Gets the keyboard event data.">keyboard</a></td><td>The keyboard event to check against. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the key was just pressed, false otherwise. </dd></dl>
+
+</div>
+</div>
 <a id="a9e1830d42e7efa3418cfdb36629b02b6" name="a9e1830d42e7efa3418cfdb36629b02b6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9e1830d42e7efa3418cfdb36629b02b6">&#9670;&#160;</a></span>mouse_button()</h2>
 
@@ -182,32 +182,6 @@ Public Member Functions</h2></td></tr>
 
 <p>Gets the mouse button event data. </p>
 <dl class="section return"><dt>Returns</dt><dd>The mouse button event data. </dd></dl>
-
-</div>
-</div>
-<a id="ad3261472fd18ecae9e765e6822ddd4be" name="ad3261472fd18ecae9e765e6822ddd4be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad3261472fd18ecae9e765e6822ddd4be">&#9670;&#160;</a></span>mouse_button_pressed()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lili::Event::mouse_button_pressed </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="structlili_1_1MouseButtonEvent.html">MouseButtonEvent</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>keyboard</em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Checks if a specific mouse button was pressed based on an event. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname"><a class="el" href="#a21aa207ccc97f149ad0f055c869e90c9" title="Gets the keyboard event data.">keyboard</a></td><td>The mouse button event to check against. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the button was pressed, false otherwise. </dd></dl>
 
 </div>
 </div>
@@ -248,6 +222,32 @@ Public Member Functions</h2></td></tr>
 
 <p>Gets the mouse wheel event data. </p>
 <dl class="section return"><dt>Returns</dt><dd>The mouse wheel event data. </dd></dl>
+
+</div>
+</div>
+<a id="aa06a029b8695a2bd763539c3b0868987" name="aa06a029b8695a2bd763539c3b0868987"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa06a029b8695a2bd763539c3b0868987">&#9670;&#160;</a></span>mouseButtonPressed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lili::Event::mouseButtonPressed </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structlili_1_1MouseButtonEvent.html">MouseButtonEvent</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>keyboard</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if a specific mouse button was pressed based on an event. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname"><a class="el" href="#a21aa207ccc97f149ad0f055c869e90c9" title="Gets the keyboard event data.">keyboard</a></td><td>The mouse button event to check against. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the button was pressed, false otherwise. </dd></dl>
 
 </div>
 </div>

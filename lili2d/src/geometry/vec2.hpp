@@ -4,9 +4,8 @@ namespace lili {
 
 /// @brief Represents a 2D mathematical vector.
 struct Vec2 {
-	float x = 0.0f;
-	float y = 0.0f;
-	///< 2D Coordinates of the vector
+	float x = 0.0f; ///< X coordinate.
+	float y = 0.0f; ///< Y coordinate.
 
 	/// @brief Default constructor.
 	Vec2() = default;

@@ -40,54 +40,54 @@ public:
 
 	/// @brief Sets the animation to play.
 	/// @param animation The new animation.
-	void set_animation(const Animation &animation);
+	void setAnimation(const Animation &animation);
 	/// @brief Sets the animation to play from a registry key.
 	/// @param animation_key The registry key of the animation.
-	void set_animation(const std::string &animation_key);
+	void setAnimation(const std::string &animation_key);
 	/// @brief Sets the animation to play from a registry ID.
 	/// @param animation_id The registry ID of the animation.
-	void set_animation(uint16_t animation_id);
+	void setAnimation(uint16_t animation_id);
 
 	/// @brief Sets the speed of the animation.
 	/// @param speed_sec Time per frame in seconds.
-	void set_frame_speed(float speed_sec);
+	void setFrameSpeed(float speed_sec);
 
 	/// @brief Sets the sprite's color tint.
 	/// @param color The new color tint.
-	void set_color_tint(const Vec4 &color);
+	void setColorTint(const Vec4 &color);
 	/// @brief Sets the sprite's position.
 	/// @param position The new position.
-	void set_position(const Vec2 &position);
+	void setPosition(const Vec2 &position);
 	/// @brief Sets the sprite's scale.
 	/// @param scale The new scale.
-	void set_scale(const Vec2 &scale);
+	void setScale(const Vec2 &scale);
 	/// @brief Sets the sprite's size (in px).
 	/// @param size The new size.
-	void set_size(const Vec2 &size);
+	void setSize(const Vec2 &size);
 	/// @brief Sets the sprite's rotation.
 	/// @param degree The rotation in degrees.
-	void set_rotation(float degree);
+	void setRotation(float degree);
 	/// @brief Sets the sprite's rendering layer.
 	/// @param layer The new layer depth.
-	void set_layer(float layer);
+	void setLayer(float layer);
 
 	/// @brief Get the render width of the current frame.
 	/// @return The width.
-	float get_width() const;
+	float getWidth() const;
 	/// @brief Get the render height of the current frame.
 	/// @return The height.
-	float get_height() const;
+	float getHeight() const;
 	/// @brief Get the render size of the current frame.
 	/// @return A 2D vector of the width and height.
-	Vec2 get_size() const;
+	Vec2 getSize() const;
 	/// @brief Gets the material.
 	/// @return Pointer to the material.
-	Material* get_material() const;
+	Material* getMaterial() const;
 
 	/// @brief Advances the animation by dt seconds.
 	/// @param dt Delta time in seconds.
 	void update(float dt);
-	/// @brief Resets the animation to the first frame.
+	/// @brief Resets the animation to the FIRST frame.
 	void reset();
 	/// @brief Submits the sprite for drawing.
 	void draw();
@@ -109,7 +109,7 @@ private:
 	float rotation = 0.0f;
 	float layer = 0.0f;
 
-	void apply_frame(const AnimationFrame &frame);
+	void applyFrame(const AnimationFrame &frame);
 };
 
 }  // namespace lili

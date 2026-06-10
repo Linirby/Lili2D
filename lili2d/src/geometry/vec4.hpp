@@ -4,11 +4,10 @@ namespace lili {
 
 /// @brief Represents a 4D mathematical vector.
 struct Vec4 {
-	float x = 0.0f;
-	float y = 0.0f;
-	float z = 0.0f;
-	float w = 0.0f;
-	///< 4D Coordinates of the vector
+	float x = 0.0f; ///< X coordinate.
+	float y = 0.0f; ///< Y coordinate.
+	float z = 0.0f; ///< Z coordinate.
+	float w = 0.0f; ///< W coordinate.
 
 	/// @brief Default constructor.
 	Vec4() = default;

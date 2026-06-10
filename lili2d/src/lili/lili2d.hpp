@@ -63,7 +63,7 @@ struct Mat4;
 /// @brief Converts an angle from degrees to radians.
 /// @param degrees The angle in degrees.
 /// @return The angle in radians.
-inline float deg_to_rad(float degrees);
+inline float degToRad(float degrees);
 
 /// @brief A 2D vector.
 struct Vec2;

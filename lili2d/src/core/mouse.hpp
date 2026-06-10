@@ -24,16 +24,16 @@ public:
 
 	/// @brief Gets the current X position of the mouse.
 	/// @return The X position.
-	float get_x() const;
+	float getX() const;
 	/// @brief Gets the current Y position of the mouse.
 	/// @return The Y position.
-	float get_y() const;
+	float getY() const;
 	/// @brief Gets the change in X position since the last frame.
 	/// @return The change in X.
-	float get_dx() const;
+	float getDx() const;
 	/// @brief Gets the change in Y position since the last frame.
 	/// @return The change in Y.
-	float get_dy() const;
+	float getDy() const;
 
 private:
 	uint32_t current = 0;

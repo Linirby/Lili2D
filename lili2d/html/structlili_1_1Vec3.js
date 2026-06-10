@@ -13,5 +13,7 @@ var structlili_1_1Vec3 =
     [ "operator+=", "structlili_1_1Vec3.html#ae03909e0cd2eba2fa213267abbd839d2", null ],
     [ "operator-", "structlili_1_1Vec3.html#a89711174e2cb90bd2de9c2a1c6e98cb2", null ],
     [ "operator-=", "structlili_1_1Vec3.html#a690c19c96b651cf90768012d57a754fa", null ],
+    [ "x", "structlili_1_1Vec3.html#a3740cad927ac288b9f5ddbb2e8f024f4", null ],
+    [ "y", "structlili_1_1Vec3.html#ac268289ffc0d7cb9cbf3d0500b8a2e0f", null ],
     [ "z", "structlili_1_1Vec3.html#a7c392faca7f40ad332ef32c59b2ee889", null ]
 ];

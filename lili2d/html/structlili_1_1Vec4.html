@@ -102,7 +102,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a483c165eeadf97165cf75192920f997a" id="r_a483c165eeadf97165cf75192920f997a"><td class="memItemLeft"><a id="a483c165eeadf97165cf75192920f997a" name="a483c165eeadf97165cf75192920f997a"></a>
 &#160;</td><td class="memItemRight"><b>Vec4</b> ()=default</td></tr>
 <tr class="memdesc:a483c165eeadf97165cf75192920f997a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. <br /></td></tr>
-<tr class="memitem:aecbee1265b4fec51e99b0c7704a95497" id="r_aecbee1265b4fec51e99b0c7704a95497"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aecbee1265b4fec51e99b0c7704a95497">Vec4</a> (float x, float y, float z, float <a class="el" href="#a7517e9400ce04f41bbaf6625077d45e3">w</a>)</td></tr>
+<tr class="memitem:aecbee1265b4fec51e99b0c7704a95497" id="r_aecbee1265b4fec51e99b0c7704a95497"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aecbee1265b4fec51e99b0c7704a95497">Vec4</a> (float <a class="el" href="#a4e6fede83f184beccdc61290058bdfdb">x</a>, float <a class="el" href="#a5eb8460b7e61bca273a085ac586cc22b">y</a>, float <a class="el" href="#ab253af76cf06ba66e5af6e02b15a4524">z</a>, float <a class="el" href="#a7517e9400ce04f41bbaf6625077d45e3">w</a>)</td></tr>
 <tr class="memdesc:aecbee1265b4fec51e99b0c7704a95497"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a 4D vector with given values.  <br /></td></tr>
 <tr class="memitem:ae41f7c30e85ce2e50c424c69df079820" id="r_ae41f7c30e85ce2e50c424c69df079820"><td class="memItemLeft"><a class="el" href="#a483c165eeadf97165cf75192920f997a">Vec4</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae41f7c30e85ce2e50c424c69df079820">operator-</a> (const <a class="el" href="#a483c165eeadf97165cf75192920f997a">Vec4</a> &amp;o) const</td></tr>
 <tr class="memdesc:ae41f7c30e85ce2e50c424c69df079820"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subtraction operator.  <br /></td></tr>
@@ -129,13 +129,16 @@ Public Member Functions</h2></td></tr>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a4e6fede83f184beccdc61290058bdfdb" id="r_a4e6fede83f184beccdc61290058bdfdb"><td class="memItemLeft"><a id="a4e6fede83f184beccdc61290058bdfdb" name="a4e6fede83f184beccdc61290058bdfdb"></a>
 float&#160;</td><td class="memItemRight"><b>x</b> = 0.0f</td></tr>
+<tr class="memdesc:a4e6fede83f184beccdc61290058bdfdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">X coordinate. <br /></td></tr>
 <tr class="memitem:a5eb8460b7e61bca273a085ac586cc22b" id="r_a5eb8460b7e61bca273a085ac586cc22b"><td class="memItemLeft"><a id="a5eb8460b7e61bca273a085ac586cc22b" name="a5eb8460b7e61bca273a085ac586cc22b"></a>
 float&#160;</td><td class="memItemRight"><b>y</b> = 0.0f</td></tr>
+<tr class="memdesc:a5eb8460b7e61bca273a085ac586cc22b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Y coordinate. <br /></td></tr>
 <tr class="memitem:ab253af76cf06ba66e5af6e02b15a4524" id="r_ab253af76cf06ba66e5af6e02b15a4524"><td class="memItemLeft"><a id="ab253af76cf06ba66e5af6e02b15a4524" name="ab253af76cf06ba66e5af6e02b15a4524"></a>
 float&#160;</td><td class="memItemRight"><b>z</b> = 0.0f</td></tr>
+<tr class="memdesc:ab253af76cf06ba66e5af6e02b15a4524"><td class="mdescLeft">&#160;</td><td class="mdescRight">Z coordinate. <br /></td></tr>
 <tr class="memitem:a7517e9400ce04f41bbaf6625077d45e3" id="r_a7517e9400ce04f41bbaf6625077d45e3"><td class="memItemLeft"><a id="a7517e9400ce04f41bbaf6625077d45e3" name="a7517e9400ce04f41bbaf6625077d45e3"></a>
 float&#160;</td><td class="memItemRight"><b>w</b> = 0.0f</td></tr>
-<tr class="memdesc:a7517e9400ce04f41bbaf6625077d45e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">4D Coordinates of the vector <br /></td></tr>
+<tr class="memdesc:a7517e9400ce04f41bbaf6625077d45e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">W coordinate. <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a 4D mathematical vector. </p>
@@ -172,10 +175,10 @@ float&#160;</td><td class="memItemRight"><b>w</b> = 0.0f</td></tr>
 <p>Constructs a 4D vector with given values. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">x</td><td>The X component. </td></tr>
-    <tr><td class="paramname">y</td><td>The Y component. </td></tr>
-    <tr><td class="paramname">z</td><td>The Z component. </td></tr>
-    <tr><td class="paramname"><a class="el" href="#a7517e9400ce04f41bbaf6625077d45e3" title="4D Coordinates of the vector">w</a></td><td>The W component. </td></tr>
+    <tr><td class="paramname"><a class="el" href="#a4e6fede83f184beccdc61290058bdfdb" title="X coordinate.">x</a></td><td>The X component. </td></tr>
+    <tr><td class="paramname"><a class="el" href="#a5eb8460b7e61bca273a085ac586cc22b" title="Y coordinate.">y</a></td><td>The Y component. </td></tr>
+    <tr><td class="paramname"><a class="el" href="#ab253af76cf06ba66e5af6e02b15a4524" title="Z coordinate.">z</a></td><td>The Z component. </td></tr>
+    <tr><td class="paramname"><a class="el" href="#a7517e9400ce04f41bbaf6625077d45e3" title="W coordinate.">w</a></td><td>The W component. </td></tr>
   </table>
   </dd>
 </dl>

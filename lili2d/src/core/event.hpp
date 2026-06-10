@@ -80,11 +80,11 @@ public:
 	/// @brief Checks if a specific key was just pressed based on an event.
 	/// @param keyboard The keyboard event to check against.
 	/// @return True if the key was just pressed, false otherwise.
-	bool key_just_pressed(const KeyboardEvent &keyboard) const;
+	bool keyJustPressed(const KeyboardEvent &keyboard) const;
 	/// @brief Checks if a specific mouse button was pressed based on an event.
 	/// @param keyboard The mouse button event to check against.
 	/// @return True if the button was pressed, false otherwise.
-	bool mouse_button_pressed(const MouseButtonEvent &keyboard) const;
+	bool mouseButtonPressed(const MouseButtonEvent &keyboard) const;
 
 	/// @brief Gets the keyboard event data.
 	/// @return The keyboard event data.
@@ -103,8 +103,8 @@ private:
 	SDL_Event sdl_event = SDL_Event();
 	EventType current_type = EventType::NONE;
 
-	/// @brief resolve_type method.
-	EventType resolve_type() const;
+	/// @brief resolveType method.
+	EventType resolveType() const;
 };
 
 }  // namespace lili

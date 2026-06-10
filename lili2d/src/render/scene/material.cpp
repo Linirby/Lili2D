@@ -5,17 +5,17 @@
 namespace lili {
 
 Material::Material(Texture *texture)
-	: albedo_map(texture), custom_pipeline(nullptr) {}
+	: albedoMap(texture), custom_pipeline(nullptr) {}
 
 Material::Material(Texture *texture, SDL_GPUGraphicsPipeline *pipeline)
-	: albedo_map(texture), custom_pipeline(pipeline) {}
+	: albedoMap(texture), custom_pipeline(pipeline) {}
 
 MaterialRegistry &MaterialRegistry::get() {
 	static MaterialRegistry instance;
 	return instance;
 }
 
-uint16_t MaterialRegistry::register_material(
+uint16_t MaterialRegistry::registerMaterial(
 	const std::string &key, const Material &material
 ) {
 	auto it = key_to_id.find(key);
@@ -35,36 +35,36 @@ uint16_t MaterialRegistry::register_material(
 	return new_id;
 }
 
-bool MaterialRegistry::has_material(const std::string &key) const {
+bool MaterialRegistry::hasMaterial(const std::string &key) const {
 	return key_to_id.contains(key);
 }
 
-uint16_t MaterialRegistry::get_material_id(const std::string &key) const {
+uint16_t MaterialRegistry::getMaterialId(const std::string &key) const {
 	auto it = key_to_id.find(key);
 	if (it == key_to_id.end())
 		throw std::runtime_error("Material key not found: " + key);
 	return it->second;
 }
 
-const Material &MaterialRegistry::get_material(const std::string &key) const {
-	return get_material(get_material_id(key));
+const Material &MaterialRegistry::getMaterial(const std::string &key) const {
+	return getMaterial(getMaterialId(key));
 }
 
-const Material &MaterialRegistry::get_material(uint16_t material_id) const {
+const Material &MaterialRegistry::getMaterial(uint16_t material_id) const {
 	if (material_id >= id_to_material.size())
 		throw std::runtime_error("Material ID out of range.");
 	return id_to_material[material_id];
 }
 
-const Material &MaterialRegistry::get_material(uint8_t material_id) const {
-	return get_material(static_cast<uint16_t>(material_id));
+const Material &MaterialRegistry::getMaterial(uint8_t material_id) const {
+	return getMaterial(static_cast<uint16_t>(material_id));
 }
 
 MaterialRegistry::MaterialRegistry() {
-	register_material("core:none", Material());
+	registerMaterial("core:none", Material());
 }
 
-size_t MaterialRegistry::material_count() const {
+size_t MaterialRegistry::materialCount() const {
 	return id_to_material.size();
 }
 

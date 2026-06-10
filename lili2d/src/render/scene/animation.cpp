@@ -6,11 +6,11 @@ namespace lili {
 Animation::Animation(const std::vector<AnimationFrame> &frames)
 	: frames(frames) {}
 
-size_t Animation::frame_count() const {
+size_t Animation::frameCount() const {
 	return frames.size();
 }
 
-const AnimationFrame& Animation::get_frame(size_t index) const {
+const AnimationFrame& Animation::getFrame(size_t index) const {
 	return frames.at(index);
 }
 
@@ -19,7 +19,7 @@ AnimationRegistry &AnimationRegistry::get() {
 	return instance;
 }
 
-uint16_t AnimationRegistry::register_animation(
+uint16_t AnimationRegistry::registerAnimation(
 	const std::string &key, const Animation &animation
 ) {
 	auto it = key_to_id.find(key);
@@ -39,38 +39,38 @@ uint16_t AnimationRegistry::register_animation(
 	return new_id;
 }
 
-bool AnimationRegistry::has_animation(const std::string &key) const {
+bool AnimationRegistry::hasAnimation(const std::string &key) const {
 	return key_to_id.contains(key);
 }
 
-uint16_t AnimationRegistry::get_animation_id(const std::string &key) const {
+uint16_t AnimationRegistry::getAnimationId(const std::string &key) const {
 	auto it = key_to_id.find(key);
 	if (it == key_to_id.end())
 		throw std::runtime_error("Animation key not found: " + key);
 	return it->second;
 }
 
-const Animation &AnimationRegistry::get_animation(
+const Animation &AnimationRegistry::getAnimation(
 	const std::string &key
 ) const {
-	return get_animation(get_animation_id(key));
+	return getAnimation(getAnimationId(key));
 }
 
-const Animation &AnimationRegistry::get_animation(uint16_t id) const {
+const Animation &AnimationRegistry::getAnimation(uint16_t id) const {
 	if (id >= id_to_animation.size())
 		throw std::runtime_error("Animation ID out of range.");
 	return id_to_animation[id];
 }
 
-const Animation &AnimationRegistry::get_animation(uint8_t id) const {
-	return get_animation(static_cast<uint16_t>(id));
+const Animation &AnimationRegistry::getAnimation(uint8_t id) const {
+	return getAnimation(static_cast<uint16_t>(id));
 }
 
 AnimationRegistry::AnimationRegistry() {
-	register_animation("core:none", Animation());
+	registerAnimation("core:none", Animation());
 }
 
-size_t AnimationRegistry::animation_count() const {
+size_t AnimationRegistry::animationCount() const {
 	return id_to_animation.size();
 }
 

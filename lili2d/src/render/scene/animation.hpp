@@ -11,10 +11,13 @@ namespace lili {
 
 /// @brief Represents a single frame within an atlas texture.
 struct AnimationFrame {
-	Texture *texture = nullptr;
-	float u_min = 0.0f, v_min = 0.0f;
-	float u_max = 1.0f, v_max = 1.0f;
-	float width = 0.0f, height = 0.0f;
+	Texture *texture = nullptr; ///< The texture.
+	float u_min = 0.0f; ///< Minimum U coordinate.
+	float v_min = 0.0f; ///< Minimum V coordinate.
+	float u_max = 1.0f; ///< Maximum U coordinate.
+	float v_max = 1.0f; ///< Maximum V coordinate.
+	float width = 0.0f; ///< Frame width.
+	float height = 0.0f; ///< Frame height.
 };
 
 /// @brief Represents an animation as a sequence of frames.
@@ -32,12 +35,12 @@ public:
 
 	/// @brief Gets the number of frames.
 	/// @return The frame count.
-	size_t frame_count() const;
+	size_t frameCount() const;
 
 	/// @brief Gets a frame by index.
 	/// @param index The frame index.
 	/// @return Reference to the AnimationFrame.
-	const AnimationFrame& get_frame(size_t index) const;
+	const AnimationFrame& getFrame(size_t index) const;
 
 private:
 	std::vector<AnimationFrame> frames;
@@ -57,34 +60,34 @@ public:
 	/// @param key The unique string key.
 	/// @param animation The animation to register.
 	/// @return The assigned animation ID.
-	uint16_t register_animation(
+	uint16_t registerAnimation(
 		const std::string &key, const Animation &animation
 	);
 
 	/// @brief Checks if an animation exists.
 	/// @param key The animation key.
 	/// @return True if the animation exists.
-	bool has_animation(const std::string &key) const;
+	bool hasAnimation(const std::string &key) const;
 	/// @brief Gets an animation ID by key.
 	/// @param key The animation key.
 	/// @return The animation ID.
-	uint16_t get_animation_id(const std::string &key) const;
+	uint16_t getAnimationId(const std::string &key) const;
 	/// @brief Gets an animation by key.
 	/// @param key The animation key.
 	/// @return Reference to the animation.
-	const Animation &get_animation(const std::string &key) const;
+	const Animation &getAnimation(const std::string &key) const;
 	/// @brief Gets an animation by 16-bit ID.
 	/// @param id The animation ID.
 	/// @return Reference to the animation.
-	const Animation &get_animation(uint16_t id) const;
+	const Animation &getAnimation(uint16_t id) const;
 	/// @brief Gets an animation by 8-bit ID.
 	/// @param id The animation ID.
 	/// @return Reference to the animation.
-	const Animation &get_animation(uint8_t id) const;
+	const Animation &getAnimation(uint8_t id) const;
 
 	/// @brief Gets the total number of registered animations.
 	/// @return The number of animations.
-	size_t animation_count() const;
+	size_t animationCount() const;
 	/// @brief Gets the raw animation data array.
 	/// @return Pointer to the animation data.
 	const Animation *animation_data() const;

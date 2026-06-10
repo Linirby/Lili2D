@@ -45,19 +45,19 @@ bool Mouse::released(MouseButton button) const {
 		return false;
 }
 
-float Mouse::get_x() const {
+float Mouse::getX() const {
 	return current_x;
 }
 
-float Mouse::get_y() const {
+float Mouse::getY() const {
 	return current_y;
 }
 
-float Mouse::get_dx() const {
+float Mouse::getDx() const {
 	return current_dx;
 }
 
-float Mouse::get_dy() const {
+float Mouse::getDy() const {
 	return current_dy;
 }
 

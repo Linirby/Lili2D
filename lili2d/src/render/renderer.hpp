@@ -33,18 +33,20 @@ public:
 	Renderer(Renderer &&other) noexcept;
 	/// @brief Move assignment.
 	Renderer& operator=(Renderer &&other) noexcept;
-	/// @brief Copy constructor is deleted to prevent double-freeing the SDL GPU device.
+	/// @brief Copy constructor is deleted to prevent double-freeing the SDL GPU
+	/// device.
 	Renderer(const Renderer &) = delete;
-	/// @brief Copy assignment is deleted to prevent double-freeing the SDL GPU device.
+	/// @brief Copy assignment is deleted to prevent double-freeing the SDL GPU
+	/// device.
 	Renderer& operator=(const Renderer &) = delete;
 
 	/// @brief Gets the SDL GPU device.
 	/// @return Pointer to the SDL_GPUDevice.
-	SDL_GPUDevice *get_device() const;
+	SDL_GPUDevice *getDevice() const;
 
 	/// @brief Begins the rendering frame.
 	/// @return True if the frame was successfully started, false otherwise.
-	bool begin_frame();
+	bool beginFrame();
 	/// @brief Submits a model for rendering.
 	/// @param model The model to render.
 	/// @param transform The transformation matrix.
@@ -54,10 +56,10 @@ public:
 		Model model, const Mat3 &transform, float layer, RenderLayer layer_type
 	);
 	/// @brief Ends the rendering frame.
-	void end_frame();
+	void endFrame();
 	/// @brief Sets the active camera.
 	/// @param camera Pointer to the camera.
-	void set_camera(Camera *camera);
+	void setCamera(Camera *camera);
 
 	/// @brief Creates a shader from file paths.
 	/// @param vert_path Path to the vertex shader file.
@@ -65,7 +67,7 @@ public:
 	/// @param vert_infos Binding info for the vertex shader.
 	/// @param frag_infos Binding info for the fragment shader.
 	/// @return A new Shader instance.
-	Shader* create_shader(
+	Shader* createShader(
 		const std::string &vert_path,
 		const std::string &frag_path,
 		ShaderInfo vert_infos = {},
@@ -79,7 +81,7 @@ public:
 	/// @param vert_infos Binding info for the vertex shader.
 	/// @param frag_infos Binding info for the fragment shader.
 	/// @return A new Shader instance.
-	Shader* create_shader(
+	Shader* createShader(
 		const uint8_t *vert_code,
 		size_t vert_size,
 		const uint8_t *frag_code,
@@ -91,22 +93,22 @@ public:
 	/// @brief Creates a custom world 2D pipeline with a given shader.
 	/// @param shader The custom shader.
 	/// @return A new WorldPipeline instance.
-	WorldPipeline* create_world_pipeline(Shader *shader);
+	WorldPipeline* createWorldPipeline(Shader *shader);
 	/// @brief Creates a custom UI pipeline with a given shader.
 	/// @param shader The custom shader.
 	/// @return A new UIPipeline instance.
-	UIPipeline* create_ui_pipeline(Shader *shader);
+	UIPipeline* createUiPipeline(Shader *shader);
 
 	/// @brief Gets the default white pixel texture.
 	/// @return Pointer to the white pixel texture.
-	Texture *get_the_white_pixel() const;
+	Texture *getTheWhitePixel() const;
 	/// @brief Gets the shared unit quad mesh.
 	/// @return Pointer to the shared GPUMesh for a unit quad.
-	GPUMesh* get_unit_quad();
+	GPUMesh* getUnitQuad();
 	/// @brief Gets or creates a shared unit circle mesh.
 	/// @param segments The number of segments (resolution) of the circle.
 	/// @return Pointer to the shared GPUMesh for a unit circle.
-	GPUMesh* get_unit_circle(int segments);
+	GPUMesh* getUnitCircle(int segments);
 
 private:
 	Window *window = nullptr;
@@ -133,14 +135,14 @@ private:
 	GPUMesh *unit_quad = nullptr;
 	std::map<int, GPUMesh*> unit_circles;
 
-	/// @brief init_device method.
-	void init_device();
-	/// @brief init_shaders method.
-	void init_shaders();
-	/// @brief init_pipelines method.
-	void init_pipelines();
-	/// @brief init_passes method.
-	void init_passes();
+	/// @brief initDevice method.
+	void initDevice();
+	/// @brief initShaders method.
+	void initShaders();
+	/// @brief initPipelines method.
+	void initPipelines();
+	/// @brief initPasses method.
+	void initPasses();
 };
 
 }  // namespace lili

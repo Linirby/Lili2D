@@ -7,13 +7,11 @@ namespace lili {
 
 /// @brief Represents a single vertex in a mesh.
 struct Vertex {
-	float x = 0.0f;
-	float y = 0.0f;
-	float z = 0.0f;
-	///< Position coordinates.
-	float u = 0.0f;
-	float v = 0.0f;
-	///< Texture coordinates.
+	float x = 0.0f; ///< X position.
+	float y = 0.0f; ///< Y position.
+	float z = 0.0f; ///< Z position.
+	float u = 0.0f; ///< U texture coordinate.
+	float v = 0.0f; ///< V texture coordinate.
 	float material_id = 0.0f;  ///< Material ID.
 };
 
@@ -45,13 +43,13 @@ public:
 
 	/// @brief Gets the vertex buffer.
 	/// @return Pointer to the vertex SDL_GPUBuffer.
-	SDL_GPUBuffer *get_vertex() const;
+	SDL_GPUBuffer *getVertex() const;
 	/// @brief Gets the index buffer.
 	/// @return Pointer to the index SDL_GPUBuffer.
-	SDL_GPUBuffer *get_index() const;
+	SDL_GPUBuffer *getIndex() const;
 	/// @brief Gets the number of indices in the mesh.
 	/// @return The index count.
-	uint32_t get_index_count() const;
+	uint32_t getIndexCount() const;
 
 private:
 	SDL_GPUDevice *device = nullptr;
@@ -59,7 +57,7 @@ private:
 	SDL_GPUBuffer *index_buffer = nullptr;
 	uint32_t index_count = 0;
 
-	void transfer_to_gpu(
+	void transferToGpu(
 		const void *data, SDL_GPUBuffer *buffer, uint32_t size
 	);
 };

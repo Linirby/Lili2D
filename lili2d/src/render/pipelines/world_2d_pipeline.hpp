@@ -32,7 +32,7 @@ public:
 
 	/// @brief Gets the underlying SDL GPU pipeline.
 	/// @return Pointer to the SDL_GPUGraphicsPipeline.
-	SDL_GPUGraphicsPipeline *get_sdl_pipeline();
+	SDL_GPUGraphicsPipeline *getSdlPipeline();
 
 private:
 	SDL_GPUDevice *device = nullptr;

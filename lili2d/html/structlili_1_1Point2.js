@@ -8,5 +8,6 @@ var structlili_1_1Point2 =
     [ "operator+=", "structlili_1_1Point2.html#ac13c1f320eb6311c89cc80dbcaee91a1", null ],
     [ "operator-", "structlili_1_1Point2.html#aeba29efdfc118e890b3904d7439601d5", null ],
     [ "operator-=", "structlili_1_1Point2.html#ac7a64ad3dcee7b4f3f3e51c6bbb2087b", null ],
+    [ "x", "structlili_1_1Point2.html#ae21e023e28776bf7974401501a2ce3fa", null ],
     [ "y", "structlili_1_1Point2.html#a06c5390255299a258aea9ccacddaebee", null ]
 ];

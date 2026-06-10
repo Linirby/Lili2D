@@ -29,7 +29,7 @@ Mat4 Mat4::identity() {
 	return result;
 }
 
-Mat4 Mat4::look_at(const Vec3 &eye, const Vec3 &center, const Vec3 &up) {
+Mat4 Mat4::lookAt(const Vec3 &eye, const Vec3 &center, const Vec3 &up) {
 	Vec3 f = (center - eye).normalized();
 	Vec3 s = f.cross(up).normalized();
 	Vec3 u = s.cross(f);
@@ -93,7 +93,7 @@ Mat4 Mat4::translate(Vec3 pos) {
 	return result;
 }
 
-Mat4 Mat4::rotation_x(float radian) {
+Mat4 Mat4::rotationX(float radian) {
 	Mat4 result = identity();
 	float c = std::cos(radian);
 	float s = std::sin(radian);
@@ -105,7 +105,7 @@ Mat4 Mat4::rotation_x(float radian) {
 	return result;
 }
 
-Mat4 Mat4::rotation_y(float radian) {
+Mat4 Mat4::rotationY(float radian) {
 	Mat4 result = identity();
 	float c = std::cos(radian);
 	float s = std::sin(radian);
@@ -117,7 +117,7 @@ Mat4 Mat4::rotation_y(float radian) {
 	return result;
 }
 
-Mat4 Mat4::rotation_z(float radian) {
+Mat4 Mat4::rotationZ(float radian) {
 	Mat4 result = identity();
 	float c = std::cos(radian);
 	float s = std::sin(radian);
@@ -130,9 +130,9 @@ Mat4 Mat4::rotation_z(float radian) {
 	return result;
 }
 
-Mat4 Mat4::rotation_xyz(Vec3 radians) {
+Mat4 Mat4::rotationXyz(Vec3 radians) {
 	return (
-		rotation_x(radians.x) * rotation_y(radians.y) * rotation_z(radians.z)
+		rotationX(radians.x) * rotationY(radians.y) * rotationZ(radians.z)
 	);
 }
 

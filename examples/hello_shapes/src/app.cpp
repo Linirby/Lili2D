@@ -2,7 +2,7 @@
 
 App::App() {
 	window = std::make_unique<lili::Window>("hello_shapes - Lili2D", 500, 350);
-	window->set_resizable(true);
+	window->setResizable(true);
 	renderer = std::make_unique<lili::Renderer>(window.get());
 
 	thin_line = lili::Line(
@@ -39,12 +39,12 @@ App::App() {
 
 void App::run() {
 	while (running) {
-		handle_events();
+		handleEvents();
 		render();
 	}
 }
 
-void App::handle_events() {
+void App::handleEvents() {
 	lili::Event event;
 
 	while (event.poll()) {
@@ -58,7 +58,7 @@ void App::handle_events() {
 }
 
 void App::render() {
-	if (!renderer->begin_frame()) return;
+	if (!renderer->beginFrame()) return;
 
 	thin_line.draw();
 	large_line.draw();
@@ -68,5 +68,5 @@ void App::render() {
 	clean_circle.draw();
 	low_poly_circle.draw();
 
-	renderer->end_frame();
+	renderer->endFrame();
 }

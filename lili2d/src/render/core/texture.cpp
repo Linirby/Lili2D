@@ -15,7 +15,7 @@ Texture::Texture(SDL_GPUDevice *device, const std::string &img_path)
 		temp_surface, SDL_PIXELFORMAT_ABGR8888
 	);
 	SDL_DestroySurface(temp_surface);
-	init_from_surface(surface);
+	initFromSurface(surface);
 }
 
 Texture::Texture(
@@ -32,12 +32,12 @@ Texture::Texture(
 		temp_surface, SDL_PIXELFORMAT_ABGR8888
 	);
 	SDL_DestroySurface(temp_surface);
-	init_from_surface(surface);
+	initFromSurface(surface);
 }
 
 Texture::Texture(SDL_GPUDevice *device, SDL_Surface *surface) {
 	this->device = device;
-	init_from_surface(surface);
+	initFromSurface(surface);
 }
 
 Texture::Texture(Texture &&other) noexcept
@@ -55,13 +55,13 @@ Texture& Texture::operator=(Texture &&other) noexcept {
 	if (this != &other) {
 		if (sampler) SDL_ReleaseGPUSampler(device, sampler);
 		if (texture) SDL_ReleaseGPUTexture(device, texture);
-		
+
 		device = other.device;
 		width = other.width;
 		height = other.height;
 		texture = other.texture;
 		sampler = other.sampler;
-		
+
 		other.device = nullptr;
 		other.texture = nullptr;
 		other.sampler = nullptr;
@@ -69,7 +69,7 @@ Texture& Texture::operator=(Texture &&other) noexcept {
 	return *this;
 }
 
-void Texture::init_from_surface(SDL_Surface *surface) {
+void Texture::initFromSurface(SDL_Surface *surface) {
 	width = surface->w;
 	height = surface->h;
 
@@ -84,7 +84,7 @@ void Texture::init_from_surface(SDL_Surface *surface) {
 	texture_ci.sample_count = SDL_GPU_SAMPLECOUNT_1;
 
 	texture = SDL_CreateGPUTexture(this->device, &texture_ci);
-	transfer_to_gpu(surface);
+	transferToGpu(surface);
 
 	SDL_GPUSamplerCreateInfo sampler_info{};
 	sampler_info.min_filter = SDL_GPU_FILTER_NEAREST;
@@ -108,23 +108,23 @@ Texture::~Texture() {
 	if (texture) SDL_ReleaseGPUTexture(device, texture);
 }
 
-int Texture::get_width() const {
+int Texture::getWidth() const {
 	return width;
 }
 
-int Texture::get_height() const {
+int Texture::getHeight() const {
 	return height;
 }
 
-SDL_GPUTexture *Texture::get_texture() const {
+SDL_GPUTexture *Texture::getTexture() const {
 	return texture;
 }
 
-SDL_GPUSampler *Texture::get_sampler() const {
+SDL_GPUSampler *Texture::getSampler() const {
 	return sampler;
 }
 
-void Texture::transfer_to_gpu(SDL_Surface *surface) {
+void Texture::transferToGpu(SDL_Surface *surface) {
 	uint32_t image_size = surface->w * surface->h * 4;
 	SDL_GPUTransferBufferCreateInfo transfer_bi{};
 	transfer_bi.usage = SDL_GPU_TRANSFERBUFFERUSAGE_UPLOAD;

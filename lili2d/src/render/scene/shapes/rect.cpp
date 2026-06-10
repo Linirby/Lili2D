@@ -9,61 +9,61 @@ RectShape::RectShape(float x, float y, float w, float h)
 
 Rect::Rect(Renderer *renderer, RectShape shape, Vec4 color)
 	: renderer(renderer) {
-	mesh = renderer->get_unit_quad();
-	material = std::make_unique<Material>(renderer->get_the_white_pixel());
-	set_shape(shape);
-	set_color(color);
+	mesh = renderer->getUnitQuad();
+	material = std::make_unique<Material>(renderer->getTheWhitePixel());
+	setShape(shape);
+	setColor(color);
 	rotation = 0.0f;
 	layer = 0.0f;
 }
 
-void Rect::set_position(Vec2 pos) {
+void Rect::setPosition(Vec2 pos) {
 	shape.x = pos.x;
 	shape.y = pos.y;
 }
 
-void Rect::set_rotation(float degree) {
-	rotation = lili::deg_to_rad(degree);
+void Rect::setRotation(float degree) {
+	rotation = lili::degToRad(degree);
 }
 
-void Rect::set_size(Vec2 size) {
+void Rect::setSize(Vec2 size) {
 	shape.w = size.x;
 	shape.h = size.y;
 }
 
-void Rect::set_shape(RectShape shape) {
+void Rect::setShape(RectShape shape) {
 	this->shape = shape;
 }
 
-void Rect::set_color(Vec4 color) {
+void Rect::setColor(Vec4 color) {
 	material->properties.color_tint = color;
 }
 
-void Rect::set_layer(float value) {
+void Rect::setLayer(float value) {
 	layer = value;
 }
 
-void Rect::set_render(RenderLayer render_layer) {
+void Rect::setRender(RenderLayer render_layer) {
 	this->render_layer = render_layer;
 }
 
-Vec2 Rect::get_position() const {
+Vec2 Rect::getPosition() const {
 	return { shape.x, shape.y };
 }
 
-Vec2 Rect::get_size() const {
+Vec2 Rect::getSize() const {
 	return { shape.w, shape.h };
 }
 
-RectShape Rect::get_shape() const {
+RectShape Rect::getShape() const {
 	return shape;
 }
 
-Vec4 Rect::get_color() const {
+Vec4 Rect::getColor() const {
 	return material->properties.color_tint;
 }
 
-Material* Rect::get_material() const {
+Material* Rect::getMaterial() const {
 	return material.get();
 }
 

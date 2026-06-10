@@ -2,30 +2,30 @@
 
 namespace lili {
 
-void Camera::set_position(const Vec2 &pos) {
+void Camera::setPosition(const Vec2 &pos) {
 	position = pos;
 	is_dirty = true;
 }
 
-void Camera::set_rotation(float degree) {
+void Camera::setRotation(float degree) {
 	rotation = degree;
 	is_dirty = true;
 }
 
-void Camera::set_zoom(float value) {
+void Camera::setZoom(float value) {
 	zoom = value;
 	is_dirty = true;
 }
 
-Vec2 Camera::get_position() const {
+Vec2 Camera::getPosition() const {
 	return position;
 }
 
-float Camera::get_zoom() const {
+float Camera::getZoom() const {
 	return zoom;
 }
 
-Mat3 Camera::get_view_matrix(float width, float height) const {
+Mat3 Camera::getViewMatrix(float width, float height) const {
 	if (is_dirty) {
 		Mat3 translate = Mat3::translate({ -position.x, -position.y });
 		Mat3 rotate = Mat3::rotation(-rotation);
@@ -38,7 +38,7 @@ Mat3 Camera::get_view_matrix(float width, float height) const {
 	return cached_view_matrix;
 }
 
-Mat3 Camera::get_projection(float width, float height) const {
+Mat3 Camera::getProjection(float width, float height) const {
 	return Mat3::orthographic(0.0f, width, 0.0f, height);
 }
 

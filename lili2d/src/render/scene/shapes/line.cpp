@@ -9,58 +9,58 @@ LineShape::LineShape(Vec2 start, Vec2 end, float thickness)
 
 Line::Line(Renderer *renderer, LineShape shape, Vec4 color)
 	: renderer(renderer) {
-	mesh = renderer->get_unit_quad();
-	material = std::make_unique<Material>(renderer->get_the_white_pixel());
-	set_shape(shape);
-	set_color(color);
+	mesh = renderer->getUnitQuad();
+	material = std::make_unique<Material>(renderer->getTheWhitePixel());
+	setShape(shape);
+	setColor(color);
 	layer = 0.0f;
 }
 
-void Line::set_start(Vec2 pos) {
+void Line::setStart(Vec2 pos) {
 	shape.start = pos;
 }
 
-void Line::set_end(Vec2 pos) {
+void Line::setEnd(Vec2 pos) {
 	shape.end = pos;
 }
 
-void Line::set_thickness(float value) {
+void Line::setThickness(float value) {
 	shape.thickness = value;
 }
 
-void Line::set_shape(LineShape shape) {
+void Line::setShape(LineShape shape) {
 	this->shape = shape;
 }
 
-void Line::set_color(Vec4 color) {
+void Line::setColor(Vec4 color) {
 	material->properties.color_tint = color;
 }
 
-void Line::set_layer(float value) {
+void Line::setLayer(float value) {
 	layer = value;
 }
 
-void Line::set_render(RenderLayer render_layer) {
+void Line::setRender(RenderLayer render_layer) {
 	this->render_layer = render_layer;
 }
 
-Vec2 Line::get_start() const {
+Vec2 Line::getStart() const {
 	return shape.start;
 }
 
-Vec2 Line::get_end() const {
+Vec2 Line::getEnd() const {
 	return shape.end;
 }
 
-LineShape Line::get_shape() const {
+LineShape Line::getShape() const {
 	return shape;
 }
 
-Vec4 Line::get_color() const {
+Vec4 Line::getColor() const {
 	return material->properties.color_tint;
 }
 
-Material* Line::get_material() const {
+Material* Line::getMaterial() const {
 	return material.get();
 }
 

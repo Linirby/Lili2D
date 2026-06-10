@@ -9,4 +9,4 @@ namespace lili {
 	struct AABB;
 	/// @brief Result data from a raycast operation.
 	struct RaycastResult;
-}
+}  // namespace lili

@@ -15,7 +15,10 @@ namespace lili {
 
 /// @brief Defines the UV coordinates for a single glyph in a bitmap font.
 struct GlyphUV {
-	float u0, v0, u1, v1 = 0;  ///< UV coordinates.
+	float u0 = 0; ///< U0 coordinate.
+	float v0 = 0; ///< V0 coordinate.
+	float u1 = 0; ///< U1 coordinate.
+	float v1 = 0; ///< V1 coordinate.
 };
 
 /// @brief Represents a bitmap font loaded from an image.
@@ -32,17 +35,17 @@ public:
 
 	/// @brief Gets the font's underlying texture.
 	/// @return Pointer to the texture.
-	Texture *get_texture() const;
+	Texture *getTexture() const;
 	/// @brief Gets the width of a single glyph.
 	/// @return The width in pixels.
-	int get_glyph_w() const;
+	int getGlyphW() const;
 	/// @brief Gets the height of a single glyph.
 	/// @return The height in pixels.
-	int get_glyph_h() const;
+	int getGlyphH() const;
 	/// @brief Calculates the UV coordinates for a specific character.
 	/// @param c The character.
 	/// @return The UV coordinates.
-	GlyphUV glyph_uv(char c) const;
+	GlyphUV glyphUv(char c) const;
 
 private:
 	std::unique_ptr<Texture> texture = nullptr;
@@ -72,34 +75,36 @@ public:
 
 	/// @brief Sets the text string.
 	/// @param value The new text string.
-	void set_text(const std::string &value);
+	void setText(const std::string &value);
 	/// @brief Sets the text's position.
 	/// @param position The new position.
-	void set_position(const Vec2 &position);
+	void setPosition(const Vec2 &position);
 	/// @brief Sets the spacing between characters.
 	/// @param value The spacing value.
-	void set_spacing(float value);
+	void setSpacing(float value);
 	/// @brief Sets the text's scale.
 	/// @param value The new scale.
-	void set_scale(float value);
+	void setScale(float value);
 	/// @brief Sets the depth value for Z-ordering.
 	///
-	/// This determines the drawing order relative to other objects within the same render pass.
-	/// To change which render pass this object belongs to, use set_render().
+	/// This determines the drawing order relative to other objects within the
+	/// same render pass.
+	/// To change which render pass this object belongs to, use setRender().
 	///
 	/// @param layer The new layer depth.
-	void set_layer(float layer);
+	void setLayer(float layer);
 	/// @brief Sets the render pass layer.
 	///
-	/// This determines which overall pass (e.g., WORLD2D or UI) the object is drawn in.
-	/// To change the depth ordering within a pass, use set_layer().
+	/// This determines which overall pass (e.g., WORLD2D or UI) the object is
+	/// drawn in.
+	/// To change the depth ordering within a pass, use setLayer().
 	///
 	/// @param render_layer The new render pass layer.
-	void set_render(RenderLayer render_layer);
+	void setRender(RenderLayer render_layer);
 
 	/// @brief Gets the material.
 	/// @return Pointer to the material.
-	Material* get_material() const;
+	Material* getMaterial() const;
 
 	/// @brief Submits the text for drawing.
 	void draw();
@@ -123,8 +128,8 @@ private:
 
 	RenderLayer render_layer = RenderLayer::WORLD2D;
 
-	/// @brief rebuild_mesh method.
-	void rebuild_mesh();
+	/// @brief rebuildMesh method.
+	void rebuildMesh();
 };
 
 }  // namespace lili

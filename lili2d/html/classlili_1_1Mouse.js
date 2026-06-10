@@ -1,9 +1,9 @@
 var classlili_1_1Mouse =
 [
-    [ "get_dx", "classlili_1_1Mouse.html#a5eb6f8e03df6852ae3109cb77ceb73d1", null ],
-    [ "get_dy", "classlili_1_1Mouse.html#a46036048338cf103862718daa60dc035", null ],
-    [ "get_x", "classlili_1_1Mouse.html#a82fa10af044a51d4507850ba034d5d9d", null ],
-    [ "get_y", "classlili_1_1Mouse.html#a6a00c64e52966f8db8d0b91ec986c4f9", null ],
+    [ "getDx", "classlili_1_1Mouse.html#aed2cd3700433eb130a121322e8fb4004", null ],
+    [ "getDy", "classlili_1_1Mouse.html#a560036cc7f06d17b98d129174df31ea2", null ],
+    [ "getX", "classlili_1_1Mouse.html#a3533f009785dec657dcf9ae750df2fa7", null ],
+    [ "getY", "classlili_1_1Mouse.html#a1fbc07c2d943a02910bd77c6349cac09", null ],
     [ "held", "classlili_1_1Mouse.html#a8c5f37d95a6248ec490dffb43611f60f", null ],
     [ "pressed", "classlili_1_1Mouse.html#a9350aa0fa90a9b74c9da3bfde0aacb7f", null ],
     [ "released", "classlili_1_1Mouse.html#ad081a71e5b5f4dbe6bd0bfe3fef662df", null ],

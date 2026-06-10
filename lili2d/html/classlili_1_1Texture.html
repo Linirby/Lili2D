@@ -120,14 +120,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a7b7c1d0b177fb6e10118d527a28c07cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy assignment is deleted to prevent double-freeing the GPU texture. <br /></td></tr>
 <tr class="memitem:aef2b5beb86459c5e3e5625005caf3a99" id="r_aef2b5beb86459c5e3e5625005caf3a99"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aef2b5beb86459c5e3e5625005caf3a99">Texture</a> (SDL_GPUDevice *device, SDL_Surface *surface)</td></tr>
 <tr class="memdesc:aef2b5beb86459c5e3e5625005caf3a99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a texture directly from an SDL_Surface.  <br /></td></tr>
-<tr class="memitem:a0ea37b6c665b006adaa433cadfc83e11" id="r_a0ea37b6c665b006adaa433cadfc83e11"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a0ea37b6c665b006adaa433cadfc83e11">get_width</a> () const</td></tr>
-<tr class="memdesc:a0ea37b6c665b006adaa433cadfc83e11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the width of the texture.  <br /></td></tr>
-<tr class="memitem:a08306e4873e744e845636a8b64db9f84" id="r_a08306e4873e744e845636a8b64db9f84"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a08306e4873e744e845636a8b64db9f84">get_height</a> () const</td></tr>
-<tr class="memdesc:a08306e4873e744e845636a8b64db9f84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the height of the texture.  <br /></td></tr>
-<tr class="memitem:a0d2665857b4d444e2cba7dd6889e7ea8" id="r_a0d2665857b4d444e2cba7dd6889e7ea8"><td class="memItemLeft">SDL_GPUTexture *&#160;</td><td class="memItemRight"><a class="el" href="#a0d2665857b4d444e2cba7dd6889e7ea8">get_texture</a> () const</td></tr>
-<tr class="memdesc:a0d2665857b4d444e2cba7dd6889e7ea8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the underlying SDL GPU texture.  <br /></td></tr>
-<tr class="memitem:aec3f9e3db182e8fa157dc8304e7fae88" id="r_aec3f9e3db182e8fa157dc8304e7fae88"><td class="memItemLeft">SDL_GPUSampler *&#160;</td><td class="memItemRight"><a class="el" href="#aec3f9e3db182e8fa157dc8304e7fae88">get_sampler</a> () const</td></tr>
-<tr class="memdesc:aec3f9e3db182e8fa157dc8304e7fae88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the underlying SDL GPU sampler.  <br /></td></tr>
+<tr class="memitem:a0c38a438ec13f9865d2bd2bdcff357c1" id="r_a0c38a438ec13f9865d2bd2bdcff357c1"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a0c38a438ec13f9865d2bd2bdcff357c1">getWidth</a> () const</td></tr>
+<tr class="memdesc:a0c38a438ec13f9865d2bd2bdcff357c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the width of the texture.  <br /></td></tr>
+<tr class="memitem:a274cfaf31deecf597f5d46dd3ee25729" id="r_a274cfaf31deecf597f5d46dd3ee25729"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a274cfaf31deecf597f5d46dd3ee25729">getHeight</a> () const</td></tr>
+<tr class="memdesc:a274cfaf31deecf597f5d46dd3ee25729"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the height of the texture.  <br /></td></tr>
+<tr class="memitem:a9eae789991b88e60f207b53e18f1748e" id="r_a9eae789991b88e60f207b53e18f1748e"><td class="memItemLeft">SDL_GPUTexture *&#160;</td><td class="memItemRight"><a class="el" href="#a9eae789991b88e60f207b53e18f1748e">getTexture</a> () const</td></tr>
+<tr class="memdesc:a9eae789991b88e60f207b53e18f1748e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the underlying SDL GPU texture.  <br /></td></tr>
+<tr class="memitem:aee34a98223b5c1d7c8eccce93f0e0824" id="r_aee34a98223b5c1d7c8eccce93f0e0824"><td class="memItemLeft">SDL_GPUSampler *&#160;</td><td class="memItemRight"><a class="el" href="#aee34a98223b5c1d7c8eccce93f0e0824">getSampler</a> () const</td></tr>
+<tr class="memdesc:aee34a98223b5c1d7c8eccce93f0e0824"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the underlying SDL GPU sampler.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a 2D texture on the GPU. </p>
@@ -229,14 +229,14 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a08306e4873e744e845636a8b64db9f84" name="a08306e4873e744e845636a8b64db9f84"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a08306e4873e744e845636a8b64db9f84">&#9670;&#160;</a></span>get_height()</h2>
+<a id="a274cfaf31deecf597f5d46dd3ee25729" name="a274cfaf31deecf597f5d46dd3ee25729"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a274cfaf31deecf597f5d46dd3ee25729">&#9670;&#160;</a></span>getHeight()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int lili::Texture::get_height </td>
+          <td class="memname">int lili::Texture::getHeight </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -249,14 +249,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aec3f9e3db182e8fa157dc8304e7fae88" name="aec3f9e3db182e8fa157dc8304e7fae88"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aec3f9e3db182e8fa157dc8304e7fae88">&#9670;&#160;</a></span>get_sampler()</h2>
+<a id="aee34a98223b5c1d7c8eccce93f0e0824" name="aee34a98223b5c1d7c8eccce93f0e0824"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee34a98223b5c1d7c8eccce93f0e0824">&#9670;&#160;</a></span>getSampler()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">SDL_GPUSampler * lili::Texture::get_sampler </td>
+          <td class="memname">SDL_GPUSampler * lili::Texture::getSampler </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -269,14 +269,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a0d2665857b4d444e2cba7dd6889e7ea8" name="a0d2665857b4d444e2cba7dd6889e7ea8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0d2665857b4d444e2cba7dd6889e7ea8">&#9670;&#160;</a></span>get_texture()</h2>
+<a id="a9eae789991b88e60f207b53e18f1748e" name="a9eae789991b88e60f207b53e18f1748e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9eae789991b88e60f207b53e18f1748e">&#9670;&#160;</a></span>getTexture()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">SDL_GPUTexture * lili::Texture::get_texture </td>
+          <td class="memname">SDL_GPUTexture * lili::Texture::getTexture </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -289,14 +289,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a0ea37b6c665b006adaa433cadfc83e11" name="a0ea37b6c665b006adaa433cadfc83e11"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ea37b6c665b006adaa433cadfc83e11">&#9670;&#160;</a></span>get_width()</h2>
+<a id="a0c38a438ec13f9865d2bd2bdcff357c1" name="a0c38a438ec13f9865d2bd2bdcff357c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c38a438ec13f9865d2bd2bdcff357c1">&#9670;&#160;</a></span>getWidth()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int lili::Texture::get_width </td>
+          <td class="memname">int lili::Texture::getWidth </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>

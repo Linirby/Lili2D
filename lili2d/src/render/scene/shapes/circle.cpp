@@ -7,59 +7,59 @@ CircleShape::CircleShape(Vec2 center, float radius, int segments)
 
 Circle::Circle(Renderer *renderer, CircleShape shape, Vec4 color)
 	: renderer(renderer) {
-	mesh = renderer->get_unit_circle(shape.segments);
-	material = std::make_unique<Material>(renderer->get_the_white_pixel());
-	set_shape(shape);
-	set_color(color);
+	mesh = renderer->getUnitCircle(shape.segments);
+	material = std::make_unique<Material>(renderer->getTheWhitePixel());
+	setShape(shape);
+	setColor(color);
 	layer = 0.0f;
 }
 
-void Circle::set_center(Vec2 pos) {
+void Circle::setCenter(Vec2 pos) {
 	shape.center = pos;
 }
 
-void Circle::set_radius(float r) {
+void Circle::setRadius(float r) {
 	shape.radius = r;
 }
 
-void Circle::set_segments(int n) {
+void Circle::setSegments(int n) {
 	shape.segments = n;
-	mesh = renderer->get_unit_circle(n);
+	mesh = renderer->getUnitCircle(n);
 }
 
-void Circle::set_shape(CircleShape shape) {
+void Circle::setShape(CircleShape shape) {
 	this->shape = shape;
 }
 
-void Circle::set_color(Vec4 color) {
+void Circle::setColor(Vec4 color) {
 	material->properties.color_tint = color;
 }
 
-void Circle::set_layer(float value) {
+void Circle::setLayer(float value) {
 	layer = value;
 }
 
-void Circle::set_render(RenderLayer render_layer) {
+void Circle::setRender(RenderLayer render_layer) {
 	this->render_layer = render_layer;
 }
 
-Vec2 Circle::get_center() const {
+Vec2 Circle::getCenter() const {
 	return shape.center;
 }
 
-float Circle::get_radius() const {
+float Circle::getRadius() const {
 	return shape.radius;
 }
 
-CircleShape Circle::get_shape() const {
+CircleShape Circle::getShape() const {
 	return shape;
 }
 
-Vec4 Circle::get_color() const {
+Vec4 Circle::getColor() const {
 	return material->properties.color_tint;
 }
 
-Material* Circle::get_material() const {
+Material* Circle::getMaterial() const {
 	return material.get();
 }
 

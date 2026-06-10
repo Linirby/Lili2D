@@ -9,7 +9,6 @@ class App {
 public:
 	/// \brief App method.
 	App();
-	~App() = default;
 
 	/// \brief run method.
 	void run();
@@ -24,8 +23,8 @@ private:
 
 	bool running;
 
-	/// \brief handle_events method.
-	void handle_events();
+	/// \brief handleEvents method.
+	void handleEvents();
 	/// \brief update method.
 	void update(float dt);
 	/// \brief render method.

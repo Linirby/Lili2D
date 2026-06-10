@@ -17,6 +17,7 @@ add_library(LiliGeometry OBJECT
     src/geometry/vec3.cpp
     src/geometry/vec4.cpp
     src/geometry/point2.cpp
+    src/geometry/utils.cpp
 )
 target_include_directories(LiliGeometry PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>

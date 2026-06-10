@@ -1,6 +1,8 @@
 var searchData=
 [
   ['action_0',['action',['../structlili_1_1KeyboardEvent.html#afc0097a7bdccbdda2ba96025ae790d2e',1,'lili::KeyboardEvent::action'],['../structlili_1_1MouseButtonEvent.html#ae57e5befd4583183f9e3033a96c5fa19',1,'lili::MouseButtonEvent::action']]],
-  ['adj_5fz_1',['adj_z',['../structlili_1_1RaycastResult.html#a7f1bf03f13ea4e757a1b1bb564b051a7',1,'lili::RaycastResult']]],
-  ['albedo_5fmap_2',['albedo_map',['../structlili_1_1Material.html#a9c4286ca2d967b8f79c3c312954be42e',1,'lili::Material']]]
+  ['adj_5fx_1',['adj_x',['../structlili_1_1RaycastResult.html#a47cb2dc0c3dc9bdd9ad4b4bdc1aa48f5',1,'lili::RaycastResult']]],
+  ['adj_5fy_2',['adj_y',['../structlili_1_1RaycastResult.html#a85e52c98e1aedc4e1e6d42730706341a',1,'lili::RaycastResult']]],
+  ['adj_5fz_3',['adj_z',['../structlili_1_1RaycastResult.html#a7f1bf03f13ea4e757a1b1bb564b051a7',1,'lili::RaycastResult']]],
+  ['albedomap_4',['albedoMap',['../structlili_1_1Material.html#a60bdafdfdedfacbb5c8891b574764dfe',1,'lili::Material']]]
 ];

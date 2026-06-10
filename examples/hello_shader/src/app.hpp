@@ -15,7 +15,7 @@ struct TextUB {
 	float speed;
 	float time;
 };
-	
+
 
 class App {
 public:
@@ -41,6 +41,6 @@ private:
 
 	bool running;
 
-	void handle_events();
+	void handleEvents();
 	void render();
 };

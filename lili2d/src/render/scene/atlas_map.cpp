@@ -3,15 +3,15 @@
 namespace lili {
 
 AtlasMap::AtlasMap(Renderer *renderer, const std::string &filename) {
-	full_texture = std::make_unique<Texture>(renderer->get_device(), filename);
+	full_texture = std::make_unique<Texture>(renderer->getDevice(), filename);
 }
 
 void AtlasMap::slice(int num_columns, int num_rows) {
 	n_cols = num_columns;
 	n_rows = num_rows;
 	unit_size = {
-		(int)((float)full_texture->get_width() / n_cols),
-		(int)((float)full_texture->get_height() / n_rows)
+		(int)((float)full_texture->getWidth() / n_cols),
+		(int)((float)full_texture->getHeight() / n_rows)
 	};
 
 	slices.reserve(num_columns * num_rows);
@@ -34,32 +34,32 @@ void AtlasMap::slice(int num_columns, int num_rows) {
 	}
 }
 
-AnimationFrame AtlasMap::get_frame(Point2 at_pos) const {
+AnimationFrame AtlasMap::getFrame(Point2 at_pos) const {
 	int col = static_cast<int>(at_pos.x);
 	int row = static_cast<int>(at_pos.y);
 	if (col >= 0 && col < n_cols && row >= 0 && row < n_rows) {
-		return get_frame(row * n_cols + col);
+		return getFrame(row * n_cols + col);
 	}
 	return AnimationFrame();
 }
 
-AnimationFrame AtlasMap::get_frame(int index) const {
+AnimationFrame AtlasMap::getFrame(int index) const {
 	if (index >= 0 && (size_t)index < slices.size()) {
 		return slices[index];
 	}
 	return AnimationFrame();
 }
 
-Animation AtlasMap::get_animation(int start_index, int count) const {
+Animation AtlasMap::getAnimation(int start_index, int count) const {
 	std::vector<AnimationFrame> result;
 	result.reserve(count);
 	for (int i = 0; i < count; ++i) {
-		result.push_back(get_frame(start_index + i));
+		result.push_back(getFrame(start_index + i));
 	}
 	return Animation(result);
 }
 
-Animation AtlasMap::get_animation(Point2 start, Point2 end) const {
+Animation AtlasMap::getAnimation(Point2 start, Point2 end) const {
 	int start_col = static_cast<int>(start.x);
 	int start_row = static_cast<int>(start.y);
 	int end_col = static_cast<int>(end.x);
@@ -72,7 +72,7 @@ Animation AtlasMap::get_animation(Point2 start, Point2 end) const {
 		int count = std::abs(end_col - start_col) + 1;
 		result.reserve(count);
 		for (int i = 0; i < count; ++i) {
-			result.push_back(get_frame(Point2(
+			result.push_back(getFrame(Point2(
 				start_col + i * step, start_row
 			)));
 		}
@@ -81,13 +81,13 @@ Animation AtlasMap::get_animation(Point2 start, Point2 end) const {
 		int count = std::abs(end_row - start_row) + 1;
 		result.reserve(count);
 		for (int i = 0; i < count; ++i) {
-			result.push_back(get_frame(Point2(
+			result.push_back(getFrame(Point2(
 				start_col, start_row + i * step
 			)));
 		}
 	} else {
 		throw std::runtime_error(
-			"AtlasMap::get_animation: start and end points must be on the "
+			"AtlasMap::getAnimation: start and end points must be on the "
 			"same row or same column."
 		);
 	}

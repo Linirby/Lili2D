@@ -4,9 +4,8 @@ namespace lili {
 
 /// @brief Represents a 2D mathematical point.
 struct Point2 {
-	int x = 0;
-	int y = 0;
-	///< 2D Coordinates of the point
+	int x = 0; ///< X coordinate.
+	int y = 0; ///< Y coordinate.
 
 	/// @brief Default constructor.
 	Point2() = default;

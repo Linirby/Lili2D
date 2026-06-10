@@ -10,30 +10,30 @@ class Camera {
 public:
 	/// @brief Sets the camera's position.
 	/// @param pos The new position.
-	void set_position(const Vec2 &pos);
+	void setPosition(const Vec2 &pos);
 	/// @brief Sets the camera's rotation.
 	/// @param degree The rotation in degrees.
-	void set_rotation(float degree);
+	void setRotation(float degree);
 	/// @brief Sets the camera's zoom level.
 	/// @param value The zoom level.
-	void set_zoom(float value);
+	void setZoom(float value);
 
 	/// @brief Gets the camera's position.
 	/// @return The current position.
-	Vec2 get_position() const;
+	Vec2 getPosition() const;
 	/// @brief Gets the camera's zoom level.
 	/// @return The current zoom level.
-	float get_zoom() const;
+	float getZoom() const;
 	/// @brief Gets the view matrix.
 	/// @param width The viewport width.
 	/// @param height The viewport height.
 	/// @return The view transformation matrix.
-	Mat3 get_view_matrix(float width, float height) const;
+	Mat3 getViewMatrix(float width, float height) const;
 	/// @brief Gets the projection matrix.
 	/// @param width The viewport width.
 	/// @param height The viewport height.
 	/// @return The projection matrix.
-	Mat3 get_projection(float width, float height) const;
+	Mat3 getProjection(float width, float height) const;
 
 private:
 	Vec2 position;

@@ -12,7 +12,10 @@ namespace lili {
 
 /// @brief Defines the geometry of a rectangle.
 struct RectShape {
-	float x, y, w, h = 0;  ///< Position and dimensions.
+	float x = 0; ///< X position.
+	float y = 0; ///< Y position.
+	float w = 0; ///< Width.
+	float h = 0; ///< Height.
 
 	/// @brief Default constructor.
 	RectShape() = default;
@@ -47,51 +50,51 @@ public:
 
 	/// @brief Sets the rectangle's position.
 	/// @param pos The new position.
-	void set_position(Vec2 pos);
+	void setPosition(Vec2 pos);
 	/// @brief Sets the rectangle's size.
 	/// @param size The new size.
-	void set_size(Vec2 size);
+	void setSize(Vec2 size);
 	/// @brief Sets the rectangle's rotation.
 	/// @param degree The rotation in degrees.
-	void set_rotation(float degree);
+	void setRotation(float degree);
 	/// @brief Sets the rectangle's shape.
 	/// @param shape The new shape.
-	void set_shape(RectShape shape);
+	void setShape(RectShape shape);
 	/// @brief Sets the rectangle's color.
 	/// @param color The new color.
-	void set_color(Vec4 color);
+	void setColor(Vec4 color);
 	/// @brief Sets the depth value for Z-ordering.
 	///
 	/// This determines the drawing order relative to other objects within the
 	/// same render pass.
-	/// To change which render pass this object belongs to, use set_render().
+	/// To change which render pass this object belongs to, use setRender().
 	///
 	/// @param value The new layer depth.
-	void set_layer(float value);
+	void setLayer(float value);
 	/// @brief Sets the render pass layer.
 	///
 	/// This determines which overall pass (e.g., WORLD2D or UI) the object is
 	/// drawn in.
-	/// To change the depth ordering within a pass, use set_layer().
+	/// To change the depth ordering within a pass, use setLayer().
 	///
 	/// @param render_layer The new render pass layer.
-	void set_render(RenderLayer render_layer);
+	void setRender(RenderLayer render_layer);
 
 	/// @brief Gets the position.
 	/// @return The position.
-	Vec2 get_position() const;
+	Vec2 getPosition() const;
 	/// @brief Gets the size.
 	/// @return The size.
-	Vec2 get_size() const;
+	Vec2 getSize() const;
 	/// @brief Gets the shape geometry.
 	/// @return The shape.
-	RectShape get_shape() const;
+	RectShape getShape() const;
 	/// @brief Gets the color.
 	/// @return The color.
-	Vec4 get_color() const;
+	Vec4 getColor() const;
 	/// @brief Gets the material.
 	/// @return Pointer to the material.
-	Material* get_material() const;
+	Material* getMaterial() const;
 
 	/// @brief Submits the rectangle for drawing.
 	void draw();

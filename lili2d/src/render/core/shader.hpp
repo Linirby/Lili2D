@@ -70,18 +70,18 @@ public:
 
 	/// @brief Gets the underlying SDL GPU vertex shader.
 	/// @return Pointer to the vertex shader.
-	SDL_GPUShader *get_vertex() const;
+	SDL_GPUShader *getVertex() const;
 	/// @brief Gets the underlying SDL GPU fragment shader.
 	/// @return Pointer to the fragment shader.
-	SDL_GPUShader *get_fragment() const;
+	SDL_GPUShader *getFragment() const;
 
 private:
 	SDL_GPUDevice *device = nullptr;
 	SDL_GPUShader *vertex_shader = nullptr;
 	SDL_GPUShader *fragment_shader = nullptr;
 
-	/// @brief get_code_info method.
-	CodeInfo get_code_info(const std::string &code_path);
+	/// @brief getCodeInfo method.
+	CodeInfo getCodeInfo(const std::string &code_path);
 };
 
 }  // namespace lili

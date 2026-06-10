@@ -3,6 +3,9 @@ set -e
 
 ./build.sh
 
+echo "Installing..."
+sudo cmake --install build
+
 echo ""
 echo "Done! You can now use Lili2D in your projects with:"
 echo ""

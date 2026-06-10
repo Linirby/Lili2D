@@ -4,7 +4,7 @@ namespace lili {
 
 Clock::Clock(float tick_per_second) : fixed_dt(1.0f / tick_per_second) {}
 
-void Clock::set_tps(float value) {
+void Clock::setTps(float value) {
 	fixed_dt = 1.0f / value;
 }
 
@@ -34,10 +34,10 @@ bool Clock::step() {
 	return false;
 }
 
-float Clock::get_fixed_dt() const { return fixed_dt; }
-float Clock::get_dt() const { return dt; }
-float Clock::get_alpha() const { return accumulator / fixed_dt; }
-int Clock::get_fps() const { return fps; }
-float Clock::get_time() const { return SDL_GetTicks() / 1000.0f; }
+float Clock::getFixedDt() const { return fixed_dt; }
+float Clock::getDt() const { return dt; }
+float Clock::getAlpha() const { return accumulator / fixed_dt; }
+int Clock::getFps() const { return fps; }
+float Clock::getTime() const { return SDL_GetTicks() / 1000.0f; }
 
 }  // namespace lili

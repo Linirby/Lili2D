@@ -48,51 +48,51 @@ public:
 
 	/// @brief Sets the center position.
 	/// @param pos The new center.
-	void set_center(Vec2 pos);
+	void setCenter(Vec2 pos);
 	/// @brief Sets the radius.
 	/// @param r The new radius.
-	void set_radius(float r);
+	void setRadius(float r);
 	/// @brief Sets the number of segments.
 	/// @param n The new number of segments.
-	void set_segments(int n);
+	void setSegments(int n);
 	/// @brief Sets the circle shape.
 	/// @param shape The new shape.
-	void set_shape(CircleShape shape);
+	void setShape(CircleShape shape);
 	/// @brief Sets the color.
 	/// @param color The new color.
-	void set_color(Vec4 color);
+	void setColor(Vec4 color);
 	/// @brief Sets the depth value for Z-ordering.
 	///
 	/// This determines the drawing order relative to other objects within the
 	/// same render pass.
-	/// To change which render pass this object belongs to, use set_render().
+	/// To change which render pass this object belongs to, use setRender().
 	///
 	/// @param value The new layer depth.
-	void set_layer(float value);
+	void setLayer(float value);
 	/// @brief Sets the render pass layer.
 	///
 	/// This determines which overall pass (e.g., WORLD2D or UI) the object is
 	/// drawn in.
-	/// To change the depth ordering within a pass, use set_layer().
+	/// To change the depth ordering within a pass, use setLayer().
 	///
 	/// @param render_layer The new render pass layer.
-	void set_render(RenderLayer render_layer);
+	void setRender(RenderLayer render_layer);
 
 	/// @brief Gets the center position.
 	/// @return The center position.
-	Vec2 get_center() const;
+	Vec2 getCenter() const;
 	/// @brief Gets the radius.
 	/// @return The radius.
-	float get_radius() const;
+	float getRadius() const;
 	/// @brief Gets the shape geometry.
 	/// @return The shape.
-	CircleShape get_shape() const;
+	CircleShape getShape() const;
 	/// @brief Gets the color.
 	/// @return The color.
-	Vec4 get_color() const;
+	Vec4 getColor() const;
 	/// @brief Gets the material.
 	/// @return Pointer to the material.
-	Material* get_material() const;
+	Material* getMaterial() const;
 
 	/// @brief Submits the circle for drawing.
 	void draw();

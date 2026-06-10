@@ -25,7 +25,7 @@ GPUMesh::GPUMesh(SDL_GPUDevice *device, const MeshData &mesh)
 			std::string(SDL_GetError())
 		);
 	}
-	transfer_to_gpu(mesh.vertices.data(), vertex_buffer, vertices_buffer_size);
+	transferToGpu(mesh.vertices.data(), vertex_buffer, vertices_buffer_size);
 
 	uint32_t indices_buffer_size = mesh.indices.size() * sizeof(uint32_t);
 	SDL_GPUBufferCreateInfo indices_bci{};
@@ -41,7 +41,7 @@ GPUMesh::GPUMesh(SDL_GPUDevice *device, const MeshData &mesh)
 			std::string(SDL_GetError())
 		);
 	}
-	transfer_to_gpu(
+	transferToGpu(
 		mesh.indices.data(),
 		index_buffer,
 		indices_buffer_size
@@ -57,9 +57,9 @@ GPUMesh::~GPUMesh() {
 
 GPUMesh::GPUMesh(GPUMesh &&other) noexcept
 	: device(other.device),
-	  vertex_buffer(other.vertex_buffer),
-	  index_buffer(other.index_buffer),
-	  index_count(other.index_count) {
+			vertex_buffer(other.vertex_buffer),
+			index_buffer(other.index_buffer),
+			index_count(other.index_count) {
 	other.vertex_buffer = nullptr;
 	other.index_buffer = nullptr;
 	other.index_count = 0;
@@ -84,19 +84,19 @@ GPUMesh& GPUMesh::operator=(GPUMesh &&other) noexcept {
 	return *this;
 }
 
-SDL_GPUBuffer *GPUMesh::get_vertex() const {
+SDL_GPUBuffer *GPUMesh::getVertex() const {
 	return vertex_buffer;
 }
 
-SDL_GPUBuffer *GPUMesh::get_index() const {
+SDL_GPUBuffer *GPUMesh::getIndex() const {
 	return index_buffer;
 }
 
-uint32_t GPUMesh::get_index_count() const {
+uint32_t GPUMesh::getIndexCount() const {
 	return index_count;
 }
 
-void GPUMesh::transfer_to_gpu(
+void GPUMesh::transferToGpu(
 	const void *data, SDL_GPUBuffer *buffer, uint32_t size
 ) {
 	SDL_GPUTransferBufferCreateInfo transfer_bi{};

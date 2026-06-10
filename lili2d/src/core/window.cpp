@@ -35,9 +35,9 @@ Window::~Window() {
 
 Window::Window(Window &&other) noexcept
 	: resizable(other.resizable),
-	  borderless(other.borderless),
-	  fullscreen(other.fullscreen),
-	  window(other.window) {
+			borderless(other.borderless),
+			fullscreen(other.fullscreen),
+			window(other.window) {
 	other.window = nullptr;
 }
 
@@ -59,21 +59,21 @@ Window& Window::operator=(Window &&other) noexcept {
 	return *this;
 }
 
-void Window::set_title(const std::string &title) {
+void Window::setTitle(const std::string &title) {
 	if (!SDL_SetWindowTitle(window, title.c_str()))
 		throw std::runtime_error(
 			"Failed to change window name: " + std::string(SDL_GetError())
 		);
 }
 
-void Window::set_size(int width, int height) {
+void Window::setSize(int width, int height) {
 	if (!SDL_SetWindowSize(window, width, height))
 		throw std::runtime_error(
 			"Failed to change window size: " + std::string(SDL_GetError())
 		);
 }
 
-void Window::set_resizable(bool activate) {
+void Window::setResizable(bool activate) {
 	if (!SDL_SetWindowResizable(window, activate))
 		throw std::runtime_error(
 			"Failed to change window to resizable: " +
@@ -82,7 +82,7 @@ void Window::set_resizable(bool activate) {
 	resizable = activate;
 }
 
-void Window::set_borderless(bool activate) {
+void Window::setBorderless(bool activate) {
 	if (!SDL_SetWindowBordered(window, !activate))
 		throw std::runtime_error(
 			"Failed to change window to borderless: " +
@@ -91,7 +91,7 @@ void Window::set_borderless(bool activate) {
 	borderless = activate;
 }
 
-void Window::set_fullscreen(bool activate) {
+void Window::setFullscreen(bool activate) {
 	if (!SDL_SetWindowFullscreen(window, activate))
 		throw std::runtime_error(
 			"Failed to change window to fullscreen mode: " +
@@ -100,7 +100,7 @@ void Window::set_fullscreen(bool activate) {
 	fullscreen = activate;
 }
 
-void Window::set_relative_mouse_mode(bool activate) {
+void Window::setRelativeMouseMode(bool activate) {
 	if (!SDL_SetWindowRelativeMouseMode(window, activate))
 		throw std::runtime_error(
 			"Failed to change window to relative mouse mode: " +
@@ -112,7 +112,7 @@ const std::string Window::get_title() const {
 	return std::string(SDL_GetWindowTitle(window));
 }
 
-int Window::get_width() const {
+int Window::getWidth() const {
 	int w = 0;
 	if (!SDL_GetWindowSize(window, &w, nullptr))
 		throw std::runtime_error(
@@ -121,7 +121,7 @@ int Window::get_width() const {
 	return w;
 }
 
-int Window::get_height() const {
+int Window::getHeight() const {
 	int h = 0;
 	if (!SDL_GetWindowSize(window, nullptr, &h))
 		throw std::runtime_error(
@@ -130,7 +130,7 @@ int Window::get_height() const {
 	return h;
 }
 
-Vec2 Window::get_size() const {
+Vec2 Window::getSize() const {
 	int w, h = 0;
 	if (!SDL_GetWindowSize(window, &w, &h))
 		throw std::runtime_error(
@@ -139,23 +139,23 @@ Vec2 Window::get_size() const {
 	return {(float)w, (float)h};
 }
 
-bool Window::is_resizable() const {
+bool Window::isResizable() const {
 	return resizable;
 }
 
-bool Window::is_borderless() const {
+bool Window::isBorderless() const {
 	return borderless;
 }
 
-bool Window::is_fullscreen() const {
+bool Window::isFullscreen() const {
 	return fullscreen;
 }
 
-bool Window::is_relative_mouse_mode() const {
+bool Window::isRelativeMouseMode() const {
 	return SDL_GetWindowRelativeMouseMode(window);
 }
 
-SDL_Window *Window::get_sdl_window() const {
+SDL_Window *Window::getSdlWindow() const {
 	return window;
 }
 

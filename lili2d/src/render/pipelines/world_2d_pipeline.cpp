@@ -16,29 +16,33 @@ WorldPipeline::WorldPipeline(
 	vertex_bd.input_rate = SDL_GPU_VERTEXINPUTRATE_VERTEX;
 	vertex_bd.instance_step_rate = 0;
 
-	std::vector<SDL_GPUVertexAttribute> vertex_attrs(3);
-	vertex_attrs[0].location = 0;
-	vertex_attrs[0].buffer_slot = 0;
-	vertex_attrs[0].format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
-	vertex_attrs[0].offset = 0;
+	std::vector<SDL_GPUVertexAttribute> vertexAttrs(3);
+	vertexAttrs[0].location = 0;
+	vertexAttrs[0].buffer_slot = 0;
+	vertexAttrs[0].format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
+	vertexAttrs[0].offset = 0;
 
-	vertex_attrs[1].location = 2;
-	vertex_attrs[1].buffer_slot = 0;
-	vertex_attrs[1].format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2;
-	vertex_attrs[1].offset = sizeof(float) * 3;
+	vertexAttrs[1].location = 2;
+	vertexAttrs[1].buffer_slot = 0;
+	vertexAttrs[1].format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2;
+	vertexAttrs[1].offset = sizeof(float) * 3;
 
-	vertex_attrs[2].location = 3;
-	vertex_attrs[2].buffer_slot = 0;
-	vertex_attrs[2].format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT;
-	vertex_attrs[2].offset = sizeof(float) * 5;
+	vertexAttrs[2].location = 3;
+	vertexAttrs[2].buffer_slot = 0;
+	vertexAttrs[2].format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT;
+	vertexAttrs[2].offset = sizeof(float) * 5;
 
 	SDL_GPUColorTargetDescription color_td{};
 	color_td.format = SDL_GetGPUSwapchainTextureFormat(device, window);
 	color_td.blend_state.src_color_blendfactor = SDL_GPU_BLENDFACTOR_SRC_ALPHA;
-	color_td.blend_state.dst_color_blendfactor = SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA;
+	color_td.blend_state.dst_color_blendfactor = (
+		SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA
+	);
 	color_td.blend_state.color_blend_op = SDL_GPU_BLENDOP_ADD;
 	color_td.blend_state.src_alpha_blendfactor = SDL_GPU_BLENDFACTOR_SRC_ALPHA;
-	color_td.blend_state.dst_alpha_blendfactor = SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA;
+	color_td.blend_state.dst_alpha_blendfactor = (
+		SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA
+	);
 	color_td.blend_state.alpha_blend_op = SDL_GPU_BLENDOP_ADD;
 	color_td.blend_state.color_write_mask = SDL_GPU_COLORCOMPONENT_R |
 		SDL_GPU_COLORCOMPONENT_G |
@@ -48,12 +52,14 @@ WorldPipeline::WorldPipeline(
 	color_td.blend_state.enable_color_write_mask = true;
 
 	SDL_GPUGraphicsPipelineCreateInfo ci{};
-	ci.vertex_shader = shader->get_vertex();
-	ci.fragment_shader = shader->get_fragment();
+	ci.vertex_shader = shader->getVertex();
+	ci.fragment_shader = shader->getFragment();
 	ci.vertex_input_state.vertex_buffer_descriptions = &vertex_bd;
 	ci.vertex_input_state.num_vertex_buffers = 1;
-	ci.vertex_input_state.vertex_attributes = vertex_attrs.data();
-	ci.vertex_input_state.num_vertex_attributes = static_cast<uint32_t>(vertex_attrs.size());
+	ci.vertex_input_state.vertex_attributes = vertexAttrs.data();
+	ci.vertex_input_state.num_vertex_attributes = (
+		static_cast<uint32_t>(vertexAttrs.size())
+	);
 	ci.primitive_type = SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
 	ci.rasterizer_state.fill_mode = SDL_GPU_FILLMODE_FILL;
 	ci.rasterizer_state.cull_mode = SDL_GPU_CULLMODE_NONE;
@@ -87,9 +93,9 @@ WorldPipeline::~WorldPipeline() {
 
 WorldPipeline::WorldPipeline(WorldPipeline &&other) noexcept
 	: device(other.device),
-	  window(other.window),
-	  shader(other.shader),
-	  pipeline(other.pipeline) {
+			window(other.window),
+			shader(other.shader),
+			pipeline(other.pipeline) {
 	other.pipeline = nullptr;
 }
 
@@ -105,7 +111,7 @@ WorldPipeline& WorldPipeline::operator=(WorldPipeline &&other) noexcept {
 	return *this;
 }
 
-SDL_GPUGraphicsPipeline *WorldPipeline::get_sdl_pipeline() {
+SDL_GPUGraphicsPipeline *WorldPipeline::getSdlPipeline() {
 	return pipeline;
 }
 

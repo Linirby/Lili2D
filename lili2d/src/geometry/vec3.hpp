@@ -4,10 +4,9 @@ namespace lili {
 
 /// @brief Represents a 3D mathematical vector.
 struct Vec3 {
-	float x = 0.0f;
-	float y = 0.0f;
-	float z = 0.0f;
-	///< 3D Coordinates of the vector
+	float x = 0.0f; ///< X coordinate.
+	float y = 0.0f; ///< Y coordinate.
+	float z = 0.0f; ///< Z coordinate.
 
 	/// @brief Default constructor.
 	Vec3() = default;

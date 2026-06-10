@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core/event.hpp"
+#include "geometry/vec2.hpp"
 
 namespace lili {
 
@@ -28,6 +29,9 @@ public:
 	/// @brief Gets the current Y position of the mouse.
 	/// @return The Y position.
 	float getY() const;
+	/// @brief Gets the current X, Y position of the mouse.
+	/// @return The 2D vector of X, Y position.
+	Vec2 getPos() const;
 	/// @brief Gets the change in X position since the last frame.
 	/// @return The change in X.
 	float getDx() const;

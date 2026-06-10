@@ -1,8 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <lili/core.hpp>
-#include <lili/render.hpp>
+#include <lili/lili2d.hpp>
 
 class App {
 public:
@@ -13,7 +12,10 @@ public:
 private:
 	std::unique_ptr<lili::Window> window;
 	std::unique_ptr<lili::Renderer> renderer;
-	lili::Sprite cat_sprite;
+
+	lili::Rect cursor_rect;
+	lili::Vec4 color;
+	lili::Rect random_rect;
 
 	bool running;
 

@@ -79,7 +79,7 @@ struct Vec4;
 /// @{
 
 /// @brief An axis-aligned bounding box for collision detection.
-struct AABB;
+class AABB;
 /// @brief Result data from a raycast operation.
 struct RaycastResult;
 

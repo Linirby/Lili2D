@@ -3,13 +3,10 @@
 #include <memory>
 #include <lili/lili2d.hpp>
 
-/// \brief App class.
 class App {
 public:
-	/// \brief App method.
 	App();
 
-	/// \brief run method.
 	void run();
 
 private:
@@ -32,10 +29,7 @@ private:
 
 	bool running;
 
-	/// \brief handleEvents method.
 	void handleEvents();
-	/// \brief fixedUpdate method.
 	void fixedUpdate(float dt);
-	/// \brief render method.
 	void render();
 };

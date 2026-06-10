@@ -4,6 +4,15 @@
 /// @brief Aggregates the geometry components of the Lili2D engine, including
 /// vectors, matrices, and math utilities.
 
+#include "geometry/mat3x3.hpp"  // IWYU pragma: keep
+#include "geometry/mat4x4.hpp"  // IWYU pragma: keep
+#include "geometry/point2.hpp"  // IWYU pragma: keep
+#include "geometry/point3.hpp"  // IWYU pragma: keep
+#include "geometry/utils.hpp"  // IWYU pragma: keep
+#include "geometry/vec2.hpp"  // IWYU pragma: keep
+#include "geometry/vec3.hpp"  // IWYU pragma: keep
+#include "geometry/vec4.hpp"  // IWYU pragma: keep
+
 namespace lili {
 
 /// @brief A 3x3 matrix for 2D transformations.

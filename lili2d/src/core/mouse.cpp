@@ -53,6 +53,10 @@ float Mouse::getY() const {
 	return current_y;
 }
 
+Vec2 Mouse::getPos() const {
+	return { current_x, current_y };
+}
+
 float Mouse::getDx() const {
 	return current_dx;
 }

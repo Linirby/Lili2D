@@ -1,18 +1,34 @@
 #pragma once
 
-#include "geometry/vec3.hpp"
+#include "geometry/vec2.hpp"
 
 namespace lili {
 
 /// @brief Represents an Axis-Aligned Bounding Box.
-struct AABB {
-	Vec3 min;  ///< The minimum coordinates.
-	Vec3 max;  ///< The maximum coordinates.
+class AABB {
+public:
+	/// @brief Default constructor.
+	AABB() = default;
+	/// @brief Copy constructor.
+	AABB(const AABB &) = default;
+	/// @brief Move constructor.
+	AABB(AABB&&) = default;
+	/// @brief Move assignment operator.
+	/// @return Reference to the assigned rectangle.
+	AABB& operator=(AABB&&) = default;
+	/// @brief Construct an AABB.
+	/// @param the position of the topleft.
+	/// @param the size of the rect.
+	AABB(const Vec2 &pos, const Vec2 &size);
 
 	/// @brief Checks if this AABB intersects with another.
 	/// @param other The other AABB to test against.
 	/// @return True if the AABBs intersect, false otherwise.
 	bool intersect(const AABB &other) const;
+
+private:
+	Vec2 min;  ///< The minimum coordinates.
+	Vec2 max;  ///< The maximum coordinates.
 };
 
 /// @brief Contains the result of a raycast operation.

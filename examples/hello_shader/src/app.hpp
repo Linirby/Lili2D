@@ -16,10 +16,10 @@ struct TextUB {
 	float time;
 };
 
-
 class App {
 public:
 	App();
+
 	void run();
 
 private:
@@ -38,7 +38,6 @@ private:
 	lili::Text text_info;
 
 	bool toggle_custom_shaders;
-
 	bool running;
 
 	void handleEvents();

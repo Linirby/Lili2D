@@ -13,13 +13,13 @@ public:
 	AABB(const AABB &) = default;
 	/// @brief Move constructor.
 	AABB(AABB&&) = default;
-	/// @brief Move assignment operator.
-	/// @return Reference to the assigned rectangle.
-	AABB& operator=(AABB&&) = default;
 	/// @brief Construct an AABB.
 	/// @param the position of the topleft.
 	/// @param the size of the rect.
 	AABB(const Vec2 &pos, const Vec2 &size);
+	/// @brief Move assignment operator.
+	/// @return Reference to the assigned rectangle.
+	AABB& operator=(AABB&&) = default;
 
 	/// @brief Checks if this AABB intersects with another.
 	/// @param other The other AABB to test against.

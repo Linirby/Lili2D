@@ -94,42 +94,46 @@ $(function(){initNavTree('mouse_8hpp_source.html','',''); });
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;core/event.hpp&quot;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span>lili {</div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span></div>
-<div class="foldopen" id="foldopen00008" data-start="{" data-end="};">
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="classlili_1_1Mouse.html">    8</a></span><span class="keyword">class </span><a class="code hl_class" href="classlili_1_1Mouse.html">Mouse</a> {</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classlili_1_1Mouse.html#a0eb7efd21e5288bf94969af3499b1e1e">update</a>();</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classlili_1_1Mouse.html#a8c5f37d95a6248ec490dffb43611f60f">held</a>(MouseButton button) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classlili_1_1Mouse.html#a9350aa0fa90a9b74c9da3bfde0aacb7f">pressed</a>(MouseButton button) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classlili_1_1Mouse.html#ad081a71e5b5f4dbe6bd0bfe3fef662df">released</a>(MouseButton button) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="keywordtype">float</span> <a class="code hl_function" href="classlili_1_1Mouse.html#a3533f009785dec657dcf9ae750df2fa7">getX</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keywordtype">float</span> <a class="code hl_function" href="classlili_1_1Mouse.html#a1fbc07c2d943a02910bd77c6349cac09">getY</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordtype">float</span> <a class="code hl_function" href="classlili_1_1Mouse.html#aed2cd3700433eb130a121322e8fb4004">getDx</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keywordtype">float</span> <a class="code hl_function" href="classlili_1_1Mouse.html#a560036cc7f06d17b98d129174df31ea2">getDy</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    uint32_t current = 0;</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    uint32_t previous = 0;</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordtype">float</span> current_x = 0.0f;</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordtype">float</span> current_y = 0.0f;</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keywordtype">float</span> current_dx = 0.0f;</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keywordtype">float</span> current_dy = 0.0f;</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>};</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;geometry/vec2.hpp&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span>lili {</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span></div>
+<div class="foldopen" id="foldopen00009" data-start="{" data-end="};">
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="classlili_1_1Mouse.html">    9</a></span><span class="keyword">class </span><a class="code hl_class" href="classlili_1_1Mouse.html">Mouse</a> {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classlili_1_1Mouse.html#a0eb7efd21e5288bf94969af3499b1e1e">update</a>();</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classlili_1_1Mouse.html#a8c5f37d95a6248ec490dffb43611f60f">held</a>(MouseButton button) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classlili_1_1Mouse.html#a9350aa0fa90a9b74c9da3bfde0aacb7f">pressed</a>(MouseButton button) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classlili_1_1Mouse.html#ad081a71e5b5f4dbe6bd0bfe3fef662df">released</a>(MouseButton button) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keywordtype">float</span> <a class="code hl_function" href="classlili_1_1Mouse.html#a3533f009785dec657dcf9ae750df2fa7">getX</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keywordtype">float</span> <a class="code hl_function" href="classlili_1_1Mouse.html#a1fbc07c2d943a02910bd77c6349cac09">getY</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <a class="code hl_struct" href="structlili_1_1Vec2.html">Vec2</a> <a class="code hl_function" href="classlili_1_1Mouse.html#a9f1a9886132444919d61b7b982f140dc">getPos</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keywordtype">float</span> <a class="code hl_function" href="classlili_1_1Mouse.html#aed2cd3700433eb130a121322e8fb4004">getDx</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordtype">float</span> <a class="code hl_function" href="classlili_1_1Mouse.html#a560036cc7f06d17b98d129174df31ea2">getDy</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    uint32_t current = 0;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    uint32_t previous = 0;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordtype">float</span> current_x = 0.0f;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordtype">float</span> current_y = 0.0f;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keywordtype">float</span> current_dx = 0.0f;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordtype">float</span> current_dy = 0.0f;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>};</div>
 </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>}  <span class="comment">// namespace lili</span></div>
-<div class="ttc" id="aclasslili_1_1Mouse_html"><div class="ttname"><a href="classlili_1_1Mouse.html">lili::Mouse</a></div><div class="ttdoc">Manages mouse state and input tracking.</div><div class="ttdef"><b>Definition</b> mouse.hpp:8</div></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>}  <span class="comment">// namespace lili</span></div>
+<div class="ttc" id="aclasslili_1_1Mouse_html"><div class="ttname"><a href="classlili_1_1Mouse.html">lili::Mouse</a></div><div class="ttdoc">Manages mouse state and input tracking.</div><div class="ttdef"><b>Definition</b> mouse.hpp:9</div></div>
 <div class="ttc" id="aclasslili_1_1Mouse_html_a0eb7efd21e5288bf94969af3499b1e1e"><div class="ttname"><a href="classlili_1_1Mouse.html#a0eb7efd21e5288bf94969af3499b1e1e">lili::Mouse::update</a></div><div class="ttdeci">void update()</div><div class="ttdoc">Updates the mouse state for the current frame.</div><div class="ttdef"><b>Definition</b> mouse.cpp:7</div></div>
 <div class="ttc" id="aclasslili_1_1Mouse_html_a1fbc07c2d943a02910bd77c6349cac09"><div class="ttname"><a href="classlili_1_1Mouse.html#a1fbc07c2d943a02910bd77c6349cac09">lili::Mouse::getY</a></div><div class="ttdeci">float getY() const</div><div class="ttdoc">Gets the current Y position of the mouse.</div><div class="ttdef"><b>Definition</b> mouse.cpp:52</div></div>
 <div class="ttc" id="aclasslili_1_1Mouse_html_a3533f009785dec657dcf9ae750df2fa7"><div class="ttname"><a href="classlili_1_1Mouse.html#a3533f009785dec657dcf9ae750df2fa7">lili::Mouse::getX</a></div><div class="ttdeci">float getX() const</div><div class="ttdoc">Gets the current X position of the mouse.</div><div class="ttdef"><b>Definition</b> mouse.cpp:48</div></div>
-<div class="ttc" id="aclasslili_1_1Mouse_html_a560036cc7f06d17b98d129174df31ea2"><div class="ttname"><a href="classlili_1_1Mouse.html#a560036cc7f06d17b98d129174df31ea2">lili::Mouse::getDy</a></div><div class="ttdeci">float getDy() const</div><div class="ttdoc">Gets the change in Y position since the last frame.</div><div class="ttdef"><b>Definition</b> mouse.cpp:60</div></div>
+<div class="ttc" id="aclasslili_1_1Mouse_html_a560036cc7f06d17b98d129174df31ea2"><div class="ttname"><a href="classlili_1_1Mouse.html#a560036cc7f06d17b98d129174df31ea2">lili::Mouse::getDy</a></div><div class="ttdeci">float getDy() const</div><div class="ttdoc">Gets the change in Y position since the last frame.</div><div class="ttdef"><b>Definition</b> mouse.cpp:64</div></div>
 <div class="ttc" id="aclasslili_1_1Mouse_html_a8c5f37d95a6248ec490dffb43611f60f"><div class="ttname"><a href="classlili_1_1Mouse.html#a8c5f37d95a6248ec490dffb43611f60f">lili::Mouse::held</a></div><div class="ttdeci">bool held(MouseButton button) const</div><div class="ttdoc">Checks if a mouse button is currently held down.</div><div class="ttdef"><b>Definition</b> mouse.cpp:15</div></div>
 <div class="ttc" id="aclasslili_1_1Mouse_html_a9350aa0fa90a9b74c9da3bfde0aacb7f"><div class="ttname"><a href="classlili_1_1Mouse.html#a9350aa0fa90a9b74c9da3bfde0aacb7f">lili::Mouse::pressed</a></div><div class="ttdeci">bool pressed(MouseButton button) const</div><div class="ttdoc">Checks if a mouse button was pressed down in the current frame.</div><div class="ttdef"><b>Definition</b> mouse.cpp:26</div></div>
+<div class="ttc" id="aclasslili_1_1Mouse_html_a9f1a9886132444919d61b7b982f140dc"><div class="ttname"><a href="classlili_1_1Mouse.html#a9f1a9886132444919d61b7b982f140dc">lili::Mouse::getPos</a></div><div class="ttdeci">Vec2 getPos() const</div><div class="ttdoc">Gets the current X, Y position of the mouse.</div><div class="ttdef"><b>Definition</b> mouse.cpp:56</div></div>
 <div class="ttc" id="aclasslili_1_1Mouse_html_ad081a71e5b5f4dbe6bd0bfe3fef662df"><div class="ttname"><a href="classlili_1_1Mouse.html#ad081a71e5b5f4dbe6bd0bfe3fef662df">lili::Mouse::released</a></div><div class="ttdeci">bool released(MouseButton button) const</div><div class="ttdoc">Checks if a mouse button was released in the current frame.</div><div class="ttdef"><b>Definition</b> mouse.cpp:37</div></div>
-<div class="ttc" id="aclasslili_1_1Mouse_html_aed2cd3700433eb130a121322e8fb4004"><div class="ttname"><a href="classlili_1_1Mouse.html#aed2cd3700433eb130a121322e8fb4004">lili::Mouse::getDx</a></div><div class="ttdeci">float getDx() const</div><div class="ttdoc">Gets the change in X position since the last frame.</div><div class="ttdef"><b>Definition</b> mouse.cpp:56</div></div>
+<div class="ttc" id="aclasslili_1_1Mouse_html_aed2cd3700433eb130a121322e8fb4004"><div class="ttname"><a href="classlili_1_1Mouse.html#aed2cd3700433eb130a121322e8fb4004">lili::Mouse::getDx</a></div><div class="ttdeci">float getDx() const</div><div class="ttdoc">Gets the change in X position since the last frame.</div><div class="ttdef"><b>Definition</b> mouse.cpp:60</div></div>
+<div class="ttc" id="astructlili_1_1Vec2_html"><div class="ttname"><a href="structlili_1_1Vec2.html">lili::Vec2</a></div><div class="ttdoc">Represents a 2D mathematical vector.</div><div class="ttdef"><b>Definition</b> vec2.hpp:6</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

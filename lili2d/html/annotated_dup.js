@@ -17,7 +17,7 @@ var annotated_dup =
       [ "Vec2", "structlili_1_1Vec2.html", "structlili_1_1Vec2" ],
       [ "Vec3", "structlili_1_1Vec3.html", "structlili_1_1Vec3" ],
       [ "Vec4", "structlili_1_1Vec4.html", "structlili_1_1Vec4" ],
-      [ "AABB", "structlili_1_1AABB.html", "structlili_1_1AABB" ],
+      [ "AABB", "classlili_1_1AABB.html", "classlili_1_1AABB" ],
       [ "RaycastResult", "structlili_1_1RaycastResult.html", "structlili_1_1RaycastResult" ],
       [ "Vertex", "structlili_1_1Vertex.html", "structlili_1_1Vertex" ],
       [ "MeshData", "structlili_1_1MeshData.html", "structlili_1_1MeshData" ],

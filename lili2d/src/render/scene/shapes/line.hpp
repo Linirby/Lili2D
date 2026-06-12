@@ -86,7 +86,7 @@ public:
 	Vec2 getEnd() const;
 	/// @brief Gets the thickness.
 	/// @return The thickness.
-	Vec2 getThickness() const;
+	float getThickness() const;
 	/// @brief Gets the shape geometry.
 	/// @return The shape.
 	LineShape getShape() const;

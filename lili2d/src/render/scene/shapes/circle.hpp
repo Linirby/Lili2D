@@ -61,6 +61,12 @@ public:
 	/// @brief Sets the color.
 	/// @param color The new color.
 	void setColor(Vec4 color);
+	/// @brief Sets whether the circle is hollow.
+	/// @param hollow The new hollow state.
+	void setHollow(bool hollow);
+	/// @brief Sets the outline thickness when hollow.
+	/// @param thickness The thickness of the outline.
+	void setHollowThickness(float thickness);
 	/// @brief Sets the depth value for Z-ordering.
 	///
 	/// This determines the drawing order relative to other objects within the
@@ -81,9 +87,11 @@ public:
 	/// @brief Gets the center position.
 	/// @return The center position.
 	Vec2 getCenter() const;
+	Vec2 getTopLeft() const;
 	/// @brief Gets the radius.
 	/// @return The radius.
 	float getRadius() const;
+	float getDiameter() const;
 	/// @brief Gets the shape geometry.
 	/// @return The shape.
 	CircleShape getShape() const;
@@ -93,6 +101,12 @@ public:
 	/// @brief Gets the material.
 	/// @return Pointer to the material.
 	Material* getMaterial() const;
+	/// @brief Returns whether the circle is hollow.
+	/// @return True if hollow, false otherwise.
+	bool isHollow() const;
+	/// @brief Gets the hollow thickness.
+	/// @return The hollow outline thickness.
+	float getHollowThickness() const;
 
 	/// @brief Submits the circle for drawing.
 	void draw();
@@ -100,6 +114,8 @@ public:
 private:
 	Renderer *renderer = nullptr;
 	CircleShape shape;
+	bool is_hollow = false;
+	float hollow_thickness = 1.0f;
 
 	float layer = 0;
 	RenderLayer render_layer = RenderLayer::WORLD2D;

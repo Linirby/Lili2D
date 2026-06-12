@@ -63,6 +63,12 @@ public:
 	/// @brief Sets the rectangle's color.
 	/// @param color The new color.
 	void setColor(Vec4 color);
+	/// @brief Sets whether the rectangle is hollow.
+	/// @param hollow The new hollow state.
+	void setHollow(bool hollow);
+	/// @brief Sets the outline thickness when hollow.
+	/// @param thickness The thickness of the outline.
+	void setHollowThickness(float thickness);
 	/// @brief Sets the depth value for Z-ordering.
 	///
 	/// This determines the drawing order relative to other objects within the
@@ -95,6 +101,12 @@ public:
 	/// @brief Gets the material.
 	/// @return Pointer to the material.
 	Material* getMaterial() const;
+	/// @brief Returns whether the rectangle is hollow.
+	/// @return True if hollow, false otherwise.
+	bool isHollow() const;
+	/// @brief Gets the hollow thickness.
+	/// @return The hollow outline thickness.
+	float getHollowThickness() const;
 
 	/// @brief Submits the rectangle for drawing.
 	void draw();
@@ -103,6 +115,8 @@ private:
 	Renderer *renderer = nullptr;
 	RectShape shape;
 	float rotation = 0;
+	bool is_hollow = false;
+	float hollow_thickness = 1.0f;
 
 	float layer = 0;
 	RenderLayer render_layer = RenderLayer::WORLD2D;

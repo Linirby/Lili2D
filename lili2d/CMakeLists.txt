@@ -37,15 +37,6 @@ target_include_directories(LiliCore PUBLIC
 )
 target_link_libraries(LiliCore PRIVATE SDL3::SDL3 LiliGeometry)
 
-add_library(LiliPhysics OBJECT
-    src/physics/collision.cpp
-)
-target_include_directories(LiliPhysics PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
-    $<INSTALL_INTERFACE:include/lili2d>
-)
-target_link_libraries(LiliPhysics PRIVATE LiliGeometry)
-
 find_program(GLSLC_COMPILER glslc REQUIRED)
 set(SHADER_FILES
     src/shader/world_2d.vert
@@ -125,6 +116,15 @@ target_link_libraries(LiliRender PRIVATE
     SDL3::SDL3
     SDL3_image::SDL3_image
 )
+
+add_library(LiliPhysics OBJECT
+    src/physics/collision.cpp
+)
+target_include_directories(LiliPhysics PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    $<INSTALL_INTERFACE:include/lili2d>
+)
+target_link_libraries(LiliPhysics PRIVATE LiliGeometry)
 
 add_library(Lili2D SHARED)
 

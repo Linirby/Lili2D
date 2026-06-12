@@ -52,6 +52,10 @@ Vec2 Line::getEnd() const {
 	return shape.end;
 }
 
+float Line::getThickness() const {
+	return shape.thickness;
+}
+
 LineShape Line::getShape() const {
 	return shape;
 }

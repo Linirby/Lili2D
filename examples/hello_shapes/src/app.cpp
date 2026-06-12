@@ -27,7 +27,6 @@ App::App() {
 		lili::CircleShape({ 225.0f, 100.0f }, 50.0f, 32.0f),
 		lili::Vec4(0.0f, 0.0f, 1.0f, 1.0f)
 	);
-	// Less segments (32.0f -> 8.0f)
 	low_poly_circle = lili::Circle(
 		renderer.get(),
 		lili::CircleShape({ 375.0f, 100.0f }, 50.0f, 8.0f),
@@ -35,6 +34,10 @@ App::App() {
 	);
 
 	running = true;
+
+	rect.setHollowThickness(2.0f);
+	clean_circle.setHollowThickness(2.0f);
+	low_poly_circle.setHollowThickness(2.0f);
 }
 
 void App::run() {
@@ -48,12 +51,22 @@ void App::handleEvents() {
 	lili::Event event;
 
 	while (event.poll()) {
-		lili::KeyboardEvent keyboard = event.keyboard();
-
 		if (event.type() == lili::EventType::QUIT)
 			running = false;
-		if (keyboard.key == SDLK_ESCAPE)
-			running = false;
+
+		if (event.type() == lili::EventType::KEYBOARD) {
+			lili::KeyboardEvent keyboard = event.keyboard();
+			if (keyboard.action == lili::KeyAction::PRESSED) {
+				if (keyboard.key == SDLK_ESCAPE)
+					running = false;
+				if (keyboard.key == SDLK_H || keyboard.key == SDLK_SPACE) {
+					bool hollow = !rect.isHollow();
+					rect.setHollow(hollow);
+					clean_circle.setHollow(hollow);
+					low_poly_circle.setHollow(hollow);
+				}
+			}
+		}
 	}
 }
 

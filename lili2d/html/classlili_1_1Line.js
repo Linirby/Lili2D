@@ -9,7 +9,7 @@ var classlili_1_1Line =
     [ "getMaterial", "classlili_1_1Line.html#ab587f84f5ff66b2cf8787af7c3ef4fdd", null ],
     [ "getShape", "classlili_1_1Line.html#a9b9f2df1d12ee222dced6fc7dc69c72e", null ],
     [ "getStart", "classlili_1_1Line.html#a2b1e3c9edd5a4cb71c8258ef8442309a", null ],
-    [ "getThickness", "classlili_1_1Line.html#a645d66f90fbfc4b716afd88796335940", null ],
+    [ "getThickness", "classlili_1_1Line.html#acec9236ead82b7782ff36aef70a50d29", null ],
     [ "operator=", "classlili_1_1Line.html#a108b83692451b98c495aae8856313014", null ],
     [ "setColor", "classlili_1_1Line.html#ae1a0acbbd9d063a5a73bced147400936", null ],
     [ "setEnd", "classlili_1_1Line.html#a58594ce8baeea9cf002272761cb7773d", null ],

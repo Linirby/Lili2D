@@ -39,6 +39,14 @@ void Rect::setColor(Vec4 color) {
 	material->properties.color_tint = color;
 }
 
+void Rect::setHollow(bool hollow) {
+	is_hollow = hollow;
+}
+
+void Rect::setHollowThickness(float thickness) {
+	hollow_thickness = thickness;
+}
+
 void Rect::setLayer(float value) {
 	layer = value;
 }
@@ -67,18 +75,74 @@ Material* Rect::getMaterial() const {
 	return material.get();
 }
 
+bool Rect::isHollow() const {
+	return is_hollow;
+}
+
+float Rect::getHollowThickness() const {
+	return hollow_thickness;
+}
+
 void Rect::draw() {
-	Mat3 mat_transform = (
-		Mat3::translate({ shape.x, shape.y }) *
-		Mat3::rotation(rotation) *
-		Mat3::scale({ shape.w, shape.h })
-	);
-	renderer->submit(
-		(Model){ mesh, material.get() },
-		mat_transform,
-		layer,
-		render_layer
-	);
+	if (is_hollow) {
+		Mat3 mat_rect = (
+			Mat3::translate({ shape.x, shape.y }) * Mat3::rotation(rotation)
+		);
+		float inner_h = shape.h - 2.0f * hollow_thickness;
+
+		Mat3 top_mat = (
+			mat_rect *
+			Mat3::translate({ 0.0f, 0.0f }) *
+			Mat3::scale({ shape.w, hollow_thickness })
+		);
+		renderer->submit(
+			Model(mesh, material.get()), top_mat, layer, render_layer
+		);
+
+		Mat3 bottom_mat = (
+			mat_rect *
+			Mat3::translate({ 0.0f, shape.h - hollow_thickness }) *
+			Mat3::scale({ shape.w, hollow_thickness })
+		);
+		renderer->submit(
+			Model(mesh, material.get()), bottom_mat, layer, render_layer
+		);
+
+		if (inner_h > 0.0f) {
+			Mat3 left_mat = (
+				mat_rect *
+				Mat3::translate({ 0.0f, hollow_thickness }) *
+				Mat3::scale({ hollow_thickness, inner_h })
+			);
+			renderer->submit(
+				Model(mesh, material.get()), left_mat, layer, render_layer
+			);
+
+			Mat3 right_mat = (
+				mat_rect *
+				Mat3::translate({
+					shape.w - hollow_thickness,
+					hollow_thickness
+				}) *
+				Mat3::scale({ hollow_thickness, inner_h })
+			);
+			renderer->submit(
+				Model(mesh, material.get()), right_mat, layer, render_layer
+			);
+		}
+	} else {
+		Mat3 mat_transform = (
+			Mat3::translate({ shape.x, shape.y }) *
+			Mat3::rotation(rotation) *
+			Mat3::scale({ shape.w, shape.h })
+		);
+		renderer->submit(
+			Model(mesh, material.get()),
+			mat_transform,
+			layer,
+			render_layer
+		);
+	}
 }
 
 }  // namespace lili

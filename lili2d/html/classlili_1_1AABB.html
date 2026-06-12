@@ -109,17 +109,35 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight"><b>AABB</b> (AABB &amp;&amp;)=default</td></tr>
 <tr class="memdesc:a2aefe134670301578fa97e14ec72373f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor. <br /></td></tr>
 <tr class="memitem:ade142ccd9a17b20cdf31250020ba7e91" id="r_ade142ccd9a17b20cdf31250020ba7e91"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ade142ccd9a17b20cdf31250020ba7e91">AABB</a> (const <a class="el" href="structlili_1_1Vec2.html">Vec2</a> &amp;pos, const <a class="el" href="structlili_1_1Vec2.html">Vec2</a> &amp;size)</td></tr>
-<tr class="memdesc:ade142ccd9a17b20cdf31250020ba7e91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct an <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a>.  <br /></td></tr>
+<tr class="memdesc:ade142ccd9a17b20cdf31250020ba7e91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a> with two <a class="el" href="structlili_1_1Vec2.html" title="Represents a 2D mathematical vector.">Vec2</a>.  <br /></td></tr>
+<tr class="memitem:a30f3ef489f51a1098231921c87f5a058" id="r_a30f3ef489f51a1098231921c87f5a058"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a30f3ef489f51a1098231921c87f5a058">AABB</a> (const <a class="el" href="classlili_1_1Rect.html">Rect</a> &amp;rect)</td></tr>
+<tr class="memdesc:a30f3ef489f51a1098231921c87f5a058"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a> with a <a class="el" href="classlili_1_1Rect.html" title="A renderable rectangle.">Rect</a>.  <br /></td></tr>
+<tr class="memitem:ae2ab4241473fd86408617877bd36f0cb" id="r_ae2ab4241473fd86408617877bd36f0cb"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ae2ab4241473fd86408617877bd36f0cb">AABB</a> (const <a class="el" href="classlili_1_1Circle.html">Circle</a> &amp;circle)</td></tr>
+<tr class="memdesc:ae2ab4241473fd86408617877bd36f0cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a> with a <a class="el" href="classlili_1_1Circle.html" title="A renderable circle.">Circle</a>.  <br /></td></tr>
+<tr class="memitem:acd0348cb379a69a464ea013f2364c2ff" id="r_acd0348cb379a69a464ea013f2364c2ff"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#acd0348cb379a69a464ea013f2364c2ff">AABB</a> (const <a class="el" href="classlili_1_1Line.html">Line</a> &amp;line)</td></tr>
+<tr class="memdesc:acd0348cb379a69a464ea013f2364c2ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a> with a <a class="el" href="classlili_1_1Line.html" title="A renderable line.">Line</a>.  <br /></td></tr>
 <tr class="memitem:ab2b3ca4dae1b88c78edbcb33d4e30175" id="r_ab2b3ca4dae1b88c78edbcb33d4e30175"><td class="memItemLeft"><a class="el" href="#afbd3d61106aeba41d5963c23f5b2ba20">AABB</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ab2b3ca4dae1b88c78edbcb33d4e30175">operator=</a> (<a class="el" href="#afbd3d61106aeba41d5963c23f5b2ba20">AABB</a> &amp;&amp;)=default</td></tr>
 <tr class="memdesc:ab2b3ca4dae1b88c78edbcb33d4e30175"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assignment operator.  <br /></td></tr>
 <tr class="memitem:a6185359dd179f2c4beee3fec35954ed7" id="r_a6185359dd179f2c4beee3fec35954ed7"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a6185359dd179f2c4beee3fec35954ed7">intersect</a> (const <a class="el" href="#afbd3d61106aeba41d5963c23f5b2ba20">AABB</a> &amp;other) const</td></tr>
 <tr class="memdesc:a6185359dd179f2c4beee3fec35954ed7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if this <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a> intersects with another.  <br /></td></tr>
+<tr class="memitem:a3f5a1d438b529c61f949a48697368024" id="r_a3f5a1d438b529c61f949a48697368024"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a3f5a1d438b529c61f949a48697368024">intersect</a> (const <a class="el" href="classlili_1_1Rect.html">Rect</a> &amp;rect) const</td></tr>
+<tr class="memdesc:a3f5a1d438b529c61f949a48697368024"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if this <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a> intersects with a rect.  <br /></td></tr>
+<tr class="memitem:ac8ff4aaa1ad3562618c12548eb288c35" id="r_ac8ff4aaa1ad3562618c12548eb288c35"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ac8ff4aaa1ad3562618c12548eb288c35">contains</a> (const <a class="el" href="#afbd3d61106aeba41d5963c23f5b2ba20">AABB</a> &amp;other) const</td></tr>
+<tr class="memdesc:ac8ff4aaa1ad3562618c12548eb288c35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if this <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a> contains another.  <br /></td></tr>
+<tr class="memitem:ac1b580e30541b507654c1f1e082d4905" id="r_ac1b580e30541b507654c1f1e082d4905"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ac1b580e30541b507654c1f1e082d4905">contains</a> (const <a class="el" href="classlili_1_1Rect.html">Rect</a> &amp;rect) const</td></tr>
+<tr class="memdesc:ac1b580e30541b507654c1f1e082d4905"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if this <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a> contains a <a class="el" href="classlili_1_1Rect.html" title="A renderable rectangle.">Rect</a>.  <br /></td></tr>
+<tr class="memitem:aeac033a0e679d299583558846de507da" id="r_aeac033a0e679d299583558846de507da"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aeac033a0e679d299583558846de507da">contains</a> (const <a class="el" href="classlili_1_1Circle.html">Circle</a> &amp;circle) const</td></tr>
+<tr class="memdesc:aeac033a0e679d299583558846de507da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if this <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a> contains a <a class="el" href="classlili_1_1Circle.html" title="A renderable circle.">Circle</a>.  <br /></td></tr>
+<tr class="memitem:ad355bfbf03a8e44d43ca9e918ab487d6" id="r_ad355bfbf03a8e44d43ca9e918ab487d6"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ad355bfbf03a8e44d43ca9e918ab487d6">contains</a> (const <a class="el" href="classlili_1_1Line.html">Line</a> &amp;line) const</td></tr>
+<tr class="memdesc:ad355bfbf03a8e44d43ca9e918ab487d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if this <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a> contains a <a class="el" href="classlili_1_1Line.html" title="A renderable line.">Line</a>.  <br /></td></tr>
+<tr class="memitem:ab95e1da5f5f694e0b63b75d01c3f1bb7" id="r_ab95e1da5f5f694e0b63b75d01c3f1bb7"><td class="memItemLeft"><a id="ab95e1da5f5f694e0b63b75d01c3f1bb7" name="ab95e1da5f5f694e0b63b75d01c3f1bb7"></a>
+void&#160;</td><td class="memItemRight"><b>debugDraw</b> (<a class="el" href="classlili_1_1Renderer.html">Renderer</a> *renderer, const <a class="el" href="structlili_1_1Vec4.html">Vec4</a> &amp;color) const</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents an Axis-Aligned Bounding Box. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ade142ccd9a17b20cdf31250020ba7e91" name="ade142ccd9a17b20cdf31250020ba7e91"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ade142ccd9a17b20cdf31250020ba7e91">&#9670;&#160;</a></span>AABB()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ade142ccd9a17b20cdf31250020ba7e91">&#9670;&#160;</a></span>AABB() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -137,11 +155,86 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Construct an <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a>. </p>
+<p>Construct <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a> with two <a class="el" href="structlili_1_1Vec2.html" title="Represents a 2D mathematical vector.">Vec2</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">the</td><td>position of the topleft. </td></tr>
-    <tr><td class="paramname">the</td><td>size of the rect. </td></tr>
+    <tr><td class="paramname">pos</td><td>The position of the topleft. </td></tr>
+    <tr><td class="paramname">the</td><td>size of the bounding rect. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a30f3ef489f51a1098231921c87f5a058" name="a30f3ef489f51a1098231921c87f5a058"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30f3ef489f51a1098231921c87f5a058">&#9670;&#160;</a></span>AABB() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">lili::AABB::AABB </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classlili_1_1Rect.html">Rect</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>rect</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Construct <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a> with a <a class="el" href="classlili_1_1Rect.html" title="A renderable rectangle.">Rect</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rect</td><td>The shape of the bounding rect </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae2ab4241473fd86408617877bd36f0cb" name="ae2ab4241473fd86408617877bd36f0cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2ab4241473fd86408617877bd36f0cb">&#9670;&#160;</a></span>AABB() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">lili::AABB::AABB </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classlili_1_1Circle.html">Circle</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>circle</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Construct <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a> with a <a class="el" href="classlili_1_1Circle.html" title="A renderable circle.">Circle</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rect</td><td>The shape of the bounding rect </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="acd0348cb379a69a464ea013f2364c2ff" name="acd0348cb379a69a464ea013f2364c2ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd0348cb379a69a464ea013f2364c2ff">&#9670;&#160;</a></span>AABB() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">lili::AABB::AABB </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classlili_1_1Line.html">Line</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>line</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Construct <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a> with a <a class="el" href="classlili_1_1Line.html" title="A renderable line.">Line</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rect</td><td>The shape of the bounding rect </td></tr>
   </table>
   </dd>
 </dl>
@@ -149,8 +242,112 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="ac8ff4aaa1ad3562618c12548eb288c35" name="ac8ff4aaa1ad3562618c12548eb288c35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8ff4aaa1ad3562618c12548eb288c35">&#9670;&#160;</a></span>contains() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lili::AABB::contains </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="#afbd3d61106aeba41d5963c23f5b2ba20">AABB</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if this <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a> contains another. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>The other <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a> to test against. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if this <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a> contains the other, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="aeac033a0e679d299583558846de507da" name="aeac033a0e679d299583558846de507da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeac033a0e679d299583558846de507da">&#9670;&#160;</a></span>contains() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lili::AABB::contains </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classlili_1_1Circle.html">Circle</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>circle</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if this <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a> contains a <a class="el" href="classlili_1_1Circle.html" title="A renderable circle.">Circle</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>The other <a class="el" href="classlili_1_1Circle.html" title="A renderable circle.">Circle</a> to test against. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if this <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a> contains the <a class="el" href="classlili_1_1Circle.html" title="A renderable circle.">Circle</a>, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="ad355bfbf03a8e44d43ca9e918ab487d6" name="ad355bfbf03a8e44d43ca9e918ab487d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad355bfbf03a8e44d43ca9e918ab487d6">&#9670;&#160;</a></span>contains() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lili::AABB::contains </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classlili_1_1Line.html">Line</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>line</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if this <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a> contains a <a class="el" href="classlili_1_1Line.html" title="A renderable line.">Line</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>The other <a class="el" href="classlili_1_1Line.html" title="A renderable line.">Line</a> to test against. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if this <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a> contains the <a class="el" href="classlili_1_1Line.html" title="A renderable line.">Line</a>, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="ac1b580e30541b507654c1f1e082d4905" name="ac1b580e30541b507654c1f1e082d4905"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1b580e30541b507654c1f1e082d4905">&#9670;&#160;</a></span>contains() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lili::AABB::contains </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classlili_1_1Rect.html">Rect</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>rect</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if this <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a> contains a <a class="el" href="classlili_1_1Rect.html" title="A renderable rectangle.">Rect</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>The other <a class="el" href="classlili_1_1Rect.html" title="A renderable rectangle.">Rect</a> to test against. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if this <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a> contains the <a class="el" href="classlili_1_1Rect.html" title="A renderable rectangle.">Rect</a>, false otherwise. </dd></dl>
+
+</div>
+</div>
 <a id="a6185359dd179f2c4beee3fec35954ed7" name="a6185359dd179f2c4beee3fec35954ed7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6185359dd179f2c4beee3fec35954ed7">&#9670;&#160;</a></span>intersect()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6185359dd179f2c4beee3fec35954ed7">&#9670;&#160;</a></span>intersect() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -172,6 +369,32 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if the AABBs intersect, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a3f5a1d438b529c61f949a48697368024" name="a3f5a1d438b529c61f949a48697368024"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f5a1d438b529c61f949a48697368024">&#9670;&#160;</a></span>intersect() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lili::AABB::intersect </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classlili_1_1Rect.html">Rect</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>rect</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if this <a class="el" href="classlili_1_1AABB.html" title="Represents an Axis-Aligned Bounding Box.">AABB</a> intersects with a rect. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rect</td><td>The rect to test against. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if there is an intersection, false otherwise. </dd></dl>
 
 </div>
 </div>

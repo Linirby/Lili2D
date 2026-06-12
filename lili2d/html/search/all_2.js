@@ -7,12 +7,13 @@ var searchData=
   ['clock_4',['Clock',['../classlili_1_1Clock.html',1,'lili::Clock'],['../classlili_1_1Clock.html#ac37a911acf5ce969a8682dfe2de8a4d3',1,'lili::Clock::Clock()=default'],['../classlili_1_1Clock.html#ab07d1c69114f43d9a173e7027a10bcfe',1,'lili::Clock::Clock(float tick_per_second)']]],
   ['codeinfo_5',['CodeInfo',['../structlili_1_1CodeInfo.html',1,'lili']]],
   ['color_5ftint_6',['color_tint',['../structlili_1_1MaterialGPU.html#a6cc815eec8cfc6fc085ad7b2c3c5ba3b',1,'lili::MaterialGPU::color_tint'],['../structlili_1_1MaterialProps.html#ad960ea80d86f8b0e030ae36ea7058f98',1,'lili::MaterialProps::color_tint']]],
-  ['core_2ehpp_7',['core.hpp',['../core_8hpp.html',1,'']]],
-  ['createshader_8',['createShader',['../classlili_1_1Renderer.html#ab5d3c49ca737036434816dbb280e0aeb',1,'lili::Renderer::createShader(const std::string &amp;vert_path, const std::string &amp;frag_path, ShaderInfo vert_infos={}, ShaderInfo frag_infos={})'],['../classlili_1_1Renderer.html#afe31153880dfa582abcb37b43c088b29',1,'lili::Renderer::createShader(const uint8_t *vert_code, size_t vert_size, const uint8_t *frag_code, size_t frag_size, ShaderInfo vert_infos={}, ShaderInfo frag_infos={})']]],
-  ['createuipipeline_9',['createUiPipeline',['../classlili_1_1Renderer.html#a01576ab18ab10e040c61d08040e29550',1,'lili::Renderer']]],
-  ['createworldpipeline_10',['createWorldPipeline',['../classlili_1_1Renderer.html#aca346dbbceded075efb7d6e40816c4b2',1,'lili::Renderer']]],
-  ['cross_11',['cross',['../structlili_1_1Vec2.html#a852c2c253ffd78d8cdcc5bf6af644ac3',1,'lili::Vec2::cross()'],['../structlili_1_1Vec3.html#adc95c252fe5d40782b5fceabc1534d0d',1,'lili::Vec3::cross()'],['../structlili_1_1Vec4.html#a84e2c28ebfccfa29134264b439569201',1,'lili::Vec4::cross()']]],
-  ['custom_5ffragment_5funiforms_12',['custom_fragment_uniforms',['../structlili_1_1Material.html#a93bea48371e1edf33500f4f4fca2b5cb',1,'lili::Material']]],
-  ['custom_5fpipeline_13',['custom_pipeline',['../structlili_1_1Material.html#aa7b70533c7325ebba771b936caf4b912',1,'lili::Material']]],
-  ['custom_5fvertex_5funiforms_14',['custom_vertex_uniforms',['../structlili_1_1Material.html#a9a0afaf43c26556a25c1e7b060b50a93',1,'lili::Material']]]
+  ['contains_7',['contains',['../classlili_1_1AABB.html#ac8ff4aaa1ad3562618c12548eb288c35',1,'lili::AABB::contains(const AABB &amp;other) const'],['../classlili_1_1AABB.html#ac1b580e30541b507654c1f1e082d4905',1,'lili::AABB::contains(const Rect &amp;rect) const'],['../classlili_1_1AABB.html#aeac033a0e679d299583558846de507da',1,'lili::AABB::contains(const Circle &amp;circle) const'],['../classlili_1_1AABB.html#ad355bfbf03a8e44d43ca9e918ab487d6',1,'lili::AABB::contains(const Line &amp;line) const']]],
+  ['core_2ehpp_8',['core.hpp',['../core_8hpp.html',1,'']]],
+  ['createshader_9',['createShader',['../classlili_1_1Renderer.html#ab5d3c49ca737036434816dbb280e0aeb',1,'lili::Renderer::createShader(const std::string &amp;vert_path, const std::string &amp;frag_path, ShaderInfo vert_infos={}, ShaderInfo frag_infos={})'],['../classlili_1_1Renderer.html#afe31153880dfa582abcb37b43c088b29',1,'lili::Renderer::createShader(const uint8_t *vert_code, size_t vert_size, const uint8_t *frag_code, size_t frag_size, ShaderInfo vert_infos={}, ShaderInfo frag_infos={})']]],
+  ['createuipipeline_10',['createUiPipeline',['../classlili_1_1Renderer.html#a01576ab18ab10e040c61d08040e29550',1,'lili::Renderer']]],
+  ['createworldpipeline_11',['createWorldPipeline',['../classlili_1_1Renderer.html#aca346dbbceded075efb7d6e40816c4b2',1,'lili::Renderer']]],
+  ['cross_12',['cross',['../structlili_1_1Vec2.html#a852c2c253ffd78d8cdcc5bf6af644ac3',1,'lili::Vec2::cross()'],['../structlili_1_1Vec3.html#adc95c252fe5d40782b5fceabc1534d0d',1,'lili::Vec3::cross()'],['../structlili_1_1Vec4.html#a84e2c28ebfccfa29134264b439569201',1,'lili::Vec4::cross()']]],
+  ['custom_5ffragment_5funiforms_13',['custom_fragment_uniforms',['../structlili_1_1Material.html#a93bea48371e1edf33500f4f4fca2b5cb',1,'lili::Material']]],
+  ['custom_5fpipeline_14',['custom_pipeline',['../structlili_1_1Material.html#aa7b70533c7325ebba771b936caf4b912',1,'lili::Material']]],
+  ['custom_5fvertex_5funiforms_15',['custom_vertex_uniforms',['../structlili_1_1Material.html#a9a0afaf43c26556a25c1e7b060b50a93',1,'lili::Material']]]
 ];

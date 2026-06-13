@@ -6,7 +6,7 @@
 #include "geometry/vec2.hpp"
 #include "render/renderer.hpp"
 #include "render/core/gpu_mesh.hpp"
-#include "render/scene/material.hpp"
+#include "render/scene/common/material.hpp"
 
 namespace lili {
 

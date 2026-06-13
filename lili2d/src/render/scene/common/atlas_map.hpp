@@ -7,7 +7,7 @@
 #include "geometry/point2.hpp"
 #include "render/renderer.hpp"
 #include "render/core/texture.hpp"
-#include "render/scene/animation.hpp"
+#include "render/scene/common/animation.hpp"
 
 namespace lili {
 

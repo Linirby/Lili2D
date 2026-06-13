@@ -1,4 +1,4 @@
-#include "render/scene/text.hpp"
+#include "render/scene/common/text.hpp"
 #include "geometry/mat3x3.hpp"
 
 namespace lili {

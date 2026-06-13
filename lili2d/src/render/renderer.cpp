@@ -2,8 +2,8 @@
 #include <stdexcept>
 
 #include "render/renderer.hpp"
-#include "render/scene/model.hpp"
-#include "render/scene/utils.hpp"
+#include "render/scene/common/model.hpp"
+#include "render/scene/common/utils.hpp"
 
 // Creation of those 3 headers in cmake
 #include "render/white_1x1_png.hpp"

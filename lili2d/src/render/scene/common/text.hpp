@@ -5,9 +5,9 @@
 #include <memory>
 
 #include "render/core/texture.hpp"
-#include "render/scene/material.hpp"
+#include "render/scene/common/material.hpp"
 #include "render/core/gpu_mesh.hpp"
-#include "render/scene/model.hpp"
+#include "render/scene/common/model.hpp"
 #include "geometry/vec2.hpp"
 #include "render/renderer.hpp"
 

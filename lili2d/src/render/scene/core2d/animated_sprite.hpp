@@ -5,8 +5,8 @@
 #include <string>
 
 #include "render/renderer.hpp"
-#include "render/scene/material.hpp"
-#include "render/scene/animation.hpp"
+#include "render/scene/common/material.hpp"
+#include "render/scene/common/animation.hpp"
 #include "geometry/vec2.hpp"
 
 namespace lili {

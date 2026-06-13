@@ -1,4 +1,4 @@
-#include "render/scene/utils.hpp"
+#include "render/scene/common/utils.hpp"
 #include <cmath>
 
 namespace lili {

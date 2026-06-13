@@ -86,25 +86,33 @@ endforeach()
 add_library(LiliRender OBJECT
     ${EMBEDDED_SHADERS}
     ${EMBEDDED_ASSETS}
-    src/render/scene/shapes/circle.cpp
-    src/render/scene/shapes/line.cpp
-    src/render/scene/shapes/rect.cpp
+
     src/render/core/gpu_mesh.cpp
     src/render/core/shader.cpp
     src/render/core/texture.cpp
+
     src/render/passes/ui_pass.cpp
-    src/render/pipelines/ui_pipeline.cpp
     src/render/passes/world_2d_pass.cpp
+
+    src/render/pipelines/ui_pipeline.cpp
     src/render/pipelines/world_2d_pipeline.cpp
-    src/render/scene/camera.cpp
-    src/render/scene/material.cpp
-    src/render/scene/model.cpp
-    src/render/scene/sprite.cpp
-    src/render/scene/animated_sprite.cpp
-    src/render/scene/animation.cpp
-    src/render/scene/atlas_map.cpp
-    src/render/scene/text.cpp
-    src/render/scene/utils.cpp
+
+    src/render/scene/common/animation.cpp
+    src/render/scene/common/atlas_map.cpp
+    src/render/scene/common/camera.cpp
+    src/render/scene/common/material.cpp
+    src/render/scene/common/model.cpp
+    src/render/scene/common/text.cpp
+    src/render/scene/common/utils.cpp
+    src/render/scene/common/utils.cpp
+
+    src/render/scene/core2d/animated_sprite.cpp
+    src/render/scene/core2d/sprite.cpp
+
+    src/render/scene/shapes/circle.cpp
+    src/render/scene/shapes/line.cpp
+    src/render/scene/shapes/rect.cpp
+
     src/render/renderer.cpp
 )
 target_include_directories(LiliRender PUBLIC

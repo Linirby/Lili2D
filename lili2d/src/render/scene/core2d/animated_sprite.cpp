@@ -1,6 +1,6 @@
-#include "render/scene/animated_sprite.hpp"
+#include "render/scene/core2d/animated_sprite.hpp"
 
-#include "render/scene/utils.hpp"
+#include "render/scene/common/utils.hpp"
 #include "geometry/mat3x3.hpp"
 #include "geometry/utils.hpp"
 

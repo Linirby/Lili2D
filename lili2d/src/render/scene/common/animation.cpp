@@ -1,4 +1,4 @@
-#include "render/scene/animation.hpp"
+#include "render/scene/common/animation.hpp"
 #include <stdexcept>
 
 namespace lili {

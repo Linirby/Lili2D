@@ -4,7 +4,7 @@
 #include <vector>
 #include <SDL3/SDL_timer.h>
 
-#include "render/scene/model.hpp"
+#include "render/scene/common/model.hpp"
 
 namespace lili {
 

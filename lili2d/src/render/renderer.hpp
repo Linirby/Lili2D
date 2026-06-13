@@ -9,8 +9,8 @@
 #include "render/core/texture.hpp"
 #include "render/core/shader.hpp"
 
-#include "render/scene/camera.hpp"
-#include "render/scene/model.hpp"
+#include "render/scene/common/camera.hpp"
+#include "render/scene/common/model.hpp"
 
 #include "render/passes/pass_types.hpp"
 #include "render/passes/world_2d_pass.hpp"

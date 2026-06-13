@@ -1,4 +1,4 @@
-#include "render/scene/atlas_map.hpp"
+#include "render/scene/common/atlas_map.hpp"
 
 namespace lili {
 

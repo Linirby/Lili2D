@@ -1,7 +1,7 @@
 # Lili2D
 
 ![C++20](https://img.shields.io/badge/C++-20-blue.svg)
-![CMake](https://img.shields.io/badge/CMake-3.16+-brightgreen.svg)
+![CMake](https://img.shields.io/badge/CMake-3.10+-brightgreen.svg)
 ![SDL3](https://img.shields.io/badge/SDL3-Powered-orange.svg)
 
 **Lili2D** is a lightweight, easy-to-use C++ library designed to help you create
@@ -38,7 +38,7 @@ SPIR-V shaders.
 To build and use Lili2D, you will need:
 
 - A **C++20** compatible compiler (GCC, Clang, or MSVC)
-- **CMake** 3.16 or higher
+- **CMake** 3.10 or higher
 - **SDL3** and **SDL3_image**
 - **glslc** (Google's shader compiler for compiling custom Vulkan shaders)
 
@@ -176,6 +176,8 @@ screen.
 drawing order of sprites and shapes.
 - **`hello_animation`**: An example of how to load an AtlasMap and create Animations
 from it.
+- **`hello_shader`**: Demonstrates how to write, compile, and load custom vertex and fragment shaders.
+- **`hello_collision`**: A new example showing the v1 implementation of the AABB collision system and how it interacts with different shapes.
 
 ## Join the Community
 

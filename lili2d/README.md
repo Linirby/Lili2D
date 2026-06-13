@@ -40,7 +40,7 @@ directory or the root directory.
 Ensure you have the following installed on your system:
 
 - **C++20 Compiler** (GCC, Clang, MSVC)
-- **CMake 3.16+**
+- **CMake 3.10+**
 - **SDL3** and **SDL3_image** (Development libraries)
 - **glslc** (Required to compile `.vert` and `.frag` shaders into SPIR-V)
 

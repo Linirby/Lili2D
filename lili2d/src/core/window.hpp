@@ -3,7 +3,7 @@
 #include <string>
 #include <SDL3/SDL.h>
 
-#include "geometry/vec2.hpp"
+#include "../geometry/vec2.hpp"
 
 namespace lili {
 

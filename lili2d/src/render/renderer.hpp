@@ -4,20 +4,20 @@
 #include <map>
 #include <vector>
 
-#include "core/window.hpp"
+#include "../core/window.hpp"
 
-#include "render/core/texture.hpp"
-#include "render/core/shader.hpp"
+#include "core/texture.hpp"
+#include "core/shader.hpp"
 
-#include "render/scene/common/camera.hpp"
-#include "render/scene/common/model.hpp"
+#include "scene/common/camera.hpp"
+#include "scene/common/model.hpp"
 
-#include "render/passes/pass_types.hpp"
-#include "render/passes/world_2d_pass.hpp"
-#include "render/passes/ui_pass.hpp"
+#include "passes/pass_types.hpp"
+#include "passes/world_2d_pass.hpp"
+#include "passes/ui_pass.hpp"
 
-#include "render/pipelines/world_2d_pipeline.hpp"
-#include "render/pipelines/ui_pipeline.hpp"
+#include "pipelines/world_2d_pipeline.hpp"
+#include "pipelines/ui_pipeline.hpp"
 
 namespace lili {
 

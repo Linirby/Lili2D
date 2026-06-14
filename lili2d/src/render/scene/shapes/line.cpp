@@ -1,4 +1,4 @@
-#include "render/scene/shapes/line.hpp"
+#include "line.hpp"
 
 #include <cmath>
 

@@ -4,10 +4,10 @@
 #include <string>
 #include <memory>
 
-#include "render/renderer.hpp"
-#include "render/core/texture.hpp"
-#include "render/scene/common/material.hpp"
-#include "geometry/vec2.hpp"
+#include "../../renderer.hpp"
+#include "../../core/texture.hpp"
+#include "../common/material.hpp"
+#include "../../../geometry/vec2.hpp"
 
 namespace lili {
 

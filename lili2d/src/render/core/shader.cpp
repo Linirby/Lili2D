@@ -1,6 +1,6 @@
 #include <fstream>
 
-#include "render/core/shader.hpp"
+#include "shader.hpp"
 
 namespace lili {
 

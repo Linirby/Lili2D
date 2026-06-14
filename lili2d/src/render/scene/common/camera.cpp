@@ -1,4 +1,4 @@
-#include "render/scene/common/camera.hpp"
+#include "camera.hpp"
 
 namespace lili {
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "geometry/vec3.hpp"
+#include "vec3.hpp"
 
 namespace lili {
 

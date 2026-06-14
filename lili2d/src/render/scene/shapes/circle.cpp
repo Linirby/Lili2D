@@ -1,4 +1,4 @@
-#include "render/scene/shapes/circle.hpp"
+#include "circle.hpp"
 
 #include <cmath>
 

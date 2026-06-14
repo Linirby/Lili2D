@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "render/core/texture.hpp"
+#include "../../core/texture.hpp"
 
 namespace lili {
 

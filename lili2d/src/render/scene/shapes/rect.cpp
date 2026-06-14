@@ -1,6 +1,6 @@
-#include "render/scene/shapes/rect.hpp"
+#include "rect.hpp"
 
-#include "geometry/utils.hpp"
+#include "../../../geometry/utils.hpp"
 
 namespace lili {
 

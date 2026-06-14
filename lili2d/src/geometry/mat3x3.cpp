@@ -1,6 +1,6 @@
 #include <cmath>
 
-#include "geometry/mat3x3.hpp"
+#include "mat3x3.hpp"
 
 namespace lili {
 

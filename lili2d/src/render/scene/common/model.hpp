@@ -1,7 +1,7 @@
 #pragma once
 
-#include "render/core/gpu_mesh.hpp"
-#include "render/scene/common/material.hpp"
+#include "../../core/gpu_mesh.hpp"
+#include "material.hpp"
 
 namespace lili {
 

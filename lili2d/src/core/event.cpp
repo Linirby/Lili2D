@@ -1,4 +1,4 @@
-#include "core/event.hpp"
+#include "event.hpp"
 
 namespace lili {
 

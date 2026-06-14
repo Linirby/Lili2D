@@ -4,21 +4,21 @@
 /// @brief Aggregates the rendering components of the Lili2D engine, including
 /// shapes, sprites, models, and text.
 
-#include "render/scene/common/animation.hpp"  // IWYU pragma: keep
-#include "render/scene/common/atlas_map.hpp"  // IWYU pragma: keep
-#include "render/scene/common/camera.hpp"  // IWYU pragma: keep
-#include "render/scene/common/material.hpp"  // IWYU pragma: keep
-#include "render/scene/common/model.hpp"  // IWYU pragma: keep
-#include "render/scene/common/text.hpp"  // IWYU pragma: keep
+#include "../render/scene/common/animation.hpp"  // IWYU pragma: keep
+#include "../render/scene/common/atlas_map.hpp"  // IWYU pragma: keep
+#include "../render/scene/common/camera.hpp"  // IWYU pragma: keep
+#include "../render/scene/common/material.hpp"  // IWYU pragma: keep
+#include "../render/scene/common/model.hpp"  // IWYU pragma: keep
+#include "../render/scene/common/text.hpp"  // IWYU pragma: keep
 
-#include "render/scene/core2d/sprite.hpp"  // IWYU pragma: keep
-#include "render/scene/core2d/animated_sprite.hpp"  // IWYU pragma: keep
+#include "../render/scene/core2d/sprite.hpp"  // IWYU pragma: keep
+#include "../render/scene/core2d/animated_sprite.hpp"  // IWYU pragma: keep
 
-#include "render/scene/shapes/line.hpp"  // IWYU pragma: keep
-#include "render/scene/shapes/rect.hpp"  // IWYU pragma: keep
-#include "render/scene/shapes/circle.hpp"  // IWYU pragma: keep
+#include "../render/scene/shapes/line.hpp"  // IWYU pragma: keep
+#include "../render/scene/shapes/rect.hpp"  // IWYU pragma: keep
+#include "../render/scene/shapes/circle.hpp"  // IWYU pragma: keep
 
-#include "render/renderer.hpp"  // IWYU pragma: keep
+#include "../render/renderer.hpp"  // IWYU pragma: keep
 
 namespace lili {
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "render/passes/pass_types.hpp"
+#include "pass_types.hpp"
 #include <map>
 
 namespace lili {

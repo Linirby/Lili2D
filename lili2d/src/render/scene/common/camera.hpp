@@ -1,7 +1,7 @@
 #pragma once
 
-#include "geometry/mat3x3.hpp"
-#include "geometry/vec2.hpp"
+#include "../../../geometry/mat3x3.hpp"
+#include "../../../geometry/vec2.hpp"
 
 namespace lili {
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "render/core/gpu_mesh.hpp"
+#include "../../core/gpu_mesh.hpp"
 
 namespace lili {
 

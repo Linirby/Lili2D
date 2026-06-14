@@ -5,8 +5,8 @@
 #include <unordered_map>
 #include <vector>
 
-#include "geometry/vec4.hpp"
-#include "render/core/texture.hpp"
+#include "../../../geometry/vec4.hpp"
+#include "../../core/texture.hpp"
 
 namespace lili {
 

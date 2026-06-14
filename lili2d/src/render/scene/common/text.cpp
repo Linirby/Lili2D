@@ -1,5 +1,5 @@
-#include "render/scene/common/text.hpp"
-#include "geometry/mat3x3.hpp"
+#include "text.hpp"
+#include "../../../geometry/mat3x3.hpp"
 
 namespace lili {
 

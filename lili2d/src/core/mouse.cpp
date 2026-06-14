@@ -1,4 +1,4 @@
-#include "core/mouse.hpp"
+#include "mouse.hpp"
 
 #include <SDL3/SDL_events.h>
 

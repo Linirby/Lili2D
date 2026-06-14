@@ -1,8 +1,8 @@
-#include "render/scene/core2d/animated_sprite.hpp"
+#include "animated_sprite.hpp"
 
-#include "render/scene/common/utils.hpp"
-#include "geometry/mat3x3.hpp"
-#include "geometry/utils.hpp"
+#include "../common/utils.hpp"
+#include "../../../geometry/mat3x3.hpp"
+#include "../../../geometry/utils.hpp"
 
 namespace lili {
 

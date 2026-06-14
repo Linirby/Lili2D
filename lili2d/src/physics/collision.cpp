@@ -1,4 +1,4 @@
-#include "physics/collision.hpp"
+#include "collision.hpp"
 
 #include <map>
 #include <memory>

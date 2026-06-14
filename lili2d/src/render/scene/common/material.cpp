@@ -1,4 +1,4 @@
-#include "render/scene/common/material.hpp"
+#include "material.hpp"
 
 #include <stdexcept>
 

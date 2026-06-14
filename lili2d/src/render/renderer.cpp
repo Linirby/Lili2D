@@ -1,18 +1,18 @@
 #include <string>
 #include <stdexcept>
 
-#include "render/renderer.hpp"
-#include "render/scene/common/model.hpp"
-#include "render/scene/common/utils.hpp"
+#include "renderer.hpp"
+#include "scene/common/model.hpp"
+#include "scene/common/utils.hpp"
 
 // Creation of those 3 headers in cmake
-#include "render/white_1x1_png.hpp"
-#include "shader/world_2d_vert_spv.hpp"
-#include "shader/world_2d_frag_spv.hpp"
+#include "white_1x1_png.hpp"
+#include "../shader/world_2d_vert_spv.hpp"
+#include "../shader/world_2d_frag_spv.hpp"
 // #include "shader/ui_vert_spv.hpp"
 // #include "shader/ui_frag_spv.hpp"
 
-#include "geometry/mat3x3.hpp"
+#include "../geometry/mat3x3.hpp"
 
 namespace lili {
 

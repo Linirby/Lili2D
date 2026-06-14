@@ -1,7 +1,7 @@
 #pragma once
 
-#include "render/scene/common/model.hpp"
-#include "geometry/mat3x3.hpp"
+#include "../scene/common/model.hpp"
+#include "../../geometry/mat3x3.hpp"
 
 namespace lili {
 

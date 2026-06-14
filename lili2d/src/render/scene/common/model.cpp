@@ -1,4 +1,4 @@
-#include "render/scene/common/model.hpp"
+#include "model.hpp"
 
 namespace lili {
 

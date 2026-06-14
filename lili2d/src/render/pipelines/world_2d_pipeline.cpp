@@ -1,9 +1,9 @@
-#include "render/pipelines/world_2d_pipeline.hpp"
+#include "world_2d_pipeline.hpp"
 
 #include <vector>
 #include <stdexcept>
 
-#include "render/core/shader.hpp"
+#include "../core/shader.hpp"
 
 namespace lili {
 

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "geometry/vec2.hpp"
-#include "render/scene/shapes/rect.hpp"
-#include "render/scene/shapes/circle.hpp"
-#include "render/scene/shapes/line.hpp"
+#include "../geometry/vec2.hpp"
+#include "../render/scene/shapes/rect.hpp"
+#include "../render/scene/shapes/circle.hpp"
+#include "../render/scene/shapes/line.hpp"
 
 namespace lili {
 

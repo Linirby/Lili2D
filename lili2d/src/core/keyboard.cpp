@@ -1,4 +1,4 @@
-#include "core/keyboard.hpp"
+#include "keyboard.hpp"
 
 #include <cstring>
 

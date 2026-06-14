@@ -1,10 +1,10 @@
-#include "render/passes/world_2d_pass.hpp"
+#include "world_2d_pass.hpp"
 
 #include <stdexcept>
 #include <vector>
 #include <SDL3/SDL_timer.h>
 
-#include "render/scene/common/model.hpp"
+#include "../scene/common/model.hpp"
 
 namespace lili {
 

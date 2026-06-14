@@ -1,7 +1,7 @@
 #pragma once
 
-#include "core/event.hpp"
-#include "geometry/vec2.hpp"
+#include "event.hpp"
+#include "../geometry/vec2.hpp"
 
 namespace lili {
 

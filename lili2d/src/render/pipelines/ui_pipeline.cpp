@@ -1,9 +1,9 @@
-#include "render/pipelines/ui_pipeline.hpp"
+#include "ui_pipeline.hpp"
 
 #include <vector>
 #include <stdexcept>
 
-#include "render/core/shader.hpp"
+#include "../core/shader.hpp"
 
 namespace lili {
 

@@ -4,11 +4,11 @@
 /// @brief Aggregates the core components of the Lili2D engine, including window
 /// management, input handling, and core events.
 
-#include "core/clock.hpp"  // IWYU pragma: keep
-#include "core/event.hpp"  // IWYU pragma: keep
-#include "core/keyboard.hpp"  // IWYU pragma: keep
-#include "core/mouse.hpp"  // IWYU pragma: keep
-#include "core/window.hpp"  // IWYU pragma: keep
+#include "../core/clock.hpp"  // IWYU pragma: keep
+#include "../core/event.hpp"  // IWYU pragma: keep
+#include "../core/keyboard.hpp"  // IWYU pragma: keep
+#include "../core/mouse.hpp"  // IWYU pragma: keep
+#include "../core/window.hpp"  // IWYU pragma: keep
 
 namespace lili {
 

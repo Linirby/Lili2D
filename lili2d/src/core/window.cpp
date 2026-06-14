@@ -1,6 +1,6 @@
 #include <stdexcept>
 #include <SDL3/SDL_init.h>
-#include "core/window.hpp"
+#include "window.hpp"
 
 namespace lili {
 

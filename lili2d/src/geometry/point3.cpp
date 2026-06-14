@@ -1,4 +1,4 @@
-#include "geometry/point3.hpp"
+#include "point3.hpp"
 namespace lili {
 
 

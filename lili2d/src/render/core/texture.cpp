@@ -2,7 +2,7 @@
 #include <cstring>
 #include <SDL3_image/SDL_image.h>
 
-#include "render/core/texture.hpp"
+#include "texture.hpp"
 
 namespace lili {
 

@@ -1,4 +1,4 @@
-#include "geometry/point2.hpp"
+#include "point2.hpp"
 #include <math.h>
 
 namespace lili {

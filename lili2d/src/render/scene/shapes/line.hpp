@@ -2,11 +2,11 @@
 
 #include <memory>
 
-#include "geometry/vec4.hpp"
-#include "geometry/vec2.hpp"
-#include "render/renderer.hpp"
-#include "render/core/gpu_mesh.hpp"
-#include "render/scene/common/material.hpp"
+#include "../../../geometry/vec4.hpp"
+#include "../../../geometry/vec2.hpp"
+#include "../../renderer.hpp"
+#include "../../core/gpu_mesh.hpp"
+#include "../common/material.hpp"
 
 namespace lili {
 

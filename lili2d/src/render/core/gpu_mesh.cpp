@@ -1,7 +1,7 @@
 #include <cstring>
 #include <stdexcept>
 
-#include "render/core/gpu_mesh.hpp"
+#include "gpu_mesh.hpp"
 
 namespace lili {
 

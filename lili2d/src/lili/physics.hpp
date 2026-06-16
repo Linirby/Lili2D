@@ -8,8 +8,10 @@
 
 namespace lili {
 
-/// @brief An axis-aligned bounding box for collision detection.
-class AABB;
+/// @brief An axis-aligned bounding box 2D for collision detection.
+class AABB2;
+/// @brief An axis-aligned bounding box 3D for collision detection.
+class AABB3;
 /// @brief Result data from a raycast operation.
 struct RaycastResult;
 

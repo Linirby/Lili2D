@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../geometry/vec2.hpp"
+#include "../geometry/vec3.hpp"
 #include "../render/scene/shapes/rect.hpp"
 #include "../render/scene/shapes/circle.hpp"
 #include "../render/scene/shapes/line.hpp"
@@ -8,44 +9,44 @@
 namespace lili {
 
 /// @brief Represents an Axis-Aligned Bounding Box.
-class AABB {
+class AABB2 {
 public:
 	/// @brief Default constructor.
-	AABB() = default;
+	AABB2() = default;
 	/// @brief Copy constructor.
-	AABB(const AABB &) = default;
+	AABB2(const AABB2 &) = default;
 	/// @brief Move constructor.
-	AABB(AABB &&) = default;
-	/// @brief Construct AABB with two Vec2.
+	AABB2(AABB2 &&) = default;
+	/// @brief Construct AABB2 with two Vec2.
 	/// @param pos The position of the topleft.
 	/// @param the size of the bounding rect.
-	AABB(const Vec2 &pos, const Vec2 &size);
-	/// @brief Construct AABB with a Rect
+	AABB2(const Vec2 &pos, const Vec2 &size);
+	/// @brief Construct AABB2 with a Rect
 	/// @param rect The shape of the bounding rect
-	AABB(const Rect &rect);
-	/// @brief Construct AABB with a Circle
+	AABB2(const Rect &rect);
+	/// @brief Construct AABB2 with a Circle
 	/// @param rect The shape of the bounding rect
-	AABB(const Circle &circle);
-	/// @brief Construct AABB with a Line
+	AABB2(const Circle &circle);
+	/// @brief Construct AABB2 with a Line
 	/// @param rect The shape of the bounding rect
-	AABB(const Line &line);
+	AABB2(const Line &line);
 	/// @brief Move assignment operator.
 	/// @return Reference to the assigned rectangle.
-	AABB& operator=(AABB &&) = default;
+	AABB2& operator=(AABB2 &&) = default;
 
-	/// @brief Checks if this AABB intersects with another.
-	/// @param other The other AABB to test against.
-	/// @return True if the AABBs intersect, false otherwise.
-	bool intersect(const AABB &other) const;
+	/// @brief Checks if this AABB2 intersects with another.
+	/// @param other The other AABB2 to test against.
+	/// @return True if the AABB2s intersect, false otherwise.
+	bool intersect(const AABB2 &other) const;
 	/// @brief Checks if this AABB intersects with a rect.
 	/// @param rect The rect to test against.
 	/// @return True if there is an intersection, false otherwise.
 	bool intersect(const Rect &rect) const;
 
-	/// @brief Checks if this AABB contains another.
-	/// @param other The other AABB to test against.
-	/// @return True if this AABB contains the other, false otherwise.
-	bool contains(const AABB &other) const;
+	/// @brief Checks if this AABB2 contains another.
+	/// @param other The other AABB2 to test against.
+	/// @return True if this AABB2 contains the other, false otherwise.
+	bool contains(const AABB2 &other) const;
 	/// @brief Checks if this AABB contains a Rect.
 	/// @param other The other Rect to test against.
 	/// @return True if this AABB contains the Rect, false otherwise.
@@ -64,6 +65,36 @@ public:
 private:
 	Vec2 min;  ///< The minimum coordinates.
 	Vec2 max;  ///< The maximum coordinates.
+};
+
+class AABB3 {
+public:
+	/// @brief Default constructor.
+	AABB3() = default;
+	/// @brief Copy constructor.
+	AABB3(const AABB3 &) = default;
+	/// @brief Move constructor.
+	AABB3(AABB3 &&) = default;
+	/// @brief Construct AABB3 with two Vec3.
+	/// @param pos The position of the topleft.
+	/// @param the size of the bounding rect.
+	AABB3(const Vec3 &pos, const Vec3 &size);
+	/// @brief Move assignment operator.
+	/// @return Reference to the assigned rectangle.
+	AABB3& operator=(AABB3 &&) = default;
+
+	/// @brief Checks if this AABB3 intersects with another.
+	/// @param other The other AABB3 to test against.
+	/// @return True if the AABB3s intersect, false otherwise.
+	bool intersect(const AABB3 &other) const;
+	/// @brief Checks if this AABB3 contains another.
+	/// @param other The other AABB3 to test against.
+	/// @return True if this AABB3 contains the other, false otherwise.
+	bool contains(const AABB3 &other) const;
+
+private:
+	Vec3 min;
+	Vec3 max;
 };
 
 /// @brief Contains the result of a raycast operation.

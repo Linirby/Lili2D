@@ -56,6 +56,10 @@ void Sprite::setLayer(float layer) {
 	this->layer = layer;
 }
 
+Vec2 Sprite::getPosition() const {
+	return position;
+}
+
 float Sprite::getWidth() const {
 	return size.x * scale.x;
 }

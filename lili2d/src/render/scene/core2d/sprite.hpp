@@ -48,6 +48,9 @@ public:
 	/// @param layer The new layer depth.
 	void setLayer(float layer);
 
+	/// @brief Get the position of the sprite.
+	/// @return The position.
+	Vec2 getPosition() const;
 	/// @brief Get the render width of the sprite.
 	/// @return The width.
 	float getWidth() const;

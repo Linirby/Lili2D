@@ -9,8 +9,7 @@
 namespace lili {
 
 /// @brief Represents an Axis-Aligned Bounding Box.
-class AABB2 {
-public:
+struct AABB2 {
 	/// @brief Default constructor.
 	AABB2() = default;
 	/// @brief Copy constructor.
@@ -33,6 +32,9 @@ public:
 	/// @brief Move assignment operator.
 	/// @return Reference to the assigned rectangle.
 	AABB2& operator=(AABB2 &&) = default;
+
+	Vec2 min;  ///< The minimum coordinates.
+	Vec2 max;  ///< The maximum coordinates.
 
 	/// @brief Checks if this AABB2 intersects with another.
 	/// @param other The other AABB2 to test against.
@@ -61,14 +63,9 @@ public:
 	bool contains(const Line &line) const;
 
 	void debugDraw(Renderer *renderer, const Vec4 &color) const;
-
-private:
-	Vec2 min;  ///< The minimum coordinates.
-	Vec2 max;  ///< The maximum coordinates.
 };
 
-class AABB3 {
-public:
+struct AABB3 {
 	/// @brief Default constructor.
 	AABB3() = default;
 	/// @brief Copy constructor.
@@ -83,6 +80,9 @@ public:
 	/// @return Reference to the assigned rectangle.
 	AABB3& operator=(AABB3 &&) = default;
 
+	Vec3 min;
+	Vec3 max;
+
 	/// @brief Checks if this AABB3 intersects with another.
 	/// @param other The other AABB3 to test against.
 	/// @return True if the AABB3s intersect, false otherwise.
@@ -91,10 +91,6 @@ public:
 	/// @param other The other AABB3 to test against.
 	/// @return True if this AABB3 contains the other, false otherwise.
 	bool contains(const AABB3 &other) const;
-
-private:
-	Vec3 min;
-	Vec3 max;
 };
 
 /// @brief Contains the result of a raycast operation.

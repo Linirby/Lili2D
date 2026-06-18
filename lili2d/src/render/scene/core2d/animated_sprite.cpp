@@ -80,6 +80,10 @@ void AnimatedSprite::setLayer(float layer) {
 	this->layer = layer;
 }
 
+Vec2 AnimatedSprite::getPosition() const {
+	return position;
+}
+
 float AnimatedSprite::getWidth() const {
 	return size.x * scale.x;
 }

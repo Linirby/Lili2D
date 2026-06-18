@@ -51,6 +51,13 @@ Vec2 Vec2::normalized() const {
 	return *this * (1 / std::sqrt(sq_len));
 }
 
+Vec2 Vec2::lerp(const Vec2 &o, float t) const {
+	return {
+		std::lerp(x, o.x, t),
+		std::lerp(y, o.y, t)
+	};
+}
+
 float Vec2::length() const {
 	return std::sqrt(x * x + y * y);
 }

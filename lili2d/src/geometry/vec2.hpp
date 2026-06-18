@@ -53,7 +53,7 @@ struct Vec2 {
 	/// @brief Linearly interpolates between this and another vector.
 	/// @param o The target vector.
 	/// @return The interpolated vector.
-	Vec2 lerp(const Vec2 &o) const;
+	Vec2 lerp(const Vec2 &o, float t) const;
 	/// @brief Gets the length (magnitude) of the vector.
 	/// @return The length.
 	float length() const;

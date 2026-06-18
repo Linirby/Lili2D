@@ -5,12 +5,9 @@
 #include "scene/common/model.hpp"
 #include "scene/common/utils.hpp"
 
-// Creation of those 3 headers in cmake
 #include "white_1x1_png.hpp"
 #include "../shader/world_2d_vert_spv.hpp"
 #include "../shader/world_2d_frag_spv.hpp"
-// #include "shader/ui_vert_spv.hpp"
-// #include "shader/ui_frag_spv.hpp"
 
 #include "../geometry/mat3x3.hpp"
 
@@ -265,12 +262,8 @@ void Renderer::initShaders() {
 		device,
 		world_2d_vert_spv, world_2d_vert_spv_len,
 		world_2d_frag_spv, world_2d_frag_spv_len,
-		(ShaderInfo){
-			.num_uniform_buffers = 1
-		},
-		(ShaderInfo){
-			.num_samplers = 1,
-		}
+		(ShaderInfo){ .num_uniform_buffers = 1 },
+		(ShaderInfo){ .num_samplers = 1, }
 	);
 }
 
@@ -287,9 +280,7 @@ void Renderer::initPasses() {
 	world_2d_pass = new World2DPass(
 		device, world_2d_pipeline->getSdlPipeline()
 	);
-	ui_pass = new UIPass(
-		device, ui_pipeline->getSdlPipeline()
-	);
+	ui_pass = new UIPass(device, ui_pipeline->getSdlPipeline());
 }
 
 void Renderer::setCamera(Camera *camera) {

@@ -13,9 +13,14 @@ get things running on screen fast.
 
 ## Repository Structure
 
-- **[`lili2d/`](lili2d/)**: The core engine source code. See the
-[Engine README](lili2d/README.md) for build instructions and architecture details.
+Lili2D follows the modern C++ Pitchfork layout:
+
+- **[`include/lili2d/`](include/lili2d/)**: The public API headers for the engine.
+- **[`src/`](src/)**: The private implementation files and internal headers.
 - **[`examples/`](examples/)**: Example projects demonstrating how to use Lili2D.
+- **[`docs/`](docs/)**: API documentation and Doxygen configuration.
+- **[`assets/`](assets/)**: Engine-level default assets and shaders.
+- **[`scripts/`](scripts/)**: Build and installation utility scripts.
 
 ## Features
 
@@ -30,6 +35,15 @@ SPIR-V shaders.
   - **Physics**: Built-in 2D collision detection.
   - **Events**: Easy event polling, Keyboard, and Mouse input handling.
 - **Easy Integration**: Simple CMake integration (`find_package(Lili2D REQUIRED)`).
+
+## Roadmap
+
+We are actively building higher-level game systems on top of the Lili2D core to support 2D RPG development out-of-the-box:
+- **Scene Manager**: Switch between Main Menu, Overworld, Combat, and Pause screens.
+- **Tilemap & Grid Environment**: Load grid-based worlds with chunking & batching for optimized low-end hardware rendering.
+- **Entity / Actor System**: Manage the Player, NPCs, interactable objects, and map triggers.
+- **Grid-Based Movement**: Snappy, tile-to-tile interpolated movement.
+- **Dialogue & UI Engine**: Scrolling text boxes, portraits, and dynamic UI menus.
 
 ## Getting Started
 
@@ -59,10 +73,10 @@ sudo make install
 ### Generating Documentation
 
 You can generate the HTML documentation for the API by running Doxygen in the
-`lili2d/` directory:
+`docs/` directory:
 
 ```bash
-cd lili2d
+cd docs
 doxygen Doxyfile
 ```
 

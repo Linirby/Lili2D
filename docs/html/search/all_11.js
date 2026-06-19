@@ -5,6 +5,6 @@ var searchData=
   ['texture_2',['texture',['../structlili_1_1AnimationFrame.html#abcca72a300888ba59f8ee557705e3f4e',1,'lili::AnimationFrame']]],
   ['thickness_3',['thickness',['../structlili_1_1LineShape.html#af2ae6a84ce26b3e0de99d4986347bc12',1,'lili::LineShape']]],
   ['transform_4',['transform',['../structlili_1_1DrawCommand.html#aa27c0a08818dd209871d364a375e1691',1,'lili::DrawCommand']]],
-  ['translate_5',['translate',['../structlili_1_1Mat3.html#aa8974c0b88c5ca2d31b662f8a5dbdddf',1,'lili::Mat3::translate()'],['../structlili_1_1Mat4.html#a2a9b8bcf44e189741d26a5233ddc3916',1,'lili::Mat4::translate()']]],
+  ['translate_5',['translate',['../structlili_1_1Mat3.html#a7dff0f50d323845e437bc7e23ceb959e',1,'lili::Mat3::translate()'],['../structlili_1_1Mat4.html#a876a60a0913a2b672ce14f2451b54943',1,'lili::Mat4::translate()']]],
   ['type_6',['type',['../classlili_1_1Event.html#a28bd979ccb93682b8ed0c4e8154072f0',1,'lili::Event']]]
 ];

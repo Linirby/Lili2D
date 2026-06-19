@@ -39,7 +39,6 @@ public:
 	Circle(Renderer *renderer, CircleShape shape, Vec4 color);
 	/// @brief Default destructor.
 
-
 	/// @brief Move constructor.
 	Circle(Circle&&) = default;
 	/// @brief Move assignment operator.

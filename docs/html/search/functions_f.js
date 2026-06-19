@@ -8,9 +8,9 @@ var searchData=
   ['render_5',['render',['../classlili_1_1UIPass.html#a0a92a78e53127e0752156b634d6f2f4e',1,'lili::UIPass::render()'],['../classlili_1_1World2DPass.html#a2c4f1f1ecdea82dfc24d17827e5e4882',1,'lili::World2DPass::render()']]],
   ['renderer_6',['Renderer',['../classlili_1_1Renderer.html#a081112bfe1dd5040104bc865624b2b89',1,'lili::Renderer::Renderer(Window *window)'],['../classlili_1_1Renderer.html#ab9ebbc79cc213d541085d0a72fc1b3e9',1,'lili::Renderer::Renderer(Renderer &amp;&amp;other) noexcept'],['../classlili_1_1Renderer.html#abc77c68ab9209d97d676c0fe875c078a',1,'lili::Renderer::Renderer(const Renderer &amp;)=delete']]],
   ['reset_7',['reset',['../classlili_1_1AnimatedSprite.html#a17b5bab571f4567a6b6e9b51e1f43730',1,'lili::AnimatedSprite']]],
-  ['rotation_8',['rotation',['../structlili_1_1Mat3.html#ac0eb66b205cab1f31f1b29b76b04e9fb',1,'lili::Mat3']]],
-  ['rotationx_9',['rotationX',['../structlili_1_1Mat4.html#ad5df42deb3dcd3a840e5ed0342ac8f2d',1,'lili::Mat4']]],
-  ['rotationxyz_10',['rotationXyz',['../structlili_1_1Mat4.html#a8e9f8a9cec70c927016976ac894c32ae',1,'lili::Mat4']]],
-  ['rotationy_11',['rotationY',['../structlili_1_1Mat4.html#af815a6512a115d77cd73af4062385173',1,'lili::Mat4']]],
-  ['rotationz_12',['rotationZ',['../structlili_1_1Mat4.html#ac989bb35d474cbf6303ae8b6557825be',1,'lili::Mat4']]]
+  ['rotation_8',['rotation',['../structlili_1_1Mat3.html#a1237bb6bce5eeea105775f4d9663269d',1,'lili::Mat3']]],
+  ['rotationx_9',['rotationX',['../structlili_1_1Mat4.html#af78dc6c25aeded91a762dc7fb71e67f3',1,'lili::Mat4']]],
+  ['rotationxyz_10',['rotationXyz',['../structlili_1_1Mat4.html#a0090cb1439ece45f253710f9bd5e1956',1,'lili::Mat4']]],
+  ['rotationy_11',['rotationY',['../structlili_1_1Mat4.html#ad8d3fc9b9584cb5a6c5338c92b079c45',1,'lili::Mat4']]],
+  ['rotationz_12',['rotationZ',['../structlili_1_1Mat4.html#a2cddcd4e0a64b00cae935a6355d19f0c',1,'lili::Mat4']]]
 ];

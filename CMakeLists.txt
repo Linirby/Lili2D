@@ -12,22 +12,6 @@ find_package(SDL3_image REQUIRED CONFIG)
 
 add_library(Lili2D SHARED)
 
-target_sources(Lili2D PRIVATE
-    src/geometry/mat3x3.cpp
-    src/geometry/mat4x4.cpp
-    src/geometry/vec2.cpp
-    src/geometry/vec3.cpp
-    src/geometry/vec4.cpp
-    src/geometry/point2.cpp
-    src/geometry/utils.cpp
-
-    src/core/clock.cpp
-    src/core/window.cpp
-    src/core/event.cpp
-    src/core/keyboard.cpp
-    src/core/mouse.cpp
-)
-
 find_program(GLSLC_COMPILER glslc REQUIRED)
 set(SHADER_FILES
     src/shader/world_2d.vert
@@ -78,6 +62,20 @@ target_sources(Lili2D PRIVATE
     ${EMBEDDED_SHADERS}
     ${EMBEDDED_ASSETS}
 
+    src/geometry/mat3x3.cpp
+    src/geometry/mat4x4.cpp
+    src/geometry/vec2.cpp
+    src/geometry/vec3.cpp
+    src/geometry/vec4.cpp
+    src/geometry/point2.cpp
+    src/geometry/utils.cpp
+
+    src/core/clock.cpp
+    src/core/window.cpp
+    src/core/event.cpp
+    src/core/keyboard.cpp
+    src/core/mouse.cpp
+
     src/render/core/gpu_mesh.cpp
     src/render/core/shader.cpp
     src/render/core/texture.cpp
@@ -90,7 +88,6 @@ target_sources(Lili2D PRIVATE
 
     src/render/scene/common/animation.cpp
     src/render/scene/common/atlas_map.cpp
-    src/render/scene/common/camera.cpp
     src/render/scene/common/material.cpp
     src/render/scene/common/model.cpp
     src/render/scene/common/text.cpp
@@ -106,9 +103,11 @@ target_sources(Lili2D PRIVATE
     src/render/renderer.cpp
 
     src/physics/collision.cpp
-    
+
     src/scene/scene.cpp
     src/scene/scene_manager.cpp
+
+    src/world/camera.cpp
 )
 
 include(CheckIPOSupported)
@@ -178,7 +177,7 @@ if(LILI2D_BUILD_TESTS)
         tests/test_scene.cpp
     )
     target_link_libraries(Lili2DTests PRIVATE Lili2D Catch2::Catch2WithMain)
-    
+
     include(CTest)
     include(Catch)
     catch_discover_tests(Lili2DTests)

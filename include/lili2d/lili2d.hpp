@@ -11,10 +11,6 @@
 
 namespace lili {
 
-/// @name Core Components
-/// @brief Core engine features including events, input handling, and windowing.
-/// @{
-
 /// @brief A utility class for measuring and managing time.
 class Clock;
 
@@ -45,15 +41,8 @@ class Keyboard;
 /// @brief Handles mouse input state and queries.
 class Mouse;
 
-
 /// @brief Represents an operating system window.
 class Window;
-
-/// @}
-
-/// @name Geometry Components
-/// @brief Mathematical structures and geometric primitives.
-/// @{
 
 /// @brief A 3x3 matrix for 2D transformations.
 struct Mat3;
@@ -72,22 +61,10 @@ struct Vec3;
 /// @brief A 4D vector.
 struct Vec4;
 
-/// @}
-
-/// @name Physics Components
-/// @brief Physics concepts such as collision detection and spatial queries.
-/// @{
-
 /// @brief An axis-aligned bounding box for collision detection.
 struct AABB2;
 /// @brief Result data from a raycast operation.
 struct RaycastResult;
-
-/// @}
-
-/// @name Render Components
-/// @brief Graphics rendering, scene management, and drawables.
-/// @{
 
 /// @brief Defines the properties of a line shape.
 struct LineShape;
@@ -103,9 +80,6 @@ class Rect;
 struct CircleShape;
 /// @brief A renderable circle object.
 class Circle;
-
-/// @brief Defines a camera for viewing the scene.
-class Camera;
 
 /// @brief Properties defining a material's appearance.
 struct MaterialProps;
@@ -137,6 +111,12 @@ class Text;
 /// @brief The main renderer responsible for drawing objects to the screen.
 class Renderer;
 
-/// @}
+/// @brief Defines a scene.
+class Scene;
+/// @brief Define a manager for scenes.
+class SceneManager;
+
+/// @brief Defines a camera for viewing the scene.
+class Camera;
 
 }  // namespace lili

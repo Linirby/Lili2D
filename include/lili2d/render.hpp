@@ -6,7 +6,6 @@
 
 #include "lili2d/render/scene/common/animation.hpp"  // IWYU pragma: keep
 #include "lili2d/render/scene/common/atlas_map.hpp"  // IWYU pragma: keep
-#include "lili2d/render/scene/common/camera.hpp"  // IWYU pragma: keep
 #include "lili2d/render/scene/common/material.hpp"  // IWYU pragma: keep
 #include "lili2d/render/scene/common/model.hpp"  // IWYU pragma: keep
 #include "lili2d/render/scene/common/text.hpp"  // IWYU pragma: keep
@@ -34,9 +33,6 @@ class Rect;
 struct CircleShape;
 /// @brief A renderable circle object.
 class Circle;
-
-/// @brief Defines a camera for viewing the scene.
-class Camera;
 
 /// @brief Properties defining a material's appearance.
 struct MaterialProps;

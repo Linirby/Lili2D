@@ -1,4 +1,4 @@
-#include "lili2d/render/scene/common/camera.hpp"
+#include "lili2d/world/camera.hpp"
 
 namespace lili {
 

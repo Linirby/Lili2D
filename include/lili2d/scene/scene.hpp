@@ -6,6 +6,8 @@
 
 namespace lili {
 
+class SceneManager;
+
 class Scene {
 public:
 	Scene(const std::string &name);
@@ -21,10 +23,14 @@ public:
 	virtual void fixed_update(float dt);
 	virtual void render(Renderer *renderer, float alpha);
 
-	const std::string &get_name() const;
+	void set_manager(SceneManager *manager);
 
-private:
+	const std::string &get_name() const;
+	SceneManager *get_manager() const;
+
+protected:
 	std::string name;
+	SceneManager *manager;
 };
 
 }  // namespace lili

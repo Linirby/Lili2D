@@ -3,19 +3,25 @@
 namespace lili {
 
 void SceneManager::push(std::unique_ptr<Scene> scene) {
+	scene->set_manager(this);
 	scenes.push_back(std::move(scene));
+	scenes.back()->on_enter();
 }
 
 void SceneManager::pop() {
 	if (scenes.empty()) return;
+	scenes.back()->on_exit();
 	scenes.pop_back();
 }
 
 void SceneManager::change_scene(std::unique_ptr<Scene> scene) {
-	if (!scenes.empty())
-		scenes.back() = std::move(scene);
-	else
-		scenes.push_back(std::move(scene));
+	scene->set_manager(this);
+	if (!scenes.empty()) {
+		scenes.back()->on_exit();
+		scenes.pop_back();
+	}
+	scenes.push_back(std::move(scene));
+	scenes.back()->on_enter();
 }
 
 void SceneManager::handle_events(const Event &event) {
@@ -36,6 +42,10 @@ void SceneManager::fixed_update(float dt) {
 void SceneManager::render(Renderer *renderer, float alpha) {
 	if (!scenes.empty())
 		scenes.back()->render(renderer, alpha);
+}
+
+bool SceneManager::empty() const {
+	return scenes.empty();
 }
 
 }  // namespace lili

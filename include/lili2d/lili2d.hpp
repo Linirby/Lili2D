@@ -8,6 +8,8 @@
 #include "lili2d/geometry.hpp"  // IWYU pragma: keep
 #include "lili2d/physics.hpp"  // IWYU pragma: keep
 #include "lili2d/render.hpp"  // IWYU pragma: keep
+#include "lili2d/scene.hpp"  // IWYU pragma: keep
+#include "lili2d/world.hpp"  // IWYU pragma: keep
 
 namespace lili {
 

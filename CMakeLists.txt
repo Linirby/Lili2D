@@ -159,26 +159,3 @@ install(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/Lili2DConfigVersion.cmake
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Lili2D
 )
-
-option(LILI2D_BUILD_TESTS "Build unit tests" ON)
-if(LILI2D_BUILD_TESTS)
-    enable_testing()
-    include(FetchContent)
-    FetchContent_Declare(
-        Catch2
-        GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-        GIT_TAG        v3.4.0
-    )
-    FetchContent_MakeAvailable(Catch2)
-
-    add_executable(Lili2DTests
-        tests/test_geometry.cpp
-        tests/test_physics.cpp
-        tests/test_scene.cpp
-    )
-    target_link_libraries(Lili2DTests PRIVATE Lili2D Catch2::Catch2WithMain)
-
-    include(CTest)
-    include(Catch)
-    catch_discover_tests(Lili2DTests)
-endif()

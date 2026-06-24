@@ -18,6 +18,8 @@ public:
 	void fixed_update(float dt);
 	void render(Renderer *renderer, float alpha);
 
+	bool empty() const;
+
 private:
 	std::vector<std::unique_ptr<Scene>> scenes;
 };

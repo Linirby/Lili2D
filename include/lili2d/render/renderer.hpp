@@ -9,7 +9,6 @@
 #include "lili2d/render/core/texture.hpp"
 #include "lili2d/render/core/shader.hpp"
 
-#include "lili2d/render/scene/common/camera.hpp"
 #include "lili2d/render/scene/common/model.hpp"
 
 #include "lili2d/render/passes/pass_types.hpp"
@@ -18,6 +17,8 @@
 
 #include "lili2d/render/pipelines/world_2d_pipeline.hpp"
 #include "lili2d/render/pipelines/ui_pipeline.hpp"
+
+#include "lili2d/world/camera.hpp"
 
 namespace lili {
 

@@ -34,15 +34,14 @@ SPIR-V shaders.
   - **Geometry**: Vectors and Matrices (Vec2, Vec3, Vec4, Mat3, Mat4).
   - **Physics**: Built-in 2D collision detection.
   - **Events**: Easy event polling, Keyboard, and Mouse input handling.
+  - **Scenes**: A scene interface and a scene manager to manipulate them.
 - **Easy Integration**: Simple CMake integration (`find_package(Lili2D REQUIRED)`).
 
 ## Roadmap
 
-We are actively building higher-level game systems on top of the Lili2D core to support 2D RPG development out-of-the-box:
-- **Scene Manager**: Switch between Main Menu, Overworld, Combat, and Pause screens.
+I am actively building higher-level game systems on top of the Lili2D core to support 2D Game development:
 - **Tilemap & Grid Environment**: Load grid-based worlds with chunking & batching for optimized low-end hardware rendering.
 - **Entity / Actor System**: Manage the Player, NPCs, interactable objects, and map triggers.
-- **Grid-Based Movement**: Snappy, tile-to-tile interpolated movement.
 - **Dialogue & UI Engine**: Scrolling text boxes, portraits, and dynamic UI menus.
 
 ## Getting Started
@@ -188,6 +187,7 @@ screen.
 / UI)
 - **`hello_layer`**: Demonstrates the use of rendering layers to control the
 drawing order of sprites and shapes.
+- `hello_scenes`: Demonstrates the use of scenes with its manager.
 - **`hello_animation`**: An example of how to load an AtlasMap and create Animations
 from it.
 - **`hello_shader`**: Demonstrates how to write, compile, and load custom vertex and fragment shaders.

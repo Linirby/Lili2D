@@ -77,14 +77,14 @@ void App::update() {
 
 	if (draw_rect) {
 		cursor_rect.setPosition(mouse.getPos() - cursor_rect.getSize() * 0.5);
-		if (lili::AABB(cursor_rect).intersect(random_rect))
+		if (lili::AABB2(cursor_rect).intersect(random_rect))
 			cursor_rect.setColor(lili::Vec4(0, 1, 0, 1));
 		else
 			cursor_rect.setColor(lili::Vec4(0, 0, 1, 1));
 	}
 	if (draw_circle) {
 		cursor_circle.setCenter(mouse.getPos());
-		if (lili::AABB(cursor_circle).intersect(random_rect))
+		if (lili::AABB2(cursor_circle).intersect(random_rect))
 			cursor_circle.setColor(lili::Vec4(0, 1, 0, 1));
 		else
 			cursor_circle.setColor(lili::Vec4(0, 0, 1, 1));
@@ -93,7 +93,7 @@ void App::update() {
 		cursor_line.setEnd(
 			mouse.getPos() - lili::Vec2(cursor_line.getThickness(), 0.0f) * 0.5
 		);
-		if (lili::AABB(cursor_line).intersect(random_rect))
+		if (lili::AABB2(cursor_line).intersect(random_rect))
 			cursor_line.setColor(lili::Vec4(0, 1, 0, 1));
 		else
 			cursor_line.setColor(lili::Vec4(0, 0, 1, 1));
@@ -108,15 +108,15 @@ void App::render() {
 	lili::Vec4 debug_color = lili::Vec4(0, 1, 0, 1);
 	if (draw_rect) {
 		cursor_rect.draw();
-		lili::AABB(cursor_rect).debugDraw(renderer.get(), debug_color);
+		lili::AABB2(cursor_rect).debugDraw(renderer.get(), debug_color);
 	}
 	if (draw_circle) {
 		cursor_circle.draw();
-		lili::AABB(cursor_circle).debugDraw(renderer.get(), debug_color);
+		lili::AABB2(cursor_circle).debugDraw(renderer.get(), debug_color);
 	}
 	if (draw_line) {
 		cursor_line.draw();
-		lili::AABB(cursor_line).debugDraw(renderer.get(), debug_color);
+		lili::AABB2(cursor_line).debugDraw(renderer.get(), debug_color);
 	}
 
 	renderer->endFrame();

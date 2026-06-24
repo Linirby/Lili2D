@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <lili/lili2d.hpp>
+#include <lili2d/lili2d.hpp>
 
 class App {
 public:

@@ -13,9 +13,14 @@ get things running on screen fast.
 
 ## Repository Structure
 
-- **[`lili2d/`](lili2d/)**: The core engine source code. See the
-[Engine README](lili2d/README.md) for build instructions and architecture details.
+Lili2D follows the modern C++ Pitchfork layout:
+
+- **[`include/lili2d/`](include/lili2d/)**: The public API headers for the engine.
+- **[`src/`](src/)**: The private implementation files and internal headers.
 - **[`examples/`](examples/)**: Example projects demonstrating how to use Lili2D.
+- **[`docs/`](docs/)**: API documentation and Doxygen configuration.
+- **[`assets/`](assets/)**: Engine-level default assets and shaders.
+- **[`scripts/`](scripts/)**: Build and installation utility scripts.
 
 ## Features
 
@@ -29,7 +34,15 @@ SPIR-V shaders.
   - **Geometry**: Vectors and Matrices (Vec2, Vec3, Vec4, Mat3, Mat4).
   - **Physics**: Built-in 2D collision detection.
   - **Events**: Easy event polling, Keyboard, and Mouse input handling.
+  - **Scenes**: A scene interface and a scene manager to manipulate them.
 - **Easy Integration**: Simple CMake integration (`find_package(Lili2D REQUIRED)`).
+
+## Roadmap
+
+I am actively building higher-level game systems on top of the Lili2D core to support 2D Game development:
+- **Tilemap & Grid Environment**: Load grid-based worlds with chunking & batching for optimized low-end hardware rendering.
+- **Entity / Actor System**: Manage the Player, NPCs, interactable objects, and map triggers.
+- **Dialogue & UI Engine**: Scrolling text boxes, portraits, and dynamic UI menus.
 
 ## Getting Started
 
@@ -59,10 +72,10 @@ sudo make install
 ### Generating Documentation
 
 You can generate the HTML documentation for the API by running Doxygen in the
-`lili2d/` directory:
+`docs/` directory:
 
 ```bash
-cd lili2d
+cd docs
 doxygen Doxyfile
 ```
 
@@ -174,6 +187,7 @@ screen.
 / UI)
 - **`hello_layer`**: Demonstrates the use of rendering layers to control the
 drawing order of sprites and shapes.
+- `hello_scenes`: Demonstrates the use of scenes with its manager.
 - **`hello_animation`**: An example of how to load an AtlasMap and create Animations
 from it.
 - **`hello_shader`**: Demonstrates how to write, compile, and load custom vertex and fragment shaders.

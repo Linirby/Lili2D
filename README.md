@@ -22,21 +22,6 @@ Lili2D follows the modern C++ Pitchfork layout:
 - **[`assets/`](assets/)**: Engine-level default assets.
 - **[`scripts/`](scripts/)**: Build and installation utility scripts.
 
-## Features
-
-- **Cool & Intuitive API**: Modern Object-Oriented design that gets out of your
-way. Fully documented.
-- **Modern C++20**: Built with modern C++ features for maximum performance and safety.
-- **Rendering & Shaders**: Custom rendering pipeline using SDL3 and compiled
-SPIR-V shaders.
-- **Core Systems Included**:
-  - **Render**: Windows, Sprites, UI Text, Cameras, and Materials.
-  - **Geometry**: Vectors and Matrices (Vec2, Vec3, Vec4, Mat3, Mat4).
-  - **Physics**: Built-in 2D collision detection.
-  - **Events**: Easy event polling, Keyboard, and Mouse input handling.
-  - **Scenes**: A scene interface and a scene manager to manipulate them.
-- **Easy Integration**: Simple CMake integration (`find_package(Lili2D REQUIRED)`).
-
 ## Roadmap
 
 I am actively building higher-level game systems on top of the Lili2D core to support 2D Game development:

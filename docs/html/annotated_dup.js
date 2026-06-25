@@ -34,9 +34,10 @@ var annotated_dup =
       [ "UIPipeline", "classlili_1_1UIPipeline.html", "classlili_1_1UIPipeline" ],
       [ "WorldPipeline", "classlili_1_1WorldPipeline.html", "classlili_1_1WorldPipeline" ],
       [ "Renderer", "classlili_1_1Renderer.html", "classlili_1_1Renderer" ],
-      [ "AnimationFrame", "structlili_1_1AnimationFrame.html", "structlili_1_1AnimationFrame" ],
       [ "Animation", "classlili_1_1Animation.html", "classlili_1_1Animation" ],
+      [ "AnimationPlayer", "classlili_1_1AnimationPlayer.html", "classlili_1_1AnimationPlayer" ],
       [ "AnimationRegistry", "classlili_1_1AnimationRegistry.html", "classlili_1_1AnimationRegistry" ],
+      [ "SliceUV", "structlili_1_1SliceUV.html", "structlili_1_1SliceUV" ],
       [ "AtlasMap", "classlili_1_1AtlasMap.html", "classlili_1_1AtlasMap" ],
       [ "MaterialProps", "structlili_1_1MaterialProps.html", "structlili_1_1MaterialProps" ],
       [ "Material", "structlili_1_1Material.html", "structlili_1_1Material" ],
@@ -47,6 +48,7 @@ var annotated_dup =
       [ "Text", "classlili_1_1Text.html", "classlili_1_1Text" ],
       [ "AnimatedSprite", "classlili_1_1AnimatedSprite.html", "classlili_1_1AnimatedSprite" ],
       [ "Sprite", "classlili_1_1Sprite.html", "classlili_1_1Sprite" ],
+      [ "SpriteBatch", "classlili_1_1SpriteBatch.html", "classlili_1_1SpriteBatch" ],
       [ "CircleShape", "structlili_1_1CircleShape.html", "structlili_1_1CircleShape" ],
       [ "Circle", "classlili_1_1Circle.html", "classlili_1_1Circle" ],
       [ "LineShape", "structlili_1_1LineShape.html", "structlili_1_1LineShape" ],
@@ -55,6 +57,7 @@ var annotated_dup =
       [ "Rect", "classlili_1_1Rect.html", "classlili_1_1Rect" ],
       [ "Scene", "classlili_1_1Scene.html", null ],
       [ "SceneManager", "classlili_1_1SceneManager.html", null ],
-      [ "Camera", "classlili_1_1Camera.html", "classlili_1_1Camera" ]
+      [ "Camera", "classlili_1_1Camera.html", "classlili_1_1Camera" ],
+      [ "TileMap", "classlili_1_1TileMap.html", null ]
     ] ]
 ];

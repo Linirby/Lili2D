@@ -192,6 +192,7 @@ drawing order of sprites and shapes.
 from it.
 - **`hello_shader`**: Demonstrates how to write, compile, and load custom vertex and fragment shaders.
 - **`hello_collision`**: A new example showing the v1 implementation of the AABB collision system and how it interacts with different shapes.
+- **`hello_sprite_batch`**: An example of how to use SpriteBatch with a big map.
 
 ## Join the Community
 

@@ -14,11 +14,12 @@ screen.
 / UI).
 - **`hello_layer`**: Demonstrates the use of rendering layers to control the
 drawing order of sprites and shapes.
-- `hello_scenes`: Demonstrates the use of scenes with its manager.
+- **`hello_scenes`**: Demonstrates the use of scenes with its manager.
 - **`hello_animation`**: An example of how to load an AtlasMap and create Animations
 from it.
 - **`hello_shader`**: Demonstrates how to write, compile, and load custom vertex and fragment shaders.
 - **`hello_collision`**: A new example showing the v1 implementation of the AABB collision system and how it interacts with different shapes.
+- **`hello_sprite_batch`**: An example of how to use SpriteBatch with a big map.
 
 ## Build and run examples
 

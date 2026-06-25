@@ -102,19 +102,19 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8fb691a6b76394c3b7d0b73d1a3ba85f" id="r_a8fb691a6b76394c3b7d0b73d1a3ba85f"><td class="memItemLeft"><a id="a8fb691a6b76394c3b7d0b73d1a3ba85f" name="a8fb691a6b76394c3b7d0b73d1a3ba85f"></a>
 &#160;</td><td class="memItemRight"><b>Animation</b> ()=default</td></tr>
 <tr class="memdesc:a8fb691a6b76394c3b7d0b73d1a3ba85f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor (empty animation). <br /></td></tr>
-<tr class="memitem:a79ea2e3c7a332618cec1b9950445aa16" id="r_a79ea2e3c7a332618cec1b9950445aa16"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a79ea2e3c7a332618cec1b9950445aa16">Animation</a> (const std::vector&lt; <a class="el" href="structlili_1_1AnimationFrame.html">AnimationFrame</a> &gt; &amp;frames)</td></tr>
-<tr class="memdesc:a79ea2e3c7a332618cec1b9950445aa16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an animation from a pre-built list of frames.  <br /></td></tr>
+<tr class="memitem:a20846f5b0fe7f4e7165dbc417c309dc9" id="r_a20846f5b0fe7f4e7165dbc417c309dc9"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a20846f5b0fe7f4e7165dbc417c309dc9">Animation</a> (const std::vector&lt; <a class="el" href="structlili_1_1SliceUV.html">SliceUV</a> &gt; &amp;frames)</td></tr>
+<tr class="memdesc:a20846f5b0fe7f4e7165dbc417c309dc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an animation from a pre-built list of frames.  <br /></td></tr>
 <tr class="memitem:a828e338c97202d8b785bcd38c7342ca1" id="r_a828e338c97202d8b785bcd38c7342ca1"><td class="memItemLeft">size_t&#160;</td><td class="memItemRight"><a class="el" href="#a828e338c97202d8b785bcd38c7342ca1">frameCount</a> () const</td></tr>
 <tr class="memdesc:a828e338c97202d8b785bcd38c7342ca1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the number of frames.  <br /></td></tr>
-<tr class="memitem:a902da094a617a07625dd76aeed593686" id="r_a902da094a617a07625dd76aeed593686"><td class="memItemLeft">const <a class="el" href="structlili_1_1AnimationFrame.html">AnimationFrame</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a902da094a617a07625dd76aeed593686">getFrame</a> (size_t index) const</td></tr>
-<tr class="memdesc:a902da094a617a07625dd76aeed593686"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a frame by index.  <br /></td></tr>
+<tr class="memitem:a5e39a638b5c07b1b0754ec04fad9ae0e" id="r_a5e39a638b5c07b1b0754ec04fad9ae0e"><td class="memItemLeft">const <a class="el" href="structlili_1_1SliceUV.html">SliceUV</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a5e39a638b5c07b1b0754ec04fad9ae0e">getFrame</a> (size_t index) const</td></tr>
+<tr class="memdesc:a5e39a638b5c07b1b0754ec04fad9ae0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a frame by index.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents an animation as a sequence of frames. </p>
-<p>An <a class="el" href="classlili_1_1Animation.html" title="Represents an animation as a sequence of frames.">Animation</a> is a simple container for a list of <a class="el" href="structlili_1_1AnimationFrame.html" title="Represents a single frame within an atlas texture.">AnimationFrame</a> objects. Use <a class="el" href="classlili_1_1AtlasMap.html" title="Represents AtlasMap.">AtlasMap</a> to load and slice a spritesheet, then extract <a class="el" href="classlili_1_1Animation.html" title="Represents an animation as a sequence of frames.">Animation</a> objects from it. </p>
+<p>An <a class="el" href="classlili_1_1Animation.html" title="Represents an animation as a sequence of frames.">Animation</a> is a simple container for a list of AnimationFrame objects. Use <a class="el" href="classlili_1_1AtlasMap.html" title="Represents an atlas texture map that can be sliced into multiple frames.">AtlasMap</a> to load and slice a spritesheet, then extract <a class="el" href="classlili_1_1Animation.html" title="Represents an animation as a sequence of frames.">Animation</a> objects from it. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a79ea2e3c7a332618cec1b9950445aa16" name="a79ea2e3c7a332618cec1b9950445aa16"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79ea2e3c7a332618cec1b9950445aa16">&#9670;&#160;</a></span>Animation()</h2>
+<a id="a20846f5b0fe7f4e7165dbc417c309dc9" name="a20846f5b0fe7f4e7165dbc417c309dc9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20846f5b0fe7f4e7165dbc417c309dc9">&#9670;&#160;</a></span>Animation()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -122,7 +122,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">lili::Animation::Animation </td>
           <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="structlili_1_1AnimationFrame.html">AnimationFrame</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>frames</em></span></td><td>)</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structlili_1_1SliceUV.html">SliceUV</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>frames</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -159,14 +159,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a902da094a617a07625dd76aeed593686" name="a902da094a617a07625dd76aeed593686"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a902da094a617a07625dd76aeed593686">&#9670;&#160;</a></span>getFrame()</h2>
+<a id="a5e39a638b5c07b1b0754ec04fad9ae0e" name="a5e39a638b5c07b1b0754ec04fad9ae0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e39a638b5c07b1b0754ec04fad9ae0e">&#9670;&#160;</a></span>getFrame()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="structlili_1_1AnimationFrame.html">AnimationFrame</a> &amp; lili::Animation::getFrame </td>
+          <td class="memname">const <a class="el" href="structlili_1_1SliceUV.html">SliceUV</a> &amp; lili::Animation::getFrame </td>
           <td>(</td>
           <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
           <td> const</td>
@@ -181,7 +181,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Reference to the <a class="el" href="structlili_1_1AnimationFrame.html" title="Represents a single frame within an atlas texture.">AnimationFrame</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Reference to the <a class="el" href="structlili_1_1SliceUV.html" title="Represents a slice of a texture with UV coordinates.">SliceUV</a>. </dd></dl>
 
 </div>
 </div>

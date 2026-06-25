@@ -122,6 +122,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ae5dec176a44cf6f3ff08959333480a72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the index buffer.  <br /></td></tr>
 <tr class="memitem:a4b21b67e682d0c2442d13fb5f65b9016" id="r_a4b21b67e682d0c2442d13fb5f65b9016"><td class="memItemLeft">uint32_t&#160;</td><td class="memItemRight"><a class="el" href="#a4b21b67e682d0c2442d13fb5f65b9016">getIndexCount</a> () const</td></tr>
 <tr class="memdesc:a4b21b67e682d0c2442d13fb5f65b9016"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the number of indices in the mesh.  <br /></td></tr>
+<tr class="memitem:a1024a6c3938c054fe9e4c1600113767a" id="r_a1024a6c3938c054fe9e4c1600113767a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1024a6c3938c054fe9e4c1600113767a">update</a> (const <a class="el" href="structlili_1_1MeshData.html">MeshData</a> &amp;mesh)</td></tr>
+<tr class="memdesc:a1024a6c3938c054fe9e4c1600113767a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the mesh data.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a mesh stored on the GPU. </p>
@@ -214,6 +216,31 @@ Public Member Functions</h2></td></tr>
 
 <p>Gets the vertex buffer. </p>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the vertex SDL_GPUBuffer. </dd></dl>
+
+</div>
+</div>
+<a id="a1024a6c3938c054fe9e4c1600113767a" name="a1024a6c3938c054fe9e4c1600113767a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1024a6c3938c054fe9e4c1600113767a">&#9670;&#160;</a></span>update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lili::GPUMesh::update </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structlili_1_1MeshData.html">MeshData</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>mesh</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Updates the mesh data. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mesh</td><td>The new CPU mesh data. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

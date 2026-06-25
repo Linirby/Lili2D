@@ -55,7 +55,19 @@ To build and use Lili2D, you will need:
 - **SDL3** and **SDL3_image**
 - **glslc** (Google's shader compiler for compiling custom Vulkan shaders)
 
-### Building and Installing
+### Using Pre-Compiled Releases (Easiest)
+
+If you don't want to compile the library from source, you can use the pre-compiled releases!
+
+1. Go to the **Releases** tab on GitHub.
+2. Download the latest `Lili2D-linux-x86_64.tar.gz` from the Assets section.
+3. Extract the archive into your project directory.
+4. When compiling your game, simply link against the provided `.so` file and include the headers. For example:
+```bash
+g++ main.cpp -I./Lili2D-linux-x86_64/include -L./Lili2D-linux-x86_64/lib -lLili2D -lSDL3 -Wl,-rpath=./Lili2D-linux-x86_64/lib
+```
+
+### Building from Source
 
 Lili2D uses CMake. You can build and install it globally or include it in your
 project's subdirectories.

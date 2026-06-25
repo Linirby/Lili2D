@@ -19,7 +19,7 @@ Lili2D follows the modern C++ Pitchfork layout:
 - **[`src/`](src/)**: The private implementation files and internal headers.
 - **[`examples/`](examples/)**: Example projects demonstrating how to use Lili2D.
 - **[`docs/`](docs/)**: API documentation and Doxygen configuration.
-- **[`assets/`](assets/)**: Engine-level default assets and shaders.
+- **[`assets/`](assets/)**: Engine-level default assets.
 - **[`scripts/`](scripts/)**: Build and installation utility scripts.
 
 ## Features

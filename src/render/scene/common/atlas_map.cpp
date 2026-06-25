@@ -21,7 +21,7 @@ void AtlasMap::slice(int num_columns, int num_rows) {
 
 	for (int j = 0; j < num_rows; ++j) {
 		for (int i = 0; i < num_columns; ++i) {
-			AnimationFrame slice;
+			SliceUV slice;
 			slice.texture = full_texture.get();
 			slice.u_min = i * u_step;
 			slice.v_min = j * v_step;
@@ -34,45 +34,45 @@ void AtlasMap::slice(int num_columns, int num_rows) {
 	}
 }
 
-AnimationFrame AtlasMap::getFrame(Point2 at_pos) const {
+SliceUV AtlasMap::getSliceUV(Point2 at_pos) const {
 	int col = static_cast<int>(at_pos.x);
 	int row = static_cast<int>(at_pos.y);
 	if (col >= 0 && col < n_cols && row >= 0 && row < n_rows) {
-		return getFrame(row * n_cols + col);
+		return getSliceUV(row * n_cols + col);
 	}
-	return AnimationFrame();
+	return SliceUV();
 }
 
-AnimationFrame AtlasMap::getFrame(int index) const {
+SliceUV AtlasMap::getSliceUV(int index) const {
 	if (index >= 0 && (size_t)index < slices.size()) {
 		return slices[index];
 	}
-	return AnimationFrame();
+	return SliceUV();
 }
 
-Animation AtlasMap::getAnimation(int start_index, int count) const {
-	std::vector<AnimationFrame> result;
+std::vector<SliceUV> AtlasMap::getSliceUVs(int start_index, int count) const {
+	std::vector<SliceUV> result;
 	result.reserve(count);
 	for (int i = 0; i < count; ++i) {
-		result.push_back(getFrame(start_index + i));
+		result.push_back(getSliceUV(start_index + i));
 	}
-	return Animation(result);
+	return result;
 }
 
-Animation AtlasMap::getAnimation(Point2 start, Point2 end) const {
+std::vector<SliceUV> AtlasMap::getSliceUVs(Point2 start, Point2 end) const {
 	int start_col = static_cast<int>(start.x);
 	int start_row = static_cast<int>(start.y);
 	int end_col = static_cast<int>(end.x);
 	int end_row = static_cast<int>(end.y);
 
-	std::vector<AnimationFrame> result;
+	std::vector<SliceUV> result;
 
 	if (start_row == end_row) {
 		int step = (start_col <= end_col) ? 1 : -1;
 		int count = std::abs(end_col - start_col) + 1;
 		result.reserve(count);
 		for (int i = 0; i < count; ++i) {
-			result.push_back(getFrame(Point2(
+			result.push_back(getSliceUV(Point2(
 				start_col + i * step, start_row
 			)));
 		}
@@ -81,18 +81,22 @@ Animation AtlasMap::getAnimation(Point2 start, Point2 end) const {
 		int count = std::abs(end_row - start_row) + 1;
 		result.reserve(count);
 		for (int i = 0; i < count; ++i) {
-			result.push_back(getFrame(Point2(
+			result.push_back(getSliceUV(Point2(
 				start_col, start_row + i * step
 			)));
 		}
 	} else {
 		throw std::runtime_error(
-			"AtlasMap::getAnimation: start and end points must be on the "
+			"AtlasMap::getSliceUVs: start and end points must be on the "
 			"same row or same column."
 		);
 	}
 
-	return Animation(result);
+	return result;
+}
+
+Texture *AtlasMap::getTexture() const {
+	return full_texture.get();
 }
 
 }  // namespace lili

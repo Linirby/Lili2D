@@ -112,7 +112,7 @@ private:
 	float rotation = 0.0f;
 	float layer = 0.0f;
 
-	void applyFrame(const AnimationFrame &frame);
+	void applyFrame(const SliceUV &frame);
 };
 
 }  // namespace lili

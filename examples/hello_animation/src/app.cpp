@@ -12,7 +12,7 @@ App::App() {
 	head_atlas.slice(8, 1);
 
 	head_sprite = lili::AnimatedSprite(
-		renderer.get(), head_atlas.getAnimation(0, 8)
+		renderer.get(), lili::Animation(head_atlas.getSliceUVs(0, 8))
 	);
 	head_sprite.setScale({ 15, 15 });
 	head_sprite.setFrameSpeed(0.2f);

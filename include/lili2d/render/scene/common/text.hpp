@@ -24,6 +24,7 @@ struct GlyphUV {
 /// @brief Represents a bitmap font loaded from an image.
 class BitmapFont {
 public:
+	BitmapFont() = default;
 	/// @brief Constructs a bitmap font.
 	/// @param renderer The renderer.
 	/// @param path Path to the font image.

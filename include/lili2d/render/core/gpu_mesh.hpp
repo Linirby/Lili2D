@@ -13,6 +13,10 @@ struct Vertex {
 	float u = 0.0f; ///< U texture coordinate.
 	float v = 0.0f; ///< V texture coordinate.
 	float material_id = 0.0f;  ///< Material ID.
+	float r = 1.0f; ///< Red color.
+	float g = 1.0f; ///< Green color.
+	float b = 1.0f; ///< Blue color.
+	float a = 1.0f; ///< Alpha color.
 };
 
 /// @brief Contains the CPU-side data for a mesh.
@@ -51,11 +55,17 @@ public:
 	/// @return The index count.
 	uint32_t getIndexCount() const;
 
+	/// @brief Updates the mesh data.
+	/// @param mesh The new CPU mesh data.
+	void update(const MeshData &mesh);
+
 private:
 	SDL_GPUDevice *device = nullptr;
 	SDL_GPUBuffer *vertex_buffer = nullptr;
 	SDL_GPUBuffer *index_buffer = nullptr;
 	uint32_t index_count = 0;
+	uint32_t vertex_capacity = 0;
+	uint32_t index_capacity = 0;
 
 	void transferToGpu(
 		const void *data, SDL_GPUBuffer *buffer, uint32_t size

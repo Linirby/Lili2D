@@ -12,11 +12,11 @@ WorldPipeline::WorldPipeline(
 ) : device(device), window(window), shader(shader) {
 	SDL_GPUVertexBufferDescription vertex_bd{};
 	vertex_bd.slot = 0;
-	vertex_bd.pitch = sizeof(float) * 6;
+	vertex_bd.pitch = sizeof(float) * 10;
 	vertex_bd.input_rate = SDL_GPU_VERTEXINPUTRATE_VERTEX;
 	vertex_bd.instance_step_rate = 0;
 
-	std::vector<SDL_GPUVertexAttribute> vertexAttrs(3);
+	std::vector<SDL_GPUVertexAttribute> vertexAttrs(4);
 	vertexAttrs[0].location = 0;
 	vertexAttrs[0].buffer_slot = 0;
 	vertexAttrs[0].format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
@@ -31,6 +31,11 @@ WorldPipeline::WorldPipeline(
 	vertexAttrs[2].buffer_slot = 0;
 	vertexAttrs[2].format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT;
 	vertexAttrs[2].offset = sizeof(float) * 5;
+
+	vertexAttrs[3].location = 4;
+	vertexAttrs[3].buffer_slot = 0;
+	vertexAttrs[3].format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT4;
+	vertexAttrs[3].offset = sizeof(float) * 6;
 
 	SDL_GPUColorTargetDescription color_td{};
 	color_td.format = SDL_GetGPUSwapchainTextureFormat(device, window);

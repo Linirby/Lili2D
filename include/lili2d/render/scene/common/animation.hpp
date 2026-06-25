@@ -5,20 +5,9 @@
 #include <unordered_map>
 #include <vector>
 
-#include "lili2d/render/core/texture.hpp"
+#include "lili2d/render/scene/common/atlas_map.hpp"
 
 namespace lili {
-
-/// @brief Represents a single frame within an atlas texture.
-struct AnimationFrame {
-	Texture *texture = nullptr; ///< The texture.
-	float u_min = 0.0f; ///< Minimum U coordinate.
-	float v_min = 0.0f; ///< Minimum V coordinate.
-	float u_max = 1.0f; ///< Maximum U coordinate.
-	float v_max = 1.0f; ///< Maximum V coordinate.
-	float width = 0.0f; ///< Frame width.
-	float height = 0.0f; ///< Frame height.
-};
 
 /// @brief Represents an animation as a sequence of frames.
 ///
@@ -31,7 +20,7 @@ public:
 	Animation() = default;
 	/// @brief Constructs an animation from a pre-built list of frames.
 	/// @param frames The sequence of frames.
-	Animation(const std::vector<AnimationFrame> &frames);
+	Animation(const std::vector<SliceUV> &frames);
 
 	/// @brief Gets the number of frames.
 	/// @return The frame count.
@@ -39,11 +28,52 @@ public:
 
 	/// @brief Gets a frame by index.
 	/// @param index The frame index.
-	/// @return Reference to the AnimationFrame.
-	const AnimationFrame& getFrame(size_t index) const;
+	/// @return Reference to the SliceUV.
+	const SliceUV& getFrame(size_t index) const;
 
 private:
-	std::vector<AnimationFrame> frames;
+	std::vector<SliceUV> frames;
+};
+
+/// @brief A lightweight player to track animation state over time.
+class AnimationPlayer {
+public:
+	/// @brief Default constructor.
+	AnimationPlayer() = default;
+	/// @brief Constructs a player for a specific animation.
+	/// @param animation Pointer to the animation to play.
+	AnimationPlayer(const Animation *animation);
+	/// @brief Constructs a player from a registered animation ID.
+	AnimationPlayer(uint16_t animation_id);
+	/// @brief Constructs a player from a registered animation key.
+	AnimationPlayer(const std::string &animation_key);
+
+	/// @brief Sets the animation to play.
+	void setAnimation(const Animation *animation);
+	/// @brief Sets the animation to play from a registry ID.
+	void setAnimation(uint16_t animation_id);
+	/// @brief Sets the animation to play from a registry key.
+	void setAnimation(const std::string &animation_key);
+
+	/// @brief Sets the speed of the animation.
+	/// @param speed_sec Time per frame in seconds.
+	void setFrameSpeed(float speed_sec);
+
+	/// @brief Advances the animation by dt seconds.
+	/// @param dt Delta time in seconds.
+	void update(float dt);
+	/// @brief Resets the animation to the first frame.
+	void reset();
+
+	/// @brief Gets the current frame of the animation.
+	/// @return Reference to the current SliceUV.
+	const SliceUV& getCurrentFrame() const;
+
+private:
+	const Animation *animation = nullptr;
+	size_t current_frame = 0;
+	float frame_speed_sec = 0.1f;
+	float frame_time_sec = 0.0f;
 };
 
 /// @brief Registry for managing animations globally.

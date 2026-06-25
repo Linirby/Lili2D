@@ -10,7 +10,9 @@ AnimatedSprite::AnimatedSprite(Renderer *renderer, const Animation &animation)
 	: renderer(renderer), animation(animation) {
 	MeshData mesh_data = createUnitQuad();
 	mesh = std::make_unique<GPUMesh>(renderer->getDevice(), mesh_data);
-	material = std::make_unique<Material>(renderer->getTheWhitePixel());
+	material = std::make_unique<Material>(
+		renderer->getTheWhitePixel()
+	);
 	material->properties.color_tint = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 	position = { 0.0f, 0.0f };
@@ -132,7 +134,7 @@ void AnimatedSprite::draw() {
 	);
 }
 
-void AnimatedSprite::applyFrame(const AnimationFrame &frame) {
+void AnimatedSprite::applyFrame(const SliceUV &frame) {
 	material->albedoMap = frame.texture;
 
 	MeshData mesh_data = createUnitQuad();

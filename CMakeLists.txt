@@ -95,6 +95,7 @@ target_sources(Lili2D PRIVATE
 
     src/render/scene/core2d/animated_sprite.cpp
     src/render/scene/core2d/sprite.cpp
+    src/render/scene/core2d/sprite_batch.cpp
 
     src/render/scene/shapes/circle.cpp
     src/render/scene/shapes/line.cpp

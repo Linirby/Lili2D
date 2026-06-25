@@ -70,47 +70,46 @@ struct AABB3;
 /// @brief Result data from a raycast operation.
 struct RaycastResult;
 
-/// @brief Defines the properties of a line shape.
-struct LineShape;
-/// @brief A renderable line object.
-class Line;
-
-/// @brief Defines the properties of a rectangle shape.
-struct RectShape;
-/// @brief A renderable rectangle object.
-class Rect;
-
-/// @brief Defines the properties of a circle shape.
-struct CircleShape;
-/// @brief A renderable circle object.
-class Circle;
-
+/// @brief Represents an animation as a sequence of frames.
+class Animation;
+/// @brief Manage the creation and storage of animations.
+class AnimationRegistry;
+/// @brief Loads and slices a texture atlas into frames and animations.
+class AtlasMap;
+/// @brief Represents a single slice of a uv map within a texture atlas.
+struct SliceUV;
 /// @brief Properties defining a material's appearance.
 struct MaterialProps;
 /// @brief A material used for rendering objects.
 struct Material;
 /// @brief Manages the creation and storage of materials.
 class MaterialRegistry;
-
 /// @brief A 2D or 3D model containing vertex data.
 struct Model;
-
-/// @brief A renderable 2D sprite.
-class Sprite;
-
-/// @brief Represents a single animation frame within a texture atlas.
-struct AnimationFrame;
-/// @brief Represents an animation as a sequence of frames.
-class Animation;
-/// @brief A renderable animated 2D sprite driven by an Animation.
-class AnimatedSprite;
-/// @brief Loads and slices a texture atlas into frames and animations.
-class AtlasMap;
-
 /// @brief A font based on a bitmap texture.
 class BitmapFont;
 /// @brief Renderable text using a specific font.
 class Text;
+
+/// @brief A renderable 2D sprite.
+class Sprite;
+/// @brief A renderable animated 2D sprite driven by an Animation.
+class AnimatedSprite;
+/// @brief A renderable batch of 2D sprites.
+class SpriteBatch;
+
+/// @brief Defines the properties of a line shape.
+struct LineShape;
+/// @brief A renderable line object.
+class Line;
+/// @brief Defines the properties of a rectangle shape.
+struct RectShape;
+/// @brief A renderable rectangle object.
+class Rect;
+/// @brief Defines the properties of a circle shape.
+struct CircleShape;
+/// @brief A renderable circle object.
+class Circle;
 
 /// @brief The main renderer responsible for drawing objects to the screen.
 class Renderer;

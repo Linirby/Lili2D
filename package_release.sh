@@ -11,14 +11,9 @@ cd ..
 echo "Creating distribution folder..."
 DIST_DIR="Lili2D-linux-x86_64"
 rm -rf $DIST_DIR
-mkdir -p $DIST_DIR/lib
-mkdir -p $DIST_DIR/include
 
-echo "Copying binaries..."
-cp build_release/libLili2D.so $DIST_DIR/lib/
-
-echo "Copying headers..."
-cp -r include/lili2d $DIST_DIR/include/
+echo "Installing via CMake to distribution folder..."
+ cmake --install build_release --prefix $DIST_DIR
 
 echo "Compressing..."
 tar -czvf $DIST_DIR.tar.gz $DIST_DIR/

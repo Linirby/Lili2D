@@ -1,7 +1,6 @@
 @PACKAGE_INIT@
 
 include(CMakeFindDependencyMacro)
-
 find_dependency(SDL3 REQUIRED CONFIG)
 find_dependency(SDL3_image REQUIRED CONFIG)
 

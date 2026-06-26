@@ -65,8 +65,8 @@ App::App() {
 			env_batch->draw(
 				slice,
 				lili::Vec2(
-					(x + 1.5 - 50) * TILE_SIZE,
-					(y + 1.5 - 40) * TILE_SIZE
+					(x + 1.5 - 50) * (TILE_SIZE - 0.1f),
+					(y + 1.5 - 40) * (TILE_SIZE - 0.1f)
 				)
 			);
 		}
@@ -153,17 +153,18 @@ void App::update(float dt) {
 	}
 
 	player.anim_player.update(dt);
+	camera.setPosition(player.position);
 }
 
 void App::render() {
 	if (!renderer->beginFrame()) return;
 
-	env_batch->render();
+	env_batch->draw();
 
 	char_batch->begin();
 	char_batch->draw(player.anim_player.getCurrentFrame(), player.position);
 	char_batch->end();
-	char_batch->render();
+	char_batch->draw();
 
 	text_infos.draw();
 

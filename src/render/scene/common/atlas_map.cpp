@@ -19,14 +19,17 @@ void AtlasMap::slice(int num_columns, int num_rows) {
 	float u_step = 1.0f / n_cols;
 	float v_step = 1.0f / n_rows;
 
+	float u_inset = 0.5f / full_texture->getWidth();
+	float v_inset = 0.5f / full_texture->getHeight();
+
 	for (int j = 0; j < num_rows; ++j) {
 		for (int i = 0; i < num_columns; ++i) {
 			SliceUV slice;
 			slice.texture = full_texture.get();
-			slice.u_min = i * u_step;
-			slice.v_min = j * v_step;
-			slice.u_max = (i + 1) * u_step;
-			slice.v_max = (j + 1) * v_step;
+			slice.u_min = i * u_step + u_inset;
+			slice.v_min = j * v_step + v_inset;
+			slice.u_max = (i + 1) * u_step - u_inset;
+			slice.v_max = (j + 1) * v_step - v_inset;
 			slice.width = unit_size.x;
 			slice.height = unit_size.y;
 			slices.push_back(slice);

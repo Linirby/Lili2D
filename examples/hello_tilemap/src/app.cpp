@@ -1,4 +1,5 @@
 #include "app.hpp"
+#include <cmath>
 
 App::App() {
 	window = std::make_unique<lili::Window>(
@@ -9,41 +10,42 @@ App::App() {
 	camera.setZoom(4.0f);
 	renderer->setCamera(&camera);
 
-    tilemap = std::make_unique<lili::TileMap>(lili::Vec2(16, 16));
+    tilemap = std::make_unique<lili::TileMap>(lili::Vec2(16, 12));
 
 	env_atlas = lili::AtlasMap(renderer.get(), "assets/environment.png");
-	env_atlas.slice(4, 2);
+	env_atlas.slice(3, 2);
 
 	lili::TileRegistry &registry = lili::TileRegistry::get();
-	registry.registerTile("floor:base", lili::Tile(env_atlas.getSliceUV(0)));
-	registry.registerTile("floor:dark", lili::Tile(env_atlas.getSliceUV(1)));
-	registry.registerTile("wall:base", lili::Tile(env_atlas.getSliceUV(2)));
-	registry.registerTile("wall:tl", lili::Tile(env_atlas.getSliceUV(4)));
-	registry.registerTile("wall:tr", lili::Tile(env_atlas.getSliceUV(5)));
-	registry.registerTile("wall:bl", lili::Tile(env_atlas.getSliceUV(6)));
-	registry.registerTile("wall:br", lili::Tile(env_atlas.getSliceUV(7)));
+	registry.registerTile("grass:light", lili::Tile(env_atlas.getSliceUV(0)));
+	registry.registerTile("grass:medium", lili::Tile(env_atlas.getSliceUV(1)));
+	registry.registerTile("grass:dark", lili::Tile(env_atlas.getSliceUV(2)));
+	registry.registerTile("dirt:light", lili::Tile(env_atlas.getSliceUV(3)));
+	lili::Tile invisible_solid;
+	invisible_solid.is_solid = true;
+	lili::TileRegistry::get().registerTile("solid_invisible", std::move(invisible_solid));
 
-	int map_width = 100;
-	int map_height = 80;
+	int map_width = 200;
+	int map_height = 200;
+
 	for (int y = 0; y < map_height; ++y) {
 		for (int x = 0; x < map_width; ++x) {
-			std::string tile_name = "floor:base";
-			if ((x + y) % 2 == 0)
-				tile_name = "floor:dark";
-			if (x == 0 && y == 0)
-				tile_name = "wall:tl";
-			else if (x == map_width - 1 && y == 0)
-				tile_name = "wall:tr";
-			else if (x == 0 && y == map_height - 1)
-				tile_name = "wall:bl";
-			else if (x == map_width - 1 && y == map_height - 1)
-				tile_name = "wall:br";
-			else if (
-				x == 0 || x == map_width - 1 ||
-				y == 0 || y == map_height - 1
-			)
-				tile_name = "wall:base";
-			tilemap->setTile(tile_name, lili::Point3(x, y, 0));
+			float noise = std::sin(x * 0.1f) * std::cos(y * 0.1f) * 3.0f;
+			noise += std::sin(x * 0.05f + 10.0f) * 2.0f + std::cos(y * 0.05f + 10.0f) * 2.0f;
+			
+			int elevation = (int)(noise + 3.0f); 
+			if (elevation < 0) elevation = 0;
+			if (elevation > 5) elevation = 5;
+
+			for (int z = 0; z < elevation; ++z) {
+				tilemap->setTile("solid_invisible", lili::Point3(x, y, z));
+			}
+
+			std::string tile_name;
+			if (elevation >= 4) tile_name = "grass:light";
+			else if (elevation >= 2) tile_name = "grass:medium";
+			else tile_name = "grass:dark";
+
+			tilemap->setTile(tile_name, lili::Point3(x, y, elevation));
 		}
 	}
 

@@ -6,17 +6,12 @@
 
 namespace lili {
 
-std::size_t Point3Hash::operator()(const lili::Point3& k) const {
-	return (
-		((std::hash<int>()(k.x) ^ (std::hash<int>()(k.y) << 1)) >> 1) ^
-		(std::hash<int>()(k.z) << 1)
-	);
-}
-
-bool Point3Equal::operator()(
+bool Point3Compare::operator()(
 	const lili::Point3& lhs, const lili::Point3& rhs
 ) const {
-	return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z;
+	if (lhs.z != rhs.z) return lhs.z < rhs.z;
+	if (lhs.y != rhs.y) return lhs.y < rhs.y;
+	return lhs.x < rhs.x;
 }
 
 bool BatchKey::operator==(const BatchKey &other) const {

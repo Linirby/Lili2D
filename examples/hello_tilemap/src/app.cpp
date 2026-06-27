@@ -10,7 +10,8 @@ App::App() {
 	camera.setZoom(4.0f);
 	renderer->setCamera(&camera);
 
-    tilemap = std::make_unique<lili::TileMap>(lili::Vec2(16, 12));
+	lili::Vec2 tile_render_size = lili::Vec2(16, 16);
+    tilemap = std::make_unique<lili::TileMap>(lili::Vec2(tile_render_size));
 
 	env_atlas = lili::AtlasMap(renderer.get(), "assets/environment.png");
 	env_atlas.slice(3, 2);
@@ -22,15 +23,21 @@ App::App() {
 	registry.registerTile("dirt:light", lili::Tile(env_atlas.getSliceUV(3)));
 	lili::Tile invisible_solid;
 	invisible_solid.is_solid = true;
-	lili::TileRegistry::get().registerTile("solid_invisible", std::move(invisible_solid));
+	lili::TileRegistry::get().registerTile(
+		"solid_invisible",
+		std::move(invisible_solid)
+	);
 
-	int map_width = 200;
-	int map_height = 200;
+	int map_width = 150;
+	int map_height = 150;
 
 	for (int y = 0; y < map_height; ++y) {
 		for (int x = 0; x < map_width; ++x) {
 			float noise = std::sin(x * 0.1f) * std::cos(y * 0.1f) * 3.0f;
-			noise += std::sin(x * 0.05f + 10.0f) * 2.0f + std::cos(y * 0.05f + 10.0f) * 2.0f;
+			noise += (
+				std::sin(x * 0.05f + 10.0f) * 2.0f +
+				std::cos(y * 0.05f + 10.0f) * 2.0f
+			);
 			
 			int elevation = (int)(noise + 3.0f); 
 			if (elevation < 0) elevation = 0;
@@ -48,6 +55,8 @@ App::App() {
 			tilemap->setTile(tile_name, lili::Point3(x, y, elevation));
 		}
 	}
+
+
 
 	font = lili::BitmapFont(renderer.get(), "assets/lili_font.png", 16, 6);
 	text_infos = lili::Text(
@@ -107,6 +116,8 @@ void App::render() {
 
 	text_infos.draw();
 	tilemap->draw(renderer.get());
+
+
 
 	renderer->endFrame();
 }

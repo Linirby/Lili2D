@@ -19,8 +19,10 @@ void AtlasMap::slice(int num_columns, int num_rows) {
 	float u_step = 1.0f / n_cols;
 	float v_step = 1.0f / n_rows;
 
-	float u_inset = 0.5f / full_texture->getWidth();
-	float v_inset = 0.5f / full_texture->getHeight();
+	// Use a tiny epsilon inset to avoid floating point precision issues
+	// sampling the adjacent tile (texture bleeding), without causing distortion.
+	float u_inset = 0.01f / full_texture->getWidth();
+	float v_inset = 0.01f / full_texture->getHeight();
 
 	for (int j = 0; j < num_rows; ++j) {
 		for (int i = 0; i < num_columns; ++i) {

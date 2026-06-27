@@ -4,6 +4,8 @@
 #include <lili2d/lili2d.hpp>
 #include <SDL3/SDL.h>
 
+
+
 class App {
 public:
 	App();
@@ -24,10 +26,11 @@ private:
 
 	std::unique_ptr<lili::TileMap> tilemap = nullptr;
 
-	bool running = false;
 
 	lili::BitmapFont font;
 	lili::Text text_infos;
 
 	lili::Keyboard keyboard;
+
+	bool running = false;
 };

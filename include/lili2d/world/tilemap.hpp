@@ -2,7 +2,7 @@
 
 #include <cstdint>
 #include <string>
-#include <unordered_map>
+#include <map>
 
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/geometry/point3.hpp"
@@ -12,11 +12,7 @@
 
 namespace lili {
 
-struct Point3Hash {
-	std::size_t operator()(const lili::Point3& k) const;
-};
-
-struct Point3Equal {
+struct Point3Compare {
 	bool operator()(const lili::Point3& lhs, const lili::Point3& rhs) const;
 };
 
@@ -32,7 +28,7 @@ public:
 
 private:
 	lili::Vec2 tile_size;
-	std::unordered_map<lili::Point3, Chunk, Point3Hash, Point3Equal> chunks;
+	std::map<lili::Point3, Chunk, Point3Compare> chunks;
 
 	static lili::Point3 getChunkCoord(lili::Point3 pos);
 	static lili::Point3 getLocalCoord(lili::Point3 pos);

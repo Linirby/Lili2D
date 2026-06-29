@@ -15,6 +15,7 @@ SpriteBatch::SpriteBatch(Renderer *renderer, Texture *texture)
 	mesh = std::make_unique<GPUMesh>(renderer->getDevice(), mesh_data);
 
 	position = { 0.0f, 0.0f };
+	scale = { 1.0f, 1.0f };
 	layer = 0.0f;
 }
 
@@ -25,6 +26,12 @@ void SpriteBatch::begin() {
 	mesh_data.indices.clear();
 }
 
+void SpriteBatch::clear() {
+	mesh_data.vertices.clear();
+	mesh_data.indices.clear();
+	mesh->update(mesh_data);
+}
+
 void SpriteBatch::draw(
 	const SliceUV &slice,
 	const Vec2 &pos,
@@ -32,7 +39,9 @@ void SpriteBatch::draw(
 	float rotation,
 	const Vec4 &color
 ) {
-	uint32_t current_vertex_count = static_cast<uint32_t>(mesh_data.vertices.size());
+	uint32_t current_vertex_count = static_cast<uint32_t>(
+		mesh_data.vertices.size()
+	);
 
 	float rot_rad = lili::degToRad(rotation);
 	float cos_r = std::cos(rot_rad);
@@ -41,13 +50,11 @@ void SpriteBatch::draw(
 	float half_w = (slice.width / 2.0f) * scale.x;
 	float half_h = (slice.height / 2.0f) * scale.y;
 
-	// Local vertex positions around origin
-	Vec2 p0{ -half_w, -half_h }; // top-left
-	Vec2 p1{  half_w, -half_h }; // top-right
-	Vec2 p2{  half_w,  half_h }; // bottom-right
-	Vec2 p3{ -half_w,  half_h }; // bottom-left
+	Vec2 p0{ -half_w, -half_h };
+	Vec2 p1{  half_w, -half_h };
+	Vec2 p2{  half_w,  half_h };
+	Vec2 p3{ -half_w,  half_h };
 
-	// Rotate and translate
 	auto transformPoint = [&](const Vec2 &p) -> Vec2 {
 		return {
 			pos.x + p.x * cos_r - p.y * sin_r,
@@ -59,11 +66,6 @@ void SpriteBatch::draw(
 	Vec2 tp1 = transformPoint(p1);
 	Vec2 tp2 = transformPoint(p2);
 	Vec2 tp3 = transformPoint(p3);
-
-	// Currently, lili::Vertex only has x, y, z, u, v, material_id.
-	// It doesn't have a color attribute, so color tint might be ignored per-vertex
-	// unless we update Vertex to have color. The Material GPU applies a global tint.
-	// We'll map the position and UVs.
 	
 	Vertex v0;
 	v0.x = tp0.x; v0.y = tp0.y; v0.z = 0.0f;
@@ -94,7 +96,6 @@ void SpriteBatch::draw(
 	mesh_data.vertices.push_back(v2);
 	mesh_data.vertices.push_back(v3);
 
-	// Indices for a quad: 0, 1, 2, 2, 3, 0
 	mesh_data.indices.push_back(current_vertex_count + 0);
 	mesh_data.indices.push_back(current_vertex_count + 1);
 	mesh_data.indices.push_back(current_vertex_count + 2);
@@ -115,6 +116,10 @@ void SpriteBatch::setPosition(const Vec2 &position) {
 	this->position = position;
 }
 
+void SpriteBatch::setScale(const Vec2 &scale) {
+	this->scale = scale;
+}
+
 void SpriteBatch::setLayer(float layer) {
 	this->layer = layer;
 }
@@ -122,7 +127,7 @@ void SpriteBatch::setLayer(float layer) {
 void SpriteBatch::draw() {
 	if (mesh_data.indices.empty()) return;
 
-	Mat3 mat_transform = Mat3::translate(position);
+	Mat3 mat_transform = Mat3::translate(position) * Mat3::scale(scale);
 
 	renderer->submit(
 		Model({ mesh.get(), material.get() }),

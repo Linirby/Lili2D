@@ -28,6 +28,9 @@ public:
 	/// @brief Begins a new batch, clearing previous data.
 	void begin();
 
+	/// @brief Clears all sprites from the batch.
+	void clear();
+
 	/// @brief Adds a sprite to the batch.
 	/// @param slice The texture slice (UVs) to use.
 	/// @param position The local position.
@@ -53,6 +56,10 @@ public:
 	/// @param position The new position.
 	void setPosition(const Vec2 &position);
 
+	/// @brief Sets the scale of the entire batch.
+	/// @param scale The new scale.
+	void setScale(const Vec2 &scale);
+
 	/// @brief Sets the rendering layer for the batch.
 	/// @param layer The new layer depth.
 	void setLayer(float layer);
@@ -67,6 +74,7 @@ private:
 
 	MeshData mesh_data;
 	Vec2 position;
+	Vec2 scale = { 1.0f, 1.0f };
 	float layer;
 };
 

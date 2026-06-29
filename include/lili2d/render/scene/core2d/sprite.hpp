@@ -7,6 +7,7 @@
 #include "lili2d/render/renderer.hpp"
 #include "lili2d/render/core/texture.hpp"
 #include "lili2d/render/scene/common/material.hpp"
+#include "lili2d/render/scene/common/atlas_map.hpp"
 #include "lili2d/geometry/vec2.hpp"
 
 namespace lili {
@@ -20,6 +21,11 @@ public:
 	/// @param renderer The renderer.
 	/// @param path Path to the image file.
 	Sprite(Renderer *renderer, const std::string &path);
+	/// @brief Constructs a sprite from a UV slice.
+	/// @param renderer The renderer.
+	/// @param atlas The atlas map.
+	/// @param slice The UV slice of an atlas.
+	Sprite(Renderer *renderer, SliceUV slice);
 	/// @brief Move constructor.
 	Sprite(Sprite &&) = default;
 	/// @brief Move assignment operator.
@@ -29,6 +35,9 @@ public:
 	/// @brief Sets the sprite's image.
 	/// @param path Path to the new image file.
 	void setImage(const std::string &path);
+	/// @brief Sets the sprite's slice from an atlas map.
+	/// @param slice The new UV slice.
+	void setSlice(SliceUV slice);
 	/// @brief Sets the sprite's color tint.
 	/// @param color The new color tint.
 	void setColorTint(const Vec4 &color);
@@ -74,6 +83,7 @@ private:
 	std::unique_ptr<GPUMesh> mesh = nullptr;
 	std::unique_ptr<Material> material = nullptr;
 
+	SliceUV current_slice;
 	Vec2 position;
 	Vec2 scale = Vec2(1, 1);
 	Vec2 size = Vec2(1, 1);

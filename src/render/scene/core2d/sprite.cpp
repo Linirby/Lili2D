@@ -23,6 +23,31 @@ Sprite::Sprite(Renderer *renderer, const std::string &path)
 	layer = 0.0f;
 }
 
+Sprite::Sprite(Renderer *renderer, SliceUV slice)
+	: renderer(renderer) {
+	MeshData mesh_data = createUnitQuad();
+	mesh_data.vertices[0].u = slice.u_min;
+	mesh_data.vertices[0].v = slice.v_min;
+	mesh_data.vertices[1].u = slice.u_max;
+	mesh_data.vertices[1].v = slice.v_min;
+	mesh_data.vertices[2].u = slice.u_max;
+	mesh_data.vertices[2].v = slice.v_max;
+	mesh_data.vertices[3].u = slice.u_min;
+	mesh_data.vertices[3].v = slice.v_max;
+
+	mesh = std::make_unique<GPUMesh>(renderer->getDevice(), mesh_data);
+
+	material = std::make_unique<Material>(slice.texture);
+	material->properties.color_tint = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+	position = { 0.0f, 0.0f };
+	scale = { 1.0f, 1.0f };
+	size = { slice.width, slice.height };
+	rotation = 0.0f;
+	layer = 0.0f;
+	current_slice = slice;
+}
+
 void Sprite::setImage(const std::string &path) {
 	texture = std::make_unique<Texture>(renderer->getDevice(), path);
 	material = std::make_unique<Material>(texture.get());
@@ -54,6 +79,25 @@ void Sprite::setRotation(float degree) {
 
 void Sprite::setLayer(float layer) {
 	this->layer = layer;
+}
+
+void Sprite::setSlice(SliceUV slice) {
+	current_slice = slice;
+	if (mesh) {
+		MeshData mesh_data = createUnitQuad();
+		mesh_data.vertices[0].u = slice.u_min;
+		mesh_data.vertices[0].v = slice.v_min;
+		mesh_data.vertices[1].u = slice.u_max;
+		mesh_data.vertices[1].v = slice.v_min;
+		mesh_data.vertices[2].u = slice.u_max;
+		mesh_data.vertices[2].v = slice.v_max;
+		mesh_data.vertices[3].u = slice.u_min;
+		mesh_data.vertices[3].v = slice.v_max;
+		mesh->update(mesh_data);
+	}
+	if (material) {
+		material->albedoMap = slice.texture;
+	}
 }
 
 Vec2 Sprite::getPosition() const {

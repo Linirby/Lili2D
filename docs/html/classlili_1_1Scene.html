@@ -91,41 +91,260 @@ $(function(){initNavTree('classlili_1_1Scene.html','','classlili_1_1Scene-member
   <div class="headertitle"><div class="title">lili::Scene Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Represents a single game state or screen.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="scene_2scene_8hpp_source.html">scene.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a3ab3a89a7064c84332a6aadd6437f949" id="r_a3ab3a89a7064c84332a6aadd6437f949"><td class="memItemLeft"><a id="a3ab3a89a7064c84332a6aadd6437f949" name="a3ab3a89a7064c84332a6aadd6437f949"></a>
-&#160;</td><td class="memItemRight"><b>Scene</b> (const std::string &amp;name)</td></tr>
-<tr class="memitem:acee28fe56f68fdecbc3e21e4d191f639" id="r_acee28fe56f68fdecbc3e21e4d191f639"><td class="memItemLeft"><a id="acee28fe56f68fdecbc3e21e4d191f639" name="acee28fe56f68fdecbc3e21e4d191f639"></a>
-virtual void&#160;</td><td class="memItemRight"><b>on_enter</b> ()</td></tr>
-<tr class="memitem:a381dcc83bc1bde32a7f0a08379f53195" id="r_a381dcc83bc1bde32a7f0a08379f53195"><td class="memItemLeft"><a id="a381dcc83bc1bde32a7f0a08379f53195" name="a381dcc83bc1bde32a7f0a08379f53195"></a>
-virtual void&#160;</td><td class="memItemRight"><b>on_exit</b> ()</td></tr>
-<tr class="memitem:a84b959cd0bf133c9104c8abead4f9259" id="r_a84b959cd0bf133c9104c8abead4f9259"><td class="memItemLeft"><a id="a84b959cd0bf133c9104c8abead4f9259" name="a84b959cd0bf133c9104c8abead4f9259"></a>
-virtual void&#160;</td><td class="memItemRight"><b>on_pause</b> ()</td></tr>
-<tr class="memitem:a91d1f53430fd1f6c3c449f0151ee9b3f" id="r_a91d1f53430fd1f6c3c449f0151ee9b3f"><td class="memItemLeft"><a id="a91d1f53430fd1f6c3c449f0151ee9b3f" name="a91d1f53430fd1f6c3c449f0151ee9b3f"></a>
-virtual void&#160;</td><td class="memItemRight"><b>on_resume</b> ()</td></tr>
-<tr class="memitem:a0cbd0dd6b6a403f632c639c8fa49a138" id="r_a0cbd0dd6b6a403f632c639c8fa49a138"><td class="memItemLeft"><a id="a0cbd0dd6b6a403f632c639c8fa49a138" name="a0cbd0dd6b6a403f632c639c8fa49a138"></a>
-virtual void&#160;</td><td class="memItemRight"><b>handle_events</b> (const <a class="el" href="classlili_1_1Event.html">Event</a> &amp;event)</td></tr>
-<tr class="memitem:a5edbfe72f28eb37046a93b00d8afcb08" id="r_a5edbfe72f28eb37046a93b00d8afcb08"><td class="memItemLeft"><a id="a5edbfe72f28eb37046a93b00d8afcb08" name="a5edbfe72f28eb37046a93b00d8afcb08"></a>
-virtual void&#160;</td><td class="memItemRight"><b>update</b> (float dt)</td></tr>
-<tr class="memitem:aeb918db25c1958d22aa105ba50896ab5" id="r_aeb918db25c1958d22aa105ba50896ab5"><td class="memItemLeft"><a id="aeb918db25c1958d22aa105ba50896ab5" name="aeb918db25c1958d22aa105ba50896ab5"></a>
-virtual void&#160;</td><td class="memItemRight"><b>fixed_update</b> (float dt)</td></tr>
-<tr class="memitem:ae271bb5202a35db79271fc5ed2ba8b52" id="r_ae271bb5202a35db79271fc5ed2ba8b52"><td class="memItemLeft"><a id="ae271bb5202a35db79271fc5ed2ba8b52" name="ae271bb5202a35db79271fc5ed2ba8b52"></a>
-virtual void&#160;</td><td class="memItemRight"><b>render</b> (<a class="el" href="classlili_1_1Renderer.html">Renderer</a> *renderer, float alpha)</td></tr>
-<tr class="memitem:a5ac50c46b8139bb201475e4e36188b29" id="r_a5ac50c46b8139bb201475e4e36188b29"><td class="memItemLeft"><a id="a5ac50c46b8139bb201475e4e36188b29" name="a5ac50c46b8139bb201475e4e36188b29"></a>
-void&#160;</td><td class="memItemRight"><b>set_manager</b> (<a class="el" href="classlili_1_1SceneManager.html">SceneManager</a> *manager)</td></tr>
-<tr class="memitem:a5139418912900c3d5cd8da6e691c6c92" id="r_a5139418912900c3d5cd8da6e691c6c92"><td class="memItemLeft"><a id="a5139418912900c3d5cd8da6e691c6c92" name="a5139418912900c3d5cd8da6e691c6c92"></a>
-const std::string &amp;&#160;</td><td class="memItemRight"><b>get_name</b> () const</td></tr>
-<tr class="memitem:a38c7d0109294be4fcd9d67753468b214" id="r_a38c7d0109294be4fcd9d67753468b214"><td class="memItemLeft"><a id="a38c7d0109294be4fcd9d67753468b214" name="a38c7d0109294be4fcd9d67753468b214"></a>
-<a class="el" href="classlili_1_1SceneManager.html">SceneManager</a> *&#160;</td><td class="memItemRight"><b>get_manager</b> () const</td></tr>
+<tr class="memitem:ad9e5878b7ec711ec15735d096435e231" id="r_ad9e5878b7ec711ec15735d096435e231"><td class="memItemLeft"><a id="ad9e5878b7ec711ec15735d096435e231" name="ad9e5878b7ec711ec15735d096435e231"></a>
+&#160;</td><td class="memItemRight"><b>Scene</b> (const std::string &amp;name, <a class="el" href="classlili_1_1Renderer.html">Renderer</a> *renderer)</td></tr>
+<tr class="memitem:aaa47f296f71cdf007dae3b77bd8a034c" id="r_aaa47f296f71cdf007dae3b77bd8a034c"><td class="memItemLeft"><a id="aaa47f296f71cdf007dae3b77bd8a034c" name="aaa47f296f71cdf007dae3b77bd8a034c"></a>
+&#160;</td><td class="memItemRight"><b>Scene</b> (const Scene &amp;)=delete</td></tr>
+<tr class="memitem:a8257c8d715fc633a217ab7d3c0454156" id="r_a8257c8d715fc633a217ab7d3c0454156"><td class="memItemLeft"><a id="a8257c8d715fc633a217ab7d3c0454156" name="a8257c8d715fc633a217ab7d3c0454156"></a>
+Scene &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (const Scene &amp;)=delete</td></tr>
+<tr class="memitem:aa9b9961c548727f21f7ce225b7d7a822" id="r_aa9b9961c548727f21f7ce225b7d7a822"><td class="memItemLeft"><a id="aa9b9961c548727f21f7ce225b7d7a822" name="aa9b9961c548727f21f7ce225b7d7a822"></a>
+&#160;</td><td class="memItemRight"><b>Scene</b> (Scene &amp;&amp;)=delete</td></tr>
+<tr class="memitem:a74a2514e82fb192b1ff9587e122b85d9" id="r_a74a2514e82fb192b1ff9587e122b85d9"><td class="memItemLeft"><a id="a74a2514e82fb192b1ff9587e122b85d9" name="a74a2514e82fb192b1ff9587e122b85d9"></a>
+Scene &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (Scene &amp;&amp;)=delete</td></tr>
+<tr class="memitem:afb3aee0e9b43f774ae48ecb617b792d7" id="r_afb3aee0e9b43f774ae48ecb617b792d7"><td class="memItemLeft"><a id="afb3aee0e9b43f774ae48ecb617b792d7" name="afb3aee0e9b43f774ae48ecb617b792d7"></a>
+virtual void&#160;</td><td class="memItemRight"><b>onEnter</b> ()</td></tr>
+<tr class="memdesc:afb3aee0e9b43f774ae48ecb617b792d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when the scene becomes active. <br /></td></tr>
+<tr class="memitem:a5ef6af5995e5be0d9381b8d50a76df05" id="r_a5ef6af5995e5be0d9381b8d50a76df05"><td class="memItemLeft"><a id="a5ef6af5995e5be0d9381b8d50a76df05" name="a5ef6af5995e5be0d9381b8d50a76df05"></a>
+virtual void&#160;</td><td class="memItemRight"><b>onExit</b> ()</td></tr>
+<tr class="memdesc:a5ef6af5995e5be0d9381b8d50a76df05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when the scene becomes inactive. <br /></td></tr>
+<tr class="memitem:a1b8526ce1735780b3cb9a1bfd85218cd" id="r_a1b8526ce1735780b3cb9a1bfd85218cd"><td class="memItemLeft"><a id="a1b8526ce1735780b3cb9a1bfd85218cd" name="a1b8526ce1735780b3cb9a1bfd85218cd"></a>
+virtual void&#160;</td><td class="memItemRight"><b>onPause</b> ()</td></tr>
+<tr class="memdesc:a1b8526ce1735780b3cb9a1bfd85218cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when another scene is pushed on top of this one. <br /></td></tr>
+<tr class="memitem:a9862ad65ce9e7227d03e9b1ddbe31334" id="r_a9862ad65ce9e7227d03e9b1ddbe31334"><td class="memItemLeft"><a id="a9862ad65ce9e7227d03e9b1ddbe31334" name="a9862ad65ce9e7227d03e9b1ddbe31334"></a>
+virtual void&#160;</td><td class="memItemRight"><b>onResume</b> ()</td></tr>
+<tr class="memdesc:a9862ad65ce9e7227d03e9b1ddbe31334"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when a scene on top of this one is popped. <br /></td></tr>
+<tr class="memitem:adabec4e18585e81d62e36423a7c84054" id="r_adabec4e18585e81d62e36423a7c84054"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#adabec4e18585e81d62e36423a7c84054">handleEvents</a> (const <a class="el" href="classlili_1_1Event.html">Event</a> &amp;event)</td></tr>
+<tr class="memdesc:adabec4e18585e81d62e36423a7c84054"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles an incoming event.  <br /></td></tr>
+<tr class="memitem:a5edbfe72f28eb37046a93b00d8afcb08" id="r_a5edbfe72f28eb37046a93b00d8afcb08"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a5edbfe72f28eb37046a93b00d8afcb08">update</a> (float dt)</td></tr>
+<tr class="memdesc:a5edbfe72f28eb37046a93b00d8afcb08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the scene logic.  <br /></td></tr>
+<tr class="memitem:a0dba144520b8372480424e37e592381d" id="r_a0dba144520b8372480424e37e592381d"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a0dba144520b8372480424e37e592381d">fixedUpdate</a> (float dt)</td></tr>
+<tr class="memdesc:a0dba144520b8372480424e37e592381d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the scene physics logic.  <br /></td></tr>
+<tr class="memitem:aef86291f10d5acbd83974b1588dcf186" id="r_aef86291f10d5acbd83974b1588dcf186"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#aef86291f10d5acbd83974b1588dcf186">render</a> (float alpha)</td></tr>
+<tr class="memdesc:aef86291f10d5acbd83974b1588dcf186"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders the scene.  <br /></td></tr>
+<tr class="memitem:af1292c1e020510cf1ebe5fe0b9504857" id="r_af1292c1e020510cf1ebe5fe0b9504857"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af1292c1e020510cf1ebe5fe0b9504857">setManager</a> (<a class="el" href="classlili_1_1SceneManager.html">SceneManager</a> *manager)</td></tr>
+<tr class="memdesc:af1292c1e020510cf1ebe5fe0b9504857"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the parent scene manager.  <br /></td></tr>
+<tr class="memitem:abe351782a18e8e32e6d76fc719a72f43" id="r_abe351782a18e8e32e6d76fc719a72f43"><td class="memItemLeft">const std::string &amp;&#160;</td><td class="memItemRight"><a class="el" href="#abe351782a18e8e32e6d76fc719a72f43">getName</a> () const</td></tr>
+<tr class="memdesc:abe351782a18e8e32e6d76fc719a72f43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the scene name.  <br /></td></tr>
+<tr class="memitem:af59a976e2d5509c191fa8dfee95f841b" id="r_af59a976e2d5509c191fa8dfee95f841b"><td class="memItemLeft"><a class="el" href="classlili_1_1SceneManager.html">SceneManager</a> *&#160;</td><td class="memItemRight"><a class="el" href="#af59a976e2d5509c191fa8dfee95f841b">getManager</a> () const</td></tr>
+<tr class="memdesc:af59a976e2d5509c191fa8dfee95f841b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the parent scene manager.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pro-attribs" class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:a242c90ec279b153499df0565897d2625" id="r_a242c90ec279b153499df0565897d2625"><td class="memItemLeft"><a id="a242c90ec279b153499df0565897d2625" name="a242c90ec279b153499df0565897d2625"></a>
 std::string&#160;</td><td class="memItemRight"><b>name</b></td></tr>
+<tr class="memitem:a20436ed9cfbac093634794af77a1b1ff" id="r_a20436ed9cfbac093634794af77a1b1ff"><td class="memItemLeft"><a id="a20436ed9cfbac093634794af77a1b1ff" name="a20436ed9cfbac093634794af77a1b1ff"></a>
+<a class="el" href="classlili_1_1Renderer.html">Renderer</a> *&#160;</td><td class="memItemRight"><b>renderer</b></td></tr>
 <tr class="memitem:a5bbc66051ca0a2fde6f114a32ff1decd" id="r_a5bbc66051ca0a2fde6f114a32ff1decd"><td class="memItemLeft"><a id="a5bbc66051ca0a2fde6f114a32ff1decd" name="a5bbc66051ca0a2fde6f114a32ff1decd"></a>
 <a class="el" href="classlili_1_1SceneManager.html">SceneManager</a> *&#160;</td><td class="memItemRight"><b>manager</b></td></tr>
 </table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Represents a single game state or screen. </p>
+</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a0dba144520b8372480424e37e592381d" name="a0dba144520b8372480424e37e592381d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0dba144520b8372480424e37e592381d">&#9670;&#160;</a></span>fixedUpdate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void lili::Scene::fixedUpdate </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>dt</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Updates the scene physics logic. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dt</td><td>Delta time in seconds. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af59a976e2d5509c191fa8dfee95f841b" name="af59a976e2d5509c191fa8dfee95f841b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af59a976e2d5509c191fa8dfee95f841b">&#9670;&#160;</a></span>getManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classlili_1_1SceneManager.html">SceneManager</a> * lili::Scene::getManager </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the parent scene manager. </p>
+<dl class="section return"><dt>Returns</dt><dd>The manager. </dd></dl>
+
+</div>
+</div>
+<a id="abe351782a18e8e32e6d76fc719a72f43" name="abe351782a18e8e32e6d76fc719a72f43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe351782a18e8e32e6d76fc719a72f43">&#9670;&#160;</a></span>getName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; lili::Scene::getName </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the scene name. </p>
+<dl class="section return"><dt>Returns</dt><dd>The name. </dd></dl>
+
+</div>
+</div>
+<a id="adabec4e18585e81d62e36423a7c84054" name="adabec4e18585e81d62e36423a7c84054"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adabec4e18585e81d62e36423a7c84054">&#9670;&#160;</a></span>handleEvents()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void lili::Scene::handleEvents </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classlili_1_1Event.html">Event</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>event</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Handles an incoming event. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td>The event. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aef86291f10d5acbd83974b1588dcf186" name="aef86291f10d5acbd83974b1588dcf186"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef86291f10d5acbd83974b1588dcf186">&#9670;&#160;</a></span>render()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void lili::Scene::render </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>alpha</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Renders the scene. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">alpha</td><td>Interpolation factor. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af1292c1e020510cf1ebe5fe0b9504857" name="af1292c1e020510cf1ebe5fe0b9504857"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1292c1e020510cf1ebe5fe0b9504857">&#9670;&#160;</a></span>setManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lili::Scene::setManager </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classlili_1_1SceneManager.html">SceneManager</a> *</td>          <td class="paramname"><span class="paramname"><em>manager</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the parent scene manager. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">manager</td><td>The manager. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a5edbfe72f28eb37046a93b00d8afcb08" name="a5edbfe72f28eb37046a93b00d8afcb08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5edbfe72f28eb37046a93b00d8afcb08">&#9670;&#160;</a></span>update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void lili::Scene::update </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>dt</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Updates the scene logic. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dt</td><td>Delta time in seconds. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/lili/Documents/Lili2D/include/lili2d/scene/<a class="el" href="scene_2scene_8hpp_source.html">scene.hpp</a></li>
 </ul>

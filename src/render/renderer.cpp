@@ -4,6 +4,7 @@
 #include "lili2d/render/renderer.hpp"
 #include "lili2d/render/scene/common/model.hpp"
 #include "lili2d/render/scene/common/utils.hpp"
+#include "lili2d/render/scene/shapes/rect.hpp"
 
 // Creation of those 3 headers in cmake
 #include "lili2d/render/white_1x1_png.hpp"
@@ -21,111 +22,19 @@ Renderer::Renderer(Window *window) : window(window) {
 	initShaders();
 	initPipelines();
 	initPasses();
-	the_white_pixel = new Texture(device, white_1x1_png, white_1x1_png_len);
+	the_white_pixel = std::make_unique<Texture>(
+		device.get(), white_1x1_png, white_1x1_png_len
+	);
 }
 
-Renderer::~Renderer() {
-	if (device) SDL_WaitForGPUIdle(device);
-
-	if (unit_quad) delete unit_quad;
-	for (auto& pair : unit_circles)
-		delete pair.second;
-	if (the_white_pixel) delete the_white_pixel;
-	if (ui_pass) delete ui_pass;
-	if (ui_pipeline) delete ui_pipeline;
-	if (world_2d_pass) delete world_2d_pass;
-	if (world_2d_pipeline) delete world_2d_pipeline;
-	if (world_2d_shader) delete world_2d_shader;
-	if (device) SDL_DestroyGPUDevice(device);
-}
-
-Renderer::Renderer(Renderer &&other) noexcept
-	: window(other.window),
-	device(other.device),
-	swapchain_width(other.swapchain_width),
-	swapchain_height(other.swapchain_height),
-	current_swapchain_texture(other.current_swapchain_texture),
-	current_cmd_buffer(other.current_cmd_buffer),
-	world_2d_shader(other.world_2d_shader),
-	world_2d_pipeline(other.world_2d_pipeline),
-	world_2d_pass(other.world_2d_pass),
-	world_2d_queue(std::move(other.world_2d_queue)),
-	ui_pipeline(other.ui_pipeline),
-	ui_pass(other.ui_pass),
-	ui_queue(std::move(other.ui_queue)),
-	proj_view_world2d(other.proj_view_world2d),
-	proj_view_ui(other.proj_view_ui),
-	camera(other.camera),
-	the_white_pixel(other.the_white_pixel),
-	unit_quad(other.unit_quad),
-	unit_circles(std::move(other.unit_circles)) {
-	other.device = nullptr;
-	other.current_cmd_buffer = nullptr;
-	other.world_2d_shader = nullptr;
-	other.world_2d_pipeline = nullptr;
-	other.world_2d_pass = nullptr;
-	other.ui_pipeline = nullptr;
-	other.ui_pass = nullptr;
-	other.the_white_pixel = nullptr;
-	other.unit_quad = nullptr;
-	other.unit_circles.clear();
-}
-
-Renderer& Renderer::operator=(Renderer &&other) noexcept {
-	if (this != &other) {
-		if (device) SDL_WaitForGPUIdle(device);
-
-		if (unit_quad) delete unit_quad;
-		for (auto& pair : unit_circles)
-			delete pair.second;
-		if (the_white_pixel) delete the_white_pixel;
-		if (ui_pass) delete ui_pass;
-		if (ui_pipeline) delete ui_pipeline;
-		if (world_2d_pass) delete world_2d_pass;
-		if (world_2d_pipeline) delete world_2d_pipeline;
-		if (world_2d_shader) delete world_2d_shader;
-		if (device) SDL_DestroyGPUDevice(device);
-
-		window = other.window;
-		device = other.device;
-		swapchain_width = other.swapchain_width;
-		swapchain_height = other.swapchain_height;
-		current_swapchain_texture = other.current_swapchain_texture;
-		current_cmd_buffer = other.current_cmd_buffer;
-		world_2d_shader = other.world_2d_shader;
-		world_2d_pipeline = other.world_2d_pipeline;
-		world_2d_pass = other.world_2d_pass;
-		world_2d_queue = std::move(other.world_2d_queue);
-		ui_pipeline = other.ui_pipeline;
-		ui_pass = other.ui_pass;
-		ui_queue = std::move(other.ui_queue);
-		proj_view_world2d = other.proj_view_world2d;
-		proj_view_ui = other.proj_view_ui;
-		camera = other.camera;
-		the_white_pixel = other.the_white_pixel;
-		unit_quad = other.unit_quad;
-		unit_circles = std::move(other.unit_circles);
-
-		other.device = nullptr;
-		other.current_cmd_buffer = nullptr;
-		other.world_2d_shader = nullptr;
-		other.world_2d_pipeline = nullptr;
-		other.world_2d_pass = nullptr;
-		other.ui_pipeline = nullptr;
-		other.ui_pass = nullptr;
-		other.the_white_pixel = nullptr;
-		other.unit_quad = nullptr;
-		other.unit_circles.clear();
-	}
-	return *this;
-}
+Renderer::~Renderer() = default;
 
 SDL_GPUDevice *Renderer::getDevice() const {
-	return device;
+	return device.get();
 }
 
 bool Renderer::beginFrame() {
-	current_cmd_buffer = SDL_AcquireGPUCommandBuffer(device);
+	current_cmd_buffer = SDL_AcquireGPUCommandBuffer(device.get());
 	if (!current_cmd_buffer)
 		throw std::runtime_error("Failed to acquire command buffer!");
 
@@ -205,54 +114,76 @@ void Renderer::endFrame() {
 		main_pass, current_cmd_buffer, proj_view_ui, ui_queue
 	);
 
-	for (auto& pair : world_2d_queue) pair.second.clear();
-	for (auto& pair : ui_queue) pair.second.clear();
+	world_2d_queue.clear();
+	ui_queue.clear();
 	SDL_EndGPURenderPass(main_pass);
 	SDL_SubmitGPUCommandBuffer(current_cmd_buffer);
 	current_cmd_buffer = nullptr;
 }
 
 Texture *Renderer::getTheWhitePixel() const {
-	return the_white_pixel;
+	return the_white_pixel.get();
 }
 
 GPUMesh* Renderer::getUnitQuad() {
 	if (!unit_quad) {
-		unit_quad = new GPUMesh(device, createUnitQuad());
+		unit_quad = std::make_unique<GPUMesh>(device.get(), createUnitQuad());
 	}
-	return unit_quad;
+	return unit_quad.get();
 }
 
 GPUMesh* Renderer::getUnitCircle(int segments) {
 	if (unit_circles.find(segments) == unit_circles.end()) {
-		unit_circles[segments] = new GPUMesh(
-			device, createUnitCircle(segments)
+		unit_circles[segments] = std::make_unique<GPUMesh>(
+			device.get(), createUnitCircle(segments)
 		);
 	}
-	return unit_circles[segments];
+	return unit_circles[segments].get();
+}
+
+void Renderer::drawDebugRect(
+	float x, float y, float w, float h, const Vec4 &color
+) {
+	uint32_t r = (uint32_t)(color.x * 255.0f);
+	uint32_t g = (uint32_t)(color.y * 255.0f);
+	uint32_t b = (uint32_t)(color.z * 255.0f);
+	uint32_t a = (uint32_t)(color.w * 255.0f);
+	uint32_t key = (r << 24) | (g << 16) | (b << 8) | a;
+
+	if (debug_rects.find(key) == debug_rects.end()) {
+		debug_rects[key] = std::make_unique<Rect>(
+			this, RectShape(0, 0, 0, 0), color
+		);
+		debug_rects[key]->setHollow(true);
+	}
+
+	debug_rects[key]->setShape(RectShape(x, y, w, h));
+	debug_rects[key]->draw();
 }
 
 void Renderer::initDevice() {
-	device = SDL_CreateGPUDevice(SDL_GPU_SHADERFORMAT_SPIRV, true, nullptr);
+	device = std::unique_ptr<SDL_GPUDevice, SDLGPUDeviceDeleter>(
+		SDL_CreateGPUDevice(SDL_GPU_SHADERFORMAT_SPIRV, true, nullptr)
+	);
 	if (!device) {
 		throw std::runtime_error(
 			"Device creation failed!\n-> " + std::string(SDL_GetError())
 		);
 	}
-	if (!SDL_ClaimWindowForGPUDevice(device, window->getSdlWindow())) {
+	if (!SDL_ClaimWindowForGPUDevice(device.get(), window->getSdlWindow())) {
 		throw std::runtime_error(
 			"SDL_ClaimWindowForGPUDevice() failed!\n-> " +
 			std::string(SDL_GetError())
 		);
 	}
 	if (!SDL_SetGPUSwapchainParameters(
-		device,
+		device.get(),
 		window->getSdlWindow(),
 		SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
 		SDL_GPU_PRESENTMODE_MAILBOX
 	)) {
 		SDL_SetGPUSwapchainParameters(
-			device,
+			device.get(),
 			window->getSdlWindow(),
 			SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
 			SDL_GPU_PRESENTMODE_IMMEDIATE
@@ -261,8 +192,8 @@ void Renderer::initDevice() {
 }
 
 void Renderer::initShaders() {
-	world_2d_shader = new Shader(
-		device,
+	world_2d_shader = std::make_unique<Shader>(
+		device.get(),
 		world_2d_vert_spv, world_2d_vert_spv_len,
 		world_2d_frag_spv, world_2d_frag_spv_len,
 		ShaderInfo({ .num_uniform_buffers = 1 }),
@@ -271,19 +202,18 @@ void Renderer::initShaders() {
 }
 
 void Renderer::initPipelines() {
-	world_2d_pipeline = new WorldPipeline(
-		device, window->getSdlWindow(), world_2d_shader
-	);
-	ui_pipeline = new UIPipeline(
-		device, window->getSdlWindow(), world_2d_shader
+	main_pipeline = std::make_unique<MainGraphicsPipeline>(
+		device.get(), window->getSdlWindow(), world_2d_shader.get()
 	);
 }
 
 void Renderer::initPasses() {
-	world_2d_pass = new World2DPass(
-		device, world_2d_pipeline->getSdlPipeline()
+	world_2d_pass = std::make_unique<MainRenderPass>(
+		device.get(), main_pipeline->getSdlPipeline()
 	);
-	ui_pass = new UIPass(device, ui_pipeline->getSdlPipeline());
+	ui_pass = std::make_unique<MainRenderPass>(
+		device.get(), main_pipeline->getSdlPipeline()
+	);
 }
 
 void Renderer::setCamera(Camera *camera) {
@@ -296,7 +226,7 @@ Shader* Renderer::createShader(
 	ShaderInfo vert_infos,
 	ShaderInfo frag_infos
 ) {
-	return new Shader(device, vert_path, frag_path, vert_infos, frag_infos);
+	return new Shader(device.get(), vert_path, frag_path, vert_infos, frag_infos);
 }
 
 Shader* Renderer::createShader(
@@ -308,17 +238,13 @@ Shader* Renderer::createShader(
 	ShaderInfo frag_infos
 ) {
 	return new Shader(
-		device, vert_code, vert_size, frag_code, frag_size,
+		device.get(), vert_code, vert_size, frag_code, frag_size,
 		vert_infos, frag_infos
 	);
 }
 
-WorldPipeline* Renderer::createWorldPipeline(Shader *shader) {
-	return new WorldPipeline(device, window->getSdlWindow(), shader);
-}
-
-UIPipeline* Renderer::createUiPipeline(Shader *shader) {
-	return new UIPipeline(device, window->getSdlWindow(), shader);
+MainGraphicsPipeline* Renderer::createMainGraphicsPipeline(Shader *shader) {
+	return new MainGraphicsPipeline(device.get(), window->getSdlWindow(), shader);
 }
 
 }  // namespace lili

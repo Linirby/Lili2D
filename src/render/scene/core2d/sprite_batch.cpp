@@ -55,18 +55,18 @@ void SpriteBatch::draw(
 	Vec2 p2{  half_w,  half_h };
 	Vec2 p3{ -half_w,  half_h };
 
-	auto transformPoint = [&](const Vec2 &p) -> Vec2 {
+	auto transform_point = [&](const Vec2 &p) -> Vec2 {
 		return {
 			pos.x + p.x * cos_r - p.y * sin_r,
 			pos.y + p.x * sin_r + p.y * cos_r
 		};
 	};
 
-	Vec2 tp0 = transformPoint(p0);
-	Vec2 tp1 = transformPoint(p1);
-	Vec2 tp2 = transformPoint(p2);
-	Vec2 tp3 = transformPoint(p3);
-	
+	Vec2 tp0 = transform_point(p0);
+	Vec2 tp1 = transform_point(p1);
+	Vec2 tp2 = transform_point(p2);
+	Vec2 tp3 = transform_point(p3);
+
 	Vertex v0;
 	v0.x = tp0.x; v0.y = tp0.y; v0.z = 0.0f;
 	v0.u = slice.u_min; v0.v = slice.v_min;

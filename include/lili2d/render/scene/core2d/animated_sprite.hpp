@@ -98,7 +98,7 @@ public:
 private:
 	Renderer *renderer = nullptr;
 
-	std::unique_ptr<GPUMesh> mesh = nullptr;
+	GPUMesh *mesh = nullptr;
 	std::unique_ptr<Material> material = nullptr;
 
 	Animation animation;
@@ -112,6 +112,8 @@ private:
 	float rotation = 0.0f;
 	float layer = 0.0f;
 
+	/// @brief Applies a specific slice frame to the sprite's mesh.
+	/// @param frame The frame to apply.
 	void applyFrame(const SliceUV &frame);
 };
 

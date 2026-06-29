@@ -104,12 +104,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab9ac0abcd6a802224db6a095b36e5bb5" id="r_ab9ac0abcd6a802224db6a095b36e5bb5"><td class="memItemLeft"><a id="ab9ac0abcd6a802224db6a095b36e5bb5" name="ab9ac0abcd6a802224db6a095b36e5bb5"></a>
 &#160;</td><td class="memItemRight"><b>~Renderer</b> ()</td></tr>
 <tr class="memdesc:ab9ac0abcd6a802224db6a095b36e5bb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br /></td></tr>
-<tr class="memitem:ab9ebbc79cc213d541085d0a72fc1b3e9" id="r_ab9ebbc79cc213d541085d0a72fc1b3e9"><td class="memItemLeft"><a id="ab9ebbc79cc213d541085d0a72fc1b3e9" name="ab9ebbc79cc213d541085d0a72fc1b3e9"></a>
-&#160;</td><td class="memItemRight"><b>Renderer</b> (Renderer &amp;&amp;other) noexcept</td></tr>
-<tr class="memdesc:ab9ebbc79cc213d541085d0a72fc1b3e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor. <br /></td></tr>
-<tr class="memitem:a952e6a24a7aa3402326443f276ce39fb" id="r_a952e6a24a7aa3402326443f276ce39fb"><td class="memItemLeft"><a id="a952e6a24a7aa3402326443f276ce39fb" name="a952e6a24a7aa3402326443f276ce39fb"></a>
-<a class="el" href="#a081112bfe1dd5040104bc865624b2b89">Renderer</a> &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (<a class="el" href="#a081112bfe1dd5040104bc865624b2b89">Renderer</a> &amp;&amp;other) noexcept</td></tr>
-<tr class="memdesc:a952e6a24a7aa3402326443f276ce39fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assignment. <br /></td></tr>
+<tr class="memitem:a2c6453c84142b4814a0561ac8e367d4c" id="r_a2c6453c84142b4814a0561ac8e367d4c"><td class="memItemLeft"><a id="a2c6453c84142b4814a0561ac8e367d4c" name="a2c6453c84142b4814a0561ac8e367d4c"></a>
+&#160;</td><td class="memItemRight"><b>Renderer</b> (Renderer &amp;&amp;other) noexcept=default</td></tr>
+<tr class="memdesc:a2c6453c84142b4814a0561ac8e367d4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor. <br /></td></tr>
+<tr class="memitem:a5c8fdbb67d980df52a3ed61431fe3195" id="r_a5c8fdbb67d980df52a3ed61431fe3195"><td class="memItemLeft"><a id="a5c8fdbb67d980df52a3ed61431fe3195" name="a5c8fdbb67d980df52a3ed61431fe3195"></a>
+<a class="el" href="#a081112bfe1dd5040104bc865624b2b89">Renderer</a> &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (<a class="el" href="#a081112bfe1dd5040104bc865624b2b89">Renderer</a> &amp;&amp;other) noexcept=default</td></tr>
+<tr class="memdesc:a5c8fdbb67d980df52a3ed61431fe3195"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assignment. <br /></td></tr>
 <tr class="memitem:abc77c68ab9209d97d676c0fe875c078a" id="r_abc77c68ab9209d97d676c0fe875c078a"><td class="memItemLeft"><a id="abc77c68ab9209d97d676c0fe875c078a" name="abc77c68ab9209d97d676c0fe875c078a"></a>
 &#160;</td><td class="memItemRight"><b>Renderer</b> (const Renderer &amp;)=delete</td></tr>
 <tr class="memdesc:abc77c68ab9209d97d676c0fe875c078a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor is deleted to prevent double-freeing the SDL GPU device. <br /></td></tr>
@@ -131,16 +131,16 @@ void&#160;</td><td class="memItemRight"><b>endFrame</b> ()</td></tr>
 <tr class="memdesc:ab5d3c49ca737036434816dbb280e0aeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a shader from file paths.  <br /></td></tr>
 <tr class="memitem:afe31153880dfa582abcb37b43c088b29" id="r_afe31153880dfa582abcb37b43c088b29"><td class="memItemLeft"><a class="el" href="classlili_1_1Shader.html">Shader</a> *&#160;</td><td class="memItemRight"><a class="el" href="#afe31153880dfa582abcb37b43c088b29">createShader</a> (const uint8_t *vert_code, size_t vert_size, const uint8_t *frag_code, size_t frag_size, <a class="el" href="structlili_1_1ShaderInfo.html">ShaderInfo</a> vert_infos={}, <a class="el" href="structlili_1_1ShaderInfo.html">ShaderInfo</a> frag_infos={})</td></tr>
 <tr class="memdesc:afe31153880dfa582abcb37b43c088b29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a shader from memory.  <br /></td></tr>
-<tr class="memitem:aca346dbbceded075efb7d6e40816c4b2" id="r_aca346dbbceded075efb7d6e40816c4b2"><td class="memItemLeft"><a class="el" href="classlili_1_1WorldPipeline.html">WorldPipeline</a> *&#160;</td><td class="memItemRight"><a class="el" href="#aca346dbbceded075efb7d6e40816c4b2">createWorldPipeline</a> (<a class="el" href="classlili_1_1Shader.html">Shader</a> *shader)</td></tr>
-<tr class="memdesc:aca346dbbceded075efb7d6e40816c4b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a custom world 2D pipeline with a given shader.  <br /></td></tr>
-<tr class="memitem:a01576ab18ab10e040c61d08040e29550" id="r_a01576ab18ab10e040c61d08040e29550"><td class="memItemLeft"><a class="el" href="classlili_1_1UIPipeline.html">UIPipeline</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a01576ab18ab10e040c61d08040e29550">createUiPipeline</a> (<a class="el" href="classlili_1_1Shader.html">Shader</a> *shader)</td></tr>
-<tr class="memdesc:a01576ab18ab10e040c61d08040e29550"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a custom UI pipeline with a given shader.  <br /></td></tr>
+<tr class="memitem:ab1ebdedb77f3b5beebc7e66b1081ab1a" id="r_ab1ebdedb77f3b5beebc7e66b1081ab1a"><td class="memItemLeft"><a class="el" href="classlili_1_1MainGraphicsPipeline.html">MainGraphicsPipeline</a> *&#160;</td><td class="memItemRight"><a class="el" href="#ab1ebdedb77f3b5beebc7e66b1081ab1a">createMainGraphicsPipeline</a> (<a class="el" href="classlili_1_1Shader.html">Shader</a> *shader)</td></tr>
+<tr class="memdesc:ab1ebdedb77f3b5beebc7e66b1081ab1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a custom graphics pipeline with a given shader.  <br /></td></tr>
 <tr class="memitem:a07da334a67c602a4d421eb1176311f7d" id="r_a07da334a67c602a4d421eb1176311f7d"><td class="memItemLeft"><a class="el" href="classlili_1_1Texture.html">Texture</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a07da334a67c602a4d421eb1176311f7d">getTheWhitePixel</a> () const</td></tr>
 <tr class="memdesc:a07da334a67c602a4d421eb1176311f7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the default white pixel texture.  <br /></td></tr>
 <tr class="memitem:a4fb3b88d2d237ad40dd06e641cb2c8db" id="r_a4fb3b88d2d237ad40dd06e641cb2c8db"><td class="memItemLeft"><a class="el" href="classlili_1_1GPUMesh.html">GPUMesh</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a4fb3b88d2d237ad40dd06e641cb2c8db">getUnitQuad</a> ()</td></tr>
 <tr class="memdesc:a4fb3b88d2d237ad40dd06e641cb2c8db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the shared unit quad mesh.  <br /></td></tr>
 <tr class="memitem:a87d5b398cd3d8be099d7e56b0099bf3f" id="r_a87d5b398cd3d8be099d7e56b0099bf3f"><td class="memItemLeft"><a class="el" href="classlili_1_1GPUMesh.html">GPUMesh</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a87d5b398cd3d8be099d7e56b0099bf3f">getUnitCircle</a> (int segments)</td></tr>
 <tr class="memdesc:a87d5b398cd3d8be099d7e56b0099bf3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets or creates a shared unit circle mesh.  <br /></td></tr>
+<tr class="memitem:a71b28b852ee8990357efb94e6d4701e7" id="r_a71b28b852ee8990357efb94e6d4701e7"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a71b28b852ee8990357efb94e6d4701e7">drawDebugRect</a> (float x, float y, float w, float h, const <a class="el" href="structlili_1_1Vec4.html">Vec4</a> &amp;color)</td></tr>
+<tr class="memdesc:a71b28b852ee8990357efb94e6d4701e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draws a cached hollow debug rectangle.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Main renderer class responsible for handling drawing operations. </p>
@@ -188,6 +188,32 @@ void&#160;</td><td class="memItemRight"><b>endFrame</b> ()</td></tr>
 
 <p>Begins the rendering frame. </p>
 <dl class="section return"><dt>Returns</dt><dd>True if the frame was successfully started, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="ab1ebdedb77f3b5beebc7e66b1081ab1a" name="ab1ebdedb77f3b5beebc7e66b1081ab1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1ebdedb77f3b5beebc7e66b1081ab1a">&#9670;&#160;</a></span>createMainGraphicsPipeline()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classlili_1_1MainGraphicsPipeline.html">MainGraphicsPipeline</a> * lili::Renderer::createMainGraphicsPipeline </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classlili_1_1Shader.html">Shader</a> *</td>          <td class="paramname"><span class="paramname"><em>shader</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a custom graphics pipeline with a given shader. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">shader</td><td>The custom shader. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="classlili_1_1MainGraphicsPipeline.html" title="Unified graphics pipeline.">MainGraphicsPipeline</a> instance. </dd></dl>
 
 </div>
 </div>
@@ -289,55 +315,51 @@ void&#160;</td><td class="memItemRight"><b>endFrame</b> ()</td></tr>
 
 </div>
 </div>
-<a id="a01576ab18ab10e040c61d08040e29550" name="a01576ab18ab10e040c61d08040e29550"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01576ab18ab10e040c61d08040e29550">&#9670;&#160;</a></span>createUiPipeline()</h2>
+<a id="a71b28b852ee8990357efb94e6d4701e7" name="a71b28b852ee8990357efb94e6d4701e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71b28b852ee8990357efb94e6d4701e7">&#9670;&#160;</a></span>drawDebugRect()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classlili_1_1UIPipeline.html">UIPipeline</a> * lili::Renderer::createUiPipeline </td>
+          <td class="memname">void lili::Renderer::drawDebugRect </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classlili_1_1Shader.html">Shader</a> *</td>          <td class="paramname"><span class="paramname"><em>shader</em></span></td><td>)</td>
-          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
         </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Creates a custom UI pipeline with a given shader. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">shader</td><td>The custom shader. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="classlili_1_1UIPipeline.html" title="Graphics pipeline for UI and world rendering.">UIPipeline</a> instance. </dd></dl>
-
-</div>
-</div>
-<a id="aca346dbbceded075efb7d6e40816c4b2" name="aca346dbbceded075efb7d6e40816c4b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca346dbbceded075efb7d6e40816c4b2">&#9670;&#160;</a></span>createWorldPipeline()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classlili_1_1WorldPipeline.html">WorldPipeline</a> * lili::Renderer::createWorldPipeline </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classlili_1_1Shader.html">Shader</a> *</td>          <td class="paramname"><span class="paramname"><em>shader</em></span></td><td>)</td>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>w</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>h</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structlili_1_1Vec4.html">Vec4</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>color</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Creates a custom world 2D pipeline with a given shader. </p>
+<p>Draws a cached hollow debug rectangle. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">shader</td><td>The custom shader. </td></tr>
+    <tr><td class="paramname">x</td><td>X position. </td></tr>
+    <tr><td class="paramname">y</td><td>Y position. </td></tr>
+    <tr><td class="paramname">w</td><td>Width. </td></tr>
+    <tr><td class="paramname">h</td><td>Height. </td></tr>
+    <tr><td class="paramname">color</td><td>The color. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="classlili_1_1WorldPipeline.html" title="Graphics pipeline for World and 2D world rendering.">WorldPipeline</a> instance. </dd></dl>
 
 </div>
 </div>

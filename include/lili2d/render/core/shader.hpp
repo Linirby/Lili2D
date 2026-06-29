@@ -3,6 +3,8 @@
 #include <SDL3/SDL_gpu.h>
 #include <vector>
 #include <string>
+#include <memory>
+#include "lili2d/core/sdl_deleters.hpp"
 
 namespace lili {
 
@@ -54,12 +56,12 @@ public:
 		ShaderInfo frag_infos = {}
 	);
 	/// @brief Destructor.
-	~Shader();
+	~Shader() = default;
 
 	/// @brief Move constructor.
-	Shader(Shader &&other) noexcept;
+	Shader(Shader &&other) noexcept = default;
 	/// @brief Move assignment.
-	Shader& operator=(Shader &&other) noexcept;
+	Shader& operator=(Shader &&other) noexcept = default;
 
 	/// @brief Copy constructor is deleted to prevent double-freeing the
 	/// compiled shader programs.
@@ -77,8 +79,8 @@ public:
 
 private:
 	SDL_GPUDevice *device = nullptr;
-	SDL_GPUShader *vertex_shader = nullptr;
-	SDL_GPUShader *fragment_shader = nullptr;
+	std::unique_ptr<SDL_GPUShader, SDLGPUShaderDeleter> vertex_shader;
+	std::unique_ptr<SDL_GPUShader, SDLGPUShaderDeleter> fragment_shader;
 
 	/// @brief getCodeInfo method.
 	CodeInfo getCodeInfo(const std::string &code_path);

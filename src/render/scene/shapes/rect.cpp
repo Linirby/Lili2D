@@ -1,6 +1,7 @@
 #include "lili2d/render/scene/shapes/rect.hpp"
 
 #include "lili2d/geometry/utils.hpp"
+#include "lili2d/geometry/vec3.hpp"
 
 namespace lili {
 
@@ -27,11 +28,17 @@ void Rect::setRotation(float degree) {
 }
 
 void Rect::setSize(Vec2 size) {
-	shape.w = size.x;
-	shape.h = size.y;
+	if (shape.w != size.x || shape.h != size.y) {
+		shape.w = size.x;
+		shape.h = size.y;
+		hollow_dirty = true;
+	}
 }
 
 void Rect::setShape(RectShape shape) {
+	if (this->shape.w != shape.w || this->shape.h != shape.h) {
+		hollow_dirty = true;
+	}
 	this->shape = shape;
 }
 
@@ -44,7 +51,10 @@ void Rect::setHollow(bool hollow) {
 }
 
 void Rect::setHollowThickness(float thickness) {
-	hollow_thickness = thickness;
+	if (hollow_thickness != thickness) {
+		hollow_thickness = thickness;
+		hollow_dirty = true;
+	}
 }
 
 void Rect::setLayer(float value) {
@@ -85,51 +95,63 @@ float Rect::getHollowThickness() const {
 
 void Rect::draw() {
 	if (is_hollow) {
-		Mat3 mat_rect = (
+		if (hollow_dirty) {
+			float t = hollow_thickness;
+			float w = shape.w;
+			float h = shape.h;
+
+			std::vector<Vertex> vertices;
+			std::vector<uint32_t> indices;
+
+			auto add_quad = [&](float qx, float qy, float qw, float qh) {
+				uint32_t start_idx = vertices.size();
+				vertices.push_back(Vertex{qx, qy, 0.0f, 0.0f, 0.0f});
+				vertices.push_back(Vertex{qx + qw, qy, 0.0f, 0.0f, 0.0f});
+				vertices.push_back(Vertex{qx, qy + qh, 0.0f, 0.0f, 0.0f});
+				vertices.push_back(Vertex{qx + qw, qy + qh, 0.0f, 0.0f, 0.0f});
+
+				indices.push_back(start_idx + 0);
+				indices.push_back(start_idx + 1);
+				indices.push_back(start_idx + 2);
+				indices.push_back(start_idx + 2);
+				indices.push_back(start_idx + 1);
+				indices.push_back(start_idx + 3);
+			};
+
+			float inner_h = h - 2.0f * t;
+			// Top
+			add_quad(0.0f, 0.0f, w, t);
+			// Bottom
+			add_quad(0.0f, h - t, w, t);
+			if (inner_h > 0.0f) {
+				// Left
+				add_quad(0.0f, t, t, inner_h);
+				// Right
+				add_quad(w - t, t, t, inner_h);
+			}
+
+			MeshData mesh_data;
+			mesh_data.vertices = vertices;
+			mesh_data.indices = indices;
+			if (!hollow_mesh) {
+				hollow_mesh = std::make_unique<GPUMesh>(
+					renderer->getDevice(), mesh_data
+				);
+			} else {
+				hollow_mesh->update(mesh_data);
+			}
+			hollow_dirty = false;
+		}
+
+		Mat3 mat_transform = (
 			Mat3::translate({ shape.x, shape.y }) * Mat3::rotation(rotation)
 		);
-		float inner_h = shape.h - 2.0f * hollow_thickness;
-
-		Mat3 top_mat = (
-			mat_rect *
-			Mat3::translate({ 0.0f, 0.0f }) *
-			Mat3::scale({ shape.w, hollow_thickness })
-		);
 		renderer->submit(
-			Model(mesh, material.get()), top_mat, layer, render_layer
+			Model(hollow_mesh.get(), material.get()),
+			mat_transform,
+			layer,
+			render_layer
 		);
-
-		Mat3 bottom_mat = (
-			mat_rect *
-			Mat3::translate({ 0.0f, shape.h - hollow_thickness }) *
-			Mat3::scale({ shape.w, hollow_thickness })
-		);
-		renderer->submit(
-			Model(mesh, material.get()), bottom_mat, layer, render_layer
-		);
-
-		if (inner_h > 0.0f) {
-			Mat3 left_mat = (
-				mat_rect *
-				Mat3::translate({ 0.0f, hollow_thickness }) *
-				Mat3::scale({ hollow_thickness, inner_h })
-			);
-			renderer->submit(
-				Model(mesh, material.get()), left_mat, layer, render_layer
-			);
-
-			Mat3 right_mat = (
-				mat_rect *
-				Mat3::translate({
-					shape.w - hollow_thickness,
-					hollow_thickness
-				}) *
-				Mat3::scale({ hollow_thickness, inner_h })
-			);
-			renderer->submit(
-				Model(mesh, material.get()), right_mat, layer, render_layer
-			);
-		}
 	} else {
 		Mat3 mat_transform = (
 			Mat3::translate({ shape.x, shape.y }) *

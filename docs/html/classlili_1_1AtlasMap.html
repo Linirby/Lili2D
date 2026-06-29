@@ -92,7 +92,7 @@ $(function(){initNavTree('classlili_1_1AtlasMap.html','','classlili_1_1AtlasMap-
 </div><!--header-->
 <div class="contents">
 
-<p>Represents an atlas texture map that can be sliced into multiple frames.  
+<p>Represents an atlas texture map that can be sliced into frames.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="atlas__map_8hpp_source.html">atlas_map.hpp</a>&gt;</code></p>
@@ -100,7 +100,7 @@ $(function(){initNavTree('classlili_1_1AtlasMap.html','','classlili_1_1AtlasMap-
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a27c210775956d8517445afa8d6012f28" id="r_a27c210775956d8517445afa8d6012f28"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a27c210775956d8517445afa8d6012f28">AtlasMap</a> (<a class="el" href="classlili_1_1Renderer.html">Renderer</a> *renderer, const std::string &amp;filename)</td></tr>
-<tr class="memdesc:a27c210775956d8517445afa8d6012f28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an <a class="el" href="classlili_1_1AtlasMap.html" title="Represents an atlas texture map that can be sliced into multiple frames.">AtlasMap</a> and loads its texture from a file.  <br /></td></tr>
+<tr class="memdesc:a27c210775956d8517445afa8d6012f28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an <a class="el" href="classlili_1_1AtlasMap.html" title="Represents an atlas texture map that can be sliced into frames.">AtlasMap</a> and loads its texture from a file.  <br /></td></tr>
 <tr class="memitem:a6fc62711552f41ffb8b4eafdab8c1188" id="r_a6fc62711552f41ffb8b4eafdab8c1188"><td class="memItemLeft"><a id="a6fc62711552f41ffb8b4eafdab8c1188" name="a6fc62711552f41ffb8b4eafdab8c1188"></a>
 &#160;</td><td class="memItemRight"><b>AtlasMap</b> (AtlasMap &amp;&amp;)=default</td></tr>
 <tr class="memdesc:a6fc62711552f41ffb8b4eafdab8c1188"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor. <br /></td></tr>
@@ -111,16 +111,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a34189af3818e096c4f76bfb7619f6245" id="r_a34189af3818e096c4f76bfb7619f6245"><td class="memItemLeft"><a class="el" href="structlili_1_1SliceUV.html">SliceUV</a>&#160;</td><td class="memItemRight"><a class="el" href="#a34189af3818e096c4f76bfb7619f6245">getSliceUV</a> (<a class="el" href="structlili_1_1Point2.html">Point2</a> at_pos) const</td></tr>
 <tr class="memdesc:a34189af3818e096c4f76bfb7619f6245"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="structlili_1_1SliceUV.html" title="Represents a slice of a texture with UV coordinates.">SliceUV</a> for a specific column and row.  <br /></td></tr>
 <tr class="memitem:a62aafff3763ef08418354b376dc80c0a" id="r_a62aafff3763ef08418354b376dc80c0a"><td class="memItemLeft"><a class="el" href="structlili_1_1SliceUV.html">SliceUV</a>&#160;</td><td class="memItemRight"><a class="el" href="#a62aafff3763ef08418354b376dc80c0a">getSliceUV</a> (int index) const</td></tr>
-<tr class="memdesc:a62aafff3763ef08418354b376dc80c0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="structlili_1_1SliceUV.html" title="Represents a slice of a texture with UV coordinates.">SliceUV</a> using a linear 1D index (left-to-right, top-to-bottom).  <br /></td></tr>
+<tr class="memdesc:a62aafff3763ef08418354b376dc80c0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="structlili_1_1SliceUV.html" title="Represents a slice of a texture with UV coordinates.">SliceUV</a> using a linear 1D index (left-to-right, down).  <br /></td></tr>
 <tr class="memitem:aa7285080c0eb10e3b960aed63ea5f7c2" id="r_aa7285080c0eb10e3b960aed63ea5f7c2"><td class="memItemLeft">std::vector&lt; <a class="el" href="structlili_1_1SliceUV.html">SliceUV</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aa7285080c0eb10e3b960aed63ea5f7c2">getSliceUVs</a> (int start_index, int count) const</td></tr>
 <tr class="memdesc:aa7285080c0eb10e3b960aed63ea5f7c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a contiguous sequence of SliceUVs using a linear 1D index.  <br /></td></tr>
 <tr class="memitem:aed5198547705c2a77faf50ef1838c194" id="r_aed5198547705c2a77faf50ef1838c194"><td class="memItemLeft">std::vector&lt; <a class="el" href="structlili_1_1SliceUV.html">SliceUV</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aed5198547705c2a77faf50ef1838c194">getSliceUVs</a> (<a class="el" href="structlili_1_1Point2.html">Point2</a> start, <a class="el" href="structlili_1_1Point2.html">Point2</a> end) const</td></tr>
 <tr class="memdesc:aed5198547705c2a77faf50ef1838c194"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a contiguous sequence of SliceUVs along a row or column.  <br /></td></tr>
-<tr class="memitem:a7b2c857da6a96f26cb0b415658d8764c" id="r_a7b2c857da6a96f26cb0b415658d8764c"><td class="memItemLeft"><a id="a7b2c857da6a96f26cb0b415658d8764c" name="a7b2c857da6a96f26cb0b415658d8764c"></a>
-<a class="el" href="classlili_1_1Texture.html">Texture</a> *&#160;</td><td class="memItemRight"><b>getTexture</b> () const</td></tr>
+<tr class="memitem:a7b2c857da6a96f26cb0b415658d8764c" id="r_a7b2c857da6a96f26cb0b415658d8764c"><td class="memItemLeft"><a class="el" href="classlili_1_1Texture.html">Texture</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a7b2c857da6a96f26cb0b415658d8764c">getTexture</a> () const</td></tr>
+<tr class="memdesc:a7b2c857da6a96f26cb0b415658d8764c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the underlying <a class="el" href="classlili_1_1Texture.html" title="Represents a 2D texture on the GPU.">Texture</a> object.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Represents an atlas texture map that can be sliced into multiple frames. </p>
+<div class="textblock"><p>Represents an atlas texture map that can be sliced into frames. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a27c210775956d8517445afa8d6012f28" name="a27c210775956d8517445afa8d6012f28"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a27c210775956d8517445afa8d6012f28">&#9670;&#160;</a></span>AtlasMap()</h2>
@@ -141,7 +141,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Constructs an <a class="el" href="classlili_1_1AtlasMap.html" title="Represents an atlas texture map that can be sliced into multiple frames.">AtlasMap</a> and loads its texture from a file. </p>
+<p>Constructs an <a class="el" href="classlili_1_1AtlasMap.html" title="Represents an atlas texture map that can be sliced into frames.">AtlasMap</a> and loads its texture from a file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">renderer</td><td>The renderer used to allocate the texture. </td></tr>
@@ -168,7 +168,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Gets the <a class="el" href="structlili_1_1SliceUV.html" title="Represents a slice of a texture with UV coordinates.">SliceUV</a> using a linear 1D index (left-to-right, top-to-bottom). </p>
+<p>Gets the <a class="el" href="structlili_1_1SliceUV.html" title="Represents a slice of a texture with UV coordinates.">SliceUV</a> using a linear 1D index (left-to-right, down). </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">index</td><td>The 0-based linear index of the frame. </td></tr>
@@ -259,11 +259,31 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">start</td><td>The 2D starting position (col, row). </td></tr>
-    <tr><td class="paramname">end</td><td>The 2D ending position (col, row). Must be on the same row or column. </td></tr>
+    <tr><td class="paramname">end</td><td>The 2D ending position (col, row). Must be on the same axis. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A vector of SliceUVs. </dd></dl>
+
+</div>
+</div>
+<a id="a7b2c857da6a96f26cb0b415658d8764c" name="a7b2c857da6a96f26cb0b415658d8764c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b2c857da6a96f26cb0b415658d8764c">&#9670;&#160;</a></span>getTexture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classlili_1_1Texture.html">Texture</a> * lili::AtlasMap::getTexture </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the underlying <a class="el" href="classlili_1_1Texture.html" title="Represents a 2D texture on the GPU.">Texture</a> object. </p>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the <a class="el" href="classlili_1_1Texture.html" title="Represents a 2D texture on the GPU.">Texture</a>. </dd></dl>
 
 </div>
 </div>

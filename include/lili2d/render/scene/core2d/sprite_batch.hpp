@@ -24,6 +24,10 @@ public:
 	SpriteBatch(Renderer *renderer, Texture *texture);
 	/// @brief Destructor.
 	~SpriteBatch();
+	SpriteBatch(const SpriteBatch&) = delete;
+	SpriteBatch& operator=(const SpriteBatch&) = delete;
+	SpriteBatch(SpriteBatch&&) = delete;
+	SpriteBatch& operator=(SpriteBatch&&) = delete;
 
 	/// @brief Begins a new batch, clearing previous data.
 	void begin();

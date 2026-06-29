@@ -19,7 +19,7 @@ uint16_t TileRegistry::registerTile(const std::string &key, Tile &&tile) {
 		throw std::runtime_error(
 			"TileRegistry has reach the max capacity for uint16_t."
 		);
-	
+
 	uint16_t new_id = id_to_tile.size();
 	id_to_tile.push_back(std::move(tile));
 	key_to_id[key] = new_id;

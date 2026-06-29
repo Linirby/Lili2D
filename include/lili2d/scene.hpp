@@ -14,5 +14,5 @@ class Scene;
 /// @brief Define a manager for scenes.
 class SceneManager;
 
-}
+}  // namespace lili
 

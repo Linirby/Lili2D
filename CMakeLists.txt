@@ -81,11 +81,8 @@ target_sources(Lili2D PRIVATE
     src/render/core/shader.cpp
     src/render/core/texture.cpp
 
-    src/render/passes/ui_pass.cpp
-    src/render/passes/world_2d_pass.cpp
-
-    src/render/pipelines/ui_pipeline.cpp
-    src/render/pipelines/world_2d_pipeline.cpp
+    src/render/passes/main_render_pass.cpp
+    src/render/pipelines/main_graphics_pipeline.cpp
 
     src/render/scene/common/animation.cpp
     src/render/scene/common/atlas_map.cpp

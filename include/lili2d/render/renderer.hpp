@@ -3,6 +3,9 @@
 #include <SDL3/SDL.h>
 #include <map>
 #include <vector>
+#include <memory>
+
+#include "lili2d/core/sdl_deleters.hpp"
 
 #include "lili2d/core/window.hpp"
 
@@ -12,15 +15,15 @@
 #include "lili2d/render/scene/common/model.hpp"
 
 #include "lili2d/render/passes/pass_types.hpp"
-#include "lili2d/render/passes/world_2d_pass.hpp"
-#include "lili2d/render/passes/ui_pass.hpp"
-
-#include "lili2d/render/pipelines/world_2d_pipeline.hpp"
-#include "lili2d/render/pipelines/ui_pipeline.hpp"
+#include "lili2d/render/passes/main_render_pass.hpp"
+#include "lili2d/render/pipelines/main_graphics_pipeline.hpp"
 
 #include "lili2d/world/camera.hpp"
 
 namespace lili {
+
+/// @brief A renderable rectangle object.
+class Rect;
 
 /// @brief Main renderer class responsible for handling drawing operations.
 class Renderer {
@@ -31,9 +34,9 @@ public:
 	/// @brief Destructor.
 	~Renderer();
 	/// @brief Move constructor.
-	Renderer(Renderer &&other) noexcept;
+	Renderer(Renderer &&other) noexcept = default;
 	/// @brief Move assignment.
-	Renderer& operator=(Renderer &&other) noexcept;
+	Renderer& operator=(Renderer &&other) noexcept = default;
 	/// @brief Copy constructor is deleted to prevent double-freeing the SDL GPU
 	/// device.
 	Renderer(const Renderer &) = delete;
@@ -91,14 +94,10 @@ public:
 		ShaderInfo frag_infos = {}
 	);
 
-	/// @brief Creates a custom world 2D pipeline with a given shader.
+	/// @brief Creates a custom graphics pipeline with a given shader.
 	/// @param shader The custom shader.
-	/// @return A new WorldPipeline instance.
-	WorldPipeline* createWorldPipeline(Shader *shader);
-	/// @brief Creates a custom UI pipeline with a given shader.
-	/// @param shader The custom shader.
-	/// @return A new UIPipeline instance.
-	UIPipeline* createUiPipeline(Shader *shader);
+	/// @return A new MainGraphicsPipeline instance.
+	MainGraphicsPipeline* createMainGraphicsPipeline(Shader *shader);
 
 	/// @brief Gets the default white pixel texture.
 	/// @return Pointer to the white pixel texture.
@@ -111,30 +110,39 @@ public:
 	/// @return Pointer to the shared GPUMesh for a unit circle.
 	GPUMesh* getUnitCircle(int segments);
 
+	/// @brief Draws a cached hollow debug rectangle.
+	/// @param x X position.
+	/// @param y Y position.
+	/// @param w Width.
+	/// @param h Height.
+	/// @param color The color.
+	void drawDebugRect(float x, float y, float w, float h, const Vec4 &color);
+
 private:
 	Window *window = nullptr;
-	SDL_GPUDevice *device = nullptr;
+	std::unique_ptr<SDL_GPUDevice, SDLGPUDeviceDeleter> device;
 
 	uint32_t swapchain_width, swapchain_height = 0;
 	SDL_GPUTexture *current_swapchain_texture = nullptr;
 	SDL_GPUCommandBuffer *current_cmd_buffer = nullptr;
 
-	Shader *world_2d_shader = nullptr;
-	WorldPipeline *world_2d_pipeline = nullptr;
-	World2DPass *world_2d_pass = nullptr;
+	std::unique_ptr<Shader> world_2d_shader;
+	std::unique_ptr<MainGraphicsPipeline> main_pipeline;
+	std::unique_ptr<MainRenderPass> world_2d_pass;
 	std::map<float, std::vector<DrawCommand>> world_2d_queue;
 
-	UIPipeline *ui_pipeline = nullptr;
-	UIPass *ui_pass = nullptr;
+	std::unique_ptr<MainRenderPass> ui_pass;
 	std::map<float, std::vector<DrawCommand>> ui_queue;
 
 	Mat3 proj_view_world2d;
 	Mat3 proj_view_ui;
 	Camera *camera = nullptr;
 
-	Texture *the_white_pixel = nullptr;
-	GPUMesh *unit_quad = nullptr;
-	std::map<int, GPUMesh*> unit_circles;
+	std::unique_ptr<Texture> the_white_pixel;
+	std::unique_ptr<GPUMesh> unit_quad;
+	std::map<int, std::unique_ptr<GPUMesh>> unit_circles;
+
+	std::map<uint32_t, std::unique_ptr<Rect>> debug_rects;
 
 	/// @brief initDevice method.
 	void initDevice();

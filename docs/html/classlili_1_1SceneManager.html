@@ -91,26 +91,205 @@ $(function(){initNavTree('classlili_1_1SceneManager.html','','classlili_1_1Scene
   <div class="headertitle"><div class="title">lili::SceneManager Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Manager for transitioning and updating scenes.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="scene__manager_8hpp_source.html">scene_manager.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae06b76681523e648c6c7e97922dd548e" id="r_ae06b76681523e648c6c7e97922dd548e"><td class="memItemLeft"><a id="ae06b76681523e648c6c7e97922dd548e" name="ae06b76681523e648c6c7e97922dd548e"></a>
-void&#160;</td><td class="memItemRight"><b>push</b> (std::unique_ptr&lt; <a class="el" href="classlili_1_1Scene.html">Scene</a> &gt; scene)</td></tr>
+<tr class="memitem:ae06b76681523e648c6c7e97922dd548e" id="r_ae06b76681523e648c6c7e97922dd548e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae06b76681523e648c6c7e97922dd548e">push</a> (std::unique_ptr&lt; <a class="el" href="classlili_1_1Scene.html">Scene</a> &gt; scene)</td></tr>
+<tr class="memdesc:ae06b76681523e648c6c7e97922dd548e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pushes a new scene onto the stack.  <br /></td></tr>
 <tr class="memitem:aab36c4ec15ffef0d05a6a5d55ab5df39" id="r_aab36c4ec15ffef0d05a6a5d55ab5df39"><td class="memItemLeft"><a id="aab36c4ec15ffef0d05a6a5d55ab5df39" name="aab36c4ec15ffef0d05a6a5d55ab5df39"></a>
 void&#160;</td><td class="memItemRight"><b>pop</b> ()</td></tr>
-<tr class="memitem:a66f274e17133b0ae82dba962213d575b" id="r_a66f274e17133b0ae82dba962213d575b"><td class="memItemLeft"><a id="a66f274e17133b0ae82dba962213d575b" name="a66f274e17133b0ae82dba962213d575b"></a>
-void&#160;</td><td class="memItemRight"><b>change_scene</b> (std::unique_ptr&lt; <a class="el" href="classlili_1_1Scene.html">Scene</a> &gt; scene)</td></tr>
-<tr class="memitem:aa2fab6d28bd1e93e528eaf7491a46db0" id="r_aa2fab6d28bd1e93e528eaf7491a46db0"><td class="memItemLeft"><a id="aa2fab6d28bd1e93e528eaf7491a46db0" name="aa2fab6d28bd1e93e528eaf7491a46db0"></a>
-void&#160;</td><td class="memItemRight"><b>handle_events</b> (const <a class="el" href="classlili_1_1Event.html">Event</a> &amp;event)</td></tr>
-<tr class="memitem:ae054953a99127e8e3b83cdb4883d050d" id="r_ae054953a99127e8e3b83cdb4883d050d"><td class="memItemLeft"><a id="ae054953a99127e8e3b83cdb4883d050d" name="ae054953a99127e8e3b83cdb4883d050d"></a>
-void&#160;</td><td class="memItemRight"><b>update</b> (float dt)</td></tr>
-<tr class="memitem:ae22df3acf58da3384c6f3e911d48bac6" id="r_ae22df3acf58da3384c6f3e911d48bac6"><td class="memItemLeft"><a id="ae22df3acf58da3384c6f3e911d48bac6" name="ae22df3acf58da3384c6f3e911d48bac6"></a>
-void&#160;</td><td class="memItemRight"><b>fixed_update</b> (float dt)</td></tr>
-<tr class="memitem:a212c78e27996a54c90ab1ae2f02e0943" id="r_a212c78e27996a54c90ab1ae2f02e0943"><td class="memItemLeft"><a id="a212c78e27996a54c90ab1ae2f02e0943" name="a212c78e27996a54c90ab1ae2f02e0943"></a>
-void&#160;</td><td class="memItemRight"><b>render</b> (<a class="el" href="classlili_1_1Renderer.html">Renderer</a> *renderer, float alpha)</td></tr>
-<tr class="memitem:a5e40b846698e1e3b9ad692c5ebe72d00" id="r_a5e40b846698e1e3b9ad692c5ebe72d00"><td class="memItemLeft"><a id="a5e40b846698e1e3b9ad692c5ebe72d00" name="a5e40b846698e1e3b9ad692c5ebe72d00"></a>
-bool&#160;</td><td class="memItemRight"><b>empty</b> () const</td></tr>
+<tr class="memdesc:aab36c4ec15ffef0d05a6a5d55ab5df39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pops the top scene from the stack. <br /></td></tr>
+<tr class="memitem:a839858e457420fd8e36af5218b465e06" id="r_a839858e457420fd8e36af5218b465e06"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a839858e457420fd8e36af5218b465e06">changeScene</a> (std::unique_ptr&lt; <a class="el" href="classlili_1_1Scene.html">Scene</a> &gt; scene)</td></tr>
+<tr class="memdesc:a839858e457420fd8e36af5218b465e06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces the top scene with a new one.  <br /></td></tr>
+<tr class="memitem:a344a9a1b10125e4756774648f61ebdcc" id="r_a344a9a1b10125e4756774648f61ebdcc"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a344a9a1b10125e4756774648f61ebdcc">handleEvents</a> (const <a class="el" href="classlili_1_1Event.html">Event</a> &amp;event)</td></tr>
+<tr class="memdesc:a344a9a1b10125e4756774648f61ebdcc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dispatches an event to the top scene.  <br /></td></tr>
+<tr class="memitem:ae054953a99127e8e3b83cdb4883d050d" id="r_ae054953a99127e8e3b83cdb4883d050d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae054953a99127e8e3b83cdb4883d050d">update</a> (float dt)</td></tr>
+<tr class="memdesc:ae054953a99127e8e3b83cdb4883d050d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the top scene.  <br /></td></tr>
+<tr class="memitem:afeea6b8dde49080b957b2b2c2a9ff560" id="r_afeea6b8dde49080b957b2b2c2a9ff560"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afeea6b8dde49080b957b2b2c2a9ff560">fixedUpdate</a> (float dt)</td></tr>
+<tr class="memdesc:afeea6b8dde49080b957b2b2c2a9ff560"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the top scene's physics.  <br /></td></tr>
+<tr class="memitem:a232c87feae55fc7002c02a724e87f266" id="r_a232c87feae55fc7002c02a724e87f266"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a232c87feae55fc7002c02a724e87f266">render</a> (float alpha)</td></tr>
+<tr class="memdesc:a232c87feae55fc7002c02a724e87f266"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders the top scene.  <br /></td></tr>
+<tr class="memitem:a5e40b846698e1e3b9ad692c5ebe72d00" id="r_a5e40b846698e1e3b9ad692c5ebe72d00"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a5e40b846698e1e3b9ad692c5ebe72d00">empty</a> () const</td></tr>
+<tr class="memdesc:a5e40b846698e1e3b9ad692c5ebe72d00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the scene stack is empty.  <br /></td></tr>
 </table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Manager for transitioning and updating scenes. </p>
+</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a839858e457420fd8e36af5218b465e06" name="a839858e457420fd8e36af5218b465e06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a839858e457420fd8e36af5218b465e06">&#9670;&#160;</a></span>changeScene()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lili::SceneManager::changeScene </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classlili_1_1Scene.html">Scene</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>scene</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Replaces the top scene with a new one. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">scene</td><td>The new scene. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a5e40b846698e1e3b9ad692c5ebe72d00" name="a5e40b846698e1e3b9ad692c5ebe72d00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e40b846698e1e3b9ad692c5ebe72d00">&#9670;&#160;</a></span>empty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lili::SceneManager::empty </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if the scene stack is empty. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if empty, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="afeea6b8dde49080b957b2b2c2a9ff560" name="afeea6b8dde49080b957b2b2c2a9ff560"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afeea6b8dde49080b957b2b2c2a9ff560">&#9670;&#160;</a></span>fixedUpdate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lili::SceneManager::fixedUpdate </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>dt</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Updates the top scene's physics. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dt</td><td>Delta time in seconds. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a344a9a1b10125e4756774648f61ebdcc" name="a344a9a1b10125e4756774648f61ebdcc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a344a9a1b10125e4756774648f61ebdcc">&#9670;&#160;</a></span>handleEvents()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lili::SceneManager::handleEvents </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classlili_1_1Event.html">Event</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>event</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Dispatches an event to the top scene. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td>The event. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae06b76681523e648c6c7e97922dd548e" name="ae06b76681523e648c6c7e97922dd548e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae06b76681523e648c6c7e97922dd548e">&#9670;&#160;</a></span>push()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lili::SceneManager::push </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classlili_1_1Scene.html">Scene</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>scene</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Pushes a new scene onto the stack. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">scene</td><td>The scene to push. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a232c87feae55fc7002c02a724e87f266" name="a232c87feae55fc7002c02a724e87f266"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a232c87feae55fc7002c02a724e87f266">&#9670;&#160;</a></span>render()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lili::SceneManager::render </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>alpha</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Renders the top scene. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">alpha</td><td>Interpolation factor. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae054953a99127e8e3b83cdb4883d050d" name="ae054953a99127e8e3b83cdb4883d050d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae054953a99127e8e3b83cdb4883d050d">&#9670;&#160;</a></span>update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lili::SceneManager::update </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>dt</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Updates the top scene. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dt</td><td>Delta time in seconds. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/lili/Documents/Lili2D/include/lili2d/scene/<a class="el" href="scene__manager_8hpp_source.html">scene_manager.hpp</a></li>
 </ul>

@@ -86,10 +86,14 @@ public:
 	/// @brief Gets the center position.
 	/// @return The center position.
 	Vec2 getCenter() const;
+	/// @brief Gets the top-left position (center - radius).
+	/// @return The top-left position.
 	Vec2 getTopLeft() const;
 	/// @brief Gets the radius.
 	/// @return The radius.
 	float getRadius() const;
+	/// @brief Gets the diameter.
+	/// @return The diameter.
 	float getDiameter() const;
 	/// @brief Gets the shape geometry.
 	/// @return The shape.
@@ -120,6 +124,8 @@ private:
 	RenderLayer render_layer = RenderLayer::WORLD2D;
 	GPUMesh *mesh = nullptr;
 	std::unique_ptr<Material> material = nullptr;
+	std::unique_ptr<GPUMesh> hollow_mesh = nullptr;
+	bool hollow_dirty = true;
 };
 
 }  // namespace lili

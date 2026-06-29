@@ -2,6 +2,8 @@
 
 #include <cmath>
 
+#include "lili2d/geometry/vec3.hpp"
+
 namespace lili {
 
 CircleShape::CircleShape(Vec2 center, float radius, int segments)
@@ -21,16 +23,24 @@ void Circle::setCenter(Vec2 pos) {
 }
 
 void Circle::setRadius(float r) {
-	shape.radius = r;
+	if (shape.radius != r) {
+		shape.radius = r;
+		hollow_dirty = true;
+	}
 }
 
 void Circle::setSegments(int n) {
-	shape.segments = n;
-	mesh = renderer->getUnitCircle(n);
+	if (shape.segments != n) {
+		shape.segments = n;
+		mesh = renderer->getUnitCircle(n);
+		hollow_dirty = true;
+	}
 }
 
 void Circle::setShape(CircleShape shape) {
 	this->shape = shape;
+	mesh = renderer->getUnitCircle(shape.segments);
+	hollow_dirty = true;
 }
 
 void Circle::setColor(Vec4 color) {
@@ -42,7 +52,10 @@ void Circle::setHollow(bool hollow) {
 }
 
 void Circle::setHollowThickness(float thickness) {
-	hollow_thickness = thickness;
+	if (hollow_thickness != thickness) {
+		hollow_thickness = thickness;
+		hollow_dirty = true;
+	}
 }
 
 void Circle::setLayer(float value) {
@@ -91,40 +104,62 @@ float Circle::getHollowThickness() const {
 
 void Circle::draw() {
 	if (is_hollow) {
-		int n = shape.segments;
-		float r = shape.radius;
-		const float PI = 3.14159265359f;
-		float angle_step = (2.0f * PI) / n;
+		if (hollow_dirty) {
+			int n = shape.segments;
+			float r = shape.radius;
+			float inner_r = r - hollow_thickness * 0.5f;
+			float outer_r = r + hollow_thickness * 0.5f;
+			const float PI = 3.14159265359f;
+			float angle_step = (2.0f * PI) / n;
 
-		for (int i = 0; i < n; i++) {
-			float angle1 = i * angle_step;
-			float angle2 = (i + 1) * angle_step;
+			std::vector<Vertex> vertices;
+			std::vector<uint32_t> indices;
 
-			Vec2 p1 = (
-				shape.center + Vec2(std::cos(angle1) * r, std::sin(angle1) * r)
-			);
-			Vec2 p2 = (
-				shape.center + Vec2(std::cos(angle2) * r, std::sin(angle2) * r)
-			);
+			for (int i = 0; i < n; i++) {
+				float angle = i * angle_step;
+				float cos_a = std::cos(angle);
+				float sin_a = std::sin(angle);
+				vertices.push_back(Vertex{
+					inner_r * cos_a, inner_r * sin_a, 0.0f, 0.0f, 0.0f
+				});
+				vertices.push_back(Vertex{
+					outer_r * cos_a, outer_r * sin_a, 0.0f, 0.0f, 0.0f
+				});
 
-			Vec2 diff = p2 - p1;
-			float length = diff.length();
-			float angle = std::atan2(diff.y, diff.x);
+				uint32_t current_inner = i * 2;
+				uint32_t current_outer = i * 2 + 1;
+				uint32_t next_inner = ((i + 1) % n) * 2;
+				uint32_t next_outer = ((i + 1) % n) * 2 + 1;
 
-			Mat3 mat_transform = (
-				Mat3::translate(p1) *
-				Mat3::rotation(angle) *
-				Mat3::translate({ 0.0f, -hollow_thickness * 0.5f }) *
-				Mat3::scale({ length, hollow_thickness })
-			);
+				indices.push_back(current_inner);
+				indices.push_back(current_outer);
+				indices.push_back(next_inner);
 
-			renderer->submit(
-				Model(renderer->getUnitQuad(), material.get()),
-				mat_transform,
-				layer,
-				render_layer
-			);
+				indices.push_back(next_inner);
+				indices.push_back(current_outer);
+				indices.push_back(next_outer);
+			}
+
+			MeshData mesh_data;
+			mesh_data.vertices = vertices;
+			mesh_data.indices = indices;
+			if (!hollow_mesh) {
+				hollow_mesh = std::make_unique<GPUMesh>(
+					renderer->getDevice(), mesh_data
+				);
+			} else {
+				hollow_mesh->update(mesh_data);
+			}
+			hollow_dirty = false;
 		}
+
+		Mat3 mat_transform = Mat3::translate(shape.center);
+		renderer->submit(
+			Model(hollow_mesh.get(), material.get()),
+			mat_transform,
+			layer,
+			render_layer
+		);
 	} else {
 		Mat3 mat_transform = (
 			Mat3::translate(shape.center) *

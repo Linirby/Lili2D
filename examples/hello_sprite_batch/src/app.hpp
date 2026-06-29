@@ -38,7 +38,7 @@ private:
 	Character player;
 
 	bool running = false;
-	
+
 	lili::Animation anim_idle;
 	lili::Animation anim_run_right;
 	lili::Animation anim_run_left;

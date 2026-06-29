@@ -104,6 +104,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aa038d3367ec10b6e3791c7057c5d5aa0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. <br /></td></tr>
 <tr class="memitem:a175886d6e26fc4f2d355e6fade4d0722" id="r_a175886d6e26fc4f2d355e6fade4d0722"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a175886d6e26fc4f2d355e6fade4d0722">Sprite</a> (<a class="el" href="classlili_1_1Renderer.html">Renderer</a> *renderer, const std::string &amp;path)</td></tr>
 <tr class="memdesc:a175886d6e26fc4f2d355e6fade4d0722"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a sprite from an image file.  <br /></td></tr>
+<tr class="memitem:a06c1268179d50a090493d83e5700e554" id="r_a06c1268179d50a090493d83e5700e554"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a06c1268179d50a090493d83e5700e554">Sprite</a> (<a class="el" href="classlili_1_1Renderer.html">Renderer</a> *renderer, <a class="el" href="structlili_1_1SliceUV.html">SliceUV</a> slice)</td></tr>
+<tr class="memdesc:a06c1268179d50a090493d83e5700e554"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a sprite from a UV slice.  <br /></td></tr>
 <tr class="memitem:a95183abb4eccc691ba54f8e50f140ff0" id="r_a95183abb4eccc691ba54f8e50f140ff0"><td class="memItemLeft"><a id="a95183abb4eccc691ba54f8e50f140ff0" name="a95183abb4eccc691ba54f8e50f140ff0"></a>
 &#160;</td><td class="memItemRight"><b>Sprite</b> (Sprite &amp;&amp;)=default</td></tr>
 <tr class="memdesc:a95183abb4eccc691ba54f8e50f140ff0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor. <br /></td></tr>
@@ -111,6 +113,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a2f99ae7840ab97bfe21dc3a22fde4583"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assignment operator.  <br /></td></tr>
 <tr class="memitem:a49c6544d152985ce0de9b4980bb5e15a" id="r_a49c6544d152985ce0de9b4980bb5e15a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a49c6544d152985ce0de9b4980bb5e15a">setImage</a> (const std::string &amp;path)</td></tr>
 <tr class="memdesc:a49c6544d152985ce0de9b4980bb5e15a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the sprite's image.  <br /></td></tr>
+<tr class="memitem:aab3213abd4a936bb06bd1d42fd5ccd47" id="r_aab3213abd4a936bb06bd1d42fd5ccd47"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aab3213abd4a936bb06bd1d42fd5ccd47">setSlice</a> (<a class="el" href="structlili_1_1SliceUV.html">SliceUV</a> slice)</td></tr>
+<tr class="memdesc:aab3213abd4a936bb06bd1d42fd5ccd47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the sprite's slice from an atlas map.  <br /></td></tr>
 <tr class="memitem:ade4a89315447e81921f6c19a92b8237d" id="r_ade4a89315447e81921f6c19a92b8237d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ade4a89315447e81921f6c19a92b8237d">setColorTint</a> (const <a class="el" href="structlili_1_1Vec4.html">Vec4</a> &amp;color)</td></tr>
 <tr class="memdesc:ade4a89315447e81921f6c19a92b8237d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the sprite's color tint.  <br /></td></tr>
 <tr class="memitem:af1d014e16ddff24cfb5c19fd3cda9395" id="r_af1d014e16ddff24cfb5c19fd3cda9395"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af1d014e16ddff24cfb5c19fd3cda9395">setPosition</a> (const <a class="el" href="structlili_1_1Vec2.html">Vec2</a> &amp;position)</td></tr>
@@ -141,7 +145,7 @@ void&#160;</td><td class="memItemRight"><b>draw</b> ()</td></tr>
 <div class="textblock"><p>Represents a renderable 2D sprite. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a175886d6e26fc4f2d355e6fade4d0722" name="a175886d6e26fc4f2d355e6fade4d0722"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a175886d6e26fc4f2d355e6fade4d0722">&#9670;&#160;</a></span>Sprite()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a175886d6e26fc4f2d355e6fade4d0722">&#9670;&#160;</a></span>Sprite() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -164,6 +168,37 @@ void&#160;</td><td class="memItemRight"><b>draw</b> ()</td></tr>
   <table class="params">
     <tr><td class="paramname">renderer</td><td>The renderer. </td></tr>
     <tr><td class="paramname">path</td><td>Path to the image file. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a06c1268179d50a090493d83e5700e554" name="a06c1268179d50a090493d83e5700e554"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06c1268179d50a090493d83e5700e554">&#9670;&#160;</a></span>Sprite() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">lili::Sprite::Sprite </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classlili_1_1Renderer.html">Renderer</a> *</td>          <td class="paramname"><span class="paramname"><em>renderer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structlili_1_1SliceUV.html">SliceUV</a></td>          <td class="paramname"><span class="paramname"><em>slice</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructs a sprite from a UV slice. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">renderer</td><td>The renderer. </td></tr>
+    <tr><td class="paramname">atlas</td><td>The atlas map. </td></tr>
+    <tr><td class="paramname">slice</td><td>The UV slice of an atlas. </td></tr>
   </table>
   </dd>
 </dl>
@@ -468,6 +503,31 @@ void&#160;</td><td class="memItemRight"><b>draw</b> ()</td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">size</td><td>The new size. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aab3213abd4a936bb06bd1d42fd5ccd47" name="aab3213abd4a936bb06bd1d42fd5ccd47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab3213abd4a936bb06bd1d42fd5ccd47">&#9670;&#160;</a></span>setSlice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lili::Sprite::setSlice </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structlili_1_1SliceUV.html">SliceUV</a></td>          <td class="paramname"><span class="paramname"><em>slice</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the sprite's slice from an atlas map. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">slice</td><td>The new UV slice. </td></tr>
   </table>
   </dd>
 </dl>

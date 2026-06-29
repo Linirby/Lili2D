@@ -2,6 +2,7 @@ var classlili_1_1Sprite =
 [
     [ "Sprite", "classlili_1_1Sprite.html#aa038d3367ec10b6e3791c7057c5d5aa0", null ],
     [ "Sprite", "classlili_1_1Sprite.html#a175886d6e26fc4f2d355e6fade4d0722", null ],
+    [ "Sprite", "classlili_1_1Sprite.html#a06c1268179d50a090493d83e5700e554", null ],
     [ "Sprite", "classlili_1_1Sprite.html#a95183abb4eccc691ba54f8e50f140ff0", null ],
     [ "draw", "classlili_1_1Sprite.html#a73aab0c5ef9b04a3111734a1c7e2bf90", null ],
     [ "getHeight", "classlili_1_1Sprite.html#a64f47a81e3dc6b0bf64e4ee7c20bbe54", null ],
@@ -16,5 +17,6 @@ var classlili_1_1Sprite =
     [ "setPosition", "classlili_1_1Sprite.html#af1d014e16ddff24cfb5c19fd3cda9395", null ],
     [ "setRotation", "classlili_1_1Sprite.html#a13f7304468c31648734a500b76c87d6f", null ],
     [ "setScale", "classlili_1_1Sprite.html#aa2c5713ece298846e5a618bc45c8f974", null ],
-    [ "setSize", "classlili_1_1Sprite.html#ae0e1f83b1aec10f33125f020314cd5a6", null ]
+    [ "setSize", "classlili_1_1Sprite.html#ae0e1f83b1aec10f33125f020314cd5a6", null ],
+    [ "setSlice", "classlili_1_1Sprite.html#aab3213abd4a936bb06bd1d42fd5ccd47", null ]
 ];

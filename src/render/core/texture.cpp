@@ -16,6 +16,7 @@ Texture::Texture(SDL_GPUDevice *device, const std::string &img_path)
 	);
 	SDL_DestroySurface(temp_surface);
 	initFromSurface(surface);
+	SDL_DestroySurface(surface);
 }
 
 Texture::Texture(
@@ -33,6 +34,7 @@ Texture::Texture(
 	);
 	SDL_DestroySurface(temp_surface);
 	initFromSurface(surface);
+	SDL_DestroySurface(surface);
 }
 
 Texture::Texture(SDL_GPUDevice *device, SDL_Surface *surface) {
@@ -40,34 +42,6 @@ Texture::Texture(SDL_GPUDevice *device, SDL_Surface *surface) {
 	initFromSurface(surface);
 }
 
-Texture::Texture(Texture &&other) noexcept
-	: device(other.device),
-	width(other.width),
-	height(other.height),
-	texture(other.texture),
-	sampler(other.sampler) {
-	other.device = nullptr;
-	other.texture = nullptr;
-	other.sampler = nullptr;
-}
-
-Texture& Texture::operator=(Texture &&other) noexcept {
-	if (this != &other) {
-		if (sampler) SDL_ReleaseGPUSampler(device, sampler);
-		if (texture) SDL_ReleaseGPUTexture(device, texture);
-
-		device = other.device;
-		width = other.width;
-		height = other.height;
-		texture = other.texture;
-		sampler = other.sampler;
-
-		other.device = nullptr;
-		other.texture = nullptr;
-		other.sampler = nullptr;
-	}
-	return *this;
-}
 
 void Texture::initFromSurface(SDL_Surface *surface) {
 	width = surface->w;
@@ -83,7 +57,10 @@ void Texture::initFromSurface(SDL_Surface *surface) {
 	texture_ci.num_levels = 1;
 	texture_ci.sample_count = SDL_GPU_SAMPLECOUNT_1;
 
-	texture = SDL_CreateGPUTexture(this->device, &texture_ci);
+	texture = std::unique_ptr<SDL_GPUTexture, SDLGPUTextureDeleter>(
+		SDL_CreateGPUTexture(this->device, &texture_ci),
+		SDLGPUTextureDeleter(this->device)
+	);
 	transferToGpu(surface);
 
 	SDL_GPUSamplerCreateInfo sampler_info{};
@@ -94,18 +71,16 @@ void Texture::initFromSurface(SDL_Surface *surface) {
 	sampler_info.address_mode_v = SDL_GPU_SAMPLERADDRESSMODE_REPEAT;
 	sampler_info.address_mode_w = SDL_GPU_SAMPLERADDRESSMODE_REPEAT;
 
-	sampler = SDL_CreateGPUSampler(this->device, &sampler_info);
+	sampler = std::unique_ptr<SDL_GPUSampler, SDLGPUSamplerDeleter>(
+		SDL_CreateGPUSampler(this->device, &sampler_info),
+		SDLGPUSamplerDeleter(this->device)
+	);
 	if (!sampler) {
 		throw std::runtime_error(
 			"res.texture_sampler creation failed!\n-> " +
 			std::string(SDL_GetError())
 		);
 	}
-}
-
-Texture::~Texture() {
-	if (sampler) SDL_ReleaseGPUSampler(device, sampler);
-	if (texture) SDL_ReleaseGPUTexture(device, texture);
 }
 
 int Texture::getWidth() const {
@@ -117,11 +92,11 @@ int Texture::getHeight() const {
 }
 
 SDL_GPUTexture *Texture::getTexture() const {
-	return texture;
+	return texture.get();
 }
 
 SDL_GPUSampler *Texture::getSampler() const {
-	return sampler;
+	return sampler.get();
 }
 
 void Texture::transferToGpu(SDL_Surface *surface) {
@@ -143,7 +118,7 @@ void Texture::transferToGpu(SDL_Surface *surface) {
 	src.offset = 0;
 
 	SDL_GPUTextureRegion dst{};
-	dst.texture = texture;
+	dst.texture = texture.get();
 	dst.w = static_cast<uint32_t>(surface->w);
 	dst.h = static_cast<uint32_t>(surface->h);
 	dst.d = 1;
@@ -152,7 +127,6 @@ void Texture::transferToGpu(SDL_Surface *surface) {
 	SDL_EndGPUCopyPass(copy_pass);
 	SDL_SubmitGPUCommandBuffer(cmd);
 	SDL_ReleaseGPUTransferBuffer(device, transfer_buffer);
-	SDL_DestroySurface(surface);
 }
 
 }  // namespace lili

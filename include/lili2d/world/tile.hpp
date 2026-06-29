@@ -4,6 +4,7 @@
 
 namespace lili {
 
+/// @brief Represents a single tile in the world.
 struct Tile {
 	Tile() = default;
 	Tile(
@@ -14,11 +15,5 @@ struct Tile {
 	SliceUV slice;
 	bool is_solid = false;
 };
-
-inline Tile::Tile(
-	const SliceUV &slice,
-	bool is_solid
-) : slice(slice), is_solid(is_solid) {
-}
 
 }  // namespace lili

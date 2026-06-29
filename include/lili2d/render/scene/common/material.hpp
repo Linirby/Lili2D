@@ -13,6 +13,7 @@ namespace lili {
 /// @brief Properties for a material.
 struct MaterialProps {
 	Vec4 color_tint = { 1.0f, 1.0f, 1.0f, 1.0f };  ///< Color tint.
+	Vec4 uv_bounds = { 0.0f, 0.0f, 1.0f, 1.0f };   ///< UV bounds bounds.
 };
 
 /// @brief Defines how a model is rendered.
@@ -98,7 +99,7 @@ public:
 	size_t materialCount() const;
 	/// @brief Gets the raw material data array.
 	/// @return Pointer to the material data.
-	const Material *material_data() const;
+	const Material *materialData() const;
 
 private:
 	std::unordered_map<std::string, uint16_t> key_to_id;

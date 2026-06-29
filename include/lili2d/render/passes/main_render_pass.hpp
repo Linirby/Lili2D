@@ -5,13 +5,13 @@
 
 namespace lili {
 
-/// @brief Rendering pass for the 2D world.
-class World2DPass {
+/// @brief Unified rendering pass for drawing layers.
+class MainRenderPass {
 public:
-	/// @brief Constructs a 2D world pass.
+	/// @brief Constructs a render pass.
 	/// @param device The SDL GPU device.
 	/// @param pipeline The graphics pipeline to use.
-	World2DPass(SDL_GPUDevice *device, SDL_GPUGraphicsPipeline *pipeline);
+	MainRenderPass(SDL_GPUDevice *device, SDL_GPUGraphicsPipeline *pipeline);
 	/// @brief Default destructor.
 
 

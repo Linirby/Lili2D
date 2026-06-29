@@ -1,7 +1,7 @@
 var classlili_1_1AnimationRegistry =
 [
-    [ "animation_data", "classlili_1_1AnimationRegistry.html#ad466329d70c2f7a8755ce2bf37eca0c7", null ],
     [ "animationCount", "classlili_1_1AnimationRegistry.html#adeaffe64ad0a05a28cac3d07efd1ebcd", null ],
+    [ "animationData", "classlili_1_1AnimationRegistry.html#a5be0fc5ae122d36356c3472b7e35e8ee", null ],
     [ "getAnimation", "classlili_1_1AnimationRegistry.html#a0b74810a2981c895861ec9e09ae69fdc", null ],
     [ "getAnimation", "classlili_1_1AnimationRegistry.html#a34f81bdd75beede4603c7d38a1dd2803", null ],
     [ "getAnimation", "classlili_1_1AnimationRegistry.html#a58d1a47411e334d1e05387e82d6c6011", null ],

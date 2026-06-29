@@ -6,6 +6,7 @@ var classlili_1_1AtlasMap =
     [ "getSliceUV", "classlili_1_1AtlasMap.html#a34189af3818e096c4f76bfb7619f6245", null ],
     [ "getSliceUVs", "classlili_1_1AtlasMap.html#aa7285080c0eb10e3b960aed63ea5f7c2", null ],
     [ "getSliceUVs", "classlili_1_1AtlasMap.html#aed5198547705c2a77faf50ef1838c194", null ],
+    [ "getTexture", "classlili_1_1AtlasMap.html#a7b2c857da6a96f26cb0b415658d8764c", null ],
     [ "operator=", "classlili_1_1AtlasMap.html#a309fdde758ca2303fb36284bb86671c9", null ],
     [ "slice", "classlili_1_1AtlasMap.html#adfcc1334f7b984af7ff3fc5add0d5445", null ]
 ];

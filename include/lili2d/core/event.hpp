@@ -91,13 +91,13 @@ public:
 	const KeyboardEvent keyboard() const;
 	/// @brief Gets the mouse button event data.
 	/// @return The mouse button event data.
-	const MouseButtonEvent mouse_button() const;
+	const MouseButtonEvent mouseButton() const;
 	/// @brief Gets the mouse motion event data.
 	/// @return The mouse motion event data.
-	const MouseMotionEvent mouse_motion() const;
+	const MouseMotionEvent mouseMotion() const;
 	/// @brief Gets the mouse wheel event data.
 	/// @return The mouse wheel event data.
-	const MouseWheelEvent mouse_wheel() const;
+	const MouseWheelEvent mouseWheel() const;
 
 private:
 	SDL_Event sdl_event = SDL_Event();

@@ -33,7 +33,9 @@ Mat3 Camera::getViewMatrix(float width, float height) const {
 		Mat3 translate = Mat3::translate({ px, py });
 		Mat3 rotate = Mat3::rotation(-rotation);
 		Mat3 scale = Mat3::scale({ zoom, zoom });
-		Mat3 center = Mat3::translate({ std::round(width / 2.0f), std::round(height / 2.0f) });
+		Mat3 center = Mat3::translate({
+			std::round(width / 2.0f), std::round(height / 2.0f)
+		});
 
 		cached_view_matrix = center * scale * rotate * translate;
 		is_dirty = false;

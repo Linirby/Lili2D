@@ -21,7 +21,7 @@ struct SliceUV {
 	float height = 0.0f; ///< Frame height.
 };
 
-/// @brief Represents an atlas texture map that can be sliced into multiple frames.
+/// @brief Represents an atlas texture map that can be sliced into frames.
 class AtlasMap {
 public:
 	AtlasMap() = default;
@@ -44,7 +44,7 @@ public:
 	/// @param at_pos The 2D position (col, row) of the frame.
 	/// @return The SliceUV at the specified position.
 	SliceUV getSliceUV(Point2 at_pos) const;
-	/// @brief Gets the SliceUV using a linear 1D index (left-to-right, top-to-bottom).
+	/// @brief Gets the SliceUV using a linear 1D index (left-to-right, down).
 	/// @param index The 0-based linear index of the frame.
 	/// @return The SliceUV at the specified index.
 	SliceUV getSliceUV(int index) const;
@@ -55,10 +55,12 @@ public:
 	std::vector<SliceUV> getSliceUVs(int start_index, int count) const;
 	/// @brief Gets a contiguous sequence of SliceUVs along a row or column.
 	/// @param start The 2D starting position (col, row).
-	/// @param end The 2D ending position (col, row). Must be on the same row or column.
+	/// @param end The 2D ending position (col, row). Must be on the same axis.
 	/// @return A vector of SliceUVs.
 	std::vector<SliceUV> getSliceUVs(Point2 start, Point2 end) const;
 
+	/// @brief Gets the underlying Texture object.
+	/// @return Pointer to the Texture.
 	Texture *getTexture() const;
 
 private:

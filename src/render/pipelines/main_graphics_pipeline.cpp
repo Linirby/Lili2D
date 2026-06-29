@@ -1,18 +1,20 @@
-#include "lili2d/render/pipelines/world_2d_pipeline.hpp"
+#include "lili2d/render/pipelines/main_graphics_pipeline.hpp"
 
 #include <vector>
 #include <stdexcept>
+#include <cstddef>
 
 #include "lili2d/render/core/shader.hpp"
+#include "lili2d/render/core/gpu_mesh.hpp"
 
 namespace lili {
 
-WorldPipeline::WorldPipeline(
+MainGraphicsPipeline::MainGraphicsPipeline(
 	SDL_GPUDevice *device, SDL_Window *window, Shader *shader
 ) : device(device), window(window), shader(shader) {
 	SDL_GPUVertexBufferDescription vertex_bd{};
 	vertex_bd.slot = 0;
-	vertex_bd.pitch = sizeof(float) * 10;
+	vertex_bd.pitch = sizeof(Vertex);
 	vertex_bd.input_rate = SDL_GPU_VERTEXINPUTRATE_VERTEX;
 	vertex_bd.instance_step_rate = 0;
 
@@ -20,22 +22,22 @@ WorldPipeline::WorldPipeline(
 	vertexAttrs[0].location = 0;
 	vertexAttrs[0].buffer_slot = 0;
 	vertexAttrs[0].format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
-	vertexAttrs[0].offset = 0;
+	vertexAttrs[0].offset = offsetof(Vertex, x);
 
 	vertexAttrs[1].location = 2;
 	vertexAttrs[1].buffer_slot = 0;
 	vertexAttrs[1].format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2;
-	vertexAttrs[1].offset = sizeof(float) * 3;
+	vertexAttrs[1].offset = offsetof(Vertex, u);
 
 	vertexAttrs[2].location = 3;
 	vertexAttrs[2].buffer_slot = 0;
 	vertexAttrs[2].format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT;
-	vertexAttrs[2].offset = sizeof(float) * 5;
+	vertexAttrs[2].offset = offsetof(Vertex, material_id);
 
 	vertexAttrs[3].location = 4;
 	vertexAttrs[3].buffer_slot = 0;
 	vertexAttrs[3].format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT4;
-	vertexAttrs[3].offset = sizeof(float) * 6;
+	vertexAttrs[3].offset = offsetof(Vertex, r);
 
 	SDL_GPUColorTargetDescription color_td{};
 	color_td.format = SDL_GetGPUSwapchainTextureFormat(device, window);
@@ -83,41 +85,22 @@ WorldPipeline::WorldPipeline(
 	ci.target_info.depth_stencil_format = SDL_GPU_TEXTUREFORMAT_D32_FLOAT;
 	ci.target_info.has_depth_stencil_target = false;
 
-	pipeline = SDL_CreateGPUGraphicsPipeline(device, &ci);
+	pipeline = std::unique_ptr<
+		SDL_GPUGraphicsPipeline, SDLGPUGraphicsPipelineDeleter
+	>(
+		SDL_CreateGPUGraphicsPipeline(device, &ci),
+		SDLGPUGraphicsPipelineDeleter(device)
+	);
 	if (!pipeline) {
 		throw std::runtime_error(
-			"World graphics pipeline creation failed!\n-> " +
+			"Main graphics pipeline creation failed!\n-> " +
 			std::string(SDL_GetError())
 		);
 	}
 }
 
-WorldPipeline::~WorldPipeline() {
-	if (pipeline) SDL_ReleaseGPUGraphicsPipeline(device, pipeline);
-}
-
-WorldPipeline::WorldPipeline(WorldPipeline &&other) noexcept
-	: device(other.device),
-			window(other.window),
-			shader(other.shader),
-			pipeline(other.pipeline) {
-	other.pipeline = nullptr;
-}
-
-WorldPipeline& WorldPipeline::operator=(WorldPipeline &&other) noexcept {
-	if (this != &other) {
-		if (pipeline) SDL_ReleaseGPUGraphicsPipeline(device, pipeline);
-		device = other.device;
-		window = other.window;
-		shader = other.shader;
-		pipeline = other.pipeline;
-		other.pipeline = nullptr;
-	}
-	return *this;
-}
-
-SDL_GPUGraphicsPipeline *WorldPipeline::getSdlPipeline() {
-	return pipeline;
+SDL_GPUGraphicsPipeline *MainGraphicsPipeline::getSdlPipeline() {
+	return pipeline.get();
 }
 
 }  // namespace lili

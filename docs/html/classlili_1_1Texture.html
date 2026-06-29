@@ -103,15 +103,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ae5cfcf7d9d3ff41e627095724f517a41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a texture from an image file.  <br /></td></tr>
 <tr class="memitem:a88b57da1079de8f9a53f0a3cff412dc7" id="r_a88b57da1079de8f9a53f0a3cff412dc7"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a88b57da1079de8f9a53f0a3cff412dc7">Texture</a> (SDL_GPUDevice *device, const unsigned char *data, unsigned int len)</td></tr>
 <tr class="memdesc:a88b57da1079de8f9a53f0a3cff412dc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a texture from memory data.  <br /></td></tr>
-<tr class="memitem:a8c3a817e5aef2c7634262b6911e73f45" id="r_a8c3a817e5aef2c7634262b6911e73f45"><td class="memItemLeft"><a id="a8c3a817e5aef2c7634262b6911e73f45" name="a8c3a817e5aef2c7634262b6911e73f45"></a>
-&#160;</td><td class="memItemRight"><b>~Texture</b> ()</td></tr>
-<tr class="memdesc:a8c3a817e5aef2c7634262b6911e73f45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br /></td></tr>
-<tr class="memitem:ab91db81b293d2d565884b9b4b0596a24" id="r_ab91db81b293d2d565884b9b4b0596a24"><td class="memItemLeft"><a id="ab91db81b293d2d565884b9b4b0596a24" name="ab91db81b293d2d565884b9b4b0596a24"></a>
-&#160;</td><td class="memItemRight"><b>Texture</b> (Texture &amp;&amp;other) noexcept</td></tr>
-<tr class="memdesc:ab91db81b293d2d565884b9b4b0596a24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor. <br /></td></tr>
-<tr class="memitem:a886e06a2f7427afb1d05eff01951987a" id="r_a886e06a2f7427afb1d05eff01951987a"><td class="memItemLeft"><a id="a886e06a2f7427afb1d05eff01951987a" name="a886e06a2f7427afb1d05eff01951987a"></a>
-<a class="el" href="#ae5cfcf7d9d3ff41e627095724f517a41">Texture</a> &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (<a class="el" href="#ae5cfcf7d9d3ff41e627095724f517a41">Texture</a> &amp;&amp;other) noexcept</td></tr>
-<tr class="memdesc:a886e06a2f7427afb1d05eff01951987a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assignment. <br /></td></tr>
+<tr class="memitem:a645c0eb7e02fa6efcc936d087b49703d" id="r_a645c0eb7e02fa6efcc936d087b49703d"><td class="memItemLeft"><a id="a645c0eb7e02fa6efcc936d087b49703d" name="a645c0eb7e02fa6efcc936d087b49703d"></a>
+&#160;</td><td class="memItemRight"><b>~Texture</b> ()=default</td></tr>
+<tr class="memdesc:a645c0eb7e02fa6efcc936d087b49703d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br /></td></tr>
+<tr class="memitem:a3967af20fe51a21b9b59c0a4b5bde5b0" id="r_a3967af20fe51a21b9b59c0a4b5bde5b0"><td class="memItemLeft"><a id="a3967af20fe51a21b9b59c0a4b5bde5b0" name="a3967af20fe51a21b9b59c0a4b5bde5b0"></a>
+&#160;</td><td class="memItemRight"><b>Texture</b> (Texture &amp;&amp;other) noexcept=default</td></tr>
+<tr class="memdesc:a3967af20fe51a21b9b59c0a4b5bde5b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor. <br /></td></tr>
+<tr class="memitem:aa3b25817b883c1662a5814059a01c3f9" id="r_aa3b25817b883c1662a5814059a01c3f9"><td class="memItemLeft"><a id="aa3b25817b883c1662a5814059a01c3f9" name="aa3b25817b883c1662a5814059a01c3f9"></a>
+<a class="el" href="#ae5cfcf7d9d3ff41e627095724f517a41">Texture</a> &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (<a class="el" href="#ae5cfcf7d9d3ff41e627095724f517a41">Texture</a> &amp;&amp;other) noexcept=default</td></tr>
+<tr class="memdesc:aa3b25817b883c1662a5814059a01c3f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assignment. <br /></td></tr>
 <tr class="memitem:a210862b9cf1d47cdacff11d43c41a150" id="r_a210862b9cf1d47cdacff11d43c41a150"><td class="memItemLeft"><a id="a210862b9cf1d47cdacff11d43c41a150" name="a210862b9cf1d47cdacff11d43c41a150"></a>
 &#160;</td><td class="memItemRight"><b>Texture</b> (const Texture &amp;)=delete</td></tr>
 <tr class="memdesc:a210862b9cf1d47cdacff11d43c41a150"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor is deleted to prevent double-freeing the GPU texture. <br /></td></tr>
@@ -221,7 +221,7 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">device</td><td>The SDL GPU device. </td></tr>
-    <tr><td class="paramname">surface</td><td>The surface (will be destroyed after upload). </td></tr>
+    <tr><td class="paramname">surface</td><td>The surface (it is NOT destroyed by this constructor). </td></tr>
   </table>
   </dd>
 </dl>

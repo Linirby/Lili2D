@@ -15,7 +15,9 @@ Shader::Shader(
 	CodeInfo vertex_code_info = getCodeInfo(vert_path);
 	SDL_GPUShaderCreateInfo vertex_ci{};
 	vertex_ci.code_size = vertex_code_info.size;
-	vertex_ci.code = reinterpret_cast<uint8_t *>(vertex_code_info.buffer.data());
+	vertex_ci.code = reinterpret_cast<uint8_t *>(
+		vertex_code_info.buffer.data()
+	);
 	vertex_ci.entrypoint = "main";
 	vertex_ci.format = SDL_GPU_SHADERFORMAT_SPIRV;
 	vertex_ci.stage = SDL_GPU_SHADERSTAGE_VERTEX;
@@ -24,7 +26,10 @@ Shader::Shader(
 	vertex_ci.num_storage_buffers = vert_infos.num_storage_buffers;
 	vertex_ci.num_uniform_buffers = vert_infos.num_uniform_buffers;
 
-	vertex_shader = SDL_CreateGPUShader(this->device, &vertex_ci);
+	vertex_shader = std::unique_ptr<SDL_GPUShader, SDLGPUShaderDeleter>(
+		SDL_CreateGPUShader(this->device, &vertex_ci),
+		SDLGPUShaderDeleter(this->device)
+	);
 	if (!vertex_shader) {
 		throw std::runtime_error(
 			"vertex_shader creation failed!\n-> " +
@@ -46,7 +51,10 @@ Shader::Shader(
 	fragment_ci.num_storage_buffers = frag_infos.num_storage_buffers;
 	fragment_ci.num_uniform_buffers = frag_infos.num_uniform_buffers;
 
-	fragment_shader = SDL_CreateGPUShader(this->device, &fragment_ci);
+	fragment_shader = std::unique_ptr<SDL_GPUShader, SDLGPUShaderDeleter>(
+		SDL_CreateGPUShader(this->device, &fragment_ci),
+		SDLGPUShaderDeleter(this->device)
+	);
 	if (!fragment_shader) {
 		throw std::runtime_error(
 			"fragment_shader creation failed!\n-> " +
@@ -76,7 +84,10 @@ Shader::Shader(
 	vertex_ci.num_storage_buffers = vert_infos.num_storage_buffers;
 	vertex_ci.num_uniform_buffers = vert_infos.num_uniform_buffers;
 
-	vertex_shader = SDL_CreateGPUShader(this->device, &vertex_ci);
+	vertex_shader = std::unique_ptr<SDL_GPUShader, SDLGPUShaderDeleter>(
+		SDL_CreateGPUShader(this->device, &vertex_ci),
+		SDLGPUShaderDeleter(this->device)
+	);
 	if (!vertex_shader) {
 		throw std::runtime_error(
 			"vertex_shader creation failed!\n-> " +
@@ -95,7 +106,10 @@ Shader::Shader(
 	fragment_ci.num_storage_buffers = frag_infos.num_storage_buffers;
 	fragment_ci.num_uniform_buffers = frag_infos.num_uniform_buffers;
 
-	fragment_shader = SDL_CreateGPUShader(this->device, &fragment_ci);
+	fragment_shader = std::unique_ptr<SDL_GPUShader, SDLGPUShaderDeleter>(
+		SDL_CreateGPUShader(this->device, &fragment_ci),
+		SDLGPUShaderDeleter(this->device)
+	);
 	if (!fragment_shader) {
 		throw std::runtime_error(
 			"fragment_shader creation failed!\n-> " +
@@ -104,42 +118,12 @@ Shader::Shader(
 	}
 }
 
-Shader::~Shader() {
-	if (fragment_shader)
-		SDL_ReleaseGPUShader(device, fragment_shader);
-	if (vertex_shader)
-		SDL_ReleaseGPUShader(device, vertex_shader);
-}
-
-Shader::Shader(Shader &&other) noexcept
-	: device(other.device),
-			vertex_shader(other.vertex_shader),
-			fragment_shader(other.fragment_shader) {
-	other.vertex_shader = nullptr;
-	other.fragment_shader = nullptr;
-}
-
-Shader& Shader::operator=(Shader &&other) noexcept {
-	if (this != &other) {
-		if (fragment_shader)
-			SDL_ReleaseGPUShader(device, fragment_shader);
-		if (vertex_shader)
-			SDL_ReleaseGPUShader(device, vertex_shader);
-		device = other.device;
-		vertex_shader = other.vertex_shader;
-		fragment_shader = other.fragment_shader;
-		other.vertex_shader = nullptr;
-		other.fragment_shader = nullptr;
-	}
-	return *this;
-}
-
 SDL_GPUShader *Shader::getVertex() const {
-	return vertex_shader;
+	return vertex_shader.get();
 }
 
 SDL_GPUShader *Shader::getFragment() const {
-	return fragment_shader;
+	return fragment_shader.get();
 }
 
 CodeInfo Shader::getCodeInfo(const std::string &code_path) {

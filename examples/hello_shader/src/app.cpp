@@ -15,7 +15,7 @@ App::App() {
 		vert_rect_info,
 		frag_rect_info
 	));
-	rect_pipeline.reset(renderer->createWorldPipeline(rect_shader.get()));
+	rect_pipeline.reset(renderer->createMainGraphicsPipeline(rect_shader.get()));
 	rect = lili::Rect(
 		renderer.get(),
 		lili::RectShape(200.0f, 200.0f, 400.0f, 400.0f),
@@ -33,7 +33,7 @@ App::App() {
 		vert_text_info,
 		frag_text_info
 	));
-	text_pipeline.reset(renderer->createWorldPipeline(text_shader.get()));
+	text_pipeline.reset(renderer->createMainGraphicsPipeline(text_shader.get()));
 	font = std::make_unique<lili::BitmapFont>(
 		renderer.get(), "lili_font.png", 16, 6
 	);

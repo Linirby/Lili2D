@@ -14,6 +14,7 @@ void AtlasMap::slice(int num_columns, int num_rows) {
 		(int)((float)full_texture->getHeight() / n_rows)
 	};
 
+	slices.clear();
 	slices.reserve(num_columns * num_rows);
 
 	float u_step = 1.0f / n_cols;

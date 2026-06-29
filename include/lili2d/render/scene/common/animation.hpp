@@ -120,7 +120,7 @@ public:
 	size_t animationCount() const;
 	/// @brief Gets the raw animation data array.
 	/// @return Pointer to the animation data.
-	const Animation *animation_data() const;
+	const Animation *animationData() const;
 
 private:
 	std::unordered_map<std::string, uint16_t> key_to_id;

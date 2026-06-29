@@ -109,7 +109,7 @@ void Window::setRelativeMouseMode(bool activate) {
 		);
 }
 
-const std::string Window::get_title() const {
+const std::string Window::getTitle() const {
 	return std::string(SDL_GetWindowTitle(window));
 }
 

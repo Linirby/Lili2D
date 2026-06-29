@@ -62,7 +62,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(function(){initNavTree('classlili_1_1TileMap.html','',''); });
+$(function(){initNavTree('classlili_1_1TileMap.html','','classlili_1_1TileMap-members'); });
 </script>
 <div id="container">
 <div id="doc-content">
@@ -91,6 +91,161 @@ $(function(){initNavTree('classlili_1_1TileMap.html','',''); });
   <div class="headertitle"><div class="title">lili::TileMap Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Manages a grid-based world of chunks and tiles.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="tilemap_8hpp_source.html">tilemap.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a22b5a9b3807cc8700e49570a31d5eec9" id="r_a22b5a9b3807cc8700e49570a31d5eec9"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a22b5a9b3807cc8700e49570a31d5eec9">TileMap</a> (const <a class="el" href="structlili_1_1Vec2.html">lili::Vec2</a> &amp;tile_size_px)</td></tr>
+<tr class="memdesc:a22b5a9b3807cc8700e49570a31d5eec9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a tilemap.  <br /></td></tr>
+<tr class="memitem:a7f0fe85bf545f0bf7bb591c03dd78e1d" id="r_a7f0fe85bf545f0bf7bb591c03dd78e1d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7f0fe85bf545f0bf7bb591c03dd78e1d">setTile</a> (const std::string &amp;name, <a class="el" href="structlili_1_1Point3.html">lili::Point3</a> pos)</td></tr>
+<tr class="memdesc:a7f0fe85bf545f0bf7bb591c03dd78e1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a tile at a specific world position.  <br /></td></tr>
+<tr class="memitem:a6b0d3aef57f35636ca5d438631cb6bc2" id="r_a6b0d3aef57f35636ca5d438631cb6bc2"><td class="memItemLeft">uint16_t&#160;</td><td class="memItemRight"><a class="el" href="#a6b0d3aef57f35636ca5d438631cb6bc2">getTile</a> (<a class="el" href="structlili_1_1Point3.html">lili::Point3</a> pos) const</td></tr>
+<tr class="memdesc:a6b0d3aef57f35636ca5d438631cb6bc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the tile ID at a specific world position.  <br /></td></tr>
+<tr class="memitem:a28ab86f0eb0f009cc47ae71a31aa1e3c" id="r_a28ab86f0eb0f009cc47ae71a31aa1e3c"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a28ab86f0eb0f009cc47ae71a31aa1e3c">checkCollision</a> (const <a class="el" href="structlili_1_1AABB3.html">lili::AABB3</a> &amp;target_aabb) const</td></tr>
+<tr class="memdesc:a28ab86f0eb0f009cc47ae71a31aa1e3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks for collision against the solid tiles in the map.  <br /></td></tr>
+<tr class="memitem:a968d2999223365263b5c7811ebedbebe" id="r_a968d2999223365263b5c7811ebedbebe"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a968d2999223365263b5c7811ebedbebe">draw</a> (<a class="el" href="classlili_1_1Renderer.html">Renderer</a> *renderer)</td></tr>
+<tr class="memdesc:a968d2999223365263b5c7811ebedbebe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Submits the visible chunks for drawing.  <br /></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Manages a grid-based world of chunks and tiles. </p>
+</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a22b5a9b3807cc8700e49570a31d5eec9" name="a22b5a9b3807cc8700e49570a31d5eec9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22b5a9b3807cc8700e49570a31d5eec9">&#9670;&#160;</a></span>TileMap()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">lili::TileMap::TileMap </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structlili_1_1Vec2.html">lili::Vec2</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>tile_size_px</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructs a tilemap. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tile_size_px</td><td>The size of each tile in pixels. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a28ab86f0eb0f009cc47ae71a31aa1e3c" name="a28ab86f0eb0f009cc47ae71a31aa1e3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28ab86f0eb0f009cc47ae71a31aa1e3c">&#9670;&#160;</a></span>checkCollision()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lili::TileMap::checkCollision </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structlili_1_1AABB3.html">lili::AABB3</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>target_aabb</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks for collision against the solid tiles in the map. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">target_aabb</td><td>The bounding box to check. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if there is a collision, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a968d2999223365263b5c7811ebedbebe" name="a968d2999223365263b5c7811ebedbebe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a968d2999223365263b5c7811ebedbebe">&#9670;&#160;</a></span>draw()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lili::TileMap::draw </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classlili_1_1Renderer.html">Renderer</a> *</td>          <td class="paramname"><span class="paramname"><em>renderer</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Submits the visible chunks for drawing. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">renderer</td><td>The renderer. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a6b0d3aef57f35636ca5d438631cb6bc2" name="a6b0d3aef57f35636ca5d438631cb6bc2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b0d3aef57f35636ca5d438631cb6bc2">&#9670;&#160;</a></span>getTile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t lili::TileMap::getTile </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structlili_1_1Point3.html">lili::Point3</a></td>          <td class="paramname"><span class="paramname"><em>pos</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the tile ID at a specific world position. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pos</td><td>The 3D grid position. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The tile ID, or 0 if empty. </dd></dl>
+
+</div>
+</div>
+<a id="a7f0fe85bf545f0bf7bb591c03dd78e1d" name="a7f0fe85bf545f0bf7bb591c03dd78e1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f0fe85bf545f0bf7bb591c03dd78e1d">&#9670;&#160;</a></span>setTile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lili::TileMap::setTile </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structlili_1_1Point3.html">lili::Point3</a></td>          <td class="paramname"><span class="paramname"><em>pos</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets a tile at a specific world position. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>The registry name of the tile. </td></tr>
+    <tr><td class="paramname">pos</td><td>The 3D grid position. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/lili/Documents/Lili2D/include/lili2d/world/<a class="el" href="tilemap_8hpp_source.html">tilemap.hpp</a></li>
 </ul>

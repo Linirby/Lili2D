@@ -9,9 +9,7 @@ namespace lili {
 Sprite::Sprite(Renderer *renderer, const std::string &path)
 	: renderer(renderer) {
 	texture = std::make_unique<Texture>(renderer->getDevice(), path);
-
-	MeshData mesh_data = createUnitQuad();
-	mesh = std::make_unique<GPUMesh>(renderer->getDevice(), mesh_data);
+	mesh = renderer->getUnitQuad();
 
 	material = std::make_unique<Material>(texture.get());
 	material->properties.color_tint = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -25,17 +23,7 @@ Sprite::Sprite(Renderer *renderer, const std::string &path)
 
 Sprite::Sprite(Renderer *renderer, SliceUV slice)
 	: renderer(renderer) {
-	MeshData mesh_data = createUnitQuad();
-	mesh_data.vertices[0].u = slice.u_min;
-	mesh_data.vertices[0].v = slice.v_min;
-	mesh_data.vertices[1].u = slice.u_max;
-	mesh_data.vertices[1].v = slice.v_min;
-	mesh_data.vertices[2].u = slice.u_max;
-	mesh_data.vertices[2].v = slice.v_max;
-	mesh_data.vertices[3].u = slice.u_min;
-	mesh_data.vertices[3].v = slice.v_max;
-
-	mesh = std::make_unique<GPUMesh>(renderer->getDevice(), mesh_data);
+	mesh = renderer->getUnitQuad();
 
 	material = std::make_unique<Material>(slice.texture);
 	material->properties.color_tint = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -45,16 +33,14 @@ Sprite::Sprite(Renderer *renderer, SliceUV slice)
 	size = { slice.width, slice.height };
 	rotation = 0.0f;
 	layer = 0.0f;
-	current_slice = slice;
+	setSlice(slice);
 }
 
 void Sprite::setImage(const std::string &path) {
 	texture = std::make_unique<Texture>(renderer->getDevice(), path);
 	material = std::make_unique<Material>(texture.get());
 	material->properties.color_tint = { 1.0f, 1.0f, 1.0f, 1.0f };
-
-	MeshData mesh_data = createUnitQuad();
-	mesh = std::make_unique<GPUMesh>(renderer->getDevice(), mesh_data);
+	mesh = renderer->getUnitQuad();
 }
 
 void Sprite::setColorTint(const Vec4 &color) {
@@ -83,20 +69,11 @@ void Sprite::setLayer(float layer) {
 
 void Sprite::setSlice(SliceUV slice) {
 	current_slice = slice;
-	if (mesh) {
-		MeshData mesh_data = createUnitQuad();
-		mesh_data.vertices[0].u = slice.u_min;
-		mesh_data.vertices[0].v = slice.v_min;
-		mesh_data.vertices[1].u = slice.u_max;
-		mesh_data.vertices[1].v = slice.v_min;
-		mesh_data.vertices[2].u = slice.u_max;
-		mesh_data.vertices[2].v = slice.v_max;
-		mesh_data.vertices[3].u = slice.u_min;
-		mesh_data.vertices[3].v = slice.v_max;
-		mesh->update(mesh_data);
-	}
 	if (material) {
 		material->albedoMap = slice.texture;
+		material->properties.uv_bounds = {
+			slice.u_min, slice.v_min, slice.u_max, slice.v_max
+		};
 	}
 }
 
@@ -127,7 +104,7 @@ void Sprite::draw() {
 		Mat3::scale(getSize())
 	);
 	renderer->submit(
-		Model({ mesh.get(), material.get() }),
+		Model({ mesh, material.get() }),
 		mat_transform,
 		layer,
 		RenderLayer::WORLD2D

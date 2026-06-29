@@ -18,7 +18,9 @@ size_t Chunk::flattenIndex(lili::Point3 local_pos) {
 void Chunk::rebuildBatches(
 	Renderer *renderer, Point3 chunk_pos, const Vec2 &tile_size
 ) const {
-	batches.clear();
+	for (auto &pair : batches) {
+		pair.second->begin();
+	}
 	TileRegistry &registry = TileRegistry::get();
 
 	for (int z = 0; z < SIZE; ++z) {
@@ -34,7 +36,6 @@ void Chunk::rebuildBatches(
 					batches[key] = std::make_unique<SpriteBatch>(
 						renderer, tile.slice.texture
 					);
-					batches[key]->begin();
 					batches[key]->setLayer(static_cast<float>(z));
 				}
 			}

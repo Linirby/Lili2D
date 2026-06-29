@@ -64,24 +64,7 @@ bool AABB2::contains(const Line &line) const {
 }
 
 void AABB2::debugDraw(Renderer *renderer, const Vec4 &color) const {
-	static std::map<uint32_t, std::unique_ptr<Rect>> debug_rects;
-	uint32_t r = (uint32_t)(color.x * 255.0f);
-	uint32_t g = (uint32_t)(color.y * 255.0f);
-	uint32_t b = (uint32_t)(color.z * 255.0f);
-	uint32_t a = (uint32_t)(color.w * 255.0f);
-	uint32_t key = (r << 24) | (g << 16) | (b << 8) | a;
-
-	if (debug_rects.find(key) == debug_rects.end()) {
-		debug_rects[key] = std::make_unique<Rect>(
-			renderer, RectShape(0, 0, 0, 0), color
-		);
-		debug_rects[key]->setHollow(true);
-	}
-
-	debug_rects[key]->setShape(
-		RectShape(min.x, min.y, max.x - min.x, max.y - min.y)
-	);
-	debug_rects[key]->draw();
+	renderer->drawDebugRect(min.x, min.y, max.x - min.x, max.y - min.y, color);
 }
 
 AABB3::AABB3(const Vec3 &pos, const Vec3 &size) : min(pos), max(pos + size) {}

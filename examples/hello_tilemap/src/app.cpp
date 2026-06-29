@@ -11,7 +11,7 @@ App::App() {
 	renderer->setCamera(&camera);
 
 	lili::Vec2 tile_render_size = lili::Vec2(16, 16);
-    tilemap = std::make_unique<lili::TileMap>(lili::Vec2(tile_render_size));
+	tilemap = std::make_unique<lili::TileMap>(lili::Vec2(tile_render_size));
 
 	env_atlas = lili::AtlasMap(renderer.get(), "assets/environment.png");
 	env_atlas.slice(3, 2);
@@ -38,8 +38,8 @@ App::App() {
 				std::sin(x * 0.05f + 10.0f) * 2.0f +
 				std::cos(y * 0.05f + 10.0f) * 2.0f
 			);
-			
-			int elevation = (int)(noise + 3.0f); 
+
+			int elevation = (int)(noise + 3.0f);
 			if (elevation < 0) elevation = 0;
 			if (elevation > 5) elevation = 5;
 
@@ -92,7 +92,7 @@ void App::handleEvents() {
 void App::update(float dt) {
 	keyboard.update();
 	lili::Vec2 vel(0, 0);
-	
+
 	if (keyboard.held(SDL_SCANCODE_W))
 		vel.y = -1;
 	if (keyboard.held(SDL_SCANCODE_S))

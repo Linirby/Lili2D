@@ -62,6 +62,9 @@ struct AABB2 {
 	/// @return True if this AABB2 contains the Line, false otherwise.
 	bool contains(const Line &line) const;
 
+	/// @brief Draws a debug representation of this AABB.
+	/// @param renderer The renderer.
+	/// @param color The outline color.
 	void debugDraw(Renderer *renderer, const Vec4 &color) const;
 };
 

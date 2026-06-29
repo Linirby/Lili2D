@@ -32,7 +32,7 @@ const KeyboardEvent Event::keyboard() const {
 	};
 }
 
-const MouseButtonEvent Event::mouse_button() const {
+const MouseButtonEvent Event::mouseButton() const {
 	MouseButton button;
 	switch (sdl_event.button.button) {
 		case SDL_BUTTON_LEFT:
@@ -57,7 +57,7 @@ const MouseButtonEvent Event::mouse_button() const {
 	};
 }
 
-const MouseMotionEvent Event::mouse_motion() const {
+const MouseMotionEvent Event::mouseMotion() const {
 	return {
 		.x = sdl_event.motion.x,
 		.y = sdl_event.motion.y,
@@ -66,7 +66,7 @@ const MouseMotionEvent Event::mouse_motion() const {
 	};
 }
 
-const MouseWheelEvent Event::mouse_wheel() const {
+const MouseWheelEvent Event::mouseWheel() const {
 	return {
 		.dx = sdl_event.wheel.x,
 		.dy = sdl_event.wheel.y

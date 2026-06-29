@@ -2,6 +2,8 @@
 
 #include <SDL3/SDL_gpu.h>
 #include <vector>
+#include <memory>
+#include "lili2d/core/sdl_deleters.hpp"
 
 namespace lili {
 
@@ -33,12 +35,12 @@ public:
 	/// @param mesh The CPU mesh data.
 	GPUMesh(SDL_GPUDevice *device, const MeshData &mesh);
 	/// @brief Destructor.
-	~GPUMesh();
+	~GPUMesh() = default;
 
 	/// @brief Move constructor.
-	GPUMesh(GPUMesh &&other) noexcept;
+	GPUMesh(GPUMesh &&other) noexcept = default;
 	/// @brief Move assignment.
-	GPUMesh& operator=(GPUMesh &&other) noexcept;
+	GPUMesh& operator=(GPUMesh &&other) noexcept = default;
 
 	/// @brief Copy constructor is deleted to prevent double-freeing GPU memory.
 	GPUMesh(const GPUMesh &) = delete;
@@ -61,12 +63,16 @@ public:
 
 private:
 	SDL_GPUDevice *device = nullptr;
-	SDL_GPUBuffer *vertex_buffer = nullptr;
-	SDL_GPUBuffer *index_buffer = nullptr;
+	std::unique_ptr<SDL_GPUBuffer, SDLGPUBufferDeleter> vertex_buffer;
+	std::unique_ptr<SDL_GPUBuffer, SDLGPUBufferDeleter> index_buffer;
 	uint32_t index_count = 0;
 	uint32_t vertex_capacity = 0;
 	uint32_t index_capacity = 0;
 
+	/// @brief Helper to transfer data to the GPU buffer.
+	/// @param data Pointer to the host data.
+	/// @param buffer Pointer to the GPU buffer.
+	/// @param size The size of the data in bytes.
 	void transferToGpu(
 		const void *data, SDL_GPUBuffer *buffer, uint32_t size
 	);

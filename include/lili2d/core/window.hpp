@@ -53,7 +53,7 @@ public:
 
 	/// @brief Gets the current window title.
 	/// @return The window title.
-	const std::string get_title() const;
+	const std::string getTitle() const;
 	/// @brief Gets the window width.
 	/// @return The width in pixels.
 	int getWidth() const;

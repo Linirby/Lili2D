@@ -8,8 +8,7 @@ namespace lili {
 
 AnimatedSprite::AnimatedSprite(Renderer *renderer, const Animation &animation)
 	: renderer(renderer), animation(animation) {
-	MeshData mesh_data = createUnitQuad();
-	mesh = std::make_unique<GPUMesh>(renderer->getDevice(), mesh_data);
+	mesh = renderer->getUnitQuad();
 	material = std::make_unique<Material>(
 		renderer->getTheWhitePixel()
 	);
@@ -127,7 +126,7 @@ void AnimatedSprite::draw() {
 		Mat3::scale(getSize())
 	);
 	renderer->submit(
-		Model({ mesh.get(), material.get() }),
+		Model({ mesh, material.get() }),
 		mat_transform,
 		layer,
 		RenderLayer::WORLD2D
@@ -136,18 +135,9 @@ void AnimatedSprite::draw() {
 
 void AnimatedSprite::applyFrame(const SliceUV &frame) {
 	material->albedoMap = frame.texture;
-
-	MeshData mesh_data = createUnitQuad();
-	mesh_data.vertices[0].u = frame.u_min;
-	mesh_data.vertices[0].v = frame.v_min;
-	mesh_data.vertices[1].u = frame.u_max;
-	mesh_data.vertices[1].v = frame.v_min;
-	mesh_data.vertices[2].u = frame.u_max;
-	mesh_data.vertices[2].v = frame.v_max;
-	mesh_data.vertices[3].u = frame.u_min;
-	mesh_data.vertices[3].v = frame.v_max;
-
-	mesh = std::make_unique<GPUMesh>(renderer->getDevice(), mesh_data);
+	material->properties.uv_bounds = {
+		frame.u_min, frame.v_min, frame.u_max, frame.v_max
+	};
 	this->size = { frame.width, frame.height };
 }
 

@@ -122,6 +122,8 @@ private:
 	RenderLayer render_layer = RenderLayer::WORLD2D;
 	GPUMesh *mesh = nullptr;
 	std::unique_ptr<Material> material = nullptr;
+	std::unique_ptr<GPUMesh> hollow_mesh = nullptr;
+	bool hollow_dirty = true;
 };
 
 }  // namespace lili

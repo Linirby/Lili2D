@@ -91,7 +91,7 @@ public:
     App() {
         // Create a resizable window and a renderer
         window = std::make_unique<lili::Window>("Hello Lili2D :3", 800, 800);
-        window->set_resizable(true);
+        window->setResizable(true);
         renderer = std::make_unique<lili::Renderer>(window.get());
 
         // Create some cool shapes!
@@ -116,7 +116,7 @@ public:
 
     void run() {
         while (running) {
-            handle_events();
+            handleEvents();
             render();
         }
     }
@@ -129,7 +129,7 @@ private:
     lili::Circle circle;
     bool running;
 
-    void handle_events() {
+    void handleEvents() {
         lili::Event event;
         while (event.poll()) {
             if (event.type() == lili::EventType::QUIT) {
@@ -142,13 +142,13 @@ private:
     }
 
     void render() {
-        if (!renderer->begin_frame()) return;
+        if (!renderer->beginFrame()) return;
 
         line.draw();
         rect.draw();
         circle.draw();
 
-        renderer->end_frame();
+        renderer->endFrame();
     }
 };
 ```
@@ -184,12 +184,13 @@ screen.
 / UI)
 - **`hello_layer`**: Demonstrates the use of rendering layers to control the
 drawing order of sprites and shapes.
-- `hello_scenes`: Demonstrates the use of scenes with its manager.
+- **`hello_scenes`**: Demonstrates the use of scenes with its manager.
 - **`hello_animation`**: An example of how to load an AtlasMap and create Animations
 from it.
 - **`hello_shader`**: Demonstrates how to write, compile, and load custom vertex and fragment shaders.
 - **`hello_collision`**: A new example showing the v1 implementation of the AABB collision system and how it interacts with different shapes.
 - **`hello_sprite_batch`**: An example of how to use SpriteBatch with a big map.
+- **`hello_tilemap`**: Demonstrates the TileMap and Chunk system for rendering optimized grid worlds.
 
 ## Join the Community
 

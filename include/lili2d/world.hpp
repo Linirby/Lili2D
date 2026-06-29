@@ -14,8 +14,11 @@ namespace lili {
 /// @brief Defines a camera for viewing the scene.
 class Camera;
 
+/// @brief Represents a single tile data structure.
 struct Tile;
+/// @brief Central registry for defining and storing tile types.
 class TileRegistry;
+/// @brief Manages a grid-based world of chunks and tiles.
 class TileMap;
 
-}
+}  // namespace lili

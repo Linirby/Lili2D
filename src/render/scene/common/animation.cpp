@@ -130,7 +130,7 @@ size_t AnimationRegistry::animationCount() const {
 	return id_to_animation.size();
 }
 
-const Animation *AnimationRegistry::animation_data() const {
+const Animation *AnimationRegistry::animationData() const {
 	return id_to_animation.data();
 }
 

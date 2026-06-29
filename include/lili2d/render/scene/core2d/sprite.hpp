@@ -80,7 +80,7 @@ private:
 	Renderer *renderer = nullptr;
 
 	std::unique_ptr<Texture> texture = nullptr;
-	std::unique_ptr<GPUMesh> mesh = nullptr;
+	GPUMesh *mesh = nullptr;
 	std::unique_ptr<Material> material = nullptr;
 
 	SliceUV current_slice;

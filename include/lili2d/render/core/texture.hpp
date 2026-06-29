@@ -2,6 +2,8 @@
 
 #include <SDL3/SDL_gpu.h>
 #include <string>
+#include <memory>
+#include "lili2d/core/sdl_deleters.hpp"
 
 namespace lili {
 
@@ -18,12 +20,12 @@ public:
 	/// @param len Length of the image data.
 	Texture(SDL_GPUDevice *device, const unsigned char *data, unsigned int len);
 	/// @brief Destructor.
-	~Texture();
+	~Texture() = default;
 
 	/// @brief Move constructor.
-	Texture(Texture &&other) noexcept;
+	Texture(Texture &&other) noexcept = default;
 	/// @brief Move assignment.
-	Texture& operator=(Texture &&other) noexcept;
+	Texture& operator=(Texture &&other) noexcept = default;
 
 	/// @brief Copy constructor is deleted to prevent double-freeing the GPU
 	/// texture.
@@ -34,7 +36,7 @@ public:
 
 	/// @brief Constructs a texture directly from an SDL_Surface.
 	/// @param device The SDL GPU device.
-	/// @param surface The surface (will be destroyed after upload).
+	/// @param surface The surface (it is NOT destroyed by this constructor).
 	Texture(SDL_GPUDevice *device, SDL_Surface *surface);
 
 
@@ -55,8 +57,8 @@ private:
 	SDL_GPUDevice *device = nullptr;
 
 	int width, height;
-	SDL_GPUTexture *texture = nullptr;
-	SDL_GPUSampler *sampler = nullptr;
+	std::unique_ptr<SDL_GPUTexture, SDLGPUTextureDeleter> texture;
+	std::unique_ptr<SDL_GPUSampler, SDLGPUSamplerDeleter> sampler;
 
 	/// @brief initFromSurface method.
 	void initFromSurface(SDL_Surface *surface);

@@ -1,4 +1,4 @@
-#include "lili2d/render/passes/world_2d_pass.hpp"
+#include "lili2d/render/passes/main_render_pass.hpp"
 
 #include <stdexcept>
 #include <vector>
@@ -8,11 +8,11 @@
 
 namespace lili {
 
-World2DPass::World2DPass(
+MainRenderPass::MainRenderPass(
 	SDL_GPUDevice *device, SDL_GPUGraphicsPipeline *pipeline
 ) : device(device), pipeline(pipeline) {}
 
-void World2DPass::render(
+void MainRenderPass::render(
 	SDL_GPURenderPass *pass,
 	SDL_GPUCommandBuffer *cmd,
 	const Mat3 &proj_view,
@@ -27,15 +27,15 @@ void World2DPass::render(
 
 		if (!draw_cmd.model.mesh)
 			throw std::runtime_error(
-				"World2DPass received draw command without mesh."
+				"MainRenderPass received draw command without mesh."
 			);
 		if (!draw_cmd.model.material)
 			throw std::runtime_error(
-				"World2DPass received draw command without material."
+				"MainRenderPass received draw command without material."
 			);
 		if (!draw_cmd.model.material->albedoMap)
 			throw std::runtime_error(
-				"World2DPass received draw command with material missing "
+				"MainRenderPass received draw command with material missing "
 				"albedo map."
 			);
 
@@ -49,14 +49,15 @@ void World2DPass::render(
 		}
 
 		Mat3 mvp = proj_view * draw_cmd.transform;
-		struct UIUniforms {
+		struct Uniforms {
 			float matrix[12];
 			float color[4];
+			float uv_bounds[4];
 			float layer;
 			float time;
 			float padding[2];
 		};
-		UIUniforms uniforms{};
+		Uniforms uniforms{};
 		uniforms.matrix[0] = mvp.m[0];
 		uniforms.matrix[1] = mvp.m[1];
 		uniforms.matrix[2] = mvp.m[2];
@@ -73,6 +74,10 @@ void World2DPass::render(
 		uniforms.color[1] = draw_cmd.model.material->properties.color_tint.y;
 		uniforms.color[2] = draw_cmd.model.material->properties.color_tint.z;
 		uniforms.color[3] = draw_cmd.model.material->properties.color_tint.w;
+		uniforms.uv_bounds[0] = draw_cmd.model.material->properties.uv_bounds.x;
+		uniforms.uv_bounds[1] = draw_cmd.model.material->properties.uv_bounds.y;
+		uniforms.uv_bounds[2] = draw_cmd.model.material->properties.uv_bounds.z;
+		uniforms.uv_bounds[3] = draw_cmd.model.material->properties.uv_bounds.w;
 		uniforms.layer = draw_cmd.layer;
 		uniforms.time = SDL_GetTicks() / 1000.0f;
 

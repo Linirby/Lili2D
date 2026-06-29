@@ -12,14 +12,15 @@ GPUMesh::GPUMesh(SDL_GPUDevice *device, const MeshData &mesh)
 	uint32_t vertices_buffer_size = (
 		mesh.vertices.size() * sizeof(lili::Vertex)
 	);
-	
+
 	if (vertices_buffer_size > 0) {
 		SDL_GPUBufferCreateInfo vertices_bci{};
 		vertices_bci.usage = SDL_GPU_BUFFERUSAGE_VERTEX;
 		vertices_bci.size = vertices_buffer_size;
 
-		vertex_buffer = SDL_CreateGPUBuffer(
-			this->device, &vertices_bci
+		vertex_buffer = std::unique_ptr<SDL_GPUBuffer, SDLGPUBufferDeleter>(
+			SDL_CreateGPUBuffer(this->device, &vertices_bci),
+			SDLGPUBufferDeleter(this->device)
 		);
 		if (!vertex_buffer) {
 			throw std::runtime_error(
@@ -28,21 +29,24 @@ GPUMesh::GPUMesh(SDL_GPUDevice *device, const MeshData &mesh)
 			);
 		}
 		vertex_capacity = vertices_buffer_size;
-		transferToGpu(mesh.vertices.data(), vertex_buffer, vertices_buffer_size);
+		transferToGpu(
+			mesh.vertices.data(), vertex_buffer.get(), vertices_buffer_size
+		);
 	} else {
 		vertex_buffer = nullptr;
 		vertex_capacity = 0;
 	}
 
 	uint32_t indices_buffer_size = mesh.indices.size() * sizeof(uint32_t);
-	
+
 	if (indices_buffer_size > 0) {
 		SDL_GPUBufferCreateInfo indices_bci{};
 		indices_bci.usage = SDL_GPU_BUFFERUSAGE_INDEX;
 		indices_bci.size = indices_buffer_size;
 
-		index_buffer = SDL_CreateGPUBuffer(
-			this->device, &indices_bci
+		index_buffer = std::unique_ptr<SDL_GPUBuffer, SDLGPUBufferDeleter>(
+			SDL_CreateGPUBuffer(this->device, &indices_bci),
+			SDLGPUBufferDeleter(this->device)
 		);
 		if (!index_buffer) {
 			throw std::runtime_error(
@@ -53,7 +57,7 @@ GPUMesh::GPUMesh(SDL_GPUDevice *device, const MeshData &mesh)
 		index_capacity = indices_buffer_size;
 		transferToGpu(
 			mesh.indices.data(),
-			index_buffer,
+			index_buffer.get(),
 			indices_buffer_size
 		);
 	} else {
@@ -62,56 +66,12 @@ GPUMesh::GPUMesh(SDL_GPUDevice *device, const MeshData &mesh)
 	}
 }
 
-GPUMesh::~GPUMesh() {
-	if (index_buffer)
-		SDL_ReleaseGPUBuffer(device, index_buffer);
-	if (vertex_buffer)
-		SDL_ReleaseGPUBuffer(device, vertex_buffer);
-}
-
-GPUMesh::GPUMesh(GPUMesh &&other) noexcept
-	: device(other.device),
-			vertex_buffer(other.vertex_buffer),
-			index_buffer(other.index_buffer),
-			index_count(other.index_count),
-			vertex_capacity(other.vertex_capacity),
-			index_capacity(other.index_capacity) {
-	other.vertex_buffer = nullptr;
-	other.index_buffer = nullptr;
-	other.index_count = 0;
-	other.vertex_capacity = 0;
-	other.index_capacity = 0;
-}
-
-GPUMesh& GPUMesh::operator=(GPUMesh &&other) noexcept {
-	if (this != &other) {
-		if (index_buffer)
-			SDL_ReleaseGPUBuffer(device, index_buffer);
-		if (vertex_buffer)
-			SDL_ReleaseGPUBuffer(device, vertex_buffer);
-
-		device = other.device;
-		vertex_buffer = other.vertex_buffer;
-		index_buffer = other.index_buffer;
-		index_count = other.index_count;
-		vertex_capacity = other.vertex_capacity;
-		index_capacity = other.index_capacity;
-
-		other.vertex_buffer = nullptr;
-		other.index_buffer = nullptr;
-		other.index_count = 0;
-		other.vertex_capacity = 0;
-		other.index_capacity = 0;
-	}
-	return *this;
-}
-
 SDL_GPUBuffer *GPUMesh::getVertex() const {
-	return vertex_buffer;
+	return vertex_buffer.get();
 }
 
 SDL_GPUBuffer *GPUMesh::getIndex() const {
-	return index_buffer;
+	return index_buffer.get();
 }
 
 uint32_t GPUMesh::getIndexCount() const {
@@ -125,35 +85,45 @@ void GPUMesh::update(const MeshData &mesh) {
 	uint32_t indices_buffer_size = mesh.indices.size() * sizeof(uint32_t);
 
 	if (vertices_buffer_size > vertex_capacity) {
-		if (vertex_buffer) SDL_ReleaseGPUBuffer(device, vertex_buffer);
 		SDL_GPUBufferCreateInfo vertices_bci{};
 		vertices_bci.usage = SDL_GPU_BUFFERUSAGE_VERTEX;
 		vertices_bci.size = vertices_buffer_size;
-		vertex_buffer = SDL_CreateGPUBuffer(device, &vertices_bci);
+		vertex_buffer = std::unique_ptr<SDL_GPUBuffer, SDLGPUBufferDeleter>(
+			SDL_CreateGPUBuffer(device, &vertices_bci),
+			SDLGPUBufferDeleter(device)
+		);
 		if (!vertex_buffer) {
-			throw std::runtime_error("vertex_buffer creation failed in update!\n-> " + std::string(SDL_GetError()));
+			throw std::runtime_error(
+				"vertex_buffer creation failed in update!\n-> " +
+				std::string(SDL_GetError())
+			);
 		}
 		vertex_capacity = vertices_buffer_size;
 	}
 
 	if (indices_buffer_size > index_capacity) {
-		if (index_buffer) SDL_ReleaseGPUBuffer(device, index_buffer);
 		SDL_GPUBufferCreateInfo indices_bci{};
 		indices_bci.usage = SDL_GPU_BUFFERUSAGE_INDEX;
 		indices_bci.size = indices_buffer_size;
-		index_buffer = SDL_CreateGPUBuffer(device, &indices_bci);
+		index_buffer = std::unique_ptr<SDL_GPUBuffer, SDLGPUBufferDeleter>(
+			SDL_CreateGPUBuffer(device, &indices_bci),
+			SDLGPUBufferDeleter(device)
+		);
 		if (!index_buffer) {
-			throw std::runtime_error("index_buffer creation failed in update!\n-> " + std::string(SDL_GetError()));
+			throw std::runtime_error(
+				"index_buffer creation failed in update!\n-> " +
+				std::string(SDL_GetError())
+			);
 		}
 		index_capacity = indices_buffer_size;
 	}
 
-	if (vertices_buffer_size > 0) {
-		transferToGpu(mesh.vertices.data(), vertex_buffer, vertices_buffer_size);
-	}
-	if (indices_buffer_size > 0) {
-		transferToGpu(mesh.indices.data(), index_buffer, indices_buffer_size);
-	}
+	if (vertices_buffer_size > 0)
+		transferToGpu(
+			mesh.vertices.data(), vertex_buffer.get(), vertices_buffer_size
+		);
+	if (indices_buffer_size > 0)
+		transferToGpu(mesh.indices.data(), index_buffer.get(), indices_buffer_size);
 }
 
 void GPUMesh::transferToGpu(
@@ -167,6 +137,12 @@ void GPUMesh::transferToGpu(
 		device, &transfer_bi
 	);
 	void *map = SDL_MapGPUTransferBuffer(device, transfer_buffer, false);
+	if (!map) {
+		SDL_ReleaseGPUTransferBuffer(device, transfer_buffer);
+		throw std::runtime_error(
+			"Failed to map GPU transfer buffer: " + std::string(SDL_GetError())
+		);
+	}
 	std::memcpy(map, data, size);
 	SDL_UnmapGPUTransferBuffer(device, transfer_buffer);
 	SDL_GPUCommandBuffer *upload_cmd = SDL_AcquireGPUCommandBuffer(device);

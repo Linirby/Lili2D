@@ -68,7 +68,7 @@ size_t MaterialRegistry::materialCount() const {
 	return id_to_material.size();
 }
 
-const Material *MaterialRegistry::material_data() const {
+const Material *MaterialRegistry::materialData() const {
 	return id_to_material.data();
 }
 

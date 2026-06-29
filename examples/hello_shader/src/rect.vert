@@ -11,7 +11,10 @@ layout(location = 3) out vec4 v_color;
 layout(set = 1, binding = 0) uniform UniformBlock {
 	mat3 matrix;
 	vec4 color_tint;
+	vec4 uv_bounds;
 	float layer;
+	float time;
+	float padding[2];
 } ubo;
 
 layout(set = 1, binding = 1) uniform RectUB {

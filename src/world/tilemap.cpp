@@ -28,7 +28,7 @@ void TileMap::setTile(const std::string &name, lili::Point3 pos) {
 	TileRegistry &registry = TileRegistry::get();
 	lili::Point3 chunk_pos = getChunkCoord(pos);
 	lili::Point3 local_pos = getLocalCoord(pos);
-	
+
 	Chunk &chunk = chunks[chunk_pos];
 	chunk.tiles[Chunk::flattenIndex(local_pos)] = registry.getTileId(name);
 	chunk.dirty = true;
@@ -55,14 +55,14 @@ bool TileMap::checkCollision(const lili::AABB3 &target_aabb) const {
 
 				const Tile &tile = registry.getTile(tile_id);
 				if (tile.is_solid) {
-					lili::AABB3 tile_aabb(
-						lili::Vec3(
+					lili::AABB3 tile_aabb{
+						lili::Vec3{
 							static_cast<float>(x),
 							static_cast<float>(y),
 							static_cast<float>(z)
-						),
-						lili::Vec3(1.0f, 1.0f, 1.0f)
-					);
+						},
+						lili::Vec3{1.0f, 1.0f, 1.0f}
+					};
 					if (target_aabb.intersect(tile_aabb))
 						return true;
 				}

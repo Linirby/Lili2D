@@ -29,7 +29,7 @@ App::App() {
 	);
 
 	const float TILE_SIZE = 16.0f;
-	
+
 	lili::SliceUV slice_floor = env_atlas.getSliceUV(0);
 	lili::SliceUV slice_dark_floor = env_atlas.getSliceUV(1);
 	lili::SliceUV slice_wall = env_atlas.getSliceUV(2);
@@ -40,7 +40,7 @@ App::App() {
 
 	int map_width = 100;
 	int map_height = 80;
-	
+
 	env_batch->begin();
 	for (int y = 0; y < map_height; ++y) {
 		for (int x = 0; x < map_width; ++x) {
@@ -113,7 +113,7 @@ void App::handleEvents() {
 void App::update(float dt) {
 	keyboard.update();
 	lili::Vec2 velocity(0, 0);
-	
+
 	if (keyboard.held(SDL_SCANCODE_W))
 		velocity.y -= 1;
 	if (keyboard.held(SDL_SCANCODE_S))

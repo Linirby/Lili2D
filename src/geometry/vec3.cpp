@@ -38,6 +38,10 @@ Vec3 Vec3::operator*=(const float scalar) {
 	return *this;
 }
 
+bool Vec3::operator==(const Vec3 &o) const {
+	return x == o.x && y == o.y && z == o.z;
+}
+
 float Vec3::dot(const Vec3 &o) const {
 	return x * o.x + y * o.y + z * o.z;
 }

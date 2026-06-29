@@ -125,7 +125,7 @@ void SpriteBatch::draw() {
 	Mat3 mat_transform = Mat3::translate(position);
 
 	renderer->submit(
-		(Model){ mesh.get(), material.get() },
+		Model({ mesh.get(), material.get() }),
 		mat_transform,
 		layer,
 		RenderLayer::WORLD2D

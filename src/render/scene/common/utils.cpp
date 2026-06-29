@@ -7,26 +7,26 @@ MeshData createUnitQuad() {
 	MeshData quad;
 
 	quad.vertices = {
-		(Vertex){
+		Vertex({
 			.x = 0.0f, .y = 0.0f, .z = 0.0f,
 			.u = 0.0f, .v = 0.0f,
 			.material_id = 0
-		},
-		(Vertex){
+		}),
+		Vertex({
 			.x = 1.0f, .y = 0.0f, .z = 0.0f,
 			.u = 1.0f, .v = 0.0f,
 			.material_id = 0
-		},
-		(Vertex){
+		}),
+		Vertex({
 			.x = 1.0f, .y = 1.0f, .z = 0.0f,
 			.u = 1.0f, .v = 1.0f,
 			.material_id = 0
-		},
-		(Vertex){
+		}),
+		Vertex({
 			.x = 0.0f, .y = 1.0f, .z = 0.0f,
 			.u = 0.0f, .v = 1.0f,
 			.material_id = 0
-		}
+		})
 	};
 	quad.indices = {
 		0, 1, 2,
@@ -43,11 +43,11 @@ MeshData createUnitCircle(int segments) {
 	const float PI = 3.14159265359f;
 	float angle_step = (2.0f * PI) / segments;
 
-	circle.vertices.push_back((Vertex){
+	circle.vertices.push_back(Vertex({
 		.x = 0.0f, .y = 0.0f, .z = 0.0f,
 		.u = 0.5f, .v = 0.5f,
 		.material_id = 0
-	});
+	}));
 
 	for (int i = 0; i < segments; i++) {
 		float angle = i * angle_step;
@@ -58,11 +58,11 @@ MeshData createUnitCircle(int segments) {
 		float u = x + 0.5f;
 		float v = y + 0.5f;
 
-		circle.vertices.push_back((Vertex){
+		circle.vertices.push_back(Vertex({
 			.x = x, .y = y, .z = 0.0f,
 			.u = u, .v = v,
 			.material_id = 0
-		});
+		}));
 	}
 
 	for (int i = 1; i <= segments; i++) {

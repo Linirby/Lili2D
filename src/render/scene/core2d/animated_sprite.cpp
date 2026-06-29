@@ -127,7 +127,7 @@ void AnimatedSprite::draw() {
 		Mat3::scale(getSize())
 	);
 	renderer->submit(
-		(Model){ mesh.get(), material.get() },
+		Model({ mesh.get(), material.get() }),
 		mat_transform,
 		layer,
 		RenderLayer::WORLD2D

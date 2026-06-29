@@ -35,6 +35,10 @@ Vec2 Vec2::operator*=(const float scalar) {
 	return *this;
 }
 
+bool Vec2::operator==(const Vec2 &o) const {
+	return x == o.x && y == o.y;
+}
+
 float Vec2::dot(const Vec2 &o) const {
 	return x * o.x + y * o.y;
 }

@@ -41,6 +41,10 @@ Vec4 Vec4::operator*=(const float scalar) {
 	return *this;
 }
 
+bool Vec4::operator==(const Vec4 &o) const {
+	return x == o.x && y == o.y && z == o.z && w == o.w;
+}
+
 float Vec4::dot(const Vec4 &o) const {
 	return x * o.x + y * o.y + z * o.z + w * o.w;
 }

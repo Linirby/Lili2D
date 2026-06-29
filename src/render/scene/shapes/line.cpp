@@ -80,7 +80,7 @@ void Line::draw() {
 		Mat3::scale({ length, shape.thickness })
 	);
 	renderer->submit(
-		(Model){ mesh, material.get() },
+		Model({ mesh, material.get() }),
 		mat_transform,
 		layer,
 		render_layer

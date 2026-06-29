@@ -265,8 +265,8 @@ void Renderer::initShaders() {
 		device,
 		world_2d_vert_spv, world_2d_vert_spv_len,
 		world_2d_frag_spv, world_2d_frag_spv_len,
-		(ShaderInfo){ .num_uniform_buffers = 1 },
-		(ShaderInfo){ .num_samplers = 1, }
+		ShaderInfo({ .num_uniform_buffers = 1 }),
+		ShaderInfo({ .num_samplers = 1, })
 	);
 }
 

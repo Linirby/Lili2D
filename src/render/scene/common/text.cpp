@@ -36,12 +36,12 @@ GlyphUV BitmapFont::glyphUv(char c) const {
 	const float DELTA_U = 1.0f / static_cast<float>(cols);
 	const float DELTA_V = 1.0f / static_cast<float>(rows);
 
-	return (GlyphUV){
+	return GlyphUV({
 		.u0 = CURRENT_X * DELTA_U,
 		.v0 = CURRENT_Y * DELTA_V,
 		.u1 = (CURRENT_X + 1) * DELTA_U,
 		.v1 = (CURRENT_Y + 1) * DELTA_V
-	};
+	});
 }
 
 Text::Text(
@@ -118,26 +118,26 @@ void Text::rebuildMesh() {
 
 		GlyphUV uv = font->glyphUv(c);
 
-		mesh_data.vertices.push_back((Vertex){
+		mesh_data.vertices.push_back(Vertex({
 			.x = offset_x, .y = offset_y, .z = 0.0f,
 			.u = uv.u0, .v = uv.v0,
 			.material_id = 0
-		});
-		mesh_data.vertices.push_back((Vertex){
+		}));
+		mesh_data.vertices.push_back(Vertex({
 			.x = offset_x + glyph_w, .y = offset_y, .z = 0.0f,
 			.u = uv.u1, .v = uv.v0,
 			.material_id = 0
-		});
-		mesh_data.vertices.push_back((Vertex){
+		}));
+		mesh_data.vertices.push_back(Vertex({
 			.x = offset_x + glyph_w, .y = offset_y + glyph_h, .z = 0.0f,
 			.u = uv.u1, .v = uv.v1,
 			.material_id = 0
-		});
-		mesh_data.vertices.push_back((Vertex){
+		}));
+		mesh_data.vertices.push_back(Vertex({
 			.x = offset_x, .y = offset_y + glyph_h, .z = 0.0f,
 			.u = uv.u0, .v = uv.v1,
 			.material_id = 0
-		});
+		}));
 
 		mesh_data.indices.push_back(base + 0);
 		mesh_data.indices.push_back(base + 1);

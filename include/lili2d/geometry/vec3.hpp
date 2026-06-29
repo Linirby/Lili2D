@@ -40,6 +40,10 @@ struct Vec3 {
 	/// @param scalar The scalar value.
 	/// @return A reference to this vector.
 	Vec3 operator*=(const float scalar);
+	/// @brief Is equal assignment operator.
+	/// @param o The vector to check with.
+	// return A true if they're equal otherwise false.
+	bool operator==(const Vec3 &o) const;
 
 	/// @brief Calculates the dot product with another vector.
 	/// @param o The other vector.

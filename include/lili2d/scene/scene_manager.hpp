@@ -11,12 +11,12 @@ public:
 	void push(std::unique_ptr<Scene> scene);
 	void pop();
 
-	void change_scene(std::unique_ptr<Scene> scene);
+	void changeScene(std::unique_ptr<Scene> scene);
 
-	void handle_events(const Event &event);
+	void handleEvents(const Event &event);
 	void update(float dt);
-	void fixed_update(float dt);
-	void render(Renderer *renderer, float alpha);
+	void fixedUpdate(float dt);
+	void render(float alpha);
 
 	bool empty() const;
 

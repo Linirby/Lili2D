@@ -10,26 +10,27 @@ class SceneManager;
 
 class Scene {
 public:
-	Scene(const std::string &name);
+	Scene(const std::string &name, Renderer *renderer);
 	virtual ~Scene() = default;
 
-	virtual void on_enter() {}
-	virtual void on_exit() {}
-	virtual void on_pause() {}
-	virtual void on_resume() {}
+	virtual void onEnter() {}
+	virtual void onExit() {}
+	virtual void onPause() {}
+	virtual void onResume() {}
 
-	virtual void handle_events(const Event& event);
+	virtual void handleEvents(const Event& event);
 	virtual void update(float dt);
-	virtual void fixed_update(float dt);
-	virtual void render(Renderer *renderer, float alpha);
+	virtual void fixedUpdate(float dt);
+	virtual void render(float alpha);
 
-	void set_manager(SceneManager *manager);
+	void setManager(SceneManager *manager);
 
-	const std::string &get_name() const;
-	SceneManager *get_manager() const;
+	const std::string &getName() const;
+	SceneManager *getManager() const;
 
 protected:
 	std::string name;
+	Renderer *renderer;
 	SceneManager *manager;
 };
 

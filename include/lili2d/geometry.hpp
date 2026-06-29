@@ -25,6 +25,9 @@ struct Mat4;
 /// @return The angle in radians.
 inline float degToRad(float degrees);
 
+struct Point2;
+struct Point3;
+
 /// @brief A 2D vector.
 struct Vec2;
 /// @brief A 3D vector.

@@ -68,6 +68,7 @@ target_sources(Lili2D PRIVATE
     src/geometry/vec3.cpp
     src/geometry/vec4.cpp
     src/geometry/point2.cpp
+    src/geometry/point3.cpp
     src/geometry/utils.cpp
 
     src/core/clock.cpp
@@ -109,6 +110,10 @@ target_sources(Lili2D PRIVATE
     src/scene/scene_manager.cpp
 
     src/world/camera.cpp
+    src/world/chunk.cpp
+    src/world/tile.cpp
+    src/world/tile_registry.cpp
+    src/world/tilemap.cpp
 )
 
 include(CheckIPOSupported)

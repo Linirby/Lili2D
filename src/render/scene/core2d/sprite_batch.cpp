@@ -119,7 +119,7 @@ void SpriteBatch::setLayer(float layer) {
 	this->layer = layer;
 }
 
-void SpriteBatch::render() {
+void SpriteBatch::draw() {
 	if (mesh_data.indices.empty()) return;
 
 	Mat3 mat_transform = Mat3::translate(position);

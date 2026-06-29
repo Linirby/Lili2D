@@ -58,7 +58,7 @@ public:
 	void setLayer(float layer);
 
 	/// @brief Submits the batched mesh to the renderer.
-	void render();
+	void draw();
 
 private:
 	Renderer *renderer = nullptr;

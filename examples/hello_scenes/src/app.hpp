@@ -14,7 +14,7 @@ private:
 	std::unique_ptr<lili::Renderer> renderer;
 	lili::Clock clock;
 
-	std::unique_ptr<lili::SceneManager> scene_manager;
+	lili::SceneManager scene_manager;
 
 	bool running;
 

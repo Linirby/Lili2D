@@ -8,8 +8,8 @@ App::App() {
 	renderer = std::make_unique<lili::Renderer>(window.get());
 	clock = lili::Clock(20.0f);
 
-	scene_manager = std::make_unique<lili::SceneManager>();
-	scene_manager->push(std::make_unique<MainScene>(renderer.get()));
+	scene_manager = lili::SceneManager();
+	scene_manager.push(std::make_unique<MainScene>(renderer.get()));
 
 	running = true;
 }
@@ -28,20 +28,20 @@ void App::handleEvents() {
 	while (event.poll()) {
 		if (event.type() == lili::EventType::QUIT)
 			running = false;
-		scene_manager->handle_events(event);
+		scene_manager.handleEvents(event);
 	}
 }
 
 void App::update(float dt) {
-	if (scene_manager->empty())
+	if (scene_manager.empty())
 		running = false;
-	scene_manager->update(dt);
+	scene_manager.update(dt);
 }
 
 void App::render(float alpha) {
 	if (!renderer->beginFrame()) return;
 
-	scene_manager->render(renderer.get(), alpha);
+	scene_manager.render(alpha);
 
 	renderer->endFrame();
 }

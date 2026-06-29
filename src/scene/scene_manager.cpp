@@ -3,30 +3,30 @@
 namespace lili {
 
 void SceneManager::push(std::unique_ptr<Scene> scene) {
-	scene->set_manager(this);
+	scene->setManager(this);
 	scenes.push_back(std::move(scene));
-	scenes.back()->on_enter();
+	scenes.back()->onEnter();
 }
 
 void SceneManager::pop() {
 	if (scenes.empty()) return;
-	scenes.back()->on_exit();
+	scenes.back()->onExit();
 	scenes.pop_back();
 }
 
-void SceneManager::change_scene(std::unique_ptr<Scene> scene) {
-	scene->set_manager(this);
+void SceneManager::changeScene(std::unique_ptr<Scene> scene) {
+	scene->setManager(this);
 	if (!scenes.empty()) {
-		scenes.back()->on_exit();
+		scenes.back()->onExit();
 		scenes.pop_back();
 	}
 	scenes.push_back(std::move(scene));
-	scenes.back()->on_enter();
+	scenes.back()->onEnter();
 }
 
-void SceneManager::handle_events(const Event &event) {
+void SceneManager::handleEvents(const Event &event) {
 	if (!scenes.empty())
-		scenes.back()->handle_events(event);
+		scenes.back()->handleEvents(event);
 }
 
 void SceneManager::update(float dt) {
@@ -34,14 +34,14 @@ void SceneManager::update(float dt) {
 		scenes.back()->update(dt);
 }
 
-void SceneManager::fixed_update(float dt) {
+void SceneManager::fixedUpdate(float dt) {
 	if (!scenes.empty())
-		scenes.back()->fixed_update(dt);
+		scenes.back()->fixedUpdate(dt);
 }
 
-void SceneManager::render(Renderer *renderer, float alpha) {
+void SceneManager::render(float alpha) {
 	if (!scenes.empty())
-		scenes.back()->render(renderer, alpha);
+		scenes.back()->render(alpha);
 }
 
 bool SceneManager::empty() const {

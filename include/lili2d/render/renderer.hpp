@@ -64,6 +64,9 @@ public:
 	/// @brief Sets the active camera.
 	/// @param camera Pointer to the camera.
 	void setCamera(Camera *camera);
+	/// @brief Sets the active present mode.
+	/// @param mode New present mode
+	void setPresentMode(SDL_GPUPresentMode mode);
 
 	/// @brief Creates a shader from file paths.
 	/// @param vert_path Path to the vertex shader file.

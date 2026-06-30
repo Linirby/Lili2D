@@ -6,7 +6,6 @@
 #include "lili2d/render/scene/common/utils.hpp"
 #include "lili2d/render/scene/shapes/rect.hpp"
 
-// Creation of those 3 headers in cmake
 #include "lili2d/render/white_1x1_png.hpp"
 #include "shader/world_2d_vert_spv.hpp"
 #include "shader/world_2d_frag_spv.hpp"
@@ -181,14 +180,19 @@ void Renderer::initDevice() {
 		window->getSdlWindow(),
 		SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
 		SDL_GPU_PRESENTMODE_MAILBOX
-	)) {
-		SDL_SetGPUSwapchainParameters(
+	))
+		if (!SDL_SetGPUSwapchainParameters(
 			device.get(),
 			window->getSdlWindow(),
 			SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
 			SDL_GPU_PRESENTMODE_IMMEDIATE
-		);
-	}
+		))
+			SDL_SetGPUSwapchainParameters(
+				device.get(),
+				window->getSdlWindow(),
+				SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
+				SDL_GPU_PRESENTMODE_VSYNC
+			);
 }
 
 void Renderer::initShaders() {
@@ -218,6 +222,21 @@ void Renderer::initPasses() {
 
 void Renderer::setCamera(Camera *camera) {
 	this->camera = camera;
+}
+
+void Renderer::setPresentMode(SDL_GPUPresentMode mode) {
+	if (!SDL_SetGPUSwapchainParameters(
+		device.get(),
+		window->getSdlWindow(),
+		SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
+		mode
+	))
+		SDL_SetGPUSwapchainParameters(
+			device.get(),
+			window->getSdlWindow(),
+			SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
+			SDL_GPU_PRESENTMODE_VSYNC
+		);
 }
 
 Shader* Renderer::createShader(

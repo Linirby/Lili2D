@@ -1,4 +1,4 @@
-#include "lili2d/core/ecs.hpp"
+#include "lili2d/ecs/entity.hpp"
 
 namespace lili {
 

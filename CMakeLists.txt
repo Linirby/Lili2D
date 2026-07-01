@@ -72,11 +72,14 @@ target_sources(Lili2D PRIVATE
     src/geometry/utils.cpp
 
     src/core/clock.cpp
-    src/core/ecs.cpp
     src/core/window.cpp
     src/core/event.cpp
     src/core/keyboard.cpp
     src/core/mouse.cpp
+
+    src/ecs/component_pool.cpp
+    src/ecs/ecs_registry.cpp
+    src/ecs/entity.cpp
 
     src/render/core/gpu_mesh.cpp
     src/render/core/shader.cpp

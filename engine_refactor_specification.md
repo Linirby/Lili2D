@@ -84,9 +84,9 @@ Define the `Entity` type and bitwise helper functions in `include/lili2d/core/ec
 ### 🚀 Step 2: ComponentPool
 Write the templated class `ComponentPool<T>` inheriting from a non-templated `IComponentPool` base interface:
 - [x] Build the dynamic vectors: `dense_components` (stores `T`), `dense_entities` (stores `Entity`), and `sparse_entities` (stores lookup indices).
-- [ ] Implement `emplace(Entity, args...)` using `std::forward` to construct components in-place.
-- [ ] Implement `remove(Entity)` using the **Swap-and-Pop** pattern.
-- [ ] Implement `get(Entity)` and `has(Entity)`.
+- [x] Implement `emplace(Entity, args...)` using `std::forward` to construct components in-place.
+- [x] Implement `remove(Entity)` using the **Swap-and-Pop** pattern.
+- [x] Implement `get(Entity)` and `has(Entity)`.
 
 ### 🚀 Step 3: Registry
 Create the central coordinator class `Registry`:

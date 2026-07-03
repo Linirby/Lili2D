@@ -77,6 +77,8 @@ struct RaycastResult;
 
 /// @brief Represents an animation as a sequence of frames.
 class Animation;
+/// @brief A player for an animation.
+class AnimationPlayer;
 /// @brief Manage the creation and storage of animations.
 class AnimationRegistry;
 /// @brief Loads and slices a texture atlas into frames and animations.

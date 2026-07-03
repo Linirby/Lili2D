@@ -1,11 +1,12 @@
 #pragma once
 
 #include "lili2d/world/tile.hpp"
+#include "lili2d/core/asset_registry.hpp"
 
 namespace lili {
 
 /// @brief Central registry for defining and storing tile types.
-class TileRegistry {
+class TileRegistry : public AssetRegistry<Tile, uint16_t> {
 public:
 	TileRegistry(const TileRegistry&) = delete;
 	TileRegistry &operator=(const TileRegistry &) = delete;
@@ -26,13 +27,10 @@ public:
 	/// @brief Gets the total number of registered tiles.
 	/// @return The number of tiles.
 	size_t tileCount() const;
-	/// @brief Clears all registered tiles.
-	void clear();
-
 	/// @brief Gets a tile ID by key.
 	/// @param key The tile key.
 	/// @return The tile ID.
-	uint16_t getTileId(const std::string &key) const;
+	uint16_t getTileID(const std::string &key) const;
 	/// @brief Gets a tile by key.
 	/// @param key The tile key.
 	/// @return Reference to the tile.
@@ -43,9 +41,6 @@ public:
 	const Tile &getTile(uint16_t tile_id) const;
 
 private:
-	std::unordered_map<std::string, uint16_t> key_to_id;
-	std::vector<Tile> id_to_tile;
-
 	TileRegistry();
 };
 

@@ -30,7 +30,7 @@ void TileMap::setTile(const std::string &name, lili::Point3 pos) {
 	lili::Point3 local_pos = getLocalCoord(pos);
 
 	Chunk &chunk = chunks[chunk_pos];
-	chunk.tiles[Chunk::flattenIndex(local_pos)] = registry.getTileId(name);
+	chunk.tiles[Chunk::flattenIndex(local_pos)] = registry.getTileID(name);
 	chunk.dirty = true;
 }
 

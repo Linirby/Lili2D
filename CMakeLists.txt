@@ -72,12 +72,12 @@ target_sources(Lili2D PRIVATE
     src/geometry/utils.cpp
 
     src/core/clock.cpp
+    src/core/sdl_deleters.cpp
     src/core/window.cpp
     src/core/event.cpp
     src/core/keyboard.cpp
     src/core/mouse.cpp
 
-    src/ecs/component_pool.cpp
     src/ecs/ecs_registry.cpp
     src/ecs/entity.cpp
 
@@ -89,8 +89,11 @@ target_sources(Lili2D PRIVATE
     src/render/pipelines/main_graphics_pipeline.cpp
 
     src/render/scene/common/animation.cpp
+    src/render/scene/common/animation_player.cpp
+    src/render/scene/common/animation_registry.cpp
     src/render/scene/common/atlas_map.cpp
     src/render/scene/common/material.cpp
+    src/render/scene/common/material_registry.cpp
     src/render/scene/common/model.cpp
     src/render/scene/common/text.cpp
     src/render/scene/common/utils.cpp
@@ -141,6 +144,10 @@ install(TARGETS Lili2D
     EXPORT Lili2DTargets
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
+export(TARGETS Lili2D
+    NAMESPACE lili::
+    FILE "${CMAKE_CURRENT_BINARY_DIR}/Lili2DTargets.cmake"
 )
 install(DIRECTORY include/
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}

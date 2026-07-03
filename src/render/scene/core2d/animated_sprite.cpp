@@ -1,6 +1,6 @@
 #include "lili2d/render/scene/core2d/animated_sprite.hpp"
 
-#include "lili2d/render/scene/common/utils.hpp"
+#include "lili2d/render/scene/common/animation_registry.hpp"
 #include "lili2d/geometry/mat3x3.hpp"
 #include "lili2d/geometry/utils.hpp"
 

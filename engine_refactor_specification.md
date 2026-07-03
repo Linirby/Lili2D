@@ -90,12 +90,12 @@ Write the templated class `ComponentPool<T>` inheriting from a non-templated `IC
 
 ### 🚀 Step 3: Registry
 Create the central coordinator class `Registry`:
-- [ ] Manage an `entities` vector tracking active entity IDs.
-- [ ] Manage a `free_indices` vector tracking which entity slots can be recycled.
-- [ ] Manage a list of `IComponentPool` pointers (`std::vector<std::unique_ptr<IComponentPool>>`).
-- [ ] Implement `createEntity()`: reuse indices from `free_indices` (incrementing generation) or push a new one.
-- [ ] Implement `destroyEntity(Entity)`: clean components out of all active pools and recycle the index.
-- [ ] Implement helper methods: `emplaceComponent<T>`, `removeComponent<T>`, `getComponent<T>`, and `hasComponent<T>`.
+- [x] Manage an `entities` vector tracking active entity IDs.
+- [x] Manage a `free_indices` vector tracking which entity slots can be recycled.
+- [x] Manage a list of `IComponentPool` pointers (`std::vector<std::unique_ptr<IComponentPool>>`).
+- [x] Implement `createEntity()`: reuse indices from `free_indices` (incrementing generation) or push a new one.
+- [x] Implement `destroyEntity(Entity)`: clean components out of all active pools and recycle the index.
+- [x] Implement helper methods: `emplaceComponent<T>`, `removeComponent<T>`, `getComponent<T>`, and `hasComponent<T>`.
 
 ---
 
@@ -114,6 +114,7 @@ Instead of writing custom lookup logic for each registry, you can write a clean,
    * Inherit from `AssetRegistry<T>`.
    * Add specific singleton helper accesses (e.g. `TileRegistry::get()`).
 
+ps: not sure for the methods names, maybe I sould remove assets from registerAsset and hasAsset because it could be annoying.
 This cleanly separates the assets (Tile definitions, textures) from the ECS simulation entities.
 
 ---
@@ -121,4 +122,3 @@ This cleanly separates the assets (Tile definitions, textures) from the ECS simu
 ## Tips for Success
 * **Keep it Readable:** Avoid over-optimizing. Start with simple vectors. Use descriptive variable names (e.g., `dense_idx` and `last_dense_idx` in your swap-and-pop code).
 * **Test Incrementally:** Once you write the `ComponentPool`, write a small main program to add 3 components, delete 1, and print the vectors to verify that the swap-and-pop works exactly as expected.
-* **Tombstones:** Make sure you initialize your sparse array with a sentinel value like `static_cast<size_t>(-1)` so you know when a slot is empty.

@@ -5,6 +5,7 @@
 /// shapes, sprites, models, and text.
 
 #include "lili2d/render/scene/common/animation.hpp"  // IWYU pragma: keep
+#include "lili2d/render/scene/common/animation_player.hpp"  // IWYU pragma: keep
 #include "lili2d/render/scene/common/atlas_map.hpp"  // IWYU pragma: keep
 #include "lili2d/render/scene/common/material.hpp"  // IWYU pragma: keep
 #include "lili2d/render/scene/common/model.hpp"  // IWYU pragma: keep
@@ -24,6 +25,8 @@ namespace lili {
 
 /// @brief Represents an animation as a sequence of frames.
 class Animation;
+/// @brief A player for an animation.
+class AnimationPlayer;
 /// @brief Manage the creation and storage of animations.
 class AnimationRegistry;
 /// @brief Loads and slices a texture atlas into frames and animations.

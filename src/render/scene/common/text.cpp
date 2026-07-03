@@ -36,15 +36,11 @@ GlyphUV BitmapFont::glyphUv(char c) const {
 	const float DELTA_U = 1.0f / static_cast<float>(cols);
 	const float DELTA_V = 1.0f / static_cast<float>(rows);
 
-	// Half-texel inset to prevent texture bleeding on fractional positions
-	const float HALF_TEXEL_U = 0.5f / static_cast<float>(texture->getWidth());
-	const float HALF_TEXEL_V = 0.5f / static_cast<float>(texture->getHeight());
-
 	return GlyphUV({
-		.u0 = CURRENT_X * DELTA_U + HALF_TEXEL_U,
-		.v0 = CURRENT_Y * DELTA_V + HALF_TEXEL_V,
-		.u1 = (CURRENT_X + 1) * DELTA_U - HALF_TEXEL_U,
-		.v1 = (CURRENT_Y + 1) * DELTA_V - HALF_TEXEL_V
+		.u0 = CURRENT_X * DELTA_U,
+		.v0 = CURRENT_Y * DELTA_V,
+		.u1 = (CURRENT_X + 1) * DELTA_U,
+		.v1 = (CURRENT_Y + 1) * DELTA_V
 	});
 }
 

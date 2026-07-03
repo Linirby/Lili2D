@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <cassert>
 #include "lili2d/ecs/entity.hpp"
 
 namespace lili {
@@ -21,6 +22,11 @@ public:
 	T &get(Entity entity);
 	bool has(Entity entity) const override;
 	void remove(Entity entity) override;
+
+	const std::vector<T> &getComponents() const;
+	std::vector<T> &getComponents();
+	const std::vector<Entity> &getEntities() const;
+	size_t size() const;
 
 private:
 	std::vector<T> dense_components;
@@ -80,6 +86,26 @@ void ComponentPool<T>::remove(Entity entity) {
 	sparse_entities[entity_id] = EMPTY;
 	dense_components.pop_back();
 	dense_entities.pop_back();
+}
+
+template<typename T>
+const std::vector<T> &ComponentPool<T>::getComponents() const {
+	return dense_components;
+}
+
+template<typename T>
+std::vector<T> &ComponentPool<T>::getComponents() {
+	return dense_components;
+}
+
+template<typename T>
+const std::vector<Entity> &ComponentPool<T>::getEntities() const {
+	return dense_entities;
+}
+
+template<typename T>
+size_t ComponentPool<T>::size() const {
+	return dense_components.size();
 }
 
 }  // namespace lili

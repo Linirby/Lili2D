@@ -9,7 +9,6 @@ add_compile_options(-Wall -Wextra)
 find_package(Lili2D REQUIRED)
 
 add_executable(hello_ecs
-    src/components.cpp
     src/entities.cpp
     src/game.cpp
     src/main.cpp

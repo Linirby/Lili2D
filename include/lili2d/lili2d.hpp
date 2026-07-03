@@ -10,6 +10,7 @@
 #include "lili2d/render.hpp"  // IWYU pragma: keep
 #include "lili2d/scene.hpp"  // IWYU pragma: keep
 #include "lili2d/world.hpp"  // IWYU pragma: keep
+#include "lili2d/ecs.hpp"  // IWYU pragma: keep
 
 namespace lili {
 
@@ -135,5 +136,8 @@ struct Tile;
 class TileRegistry;
 /// @brief Manages a grid-based world of chunks and tiles.
 class TileMap;
+
+typedef uint32_t Entity;
+class ECSRegistry;
 
 }  // namespace lili

@@ -4,10 +4,10 @@
 namespace entities {
 	lili::Entity spawnBall(
 		lili::ECSRegistry &registry,
-		lili::Renderer *renderer,
 		lili::Vec2 pos,
 		lili::Vec2 vel,
-		float radius,
-		lili::Vec4 color
+		lili::SliceUV slice,
+		lili::Vec4 color,
+		float radius
 	);
 }

@@ -15,6 +15,8 @@ private:
 	lili::Camera camera;
 
 	lili::ECSRegistry ecs_registry;
+	std::unique_ptr<lili::Texture> circle_texture;
+	std::unique_ptr<lili::SpriteBatch> sprite_batch;
 	std::vector<lili::Entity> spawned_entities;
 
 	bool running;

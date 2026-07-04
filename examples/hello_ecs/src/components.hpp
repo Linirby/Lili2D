@@ -10,12 +10,7 @@ struct VelocityComponent {
 };
 
 struct RenderComponent {
-	lili::Circle circle;
-
-	RenderComponent(
-		lili::Renderer* renderer,
-		lili::Vec2 center,
-		float radius,
-		lili::Vec4 color
-	) : circle(renderer, lili::CircleShape(center, radius, 32), color) {}
+	lili::SliceUV slice;
+	lili::Vec4 color;
+	float radius;
 };

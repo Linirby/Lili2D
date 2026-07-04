@@ -6,6 +6,6 @@ namespace systems {
 void updateMovement(
 	lili::ECSRegistry &registry, float dt, float window_w, float window_h
 );
-void renderEntities(lili::ECSRegistry &registry);
+void renderEntities(lili::ECSRegistry &registry, lili::SpriteBatch &batch);
 
 }

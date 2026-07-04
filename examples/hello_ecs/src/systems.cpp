@@ -20,22 +20,20 @@ void updateMovement(
 
 			if (registry.hasComponent<RenderComponent>(entity)) {
 				auto &render = registry.getComponent<RenderComponent>(entity);
-				float radius = render.circle.getRadius();
 
-				if (pos.value.x - radius < 0.0f) {
-					pos.value.x = radius;
+				if (pos.value.x - render.radius < 0.0f) {
+					pos.value.x = render.radius;
 					vel.value.x = -vel.value.x;
-				} else if (pos.value.x + radius > window_w) {
-					pos.value.x = window_w - radius;
+				} else if (pos.value.x + render.radius > window_w) {
+					pos.value.x = window_w - render.radius;
 					vel.value.x = -vel.value.x;
 				}
 
-				// Bounce off top/bottom
-				if (pos.value.y - radius < 0.0f) {
-					pos.value.y = radius;
+				if (pos.value.y - render.radius < 0.0f) {
+					pos.value.y = render.radius;
 					vel.value.y = -vel.value.y;
-				} else if (pos.value.y + radius > window_h) {
-					pos.value.y = window_h - radius;
+				} else if (pos.value.y + render.radius > window_h) {
+					pos.value.y = window_h - render.radius;
 					vel.value.y = -vel.value.y;
 				}
 			}
@@ -43,7 +41,9 @@ void updateMovement(
 	}
 }
 
-void renderEntities(lili::ECSRegistry &registry) {
+void renderEntities(lili::ECSRegistry &registry, lili::SpriteBatch &batch) {
+	batch.begin();
+
 	auto &pos_pool = registry.getPool<PositionComponent>();
 	const auto &entities = pos_pool.getEntities();
 	const auto &positions = pos_pool.getComponents();
@@ -54,10 +54,18 @@ void renderEntities(lili::ECSRegistry &registry) {
 			const auto &pos = positions[i];
 			auto &render = registry.getComponent<RenderComponent>(entity);
 
-			render.circle.setCenter(pos.value);
-			render.circle.draw();
+			batch.draw(
+				render.slice,
+				pos.value,
+				{ render.radius * 2.0f, render.radius * 2.0f },
+				0.0f,
+				render.color
+			);
 		}
 	}
+
+	batch.end();
+	batch.draw();
 }
 
-} // namespace systems
+}  // namespace systems

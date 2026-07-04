@@ -16,6 +16,12 @@ Game::Game() {
 
 	running = true;
 
+	circle_texture = std::make_unique<lili::Texture>(
+		renderer->getDevice(), "circle.png"
+	);
+	sprite_batch = std::make_unique<lili::SpriteBatch>(
+		renderer.get(), circle_texture.get()
+	);
 	for (int i = 0; i < 10; ++i)
 		spawnRandomBall();
 
@@ -41,22 +47,20 @@ void Game::handleEvents() {
 	lili::Event event;
 
 	while (event.poll()) {
-		if (event.type() == lili::EventType::QUIT) {
+		if (event.type() == lili::EventType::QUIT)
 			running = false;
-		}
 
 		if (event.type() == lili::EventType::KEYBOARD) {
 			lili::KeyboardEvent kb = event.keyboard();
 			if (kb.action == lili::KeyAction::PRESSED) {
-				if (kb.key == SDLK_ESCAPE) {
+				if (kb.key == SDLK_ESCAPE)
 					running = false;
-				} else if (kb.key == SDLK_SPACE) {
+				else if (kb.key == SDLK_SPACE)
 					spawnRandomBall();
-				} else if (kb.key == SDLK_BACKSPACE) {
+				else if (kb.key == SDLK_BACKSPACE)
 					destroyRandomBall();
-				} else if (kb.key == SDLK_T) {
+				else if (kb.key == SDLK_T)
 					toggleRandomBallVelocity();
-				}
 			}
 		}
 	}
@@ -73,7 +77,7 @@ void Game::update(float dt) {
 
 void Game::render() {
 	if (!renderer->beginFrame()) return;
-	systems::renderEntities(ecs_registry);
+	systems::renderEntities(ecs_registry, *sprite_batch.get());
 	renderer->endFrame();
 }
 
@@ -96,7 +100,17 @@ void Game::spawnRandomBall() {
 	lili::Vec4 color(dis_color(gen), dis_color(gen), dis_color(gen), 1.0f);
 
 	lili::Entity ent = entities::spawnBall(
-		ecs_registry, renderer.get(), pos, vel, radius, color
+		ecs_registry,
+		pos,
+		vel,
+		lili::SliceUV(
+			circle_texture.get(), 
+			0.0f, 0.0f,
+			1.0f, 1.0f,
+			1.0f, 1.0f
+		),
+		color,
+		radius
 	);
 	spawned_entities.push_back(ent);
 	std::cout <<

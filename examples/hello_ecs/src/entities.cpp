@@ -5,18 +5,16 @@ namespace entities {
 
 lili::Entity spawnBall(
 	lili::ECSRegistry &registry,
-	lili::Renderer *renderer,
 	lili::Vec2 pos,
 	lili::Vec2 vel,
-	float radius,
-	lili::Vec4 color
+	lili::SliceUV slice,
+	lili::Vec4 color,
+	float radius
 ) {
 	lili::Entity entity = registry.createEntity();
 	registry.emplaceComponent<PositionComponent>(entity, pos);
 	registry.emplaceComponent<VelocityComponent>(entity, vel);
-	registry.emplaceComponent<RenderComponent>(
-		entity, renderer, pos, radius, color
-	);
+	registry.emplaceComponent<RenderComponent>(entity, slice, color, radius);
 	return entity;
 }
 

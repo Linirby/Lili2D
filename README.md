@@ -5,11 +5,13 @@
 ![SDL3](https://img.shields.io/badge/SDL3-Powered-orange.svg)
 
 **Lili2D** is a lightweight, easy-to-use C++ library designed to help you create
-2D games with a cool, intuitive API! :3
+2D games (Thanks to SDL_GPU :3)
 
 Whether you are prototyping a quick idea, participating in a game jam, or
 building a full 2D game, Lili2D provides you with the modern tools you need to
-get things running on screen fast.
+get things running on screen.
+
+https://github.com/user-attachments/assets/91b8a69b-7d0e-4742-8aaa-b97ffdfab5a8
 
 ## Repository Structure
 
@@ -25,9 +27,7 @@ Lili2D follows the modern C++ Pitchfork layout:
 ## Roadmap
 
 I am actively building higher-level game systems on top of the Lili2D core to support 2D Game development:
-- **Tilemap & Grid Environment**: Load grid-based worlds with chunking & batching for optimized low-end hardware rendering.
-- **Entity Component System (ECS)**: Contiguous, lightweight memory storage
-  for entities and components to handle thousands of active game objects efficiently.
+- **Multi-threading & More Optimization**: Avoid bottleneck between GPU and CPU. (like the example `hello_ecs` if you put a large amount of entities like 100k)
 - **Dialogue & UI Engine**: Scrolling text boxes, portraits, and dynamic UI menus.
 
 ## Getting Started

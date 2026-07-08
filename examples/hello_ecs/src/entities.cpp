@@ -18,4 +18,4 @@ lili::Entity spawnBall(
 	return entity;
 }
 
-} // namespace entities
+}  // namespace entities

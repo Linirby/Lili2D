@@ -9,6 +9,9 @@
 
 namespace lili {
 
+/// @brief Generic registry for loading, storing, and referencing game assets.
+/// @tparam T The type of the asset.
+/// @tparam IdType The type of the ID used to reference the asset.
 template<typename T, typename IdType = uint32_t>
 class AssetRegistry {
 protected:
@@ -16,17 +19,59 @@ protected:
 	std::vector<T> id_to_asset;
 
 public:
+	AssetRegistry() = default;
 	virtual ~AssetRegistry() = default;
+	AssetRegistry(const AssetRegistry &) = delete;
+	AssetRegistry &operator=(const AssetRegistry &) = delete;
+	AssetRegistry(AssetRegistry &&) = delete;
+	AssetRegistry &operator=(AssetRegistry &&) = delete;
 
+	/// @brief Registers an asset using an rvalue reference.
+	/// @param key The key to associate with the asset.
+	/// @param asset The asset to register.
+	/// @return The registered asset's ID.
 	virtual IdType registerAsset(const std::string &key, T &&asset);
+
+	/// @brief Registers an asset using a const reference.
+	/// @param key The key to associate with the asset.
+	/// @param asset The asset to register.
+	/// @return The registered asset's ID.
 	virtual IdType registerAsset(const std::string &key, const T &asset);
+
+	/// @brief Checks if an asset with the given key exists.
+	/// @param key The key to check.
+	/// @return True if the asset exists, false otherwise.
 	bool hasAsset(const std::string &key) const;
+
+	/// @brief Gets the ID of the asset with the given key.
+	/// @param key The key of the asset.
+	/// @return The asset's ID.
 	IdType getAssetID(const std::string &key) const;
+
+	/// @brief Gets a const reference to the asset with the given key.
+	/// @param key The key of the asset.
+	/// @return Const reference to the asset.
 	const T &getAsset(const std::string &key) const;
+
+	/// @brief Gets a const reference to the asset with the given ID.
+	/// @param key The ID of the asset.
+	/// @return Const reference to the asset.
 	const T &getAsset(IdType key) const;
+
+	/// @brief Gets a mutable reference to the asset with the given ID.
+	/// @param key The ID of the asset.
+	/// @return Mutable reference to the asset.
 	T &getAsset(IdType key);
+
+	/// @brief Gets the total number of registered assets.
+	/// @return The asset count.
 	size_t assetCount() const;
+
+	/// @brief Gets a pointer to the raw array of registered assets.
+	/// @return Pointer to the asset data.
 	const T *assetData() const;
+
+	/// @brief Clears all registered assets from the registry.
 	void clear();
 };
 
@@ -83,7 +128,7 @@ IdType AssetRegistry<T, IdType>::getAssetID(const std::string &key) const {
 
 template<typename T, typename IdType>
 const T &AssetRegistry<T, IdType>::getAsset(const std::string &key) const {
-	return getAsset(getAssetID(key));
+	return this->getAsset(getAssetID(key));
 }
 
 template<typename T, typename IdType>

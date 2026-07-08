@@ -26,6 +26,17 @@ struct BatchKeyHash {
 	std::size_t operator()(const BatchKey &k) const;
 };
 
+/// @brief Struct to hold pre-calculated CPU mesh data for all batches of a
+/// chunk.
+struct ChunkMeshData {
+	/// @brief Struct holding the batch key and corresponding raw CPU mesh data.
+	struct BatchMeshData {
+		BatchKey key;         ///< The batch key.
+		MeshData mesh_data;   ///< The CPU-side mesh data.
+	};
+	std::vector<BatchMeshData> batches; ///< List of batch mesh data.
+};
+
 /// @brief Represents a block of tiles in the world.
 struct Chunk {
 	static constexpr int SIZE = 32;
@@ -46,6 +57,19 @@ struct Chunk {
 	/// @param local_pos The local 3D position within the chunk.
 	/// @return The 1D index.
 	static size_t flattenIndex(lili::Point3 local_pos);
+
+	/// @brief CPU-only function to generate mesh data. Thread-safe, no GPU/SDL3
+	/// calls.
+	/// @param chunk_pos The world position of the chunk.
+	/// @param tile_size The size of a single tile.
+	/// @return The generated CPU-side mesh data.
+	ChunkMeshData generateMeshData(Point3 chunk_pos, const Vec2 &tile_size) const;
+
+	/// @brief Main thread function to upload generated mesh data to the GPU.
+	/// @param renderer The renderer.
+	/// @param mesh_data The generated CPU-side mesh data to upload.
+	void uploadMeshData(Renderer *renderer, ChunkMeshData &&mesh_data) const;
+
 	/// @brief Rebuilds the sprite batches for rendering the chunk.
 	/// @param renderer The renderer.
 	/// @param chunk_pos The world position of the chunk.

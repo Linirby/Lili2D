@@ -8,20 +8,54 @@
 
 namespace lili {
 
+/// @brief Central registry that manages entities and their components.
 class ECSRegistry {
 public:
+	/// @brief Checks if the given entity is valid and active.
+	/// @param entity The entity to check.
+	/// @return True if the entity is valid, false otherwise.
 	bool isValid(Entity entity) const;
+
+	/// @brief Creates a new active entity.
+	/// @return The created entity.
 	Entity createEntity();
+
+	/// @brief Destroys an entity and all its components.
+	/// @param entity The entity to destroy.
 	void destroyEntity(Entity entity);
 
+	/// @brief Gets the component pool for the specified component type.
+	/// @tparam T The component type.
+	/// @return Reference to the component pool.
 	template<typename T>
 	ComponentPool<T> &getPool();
+
+	/// @brief Emplaces a new component for the specified entity.
+	/// @tparam T The component type to emplace.
+	/// @tparam Args The argument types for constructing the component.
+	/// @param entity The entity to add the component to.
+	/// @param args The arguments to forward to the component constructor.
+	/// @return Reference to the created component.
 	template<typename T, typename ...Args>
 	T &emplaceComponent(Entity entity, Args &&...args);
+
+	/// @brief Removes a component from the specified entity.
+	/// @tparam T The component type to remove.
+	/// @param entity The entity.
 	template<typename T>
 	void removeComponent(Entity entity);
+
+	/// @brief Gets the component of the specified type for the entity.
+	/// @tparam T The component type to retrieve.
+	/// @param entity The entity.
+	/// @return Reference to the component.
 	template<typename T>
 	T &getComponent(Entity entity);
+
+	/// @brief Checks if the entity has a component of the specified type.
+	/// @tparam T The component type to query.
+	/// @param entity The entity.
+	/// @return True if the component exists, false otherwise.
 	template<typename T>
 	bool hasComponent(Entity entity) const;
 
@@ -31,6 +65,9 @@ private:
 	std::vector<uint32_t> free_ids;
 	static inline uint32_t next_component_type_id = 0;
 
+	/// @brief Gets the unique runtime ID for a component type.
+	/// @tparam T The component type.
+	/// @return The unique ID.
 	template<typename T>
 	static uint32_t getComponentTypeID();
 };

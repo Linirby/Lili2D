@@ -11,7 +11,6 @@ SpriteBatch::SpriteBatch(Renderer *renderer, Texture *texture)
 	material = std::make_unique<Material>(texture);
 	material->properties.color_tint = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-	// Create an empty mesh initially
 	mesh = std::make_unique<GPUMesh>(renderer->getDevice(), mesh_data);
 
 	position = { 0.0f, 0.0f };
@@ -32,7 +31,8 @@ void SpriteBatch::clear() {
 	mesh->update(mesh_data);
 }
 
-void SpriteBatch::draw(
+void SpriteBatch::appendSpriteToMesh(
+	MeshData &mesh_data,
 	const SliceUV &slice,
 	const Vec2 &pos,
 	const Vec2 &scale,
@@ -43,9 +43,14 @@ void SpriteBatch::draw(
 		mesh_data.vertices.size()
 	);
 
-	float rot_rad = lili::degToRad(rotation);
-	float cos_r = std::cos(rot_rad);
-	float sin_r = std::sin(rot_rad);
+	float cos_r = 1.0f;
+	float sin_r = 0.0f;
+
+	if (rotation != 0.0f) {
+		float rot_rad = lili::degToRad(rotation);
+		cos_r = std::cos(rot_rad);
+		sin_r = std::sin(rot_rad);
+	}
 
 	float half_w = (slice.width / 2.0f) * scale.x;
 	float half_h = (slice.height / 2.0f) * scale.y;
@@ -102,6 +107,21 @@ void SpriteBatch::draw(
 	mesh_data.indices.push_back(current_vertex_count + 2);
 	mesh_data.indices.push_back(current_vertex_count + 3);
 	mesh_data.indices.push_back(current_vertex_count + 0);
+}
+
+void SpriteBatch::setMeshData(MeshData &&data) {
+	mesh_data = std::move(data);
+	mesh->update(mesh_data);
+}
+
+void SpriteBatch::draw(
+	const SliceUV &slice,
+	const Vec2 &pos,
+	const Vec2 &scale,
+	float rotation,
+	const Vec4 &color
+) {
+	appendSpriteToMesh(mesh_data, slice, pos, scale, rotation, color);
 }
 
 void SpriteBatch::end() {

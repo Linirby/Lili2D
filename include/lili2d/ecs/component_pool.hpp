@@ -6,26 +6,67 @@
 
 namespace lili {
 
+/// @brief Interface for a type-erased component pool.
 class IComponentPool {
 public:
+	IComponentPool() = default;
 	virtual ~IComponentPool() = default;
+	IComponentPool(const IComponentPool &) = delete;
+	IComponentPool &operator=(const IComponentPool &) = delete;
+	IComponentPool(IComponentPool &&) = delete;
+	IComponentPool &operator=(IComponentPool &&) = delete;
 
+	/// @brief Checks if the entity has a component in this pool.
+	/// @param entity The entity to check.
+	/// @return True if the component exists, false otherwise.
 	virtual bool has(Entity entity) const = 0;
+
+	/// @brief Removes the component for the entity from this pool.
+	/// @param entity The entity.
 	virtual void remove(Entity entity) = 0;
 };
 
+/// @brief Contiguous component pool implementation for a specific type T.
+/// @tparam T The component type.
 template<typename T>
 class ComponentPool : public IComponentPool {
 public:
+	/// @brief Emplaces a new component for the entity.
+	/// @tparam Args The argument types for constructing the component.
+	/// @param entity The entity.
+	/// @param args The arguments to forward to the component constructor.
+	/// @return Reference to the created component.
 	template<typename ...Args>
 	T &emplace(Entity entity, Args &&...args);
+
+	/// @brief Gets the component for the entity.
+	/// @param entity The entity.
+	/// @return Reference to the component.
 	T &get(Entity entity);
+
+	/// @brief Checks if the entity has a component in this pool.
+	/// @param entity The entity to check.
+	/// @return True if the component exists, false otherwise.
 	bool has(Entity entity) const override;
+
+	/// @brief Removes the component for the entity from this pool.
+	/// @param entity The entity.
 	void remove(Entity entity) override;
 
+	/// @brief Gets a const reference to the vector of components.
+	/// @return Const reference to the components vector.
 	const std::vector<T> &getComponents() const;
+
+	/// @brief Gets a mutable reference to the vector of components.
+	/// @return Mutable reference to the components vector.
 	std::vector<T> &getComponents();
+
+	/// @brief Gets a const reference to the vector of entities in this pool.
+	/// @return Const reference to the entities vector.
 	const std::vector<Entity> &getEntities() const;
+
+	/// @brief Gets the number of active components in this pool.
+	/// @return The number of components.
 	size_t size() const;
 
 private:

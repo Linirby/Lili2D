@@ -10,4 +10,4 @@ namespace entities {
 		lili::Vec4 color,
 		float radius
 	);
-}
+}  // namespace entities

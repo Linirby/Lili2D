@@ -32,6 +32,26 @@ public:
 	/// @brief Begins a new batch, clearing previous data.
 	void begin();
 
+	/// @brief Static helper to append a sprite's vertex data to a MeshData struct.
+	/// @param mesh_data The mesh data to append to.
+	/// @param slice The texture slice (UVs) to use.
+	/// @param position The local position.
+	/// @param scale The local scale.
+	/// @param rotation The local rotation in degrees.
+	/// @param color The color tint for the vertices.
+	static void appendSpriteToMesh(
+		MeshData &mesh_data,
+		const SliceUV &slice,
+		const Vec2 &position,
+		const Vec2 &scale = { 1.0f, 1.0f },
+		float rotation = 0.0f,
+		const Vec4 &color = { 1.0f, 1.0f, 1.0f, 1.0f }
+	);
+
+	/// @brief Directly updates the GPU mesh with the provided CPU mesh data.
+	/// @param data The new CPU mesh data.
+	void setMeshData(MeshData &&data);
+
 	/// @brief Clears all sprites from the batch.
 	void clear();
 

@@ -10,6 +10,7 @@
 namespace lili {
 
 typedef uint32_t Entity;
+/// @brief Manages entities and components.
 class ECSRegistry;
 
 }  // namespace lili

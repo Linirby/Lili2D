@@ -8,4 +8,4 @@ void updateMovement(
 );
 void renderEntities(lili::ECSRegistry &registry, lili::SpriteBatch &batch);
 
-}
+}  // namespace systems

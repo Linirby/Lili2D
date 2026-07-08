@@ -45,4 +45,4 @@ MaterialRegistry::MaterialRegistry() {
 	registerMaterial("core:none", Material());
 }
 
-}
+}  // namespace lili

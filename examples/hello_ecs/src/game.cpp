@@ -22,14 +22,15 @@ Game::Game() {
 	sprite_batch = std::make_unique<lili::SpriteBatch>(
 		renderer.get(), circle_texture.get()
 	);
-	for (int i = 0; i < 10; ++i)
+	for (int i = 0; i < N_ENTITIES; ++i)
 		spawnRandomBall();
 
 	std::cout <<
 		"=== Lili2D ECS Demo Instructions ===\n" <<
 		"  [SPACE]     : Spawn a new random ball entity\n" <<
 		"  [BACKSPACE] : Destroy a random ball entity\n" <<
-		"  [T]         : Toggle (remove/add) velocity component of a random ball\n" <<
+		"  [T]         : Toggle (remove/add) velocity component of a random "
+		"ball\n" <<
 		"====================================\n";
 }
 
@@ -84,27 +85,27 @@ void Game::render() {
 void Game::spawnRandomBall() {
 	static std::random_device rd;
 	static std::mt19937 gen(rd());
-	std::uniform_real_distribution<float> dis_x(
+	std::uniform_real_distribution<float> disX(
 		50.0f, static_cast<float>(window->getWidth()) - 50.0f
 	);
-	std::uniform_real_distribution<float> dis_y(
+	std::uniform_real_distribution<float> disY(
 		50.0f, static_cast<float>(window->getHeight()) - 50.0f
 	);
-	std::uniform_real_distribution<float> dis_vel(-200.0f, 200.0f);
-	std::uniform_real_distribution<float> dis_radius(10.0f, 30.0f);
-	std::uniform_real_distribution<float> dis_color(0.2f, 1.0f);
+	std::uniform_real_distribution<float> disVel(-200.0f, 200.0f);
+	std::uniform_real_distribution<float> disRadius(10.0f, 30.0f);
+	std::uniform_real_distribution<float> disColor(0.2f, 1.0f);
 
-	lili::Vec2 pos(dis_x(gen), dis_y(gen));
-	lili::Vec2 vel(dis_vel(gen), dis_vel(gen));
-	float radius = dis_radius(gen);
-	lili::Vec4 color(dis_color(gen), dis_color(gen), dis_color(gen), 1.0f);
+	lili::Vec2 pos(disX(gen), disY(gen));
+	lili::Vec2 vel(disVel(gen), disVel(gen));
+	float radius = disRadius(gen);
+	lili::Vec4 color(disColor(gen), disColor(gen), disColor(gen), 1.0f);
 
 	lili::Entity ent = entities::spawnBall(
 		ecs_registry,
 		pos,
 		vel,
 		lili::SliceUV(
-			circle_texture.get(), 
+			circle_texture.get(),
 			0.0f, 0.0f,
 			1.0f, 1.0f,
 			1.0f, 1.0f
@@ -159,12 +160,12 @@ void Game::toggleRandomBallVelocity() {
 			" (it will stop moving)\n";
 		ecs_registry.removeComponent<VelocityComponent>(ent);
 	} else {
-		std::uniform_real_distribution<float> dis_vel(-200.0f, 200.0f);
-		lili::Vec2 new_vel(dis_vel(gen), dis_vel(gen));
+		std::uniform_real_distribution<float> disVel(-200.0f, 200.0f);
+		lili::Vec2 newVel(disVel(gen), disVel(gen));
 		std::cout <<
 			"Adding Velocity component back to entity ID: " <<
 			lili::getEntityID(ent) <<
 			" (it will start moving)\n";
-		ecs_registry.emplaceComponent<VelocityComponent>(ent, new_vel);
+		ecs_registry.emplaceComponent<VelocityComponent>(ent, newVel);
 	}
 }

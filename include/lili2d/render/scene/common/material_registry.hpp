@@ -59,4 +59,4 @@ private:
 	MaterialRegistry();
 };
 
-}
+}  // namespace lili

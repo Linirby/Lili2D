@@ -3,7 +3,7 @@
 #include <lili2d/lili2d.hpp>
 
 #ifndef N_ENTITIES
-# define N_ENTITIES 1000
+# define N_ENTITIES 10
 #endif  // N_ENTITIES
 
 class Game {

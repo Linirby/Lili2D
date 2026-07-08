@@ -9,6 +9,7 @@ var classlili_1_1SpriteBatch =
     [ "end", "classlili_1_1SpriteBatch.html#ab4c526d7d53a906d998a00fdb8c4dd0b", null ],
     [ "setColorTint", "classlili_1_1SpriteBatch.html#a289449a95a4dd567c1ab285e83a48d50", null ],
     [ "setLayer", "classlili_1_1SpriteBatch.html#a6ab0c91015b37221769a84b29b5eb091", null ],
+    [ "setMeshData", "classlili_1_1SpriteBatch.html#ac03bfdc462c60867b0efc4e229a02959", null ],
     [ "setPosition", "classlili_1_1SpriteBatch.html#ae75c7eb0e22a3c90f689a8ea1e7128be", null ],
     [ "setScale", "classlili_1_1SpriteBatch.html#a5c62bc752bf8eef44da94925c0ac393c", null ]
 ];

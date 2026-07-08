@@ -1,6 +1,7 @@
 var annotated_dup =
 [
     [ "lili", null, [
+      [ "AssetRegistry", "classlili_1_1AssetRegistry.html", "classlili_1_1AssetRegistry" ],
       [ "Clock", "classlili_1_1Clock.html", "classlili_1_1Clock" ],
       [ "KeyboardEvent", "structlili_1_1KeyboardEvent.html", "structlili_1_1KeyboardEvent" ],
       [ "MouseButtonEvent", "structlili_1_1MouseButtonEvent.html", "structlili_1_1MouseButtonEvent" ],
@@ -17,6 +18,9 @@ var annotated_dup =
       [ "SDLGPUShaderDeleter", "structlili_1_1SDLGPUShaderDeleter.html", null ],
       [ "SDLGPUGraphicsPipelineDeleter", "structlili_1_1SDLGPUGraphicsPipelineDeleter.html", null ],
       [ "Window", "classlili_1_1Window.html", "classlili_1_1Window" ],
+      [ "IComponentPool", "classlili_1_1IComponentPool.html", "classlili_1_1IComponentPool" ],
+      [ "ComponentPool", "classlili_1_1ComponentPool.html", "classlili_1_1ComponentPool" ],
+      [ "ECSRegistry", "classlili_1_1ECSRegistry.html", "classlili_1_1ECSRegistry" ],
       [ "Mat3", "structlili_1_1Mat3.html", "structlili_1_1Mat3" ],
       [ "Mat4", "structlili_1_1Mat4.html", "structlili_1_1Mat4" ],
       [ "Point2", "structlili_1_1Point2.html", "structlili_1_1Point2" ],
@@ -65,6 +69,7 @@ var annotated_dup =
       [ "Camera", "classlili_1_1Camera.html", "classlili_1_1Camera" ],
       [ "BatchKey", "structlili_1_1BatchKey.html", null ],
       [ "BatchKeyHash", "structlili_1_1BatchKeyHash.html", "structlili_1_1BatchKeyHash" ],
+      [ "ChunkMeshData", "structlili_1_1ChunkMeshData.html", "structlili_1_1ChunkMeshData" ],
       [ "Chunk", "structlili_1_1Chunk.html", "structlili_1_1Chunk" ],
       [ "Tile", "structlili_1_1Tile.html", null ],
       [ "TileRegistry", "classlili_1_1TileRegistry.html", "classlili_1_1TileRegistry" ],

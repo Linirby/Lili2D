@@ -96,6 +96,15 @@ $(function(){initNavTree('classlili_1_1TileRegistry.html','','classlili_1_1TileR
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="tile__registry_8hpp_source.html">tile_registry.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for lili::TileRegistry:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classlili_1_1TileRegistry.png" usemap="#lili_3A_3ATileRegistry_map" alt=""/>
+  <map id="lili_3A_3ATileRegistry_map" name="lili_3A_3ATileRegistry_map">
+<area href="classlili_1_1AssetRegistry.html" alt="lili::AssetRegistry&lt; Tile, uint16_t &gt;" shape="rect" coords="0,0,204,24"/>
+  </map>
+</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -109,20 +118,43 @@ TileRegistry &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (const Ti
 <tr class="memdesc:a6d5c3b8dc19007beb3cb43c9d86c49ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a tile exists.  <br /></td></tr>
 <tr class="memitem:a38357c5da6633ae690396bd7aa3bcdcc" id="r_a38357c5da6633ae690396bd7aa3bcdcc"><td class="memItemLeft">size_t&#160;</td><td class="memItemRight"><a class="el" href="#a38357c5da6633ae690396bd7aa3bcdcc">tileCount</a> () const</td></tr>
 <tr class="memdesc:a38357c5da6633ae690396bd7aa3bcdcc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the total number of registered tiles.  <br /></td></tr>
-<tr class="memitem:a8d2b53cb70319b0c823112b6e2ae7173" id="r_a8d2b53cb70319b0c823112b6e2ae7173"><td class="memItemLeft"><a id="a8d2b53cb70319b0c823112b6e2ae7173" name="a8d2b53cb70319b0c823112b6e2ae7173"></a>
-void&#160;</td><td class="memItemRight"><b>clear</b> ()</td></tr>
-<tr class="memdesc:a8d2b53cb70319b0c823112b6e2ae7173"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears all registered tiles. <br /></td></tr>
-<tr class="memitem:a4a9290f539b41d535fbfa8a7e1660c4d" id="r_a4a9290f539b41d535fbfa8a7e1660c4d"><td class="memItemLeft">uint16_t&#160;</td><td class="memItemRight"><a class="el" href="#a4a9290f539b41d535fbfa8a7e1660c4d">getTileId</a> (const std::string &amp;key) const</td></tr>
-<tr class="memdesc:a4a9290f539b41d535fbfa8a7e1660c4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a tile ID by key.  <br /></td></tr>
+<tr class="memitem:a15edcba0afaca014a606ba9e530ca71f" id="r_a15edcba0afaca014a606ba9e530ca71f"><td class="memItemLeft">uint16_t&#160;</td><td class="memItemRight"><a class="el" href="#a15edcba0afaca014a606ba9e530ca71f">getTileID</a> (const std::string &amp;key) const</td></tr>
+<tr class="memdesc:a15edcba0afaca014a606ba9e530ca71f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a tile ID by key.  <br /></td></tr>
 <tr class="memitem:a15b151ba7eebd5ce851664ea0b032782" id="r_a15b151ba7eebd5ce851664ea0b032782"><td class="memItemLeft">const <a class="el" href="structlili_1_1Tile.html">Tile</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a15b151ba7eebd5ce851664ea0b032782">getTile</a> (const std::string &amp;key) const</td></tr>
 <tr class="memdesc:a15b151ba7eebd5ce851664ea0b032782"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a tile by key.  <br /></td></tr>
 <tr class="memitem:a0159d8fee5a9ca43f01c95187743d798" id="r_a0159d8fee5a9ca43f01c95187743d798"><td class="memItemLeft">const <a class="el" href="structlili_1_1Tile.html">Tile</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a0159d8fee5a9ca43f01c95187743d798">getTile</a> (uint16_t tile_id) const</td></tr>
 <tr class="memdesc:a0159d8fee5a9ca43f01c95187743d798"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a tile by 16-bit ID.  <br /></td></tr>
+<tr class="inherit_header pub_methods_classlili_1_1AssetRegistry"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classlili_1_1AssetRegistry')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="classlili_1_1AssetRegistry.html">lili::AssetRegistry&lt; Tile, uint16_t &gt;</a></td></tr>
+<tr class="memitem:a12c6e8675ad19db1da31f979abd0e061 inherit pub_methods_classlili_1_1AssetRegistry" id="r_a12c6e8675ad19db1da31f979abd0e061"><td class="memItemLeft">
+AssetRegistry &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (const AssetRegistry &amp;)=delete</td></tr>
+<tr class="memitem:aa185c50ef3823a350441beb8d391cfce inherit pub_methods_classlili_1_1AssetRegistry" id="r_aa185c50ef3823a350441beb8d391cfce"><td class="memItemLeft">virtual uint16_t&#160;</td><td class="memItemRight"><a class="el" href="classlili_1_1AssetRegistry.html#aa185c50ef3823a350441beb8d391cfce">registerAsset</a> (const std::string &amp;key, <a class="el" href="structlili_1_1Tile.html">Tile</a> &amp;&amp;asset)</td></tr>
+<tr class="memdesc:aa185c50ef3823a350441beb8d391cfce inherit pub_methods_classlili_1_1AssetRegistry"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers an asset using an rvalue reference.  <br /></td></tr>
+<tr class="memitem:ae48894bbd9fbd4350755abebf644aa2c inherit pub_methods_classlili_1_1AssetRegistry" id="r_ae48894bbd9fbd4350755abebf644aa2c"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="classlili_1_1AssetRegistry.html#ae48894bbd9fbd4350755abebf644aa2c">hasAsset</a> (const std::string &amp;key) const</td></tr>
+<tr class="memdesc:ae48894bbd9fbd4350755abebf644aa2c inherit pub_methods_classlili_1_1AssetRegistry"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if an asset with the given key exists.  <br /></td></tr>
+<tr class="memitem:aecf5517bf8ba691e2b7de298c6eeb7e7 inherit pub_methods_classlili_1_1AssetRegistry" id="r_aecf5517bf8ba691e2b7de298c6eeb7e7"><td class="memItemLeft">uint16_t&#160;</td><td class="memItemRight"><a class="el" href="classlili_1_1AssetRegistry.html#aecf5517bf8ba691e2b7de298c6eeb7e7">getAssetID</a> (const std::string &amp;key) const</td></tr>
+<tr class="memdesc:aecf5517bf8ba691e2b7de298c6eeb7e7 inherit pub_methods_classlili_1_1AssetRegistry"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the ID of the asset with the given key.  <br /></td></tr>
+<tr class="memitem:a27bbe08b11f9e990368500a61d50ac9d inherit pub_methods_classlili_1_1AssetRegistry" id="r_a27bbe08b11f9e990368500a61d50ac9d"><td class="memItemLeft">const <a class="el" href="structlili_1_1Tile.html">Tile</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="classlili_1_1AssetRegistry.html#a27bbe08b11f9e990368500a61d50ac9d">getAsset</a> (const std::string &amp;key) const</td></tr>
+<tr class="memdesc:a27bbe08b11f9e990368500a61d50ac9d inherit pub_methods_classlili_1_1AssetRegistry"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a const reference to the asset with the given key.  <br /></td></tr>
+<tr class="memitem:aa16bec11cd02c046c7f8833f83c690e5 inherit pub_methods_classlili_1_1AssetRegistry" id="r_aa16bec11cd02c046c7f8833f83c690e5"><td class="memItemLeft">size_t&#160;</td><td class="memItemRight"><a class="el" href="classlili_1_1AssetRegistry.html#aa16bec11cd02c046c7f8833f83c690e5">assetCount</a> () const</td></tr>
+<tr class="memdesc:aa16bec11cd02c046c7f8833f83c690e5 inherit pub_methods_classlili_1_1AssetRegistry"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the total number of registered assets.  <br /></td></tr>
+<tr class="memitem:afe3d67297a8bf290e8e22bc9cad3eaa0 inherit pub_methods_classlili_1_1AssetRegistry" id="r_afe3d67297a8bf290e8e22bc9cad3eaa0"><td class="memItemLeft">const <a class="el" href="structlili_1_1Tile.html">Tile</a> *&#160;</td><td class="memItemRight"><a class="el" href="classlili_1_1AssetRegistry.html#afe3d67297a8bf290e8e22bc9cad3eaa0">assetData</a> () const</td></tr>
+<tr class="memdesc:afe3d67297a8bf290e8e22bc9cad3eaa0 inherit pub_methods_classlili_1_1AssetRegistry"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a pointer to the raw array of registered assets.  <br /></td></tr>
+<tr class="memitem:a36795131d22de11f684af5017c96de01 inherit pub_methods_classlili_1_1AssetRegistry" id="r_a36795131d22de11f684af5017c96de01"><td class="memItemLeft">
+void&#160;</td><td class="memItemRight"><b>clear</b> ()</td></tr>
+<tr class="memdesc:a36795131d22de11f684af5017c96de01 inherit pub_methods_classlili_1_1AssetRegistry"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears all registered assets from the registry. <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a980b76a20b2a5d2e799187c5d4f22761" id="r_a980b76a20b2a5d2e799187c5d4f22761"><td class="memItemLeft">static TileRegistry &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a980b76a20b2a5d2e799187c5d4f22761">get</a> ()</td></tr>
 <tr class="memdesc:a980b76a20b2a5d2e799187c5d4f22761"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the singleton instance.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-inherited" class="groupheader"><a id="inherited" name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pro_attribs_classlili_1_1AssetRegistry"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_attribs_classlili_1_1AssetRegistry')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Protected Attributes inherited from <a class="el" href="classlili_1_1AssetRegistry.html">lili::AssetRegistry&lt; Tile, uint16_t &gt;</a></td></tr>
+<tr class="memitem:a3cf488c8a7ab44c8c65a14083c6fc92a inherit pro_attribs_classlili_1_1AssetRegistry" id="r_a3cf488c8a7ab44c8c65a14083c6fc92a"><td class="memItemLeft">
+std::unordered_map&lt; std::string, uint16_t &gt;&#160;</td><td class="memItemRight"><b>key_to_id</b></td></tr>
+<tr class="memitem:a52010953cea941113ab8a02333aff917 inherit pro_attribs_classlili_1_1AssetRegistry" id="r_a52010953cea941113ab8a02333aff917"><td class="memItemLeft">
+std::vector&lt; <a class="el" href="structlili_1_1Tile.html">Tile</a> &gt;&#160;</td><td class="memItemRight"><b>id_to_asset</b></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Central registry for defining and storing tile types. </p>
@@ -207,14 +239,14 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a4a9290f539b41d535fbfa8a7e1660c4d" name="a4a9290f539b41d535fbfa8a7e1660c4d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a9290f539b41d535fbfa8a7e1660c4d">&#9670;&#160;</a></span>getTileId()</h2>
+<a id="a15edcba0afaca014a606ba9e530ca71f" name="a15edcba0afaca014a606ba9e530ca71f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15edcba0afaca014a606ba9e530ca71f">&#9670;&#160;</a></span>getTileID()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint16_t lili::TileRegistry::getTileId </td>
+          <td class="memname">uint16_t lili::TileRegistry::getTileID </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
           <td> const</td>

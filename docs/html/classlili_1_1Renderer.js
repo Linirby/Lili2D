@@ -17,5 +17,6 @@ var classlili_1_1Renderer =
     [ "operator=", "classlili_1_1Renderer.html#a967ec6c7f4d986b06bcce3a8b2365e81", null ],
     [ "operator=", "classlili_1_1Renderer.html#a5c8fdbb67d980df52a3ed61431fe3195", null ],
     [ "setCamera", "classlili_1_1Renderer.html#a985d6ad8f885ce42c1bb9eadc4ea4158", null ],
+    [ "setPresentMode", "classlili_1_1Renderer.html#a437fe9270751e9ab64aae867f028c798", null ],
     [ "submit", "classlili_1_1Renderer.html#ac7dca78bed1998ba621dfd662a70644a", null ]
 ];

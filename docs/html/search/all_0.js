@@ -14,5 +14,12 @@ var searchData=
   ['animationdata_11',['animationData',['../classlili_1_1AnimationRegistry.html#a5be0fc5ae122d36356c3472b7e35e8ee',1,'lili::AnimationRegistry']]],
   ['animationplayer_12',['AnimationPlayer',['../classlili_1_1AnimationPlayer.html',1,'lili::AnimationPlayer'],['../classlili_1_1AnimationPlayer.html#aab41004605268de5fbc05910e950fc79',1,'lili::AnimationPlayer::AnimationPlayer()=default'],['../classlili_1_1AnimationPlayer.html#af606b8024f451d9022c1883d5415c152',1,'lili::AnimationPlayer::AnimationPlayer(const Animation *animation)'],['../classlili_1_1AnimationPlayer.html#ad64c502bc229c5e35c36355d01fee8b4',1,'lili::AnimationPlayer::AnimationPlayer(uint16_t animation_id)'],['../classlili_1_1AnimationPlayer.html#a9330ad718c82cf355e9c1ddb63d61ffb',1,'lili::AnimationPlayer::AnimationPlayer(const std::string &amp;animation_key)']]],
   ['animationregistry_13',['AnimationRegistry',['../classlili_1_1AnimationRegistry.html',1,'lili']]],
-  ['atlasmap_14',['AtlasMap',['../classlili_1_1AtlasMap.html',1,'lili::AtlasMap'],['../classlili_1_1AtlasMap.html#a27c210775956d8517445afa8d6012f28',1,'lili::AtlasMap::AtlasMap(Renderer *renderer, const std::string &amp;filename)'],['../classlili_1_1AtlasMap.html#a6fc62711552f41ffb8b4eafdab8c1188',1,'lili::AtlasMap::AtlasMap(AtlasMap &amp;&amp;)=default']]]
+  ['appendspritetomesh_14',['appendSpriteToMesh',['../classlili_1_1SpriteBatch.html#adb79cdb920f7a25b2f9487fcdca55344',1,'lili::SpriteBatch']]],
+  ['assetcount_15',['assetCount',['../classlili_1_1AssetRegistry.html#aa16bec11cd02c046c7f8833f83c690e5',1,'lili::AssetRegistry']]],
+  ['assetdata_16',['assetData',['../classlili_1_1AssetRegistry.html#afe3d67297a8bf290e8e22bc9cad3eaa0',1,'lili::AssetRegistry']]],
+  ['assetregistry_17',['AssetRegistry',['../classlili_1_1AssetRegistry.html',1,'lili']]],
+  ['assetregistry_3c_20animation_2c_20uint16_5ft_20_3e_18',['AssetRegistry&lt; Animation, uint16_t &gt;',['../classlili_1_1AssetRegistry.html',1,'lili']]],
+  ['assetregistry_3c_20material_2c_20uint16_5ft_20_3e_19',['AssetRegistry&lt; Material, uint16_t &gt;',['../classlili_1_1AssetRegistry.html',1,'lili']]],
+  ['assetregistry_3c_20tile_2c_20uint16_5ft_20_3e_20',['AssetRegistry&lt; Tile, uint16_t &gt;',['../classlili_1_1AssetRegistry.html',1,'lili']]],
+  ['atlasmap_21',['AtlasMap',['../classlili_1_1AtlasMap.html',1,'lili::AtlasMap'],['../classlili_1_1AtlasMap.html#a27c210775956d8517445afa8d6012f28',1,'lili::AtlasMap::AtlasMap(Renderer *renderer, const std::string &amp;filename)'],['../classlili_1_1AtlasMap.html#a6fc62711552f41ffb8b4eafdab8c1188',1,'lili::AtlasMap::AtlasMap(AtlasMap &amp;&amp;)=default']]]
 ];

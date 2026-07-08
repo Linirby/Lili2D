@@ -6,5 +6,6 @@ var searchData=
   ['isfullscreen_3',['isFullscreen',['../classlili_1_1Window.html#ab14b7b178645f6bb45155eae3a4e90ae',1,'lili::Window']]],
   ['ishollow_4',['isHollow',['../classlili_1_1Circle.html#a5b3a8118089097b61343ccffbffe5202',1,'lili::Circle::isHollow()'],['../classlili_1_1Rect.html#a58d6e260f57425cdbfe2ffb20330e1fc',1,'lili::Rect::isHollow()']]],
   ['isrelativemousemode_5',['isRelativeMouseMode',['../classlili_1_1Window.html#a4f553cdd9efa910cb1a7dab58b5b9ac0',1,'lili::Window']]],
-  ['isresizable_6',['isResizable',['../classlili_1_1Window.html#a4628518113183082b20d4fb9b6c5488d',1,'lili::Window']]]
+  ['isresizable_6',['isResizable',['../classlili_1_1Window.html#a4628518113183082b20d4fb9b6c5488d',1,'lili::Window']]],
+  ['isvalid_7',['isValid',['../classlili_1_1ECSRegistry.html#a976d3a28a11de0fc972acf7259409f67',1,'lili::ECSRegistry']]]
 ];

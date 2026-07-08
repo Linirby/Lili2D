@@ -1,5 +1,6 @@
 var dir_63722abdaf4c508a5b9d078944ec8714 =
 [
+    [ "asset_registry.hpp", "asset__registry_8hpp_source.html", null ],
     [ "clock.hpp", "clock_8hpp_source.html", null ],
     [ "event.hpp", "event_8hpp_source.html", null ],
     [ "keyboard.hpp", "keyboard_8hpp_source.html", null ],

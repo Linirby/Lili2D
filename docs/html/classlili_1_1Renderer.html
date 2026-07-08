@@ -127,6 +127,8 @@ void&#160;</td><td class="memItemRight"><b>endFrame</b> ()</td></tr>
 <tr class="memdesc:a9719562c8dae114bd20a0c3ce9034ba8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ends the rendering frame. <br /></td></tr>
 <tr class="memitem:a985d6ad8f885ce42c1bb9eadc4ea4158" id="r_a985d6ad8f885ce42c1bb9eadc4ea4158"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a985d6ad8f885ce42c1bb9eadc4ea4158">setCamera</a> (<a class="el" href="classlili_1_1Camera.html">Camera</a> *camera)</td></tr>
 <tr class="memdesc:a985d6ad8f885ce42c1bb9eadc4ea4158"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the active camera.  <br /></td></tr>
+<tr class="memitem:a437fe9270751e9ab64aae867f028c798" id="r_a437fe9270751e9ab64aae867f028c798"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a437fe9270751e9ab64aae867f028c798">setPresentMode</a> (SDL_GPUPresentMode mode)</td></tr>
+<tr class="memdesc:a437fe9270751e9ab64aae867f028c798"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the active present mode.  <br /></td></tr>
 <tr class="memitem:ab5d3c49ca737036434816dbb280e0aeb" id="r_ab5d3c49ca737036434816dbb280e0aeb"><td class="memItemLeft"><a class="el" href="classlili_1_1Shader.html">Shader</a> *&#160;</td><td class="memItemRight"><a class="el" href="#ab5d3c49ca737036434816dbb280e0aeb">createShader</a> (const std::string &amp;vert_path, const std::string &amp;frag_path, <a class="el" href="structlili_1_1ShaderInfo.html">ShaderInfo</a> vert_infos={}, <a class="el" href="structlili_1_1ShaderInfo.html">ShaderInfo</a> frag_infos={})</td></tr>
 <tr class="memdesc:ab5d3c49ca737036434816dbb280e0aeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a shader from file paths.  <br /></td></tr>
 <tr class="memitem:afe31153880dfa582abcb37b43c088b29" id="r_afe31153880dfa582abcb37b43c088b29"><td class="memItemLeft"><a class="el" href="classlili_1_1Shader.html">Shader</a> *&#160;</td><td class="memItemRight"><a class="el" href="#afe31153880dfa582abcb37b43c088b29">createShader</a> (const uint8_t *vert_code, size_t vert_size, const uint8_t *frag_code, size_t frag_size, <a class="el" href="structlili_1_1ShaderInfo.html">ShaderInfo</a> vert_infos={}, <a class="el" href="structlili_1_1ShaderInfo.html">ShaderInfo</a> frag_infos={})</td></tr>
@@ -468,6 +470,31 @@ void&#160;</td><td class="memItemRight"><b>endFrame</b> ()</td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">camera</td><td>Pointer to the camera. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a437fe9270751e9ab64aae867f028c798" name="a437fe9270751e9ab64aae867f028c798"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a437fe9270751e9ab64aae867f028c798">&#9670;&#160;</a></span>setPresentMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lili::Renderer::setPresentMode </td>
+          <td>(</td>
+          <td class="paramtype">SDL_GPUPresentMode</td>          <td class="paramname"><span class="paramname"><em>mode</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the active present mode. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mode</td><td>New present mode </td></tr>
   </table>
   </dd>
 </dl>

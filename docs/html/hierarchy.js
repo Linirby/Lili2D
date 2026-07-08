@@ -5,21 +5,36 @@ var hierarchy =
     [ "lili::AnimatedSprite", "classlili_1_1AnimatedSprite.html", null ],
     [ "lili::Animation", "classlili_1_1Animation.html", null ],
     [ "lili::AnimationPlayer", "classlili_1_1AnimationPlayer.html", null ],
-    [ "lili::AnimationRegistry", "classlili_1_1AnimationRegistry.html", null ],
+    [ "lili::AssetRegistry&lt; T, IdType &gt;", "classlili_1_1AssetRegistry.html", null ],
+    [ "lili::AssetRegistry&lt; Animation, uint16_t &gt;", "classlili_1_1AssetRegistry.html", [
+      [ "lili::AnimationRegistry", "classlili_1_1AnimationRegistry.html", null ]
+    ] ],
+    [ "lili::AssetRegistry&lt; Material, uint16_t &gt;", "classlili_1_1AssetRegistry.html", [
+      [ "lili::MaterialRegistry", "classlili_1_1MaterialRegistry.html", null ]
+    ] ],
+    [ "lili::AssetRegistry&lt; Tile, uint16_t &gt;", "classlili_1_1AssetRegistry.html", [
+      [ "lili::TileRegistry", "classlili_1_1TileRegistry.html", null ]
+    ] ],
     [ "lili::AtlasMap", "classlili_1_1AtlasMap.html", null ],
     [ "lili::BatchKey", "structlili_1_1BatchKey.html", null ],
     [ "lili::BatchKeyHash", "structlili_1_1BatchKeyHash.html", null ],
+    [ "lili::ChunkMeshData::BatchMeshData", "structlili_1_1ChunkMeshData_1_1BatchMeshData.html", null ],
     [ "lili::BitmapFont", "classlili_1_1BitmapFont.html", null ],
     [ "lili::Camera", "classlili_1_1Camera.html", null ],
     [ "lili::Chunk", "structlili_1_1Chunk.html", null ],
+    [ "lili::ChunkMeshData", "structlili_1_1ChunkMeshData.html", null ],
     [ "lili::Circle", "classlili_1_1Circle.html", null ],
     [ "lili::CircleShape", "structlili_1_1CircleShape.html", null ],
     [ "lili::Clock", "classlili_1_1Clock.html", null ],
     [ "lili::CodeInfo", "structlili_1_1CodeInfo.html", null ],
     [ "lili::DrawCommand", "structlili_1_1DrawCommand.html", null ],
+    [ "lili::ECSRegistry", "classlili_1_1ECSRegistry.html", null ],
     [ "lili::Event", "classlili_1_1Event.html", null ],
     [ "lili::GlyphUV", "structlili_1_1GlyphUV.html", null ],
     [ "lili::GPUMesh", "classlili_1_1GPUMesh.html", null ],
+    [ "lili::IComponentPool", "classlili_1_1IComponentPool.html", [
+      [ "lili::ComponentPool< T >", "classlili_1_1ComponentPool.html", null ]
+    ] ],
     [ "lili::Keyboard", "classlili_1_1Keyboard.html", null ],
     [ "lili::KeyboardEvent", "structlili_1_1KeyboardEvent.html", null ],
     [ "lili::Line", "classlili_1_1Line.html", null ],
@@ -31,7 +46,6 @@ var hierarchy =
     [ "lili::Material", "structlili_1_1Material.html", null ],
     [ "lili::MaterialGPU", "structlili_1_1MaterialGPU.html", null ],
     [ "lili::MaterialProps", "structlili_1_1MaterialProps.html", null ],
-    [ "lili::MaterialRegistry", "classlili_1_1MaterialRegistry.html", null ],
     [ "lili::MeshData", "structlili_1_1MeshData.html", null ],
     [ "lili::Model", "structlili_1_1Model.html", null ],
     [ "lili::Mouse", "classlili_1_1Mouse.html", null ],
@@ -64,7 +78,6 @@ var hierarchy =
     [ "lili::Texture", "classlili_1_1Texture.html", null ],
     [ "lili::Tile", "structlili_1_1Tile.html", null ],
     [ "lili::TileMap", "classlili_1_1TileMap.html", null ],
-    [ "lili::TileRegistry", "classlili_1_1TileRegistry.html", null ],
     [ "lili::Vec2", "structlili_1_1Vec2.html", null ],
     [ "lili::Vec3", "structlili_1_1Vec3.html", null ],
     [ "lili::Vec4", "structlili_1_1Vec4.html", null ],

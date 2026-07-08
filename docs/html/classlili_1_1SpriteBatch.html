@@ -115,6 +115,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aeb01ddd7f36e7c31d056ec6840c83caf" id="r_aeb01ddd7f36e7c31d056ec6840c83caf"><td class="memItemLeft"><a id="aeb01ddd7f36e7c31d056ec6840c83caf" name="aeb01ddd7f36e7c31d056ec6840c83caf"></a>
 void&#160;</td><td class="memItemRight"><b>begin</b> ()</td></tr>
 <tr class="memdesc:aeb01ddd7f36e7c31d056ec6840c83caf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Begins a new batch, clearing previous data. <br /></td></tr>
+<tr class="memitem:ac03bfdc462c60867b0efc4e229a02959" id="r_ac03bfdc462c60867b0efc4e229a02959"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac03bfdc462c60867b0efc4e229a02959">setMeshData</a> (<a class="el" href="structlili_1_1MeshData.html">MeshData</a> &amp;&amp;data)</td></tr>
+<tr class="memdesc:ac03bfdc462c60867b0efc4e229a02959"><td class="mdescLeft">&#160;</td><td class="mdescRight">Directly updates the GPU mesh with the provided CPU mesh data.  <br /></td></tr>
 <tr class="memitem:a7c3315fd93dded458a994d2763cf79e6" id="r_a7c3315fd93dded458a994d2763cf79e6"><td class="memItemLeft"><a id="a7c3315fd93dded458a994d2763cf79e6" name="a7c3315fd93dded458a994d2763cf79e6"></a>
 void&#160;</td><td class="memItemRight"><b>clear</b> ()</td></tr>
 <tr class="memdesc:a7c3315fd93dded458a994d2763cf79e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears all sprites from the batch. <br /></td></tr>
@@ -134,6 +136,11 @@ void&#160;</td><td class="memItemRight"><b>end</b> ()</td></tr>
 <tr class="memitem:a23dca39dc51f2628fc8c143dfb22837f" id="r_a23dca39dc51f2628fc8c143dfb22837f"><td class="memItemLeft"><a id="a23dca39dc51f2628fc8c143dfb22837f" name="a23dca39dc51f2628fc8c143dfb22837f"></a>
 void&#160;</td><td class="memItemRight"><b>draw</b> ()</td></tr>
 <tr class="memdesc:a23dca39dc51f2628fc8c143dfb22837f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Submits the batched mesh to the renderer. <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:adb79cdb920f7a25b2f9487fcdca55344" id="r_adb79cdb920f7a25b2f9487fcdca55344"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#adb79cdb920f7a25b2f9487fcdca55344">appendSpriteToMesh</a> (<a class="el" href="structlili_1_1MeshData.html">MeshData</a> &amp;mesh_data, const <a class="el" href="structlili_1_1SliceUV.html">SliceUV</a> &amp;slice, const <a class="el" href="structlili_1_1Vec2.html">Vec2</a> &amp;position, const <a class="el" href="structlili_1_1Vec2.html">Vec2</a> &amp;scale={ 1.0f, 1.0f }, float rotation=0.0f, const <a class="el" href="structlili_1_1Vec4.html">Vec4</a> &amp;color={ 1.0f, 1.0f, 1.0f, 1.0f })</td></tr>
+<tr class="memdesc:adb79cdb920f7a25b2f9487fcdca55344"><td class="mdescLeft">&#160;</td><td class="mdescRight">Static helper to append a sprite's vertex data to a <a class="el" href="structlili_1_1MeshData.html" title="Contains the CPU-side data for a mesh.">MeshData</a> struct.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Batches multiple sprites into a single draw call. </p>
@@ -170,6 +177,68 @@ void&#160;</td><td class="memItemRight"><b>draw</b> ()</td></tr>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="adb79cdb920f7a25b2f9487fcdca55344" name="adb79cdb920f7a25b2f9487fcdca55344"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb79cdb920f7a25b2f9487fcdca55344">&#9670;&#160;</a></span>appendSpriteToMesh()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lili::SpriteBatch::appendSpriteToMesh </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structlili_1_1MeshData.html">MeshData</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>mesh_data</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structlili_1_1SliceUV.html">SliceUV</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>slice</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structlili_1_1Vec2.html">Vec2</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structlili_1_1Vec2.html">Vec2</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>scale</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{&#160;1.0f,&#160;1.0f&#160;}</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>rotation</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0.0f</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structlili_1_1Vec4.html">Vec4</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>color</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{&#160;1.0f,&#160;1.0f,&#160;1.0f,&#160;1.0f&#160;}</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Static helper to append a sprite's vertex data to a <a class="el" href="structlili_1_1MeshData.html" title="Contains the CPU-side data for a mesh.">MeshData</a> struct. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mesh_data</td><td>The mesh data to append to. </td></tr>
+    <tr><td class="paramname">slice</td><td>The texture slice (UVs) to use. </td></tr>
+    <tr><td class="paramname">position</td><td>The local position. </td></tr>
+    <tr><td class="paramname">scale</td><td>The local scale. </td></tr>
+    <tr><td class="paramname">rotation</td><td>The local rotation in degrees. </td></tr>
+    <tr><td class="paramname">color</td><td>The color tint for the vertices. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a262e7f3febe429e0ebee968a2eb000d1" name="a262e7f3febe429e0ebee968a2eb000d1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a262e7f3febe429e0ebee968a2eb000d1">&#9670;&#160;</a></span>draw()</h2>
 
@@ -262,6 +331,31 @@ void&#160;</td><td class="memItemRight"><b>draw</b> ()</td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">layer</td><td>The new layer depth. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac03bfdc462c60867b0efc4e229a02959" name="ac03bfdc462c60867b0efc4e229a02959"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac03bfdc462c60867b0efc4e229a02959">&#9670;&#160;</a></span>setMeshData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lili::SpriteBatch::setMeshData </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structlili_1_1MeshData.html">MeshData</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>data</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Directly updates the GPU mesh with the provided CPU mesh data. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>The new CPU mesh data. </td></tr>
   </table>
   </dd>
 </dl>

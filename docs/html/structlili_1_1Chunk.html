@@ -107,6 +107,10 @@ Chunk &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (Chunk &amp;&amp
 &#160;</td><td class="memItemRight"><b>Chunk</b> (const Chunk &amp;)=delete</td></tr>
 <tr class="memitem:a9e88276c40de5c1cc325c5c728d76a62" id="r_a9e88276c40de5c1cc325c5c728d76a62"><td class="memItemLeft"><a id="a9e88276c40de5c1cc325c5c728d76a62" name="a9e88276c40de5c1cc325c5c728d76a62"></a>
 Chunk &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (const Chunk &amp;)=delete</td></tr>
+<tr class="memitem:a57a534bde8cbb3dce35cb86de351e853" id="r_a57a534bde8cbb3dce35cb86de351e853"><td class="memItemLeft"><a class="el" href="structlili_1_1ChunkMeshData.html">ChunkMeshData</a>&#160;</td><td class="memItemRight"><a class="el" href="#a57a534bde8cbb3dce35cb86de351e853">generateMeshData</a> (<a class="el" href="structlili_1_1Point3.html">Point3</a> chunk_pos, const <a class="el" href="structlili_1_1Vec2.html">Vec2</a> &amp;tile_size) const</td></tr>
+<tr class="memdesc:a57a534bde8cbb3dce35cb86de351e853"><td class="mdescLeft">&#160;</td><td class="mdescRight">CPU-only function to generate mesh data. Thread-safe, no GPU/SDL3 calls.  <br /></td></tr>
+<tr class="memitem:ae768405900ba8a242e7e0f495137ecab" id="r_ae768405900ba8a242e7e0f495137ecab"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae768405900ba8a242e7e0f495137ecab">uploadMeshData</a> (<a class="el" href="classlili_1_1Renderer.html">Renderer</a> *renderer, <a class="el" href="structlili_1_1ChunkMeshData.html">ChunkMeshData</a> &amp;&amp;mesh_data) const</td></tr>
+<tr class="memdesc:ae768405900ba8a242e7e0f495137ecab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main thread function to upload generated mesh data to the GPU.  <br /></td></tr>
 <tr class="memitem:af0d99a3650f7d537927af39a3925c723" id="r_af0d99a3650f7d537927af39a3925c723"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af0d99a3650f7d537927af39a3925c723">rebuildBatches</a> (<a class="el" href="classlili_1_1Renderer.html">Renderer</a> *renderer, <a class="el" href="structlili_1_1Point3.html">Point3</a> chunk_pos, const <a class="el" href="structlili_1_1Vec2.html">Vec2</a> &amp;tile_size) const</td></tr>
 <tr class="memdesc:af0d99a3650f7d537927af39a3925c723"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rebuilds the sprite batches for rendering the chunk.  <br /></td></tr>
 </table><table class="memberdecls">
@@ -166,6 +170,37 @@ static constexpr int&#160;</td><td class="memItemRight"><b>SIZE</b> = 32</td></t
 
 </div>
 </div>
+<a id="a57a534bde8cbb3dce35cb86de351e853" name="a57a534bde8cbb3dce35cb86de351e853"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57a534bde8cbb3dce35cb86de351e853">&#9670;&#160;</a></span>generateMeshData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structlili_1_1ChunkMeshData.html">ChunkMeshData</a> lili::Chunk::generateMeshData </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structlili_1_1Point3.html">Point3</a></td>          <td class="paramname"><span class="paramname"><em>chunk_pos</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structlili_1_1Vec2.html">Vec2</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>tile_size</em></span>&#160;) const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>CPU-only function to generate mesh data. Thread-safe, no GPU/SDL3 calls. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">chunk_pos</td><td>The world position of the chunk. </td></tr>
+    <tr><td class="paramname">tile_size</td><td>The size of a single tile. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The generated CPU-side mesh data. </dd></dl>
+
+</div>
+</div>
 <a id="af0d99a3650f7d537927af39a3925c723" name="af0d99a3650f7d537927af39a3925c723"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af0d99a3650f7d537927af39a3925c723">&#9670;&#160;</a></span>rebuildBatches()</h2>
 
@@ -196,6 +231,36 @@ static constexpr int&#160;</td><td class="memItemRight"><b>SIZE</b> = 32</td></t
     <tr><td class="paramname">renderer</td><td>The renderer. </td></tr>
     <tr><td class="paramname">chunk_pos</td><td>The world position of the chunk. </td></tr>
     <tr><td class="paramname">tile_size</td><td>The size of a single tile. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae768405900ba8a242e7e0f495137ecab" name="ae768405900ba8a242e7e0f495137ecab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae768405900ba8a242e7e0f495137ecab">&#9670;&#160;</a></span>uploadMeshData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lili::Chunk::uploadMeshData </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classlili_1_1Renderer.html">Renderer</a> *</td>          <td class="paramname"><span class="paramname"><em>renderer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structlili_1_1ChunkMeshData.html">ChunkMeshData</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>mesh_data</em></span>&#160;) const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Main thread function to upload generated mesh data to the GPU. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">renderer</td><td>The renderer. </td></tr>
+    <tr><td class="paramname">mesh_data</td><td>The generated CPU-side mesh data to upload. </td></tr>
   </table>
   </dd>
 </dl>

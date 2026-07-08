@@ -1,17 +1,7 @@
 var searchData=
 [
-  ['scene_0',['Scene',['../classlili_1_1Scene.html',1,'lili']]],
-  ['scenemanager_1',['SceneManager',['../classlili_1_1SceneManager.html',1,'lili']]],
-  ['sdlgpubufferdeleter_2',['SDLGPUBufferDeleter',['../structlili_1_1SDLGPUBufferDeleter.html',1,'lili']]],
-  ['sdlgpudevicedeleter_3',['SDLGPUDeviceDeleter',['../structlili_1_1SDLGPUDeviceDeleter.html',1,'lili']]],
-  ['sdlgpudevicedependentdeleter_4',['SDLGPUDeviceDependentDeleter',['../structlili_1_1SDLGPUDeviceDependentDeleter.html',1,'lili']]],
-  ['sdlgpugraphicspipelinedeleter_5',['SDLGPUGraphicsPipelineDeleter',['../structlili_1_1SDLGPUGraphicsPipelineDeleter.html',1,'lili']]],
-  ['sdlgpusamplerdeleter_6',['SDLGPUSamplerDeleter',['../structlili_1_1SDLGPUSamplerDeleter.html',1,'lili']]],
-  ['sdlgpushaderdeleter_7',['SDLGPUShaderDeleter',['../structlili_1_1SDLGPUShaderDeleter.html',1,'lili']]],
-  ['sdlgputexturedeleter_8',['SDLGPUTextureDeleter',['../structlili_1_1SDLGPUTextureDeleter.html',1,'lili']]],
-  ['shader_9',['Shader',['../classlili_1_1Shader.html',1,'lili']]],
-  ['shaderinfo_10',['ShaderInfo',['../structlili_1_1ShaderInfo.html',1,'lili']]],
-  ['sliceuv_11',['SliceUV',['../structlili_1_1SliceUV.html',1,'lili']]],
-  ['sprite_12',['Sprite',['../classlili_1_1Sprite.html',1,'lili']]],
-  ['spritebatch_13',['SpriteBatch',['../classlili_1_1SpriteBatch.html',1,'lili']]]
+  ['raycastresult_0',['RaycastResult',['../structlili_1_1RaycastResult.html',1,'lili']]],
+  ['rect_1',['Rect',['../classlili_1_1Rect.html',1,'lili']]],
+  ['rectshape_2',['RectShape',['../structlili_1_1RectShape.html',1,'lili']]],
+  ['renderer_3',['Renderer',['../classlili_1_1Renderer.html',1,'lili']]]
 ];

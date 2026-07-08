@@ -7,5 +7,8 @@ var searchData=
   ['animationcount_4',['animationCount',['../classlili_1_1AnimationRegistry.html#adeaffe64ad0a05a28cac3d07efd1ebcd',1,'lili::AnimationRegistry']]],
   ['animationdata_5',['animationData',['../classlili_1_1AnimationRegistry.html#a5be0fc5ae122d36356c3472b7e35e8ee',1,'lili::AnimationRegistry']]],
   ['animationplayer_6',['AnimationPlayer',['../classlili_1_1AnimationPlayer.html#aab41004605268de5fbc05910e950fc79',1,'lili::AnimationPlayer::AnimationPlayer()=default'],['../classlili_1_1AnimationPlayer.html#af606b8024f451d9022c1883d5415c152',1,'lili::AnimationPlayer::AnimationPlayer(const Animation *animation)'],['../classlili_1_1AnimationPlayer.html#ad64c502bc229c5e35c36355d01fee8b4',1,'lili::AnimationPlayer::AnimationPlayer(uint16_t animation_id)'],['../classlili_1_1AnimationPlayer.html#a9330ad718c82cf355e9c1ddb63d61ffb',1,'lili::AnimationPlayer::AnimationPlayer(const std::string &amp;animation_key)']]],
-  ['atlasmap_7',['AtlasMap',['../classlili_1_1AtlasMap.html#a27c210775956d8517445afa8d6012f28',1,'lili::AtlasMap::AtlasMap(Renderer *renderer, const std::string &amp;filename)'],['../classlili_1_1AtlasMap.html#a6fc62711552f41ffb8b4eafdab8c1188',1,'lili::AtlasMap::AtlasMap(AtlasMap &amp;&amp;)=default']]]
+  ['appendspritetomesh_7',['appendSpriteToMesh',['../classlili_1_1SpriteBatch.html#adb79cdb920f7a25b2f9487fcdca55344',1,'lili::SpriteBatch']]],
+  ['assetcount_8',['assetCount',['../classlili_1_1AssetRegistry.html#aa16bec11cd02c046c7f8833f83c690e5',1,'lili::AssetRegistry']]],
+  ['assetdata_9',['assetData',['../classlili_1_1AssetRegistry.html#afe3d67297a8bf290e8e22bc9cad3eaa0',1,'lili::AssetRegistry']]],
+  ['atlasmap_10',['AtlasMap',['../classlili_1_1AtlasMap.html#a27c210775956d8517445afa8d6012f28',1,'lili::AtlasMap::AtlasMap(Renderer *renderer, const std::string &amp;filename)'],['../classlili_1_1AtlasMap.html#a6fc62711552f41ffb8b4eafdab8c1188',1,'lili::AtlasMap::AtlasMap(AtlasMap &amp;&amp;)=default']]]
 ];

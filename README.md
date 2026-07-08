@@ -26,7 +26,8 @@ Lili2D follows the modern C++ Pitchfork layout:
 
 I am actively building higher-level game systems on top of the Lili2D core to support 2D Game development:
 - **Tilemap & Grid Environment**: Load grid-based worlds with chunking & batching for optimized low-end hardware rendering.
-- **Entity / Actor System**: Manage the Player, NPCs, interactable objects, and map triggers.
+- **Entity Component System (ECS)**: Contiguous, lightweight memory storage
+  for entities and components to handle thousands of active game objects efficiently.
 - **Dialogue & UI Engine**: Scrolling text boxes, portraits, and dynamic UI menus.
 
 ## Getting Started
@@ -191,6 +192,7 @@ from it.
 - **`hello_collision`**: A new example showing the v1 implementation of the AABB collision system and how it interacts with different shapes.
 - **`hello_sprite_batch`**: An example of how to use SpriteBatch with a big map.
 - **`hello_tilemap`**: Demonstrates the TileMap and Chunk system for rendering optimized grid worlds.
+- **`hello_ecs`**: Demonstrates the lightweight Entity Component System (ECS) by spawning and animating thousands of ball entities.
 
 ## Join the Community
 

@@ -20,6 +20,8 @@ from it.
 - **`hello_shader`**: Demonstrates how to write, compile, and load custom vertex and fragment shaders.
 - **`hello_collision`**: A new example showing the v1 implementation of the AABB collision system and how it interacts with different shapes.
 - **`hello_sprite_batch`**: An example of how to use SpriteBatch with a big map.
+- **`hello_tilemap`**: Demonstrates the TileMap and Chunk system for rendering optimized grid worlds.
+- **`hello_ecs`**: Demonstrates the lightweight Entity Component System (ECS) by spawning and animating thousands of ball entities.
 
 ## Build and run examples
 

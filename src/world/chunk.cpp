@@ -38,7 +38,9 @@ ChunkMeshData Chunk::generateMeshData(
 					static_cast<float>(world_y) * tile_size.y
 				);
 
-				SpriteBatch::appendSpriteToMesh(temp_meshes[key], tile.slice, pos);
+				SpriteBatch::appendSpriteToMesh(
+					temp_meshes[key], tile.slice, pos
+				);
 			}
 		}
 	}

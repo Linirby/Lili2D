@@ -63,7 +63,9 @@ struct Chunk {
 	/// @param chunk_pos The world position of the chunk.
 	/// @param tile_size The size of a single tile.
 	/// @return The generated CPU-side mesh data.
-	ChunkMeshData generateMeshData(Point3 chunk_pos, const Vec2 &tile_size) const;
+	ChunkMeshData generateMeshData(
+		Point3 chunk_pos, const Vec2 &tile_size
+	) const;
 
 	/// @brief Main thread function to upload generated mesh data to the GPU.
 	/// @param renderer The renderer.

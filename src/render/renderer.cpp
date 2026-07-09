@@ -245,7 +245,9 @@ Shader* Renderer::createShader(
 	ShaderInfo vert_infos,
 	ShaderInfo frag_infos
 ) {
-	return new Shader(device.get(), vert_path, frag_path, vert_infos, frag_infos);
+	return new Shader(
+		device.get(), vert_path, frag_path, vert_infos, frag_infos
+	);
 }
 
 Shader* Renderer::createShader(
@@ -263,7 +265,9 @@ Shader* Renderer::createShader(
 }
 
 MainGraphicsPipeline* Renderer::createMainGraphicsPipeline(Shader *shader) {
-	return new MainGraphicsPipeline(device.get(), window->getSdlWindow(), shader);
+	return new MainGraphicsPipeline(
+		device.get(), window->getSdlWindow(), shader
+	);
 }
 
 }  // namespace lili

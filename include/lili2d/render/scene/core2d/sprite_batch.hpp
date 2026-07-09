@@ -32,7 +32,8 @@ public:
 	/// @brief Begins a new batch, clearing previous data.
 	void begin();
 
-	/// @brief Static helper to append a sprite's vertex data to a MeshData struct.
+	/// @brief Static helper to append a sprite's vertex data to a MeshData
+	/// struct.
 	/// @param mesh_data The mesh data to append to.
 	/// @param slice The texture slice (UVs) to use.
 	/// @param position The local position.

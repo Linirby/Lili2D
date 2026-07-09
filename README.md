@@ -84,17 +84,14 @@ Here is how simple it is to get a window open and draw shapes with Lili2D!
 **1. Create your application class:**
 
 ```cpp
-#include <lili/lili2d.hpp>
+#include <lili2d/lili2d.hpp>
 #include <memory>
 
-class App {
+class App : public lili::Game {
 public:
-    App() {
-        // Create a resizable window and a renderer
-        window = std::make_unique<lili::Window>("Hello Lili2D :3", 800, 800);
-        window->setResizable(true);
-        renderer = std::make_unique<lili::Renderer>(window.get());
+    App() : lili::Game("Hello Lili2D :3", 800, 800) {}
 
+    void onInit() override {
         // Create some cool shapes!
         line = lili::Line(
             renderer.get(),
@@ -111,46 +108,19 @@ public:
             lili::CircleShape({ 400.0f, 100.0f }, 50.0f, 32.0f),
             lili::Vec4(0.0f, 0.0f, 1.0f, 1.0f)
         );
-
-        running = true;
     }
 
-    void run() {
-        while (running) {
-            handleEvents();
-            render();
-        }
-    }
-
-private:
-    std::unique_ptr<lili::Window> window;
-    std::unique_ptr<lili::Renderer> renderer;
-    lili::Line line;
-    lili::Rect rect;
-    lili::Circle circle;
-    bool running;
-
-    void handleEvents() {
-        lili::Event event;
-        while (event.poll()) {
-            if (event.type() == lili::EventType::QUIT) {
-                running = false;
-            }
-            if (event.keyboard().key == SDLK_ESCAPE) {
-                running = false;
-            }
-        }
-    }
-
-    void render() {
-        if (!renderer->beginFrame()) return;
-
+    void onRender(float alpha) override {
+        (void)alpha;
         line.draw();
         rect.draw();
         circle.draw();
-
-        renderer->endFrame();
     }
+
+private:
+    lili::Line line;
+    lili::Rect rect;
+    lili::Circle circle;
 };
 ```
 

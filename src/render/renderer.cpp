@@ -224,6 +224,18 @@ void Renderer::setCamera(Camera *camera) {
 	this->camera = camera;
 }
 
+Camera *Renderer::getCamera() const {
+	return camera;
+}
+
+uint32_t Renderer::getSwapchainWidth() const {
+	return swapchain_width;
+}
+
+uint32_t Renderer::getSwapchainHeight() const {
+	return swapchain_height;
+}
+
 void Renderer::setPresentMode(SDL_GPUPresentMode mode) {
 	if (!SDL_SetGPUSwapchainParameters(
 		device.get(),

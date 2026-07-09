@@ -3,23 +3,19 @@
 #include <memory>
 #include <lili2d/lili2d.hpp>
 
-class App {
+class App : public lili::Game {
 public:
 	App();
 
-	void run();
-
 private:
-	std::unique_ptr<lili::Window> window;
-	std::unique_ptr<lili::Renderer> renderer;
-
 	std::unique_ptr<lili::BitmapFont> font_example;
 	float letter_spacing;
 	lili::Text welcome_text;
 	lili::Text info_text;
 
-	bool running;
+	float speed_change;
+	lili::Keyboard keyboard;
 
-	void handleEvents();
-	void render();
+	void onUpdate(float dt) override;
+	void onRender(float alpha) override;
 };

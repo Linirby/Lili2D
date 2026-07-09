@@ -3,6 +3,7 @@
 #include <vector>
 #include <unordered_map>
 #include <memory>
+#include <future>
 
 #include "lili2d/render/scene/core2d/sprite_batch.hpp"
 #include "lili2d/geometry/point3.hpp"
@@ -42,6 +43,8 @@ struct Chunk {
 	static constexpr int SIZE = 32;
 	std::vector<uint16_t> tiles;
 	mutable bool dirty = true;
+	mutable bool rebuilding = false;
+	mutable std::future<ChunkMeshData> rebuild_future;
 	mutable std::unordered_map<
 		BatchKey, std::unique_ptr<SpriteBatch>, BatchKeyHash
 	> batches;
@@ -62,9 +65,12 @@ struct Chunk {
 	/// calls.
 	/// @param chunk_pos The world position of the chunk.
 	/// @param tile_size The size of a single tile.
+	/// @param chunk_tiles A copy of the tile vector to prevent data races.
 	/// @return The generated CPU-side mesh data.
 	ChunkMeshData generateMeshData(
-		Point3 chunk_pos, const Vec2 &tile_size
+		Point3 chunk_pos,
+		const Vec2 &tile_size,
+		const std::vector<uint16_t> &chunk_tiles
 	) const;
 
 	/// @brief Main thread function to upload generated mesh data to the GPU.

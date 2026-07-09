@@ -6,28 +6,21 @@
 # define N_ENTITIES 1000
 #endif  // N_ENTITIES
 
-class Game {
+class App : public lili::Game {
 public:
-	Game();
-	void run();
+	App();
 
 private:
-	std::unique_ptr<lili::Window> window;
-	std::unique_ptr<lili::Renderer> renderer;
-
-	lili::Clock clock;
 	lili::Camera camera;
-
 	lili::ECSRegistry ecs_registry;
+
 	std::unique_ptr<lili::Texture> circle_texture;
 	std::unique_ptr<lili::SpriteBatch> sprite_batch;
 	std::vector<lili::Entity> spawned_entities;
 
-	bool running;
-
-	void handleEvents();
-	void update(float dt);
-	void render();
+	void onEvent(const lili::Event &event) override;
+	void onUpdate(float dt) override;
+	void onRender(float alpha) override;
 
 	void spawnRandomBall();
 	void destroyRandomBall();

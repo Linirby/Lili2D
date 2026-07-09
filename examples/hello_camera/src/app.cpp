@@ -1,18 +1,22 @@
 #include "app.hpp"
 
-App::App() {
-	window = std::make_unique<lili::Window>("hello_camera - Lili2D", 600, 400);
+App::App() : lili::Game("hello_camera - Lili2D", 600, 400) {
+	setTps(20.0f);
 	window->setResizable(true);
-	renderer = std::make_unique<lili::Renderer>(window.get());
-	font = std::make_unique<lili::BitmapFont>(
-		renderer.get(), "lili_font.png", 16, 6
-	);
-	clock = lili::Clock(20.0f);
 
 	camera = lili::Camera();
 	cam_pos = { 250, 250 };
 	camera.setPosition(cam_pos);
 	camera_zoom = camera.getZoom();
+	camera_center = lili::Circle(
+		renderer.get(),
+		lili::CircleShape(
+			lili::Vec2(window->getWidth() / 2.0f, window->getHeight() / 2.0f),
+			5, 16
+		),
+		lili::Vec4(1, 1, 1, 0.5)
+	);
+	camera_center.setRender(lili::RenderLayer::UI);
 	renderer->setCamera(&camera);
 
 	red_rect = lili::Rect(
@@ -31,16 +35,9 @@ App::App() {
 		lili::Vec4(0, 0, 1, 1)
 	);
 
-	camera_center = lili::Circle(
-		renderer.get(),
-		lili::CircleShape(
-			lili::Vec2(window->getWidth() / 2.0f, window->getHeight() / 2.0f),
-			5, 16
-		),
-		lili::Vec4(1, 1, 1, 0.5)
+	font = std::make_unique<lili::BitmapFont>(
+		renderer.get(), "lili_font.png", 16, 6
 	);
-	camera_center.setRender(lili::RenderLayer::UI);
-
 	text_cam_pos = lili::Text(renderer.get(), font.get(), "");
 	text_cam_pos.setScale(2);
 	text_cam_pos.setPosition({ 10, 10 });
@@ -51,33 +48,10 @@ App::App() {
 	text_controls.setScale(2);
 	text_controls.setPosition({ 10, 32 });
 	text_controls.setRender(lili::RenderLayer::UI);
-
-	running = true;
 }
 
-void App::run() {
-	while (running) {
-		clock.update();
-		keyboard.update();
-
-		handleEvents();
-		update(clock.getDt());
-		render();
-	}
-}
-
-void App::handleEvents() {
-	lili::Event event;
-
-	while (event.poll())
-		if (event.type() == lili::EventType::QUIT)
-			running = false;
-}
-
-void App::update(float dt) {
-	if (keyboard.pressed(SDL_SCANCODE_ESCAPE))
-		running = false;
-
+void App::onUpdate(float dt) {
+	keyboard.update();
 	cam_pos = camera.getPosition();
 	if (keyboard.held(SDL_SCANCODE_I))
 		cam_pos.y -= 100.0f * dt;
@@ -96,11 +70,8 @@ void App::update(float dt) {
 	camera.setZoom(camera_zoom);
 
 	text_cam_pos.setText(
-		"Camera Position: (X=" +
-		std::to_string(cam_pos.x) +
-		", Y=" +
-		std::to_string(cam_pos.y) +
-		")"
+		"Camera Position: (X=" + std::to_string(cam_pos.x) +
+		", Y=" + std::to_string(cam_pos.y) + ")"
 	);
 
 	camera_center.setCenter(
@@ -108,16 +79,14 @@ void App::update(float dt) {
 	);
 }
 
-void App::render() {
-	if (!renderer->beginFrame()) return;
+void App::onRender(float alpha) {
+	(void)alpha;
+	camera_center.draw();
 
 	red_rect.draw();
 	green_rect.draw();
 	blue_rect.draw();
 
-	camera_center.draw();
 	text_cam_pos.draw();
 	text_controls.draw();
-
-	renderer->endFrame();
 }

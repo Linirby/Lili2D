@@ -1,12 +1,8 @@
 #include "app.hpp"
 #include <cmath>
 
-App::App() {
-	window = std::make_unique<lili::Window>(
-		"hello_sprite_batch - Lili2D", 768, 640
-	);
-	renderer = std::make_unique<lili::Renderer>(window.get());
-	clock = lili::Clock(20.0f);
+App::App() : lili::Game("hello_sprite_batch - Lili2D", 768, 640) {
+	setTps(20.0f);
 	camera.setZoom(4.0f);
 	renderer->setCamera(&camera);
 
@@ -56,8 +52,6 @@ App::App() {
 		}
 	}
 
-
-
 	font = lili::BitmapFont(renderer.get(), "assets/lili_font.png", 16, 6);
 	text_infos = lili::Text(
 		renderer.get(), &font, "WASD: move | IK: zoom/dezoom"
@@ -65,31 +59,9 @@ App::App() {
 	text_infos.setRender(lili::RenderLayer::UI);
 	text_infos.setPosition({10.0f, 10.0f});
 	text_infos.setScale(3.0f);
-
-	running = true;
 }
 
-void App::run() {
-	while (running) {
-		clock.update();
-		handleEvents();
-		update(clock.getDt());
-		render();
-	}
-}
-
-void App::handleEvents() {
-	lili::Event event;
-	while (event.poll()) {
-		if (
-			event.type() == lili::EventType::QUIT ||
-			event.keyboard().key == SDLK_ESCAPE
-		)
-			running = false;
-	}
-}
-
-void App::update(float dt) {
+void App::onUpdate(float dt) {
 	keyboard.update();
 	lili::Vec2 vel(0, 0);
 
@@ -111,13 +83,10 @@ void App::update(float dt) {
 		camera.setZoom(camera.getZoom() - dt);
 }
 
-void App::render() {
-	if (!renderer->beginFrame()) return;
 
+
+void App::onRender(float alpha) {
+	(void)alpha;
 	text_infos.draw();
 	tilemap->draw(renderer.get());
-
-
-
-	renderer->endFrame();
 }

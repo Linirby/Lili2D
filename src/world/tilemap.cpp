@@ -1,7 +1,7 @@
 #include "lili2d/world/tilemap.hpp"
-
-#include "lili2d/physics/collision.hpp"
 #include "lili2d/world/tile_registry.hpp"
+#include "lili2d/render/renderer.hpp"
+#include "lili2d/physics/collision.hpp"
 #include "lili2d/world/chunk.hpp"
 
 namespace lili {
@@ -73,10 +73,41 @@ bool TileMap::checkCollision(const lili::AABB3 &target_aabb) const {
 }
 
 void TileMap::draw(Renderer *renderer) {
+	Camera *camera = renderer->getCamera();
+	bool use_culling = (camera != nullptr);
+
+	float chunk_sz_x = static_cast<float>(Chunk::SIZE) * tile_size.x;
+	float chunk_sz_y = static_cast<float>(Chunk::SIZE) * tile_size.y;
+
+	AABB2 bounds;
+	if (use_culling) {
+		bounds = camera->getViewportBounds(
+			static_cast<float>(renderer->getSwapchainWidth()),
+			static_cast<float>(renderer->getSwapchainHeight())
+		);
+		bounds.min.x -= chunk_sz_x;
+		bounds.min.y -= chunk_sz_y;
+		bounds.max.x += chunk_sz_x;
+		bounds.max.y += chunk_sz_y;
+	}
+
 	for (auto &pair : chunks) {
 		const Point3 &chunk_pos = pair.first;
 		const Chunk &chunk = pair.second;
-		if (chunk.dirty)
+
+		if (use_culling) {
+			Vec2 chunk_pos_w{
+				static_cast<float>(chunk_pos.x) * chunk_sz_x,
+				static_cast<float>(chunk_pos.y) * chunk_sz_y
+			};
+			AABB2 chunk_aabb{chunk_pos_w, Vec2{chunk_sz_x, chunk_sz_y}};
+
+			if (!bounds.intersect(chunk_aabb)) {
+				continue;
+			}
+		}
+
+		if (chunk.dirty || chunk.rebuilding)
 			chunk.rebuildBatches(renderer, chunk_pos, tile_size);
 		for (auto &batch_pair : chunk.batches)
 			batch_pair.second->draw();

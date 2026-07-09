@@ -1,34 +1,28 @@
 #include "app.hpp"
 
-App::App() {
-	window = std::make_unique<lili::Window>(
-		"hello_sprite_batch - Lili2D", 768, 640
-	);
-	renderer = std::make_unique<lili::Renderer>(window.get());
-	clock = lili::Clock(20.0f);
+App::App() : lili::Game("hello_sprite_batch - Lili2D", 768, 640) {
+	const float TILE_SIZE = 16.0f;
+
+	setTps(20.0f);
 	camera.setZoom(4.0f);
 	renderer->setCamera(&camera);
 
 	env_atlas = lili::AtlasMap(renderer.get(), "assets/environment.png");
 	env_atlas.slice(4, 2);
-
+	env_batch = std::make_unique<lili::SpriteBatch>(
+		renderer.get(), env_atlas.getTexture()
+	);
 	char_atlas = lili::AtlasMap(renderer.get(), "assets/player.png");
 	char_atlas.slice(4, 5);
+	char_batch = std::make_unique<lili::SpriteBatch>(
+		renderer.get(), char_atlas.getTexture()
+	);
 
 	anim_idle = lili::Animation(char_atlas.getSliceUVs(0, 4));
 	anim_run_right = lili::Animation(char_atlas.getSliceUVs(4, 4));
 	anim_run_left = lili::Animation(char_atlas.getSliceUVs(8, 4));
 	anim_run_top = lili::Animation(char_atlas.getSliceUVs(12, 4));
 	anim_run_bottom = lili::Animation(char_atlas.getSliceUVs(16, 4));
-
-	env_batch = std::make_unique<lili::SpriteBatch>(
-		renderer.get(), env_atlas.getTexture()
-	);
-	char_batch = std::make_unique<lili::SpriteBatch>(
-		renderer.get(), char_atlas.getTexture()
-	);
-
-	const float TILE_SIZE = 16.0f;
 
 	lili::SliceUV slice_floor = env_atlas.getSliceUV(0);
 	lili::SliceUV slice_dark_floor = env_atlas.getSliceUV(1);
@@ -86,31 +80,9 @@ App::App() {
 	text_infos.setRender(lili::RenderLayer::UI);
 	text_infos.setPosition({10.0f, 10.0f});
 	text_infos.setScale(3.0f);
-
-	running = true;
 }
 
-void App::run() {
-	while (running) {
-		clock.update();
-		handleEvents();
-		update(clock.getDt());
-		render();
-	}
-}
-
-void App::handleEvents() {
-	lili::Event event;
-	while (event.poll()) {
-		if (
-			event.type() == lili::EventType::QUIT ||
-			event.keyboard().key == SDLK_ESCAPE
-		)
-			running = false;
-	}
-}
-
-void App::update(float dt) {
+void App::onUpdate(float dt) {
 	keyboard.update();
 	lili::Vec2 velocity(0, 0);
 
@@ -156,9 +128,8 @@ void App::update(float dt) {
 	camera.setPosition(player.position);
 }
 
-void App::render() {
-	if (!renderer->beginFrame()) return;
-
+void App::onRender(float alpha) {
+	(void)alpha;
 	env_batch->draw();
 
 	char_batch->begin();
@@ -167,6 +138,4 @@ void App::render() {
 	char_batch->draw();
 
 	text_infos.draw();
-
-	renderer->endFrame();
 }

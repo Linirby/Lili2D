@@ -64,6 +64,15 @@ public:
 	/// @brief Sets the active camera.
 	/// @param camera Pointer to the camera.
 	void setCamera(Camera *camera);
+	/// @brief Gets the active camera.
+	/// @return Pointer to the active camera.
+	Camera *getCamera() const;
+	/// @brief Gets the swapchain width.
+	/// @return The width in pixels.
+	uint32_t getSwapchainWidth() const;
+	/// @brief Gets the swapchain height.
+	/// @return The height in pixels.
+	uint32_t getSwapchainHeight() const;
 	/// @brief Sets the active present mode.
 	/// @param mode New present mode
 	void setPresentMode(SDL_GPUPresentMode mode);

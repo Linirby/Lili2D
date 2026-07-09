@@ -1,18 +1,12 @@
 #pragma once
 
-#include <memory>
 #include <lili2d/lili2d.hpp>
 
-class App {
+class App : public lili::Game {
 public:
 	App();
 
-	void run();
-
 private:
-	std::unique_ptr<lili::Window> window;
-	std::unique_ptr<lili::Renderer> renderer;
-
 	lili::Rect cursor_rect;
 	lili::Circle cursor_circle;
 	lili::Line cursor_line;
@@ -23,9 +17,7 @@ private:
 	bool draw_circle;
 	bool draw_line;
 
-	bool running;
-
-	void handleEvents();
-	void update();
-	void render();
+	void onEvent(const lili::Event &event) override;
+	void onUpdate(float dt) override;
+	void onRender(float alpha) override;
 };

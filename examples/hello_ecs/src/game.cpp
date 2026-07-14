@@ -17,7 +17,7 @@ App::App() : lili::Game("hello_ecs - Lili2D", 800, 600) {
 	sprite_batch = std::make_unique<lili::SpriteBatch>(
 		renderer.get(), circle_texture.get()
 	);
-	for (int i = 0; i < n_entities; ++i)
+	for (int i = 0; i < N_ENTITIES; ++i)
 		spawnRandomBall();
 
 	std::cout <<

@@ -2,10 +2,6 @@
 
 #include <lili2d/lili2d.hpp>
 
-#ifndef N_ENTITIES
-# define N_ENTITIES 1000
-#endif  // N_ENTITIES
-
 class App : public lili::Game {
 public:
 	App();
@@ -17,6 +13,8 @@ private:
 	std::unique_ptr<lili::Texture> circle_texture;
 	std::unique_ptr<lili::SpriteBatch> sprite_batch;
 	std::vector<lili::Entity> spawned_entities;
+
+	static constexpr int N_ENTITIES = 50000;
 
 	void onEvent(const lili::Event &event) override;
 	void onUpdate(float dt) override;

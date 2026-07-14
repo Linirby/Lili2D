@@ -9,17 +9,11 @@ namespace lili {
 bool Point3Compare::operator()(
 	const lili::Point3& lhs, const lili::Point3& rhs
 ) const {
-	if (lhs.z != rhs.z) return lhs.z < rhs.z;
-	if (lhs.y != rhs.y) return lhs.y < rhs.y;
+	if (lhs.z != rhs.z)
+		return lhs.z < rhs.z;
+	if (lhs.y != rhs.y)
+		return lhs.y < rhs.y;
 	return lhs.x < rhs.x;
-}
-
-bool BatchKey::operator==(const BatchKey &other) const {
-	return texture == other.texture && z == other.z;
-}
-
-std::size_t BatchKeyHash::operator()(const BatchKey &k) const {
-	return std::hash<Texture*>()(k.texture) ^ (std::hash<int>()(k.z) << 1);
 }
 
 TileMap::TileMap(const lili::Vec2 &tile_size) : tile_size(tile_size) {}
@@ -72,7 +66,7 @@ bool TileMap::checkCollision(const lili::AABB3 &target_aabb) const {
 	return false;
 }
 
-void TileMap::draw(Renderer *renderer) {
+void TileMap::draw(Renderer *renderer, ThreadPool *thread_pool) {
 	Camera *camera = renderer->getCamera();
 	bool use_culling = (camera != nullptr);
 
@@ -108,7 +102,7 @@ void TileMap::draw(Renderer *renderer) {
 		}
 
 		if (chunk.dirty || chunk.rebuilding)
-			chunk.rebuildBatches(renderer, chunk_pos, tile_size);
+			chunk.rebuildBatches(renderer, thread_pool, chunk_pos, tile_size);
 		for (auto &batch_pair : chunk.batches)
 			batch_pair.second->draw();
 	}

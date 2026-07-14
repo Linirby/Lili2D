@@ -11,6 +11,9 @@
 
 namespace lili {
 
+/// @brief A simple, lightweight C++20 Thread Pool using jthread and stop_token.
+class ThreadPool;
+
 /// @brief Key used to group tiles by texture and depth for batching.
 struct BatchKey {
 	Texture* texture = nullptr;
@@ -83,7 +86,10 @@ struct Chunk {
 	/// @param chunk_pos The world position of the chunk.
 	/// @param tile_size The size of a single tile.
 	void rebuildBatches(
-		Renderer *renderer, Point3 chunk_pos, const Vec2 &tile_size
+		Renderer *renderer,
+		ThreadPool *thread_pool,
+		Point3 chunk_pos,
+		const Vec2 &tile_size
 	) const;
 };
 

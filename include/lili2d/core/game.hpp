@@ -6,6 +6,7 @@
 #include "lili2d/core/window.hpp"
 #include "lili2d/core/clock.hpp"
 #include "lili2d/render/renderer.hpp"
+#include "lili2d/core/thread_pool.hpp"
 
 namespace lili {
 
@@ -19,7 +20,13 @@ public:
 	/// @param title The window title.
 	/// @param width The window width.
 	/// @param height The window height.
-	Game(const std::string &title, int width, int height);
+	/// @param config The engine configuration settings.
+	Game(
+		const std::string &title,
+		int width,
+		int height,
+		const EngineConfig& config = {}
+	);
 
 	/// @brief Destructor.
 	virtual ~Game();
@@ -36,6 +43,19 @@ public:
 	/// @brief Sets the fixed ticks per second.
 	/// @param value Ticks per second rate.
 	void setTps(float value);
+
+	/// @brief Gets the thread pool.
+	/// @return Pointer to the thread pool.
+	ThreadPool* getThreadPool() const;
+
+	/// @brief Reconfigures the game's performance and threading settings at
+	/// runtime.
+	/// @param config The new engine configuration.
+	void configure(const EngineConfig& config);
+
+	/// @brief Gets the active engine configuration.
+	/// @return Reference to the active configuration.
+	const EngineConfig& getConfig() const;
 
 	/// @brief Called once when the game initializes.
 	virtual void onInit() {}
@@ -62,6 +82,8 @@ public:
 protected:
 	std::unique_ptr<Window> window;
 	std::unique_ptr<Renderer> renderer;
+	std::unique_ptr<ThreadPool> thread_pool;
+	EngineConfig config;
 	bool running = false;
 
 private:

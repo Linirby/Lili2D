@@ -16,8 +16,10 @@
 
 namespace lili {
 
-Renderer::Renderer(Window *window) : window(window) {
-	initDevice();
+Renderer::Renderer(Window *window, SDL_GPUPresentMode preferred_mode)
+    : window(window)
+{
+	initDevice(preferred_mode);
 	initShaders();
 	initPipelines();
 	initPasses();
@@ -66,12 +68,10 @@ bool Renderer::beginFrame() {
 	Mat3 view = Mat3::identity();
 	if (camera) {
 		projection = camera->getProjection(
-			static_cast<float>(width),
-			static_cast<float>(height)
+			static_cast<float>(width), static_cast<float>(height)
 		);
 		view = camera->getViewMatrix(
-			static_cast<float>(width),
-			static_cast<float>(height)
+			static_cast<float>(width), static_cast<float>(height)
 		);
 	}
 	proj_view_world2d = projection * view;
@@ -108,10 +108,7 @@ void Renderer::endFrame() {
 	world_2d_pass->render(
 		main_pass, current_cmd_buffer, proj_view_world2d, world_2d_queue
 	);
-
-	ui_pass->render(
-		main_pass, current_cmd_buffer, proj_view_ui, ui_queue
-	);
+	ui_pass->render(main_pass, current_cmd_buffer, proj_view_ui, ui_queue);
 
 	world_2d_queue.clear();
 	ui_queue.clear();
@@ -125,18 +122,16 @@ Texture *Renderer::getTheWhitePixel() const {
 }
 
 GPUMesh* Renderer::getUnitQuad() {
-	if (!unit_quad) {
+	if (!unit_quad)
 		unit_quad = std::make_unique<GPUMesh>(device.get(), createUnitQuad());
-	}
 	return unit_quad.get();
 }
 
 GPUMesh* Renderer::getUnitCircle(int segments) {
-	if (unit_circles.find(segments) == unit_circles.end()) {
+	if (unit_circles.find(segments) == unit_circles.end())
 		unit_circles[segments] = std::make_unique<GPUMesh>(
 			device.get(), createUnitCircle(segments)
 		);
-	}
 	return unit_circles[segments].get();
 }
 
@@ -160,27 +155,40 @@ void Renderer::drawDebugRect(
 	debug_rects[key]->draw();
 }
 
-void Renderer::initDevice() {
+void Renderer::initDevice(SDL_GPUPresentMode preferred_mode) {
 	device = std::unique_ptr<SDL_GPUDevice, SDLGPUDeviceDeleter>(
 		SDL_CreateGPUDevice(SDL_GPU_SHADERFORMAT_SPIRV, true, nullptr)
 	);
-	if (!device) {
+	if (!device)
 		throw std::runtime_error(
 			"Device creation failed!\n-> " + std::string(SDL_GetError())
 		);
-	}
-	if (!SDL_ClaimWindowForGPUDevice(device.get(), window->getSdlWindow())) {
+	if (!SDL_ClaimWindowForGPUDevice(device.get(), window->getSdlWindow()))
 		throw std::runtime_error(
 			"SDL_ClaimWindowForGPUDevice() failed!\n-> " +
 			std::string(SDL_GetError())
 		);
-	}
-	if (!SDL_SetGPUSwapchainParameters(
-		device.get(),
-		window->getSdlWindow(),
-		SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
-		SDL_GPU_PRESENTMODE_MAILBOX
-	))
+
+	if (preferred_mode == SDL_GPU_PRESENTMODE_MAILBOX) {
+		if (!SDL_SetGPUSwapchainParameters(
+				device.get(),
+				window->getSdlWindow(),
+				SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
+				SDL_GPU_PRESENTMODE_MAILBOX
+		))
+			if (!SDL_SetGPUSwapchainParameters(
+				device.get(),
+				window->getSdlWindow(),
+				SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
+				SDL_GPU_PRESENTMODE_IMMEDIATE
+			))
+				SDL_SetGPUSwapchainParameters(
+					device.get(),
+					window->getSdlWindow(),
+					SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
+					SDL_GPU_PRESENTMODE_VSYNC
+				);
+	} else if (preferred_mode == SDL_GPU_PRESENTMODE_IMMEDIATE) {
 		if (!SDL_SetGPUSwapchainParameters(
 			device.get(),
 			window->getSdlWindow(),
@@ -193,6 +201,13 @@ void Renderer::initDevice() {
 				SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
 				SDL_GPU_PRESENTMODE_VSYNC
 			);
+	} else
+		SDL_SetGPUSwapchainParameters(
+			device.get(),
+			window->getSdlWindow(),
+			SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
+			SDL_GPU_PRESENTMODE_VSYNC
+		);
 }
 
 void Renderer::initShaders() {

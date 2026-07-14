@@ -30,7 +30,11 @@ class Renderer {
 public:
 	/// @brief Constructor for the renderer.
 	/// @param window The window to render to.
-	Renderer(Window *window);
+	/// @param preferred_mode The preferred present mode for the swapchain.
+	Renderer(
+	    Window *window,
+		SDL_GPUPresentMode preferred_mode = SDL_GPU_PRESENTMODE_MAILBOX
+	);
 	/// @brief Destructor.
 	~Renderer();
 	/// @brief Move constructor.
@@ -157,7 +161,8 @@ private:
 	std::map<uint32_t, std::unique_ptr<Rect>> debug_rects;
 
 	/// @brief initDevice method.
-	void initDevice();
+	/// @param preferred_mode The preferred present mode for the swapchain.
+	void initDevice(SDL_GPUPresentMode preferred_mode);
 	/// @brief initShaders method.
 	void initShaders();
 	/// @brief initPipelines method.

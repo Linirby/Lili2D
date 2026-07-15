@@ -123,7 +123,9 @@ void GPUMesh::update(const MeshData &mesh) {
 			mesh.vertices.data(), vertex_buffer.get(), vertices_buffer_size
 		);
 	if (indices_buffer_size > 0)
-		transferToGpu(mesh.indices.data(), index_buffer.get(), indices_buffer_size);
+		transferToGpu(
+			mesh.indices.data(), index_buffer.get(), indices_buffer_size
+		);
 }
 
 void GPUMesh::transferToGpu(

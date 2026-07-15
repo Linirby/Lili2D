@@ -1,19 +1,23 @@
 #include "app.hpp"
+#include "lili2d/core/thread_pool.hpp"
 #include <cmath>
+#include <memory>
 
-App::App() {
-	window = std::make_unique<lili::Window>(
-		"hello_sprite_batch - Lili2D", 768, 640
-	);
-	renderer = std::make_unique<lili::Renderer>(window.get());
-	clock = lili::Clock(20.0f);
+App::App() : lili::Game("hello_sprite_batch - Lili2D", 768, 640) {
+	setTps(20.0f);
+	lili::Window *window = getWindow();
+	lili::Renderer *renderer = getRenderer();
+
 	camera.setZoom(4.0f);
+	camera.setPosition({(float)window->getWidth(), (float)window->getHeight()});
 	renderer->setCamera(&camera);
+
+	thread_pool = std::make_unique<lili::ThreadPool>();
 
 	lili::Vec2 tile_render_size = lili::Vec2(16, 16);
 	tilemap = std::make_unique<lili::TileMap>(lili::Vec2(tile_render_size));
 
-	env_atlas = lili::AtlasMap(renderer.get(), "assets/environment.png");
+	env_atlas = lili::AtlasMap(renderer, "assets/environment.png");
 	env_atlas.slice(3, 2);
 
 	lili::TileRegistry &registry = lili::TileRegistry::get();
@@ -28,8 +32,8 @@ App::App() {
 		std::move(invisible_solid)
 	);
 
-	int map_width = 150;
-	int map_height = 150;
+	int map_width = 1500;
+	int map_height = 1500;
 
 	for (int y = 0; y < map_height; ++y) {
 		for (int x = 0; x < map_width; ++x) {
@@ -43,9 +47,8 @@ App::App() {
 			if (elevation < 0) elevation = 0;
 			if (elevation > 5) elevation = 5;
 
-			for (int z = 0; z < elevation; ++z) {
+			for (int z = 0; z < elevation; ++z)
 				tilemap->setTile("solid_invisible", lili::Point3(x, y, z));
-			}
 
 			std::string tile_name;
 			if (elevation >= 4) tile_name = "grass:light";
@@ -56,40 +59,25 @@ App::App() {
 		}
 	}
 
-
-
-	font = lili::BitmapFont(renderer.get(), "assets/lili_font.png", 16, 6);
+	font = lili::BitmapFont(renderer, "assets/lili_font.png", 16, 6);
 	text_infos = lili::Text(
-		renderer.get(), &font, "WASD: move | IK: zoom/dezoom"
+		renderer, &font, "WASD: move | IK: zoom/dezoom"
 	);
 	text_infos.setRender(lili::RenderLayer::UI);
 	text_infos.setPosition({10.0f, 10.0f});
 	text_infos.setScale(3.0f);
-
-	running = true;
 }
 
-void App::run() {
-	while (running) {
-		clock.update();
-		handleEvents();
-		update(clock.getDt());
-		render();
-	}
+void App::onEvent(const lili::Event &event) {
+	lili::KeyboardEvent kb = event.keyboard();
+
+	if (event.type() == lili::EventType::KEYBOARD)
+		if (kb.action == lili::KeyAction::PRESSED)
+			if (kb.key == SDLK_ESCAPE)
+				shutdown();
 }
 
-void App::handleEvents() {
-	lili::Event event;
-	while (event.poll()) {
-		if (
-			event.type() == lili::EventType::QUIT ||
-			event.keyboard().key == SDLK_ESCAPE
-		)
-			running = false;
-	}
-}
-
-void App::update(float dt) {
+void App::onUpdate(float dt) {
 	keyboard.update();
 	lili::Vec2 vel(0, 0);
 
@@ -108,16 +96,13 @@ void App::update(float dt) {
 	if (keyboard.held(SDL_SCANCODE_I))
 		camera.setZoom(camera.getZoom() + dt);
 	if (keyboard.held(SDL_SCANCODE_K))
-		camera.setZoom(camera.getZoom() - dt);
+		camera.setZoom(std::max(0.01f, camera.getZoom() - dt));
 }
 
-void App::render() {
-	if (!renderer->beginFrame()) return;
 
+
+void App::onRender(float alpha) {
+	(void)alpha;
 	text_infos.draw();
-	tilemap->draw(renderer.get());
-
-
-
-	renderer->endFrame();
+	tilemap->draw(getRenderer(), thread_pool.get());
 }

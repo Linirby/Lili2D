@@ -11,24 +11,27 @@ Whether you are prototyping a quick idea, participating in a game jam, or
 building a full 2D game, Lili2D provides you with the modern tools you need to
 get things running on screen.
 
-https://github.com/user-attachments/assets/91b8a69b-7d0e-4742-8aaa-b97ffdfab5a8
+![Demonstration Video](assets/demo_ball.mp4)
+
+## Technical Showcase
+
+For technical leads, developers, and recruiters interested in the engine's
+internals (such as the C++20 thread pool, prioritized task scheduler,
+cache-friendly ECS design, frustum culling, and command buffering), check out
+the **[Technical & Architectural Showcase](docs/ARCHITECTURE.md)**.
 
 ## Repository Structure
 
 Lili2D follows the modern C++ Pitchfork layout:
 
-- **[`include/lili2d/`](include/lili2d/)**: The public API headers for the engine.
+- **[`include/lili2d/`](include/lili2d/)**: The public API headers for the
+engine.
 - **[`src/`](src/)**: The private implementation files and internal headers.
-- **[`examples/`](examples/)**: Example projects demonstrating how to use Lili2D.
+- **[`examples/`](examples/)**: Example projects demonstrating how to use
+Lili2D.
 - **[`docs/`](docs/)**: API documentation and Doxygen configuration.
 - **[`assets/`](assets/)**: Engine-level default assets.
 - **[`scripts/`](scripts/)**: Build and installation utility scripts.
-
-## Roadmap
-
-I am actively building higher-level game systems on top of the Lili2D core to support 2D Game development:
-- **Multi-threading & More Optimization**: Avoid bottleneck between GPU and CPU. (like the example `hello_ecs` if you put a large amount of entities like 100k)
-- **Dialogue & UI Engine**: Scrolling text boxes, portraits, and dynamic UI menus.
 
 ## Getting Started
 
@@ -43,12 +46,15 @@ To build and use Lili2D, you will need:
 
 ### Using Pre-Compiled Releases (Easiest)
 
-If you don't want to compile the library from source, you can use the pre-compiled releases!
+If you don't want to compile the library from source, you can use the
+pre-compiled releases!
 
 1. Go to the **Releases** tab on GitHub.
 2. Download the latest `Lili2D-linux-x86_64.tar.gz` from the Assets section.
 3. Extract the archive into your project directory.
-4. When compiling your game, simply link against the provided `.so` file and include the headers. For example:
+4. When compiling your game, simply link against the provided `.so` file and
+include the headers. For example:
+
 ```bash
 g++ main.cpp -I./Lili2D-linux-x86_64/include -L./Lili2D-linux-x86_64/lib -lLili2D -lSDL3 -Wl,-rpath=./Lili2D-linux-x86_64/lib
 ```
@@ -84,73 +90,44 @@ Here is how simple it is to get a window open and draw shapes with Lili2D!
 **1. Create your application class:**
 
 ```cpp
-#include <lili/lili2d.hpp>
+#include <lili2d/lili2d.hpp>
 #include <memory>
 
-class App {
+class App : public lili::Game {
 public:
-    App() {
-        // Create a resizable window and a renderer
-        window = std::make_unique<lili::Window>("Hello Lili2D :3", 800, 800);
-        window->setResizable(true);
-        renderer = std::make_unique<lili::Renderer>(window.get());
+    App() : lili::Game("Hello Lili2D :3", 800, 800) {}
 
+    void onInit() override {
         // Create some cool shapes!
+        lili::Renderer *renderer = getRenderer();
         line = lili::Line(
-            renderer.get(),
+            renderer,
             lili::LineShape({ 50.0f, 50.0f }, { 100.0f, 300.0f }, 1.0f),
             lili::Vec4(0.0f, 1.0f, 0.0f, 1.0f)
         );
         rect = lili::Rect(
-            renderer.get(),
+            renderer,
             lili::RectShape(350.0f, 375.0f, 100.0f, 50.0f),
             lili::Vec4(1.0f, 0.0f, 0.0f, 1.0f)
         );
         circle = lili::Circle(
-            renderer.get(),
+            renderer,
             lili::CircleShape({ 400.0f, 100.0f }, 50.0f, 32.0f),
             lili::Vec4(0.0f, 0.0f, 1.0f, 1.0f)
         );
-
-        running = true;
     }
 
-    void run() {
-        while (running) {
-            handleEvents();
-            render();
-        }
-    }
-
-private:
-    std::unique_ptr<lili::Window> window;
-    std::unique_ptr<lili::Renderer> renderer;
-    lili::Line line;
-    lili::Rect rect;
-    lili::Circle circle;
-    bool running;
-
-    void handleEvents() {
-        lili::Event event;
-        while (event.poll()) {
-            if (event.type() == lili::EventType::QUIT) {
-                running = false;
-            }
-            if (event.keyboard().key == SDLK_ESCAPE) {
-                running = false;
-            }
-        }
-    }
-
-    void render() {
-        if (!renderer->beginFrame()) return;
-
+    void onRender(float alpha) override {
+        (void)alpha;
         line.draw();
         rect.draw();
         circle.draw();
-
-        renderer->endFrame();
     }
+
+private:
+    lili::Line line;
+    lili::Rect rect;
+    lili::Circle circle;
 };
 ```
 
@@ -186,13 +163,19 @@ screen.
 - **`hello_layer`**: Demonstrates the use of rendering layers to control the
 drawing order of sprites and shapes.
 - **`hello_scenes`**: Demonstrates the use of scenes with its manager.
-- **`hello_animation`**: An example of how to load an AtlasMap and create Animations
-from it.
-- **`hello_shader`**: Demonstrates how to write, compile, and load custom vertex and fragment shaders.
-- **`hello_collision`**: A new example showing the v1 implementation of the AABB collision system and how it interacts with different shapes.
+- **`hello_animation`**: An example of how to load an AtlasMap and create
+Animations from it.
+- **`hello_shader`**: Demonstrates how to write, compile, and load custom vertex
+and fragment shaders.
+- **`hello_collision`**: A new example showing the v1 implementation of the AABB
+collision system and how it interacts with different shapes.
 - **`hello_sprite_batch`**: An example of how to use SpriteBatch with a big map.
-- **`hello_tilemap`**: Demonstrates the TileMap and Chunk system for rendering optimized grid worlds.
-- **`hello_ecs`**: Demonstrates the lightweight Entity Component System (ECS) by spawning and animating thousands of ball entities.
+- **`hello_tilemap`**: Demonstrates the TileMap and Chunk system for rendering
+optimized grid worlds.
+- **`hello_ecs`**: Demonstrates the lightweight Entity Component System (ECS) by
+spawning and animating thousands of ball entities.
+- **`hello_multithreading`**: Demonstrates C++20 multithreaded systems, dynamic
+thread allocation, and parallel ECS execution using the prioritized ThreadPool.
 
 ## Join the Community
 

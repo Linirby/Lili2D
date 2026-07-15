@@ -1,4 +1,5 @@
 #include "lili2d/world/camera.hpp"
+#include "lili2d/physics/collision.hpp"
 #include <cmath>
 
 namespace lili {
@@ -45,6 +46,17 @@ Mat3 Camera::getViewMatrix(float width, float height) const {
 
 Mat3 Camera::getProjection(float width, float height) const {
 	return Mat3::orthographic(0.0f, width, 0.0f, height);
+}
+
+AABB2 Camera::getViewportBounds(float width, float height) const {
+	float half_w = width / 2.0f;
+	float half_h = height / 2.0f;
+	float w_zoom = half_w / zoom;
+	float h_zoom = half_h / zoom;
+	return AABB2(
+		Vec2(position.x - w_zoom, position.y - h_zoom),
+		Vec2(w_zoom * 2.0f, h_zoom * 2.0f)
+	);
 }
 
 }  // namespace lili

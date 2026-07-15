@@ -14,41 +14,32 @@ struct Character {
 	lili::AnimationPlayer anim_player;
 };
 
-class App {
+class App : public lili::Game {
 public:
 	App();
-	void run();
 
 private:
-	void handleEvents();
-	void update(float dt);
-	void render();
-
-	std::unique_ptr<lili::Window> window;
-	std::unique_ptr<lili::Renderer> renderer;
-	lili::Clock clock;
 	lili::Camera camera;
+	lili::Keyboard keyboard;
 
 	lili::AtlasMap env_atlas;
-	lili::AtlasMap char_atlas;
-
 	std::unique_ptr<lili::SpriteBatch> env_batch;
+	lili::AtlasMap char_atlas;
 	std::unique_ptr<lili::SpriteBatch> char_batch;
 
 	Character player;
-
-	bool running = false;
 
 	lili::Animation anim_idle;
 	lili::Animation anim_run_right;
 	lili::Animation anim_run_left;
 	lili::Animation anim_run_top;
 	lili::Animation anim_run_bottom;
-
 	lili::Animation* current_anim = nullptr;
 
 	lili::BitmapFont font;
 	lili::Text text_infos;
 
-	lili::Keyboard keyboard;
+	void onEvent(const lili::Event &event) override;
+	void onUpdate(float dt) override;
+	void onRender(float alpha) override;
 };

@@ -1,25 +1,16 @@
 #pragma once
 
-#include <memory>
 #include <lili2d/lili2d.hpp>
 
-class App {
+class App : public lili::Game {
 public:
 	App();
 
-	void run();
-
 private:
-	std::unique_ptr<lili::Window> window;
-	std::unique_ptr<lili::Renderer> renderer;
-	lili::Clock clock;
-
 	lili::AtlasMap head_atlas;
 	lili::AnimatedSprite head_sprite;
 
-	bool running;
-
-	void handleEvents();
-	void update(float dt);
-	void render();
+	void onEvent(const lili::Event &event) override;
+	void onUpdate(float dt) override;
+	void onRender(float alpha) override;
 };

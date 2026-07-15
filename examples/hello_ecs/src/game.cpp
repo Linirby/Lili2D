@@ -5,22 +5,20 @@
 #include <random>
 #include <iostream>
 
-Game::Game() {
-	window = std::make_unique<lili::Window>("hello_ecs - Lili2D", 600, 400);
-	renderer = std::make_unique<lili::Renderer>(window.get());
+App::App() : lili::Game("hello_ecs - Lili2D", 800, 600) {
+	setTps(20.0f);
+	lili::Window *window = getWindow();
+	lili::Renderer *renderer = getRenderer();
 
-	clock = lili::Clock(20.0f);
 	camera = lili::Camera();
 	camera.setPosition({window->getWidth() / 2.0f, window->getHeight() / 2.0f});
 	renderer->setCamera(&camera);
-
-	running = true;
 
 	circle_texture = std::make_unique<lili::Texture>(
 		renderer->getDevice(), "circle.png"
 	);
 	sprite_batch = std::make_unique<lili::SpriteBatch>(
-		renderer.get(), circle_texture.get()
+		renderer, circle_texture.get()
 	);
 	for (int i = 0; i < N_ENTITIES; ++i)
 		spawnRandomBall();
@@ -34,40 +32,22 @@ Game::Game() {
 		"====================================\n";
 }
 
-void Game::run() {
-	while (running) {
-		clock.update();
-
-		handleEvents();
-		update(clock.getDt());
-		render();
-	}
-}
-
-void Game::handleEvents() {
-	lili::Event event;
-
-	while (event.poll()) {
-		if (event.type() == lili::EventType::QUIT)
-			running = false;
-
-		if (event.type() == lili::EventType::KEYBOARD) {
-			lili::KeyboardEvent kb = event.keyboard();
-			if (kb.action == lili::KeyAction::PRESSED) {
-				if (kb.key == SDLK_ESCAPE)
-					running = false;
-				else if (kb.key == SDLK_SPACE)
-					spawnRandomBall();
-				else if (kb.key == SDLK_BACKSPACE)
-					destroyRandomBall();
-				else if (kb.key == SDLK_T)
-					toggleRandomBallVelocity();
-			}
+void App::onEvent(const lili::Event &event) {
+	if (event.type() == lili::EventType::KEYBOARD) {
+		lili::KeyboardEvent kb = event.keyboard();
+		if (kb.action == lili::KeyAction::PRESSED) {
+			if (kb.key == SDLK_SPACE)
+				spawnRandomBall();
+			else if (kb.key == SDLK_BACKSPACE)
+				destroyRandomBall();
+			else if (kb.key == SDLK_T)
+				toggleRandomBallVelocity();
 		}
 	}
 }
 
-void Game::update(float dt) {
+void App::onUpdate(float dt) {
+	lili::Window *window = getWindow();
 	systems::updateMovement(
 		ecs_registry,
 		dt,
@@ -76,15 +56,15 @@ void Game::update(float dt) {
 	);
 }
 
-void Game::render() {
-	if (!renderer->beginFrame()) return;
+void App::onRender(float alpha) {
+	(void)alpha;
 	systems::renderEntities(ecs_registry, *sprite_batch.get());
-	renderer->endFrame();
 }
 
-void Game::spawnRandomBall() {
+void App::spawnRandomBall() {
 	static std::random_device rd;
 	static std::mt19937 gen(rd());
+	lili::Window *window = getWindow();
 	std::uniform_real_distribution<float> disX(
 		50.0f, static_cast<float>(window->getWidth()) - 50.0f
 	);
@@ -120,7 +100,7 @@ void Game::spawnRandomBall() {
 		") | Total: " << spawned_entities.size() << "\n";
 }
 
-void Game::destroyRandomBall() {
+void App::destroyRandomBall() {
 	if (spawned_entities.empty()) {
 		std::cout << "No entities to destroy!\n";
 		return;
@@ -141,7 +121,7 @@ void Game::destroyRandomBall() {
 	std::cout << "Total active entities: " << spawned_entities.size() << "\n";
 }
 
-void Game::toggleRandomBallVelocity() {
+void App::toggleRandomBallVelocity() {
 	if (spawned_entities.empty()) {
 		std::cout << "No entities to toggle!\n";
 		return;

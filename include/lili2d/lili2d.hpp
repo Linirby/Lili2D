@@ -46,6 +46,8 @@ class Mouse;
 
 /// @brief Represents an operating system window.
 class Window;
+/// @brief Base class for managing the game lifecycle and main loop.
+class Game;
 
 /// @brief A 3x3 matrix for 2D transformations.
 struct Mat3;

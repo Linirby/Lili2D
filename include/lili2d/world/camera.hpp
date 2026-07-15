@@ -5,6 +5,9 @@
 
 namespace lili {
 
+/// @brief Forward declaration of AABB2.
+struct AABB2;
+
 /// @brief Represents a 2D camera for scene viewing.
 class Camera {
 public:
@@ -34,6 +37,12 @@ public:
 	/// @param height The viewport height.
 	/// @return The projection matrix.
 	Mat3 getProjection(float width, float height) const;
+
+	/// @brief Gets the visible world-space bounds of the camera.
+	/// @param width The viewport width.
+	/// @param height The viewport height.
+	/// @return The visible world-space bounds as an AABB2.
+	AABB2 getViewportBounds(float width, float height) const;
 
 private:
 	Vec2 position;

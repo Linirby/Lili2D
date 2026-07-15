@@ -3,10 +3,10 @@
 #include "game.hpp"
 
 int main() {
-	Game game;
+	App app;
 
 	try {
-		game.run();
+		app.run();
 	} catch (std::exception &e) {
 		std::cerr << e.what() << '\n';
 	}

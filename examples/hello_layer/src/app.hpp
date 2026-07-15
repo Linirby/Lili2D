@@ -3,18 +3,11 @@
 #include <memory>
 #include <lili2d/lili2d.hpp>
 
-class App {
+class App : public lili::Game {
 public:
 	App();
 
-	void run();
-
 private:
-	std::unique_ptr<lili::Window> window;
-	std::unique_ptr<lili::Renderer> renderer;
-	std::unique_ptr<lili::BitmapFont> font;
-
-	lili::Clock clock;
 	lili::Keyboard keyboard;
 
 	lili::Sprite layer_1;
@@ -24,12 +17,10 @@ private:
 	lili::Rect red_square;
 	int red_square_layer;
 
+	std::unique_ptr<lili::BitmapFont> font;
 	lili::Text text_current_layer;
 	lili::Text text_control_info;
 
-	bool running;
-
-	void handleEvents();
-	void fixedUpdate(float dt);
-	void render();
+	void onEvent(const lili::Event &event) override;
+	void onRender(float alpha) override;
 };

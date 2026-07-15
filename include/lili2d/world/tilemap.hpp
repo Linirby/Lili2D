@@ -12,6 +12,8 @@
 
 namespace lili {
 
+class ThreadPool;
+
 /// @brief Comparison functor for Point3, used in std::map.
 struct Point3Compare {
 	/// @brief Compares two Point3 objects.
@@ -43,7 +45,8 @@ public:
 	bool checkCollision(const lili::AABB3 &target_aabb) const;
 	/// @brief Submits the visible chunks for drawing.
 	/// @param renderer The renderer.
-	void draw(Renderer *renderer);
+	/// @param thread_pool Pointer to the ThreadPool.
+	void draw(Renderer *renderer, ThreadPool *thread_pool = nullptr);
 
 private:
 	lili::Vec2 tile_size;

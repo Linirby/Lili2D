@@ -1,26 +1,22 @@
 #include "app.hpp"
 
-App::App() {
-	window = std::make_unique<lili::Window>(
-		"hello_collision - Lili2D", 800, 800
-	);
-	renderer = std::make_unique<lili::Renderer>(window.get());
-
+App::App() : lili::Game("hello_collision - Lili2D", 800, 800) {
+	lili::Renderer *renderer = getRenderer();
 	cursor_rect = lili::Rect(
-		renderer.get(), lili::RectShape(0, 0, 75, 75), lili::Vec4(0, 0, 1, 1)
+		renderer, lili::RectShape(0, 0, 75, 75), lili::Vec4(0, 0, 1, 1)
 	);
 	cursor_circle = lili::Circle(
-		renderer.get(),
+		renderer,
 		lili::CircleShape(lili::Vec2(0, 0), 30, 16),
 		lili::Vec4(0, 0, 1, 1)
 	);
 	cursor_line = lili::Line(
-		renderer.get(),
+		renderer,
 		lili::LineShape(lili::Vec2(0, 0), lili::Vec2(0, 0), 3),
 		lili::Vec4(0, 0, 1, 1)
 	);
 	random_rect = lili::Rect(
-		renderer.get(),
+		renderer,
 		lili::RectShape(350, 350, 100, 100),
 		lili::Vec4(1, 0, 0, 1)
 	);
@@ -28,29 +24,18 @@ App::App() {
 	draw_rect = true;
 	draw_circle = false;
 	draw_line = false;
-
-	running = true;
 }
 
-void App::run() {
-	while (running) {
-		handleEvents();
-		update();
-		render();
-	}
-}
+void App::onEvent(const lili::Event &event) {
+	lili::KeyboardEvent kb = event.keyboard();
 
-void App::handleEvents() {
-	lili::Event event;
+	if (event.type() == lili::EventType::KEYBOARD)
+		if (kb.action == lili::KeyAction::PRESSED)
+			if (kb.key == SDLK_ESCAPE)
+				shutdown();
 
-	while (event.poll()) {
+	if (event.type() == lili::EventType::KEYBOARD) {
 		lili::KeyboardEvent keyboard = event.keyboard();
-
-		if (event.type() == lili::EventType::QUIT)
-			running = false;
-		if (keyboard.key == SDLK_ESCAPE)
-			running = false;
-
 		if (keyboard.action == lili::KeyAction::PRESSED) {
 			if (keyboard.key == SDLK_1) {
 				draw_rect = true;
@@ -71,7 +56,8 @@ void App::handleEvents() {
 	}
 }
 
-void App::update() {
+void App::onUpdate(float dt) {
+	(void)dt;
 	lili::Mouse mouse;
 	mouse.update();
 
@@ -101,23 +87,21 @@ void App::update() {
 
 }
 
-void App::render() {
-	if (!renderer->beginFrame()) return;
-
+void App::onRender(float alpha) {
+	(void)alpha;
 	random_rect.draw();
+	lili::Renderer *renderer = getRenderer();
 	lili::Vec4 debug_color = lili::Vec4(0, 1, 0, 1);
 	if (draw_rect) {
 		cursor_rect.draw();
-		lili::AABB2(cursor_rect).debugDraw(renderer.get(), debug_color);
+		lili::AABB2(cursor_rect).debugDraw(renderer, debug_color);
 	}
 	if (draw_circle) {
 		cursor_circle.draw();
-		lili::AABB2(cursor_circle).debugDraw(renderer.get(), debug_color);
+		lili::AABB2(cursor_circle).debugDraw(renderer, debug_color);
 	}
 	if (draw_line) {
 		cursor_line.draw();
-		lili::AABB2(cursor_line).debugDraw(renderer.get(), debug_color);
+		lili::AABB2(cursor_line).debugDraw(renderer, debug_color);
 	}
-
-	renderer->endFrame();
 }

@@ -1,10 +1,7 @@
 #include "app.hpp"
 
-App::App() {
-	window = std::make_unique<lili::Window>("hello_shader - Lili2D", 800, 800);
-	renderer = std::make_unique<lili::Renderer>(window.get());
-	clock = lili::Clock();
-
+App::App() : lili::Game("hello_shader - Lili2D", 800, 800) {
+	lili::Renderer *renderer = getRenderer();
 	lili::ShaderInfo vert_rect_info{};
 	vert_rect_info.num_uniform_buffers = 2;  // Slot 0 internal, Slot 1 custom
 	lili::ShaderInfo frag_rect_info{};
@@ -15,9 +12,11 @@ App::App() {
 		vert_rect_info,
 		frag_rect_info
 	));
-	rect_pipeline.reset(renderer->createMainGraphicsPipeline(rect_shader.get()));
+	rect_pipeline.reset(
+		renderer->createMainGraphicsPipeline(rect_shader.get())
+	);
 	rect = lili::Rect(
-		renderer.get(),
+		renderer,
 		lili::RectShape(200.0f, 200.0f, 400.0f, 400.0f),
 		lili::Vec4(1.0f, 1.0f, 1.0f, 1.0f)
 	);
@@ -33,52 +32,49 @@ App::App() {
 		vert_text_info,
 		frag_text_info
 	));
-	text_pipeline.reset(renderer->createMainGraphicsPipeline(text_shader.get()));
-	font = std::make_unique<lili::BitmapFont>(
-		renderer.get(), "lili_font.png", 16, 6
+	text_pipeline.reset(
+		renderer->createMainGraphicsPipeline(text_shader.get())
 	);
-	text = lili::Text(renderer.get(), font.get(), "Yay, shaders :D");
+	font = std::make_unique<lili::BitmapFont>(
+		renderer, "lili_font.png", 16, 6
+	);
+	text = lili::Text(renderer, font.get(), "Yay, shaders :D");
 	text.setPosition(lili::Vec2(250.0f, 75.0f));
 	text.setScale(3.0f);
 	text.getMaterial()->custom_pipeline = text_pipeline->getSdlPipeline();
 	text_info = lili::Text(
-		renderer.get(), font.get(), "SPACE: toggle custom shaders"
+		renderer, font.get(), "SPACE: toggle custom shaders"
 	);
-	text_info.setPosition(lili::Vec2(10.0, window->getHeight() - 32.0f));
+	text_info.setPosition(lili::Vec2(10.0, getWindow()->getHeight() - 32.0f));
 	text_info.setScale(3.0f);
 
 	toggle_custom_shaders = true;
-
-	running = true;
 }
 
-void App::run() {
-	while (running) {
-		handleEvents();
-		render();
-	}
-}
+void App::onEvent(const lili::Event &event) {
+	lili::KeyboardEvent kb = event.keyboard();
 
-void App::handleEvents() {
-	lili::Event event;
+	if (event.type() == lili::EventType::KEYBOARD)
+		if (kb.action == lili::KeyAction::PRESSED)
+			if (kb.key == SDLK_ESCAPE)
+				shutdown();
 
-	while (event.poll()) {
+	if (event.type() == lili::EventType::KEYBOARD) {
 		lili::KeyboardEvent keyboard = event.keyboard();
-
-		if (event.type() == lili::EventType::QUIT)
-			running = false;
 		if (keyboard.action == lili::KeyAction::PRESSED) {
-			if (keyboard.key == SDLK_ESCAPE)
-				running = false;
 			if (keyboard.key == SDLK_SPACE && keyboard.repeat == false)
 				toggle_custom_shaders = !toggle_custom_shaders;
 		}
 	}
 }
 
-void App::render() {
-	if (!renderer->beginFrame()) return;
+void App::onUpdate(float dt) {
+	(void)dt;
+	clock.update();
+}
 
+void App::onRender(float alpha) {
+	(void)alpha;
 	if (toggle_custom_shaders) {
 		TextUB text_uniform{};
 		text_uniform.speed = 2.0f;
@@ -114,6 +110,4 @@ void App::render() {
 		text.setText("Oh, no shaders :(");
 	}
 	rect.draw();
-
-	renderer->endFrame();
 }

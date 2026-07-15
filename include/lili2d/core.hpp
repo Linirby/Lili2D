@@ -9,6 +9,8 @@
 #include "lili2d/core/keyboard.hpp"  // IWYU pragma: keep
 #include "lili2d/core/mouse.hpp"  // IWYU pragma: keep
 #include "lili2d/core/window.hpp"  // IWYU pragma: keep
+#include "lili2d/core/game.hpp"  // IWYU pragma: keep
+#include "lili2d/core/thread_pool.hpp"  // IWYU pragma: keep
 
 namespace lili {
 
@@ -44,5 +46,11 @@ class Mouse;
 
 /// @brief Represents an operating system window.
 class Window;
+
+/// @brief Base class for managing the game lifecycle and main loop.
+class Game;
+
+/// @brief A modern C++20 Thread Pool and Task Scheduler.
+class ThreadPool;
 
 }  // namespace lili

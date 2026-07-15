@@ -11,7 +11,7 @@ Whether you are prototyping a quick idea, participating in a game jam, or
 building a full 2D game, Lili2D provides you with the modern tools you need to
 get things running on screen.
 
-![Demonstration Video](assets/demo_ball.mp4)
+https://github.com/user-attachments/assets/352365ba-e0da-4004-91dd-b28a029c2b4e
 
 ## Technical Showcase
 

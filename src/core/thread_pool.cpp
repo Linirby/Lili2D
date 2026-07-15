@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <utility>
 
 namespace lili {
 
@@ -15,10 +16,15 @@ ThreadPool::ThreadPool(const EngineConfig& config) : profile(config.profile) {
 	}
 }
 
-void ThreadPool::enqueue(std::function<void()> task) {
+void ThreadPool::enqueue(std::function<void()> task, TaskPriority priority) {
 	{
 		std::lock_guard<std::mutex> lock(queue_mutex);
-		tasks.push(std::move(task));
+		if (priority == TaskPriority::HIGH)
+			high_tasks.push(std::move(task));
+		else if (priority == TaskPriority::NORMAL)
+			normal_tasks.push(std::move(task));
+		else if (priority == TaskPriority::LOW)
+			low_tasks.push(std::move(task));
 	}
 	cv.notify_one();
 }
@@ -59,11 +65,28 @@ void ThreadPool::worker_loop(std::stop_token stop_tok) {
 		std::function<void()> task;
 		{
 			std::unique_lock<std::mutex> lock(queue_mutex);
-			cv.wait(lock, stop_tok, [this] { return !tasks.empty(); });
-			if (stop_tok.stop_requested() && tasks.empty())
+			cv.wait(lock, stop_tok, [this] {
+				return (
+					!high_tasks.empty() ||
+					!normal_tasks.empty() ||
+					!low_tasks.empty()
+				);
+			});
+			if (
+				stop_tok.stop_requested() &&
+				high_tasks.empty() && normal_tasks.empty() && low_tasks.empty()
+			)
 				return;
-			task = std::move(tasks.front());
-			tasks.pop();
+			if (!high_tasks.empty()) {
+				task = std::move(high_tasks.front());
+				high_tasks.pop();
+			} else if (!normal_tasks.empty()) {
+				task = std::move(normal_tasks.front());
+				normal_tasks.pop();
+			} else if (!low_tasks.empty()) {
+				task = std::move(low_tasks.front());
+				low_tasks.pop();
+			}
 		}
 		try {
 			task();

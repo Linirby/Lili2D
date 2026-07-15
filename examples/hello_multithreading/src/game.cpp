@@ -11,6 +11,9 @@ App::App() : lili::Game("hello_multithreading - Lili2D", 800, 600) {
 }
 
 void App::onInit() {
+	lili::Window *window = getWindow();
+	lili::Renderer *renderer = getRenderer();
+
 	camera = lili::Camera();
 	camera.setPosition({window->getWidth() / 2.0f, window->getHeight() / 2.0f});
 	renderer->setCamera(&camera);
@@ -19,7 +22,7 @@ void App::onInit() {
 		renderer->getDevice(), "circle.png"
 	);
 	sprite_batch = std::make_unique<lili::SpriteBatch>(
-		renderer.get(), circle_texture.get()
+		renderer, circle_texture.get()
 	);
 
 	movement_system = std::make_unique<systems::MovementSystem>(
@@ -44,7 +47,7 @@ void App::onEvent(const lili::Event &event) {
 		lili::KeyboardEvent kb = event.keyboard();
 		if (kb.action == lili::KeyAction::PRESSED) {
 			if (kb.key == SDLK_ESCAPE)
-				running = false;
+				shutdown();
 			else if (kb.key == SDLK_SPACE)
 				spawnRandomBall();
 			else if (kb.key == SDLK_BACKSPACE)
@@ -92,6 +95,7 @@ void App::onRender(float alpha) {
 void App::spawnRandomBall() {
 	static std::random_device rd;
 	static std::mt19937 gen(rd());
+	lili::Window *window = getWindow();
 	std::uniform_real_distribution<float> disX(
 		50.0f, static_cast<float>(window->getWidth()) - 50.0f
 	);

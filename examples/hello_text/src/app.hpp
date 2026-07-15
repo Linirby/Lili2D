@@ -16,6 +16,7 @@ private:
 	float speed_change;
 	lili::Keyboard keyboard;
 
+	void onEvent(const lili::Event &event) override;
 	void onUpdate(float dt) override;
 	void onRender(float alpha) override;
 };

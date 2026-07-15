@@ -7,6 +7,9 @@
 
 App::App() : lili::Game("hello_ecs - Lili2D", 800, 600) {
 	setTps(20.0f);
+	lili::Window *window = getWindow();
+	lili::Renderer *renderer = getRenderer();
+
 	camera = lili::Camera();
 	camera.setPosition({window->getWidth() / 2.0f, window->getHeight() / 2.0f});
 	renderer->setCamera(&camera);
@@ -15,7 +18,7 @@ App::App() : lili::Game("hello_ecs - Lili2D", 800, 600) {
 		renderer->getDevice(), "circle.png"
 	);
 	sprite_batch = std::make_unique<lili::SpriteBatch>(
-		renderer.get(), circle_texture.get()
+		renderer, circle_texture.get()
 	);
 	for (int i = 0; i < N_ENTITIES; ++i)
 		spawnRandomBall();
@@ -44,6 +47,7 @@ void App::onEvent(const lili::Event &event) {
 }
 
 void App::onUpdate(float dt) {
+	lili::Window *window = getWindow();
 	systems::updateMovement(
 		ecs_registry,
 		dt,
@@ -60,6 +64,7 @@ void App::onRender(float alpha) {
 void App::spawnRandomBall() {
 	static std::random_device rd;
 	static std::mt19937 gen(rd());
+	lili::Window *window = getWindow();
 	std::uniform_real_distribution<float> disX(
 		50.0f, static_cast<float>(window->getWidth()) - 50.0f
 	);

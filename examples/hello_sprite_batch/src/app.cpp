@@ -2,20 +2,21 @@
 
 App::App() : lili::Game("hello_sprite_batch - Lili2D", 768, 640) {
 	const float TILE_SIZE = 16.0f;
+	lili::Renderer *renderer = getRenderer();
 
 	setTps(20.0f);
 	camera.setZoom(4.0f);
 	renderer->setCamera(&camera);
 
-	env_atlas = lili::AtlasMap(renderer.get(), "assets/environment.png");
+	env_atlas = lili::AtlasMap(renderer, "assets/environment.png");
 	env_atlas.slice(4, 2);
 	env_batch = std::make_unique<lili::SpriteBatch>(
-		renderer.get(), env_atlas.getTexture()
+		renderer, env_atlas.getTexture()
 	);
-	char_atlas = lili::AtlasMap(renderer.get(), "assets/player.png");
+	char_atlas = lili::AtlasMap(renderer, "assets/player.png");
 	char_atlas.slice(4, 5);
 	char_batch = std::make_unique<lili::SpriteBatch>(
-		renderer.get(), char_atlas.getTexture()
+		renderer, char_atlas.getTexture()
 	);
 
 	anim_idle = lili::Animation(char_atlas.getSliceUVs(0, 4));
@@ -73,13 +74,22 @@ App::App() : lili::Game("hello_sprite_batch - Lili2D", 768, 640) {
 	current_anim = &anim_idle;
 	player.anim_player = lili::AnimationPlayer(current_anim);
 
-	font = lili::BitmapFont(renderer.get(), "assets/lili_font.png", 16, 6);
+	font = lili::BitmapFont(renderer, "assets/lili_font.png", 16, 6);
 	text_infos = lili::Text(
-		renderer.get(), &font, "WASD: move | IK: zoom/dezoom"
+		renderer, &font, "WASD: move | IK: zoom/dezoom"
 	);
 	text_infos.setRender(lili::RenderLayer::UI);
 	text_infos.setPosition({10.0f, 10.0f});
 	text_infos.setScale(3.0f);
+}
+
+void App::onEvent(const lili::Event &event) {
+	lili::KeyboardEvent kb = event.keyboard();
+
+	if (event.type() == lili::EventType::KEYBOARD)
+		if (kb.action == lili::KeyAction::PRESSED)
+			if (kb.key == SDLK_ESCAPE)
+				shutdown();
 }
 
 void App::onUpdate(float dt) {

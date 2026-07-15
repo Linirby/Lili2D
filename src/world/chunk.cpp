@@ -110,7 +110,8 @@ void Chunk::rebuildBatches(
 					} catch (...) {
 						promise->set_exception(std::current_exception());
 					}
-				}
+				},
+				TaskPriority::LOW
 			);
 		} else {
 			rebuild_future = std::async(

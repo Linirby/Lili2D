@@ -29,7 +29,7 @@ public:
 	);
 
 	/// @brief Destructor.
-	virtual ~Game();
+	virtual ~Game() = default;
 
 	Game(Game &&other) noexcept = default;
 	Game &operator=(Game &&other) noexcept = default;
@@ -44,50 +44,59 @@ public:
 	/// @param value Ticks per second rate.
 	void setTps(float value);
 
-	/// @brief Gets the thread pool.
-	/// @return Pointer to the thread pool.
-	ThreadPool* getThreadPool() const;
-
 	/// @brief Reconfigures the game's performance and threading settings at
 	/// runtime.
 	/// @param config The new engine configuration.
 	void configure(const EngineConfig& config);
+
+	/// @brief Gets the game's window.
+	/// @return Pointer to the game's window.
+	Window *getWindow() const;
+
+	/// @brief Gets the renderer link to the game's window.
+	/// @return Pointer to the used renderer.
+	Renderer *getRenderer() const;
+
+	/// @brief Gets the thread pool.
+	/// @return Pointer to the thread pool.
+	ThreadPool* getThreadPool() const;
 
 	/// @brief Gets the active engine configuration.
 	/// @return Reference to the active configuration.
 	const EngineConfig& getConfig() const;
 
 	/// @brief Called once when the game initializes.
-	virtual void onInit() {}
-
-	/// @brief Called once per frame for game logic updates.
-	/// @param dt Delta time since the last frame.
-	virtual void onUpdate(float dt) { (void)dt; }
-
-	/// @brief Called at a fixed rate for physics updates.
-	/// @param dt Fixed delta time.
-	virtual void onFixedUpdate(float dt) { (void)dt; }
-
-	/// @brief Called once per frame to render the game.
-	/// @param alpha Interpolation factor between fixed updates.
-	virtual void onRender(float alpha) { (void)alpha; }
-
-	/// @brief Called once when the game loop exits.
-	virtual void onExit() {}
+	virtual void onInit();
 
 	/// @brief Called when an SDL event is polled.
 	/// @param event The polled event.
-	virtual void onEvent(const Event &event) { (void)event; }
+	virtual void onEvent(const Event &event);
 
-protected:
+	/// @brief Called once per frame for game logic updates.
+	/// @param dt Delta time since the last frame.
+	virtual void onUpdate(float dt);
+
+	/// @brief Called at a fixed rate for physics updates.
+	/// @param dt Fixed delta time.
+	virtual void onFixedUpdate(float dt);
+
+	/// @brief Called once per frame to render the game.
+	/// @param alpha Interpolation factor between fixed updates.
+	virtual void onRender(float alpha);
+
+	/// @brief Called once when the game loop exits.
+	virtual void onExit();
+
+	/// @brief Stop the main gameloop
+	void shutdown();
+
+private:
 	std::unique_ptr<Window> window;
 	std::unique_ptr<Renderer> renderer;
 	std::unique_ptr<ThreadPool> thread_pool;
 	EngineConfig config;
-	bool running = false;
-
-private:
 	Clock clock;
+	bool running = false;
 };
 
 }  // namespace lili

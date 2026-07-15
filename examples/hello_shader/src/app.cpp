@@ -1,6 +1,7 @@
 #include "app.hpp"
 
 App::App() : lili::Game("hello_shader - Lili2D", 800, 800) {
+	lili::Renderer *renderer = getRenderer();
 	lili::ShaderInfo vert_rect_info{};
 	vert_rect_info.num_uniform_buffers = 2;  // Slot 0 internal, Slot 1 custom
 	lili::ShaderInfo frag_rect_info{};
@@ -15,7 +16,7 @@ App::App() : lili::Game("hello_shader - Lili2D", 800, 800) {
 		renderer->createMainGraphicsPipeline(rect_shader.get())
 	);
 	rect = lili::Rect(
-		renderer.get(),
+		renderer,
 		lili::RectShape(200.0f, 200.0f, 400.0f, 400.0f),
 		lili::Vec4(1.0f, 1.0f, 1.0f, 1.0f)
 	);
@@ -35,22 +36,29 @@ App::App() : lili::Game("hello_shader - Lili2D", 800, 800) {
 		renderer->createMainGraphicsPipeline(text_shader.get())
 	);
 	font = std::make_unique<lili::BitmapFont>(
-		renderer.get(), "lili_font.png", 16, 6
+		renderer, "lili_font.png", 16, 6
 	);
-	text = lili::Text(renderer.get(), font.get(), "Yay, shaders :D");
+	text = lili::Text(renderer, font.get(), "Yay, shaders :D");
 	text.setPosition(lili::Vec2(250.0f, 75.0f));
 	text.setScale(3.0f);
 	text.getMaterial()->custom_pipeline = text_pipeline->getSdlPipeline();
 	text_info = lili::Text(
-		renderer.get(), font.get(), "SPACE: toggle custom shaders"
+		renderer, font.get(), "SPACE: toggle custom shaders"
 	);
-	text_info.setPosition(lili::Vec2(10.0, window->getHeight() - 32.0f));
+	text_info.setPosition(lili::Vec2(10.0, getWindow()->getHeight() - 32.0f));
 	text_info.setScale(3.0f);
 
 	toggle_custom_shaders = true;
 }
 
 void App::onEvent(const lili::Event &event) {
+	lili::KeyboardEvent kb = event.keyboard();
+
+	if (event.type() == lili::EventType::KEYBOARD)
+		if (kb.action == lili::KeyAction::PRESSED)
+			if (kb.key == SDLK_ESCAPE)
+				shutdown();
+
 	if (event.type() == lili::EventType::KEYBOARD) {
 		lili::KeyboardEvent keyboard = event.keyboard();
 		if (keyboard.action == lili::KeyAction::PRESSED) {

@@ -39,6 +39,7 @@ private:
 	lili::BitmapFont font;
 	lili::Text text_infos;
 
+	void onEvent(const lili::Event &event) override;
 	void onUpdate(float dt) override;
 	void onRender(float alpha) override;
 };

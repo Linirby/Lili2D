@@ -85,6 +85,8 @@ void TileMap::draw(Renderer *renderer, ThreadPool *thread_pool) {
 		bounds.max.y += chunk_sz_y;
 	}
 
+	int rebuilds_this_frame = 0;
+
 	for (auto &pair : chunks) {
 		const Point3 &chunk_pos = pair.first;
 		const Chunk &chunk = pair.second;
@@ -101,8 +103,15 @@ void TileMap::draw(Renderer *renderer, ThreadPool *thread_pool) {
 			}
 		}
 
-		if (chunk.dirty || chunk.rebuilding)
+		if (chunk.dirty || chunk.rebuilding) {
+			if (chunk.dirty) {
+				if (rebuilds_this_frame >= 8) {
+					continue;
+				}
+				rebuilds_this_frame++;
+			}
 			chunk.rebuildBatches(renderer, thread_pool, chunk_pos, tile_size);
+		}
 		for (auto &batch_pair : chunk.batches)
 			batch_pair.second->draw();
 	}

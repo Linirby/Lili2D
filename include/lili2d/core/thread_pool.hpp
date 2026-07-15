@@ -18,6 +18,13 @@ enum class PerformanceProfile {
 	INSANE
 };
 
+/// @brief Task priority options for tasks in a thread pool
+enum class TaskPriority {
+	HIGH,
+	NORMAL,
+	LOW
+};
+
 /// @brief Settings for thread pool and rendering modes.
 struct EngineConfig {
 	PerformanceProfile profile = PerformanceProfile::CORRECT;
@@ -41,7 +48,9 @@ public:
 
 	/// @brief Enqueues a task for execution in the thread pool.
 	/// @param task A void() function to execute.
-	void enqueue(std::function<void()> task);
+	void enqueue(
+		std::function<void()> task, TaskPriority priority = TaskPriority::NORMAL
+	);
 
 	/// @brief Returns the active performance profile.
 	PerformanceProfile getProfile() const;
@@ -50,7 +59,9 @@ private:
 	static size_t calculateThreadCount(const EngineConfig& config);
 	void worker_loop(std::stop_token stop_tok);
 
-	std::queue<std::function<void()>> tasks;
+	std::queue<std::function<void()>> high_tasks;
+	std::queue<std::function<void()>> normal_tasks;
+	std::queue<std::function<void()>> low_tasks;
 	std::mutex queue_mutex;
 	std::condition_variable_any cv;
 	std::vector<std::jthread> threads;

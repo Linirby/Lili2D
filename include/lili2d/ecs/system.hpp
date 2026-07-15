@@ -140,7 +140,8 @@ void System<TargetComponent>::runInParallel(
 				for (size_t i = start; i < end; ++i)
 					updateEntity(registry, entities[i], components[i], dt);
 				promise->set_value();
-			}
+			},
+			TaskPriority::HIGH
 		);
 	}
 

@@ -2,6 +2,9 @@
 
 App::App() : lili::Game("hello_camera - Lili2D", 600, 400) {
 	setTps(20.0f);
+	lili::Window *window = getWindow();
+	lili::Renderer *renderer = getRenderer();
+
 	window->setResizable(true);
 
 	camera = lili::Camera();
@@ -9,7 +12,7 @@ App::App() : lili::Game("hello_camera - Lili2D", 600, 400) {
 	camera.setPosition(cam_pos);
 	camera_zoom = camera.getZoom();
 	camera_center = lili::Circle(
-		renderer.get(),
+		renderer,
 		lili::CircleShape(
 			lili::Vec2(window->getWidth() / 2.0f, window->getHeight() / 2.0f),
 			5, 16
@@ -20,34 +23,43 @@ App::App() : lili::Game("hello_camera - Lili2D", 600, 400) {
 	renderer->setCamera(&camera);
 
 	red_rect = lili::Rect(
-		renderer.get(),
+		renderer,
 		lili::RectShape(250, 200, 100, 50),
 		lili::Vec4(1, 0, 0, 1)
 	);
 	green_rect = lili::Rect(
-		renderer.get(),
+		renderer,
 		lili::RectShape(100, 100, 75, 75),
 		lili::Vec4(0, 1, 0, 1)
 	);
 	blue_rect = lili::Rect(
-		renderer.get(),
+		renderer,
 		lili::RectShape(400, 250, 50, 200),
 		lili::Vec4(0, 0, 1, 1)
 	);
 
 	font = std::make_unique<lili::BitmapFont>(
-		renderer.get(), "lili_font.png", 16, 6
+		renderer, "lili_font.png", 16, 6
 	);
-	text_cam_pos = lili::Text(renderer.get(), font.get(), "");
+	text_cam_pos = lili::Text(renderer, font.get(), "");
 	text_cam_pos.setScale(2);
 	text_cam_pos.setPosition({ 10, 10 });
 	text_cam_pos.setRender(lili::RenderLayer::UI);
 	text_controls = lili::Text(
-		renderer.get(), font.get(), "IJKL = move the camera | ZX = zoom/dezoom"
+		renderer, font.get(), "IJKL = move the camera | ZX = zoom/dezoom"
 	);
 	text_controls.setScale(2);
 	text_controls.setPosition({ 10, 32 });
 	text_controls.setRender(lili::RenderLayer::UI);
+}
+
+void App::onEvent(const lili::Event &event) {
+	lili::KeyboardEvent kb = event.keyboard();
+
+	if (event.type() == lili::EventType::KEYBOARD)
+		if (kb.action == lili::KeyAction::PRESSED)
+			if (kb.key == SDLK_ESCAPE)
+				shutdown();
 }
 
 void App::onUpdate(float dt) {
@@ -74,6 +86,7 @@ void App::onUpdate(float dt) {
 		", Y=" + std::to_string(cam_pos.y) + ")"
 	);
 
+	lili::Window *window = getWindow();
 	camera_center.setCenter(
 		lili::Vec2(window->getWidth() / 2.0f, window->getHeight() / 2.0f)
 	);

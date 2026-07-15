@@ -5,7 +5,7 @@ App::App() : lili::Game("hello_scenes - Lili2D", 800, 800) {
 	setTps(20.0f);
 
 	scene_manager = lili::SceneManager();
-	scene_manager.push(std::make_unique<MainScene>(renderer.get()));
+	scene_manager.push(std::make_unique<MainScene>(getRenderer()));
 }
 
 void App::onUpdate(float dt) {
@@ -19,5 +19,12 @@ void App::onRender(float alpha) {
 }
 
 void App::onEvent(const lili::Event &event) {
+	lili::KeyboardEvent kb = event.keyboard();
+
+	if (event.type() == lili::EventType::KEYBOARD)
+		if (kb.action == lili::KeyAction::PRESSED)
+			if (kb.key == SDLK_ESCAPE)
+				shutdown();
+
 	scene_manager.handleEvents(event);
 }

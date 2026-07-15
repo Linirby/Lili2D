@@ -23,6 +23,7 @@ private:
 	lili::Text text_cam_pos;
 	lili::Text text_controls;
 
+	void onEvent(const lili::Event &event) override;
 	void onUpdate(float dt) override;
 	void onRender(float alpha) override;
 };

@@ -9,5 +9,6 @@ public:
 private:
 	lili::Sprite cat_sprite;
 
+	void onEvent(const lili::Event &event) override;
 	void onRender(float alpha) override;
 };

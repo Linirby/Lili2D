@@ -6,18 +6,20 @@
 
 #include "lili2d/render/scene/common/animation.hpp"  // IWYU pragma: keep
 #include "lili2d/render/scene/common/animation_player.hpp"  // IWYU pragma: keep
+#include "lili2d/render/scene/common/animation_registry.hpp" // IWYU pragma: keep
 #include "lili2d/render/scene/common/atlas_map.hpp"  // IWYU pragma: keep
 #include "lili2d/render/scene/common/material.hpp"  // IWYU pragma: keep
+#include "lili2d/render/scene/common/material_registry.hpp" // IWYU pragma: keep
 #include "lili2d/render/scene/common/model.hpp"  // IWYU pragma: keep
 #include "lili2d/render/scene/common/text.hpp"  // IWYU pragma: keep
 
-#include "lili2d/render/scene/core2d/sprite.hpp"  // IWYU pragma: keep
 #include "lili2d/render/scene/core2d/animated_sprite.hpp"  // IWYU pragma: keep
+#include "lili2d/render/scene/core2d/sprite.hpp"  // IWYU pragma: keep
 #include "lili2d/render/scene/core2d/sprite_batch.hpp"  // IWYU pragma: keep
 
+#include "lili2d/render/scene/shapes/circle.hpp"  // IWYU pragma: keep
 #include "lili2d/render/scene/shapes/line.hpp"  // IWYU pragma: keep
 #include "lili2d/render/scene/shapes/rect.hpp"  // IWYU pragma: keep
-#include "lili2d/render/scene/shapes/circle.hpp"  // IWYU pragma: keep
 
 #include "lili2d/render/renderer.hpp"  // IWYU pragma: keep
 

@@ -5,6 +5,7 @@
 /// camera, chunk, tile, tile registry, tilemap.
 
 #include "lili2d/world/camera.hpp"  // IWYU pragma: keep
+#include "lili2d/world/chunk.hpp" // IWYU pragma: keep
 #include "lili2d/world/tile.hpp"  // IWYU pragma: keep
 #include "lili2d/world/tile_registry.hpp"  // IWYU pragma: keep
 #include "lili2d/world/tilemap.hpp"  // IWYU pragma: keep
@@ -13,6 +14,9 @@ namespace lili {
 
 /// @brief Defines a camera for viewing the scene.
 class Camera;
+
+/// @brief Represents a block of tiles in the world.
+class Chunk;
 
 /// @brief Represents a single tile data structure.
 struct Tile;

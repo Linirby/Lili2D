@@ -28,6 +28,7 @@ enum class MouseAction;
 
 /// @brief Event data for keyboard interactions.
 struct KeyboardEvent;
+
 /// @brief Event data for mouse button interactions.
 struct MouseButtonEvent;
 /// @brief Event data for mouse motion.

@@ -1,5 +1,6 @@
 #include <string>
 #include <stdexcept>
+#include <iostream>
 
 #include "lili2d/render/renderer.hpp"
 #include "lili2d/render/scene/common/model.hpp"
@@ -168,46 +169,7 @@ void Renderer::initDevice(SDL_GPUPresentMode preferred_mode) {
 			"SDL_ClaimWindowForGPUDevice() failed!\n-> " +
 			std::string(SDL_GetError())
 		);
-
-	if (preferred_mode == SDL_GPU_PRESENTMODE_MAILBOX) {
-		if (!SDL_SetGPUSwapchainParameters(
-				device.get(),
-				window->getSdlWindow(),
-				SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
-				SDL_GPU_PRESENTMODE_MAILBOX
-		))
-			if (!SDL_SetGPUSwapchainParameters(
-				device.get(),
-				window->getSdlWindow(),
-				SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
-				SDL_GPU_PRESENTMODE_IMMEDIATE
-			))
-				SDL_SetGPUSwapchainParameters(
-					device.get(),
-					window->getSdlWindow(),
-					SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
-					SDL_GPU_PRESENTMODE_VSYNC
-				);
-	} else if (preferred_mode == SDL_GPU_PRESENTMODE_IMMEDIATE) {
-		if (!SDL_SetGPUSwapchainParameters(
-			device.get(),
-			window->getSdlWindow(),
-			SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
-			SDL_GPU_PRESENTMODE_IMMEDIATE
-		))
-			SDL_SetGPUSwapchainParameters(
-				device.get(),
-				window->getSdlWindow(),
-				SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
-				SDL_GPU_PRESENTMODE_VSYNC
-			);
-	} else
-		SDL_SetGPUSwapchainParameters(
-			device.get(),
-			window->getSdlWindow(),
-			SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
-			SDL_GPU_PRESENTMODE_VSYNC
-		);
+	setPresentMode(preferred_mode);
 }
 
 void Renderer::initShaders() {
@@ -252,12 +214,45 @@ uint32_t Renderer::getSwapchainHeight() const {
 }
 
 void Renderer::setPresentMode(SDL_GPUPresentMode mode) {
-	if (!SDL_SetGPUSwapchainParameters(
-		device.get(),
-		window->getSdlWindow(),
-		SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
-		mode
-	))
+	if (mode == SDL_GPU_PRESENTMODE_MAILBOX) {
+		if (!SDL_SetGPUSwapchainParameters(
+				device.get(),
+				window->getSdlWindow(),
+				SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
+				SDL_GPU_PRESENTMODE_MAILBOX
+		)) {
+			std::cout << "Mailbox unavailable, trying Immediate\n";
+			if (!SDL_SetGPUSwapchainParameters(
+				device.get(),
+				window->getSdlWindow(),
+				SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
+				SDL_GPU_PRESENTMODE_IMMEDIATE
+			)) {
+				std::cout << "Immediate unavailable, trying VSync\n";
+				SDL_SetGPUSwapchainParameters(
+					device.get(),
+					window->getSdlWindow(),
+					SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
+					SDL_GPU_PRESENTMODE_VSYNC
+				);
+			}
+		}
+	} else if (mode == SDL_GPU_PRESENTMODE_IMMEDIATE) {
+		if (!SDL_SetGPUSwapchainParameters(
+			device.get(),
+			window->getSdlWindow(),
+			SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
+			SDL_GPU_PRESENTMODE_IMMEDIATE
+		)) {
+			std::cout << "Immediate unavailable, trying VSync\n";
+			SDL_SetGPUSwapchainParameters(
+				device.get(),
+				window->getSdlWindow(),
+				SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
+				SDL_GPU_PRESENTMODE_VSYNC
+			);
+		}
+	} else
 		SDL_SetGPUSwapchainParameters(
 			device.get(),
 			window->getSdlWindow(),

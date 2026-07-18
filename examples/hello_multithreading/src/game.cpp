@@ -147,11 +147,15 @@ void App::toggleMultithreading() {
 	if (current.profile == lili::PerformanceProfile::YES) {
 		current.profile = lili::PerformanceProfile::CORRECT;
 		configure(current);
-		std::cout << ">> Switch to Profile: CORRECT (Multithreaded ECS + Mailbox present)\n";
+		std::cout <<
+			">> Switch to Profile: CORRECT"
+			" (Multithreaded ECS + Mailbox present)\n";
 	} else {
 		current.profile = lili::PerformanceProfile::YES;
 		current.potato_present_mode = SDL_GPU_PRESENTMODE_VSYNC;
 		configure(current);
-		std::cout << ">> Switch to Profile: YES (Single-threaded ECS + VSync present)\n";
+		std::cout <<
+			">> Switch to Profile: YES"
+			" (Single-threaded ECS + VSync present)\n";
 	}
 }

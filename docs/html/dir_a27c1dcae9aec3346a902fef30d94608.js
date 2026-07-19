@@ -8,7 +8,7 @@ var dir_a27c1dcae9aec3346a902fef30d94608 =
     [ "scene", "dir_24981aeb7bb656ef99b967b0fb6bf7bd.html", "dir_24981aeb7bb656ef99b967b0fb6bf7bd" ],
     [ "world", "dir_fb66cc5823a7ab220c18d90aa709eb9d.html", "dir_fb66cc5823a7ab220c18d90aa709eb9d" ],
     [ "core.hpp", "core_8hpp.html", null ],
-    [ "ecs.hpp", "ecs_8hpp.html", null ],
+    [ "ecs.hpp", "ecs_8hpp.html", "ecs_8hpp" ],
     [ "geometry.hpp", "geometry_8hpp.html", "geometry_8hpp" ],
     [ "lili2d.hpp", "lili2d_8hpp.html", "lili2d_8hpp" ],
     [ "physics.hpp", "physics_8hpp.html", null ],

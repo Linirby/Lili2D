@@ -22,11 +22,12 @@ class ComponentPool;
 /// @brief Manages entities and components.
 class ECSRegistry;
 
+/// @brief Representation of an entity in the ECS.
 typedef uint32_t Entity;
 
-/// @brief Templated base class for ECS systems.
-class SystemBase;
 /// @brief Polymorphic base class for ECS systems.
+class SystemBase;
+/// @brief Templated base class for ECS systems.
 template <typename T>
 class System;
 

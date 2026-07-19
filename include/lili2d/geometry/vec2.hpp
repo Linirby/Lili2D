@@ -56,6 +56,7 @@ struct Vec2 {
 	Vec2 normalized() const;
 	/// @brief Linearly interpolates between this and another vector.
 	/// @param o The target vector.
+	/// @param t The interpolation factor [0, 1].
 	/// @return The interpolated vector.
 	Vec2 lerp(const Vec2 &o, float t) const;
 	/// @brief Gets the length (magnitude) of the vector.

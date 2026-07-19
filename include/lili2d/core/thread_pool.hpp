@@ -27,18 +27,25 @@ enum class TaskPriority {
 
 /// @brief Settings for thread pool and rendering modes.
 struct EngineConfig {
+	/// @brief The active performance profile.
 	PerformanceProfile profile = PerformanceProfile::CORRECT;
 
+	/// @brief Number of CPU cores to leave free for OS/other tasks.
 	size_t threads_to_leave_free = 1;
+	/// @brief Explicit number of threads to spawn. If 0, uses automatic detection.
 	size_t thread_count_override = 0;
+	/// @brief Hard limit on the maximum number of worker threads to spawn.
 	size_t max_thread_cap = 8;
 
+	/// @brief The fallback GPU present mode if the system has poor performance.
 	SDL_GPUPresentMode potato_present_mode = SDL_GPU_PRESENTMODE_VSYNC;
 };
 
 /// @brief A simple, lightweight C++20 Thread Pool using jthread and stop_token.
 class ThreadPool {
 public:
+	/// @brief Constructs the ThreadPool with a given config.
+	/// @param config The engine configuration settings.
 	explicit ThreadPool(const EngineConfig& config = {});
 
 	ThreadPool(const ThreadPool&) = delete;
@@ -48,6 +55,7 @@ public:
 
 	/// @brief Enqueues a task for execution in the thread pool.
 	/// @param task A void() function to execute.
+	/// @param priority The priority of the task.
 	void enqueue(
 		std::function<void()> task, TaskPriority priority = TaskPriority::NORMAL
 	);

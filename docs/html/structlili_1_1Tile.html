@@ -99,19 +99,55 @@ $(function(){initNavTree('structlili_1_1Tile.html','','structlili_1_1Tile-member
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a80325c99647eaa8150194223168dd375" id="r_a80325c99647eaa8150194223168dd375"><td class="memItemLeft"><a id="a80325c99647eaa8150194223168dd375" name="a80325c99647eaa8150194223168dd375"></a>
-&#160;</td><td class="memItemRight"><b>Tile</b> (const <a class="el" href="structlili_1_1SliceUV.html">SliceUV</a> &amp;slice, bool is_solid=false)</td></tr>
+<tr class="memitem:a955e49216a73dabbc2fdc0a09c647062" id="r_a955e49216a73dabbc2fdc0a09c647062"><td class="memItemLeft"><a id="a955e49216a73dabbc2fdc0a09c647062" name="a955e49216a73dabbc2fdc0a09c647062"></a>
+&#160;</td><td class="memItemRight"><b>Tile</b> ()=default</td></tr>
+<tr class="memdesc:a955e49216a73dabbc2fdc0a09c647062"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. <br /></td></tr>
+<tr class="memitem:a80325c99647eaa8150194223168dd375" id="r_a80325c99647eaa8150194223168dd375"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a80325c99647eaa8150194223168dd375">Tile</a> (const <a class="el" href="structlili_1_1SliceUV.html">SliceUV</a> &amp;<a class="el" href="#a490c9050e340cbd357aaceeeb4fb2c27">slice</a>, bool <a class="el" href="#a37ea48b2488c0dc445332789bcaf02bc">is_solid</a>=false)</td></tr>
+<tr class="memdesc:a80325c99647eaa8150194223168dd375"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a tile.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a490c9050e340cbd357aaceeeb4fb2c27" id="r_a490c9050e340cbd357aaceeeb4fb2c27"><td class="memItemLeft"><a id="a490c9050e340cbd357aaceeeb4fb2c27" name="a490c9050e340cbd357aaceeeb4fb2c27"></a>
 <a class="el" href="structlili_1_1SliceUV.html">SliceUV</a>&#160;</td><td class="memItemRight"><b>slice</b></td></tr>
+<tr class="memdesc:a490c9050e340cbd357aaceeeb4fb2c27"><td class="mdescLeft">&#160;</td><td class="mdescRight">The UV texture coordinates for the tile. <br /></td></tr>
 <tr class="memitem:a37ea48b2488c0dc445332789bcaf02bc" id="r_a37ea48b2488c0dc445332789bcaf02bc"><td class="memItemLeft"><a id="a37ea48b2488c0dc445332789bcaf02bc" name="a37ea48b2488c0dc445332789bcaf02bc"></a>
 bool&#160;</td><td class="memItemRight"><b>is_solid</b> = false</td></tr>
+<tr class="memdesc:a37ea48b2488c0dc445332789bcaf02bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag indicating if this tile is physically solid. <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a single tile in the world. </p>
-</div><hr/>The documentation for this struct was generated from the following file:<ul>
+</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a80325c99647eaa8150194223168dd375" name="a80325c99647eaa8150194223168dd375"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80325c99647eaa8150194223168dd375">&#9670;&#160;</a></span>Tile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">lili::Tile::Tile </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structlili_1_1SliceUV.html">SliceUV</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>slice</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>is_solid</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructs a tile. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname"><a class="el" href="#a490c9050e340cbd357aaceeeb4fb2c27" title="The UV texture coordinates for the tile.">slice</a></td><td>The texture slice UV. </td></tr>
+    <tr><td class="paramname"><a class="el" href="#a37ea48b2488c0dc445332789bcaf02bc" title="Flag indicating if this tile is physically solid.">is_solid</a></td><td>Whether the tile is solid for physical collisions. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
 <li>/home/lili/Documents/Lili2D/include/lili2d/world/<a class="el" href="tile_8hpp_source.html">tile.hpp</a></li>
 </ul>
 </div><!-- contents -->

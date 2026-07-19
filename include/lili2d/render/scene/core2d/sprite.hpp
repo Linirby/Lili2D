@@ -23,7 +23,6 @@ public:
 	Sprite(Renderer *renderer, const std::string &path);
 	/// @brief Constructs a sprite from a UV slice.
 	/// @param renderer The renderer.
-	/// @param atlas The atlas map.
 	/// @param slice The UV slice of an atlas.
 	Sprite(Renderer *renderer, SliceUV slice);
 	/// @brief Move constructor.

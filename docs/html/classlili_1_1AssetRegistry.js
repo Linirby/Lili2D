@@ -9,5 +9,7 @@ var classlili_1_1AssetRegistry =
     [ "getAssetID", "classlili_1_1AssetRegistry.html#aecf5517bf8ba691e2b7de298c6eeb7e7", null ],
     [ "hasAsset", "classlili_1_1AssetRegistry.html#ae48894bbd9fbd4350755abebf644aa2c", null ],
     [ "registerAsset", "classlili_1_1AssetRegistry.html#acd51f0c5aba6a1d76b1e05ce64964fe9", null ],
-    [ "registerAsset", "classlili_1_1AssetRegistry.html#aa185c50ef3823a350441beb8d391cfce", null ]
+    [ "registerAsset", "classlili_1_1AssetRegistry.html#aa185c50ef3823a350441beb8d391cfce", null ],
+    [ "id_to_asset", "classlili_1_1AssetRegistry.html#a52010953cea941113ab8a02333aff917", null ],
+    [ "key_to_id", "classlili_1_1AssetRegistry.html#a3cf488c8a7ab44c8c65a14083c6fc92a", null ]
 ];

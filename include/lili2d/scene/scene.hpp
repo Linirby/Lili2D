@@ -12,6 +12,9 @@ class SceneManager;
 /// @brief Represents a single game state or screen.
 class Scene {
 public:
+	/// @brief Constructs a new Scene.
+	/// @param name The name of the scene.
+	/// @param renderer Pointer to the renderer used for rendering.
 	Scene(const std::string &name, Renderer *renderer);
 	virtual ~Scene() = default;
 	Scene(const Scene&) = delete;
@@ -53,8 +56,11 @@ public:
 	SceneManager *getManager() const;
 
 protected:
+	/// @brief The unique name of the scene.
 	std::string name;
+	/// @brief Pointer to the engine renderer.
 	Renderer *renderer;
+	/// @brief Pointer to the parent SceneManager.
 	SceneManager *manager;
 };
 

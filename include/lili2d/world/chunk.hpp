@@ -16,9 +16,14 @@ class ThreadPool;
 
 /// @brief Key used to group tiles by texture and depth for batching.
 struct BatchKey {
+	/// @brief Pointer to the texture of the batch.
 	Texture* texture = nullptr;
+	/// @brief The Z layer/depth level of the batch.
 	int z = 0;
 
+	/// @brief Compares this BatchKey with another for equality.
+	/// @param other The other BatchKey to compare against.
+	/// @return True if the texture and z layer are equal.
 	bool operator==(const BatchKey &other) const;
 };
 
@@ -43,17 +48,26 @@ struct ChunkMeshData {
 
 /// @brief Represents a block of tiles in the world.
 struct Chunk {
+	/// @brief The width/height/depth size of a chunk in tiles.
 	static constexpr int SIZE = 32;
+	/// @brief Flat vector of tile IDs belonging to this chunk.
 	std::vector<uint16_t> tiles;
+	/// @brief Indicates if the chunk needs a mesh rebuild.
 	mutable bool dirty = true;
+	/// @brief Indicates if a background rebuild task is currently running.
 	mutable bool rebuilding = false;
+	/// @brief Future object tracking the asynchronous rebuild task.
 	mutable std::future<ChunkMeshData> rebuild_future;
+	/// @brief Map of sprite batches categorized by their batch key.
 	mutable std::unordered_map<
 		BatchKey, std::unique_ptr<SpriteBatch>, BatchKeyHash
 	> batches;
 
+	/// @brief Default constructor.
 	Chunk();
+	/// @brief Move constructor.
 	Chunk(Chunk &&other) noexcept = default;
+	/// @brief Move assignment operator.
 	Chunk &operator=(Chunk &&other) noexcept = default;
 
 	Chunk(const Chunk &) = delete;
@@ -83,6 +97,7 @@ struct Chunk {
 
 	/// @brief Rebuilds the sprite batches for rendering the chunk.
 	/// @param renderer The renderer.
+	/// @param thread_pool The ThreadPool to submit rebuild tasks to.
 	/// @param chunk_pos The world position of the chunk.
 	/// @param tile_size The size of a single tile.
 	void rebuildBatches(

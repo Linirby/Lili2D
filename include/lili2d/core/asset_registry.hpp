@@ -15,7 +15,9 @@ namespace lili {
 template<typename T, typename IdType = uint32_t>
 class AssetRegistry {
 protected:
+	/// @brief Maps asset name/key to registered internal ID.
 	std::unordered_map<std::string, IdType> key_to_id;
+	/// @brief Contiguous array storing assets indexed by ID.
 	std::vector<T> id_to_asset;
 
 public:

@@ -18,16 +18,16 @@ struct AABB2 {
 	AABB2(AABB2 &&) = default;
 	/// @brief Construct AABB2 with two Vec2.
 	/// @param pos The position of the topleft.
-	/// @param the size of the bounding rect.
+	/// @param size The size of the bounding rect.
 	AABB2(const Vec2 &pos, const Vec2 &size);
 	/// @brief Construct AABB2 with a Rect
 	/// @param rect The shape of the bounding rect
 	AABB2(const Rect &rect);
 	/// @brief Construct AABB2 with a Circle
-	/// @param rect The shape of the bounding rect
+	/// @param circle The shape of the bounding circle
 	AABB2(const Circle &circle);
 	/// @brief Construct AABB2 with a Line
-	/// @param rect The shape of the bounding rect
+	/// @param line The shape of the bounding line
 	AABB2(const Line &line);
 	/// @brief Move assignment operator.
 	/// @return Reference to the assigned rectangle.
@@ -50,15 +50,15 @@ struct AABB2 {
 	/// @return True if this AABB2 contains the other, false otherwise.
 	bool contains(const AABB2 &other) const;
 	/// @brief Checks if this AABB2 contains a Rect.
-	/// @param other The other Rect to test against.
+	/// @param rect The Rect to test against.
 	/// @return True if this AABB2 contains the Rect, false otherwise.
 	bool contains(const Rect &rect) const;
 	/// @brief Checks if this AABB2 contains a Circle.
-	/// @param other The other Circle to test against.
+	/// @param circle The Circle to test against.
 	/// @return True if this AABB2 contains the Circle, false otherwise.
 	bool contains(const Circle &circle) const;
 	/// @brief Checks if this AABB2 contains a Line.
-	/// @param other The other Line to test against.
+	/// @param line The Line to test against.
 	/// @return True if this AABB2 contains the Line, false otherwise.
 	bool contains(const Line &line) const;
 

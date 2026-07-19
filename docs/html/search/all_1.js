@@ -1,7 +1,7 @@
 var searchData=
 [
   ['b_0',['b',['../structlili_1_1Vertex.html#a2cf3a99c8ed9ffa2ed4286c7b39525ca',1,'lili::Vertex']]],
-  ['batches_1',['batches',['../structlili_1_1ChunkMeshData.html#ab6849d00a6e9d7288960a9bce0ff9a96',1,'lili::ChunkMeshData']]],
+  ['batches_1',['batches',['../structlili_1_1ChunkMeshData.html#ab6849d00a6e9d7288960a9bce0ff9a96',1,'lili::ChunkMeshData::batches'],['../structlili_1_1Chunk.html#a118e87d389e554cdcff1dc42432e6f5b',1,'lili::Chunk::batches']]],
   ['batchkey_2',['BatchKey',['../structlili_1_1BatchKey.html',1,'lili']]],
   ['batchkeyhash_3',['BatchKeyHash',['../structlili_1_1BatchKeyHash.html',1,'lili']]],
   ['batchmeshdata_4',['BatchMeshData',['../structlili_1_1ChunkMeshData_1_1BatchMeshData.html',1,'lili::ChunkMeshData']]],

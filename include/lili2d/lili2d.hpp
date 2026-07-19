@@ -48,6 +48,8 @@ class Mouse;
 class Window;
 /// @brief Base class for managing the game lifecycle and main loop.
 class Game;
+/// @brief A modern C++20 Thread Pool and Task Scheduler.
+class ThreadPool;
 
 /// @brief A 3x3 matrix for 2D transformations.
 struct Mat3;
@@ -131,6 +133,8 @@ class SceneManager;
 
 /// @brief Defines a camera for viewing the scene.
 class Camera;
+/// @brief Represents a block of tiles in the world.
+class Chunk;
 
 /// @brief Represents a single tile data structure.
 struct Tile;
@@ -139,8 +143,19 @@ class TileRegistry;
 /// @brief Manages a grid-based world of chunks and tiles.
 class TileMap;
 
-typedef uint32_t Entity;
+/// @brief CommandBuffer defers structural ECS modifications.
+class CommandBuffer;
+/// @brief Contiguous component pool implementation for a specific type T.
+template<typename T>
+class ComponentPool;
 /// @brief Manages entities and components.
 class ECSRegistry;
+/// @brief Representation of an entity in the ECS.
+typedef uint32_t Entity;
+/// @brief Polymorphic base class for ECS systems.
+class SystemBase;
+/// @brief Templated base class for ECS systems.
+template <typename T>
+class System;
 
 }  // namespace lili

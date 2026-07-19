@@ -1,5 +1,6 @@
 var classlili_1_1Scene =
 [
+    [ "Scene", "classlili_1_1Scene.html#ad9e5878b7ec711ec15735d096435e231", null ],
     [ "fixedUpdate", "classlili_1_1Scene.html#a0dba144520b8372480424e37e592381d", null ],
     [ "getManager", "classlili_1_1Scene.html#af59a976e2d5509c191fa8dfee95f841b", null ],
     [ "getName", "classlili_1_1Scene.html#abe351782a18e8e32e6d76fc719a72f43", null ],
@@ -10,5 +11,8 @@ var classlili_1_1Scene =
     [ "onResume", "classlili_1_1Scene.html#a9862ad65ce9e7227d03e9b1ddbe31334", null ],
     [ "render", "classlili_1_1Scene.html#aef86291f10d5acbd83974b1588dcf186", null ],
     [ "setManager", "classlili_1_1Scene.html#af1292c1e020510cf1ebe5fe0b9504857", null ],
-    [ "update", "classlili_1_1Scene.html#a5edbfe72f28eb37046a93b00d8afcb08", null ]
+    [ "update", "classlili_1_1Scene.html#a5edbfe72f28eb37046a93b00d8afcb08", null ],
+    [ "manager", "classlili_1_1Scene.html#a5bbc66051ca0a2fde6f114a32ff1decd", null ],
+    [ "name", "classlili_1_1Scene.html#a242c90ec279b153499df0565897d2625", null ],
+    [ "renderer", "classlili_1_1Scene.html#a20436ed9cfbac093634794af77a1b1ff", null ]
 ];

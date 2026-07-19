@@ -99,19 +99,48 @@ $(function(){initNavTree('structlili_1_1BatchKey.html','','structlili_1_1BatchKe
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:abcea499a570f86eb94d2610052b33083" id="r_abcea499a570f86eb94d2610052b33083"><td class="memItemLeft"><a id="abcea499a570f86eb94d2610052b33083" name="abcea499a570f86eb94d2610052b33083"></a>
-bool&#160;</td><td class="memItemRight"><b>operator==</b> (const <a class="el" href="structlili_1_1BatchKey.html">BatchKey</a> &amp;other) const</td></tr>
+<tr class="memitem:abcea499a570f86eb94d2610052b33083" id="r_abcea499a570f86eb94d2610052b33083"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#abcea499a570f86eb94d2610052b33083">operator==</a> (const <a class="el" href="structlili_1_1BatchKey.html">BatchKey</a> &amp;other) const</td></tr>
+<tr class="memdesc:abcea499a570f86eb94d2610052b33083"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares this <a class="el" href="structlili_1_1BatchKey.html" title="Key used to group tiles by texture and depth for batching.">BatchKey</a> with another for equality.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:aca3a482c2ee23ee4009ddcbebb60f745" id="r_aca3a482c2ee23ee4009ddcbebb60f745"><td class="memItemLeft"><a id="aca3a482c2ee23ee4009ddcbebb60f745" name="aca3a482c2ee23ee4009ddcbebb60f745"></a>
 <a class="el" href="classlili_1_1Texture.html">Texture</a> *&#160;</td><td class="memItemRight"><b>texture</b> = nullptr</td></tr>
+<tr class="memdesc:aca3a482c2ee23ee4009ddcbebb60f745"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to the texture of the batch. <br /></td></tr>
 <tr class="memitem:a96c7ba81750eeece41d1716f28ad1b52" id="r_a96c7ba81750eeece41d1716f28ad1b52"><td class="memItemLeft"><a id="a96c7ba81750eeece41d1716f28ad1b52" name="a96c7ba81750eeece41d1716f28ad1b52"></a>
 int&#160;</td><td class="memItemRight"><b>z</b> = 0</td></tr>
+<tr class="memdesc:a96c7ba81750eeece41d1716f28ad1b52"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Z layer/depth level of the batch. <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Key used to group tiles by texture and depth for batching. </p>
-</div><hr/>The documentation for this struct was generated from the following file:<ul>
+</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="abcea499a570f86eb94d2610052b33083" name="abcea499a570f86eb94d2610052b33083"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abcea499a570f86eb94d2610052b33083">&#9670;&#160;</a></span>operator==()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lili::BatchKey::operator== </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structlili_1_1BatchKey.html">BatchKey</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compares this <a class="el" href="structlili_1_1BatchKey.html" title="Key used to group tiles by texture and depth for batching.">BatchKey</a> with another for equality. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>The other <a class="el" href="structlili_1_1BatchKey.html" title="Key used to group tiles by texture and depth for batching.">BatchKey</a> to compare against. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the texture and z layer are equal. </dd></dl>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
 <li>/home/lili/Documents/Lili2D/include/lili2d/world/<a class="el" href="chunk_8hpp_source.html">chunk.hpp</a></li>
 </ul>
 </div><!-- contents -->

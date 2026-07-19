@@ -99,8 +99,8 @@ $(function(){initNavTree('classlili_1_1Renderer.html','','classlili_1_1Renderer-
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a081112bfe1dd5040104bc865624b2b89" id="r_a081112bfe1dd5040104bc865624b2b89"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a081112bfe1dd5040104bc865624b2b89">Renderer</a> (<a class="el" href="classlili_1_1Window.html">Window</a> *window)</td></tr>
-<tr class="memdesc:a081112bfe1dd5040104bc865624b2b89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for the renderer.  <br /></td></tr>
+<tr class="memitem:abe6151513d5365dc89acc8f0fdb7897f" id="r_abe6151513d5365dc89acc8f0fdb7897f"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#abe6151513d5365dc89acc8f0fdb7897f">Renderer</a> (<a class="el" href="classlili_1_1Window.html">Window</a> *window, SDL_GPUPresentMode preferred_mode=SDL_GPU_PRESENTMODE_MAILBOX)</td></tr>
+<tr class="memdesc:abe6151513d5365dc89acc8f0fdb7897f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for the renderer.  <br /></td></tr>
 <tr class="memitem:ab9ac0abcd6a802224db6a095b36e5bb5" id="r_ab9ac0abcd6a802224db6a095b36e5bb5"><td class="memItemLeft"><a id="ab9ac0abcd6a802224db6a095b36e5bb5" name="ab9ac0abcd6a802224db6a095b36e5bb5"></a>
 &#160;</td><td class="memItemRight"><b>~Renderer</b> ()</td></tr>
 <tr class="memdesc:ab9ac0abcd6a802224db6a095b36e5bb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br /></td></tr>
@@ -108,13 +108,13 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight"><b>Renderer</b> (Renderer &amp;&amp;other) noexcept=default</td></tr>
 <tr class="memdesc:a2c6453c84142b4814a0561ac8e367d4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor. <br /></td></tr>
 <tr class="memitem:a5c8fdbb67d980df52a3ed61431fe3195" id="r_a5c8fdbb67d980df52a3ed61431fe3195"><td class="memItemLeft"><a id="a5c8fdbb67d980df52a3ed61431fe3195" name="a5c8fdbb67d980df52a3ed61431fe3195"></a>
-<a class="el" href="#a081112bfe1dd5040104bc865624b2b89">Renderer</a> &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (<a class="el" href="#a081112bfe1dd5040104bc865624b2b89">Renderer</a> &amp;&amp;other) noexcept=default</td></tr>
+<a class="el" href="#abe6151513d5365dc89acc8f0fdb7897f">Renderer</a> &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (<a class="el" href="#abe6151513d5365dc89acc8f0fdb7897f">Renderer</a> &amp;&amp;other) noexcept=default</td></tr>
 <tr class="memdesc:a5c8fdbb67d980df52a3ed61431fe3195"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assignment. <br /></td></tr>
 <tr class="memitem:abc77c68ab9209d97d676c0fe875c078a" id="r_abc77c68ab9209d97d676c0fe875c078a"><td class="memItemLeft"><a id="abc77c68ab9209d97d676c0fe875c078a" name="abc77c68ab9209d97d676c0fe875c078a"></a>
 &#160;</td><td class="memItemRight"><b>Renderer</b> (const Renderer &amp;)=delete</td></tr>
 <tr class="memdesc:abc77c68ab9209d97d676c0fe875c078a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor is deleted to prevent double-freeing the SDL GPU device. <br /></td></tr>
 <tr class="memitem:a967ec6c7f4d986b06bcce3a8b2365e81" id="r_a967ec6c7f4d986b06bcce3a8b2365e81"><td class="memItemLeft"><a id="a967ec6c7f4d986b06bcce3a8b2365e81" name="a967ec6c7f4d986b06bcce3a8b2365e81"></a>
-<a class="el" href="#a081112bfe1dd5040104bc865624b2b89">Renderer</a> &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (const <a class="el" href="#a081112bfe1dd5040104bc865624b2b89">Renderer</a> &amp;)=delete</td></tr>
+<a class="el" href="#abe6151513d5365dc89acc8f0fdb7897f">Renderer</a> &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (const <a class="el" href="#abe6151513d5365dc89acc8f0fdb7897f">Renderer</a> &amp;)=delete</td></tr>
 <tr class="memdesc:a967ec6c7f4d986b06bcce3a8b2365e81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy assignment is deleted to prevent double-freeing the SDL GPU device. <br /></td></tr>
 <tr class="memitem:aa69c49d569635f21735d5e0667050909" id="r_aa69c49d569635f21735d5e0667050909"><td class="memItemLeft">SDL_GPUDevice *&#160;</td><td class="memItemRight"><a class="el" href="#aa69c49d569635f21735d5e0667050909">getDevice</a> () const</td></tr>
 <tr class="memdesc:aa69c49d569635f21735d5e0667050909"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the SDL GPU device.  <br /></td></tr>
@@ -127,6 +127,12 @@ void&#160;</td><td class="memItemRight"><b>endFrame</b> ()</td></tr>
 <tr class="memdesc:a9719562c8dae114bd20a0c3ce9034ba8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ends the rendering frame. <br /></td></tr>
 <tr class="memitem:a985d6ad8f885ce42c1bb9eadc4ea4158" id="r_a985d6ad8f885ce42c1bb9eadc4ea4158"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a985d6ad8f885ce42c1bb9eadc4ea4158">setCamera</a> (<a class="el" href="classlili_1_1Camera.html">Camera</a> *camera)</td></tr>
 <tr class="memdesc:a985d6ad8f885ce42c1bb9eadc4ea4158"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the active camera.  <br /></td></tr>
+<tr class="memitem:a3876da76b665e71d67db9fa3182b365b" id="r_a3876da76b665e71d67db9fa3182b365b"><td class="memItemLeft"><a class="el" href="classlili_1_1Camera.html">Camera</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a3876da76b665e71d67db9fa3182b365b">getCamera</a> () const</td></tr>
+<tr class="memdesc:a3876da76b665e71d67db9fa3182b365b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the active camera.  <br /></td></tr>
+<tr class="memitem:a47ade3702ba1b7762ba00b80a5e76639" id="r_a47ade3702ba1b7762ba00b80a5e76639"><td class="memItemLeft">uint32_t&#160;</td><td class="memItemRight"><a class="el" href="#a47ade3702ba1b7762ba00b80a5e76639">getSwapchainWidth</a> () const</td></tr>
+<tr class="memdesc:a47ade3702ba1b7762ba00b80a5e76639"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the swapchain width.  <br /></td></tr>
+<tr class="memitem:a23ddd9c54e56720c84cb18e08db3618d" id="r_a23ddd9c54e56720c84cb18e08db3618d"><td class="memItemLeft">uint32_t&#160;</td><td class="memItemRight"><a class="el" href="#a23ddd9c54e56720c84cb18e08db3618d">getSwapchainHeight</a> () const</td></tr>
+<tr class="memdesc:a23ddd9c54e56720c84cb18e08db3618d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the swapchain height.  <br /></td></tr>
 <tr class="memitem:a437fe9270751e9ab64aae867f028c798" id="r_a437fe9270751e9ab64aae867f028c798"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a437fe9270751e9ab64aae867f028c798">setPresentMode</a> (SDL_GPUPresentMode mode)</td></tr>
 <tr class="memdesc:a437fe9270751e9ab64aae867f028c798"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the active present mode.  <br /></td></tr>
 <tr class="memitem:ab5d3c49ca737036434816dbb280e0aeb" id="r_ab5d3c49ca737036434816dbb280e0aeb"><td class="memItemLeft"><a class="el" href="classlili_1_1Shader.html">Shader</a> *&#160;</td><td class="memItemRight"><a class="el" href="#ab5d3c49ca737036434816dbb280e0aeb">createShader</a> (const std::string &amp;vert_path, const std::string &amp;frag_path, <a class="el" href="structlili_1_1ShaderInfo.html">ShaderInfo</a> vert_infos={}, <a class="el" href="structlili_1_1ShaderInfo.html">ShaderInfo</a> frag_infos={})</td></tr>
@@ -147,8 +153,8 @@ void&#160;</td><td class="memItemRight"><b>endFrame</b> ()</td></tr>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Main renderer class responsible for handling drawing operations. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a081112bfe1dd5040104bc865624b2b89" name="a081112bfe1dd5040104bc865624b2b89"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a081112bfe1dd5040104bc865624b2b89">&#9670;&#160;</a></span>Renderer()</h2>
+<a id="abe6151513d5365dc89acc8f0fdb7897f" name="abe6151513d5365dc89acc8f0fdb7897f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe6151513d5365dc89acc8f0fdb7897f">&#9670;&#160;</a></span>Renderer()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -156,8 +162,12 @@ void&#160;</td><td class="memItemRight"><b>endFrame</b> ()</td></tr>
         <tr>
           <td class="memname">lili::Renderer::Renderer </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classlili_1_1Window.html">Window</a> *</td>          <td class="paramname"><span class="paramname"><em>window</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classlili_1_1Window.html">Window</a> *</td>          <td class="paramname"><span class="paramname"><em>window</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">SDL_GPUPresentMode</td>          <td class="paramname"><span class="paramname"><em>preferred_mode</em></span><span class="paramdefsep"> = </span><span class="paramdefval">SDL_GPU_PRESENTMODE_MAILBOX</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -166,6 +176,7 @@ void&#160;</td><td class="memItemRight"><b>endFrame</b> ()</td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">window</td><td>The window to render to. </td></tr>
+    <tr><td class="paramname">preferred_mode</td><td>The preferred present mode for the swapchain. </td></tr>
   </table>
   </dd>
 </dl>
@@ -365,6 +376,26 @@ void&#160;</td><td class="memItemRight"><b>endFrame</b> ()</td></tr>
 
 </div>
 </div>
+<a id="a3876da76b665e71d67db9fa3182b365b" name="a3876da76b665e71d67db9fa3182b365b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3876da76b665e71d67db9fa3182b365b">&#9670;&#160;</a></span>getCamera()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classlili_1_1Camera.html">Camera</a> * lili::Renderer::getCamera </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the active camera. </p>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the active camera. </dd></dl>
+
+</div>
+</div>
 <a id="aa69c49d569635f21735d5e0667050909" name="aa69c49d569635f21735d5e0667050909"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa69c49d569635f21735d5e0667050909">&#9670;&#160;</a></span>getDevice()</h2>
 
@@ -382,6 +413,46 @@ void&#160;</td><td class="memItemRight"><b>endFrame</b> ()</td></tr>
 
 <p>Gets the SDL GPU device. </p>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the SDL_GPUDevice. </dd></dl>
+
+</div>
+</div>
+<a id="a23ddd9c54e56720c84cb18e08db3618d" name="a23ddd9c54e56720c84cb18e08db3618d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23ddd9c54e56720c84cb18e08db3618d">&#9670;&#160;</a></span>getSwapchainHeight()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t lili::Renderer::getSwapchainHeight </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the swapchain height. </p>
+<dl class="section return"><dt>Returns</dt><dd>The height in pixels. </dd></dl>
+
+</div>
+</div>
+<a id="a47ade3702ba1b7762ba00b80a5e76639" name="a47ade3702ba1b7762ba00b80a5e76639"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47ade3702ba1b7762ba00b80a5e76639">&#9670;&#160;</a></span>getSwapchainWidth()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t lili::Renderer::getSwapchainWidth </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the swapchain width. </p>
+<dl class="section return"><dt>Returns</dt><dd>The width in pixels. </dd></dl>
 
 </div>
 </div>

@@ -113,6 +113,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a025a5a54c1e9c8ac28dfa92bf56a1cec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the view matrix.  <br /></td></tr>
 <tr class="memitem:a56612ed833b46081889c1b0587420694" id="r_a56612ed833b46081889c1b0587420694"><td class="memItemLeft"><a class="el" href="structlili_1_1Mat3.html">Mat3</a>&#160;</td><td class="memItemRight"><a class="el" href="#a56612ed833b46081889c1b0587420694">getProjection</a> (float width, float height) const</td></tr>
 <tr class="memdesc:a56612ed833b46081889c1b0587420694"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the projection matrix.  <br /></td></tr>
+<tr class="memitem:adc4368beb60b1eea761eda0b6a8cae45" id="r_adc4368beb60b1eea761eda0b6a8cae45"><td class="memItemLeft"><a class="el" href="structlili_1_1AABB2.html">AABB2</a>&#160;</td><td class="memItemRight"><a class="el" href="#adc4368beb60b1eea761eda0b6a8cae45">getViewportBounds</a> (float width, float height) const</td></tr>
+<tr class="memdesc:adc4368beb60b1eea761eda0b6a8cae45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the visible world-space bounds of the camera.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a 2D camera for scene viewing. </p>
@@ -196,6 +198,37 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The view transformation matrix. </dd></dl>
+
+</div>
+</div>
+<a id="adc4368beb60b1eea761eda0b6a8cae45" name="adc4368beb60b1eea761eda0b6a8cae45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc4368beb60b1eea761eda0b6a8cae45">&#9670;&#160;</a></span>getViewportBounds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structlili_1_1AABB2.html">AABB2</a> lili::Camera::getViewportBounds </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>width</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>height</em></span>&#160;) const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the visible world-space bounds of the camera. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">width</td><td>The viewport width. </td></tr>
+    <tr><td class="paramname">height</td><td>The viewport height. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The visible world-space bounds as an <a class="el" href="structlili_1_1AABB2.html" title="Represents an Axis-Aligned Bounding Box.">AABB2</a>. </dd></dl>
 
 </div>
 </div>

@@ -25,7 +25,7 @@ public:
 	bool released(Scancode key) const;
 
 private:
-	const bool *current = nullptr;
+	bool current[SDL_SCANCODE_COUNT] = {};
 	bool previous[SDL_SCANCODE_COUNT] = {};
 	int key_count = 0;
 };

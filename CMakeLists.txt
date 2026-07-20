@@ -44,7 +44,7 @@ set(EMBEDDED_ASSETS "")
 foreach(ASSET IN LISTS ASSET_FILES)
 	get_filename_component(ASSET_NAME ${ASSET} NAME)
 	string(REPLACE "." "_" VAR_NAME "${ASSET_NAME}")
-	set(HEADER_FILE "${CMAKE_CURRENT_SOURCE_DIR}/src/render/${VAR_NAME}.hpp")
+	set(HEADER_FILE "${CMAKE_CURRENT_SOURCE_DIR}/include/lili2d/render/${VAR_NAME}.hpp")
 	add_custom_command(
 								OUTPUT ${HEADER_FILE}
 								COMMAND ${CMAKE_COMMAND}

@@ -59,11 +59,15 @@ public:
 
 	/// @brief Gets the thread pool.
 	/// @return Pointer to the thread pool.
-	ThreadPool* getThreadPool() const;
+	ThreadPool *getThreadPool() const;
 
 	/// @brief Gets the active engine configuration.
 	/// @return Reference to the active configuration.
-	const EngineConfig& getConfig() const;
+	const EngineConfig &getConfig() const;
+
+	/// @brief Gets the clock used in gameloop.
+	/// @return Reference to the used clock.
+	const Clock &getClock() const;
 
 	/// @brief Called once when the game initializes.
 	virtual void onInit();

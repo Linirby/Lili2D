@@ -67,12 +67,16 @@ Renderer *Game::getRenderer() const {
 	return renderer.get();
 }
 
-ThreadPool* Game::getThreadPool() const {
+ThreadPool *Game::getThreadPool() const {
 	return thread_pool.get();
 }
 
-const EngineConfig& Game::getConfig() const {
+const EngineConfig &Game::getConfig() const {
 	return config;
+}
+
+const Clock &Game::getClock() const {
+	return clock;
 }
 
 void Game::onInit() {}

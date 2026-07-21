@@ -16,7 +16,7 @@ struct Vec4 {
 	/// @param y The Y component.
 	/// @param z The Z component.
 	/// @param w The W component.
-	Vec4(float x, float y, float z, float w);
+	constexpr Vec4(float x, float y, float z, float w);
 
 	/// @brief Subtraction operator.
 	/// @param o The vector to subtract.
@@ -62,5 +62,8 @@ struct Vec4 {
 	/// @return The length.
 	float length() const;
 };
+
+constexpr Vec4::Vec4(float x, float y, float z, float w)
+	: x(x), y(y), z(z), w(w) {}
 
 }  // namespace lili

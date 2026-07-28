@@ -4,14 +4,14 @@
 /// @brief Aggregates the geometry components of the Lili2D engine, including
 /// vectors, matrices, and math utilities.
 
-#include "lili2d/geometry/mat3x3.hpp"  // IWYU pragma: keep
-#include "lili2d/geometry/mat4x4.hpp"  // IWYU pragma: keep
-#include "lili2d/geometry/point2.hpp"  // IWYU pragma: keep
-#include "lili2d/geometry/point3.hpp"  // IWYU pragma: keep
-#include "lili2d/geometry/utils.hpp"  // IWYU pragma: keep
-#include "lili2d/geometry/vec2.hpp"  // IWYU pragma: keep
-#include "lili2d/geometry/vec3.hpp"  // IWYU pragma: keep
-#include "lili2d/geometry/vec4.hpp"  // IWYU pragma: keep
+#include "lili2d/geometry/mat3x3.hpp"
+#include "lili2d/geometry/mat4x4.hpp"
+#include "lili2d/geometry/point2.hpp"
+#include "lili2d/geometry/point3.hpp"
+#include "lili2d/geometry/utils.hpp"
+#include "lili2d/geometry/vec2.hpp"
+#include "lili2d/geometry/vec3.hpp"
+#include "lili2d/geometry/vec4.hpp"
 
 namespace lili {
 
@@ -28,7 +28,8 @@ struct Point3;
 /// @brief Converts an angle from degrees to radians.
 /// @param degrees The angle in degrees.
 /// @return The angle in radians.
-inline float degToRad(float degrees);
+inline float
+degToRad(float degrees);
 
 /// @brief A 2D vector.
 struct Vec2;

@@ -4,7 +4,7 @@
 /// @brief Aggregates the physics components of the Lili2D engine, including
 /// collision detection and raycasting.
 
-#include "lili2d/physics/collision.hpp"  // IWYU pragma: keep
+#include "lili2d/physics/collision.hpp"
 
 namespace lili {
 

@@ -1,6 +1,6 @@
 var classlili_1_1Renderer =
 [
-    [ "Renderer", "classlili_1_1Renderer.html#a081112bfe1dd5040104bc865624b2b89", null ],
+    [ "Renderer", "classlili_1_1Renderer.html#abe6151513d5365dc89acc8f0fdb7897f", null ],
     [ "~Renderer", "classlili_1_1Renderer.html#ab9ac0abcd6a802224db6a095b36e5bb5", null ],
     [ "Renderer", "classlili_1_1Renderer.html#a2c6453c84142b4814a0561ac8e367d4c", null ],
     [ "Renderer", "classlili_1_1Renderer.html#abc77c68ab9209d97d676c0fe875c078a", null ],
@@ -10,7 +10,10 @@ var classlili_1_1Renderer =
     [ "createShader", "classlili_1_1Renderer.html#afe31153880dfa582abcb37b43c088b29", null ],
     [ "drawDebugRect", "classlili_1_1Renderer.html#a71b28b852ee8990357efb94e6d4701e7", null ],
     [ "endFrame", "classlili_1_1Renderer.html#a9719562c8dae114bd20a0c3ce9034ba8", null ],
+    [ "getCamera", "classlili_1_1Renderer.html#a3876da76b665e71d67db9fa3182b365b", null ],
     [ "getDevice", "classlili_1_1Renderer.html#aa69c49d569635f21735d5e0667050909", null ],
+    [ "getSwapchainHeight", "classlili_1_1Renderer.html#a23ddd9c54e56720c84cb18e08db3618d", null ],
+    [ "getSwapchainWidth", "classlili_1_1Renderer.html#a47ade3702ba1b7762ba00b80a5e76639", null ],
     [ "getTheWhitePixel", "classlili_1_1Renderer.html#a07da334a67c602a4d421eb1176311f7d", null ],
     [ "getUnitCircle", "classlili_1_1Renderer.html#a87d5b398cd3d8be099d7e56b0099bf3f", null ],
     [ "getUnitQuad", "classlili_1_1Renderer.html#a4fb3b88d2d237ad40dd06e641cb2c8db", null ],

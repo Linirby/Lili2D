@@ -4,13 +4,13 @@
 /// @brief Main include header for the Lili2D engine. Aggregates all major
 /// engine subsystems and forward declarations.
 
-#include "lili2d/core.hpp"  // IWYU pragma: keep
-#include "lili2d/geometry.hpp"  // IWYU pragma: keep
-#include "lili2d/physics.hpp"  // IWYU pragma: keep
-#include "lili2d/render.hpp"  // IWYU pragma: keep
-#include "lili2d/scene.hpp"  // IWYU pragma: keep
-#include "lili2d/world.hpp"  // IWYU pragma: keep
-#include "lili2d/ecs.hpp"  // IWYU pragma: keep
+#include "lili2d/core.hpp"
+#include "lili2d/ecs.hpp"
+#include "lili2d/geometry.hpp"
+#include "lili2d/physics.hpp"
+#include "lili2d/render.hpp"
+#include "lili2d/scene.hpp"
+#include "lili2d/world.hpp"
 
 namespace lili {
 
@@ -59,7 +59,8 @@ struct Mat4;
 /// @brief Converts an angle from degrees to radians.
 /// @param degrees The angle in degrees.
 /// @return The angle in radians.
-inline float degToRad(float degrees);
+inline float
+degToRad(float degrees);
 
 /// @brief An integer-based 2D point.
 struct Point2;

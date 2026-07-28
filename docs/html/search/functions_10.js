@@ -35,14 +35,15 @@ var searchData=
   ['setthickness_32',['setThickness',['../classlili_1_1Line.html#a87b25433f8a01307715dcaab32d829e9',1,'lili::Line']]],
   ['settile_33',['setTile',['../classlili_1_1TileMap.html#a7f0fe85bf545f0bf7bb591c03dd78e1d',1,'lili::TileMap']]],
   ['settitle_34',['setTitle',['../classlili_1_1Window.html#a5af9856d18b926ac5df898ac0e9f618a',1,'lili::Window']]],
-  ['settps_35',['setTps',['../classlili_1_1Clock.html#a9a5088791deda8e7ab80101c4264f9fe',1,'lili::Clock']]],
+  ['settps_35',['setTps',['../classlili_1_1Clock.html#a9a5088791deda8e7ab80101c4264f9fe',1,'lili::Clock::setTps()'],['../classlili_1_1Game.html#ae9c560f530db5a312011a895957727c1',1,'lili::Game::setTps()']]],
   ['setvertexuniforms_36',['setVertexUniforms',['../structlili_1_1Material.html#a64e16a13fbdcc3e3889009116720730f',1,'lili::Material']]],
   ['setzoom_37',['setZoom',['../classlili_1_1Camera.html#a617d6a71a20e9613d2324639cea4e36c',1,'lili::Camera']]],
   ['shader_38',['Shader',['../classlili_1_1Shader.html#aec1ea66c1e2b6c9d163f28b388d148d7',1,'lili::Shader::Shader(SDL_GPUDevice *device, const std::string &amp;vert_path, const std::string &amp;frag_path, ShaderInfo vert_infos={}, ShaderInfo frag_infos={})'],['../classlili_1_1Shader.html#ab91c4868a8accef5a9fa2e7e8be6b8e6',1,'lili::Shader::Shader(SDL_GPUDevice *device, const uint8_t *vert_code, size_t vert_size, const uint8_t *frag_code, size_t frag_size, ShaderInfo vert_infos={}, ShaderInfo frag_infos={})'],['../classlili_1_1Shader.html#a15373489f608567578c597e7eded3c78',1,'lili::Shader::Shader(Shader &amp;&amp;other) noexcept=default'],['../classlili_1_1Shader.html#aa8849d2dc458c26a67cf5df882e8ee7b',1,'lili::Shader::Shader(const Shader &amp;)=delete']]],
-  ['size_39',['size',['../classlili_1_1ComponentPool.html#aed4fa4613a7090593293ce8001ca4731',1,'lili::ComponentPool']]],
-  ['slice_40',['slice',['../classlili_1_1AtlasMap.html#adfcc1334f7b984af7ff3fc5add0d5445',1,'lili::AtlasMap']]],
-  ['sprite_41',['Sprite',['../classlili_1_1Sprite.html#aa038d3367ec10b6e3791c7057c5d5aa0',1,'lili::Sprite::Sprite()=default'],['../classlili_1_1Sprite.html#a175886d6e26fc4f2d355e6fade4d0722',1,'lili::Sprite::Sprite(Renderer *renderer, const std::string &amp;path)'],['../classlili_1_1Sprite.html#a06c1268179d50a090493d83e5700e554',1,'lili::Sprite::Sprite(Renderer *renderer, SliceUV slice)'],['../classlili_1_1Sprite.html#a95183abb4eccc691ba54f8e50f140ff0',1,'lili::Sprite::Sprite(Sprite &amp;&amp;)=default']]],
-  ['spritebatch_42',['SpriteBatch',['../classlili_1_1SpriteBatch.html#a91a2dd9252a2a4657d5ee03f7108c213',1,'lili::SpriteBatch']]],
-  ['step_43',['step',['../classlili_1_1Clock.html#ab79180738569d0ce4de1bdff4e186408',1,'lili::Clock']]],
-  ['submit_44',['submit',['../classlili_1_1Renderer.html#ac7dca78bed1998ba621dfd662a70644a',1,'lili::Renderer']]]
+  ['shutdown_39',['shutdown',['../classlili_1_1Game.html#a2ed1d11964bdce053b0766116b683e1d',1,'lili::Game']]],
+  ['size_40',['size',['../classlili_1_1ComponentPool.html#aed4fa4613a7090593293ce8001ca4731',1,'lili::ComponentPool']]],
+  ['slice_41',['slice',['../classlili_1_1AtlasMap.html#adfcc1334f7b984af7ff3fc5add0d5445',1,'lili::AtlasMap']]],
+  ['sprite_42',['Sprite',['../classlili_1_1Sprite.html#aa038d3367ec10b6e3791c7057c5d5aa0',1,'lili::Sprite::Sprite()=default'],['../classlili_1_1Sprite.html#a175886d6e26fc4f2d355e6fade4d0722',1,'lili::Sprite::Sprite(Renderer *renderer, const std::string &amp;path)'],['../classlili_1_1Sprite.html#a06c1268179d50a090493d83e5700e554',1,'lili::Sprite::Sprite(Renderer *renderer, SliceUV slice)'],['../classlili_1_1Sprite.html#a95183abb4eccc691ba54f8e50f140ff0',1,'lili::Sprite::Sprite(Sprite &amp;&amp;)=default']]],
+  ['spritebatch_43',['SpriteBatch',['../classlili_1_1SpriteBatch.html#a91a2dd9252a2a4657d5ee03f7108c213',1,'lili::SpriteBatch']]],
+  ['step_44',['step',['../classlili_1_1Clock.html#ab79180738569d0ce4de1bdff4e186408',1,'lili::Clock']]],
+  ['submit_45',['submit',['../classlili_1_1Renderer.html#ac7dca78bed1998ba621dfd662a70644a',1,'lili::Renderer']]]
 ];

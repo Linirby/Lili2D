@@ -4,15 +4,17 @@
 
 class App : public lili::Game {
 public:
-	App();
+    App();
 
 private:
-	lili::Line thin_line;
-	lili::Line large_line;
-	lili::Rect rect;
-	lili::Circle clean_circle;
-	lili::Circle low_poly_circle;
+    lili::Line thin_line;
+    lili::Line large_line;
+    lili::Rect rect;
+    lili::Circle clean_circle;
+    lili::Circle low_poly_circle;
 
-	void onEvent(const lili::Event &event) override;
-	void onRender(float alpha) override;
+    void
+    onEvent(const lili::Event& event) override;
+    void
+    onRender(float alpha) override;
 };

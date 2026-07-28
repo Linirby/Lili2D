@@ -1,7 +1,7 @@
 var structlili_1_1Vec4 =
 [
     [ "Vec4", "structlili_1_1Vec4.html#a483c165eeadf97165cf75192920f997a", null ],
-    [ "Vec4", "structlili_1_1Vec4.html#aecbee1265b4fec51e99b0c7704a95497", null ],
+    [ "Vec4", "structlili_1_1Vec4.html#a4fb9e9fc31c75cfa35192c4507801af2", null ],
     [ "cross", "structlili_1_1Vec4.html#a84e2c28ebfccfa29134264b439569201", null ],
     [ "dot", "structlili_1_1Vec4.html#aeb394df2375b614462a28630f976ec59", null ],
     [ "length", "structlili_1_1Vec4.html#a6e78e50cc676f4c128c3e0157b708fc9", null ],

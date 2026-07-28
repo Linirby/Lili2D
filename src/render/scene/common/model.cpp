@@ -3,11 +3,11 @@
 namespace lili {
 
 Model::Model() {
-	mesh = nullptr;
-	material = nullptr;
+    mesh = nullptr;
+    material = nullptr;
 }
 
-Model::Model(GPUMesh *mesh, Material *material)
-	: mesh(mesh), material(material) {}
+Model::Model(GPUMesh* mesh, Material* material)
+    : mesh(mesh), material(material) {}
 
 }  // namespace lili

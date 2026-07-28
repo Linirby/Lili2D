@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+
 #include "lili2d/render/scene/common/atlas_map.hpp"
 
 namespace lili {
@@ -12,23 +13,25 @@ namespace lili {
 /// objects from it.
 class Animation {
 public:
-	/// @brief Default constructor (empty animation).
-	Animation() = default;
-	/// @brief Constructs an animation from a pre-built list of frames.
-	/// @param frames The sequence of frames.
-	Animation(const std::vector<SliceUV> &frames);
+    /// @brief Default constructor (empty animation).
+    Animation() = default;
+    /// @brief Constructs an animation from a pre-built list of frames.
+    /// @param frames The sequence of frames.
+    Animation(const std::vector<SliceUV>& frames);
 
-	/// @brief Gets the number of frames.
-	/// @return The frame count.
-	size_t frameCount() const;
+    /// @brief Gets the number of frames.
+    /// @return The frame count.
+    size_t
+    frameCount() const;
 
-	/// @brief Gets a frame by index.
-	/// @param index The frame index.
-	/// @return Reference to the SliceUV.
-	const SliceUV& getFrame(size_t index) const;
+    /// @brief Gets a frame by index.
+    /// @param index The frame index.
+    /// @return Reference to the SliceUV.
+    const SliceUV&
+    getFrame(size_t index) const;
 
 private:
-	std::vector<SliceUV> frames;
+    std::vector<SliceUV> frames;
 };
 
 }  // namespace lili

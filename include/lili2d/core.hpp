@@ -1,17 +1,17 @@
 #pragma once
 
 /// @file core.hpp
-/// @brief Aggregates the core components of the Lili2D engine, including window
-/// management, input handling, and core events.
+/// @brief Aggregates the core components of the Lili2D engine, including
+/// window management, input handling, and core events.
 
-#include "lili2d/core/clock.hpp"  // IWYU pragma: keep
-#include "lili2d/core/event.hpp"  // IWYU pragma: keep
-#include "lili2d/core/keyboard.hpp"  // IWYU pragma: keep
-#include "lili2d/core/mouse.hpp"  // IWYU pragma: keep
-#include "lili2d/core/window.hpp"  // IWYU pragma: keep
-#include "lili2d/core/game.hpp"  // IWYU pragma: keep
-#include "lili2d/core/game_config.hpp"  // IWYU pragma: keep
-#include "lili2d/core/thread_pool.hpp"  // IWYU pragma: keep
+#include "lili2d/core/clock.hpp"
+#include "lili2d/core/event.hpp"
+#include "lili2d/core/game.hpp"
+#include "lili2d/core/game_config.hpp"
+#include "lili2d/core/keyboard.hpp"
+#include "lili2d/core/mouse.hpp"
+#include "lili2d/core/thread_pool.hpp"
+#include "lili2d/core/window.hpp"
 
 namespace lili {
 

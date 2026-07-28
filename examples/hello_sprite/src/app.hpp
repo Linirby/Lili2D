@@ -4,11 +4,13 @@
 
 class App : public lili::Game {
 public:
-	App();
+    App();
 
 private:
-	lili::Sprite cat_sprite;
+    lili::Sprite cat_sprite;
 
-	void onEvent(const lili::Event &event) override;
-	void onRender(float alpha) override;
+    void
+    onEvent(const lili::Event& event) override;
+    void
+    onRender(float alpha) override;
 };

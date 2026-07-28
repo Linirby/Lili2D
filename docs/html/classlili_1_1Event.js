@@ -7,5 +7,6 @@ var classlili_1_1Event =
     [ "mouseMotion", "classlili_1_1Event.html#a4f17368b2d26ab622aa8707217c4924a", null ],
     [ "mouseWheel", "classlili_1_1Event.html#acecf16250aabfe1bbf790eeb039f2109", null ],
     [ "poll", "classlili_1_1Event.html#abfd185f1ce067200ccb6fe38f5d6fa72", null ],
-    [ "type", "classlili_1_1Event.html#a28bd979ccb93682b8ed0c4e8154072f0", null ]
+    [ "type", "classlili_1_1Event.html#a28bd979ccb93682b8ed0c4e8154072f0", null ],
+    [ "window", "classlili_1_1Event.html#a0fc86922f1647e86b2b3e74bcd0a5a20", null ]
 ];

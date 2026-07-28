@@ -1,70 +1,67 @@
 #include "app.hpp"
 
 App::App() : lili::Game("hello_layer - Lili2D", 1024, 576) {
-	lili::Renderer *renderer = getRenderer();
-	layer_1 = lili::Sprite(renderer, "layer_1.png");
-	layer_1.setLayer(1);
-	layer_2 = lili::Sprite(renderer, "layer_2.png");
-	layer_2.setLayer(0);
-	layer_3 = lili::Sprite(renderer, "layer_3.png");
-	layer_3.setLayer(-1);
+    lili::Renderer* renderer = getRenderer();
+    layer_1 = lili::Sprite(renderer, "layer_1.png");
+    layer_1.setLayer(1);
+    layer_2 = lili::Sprite(renderer, "layer_2.png");
+    layer_2.setLayer(0);
+    layer_3 = lili::Sprite(renderer, "layer_3.png");
+    layer_3.setLayer(-1);
 
-	red_square = lili::Rect(
-		renderer,
-		lili::RectShape(100, 350, 64, 96),
-		lili::Vec4(1, 0, 0, 1)
-	);
-	red_square_layer = 1;
-	red_square.setLayer(red_square_layer);
+    red_square = lili::Rect(
+        renderer, lili::RectShape(100, 350, 64, 96), lili::Vec4(1, 0, 0, 1)
+    );
+    red_square_layer = 1;
+    red_square.setLayer(red_square_layer);
 
-	font = std::make_unique<lili::BitmapFont>(
-		renderer, "lili_font.png", 16, 6
-	);
-	text_current_layer = lili::Text(renderer, font.get(), "");
-	text_current_layer.setScale(2);
-	text_current_layer.setRender(lili::RenderLayer::UI);
-	text_control_info = lili::Text(
-		renderer, font.get(), "I/K: Increase/decrease red rect layer"
-	);
-	text_control_info.setScale(2);
-	text_control_info.setRender(lili::RenderLayer::UI);
+    font = std::make_unique<lili::BitmapFont>(renderer, "lili_font.png", 16, 6);
+    text_current_layer = lili::Text(renderer, font.get(), "");
+    text_current_layer.setScale(2);
+    text_current_layer.setRender(lili::RenderLayer::UI);
+    text_control_info = lili::Text(
+        renderer, font.get(), "I/K: Increase/decrease red rect layer"
+    );
+    text_control_info.setScale(2);
+    text_control_info.setRender(lili::RenderLayer::UI);
 }
 
-void App::onEvent(const lili::Event &event) {
-	lili::KeyboardEvent kb = event.keyboard();
+void
+App::onEvent(const lili::Event& event) {
+    lili::KeyboardEvent kb = event.keyboard();
 
-	if (event.type() == lili::EventType::KEYBOARD)
-		if (kb.action == lili::KeyAction::PRESSED)
-			if (kb.key == SDLK_ESCAPE)
-				shutdown();
+    if (event.type() == lili::EventType::KEYBOARD)
+        if (kb.action == lili::KeyAction::PRESSED)
+            if (kb.key == SDLK_ESCAPE) shutdown();
 
-	lili::KeyboardEvent k_ev = event.keyboard();
-	if (k_ev.action == lili::KeyAction::PRESSED && !k_ev.repeat) {
-		if (k_ev.scancode == SDL_SCANCODE_I) {
-			red_square_layer += 1;
-			red_square.setLayer(red_square_layer);
-		}
-		if (k_ev.scancode == SDL_SCANCODE_K) {
-			red_square_layer -= 1;
-			red_square.setLayer(red_square_layer);
-		}
-	}
+    lili::KeyboardEvent k_ev = event.keyboard();
+    if (k_ev.action == lili::KeyAction::PRESSED && !k_ev.repeat) {
+        if (k_ev.scancode == SDL_SCANCODE_I) {
+            red_square_layer += 1;
+            red_square.setLayer(red_square_layer);
+        }
+        if (k_ev.scancode == SDL_SCANCODE_K) {
+            red_square_layer -= 1;
+            red_square.setLayer(red_square_layer);
+        }
+    }
 }
 
-void App::onRender(float alpha) {
-	(void)alpha;
-	red_square.draw();
+void
+App::onRender(float alpha) {
+    (void)alpha;
+    red_square.draw();
 
-	lili::Window *window = getWindow();
-	layer_1.setSize(window->getSize());
-	layer_1.draw();
-	layer_2.setSize(window->getSize());
-	layer_2.draw();
-	layer_3.setSize(window->getSize());
-	layer_3.draw();
+    lili::Window* window = getWindow();
+    layer_1.setSize(window->getSize());
+    layer_1.draw();
+    layer_2.setSize(window->getSize());
+    layer_2.draw();
+    layer_3.setSize(window->getSize());
+    layer_3.draw();
 
-	text_current_layer.setPosition(lili::Vec2(10, window->getHeight() - 44));
-	text_current_layer.draw();
-	text_control_info.setPosition(lili::Vec2(10, window->getHeight() - 22));
-	text_control_info.draw();
+    text_current_layer.setPosition(lili::Vec2(10, window->getHeight() - 44));
+    text_current_layer.draw();
+    text_control_info.setPosition(lili::Vec2(10, window->getHeight() - 22));
+    text_control_info.draw();
 }

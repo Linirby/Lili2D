@@ -2,14 +2,15 @@
 
 #include "game.hpp"
 
-int main() {
-	App app;
+int
+main() {
+    App app;
 
-	try {
-		app.run();
-	} catch (std::exception &e) {
-		std::cerr << e.what() << '\n';
-	}
+    try {
+        app.run();
+    } catch (std::exception& e) {
+        std::cerr << e.what() << '\n';
+    }
 
-	return 0;
+    return 0;
 }

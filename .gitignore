@@ -8,3 +8,4 @@ build_release/
 Lili2D-linux-x86_64.tar.gz
 build_docker/
 Lili2D-linux-x86_64/
+.cache/

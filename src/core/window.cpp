@@ -36,9 +36,9 @@ Window::~Window() {
 
 Window::Window(Window &&other) noexcept
 	: resizable(other.resizable),
-			borderless(other.borderless),
-			fullscreen(other.fullscreen),
-			window(other.window) {
+	borderless(other.borderless),
+	fullscreen(other.fullscreen),
+	window(other.window) {
 	other.window = nullptr;
 }
 
@@ -47,9 +47,8 @@ Window& Window::operator=(Window &&other) noexcept {
 		if (window) {
 			SDL_DestroyWindow(window);
 			window_count--;
-			if (window_count == 0) {
+			if (window_count == 0)
 				SDL_Quit();
-			}
 		}
 		resizable = other.resizable;
 		borderless = other.borderless;
@@ -65,6 +64,7 @@ void Window::setTitle(const std::string &title) {
 		throw std::runtime_error(
 			"Failed to change window name: " + std::string(SDL_GetError())
 		);
+	SDL_SyncWindow(window);
 }
 
 void Window::setSize(int width, int height) {
@@ -72,6 +72,7 @@ void Window::setSize(int width, int height) {
 		throw std::runtime_error(
 			"Failed to change window size: " + std::string(SDL_GetError())
 		);
+	SDL_SyncWindow(window);
 }
 
 void Window::setResizable(bool activate) {
@@ -81,6 +82,7 @@ void Window::setResizable(bool activate) {
 			std::string(SDL_GetError())
 		);
 	resizable = activate;
+	SDL_SyncWindow(window);
 }
 
 void Window::setBorderless(bool activate) {
@@ -90,6 +92,7 @@ void Window::setBorderless(bool activate) {
 			std::string(SDL_GetError())
 		);
 	borderless = activate;
+	SDL_SyncWindow(window);
 }
 
 void Window::setFullscreen(bool activate) {
@@ -99,6 +102,7 @@ void Window::setFullscreen(bool activate) {
 			std::string(SDL_GetError())
 		);
 	fullscreen = activate;
+	SDL_SyncWindow(window);
 }
 
 void Window::setRelativeMouseMode(bool activate) {
@@ -107,6 +111,7 @@ void Window::setRelativeMouseMode(bool activate) {
 			"Failed to change window to relative mouse mode: " +
 			std::string(SDL_GetError())
 		);
+	SDL_SyncWindow(window);
 }
 
 const std::string Window::getTitle() const {

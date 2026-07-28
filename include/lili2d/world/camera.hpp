@@ -50,6 +50,8 @@ private:
 	float zoom = 1.0f;
 
 	mutable bool is_dirty = true;
+	mutable float cached_width = 0.0f;
+	mutable float cached_height = 0.0f;
 	mutable Mat3 cached_view_matrix;
 };
 

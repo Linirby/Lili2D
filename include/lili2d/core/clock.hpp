@@ -39,13 +39,17 @@ public:
 	/// @brief Gets the current time in seconds.
 	/// @return The time value (float)
 	float getTime() const;
+	/// @bried Gets the current tps.
+	/// @return the tps (float)
+	float getTps() const;
 
 
 private:
 	uint64_t last = SDL_GetTicks();
 	uint64_t now = 0;
 
-	float fixed_dt = 1.0f / 20.0f;
+	float tps = 20.0f;
+	float fixed_dt = 1.0f / tps;
 	float dt = 0.0f;
 	float accumulator = 0.0f;
 	float second_counter = 0.0f;

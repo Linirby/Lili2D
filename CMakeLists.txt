@@ -66,6 +66,7 @@ target_sources(Lili2D PRIVATE
 				src/core/clock.cpp
 				src/core/event.cpp
 				src/core/game.cpp
+				src/core/game_config.cpp
 				src/core/keyboard.cpp
 				src/core/mouse.cpp
 				src/core/sdl_deleters.cpp

@@ -73,10 +73,51 @@ const MouseWheelEvent Event::mouseWheel() const {
 	};
 }
 
+const WindowEvent Event::window() const {
+	WindowEventType type;
+	switch (sdl_event.type) {
+		case SDL_EVENT_WINDOW_SHOWN: type = WindowEventType::WINDOW_SHOWN; break;
+		case SDL_EVENT_WINDOW_HIDDEN: type = WindowEventType::WINDOW_HIDDEN; break;
+		case SDL_EVENT_WINDOW_EXPOSED: type = WindowEventType::WINDOW_EXPOSED; break;
+		case SDL_EVENT_WINDOW_MOVED: type = WindowEventType::WINDOW_MOVED; break;
+		case SDL_EVENT_WINDOW_RESIZED: type = WindowEventType::WINDOW_RESIZED; break;
+		case SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED: type = WindowEventType::WINDOW_PIXEL_SIZE_CHANGED; break;
+		case SDL_EVENT_WINDOW_METAL_VIEW_RESIZED: type = WindowEventType::WINDOW_METAL_VIEW_RESIZED; break;
+		case SDL_EVENT_WINDOW_MINIMIZED: type = WindowEventType::WINDOW_MINIMIZED; break;
+		case SDL_EVENT_WINDOW_MAXIMIZED: type = WindowEventType::WINDOW_MAXIMIZED; break;
+		case SDL_EVENT_WINDOW_RESTORED: type = WindowEventType::WINDOW_RESTORED; break;
+		case SDL_EVENT_WINDOW_MOUSE_ENTER: type = WindowEventType::WINDOW_MOUSE_ENTER; break;
+		case SDL_EVENT_WINDOW_MOUSE_LEAVE: type = WindowEventType::WINDOW_MOUSE_LEAVE; break;
+		case SDL_EVENT_WINDOW_FOCUS_GAINED: type = WindowEventType::WINDOW_FOCUS_GAINED; break;
+		case SDL_EVENT_WINDOW_FOCUS_LOST: type = WindowEventType::WINDOW_FOCUS_LOST; break;
+		case SDL_EVENT_WINDOW_CLOSE_REQUESTED: type = WindowEventType::WINDOW_CLOSE_REQUESTED; break;
+		case SDL_EVENT_WINDOW_HIT_TEST: type = WindowEventType::WINDOW_HIT_TEST; break;
+		case SDL_EVENT_WINDOW_ICCPROF_CHANGED: type = WindowEventType::WINDOW_ICCPROF_CHANGED; break;
+		case SDL_EVENT_WINDOW_DISPLAY_CHANGED: type = WindowEventType::WINDOW_DISPLAY_CHANGED; break;
+		case SDL_EVENT_WINDOW_DISPLAY_SCALE_CHANGED: type = WindowEventType::WINDOW_DISPLAY_SCALE_CHANGED; break;
+		case SDL_EVENT_WINDOW_SAFE_AREA_CHANGED: type = WindowEventType::WINDOW_SAFE_AREA_CHANGED; break;
+		case SDL_EVENT_WINDOW_OCCLUDED: type = WindowEventType::WINDOW_OCCLUDED; break;
+		case SDL_EVENT_WINDOW_ENTER_FULLSCREEN: type = WindowEventType::WINDOW_ENTER_FULLSCREEN; break;
+		case SDL_EVENT_WINDOW_LEAVE_FULLSCREEN: type = WindowEventType::WINDOW_LEAVE_FULLSCREEN; break;
+		case SDL_EVENT_WINDOW_DESTROYED: type = WindowEventType::WINDOW_DESTROYED; break;
+		case SDL_EVENT_WINDOW_HDR_STATE_CHANGED: type = WindowEventType::WINDOW_HDR_STATE_CHANGED; break;
+		default: type = WindowEventType::WINDOW_RESIZED; break;
+	}
+
+	return {
+		.type = type,
+		.data1 = static_cast<int32_t>(sdl_event.window.data1),
+		.data2 = static_cast<int32_t>(sdl_event.window.data2)
+	};
+}
+
 EventType Event::resolveType() const {
+	if (sdl_event.type >= SDL_EVENT_WINDOW_FIRST && sdl_event.type <= SDL_EVENT_WINDOW_LAST) {
+		return EventType::WINDOW;
+	}
+
 	switch (sdl_event.type) {
 		case SDL_EVENT_QUIT: return EventType::QUIT;
-		case SDL_EVENT_WINDOW_RESIZED: return EventType::WINDOW_RESIZED;
 
 		case SDL_EVENT_KEY_DOWN:
 		case SDL_EVENT_KEY_UP: return EventType::KEYBOARD;

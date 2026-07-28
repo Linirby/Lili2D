@@ -46,6 +46,8 @@ class Mouse;
 
 /// @brief Represents an operating system window.
 class Window;
+/// @brief Central configuration for window and game settings.
+class GameConfig;
 /// @brief Base class for managing the game lifecycle and main loop.
 class Game;
 

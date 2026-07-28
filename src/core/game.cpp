@@ -2,21 +2,32 @@
 #include "lili2d/core/event.hpp"
 #include "lili2d/core/thread_pool.hpp"
 #include "lili2d/render/renderer.hpp"
+#include "lili2d/core/game_config.hpp"
 
 namespace lili {
 
 Game::Game(
-	const std::string &title, int width, int height, const EngineConfig& config
+	const std::string &title,
+	int width,
+	int height,
+	const EngineConfig& engine_config
 ) {
 	window = std::make_unique<Window>(title, width, height);
 
+	auto &config = GameConfig::get();
+	config.setWindowSize(this, width, height);
+	config.setWindowFullscreen(this, config.isWindowFullscreen());
+	config.setWindowResizable(this, config.isWindowResizable());
+	config.setWindowBorderless(this, config.isWindowBorderless());
+	config.setRelativeMouseMode(this, config.isRelativeMouseMode());
+
 	SDL_GPUPresentMode preferred_present_mode = SDL_GPU_PRESENTMODE_MAILBOX;
-	if (config.profile == PerformanceProfile::YES)
-		preferred_present_mode = config.potato_present_mode;
+	if (engine_config.profile == PerformanceProfile::YES)
+		preferred_present_mode = engine_config.potato_present_mode;
 
 	renderer = std::make_unique<Renderer>(window.get(), preferred_present_mode);
-	this->config = config;
-	thread_pool = std::make_unique<ThreadPool>(config);
+	this->engine_config = engine_config;
+	thread_pool = std::make_unique<ThreadPool>(engine_config);
 }
 
 void Game::run() {
@@ -48,15 +59,15 @@ void Game::setTps(float value) {
 }
 
 void Game::configure(const EngineConfig& new_config) {
-	this->config = new_config;
+	this->engine_config = new_config;
 
 	SDL_GPUPresentMode present_mode = SDL_GPU_PRESENTMODE_MAILBOX;
-	if (config.profile == PerformanceProfile::YES)
-		present_mode = config.potato_present_mode;
+	if (engine_config.profile == PerformanceProfile::YES)
+		present_mode = engine_config.potato_present_mode;
 	if (renderer)
 		renderer->setPresentMode(present_mode);
 
-	thread_pool = std::make_unique<ThreadPool>(config);
+	thread_pool = std::make_unique<ThreadPool>(engine_config);
 }
 
 Window *Game::getWindow() const {
@@ -72,11 +83,15 @@ ThreadPool *Game::getThreadPool() const {
 }
 
 const EngineConfig &Game::getConfig() const {
-	return config;
+	return engine_config;
 }
 
 const Clock &Game::getClock() const {
 	return clock;
+}
+
+float Game::getTps() const {
+	return clock.getTps();
 }
 
 void Game::onInit() {}

@@ -12,22 +12,25 @@ void Keyboard::update() {
 	if (sdl_state) {
 		key_count = std::min(sdl_key_count, (int)SDL_SCANCODE_COUNT);
 		std::memcpy(current, sdl_state, key_count * sizeof(bool));
-		if (key_count < SDL_SCANCODE_COUNT) {
-			std::memset(current + key_count, 0, (SDL_SCANCODE_COUNT - key_count) * sizeof(bool));
-		}
+		if (key_count < SDL_SCANCODE_COUNT)
+			std::memset(
+				current + key_count,
+				0,
+				(SDL_SCANCODE_COUNT - key_count) * sizeof(bool)
+			);
 	}
 }
 
 bool Keyboard::held(Scancode key) const {
-	return key < key_count && current[key];
+	return key < SDL_SCANCODE_COUNT && current[key];
 }
 
 bool Keyboard::pressed(Scancode key) const {
-	return key < key_count && current[key] && !previous[key];
+	return key < SDL_SCANCODE_COUNT && current[key] && !previous[key];
 }
 
 bool Keyboard::released(Scancode key) const {
-	return key < key_count && !current[key] && previous[key];
+	return key < SDL_SCANCODE_COUNT && !current[key] && previous[key];
 }
 
 }  // namespace lili

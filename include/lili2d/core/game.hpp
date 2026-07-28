@@ -69,6 +69,10 @@ public:
 	/// @return Reference to the used clock.
 	const Clock &getClock() const;
 
+	/// @brief Gets the TPS used in the game clock.
+	/// @return A float of the used TPS.
+	float getTps() const;
+
 	/// @brief Called once when the game initializes.
 	virtual void onInit();
 
@@ -98,7 +102,7 @@ private:
 	std::unique_ptr<Window> window;
 	std::unique_ptr<Renderer> renderer;
 	std::unique_ptr<ThreadPool> thread_pool;
-	EngineConfig config;
+	EngineConfig engine_config;
 	Clock clock;
 	bool running = false;
 };

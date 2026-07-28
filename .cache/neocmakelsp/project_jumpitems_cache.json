@@ -1,0 +1,2776 @@
+{
+  "date": "2026-07-28T21:48:16.677617086+02:00",
+  "data": {
+    "CMAKE_MODULE_PATH": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 116,
+            "character": 12
+          },
+          "end": {
+            "line": 116,
+            "character": 29
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "CMAKE_CXX_STANDARD_REQUIRED": {
+      "location": {
+        "uri": "file:///home/lili/Documents/Lili2D/CMakeLists.txt",
+        "range": {
+          "start": {
+            "line": 4,
+            "character": 4
+          },
+          "end": {
+            "line": 4,
+            "character": 31
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /home/lili/Documents/Lili2D/CMakeLists.txt",
+      "is_function": false
+    },
+    "_Fortran_ext": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CheckIPOSupported.cmake",
+        "range": {
+          "start": {
+            "line": 139,
+            "character": 6
+          },
+          "end": {
+            "line": 139,
+            "character": 18
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CheckIPOSupported.cmake",
+      "is_function": false
+    },
+    "maybe_else": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+        "range": {
+          "start": {
+            "line": 669,
+            "character": 8
+          },
+          "end": {
+            "line": 669,
+            "character": 18
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+      "is_function": false
+    },
+    "SDLIMAGE_VENDORED": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 37,
+            "character": 4
+          },
+          "end": {
+            "line": 37,
+            "character": 21
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "SDL3_STATIC_LIBRARIES": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+        "range": {
+          "start": {
+            "line": 129,
+            "character": 4
+          },
+          "end": {
+            "line": 129,
+            "character": 25
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+      "is_function": false
+    },
+    "SDLIMAGE_XV": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 30,
+            "character": 4
+          },
+          "end": {
+            "line": 30,
+            "character": 15
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "SDL3_SDL3-shared_FOUND": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+        "range": {
+          "start": {
+            "line": 42,
+            "character": 6
+          },
+          "end": {
+            "line": 42,
+            "character": 28
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+      "is_function": false
+    },
+    "_GNUInstallDirs_LIBDIR_DEFAULT": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 425,
+            "character": 4
+          },
+          "end": {
+            "line": 425,
+            "character": 34
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": false
+    },
+    "${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE_targets": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3/SDL3testTargets.cmake",
+        "range": {
+          "start": {
+            "line": 107,
+            "character": 8
+          },
+          "end": {
+            "line": 107,
+            "character": 60
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3/SDL3testTargets.cmake",
+      "is_function": false
+    },
+    "_GNUInstallDirs_INCLUDEDIR_DEFAULT": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 426,
+            "character": 4
+          },
+          "end": {
+            "line": 426,
+            "character": 38
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": false
+    },
+    "${cmake_install_var}": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 336,
+            "character": 8
+          },
+          "end": {
+            "line": 336,
+            "character": 28
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": false
+    },
+    "_GNUInstallDirs_OLDINCLUDEDIR_DEFAULT": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 427,
+            "character": 4
+          },
+          "end": {
+            "line": 427,
+            "character": 41
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": false
+    },
+    "installPrefix": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+        "range": {
+          "start": {
+            "line": 438,
+            "character": 8
+          },
+          "end": {
+            "line": 438,
+            "character": 21
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+      "is_function": false
+    },
+    "srcdir": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CheckIPOSupported.cmake",
+        "range": {
+          "start": {
+            "line": 160,
+            "character": 6
+          },
+          "end": {
+            "line": 160,
+            "character": 12
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CheckIPOSupported.cmake",
+      "is_function": false
+    },
+    "bindir": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CheckIPOSupported.cmake",
+        "range": {
+          "start": {
+            "line": 159,
+            "character": 6
+          },
+          "end": {
+            "line": 159,
+            "character": 12
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CheckIPOSupported.cmake",
+      "is_function": false
+    },
+    "\"${X_OUTPUT}\"": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CheckIPOSupported.cmake",
+        "range": {
+          "start": {
+            "line": 213,
+            "character": 10
+          },
+          "end": {
+            "line": 213,
+            "character": 23
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CheckIPOSupported.cmake",
+      "is_function": false
+    },
+    "CMAKE_POSITION_INDEPENDENT_CODE": {
+      "location": {
+        "uri": "file:///home/lili/Documents/Lili2D/CMakeLists.txt",
+        "range": {
+          "start": {
+            "line": 5,
+            "character": 4
+          },
+          "end": {
+            "line": 5,
+            "character": 35
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /home/lili/Documents/Lili2D/CMakeLists.txt",
+      "is_function": false
+    },
+    "CVF_ARCH_INDEPENDENT_CHECK": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/WriteBasicConfigVersionFile.cmake",
+        "range": {
+          "start": {
+            "line": 49,
+            "character": 8
+          },
+          "end": {
+            "line": 49,
+            "character": 34
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/WriteBasicConfigVersionFile.cmake",
+      "is_function": false
+    },
+    "SDL3_image_FOUND": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 145,
+            "character": 8
+          },
+          "end": {
+            "line": 145,
+            "character": 24
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "SDLIMAGE_TGA": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 25,
+            "character": 4
+          },
+          "end": {
+            "line": 25,
+            "character": 16
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "SDLIMAGE_WEBP_SHARED": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 32,
+            "character": 4
+          },
+          "end": {
+            "line": 32,
+            "character": 24
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "_GNUInstallDirs_cache_path_fallback": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 325,
+            "character": 9
+          },
+          "end": {
+            "line": 325,
+            "character": 44
+          }
+        }
+      },
+      "document_info": "defined function\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake\n\nDATAROOTDIR.",
+      "is_function": true
+    },
+    "SDLIMAGE_JPG_SHARED": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 15,
+            "character": 4
+          },
+          "end": {
+            "line": 15,
+            "character": 23
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "SDLIMAGE_QOI": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 23,
+            "character": 4
+          },
+          "end": {
+            "line": 23,
+            "character": 16
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "SDL3_FOUND": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+        "range": {
+          "start": {
+            "line": 105,
+            "character": 8
+          },
+          "end": {
+            "line": 105,
+            "character": 18
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+      "is_function": false
+    },
+    "TRY_COMPILE_PROJECT_NAME": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CheckIPOSupported.cmake",
+        "range": {
+          "start": {
+            "line": 165,
+            "character": 6
+          },
+          "end": {
+            "line": 165,
+            "character": 30
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CheckIPOSupported.cmake",
+      "is_function": false
+    },
+    "find_sdl3_static_dependencies": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+        "range": {
+          "start": {
+            "line": 45,
+            "character": 6
+          },
+          "end": {
+            "line": 45,
+            "character": 35
+          }
+        }
+      },
+      "document_info": "defined macro\nfrom: /usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+      "is_function": true
+    },
+    "_cmake_expected_targets": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_image-shared-targets.cmake",
+        "range": {
+          "start": {
+            "line": 20,
+            "character": 4
+          },
+          "end": {
+            "line": 20,
+            "character": 27
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_image-shared-targets.cmake",
+      "is_function": false
+    },
+    "SDLIMAGE_BMP": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 12,
+            "character": 4
+          },
+          "end": {
+            "line": 12,
+            "character": 16
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "_GNUInstallDirs_get_system_type_for_install": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 344,
+            "character": 9
+          },
+          "end": {
+            "line": 344,
+            "character": 52
+          }
+        }
+      },
+      "document_info": "defined function\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake\n\nCheck what system we are on for LIBDIR formatting",
+      "is_function": true
+    },
+    "SDLIMAGE_PNM": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 22,
+            "character": 4
+          },
+          "end": {
+            "line": 22,
+            "character": 16
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "_GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 617,
+            "character": 4
+          },
+          "end": {
+            "line": 617,
+            "character": 45
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake\n\nSave for next run",
+      "is_function": false
+    },
+    "_config_file_options": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+        "range": {
+          "start": {
+            "line": 523,
+            "character": 6
+          },
+          "end": {
+            "line": 523,
+            "character": 26
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+      "is_function": false
+    },
+    "CVF_VERSION": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/WriteBasicConfigVersionFile.cmake",
+        "range": {
+          "start": {
+            "line": 44,
+            "character": 10
+          },
+          "end": {
+            "line": 44,
+            "character": 21
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/WriteBasicConfigVersionFile.cmake",
+      "is_function": false
+    },
+    "__GNUInstallDirs_default_in_usr": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 402,
+            "character": 9
+          },
+          "end": {
+            "line": 402,
+            "character": 40
+          }
+        }
+      },
+      "document_info": "defined function\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake\n\nCommon handler for defaults that should be in usr/<dir>",
+      "is_function": true
+    },
+    "SDLIMAGE_PCX": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 19,
+            "character": 4
+          },
+          "end": {
+            "line": 19,
+            "character": 16
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "maybe_INSTALL_PREFIX": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+        "range": {
+          "start": {
+            "line": 605,
+            "character": 8
+          },
+          "end": {
+            "line": 605,
+            "character": 28
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+      "is_function": false
+    },
+    "config_file": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+        "range": {
+          "start": {
+            "line": 661,
+            "character": 8
+          },
+          "end": {
+            "line": 661,
+            "character": 19
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+      "is_function": false
+    },
+    "SDLIMAGE_BACKEND_IMAGEIO": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 39,
+            "character": 4
+          },
+          "end": {
+            "line": 39,
+            "character": 28
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "SDLIMAGE_SDL3_REQUIRED_VERSION": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 43,
+            "character": 4
+          },
+          "end": {
+            "line": 43,
+            "character": 34
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "CMAKE_CXX_STANDARD": {
+      "location": {
+        "uri": "file:///home/lili/Documents/Lili2D/CMakeLists.txt",
+        "range": {
+          "start": {
+            "line": 3,
+            "character": 4
+          },
+          "end": {
+            "line": 3,
+            "character": 22
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /home/lili/Documents/Lili2D/CMakeLists.txt",
+      "is_function": false
+    },
+    "SDLIMAGE_PNG_SAVE": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 35,
+            "character": 4
+          },
+          "end": {
+            "line": 35,
+            "character": 21
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "_GNUInstallDirs_special_absolute": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 378,
+            "character": 9
+          },
+          "end": {
+            "line": 378,
+            "character": 41
+          }
+        }
+      },
+      "document_info": "defined function\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake\n\nUsed for SYSCONFDIR, LOCALSTATEDIR and RUNSTATEDIR paths",
+      "is_function": true
+    },
+    "conda_prefix": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 354,
+            "character": 8
+          },
+          "end": {
+            "line": 354,
+            "character": 20
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": false
+    },
+    "WRITE_BASIC_PACKAGE_VERSION_FILE": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+        "range": {
+          "start": {
+            "line": 412,
+            "character": 6
+          },
+          "end": {
+            "line": 412,
+            "character": 38
+          }
+        }
+      },
+      "document_info": "defined macro\nfrom: /usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+      "is_function": true
+    },
+    "_ipo_run_language_check": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CheckIPOSupported.cmake",
+        "range": {
+          "start": {
+            "line": 136,
+            "character": 6
+          },
+          "end": {
+            "line": 136,
+            "character": 29
+          }
+        }
+      },
+      "document_info": "defined macro\nfrom: /usr/share/cmake/Modules/CheckIPOSupported.cmake\n\nRun IPO/LTO test",
+      "is_function": true
+    },
+    "${_NAME}_FOUND": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 158,
+            "character": 12
+          },
+          "end": {
+            "line": 158,
+            "character": 26
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "_GNUInstallDirs_LIBEXECDIR_DEFAULT": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 421,
+            "character": 4
+          },
+          "end": {
+            "line": 421,
+            "character": 38
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": false
+    },
+    "SDLIMAGE_PNG": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 20,
+            "character": 4
+          },
+          "end": {
+            "line": 20,
+            "character": 16
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "SDLIMAGE_TIF_SHARED": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 27,
+            "character": 4
+          },
+          "end": {
+            "line": 27,
+            "character": 23
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "SDL3_Headers_FOUND": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+        "range": {
+          "start": {
+            "line": 37,
+            "character": 4
+          },
+          "end": {
+            "line": 37,
+            "character": 22
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+      "is_function": false
+    },
+    "SDLIMAGE_SVG": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 24,
+            "character": 4
+          },
+          "end": {
+            "line": 24,
+            "character": 16
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "SDL3_image_SDL3_image-shared_FOUND": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 48,
+            "character": 8
+          },
+          "end": {
+            "line": 48,
+            "character": 42
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "ext": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CheckIPOSupported.cmake",
+        "range": {
+          "start": {
+            "line": 142,
+            "character": 6
+          },
+          "end": {
+            "line": 142,
+            "character": 9
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CheckIPOSupported.cmake",
+      "is_function": false
+    },
+    "_GNUInstallDirs_SYSCONFDIR_DEFAULT": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 422,
+            "character": 4
+          },
+          "end": {
+            "line": 422,
+            "character": 38
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": false
+    },
+    "CONFIGURE_PACKAGE_CONFIG_FILE": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+        "range": {
+          "start": {
+            "line": 416,
+            "character": 9
+          },
+          "end": {
+            "line": 416,
+            "character": 38
+          }
+        }
+      },
+      "document_info": "defined function\nfrom: /usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+      "is_function": true
+    },
+    "_CMAKE_LANG_FLAGS": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CheckIPOSupported.cmake",
+        "range": {
+          "start": {
+            "line": 193,
+            "character": 8
+          },
+          "end": {
+            "line": 193,
+            "character": 25
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CheckIPOSupported.cmake",
+      "is_function": false
+    },
+    "_IPO_LANGUAGE_CHECK_RESULT": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CheckIPOSupported.cmake",
+        "range": {
+          "start": {
+            "line": 207,
+            "character": 6
+          },
+          "end": {
+            "line": 207,
+            "character": 32
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CheckIPOSupported.cmake",
+      "is_function": false
+    },
+    "_else": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+        "range": {
+          "start": {
+            "line": 561,
+            "character": 6
+          },
+          "end": {
+            "line": 561,
+            "character": 11
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+      "is_function": false
+    },
+    "testdir": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CheckIPOSupported.cmake",
+        "range": {
+          "start": {
+            "line": 154,
+            "character": 6
+          },
+          "end": {
+            "line": 154,
+            "character": 13
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CheckIPOSupported.cmake",
+      "is_function": false
+    },
+    "GGAID_dir": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 647,
+            "character": 8
+          },
+          "end": {
+            "line": 647,
+            "character": 17
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake\n\nHistorical behavior: use ${dir} from caller's scope",
+      "is_function": false
+    },
+    "SDLIMAGE_PNG_SHARED": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 21,
+            "character": 4
+          },
+          "end": {
+            "line": 21,
+            "character": 23
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3/SDL3testTargets.cmake",
+        "range": {
+          "start": {
+            "line": 114,
+            "character": 9
+          },
+          "end": {
+            "line": 114,
+            "character": 53
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3/SDL3testTargets.cmake",
+      "is_function": false
+    },
+    "_GNUInstallDirs_INFODIR_DEFAULT": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 565,
+            "character": 6
+          },
+          "end": {
+            "line": 565,
+            "character": 37
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": false
+    },
+    "SDL3TEST_LIBRARY": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+        "range": {
+          "start": {
+            "line": 132,
+            "character": 4
+          },
+          "end": {
+            "line": 132,
+            "character": 20
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+      "is_function": false
+    },
+    "_GNUInstallDirs_LIBDIR_get_default": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 440,
+            "character": 9
+          },
+          "end": {
+            "line": 440,
+            "character": 43
+          }
+        }
+      },
+      "document_info": "defined function\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": true
+    },
+    "_config_file": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+        "range": {
+          "start": {
+            "line": 564,
+            "character": 10
+          },
+          "end": {
+            "line": 564,
+            "character": 22
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+      "is_function": false
+    },
+    "_GNUInstallDirs_MANDIR_DEFAULT": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 575,
+            "character": 6
+          },
+          "end": {
+            "line": 575,
+            "character": 36
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": false
+    },
+    "_sdl_cmake_module_path": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 78,
+            "character": 12
+          },
+          "end": {
+            "line": 78,
+            "character": 34
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "_cmake_targets_defined": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_image-shared-targets.cmake",
+        "range": {
+          "start": {
+            "line": 18,
+            "character": 4
+          },
+          "end": {
+            "line": 18,
+            "character": 26
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_image-shared-targets.cmake\n\nProtect against multiple inclusion, which would fail when already imported targets are added once more.",
+      "is_function": false
+    },
+    "CMAKE_TRY_COMPILE_CONFIGURATION": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CheckIPOSupported.cmake",
+        "range": {
+          "start": {
+            "line": 187,
+            "character": 8
+          },
+          "end": {
+            "line": 187,
+            "character": 39
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CheckIPOSupported.cmake",
+      "is_function": false
+    },
+    "WRITE_BASIC_CONFIG_VERSION_FILE": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/WriteBasicConfigVersionFile.cmake",
+        "range": {
+          "start": {
+            "line": 23,
+            "character": 9
+          },
+          "end": {
+            "line": 23,
+            "character": 40
+          }
+        }
+      },
+      "document_info": "defined function\nfrom: /usr/share/cmake/Modules/WriteBasicConfigVersionFile.cmake",
+      "is_function": true
+    },
+    "_GNUInstallDirs_cache_convert_to_path": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 263,
+            "character": 9
+          },
+          "end": {
+            "line": 263,
+            "character": 46
+          }
+        }
+      },
+      "document_info": "defined function\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": true
+    },
+    "SDLIMAGE_JXL_SHARED": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 17,
+            "character": 4
+          },
+          "end": {
+            "line": 17,
+            "character": 23
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "${out_var}": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 496,
+            "character": 6
+          },
+          "end": {
+            "line": 496,
+            "character": 16
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": false
+    },
+    "cmake_install_var": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 326,
+            "character": 6
+          },
+          "end": {
+            "line": 326,
+            "character": 23
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": false
+    },
+    "_GNUInstallDirs_LOCALEDIR_DEFAULT": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 581,
+            "character": 4
+          },
+          "end": {
+            "line": 581,
+            "character": 37
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": false
+    },
+    "SDLIMAGE_XCF": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 28,
+            "character": 4
+          },
+          "end": {
+            "line": 28,
+            "character": 16
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "PACKAGE_INIT": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+        "range": {
+          "start": {
+            "line": 466,
+            "character": 6
+          },
+          "end": {
+            "line": 466,
+            "character": 18
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+      "is_function": false
+    },
+    "_branch_INIT": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+        "range": {
+          "start": {
+            "line": 558,
+            "character": 8
+          },
+          "end": {
+            "line": 558,
+            "character": 20
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+      "is_function": false
+    },
+    "PACKAGE_VERSION": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfigVersion.cmake",
+        "range": {
+          "start": {
+            "line": 40,
+            "character": 6
+          },
+          "end": {
+            "line": 40,
+            "character": 21
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfigVersion.cmake",
+      "is_function": false
+    },
+    "_single": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+        "range": {
+          "start": {
+            "line": 586,
+            "character": 6
+          },
+          "end": {
+            "line": 586,
+            "character": 13
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+      "is_function": false
+    },
+    "optional": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CheckIPOSupported.cmake",
+        "range": {
+          "start": {
+            "line": 237,
+            "character": 6
+          },
+          "end": {
+            "line": 237,
+            "character": 14
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CheckIPOSupported.cmake",
+      "is_function": false
+    },
+    "${absvar}": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 679,
+            "character": 8
+          },
+          "end": {
+            "line": 679,
+            "character": 17
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": false
+    },
+    "return_vars": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 682,
+            "character": 6
+          },
+          "end": {
+            "line": 682,
+            "character": 17
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": false
+    },
+    "SDL3_SDL3-static_FOUND": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+        "range": {
+          "start": {
+            "line": 59,
+            "character": 8
+          },
+          "end": {
+            "line": 59,
+            "character": 30
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+      "is_function": false
+    },
+    "_multi": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+        "range": {
+          "start": {
+            "line": 592,
+            "character": 6
+          },
+          "end": {
+            "line": 592,
+            "character": 12
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+      "is_function": false
+    },
+    "_sdl3_framework": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+        "range": {
+          "start": {
+            "line": 28,
+            "character": 4
+          },
+          "end": {
+            "line": 28,
+            "character": 19
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+      "is_function": false
+    },
+    "_CXX_ext": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CheckIPOSupported.cmake",
+        "range": {
+          "start": {
+            "line": 138,
+            "character": 6
+          },
+          "end": {
+            "line": 138,
+            "character": 14
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CheckIPOSupported.cmake",
+      "is_function": false
+    },
+    "SDL3_Jar_FOUND": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+        "range": {
+          "start": {
+            "line": 72,
+            "character": 6
+          },
+          "end": {
+            "line": 72,
+            "character": 20
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+      "is_function": false
+    },
+    "_cmake_targets_not_defined": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_image-shared-targets.cmake",
+        "range": {
+          "start": {
+            "line": 19,
+            "character": 4
+          },
+          "end": {
+            "line": 19,
+            "character": 30
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_image-shared-targets.cmake",
+      "is_function": false
+    },
+    "SDLIMAGE_JPG_SAVE": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 34,
+            "character": 4
+          },
+          "end": {
+            "line": 34,
+            "character": 21
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "SDLIMAGE_JXL": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 16,
+            "character": 4
+          },
+          "end": {
+            "line": 16,
+            "character": 16
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "versionTemplateFile": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/WriteBasicConfigVersionFile.cmake",
+        "range": {
+          "start": {
+            "line": 35,
+            "character": 6
+          },
+          "end": {
+            "line": 35,
+            "character": 25
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/WriteBasicConfigVersionFile.cmake",
+      "is_function": false
+    },
+    "SHADER_FILES": {
+      "location": {
+        "uri": "file:///home/lili/Documents/Lili2D/CMakeLists.txt",
+        "range": {
+          "start": {
+            "line": 15,
+            "character": 4
+          },
+          "end": {
+            "line": 15,
+            "character": 16
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /home/lili/Documents/Lili2D/CMakeLists.txt",
+      "is_function": false
+    },
+    "arch": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+        "range": {
+          "start": {
+            "line": 648,
+            "character": 8
+          },
+          "end": {
+            "line": 648,
+            "character": 12
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+      "is_function": false
+    },
+    "SDLIMAGE_WEBP": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 31,
+            "character": 4
+          },
+          "end": {
+            "line": 31,
+            "character": 17
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "_indent": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+        "range": {
+          "start": {
+            "line": 680,
+            "character": 8
+          },
+          "end": {
+            "line": 680,
+            "character": 15
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+      "is_function": false
+    },
+    "oneValueArgs": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+        "range": {
+          "start": {
+            "line": 418,
+            "character": 6
+          },
+          "end": {
+            "line": 418,
+            "character": 18
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+      "is_function": false
+    },
+    "SDL3_STATIC_PRIVATE_LIBS": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+        "range": {
+          "start": {
+            "line": 130,
+            "character": 4
+          },
+          "end": {
+            "line": 130,
+            "character": 28
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+      "is_function": false
+    },
+    "PACKAGE_VERSION_UNSUITABLE": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfigVersion.cmake",
+        "range": {
+          "start": {
+            "line": 41,
+            "character": 6
+          },
+          "end": {
+            "line": 41,
+            "character": 32
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfigVersion.cmake",
+      "is_function": false
+    },
+    "EMBEDDED_ASSETS": {
+      "location": {
+        "uri": "file:///home/lili/Documents/Lili2D/CMakeLists.txt",
+        "range": {
+          "start": {
+            "line": 42,
+            "character": 4
+          },
+          "end": {
+            "line": 42,
+            "character": 19
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /home/lili/Documents/Lili2D/CMakeLists.txt",
+      "is_function": false
+    },
+    "SDLIMAGE_BACKEND_STB": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 40,
+            "character": 4
+          },
+          "end": {
+            "line": 40,
+            "character": 24
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "multiValueArgs": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+        "range": {
+          "start": {
+            "line": 419,
+            "character": 6
+          },
+          "end": {
+            "line": 419,
+            "character": 20
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+      "is_function": false
+    },
+    "default": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 327,
+            "character": 6
+          },
+          "end": {
+            "line": 327,
+            "character": 13
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": false
+    },
+    "_GNUInstallDirs_RUNSTATEDIR_DEFAULT": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 583,
+            "character": 4
+          },
+          "end": {
+            "line": 583,
+            "character": 39
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": false
+    },
+    "CMAKE_IMPORT_FILE_VERSION": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_image-shared-targets.cmake",
+        "range": {
+          "start": {
+            "line": 107,
+            "character": 4
+          },
+          "end": {
+            "line": 107,
+            "character": 29
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_image-shared-targets.cmake\n\nCommands beyond this point should not need to know the version.",
+      "is_function": false
+    },
+    "_C_ext": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CheckIPOSupported.cmake",
+        "range": {
+          "start": {
+            "line": 137,
+            "character": 6
+          },
+          "end": {
+            "line": 137,
+            "character": 12
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CheckIPOSupported.cmake",
+      "is_function": false
+    },
+    "_GNUInstallDirs_BINDIR_DEFAULT": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 419,
+            "character": 4
+          },
+          "end": {
+            "line": 419,
+            "character": 34
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake\n\nSet the standard default values before any special handling",
+      "is_function": false
+    },
+    "PACKAGE_VERSION_COMPATIBLE": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfigVersion.cmake",
+        "range": {
+          "start": {
+            "line": 24,
+            "character": 8
+          },
+          "end": {
+            "line": 24,
+            "character": 34
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfigVersion.cmake",
+      "is_function": false
+    },
+    "_branch_code": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+        "range": {
+          "start": {
+            "line": 614,
+            "character": 6
+          },
+          "end": {
+            "line": 614,
+            "character": 18
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+      "is_function": false
+    },
+    "PACKAGE_VERSION_EXACT": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfigVersion.cmake",
+        "range": {
+          "start": {
+            "line": 26,
+            "character": 10
+          },
+          "end": {
+            "line": 26,
+            "character": 31
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfigVersion.cmake",
+      "is_function": false
+    },
+    "SDL3_SDL3_test_FOUND": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+        "range": {
+          "start": {
+            "line": 96,
+            "character": 8
+          },
+          "end": {
+            "line": 96,
+            "character": 28
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+      "is_function": false
+    },
+    "${CMAKE_FIND_PACKAGE_NAME}_FOUND": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3/SDL3testTargets.cmake",
+        "range": {
+          "start": {
+            "line": 113,
+            "character": 9
+          },
+          "end": {
+            "line": 113,
+            "character": 41
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3/SDL3testTargets.cmake",
+      "is_function": false
+    },
+    "_GNUInstallDirs_LOCALSTATEDIR_DEFAULT": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 424,
+            "character": 4
+          },
+          "end": {
+            "line": 424,
+            "character": 41
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": false
+    },
+    "SDL3_LIBRARIES": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+        "range": {
+          "start": {
+            "line": 128,
+            "character": 4
+          },
+          "end": {
+            "line": 128,
+            "character": 18
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+      "is_function": false
+    },
+    "generate_apple_platform_selection_file": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+        "range": {
+          "start": {
+            "line": 522,
+            "character": 9
+          },
+          "end": {
+            "line": 522,
+            "character": 47
+          }
+        }
+      },
+      "document_info": "defined function\nfrom: /usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+      "is_function": true
+    },
+    "absInstallDir": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+        "range": {
+          "start": {
+            "line": 446,
+            "character": 8
+          },
+          "end": {
+            "line": 446,
+            "character": 21
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+      "is_function": false
+    },
+    "options": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+        "range": {
+          "start": {
+            "line": 417,
+            "character": 6
+          },
+          "end": {
+            "line": 417,
+            "character": 13
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+      "is_function": false
+    },
+    "_ipo_not_supported": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CheckIPOSupported.cmake",
+        "range": {
+          "start": {
+            "line": 124,
+            "character": 6
+          },
+          "end": {
+            "line": 124,
+            "character": 24
+          }
+        }
+      },
+      "document_info": "defined macro\nfrom: /usr/share/cmake/Modules/CheckIPOSupported.cmake\n\nX_OUTPUT - name of the variable with information about error",
+      "is_function": true
+    },
+    "_options": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+        "range": {
+          "start": {
+            "line": 585,
+            "character": 6
+          },
+          "end": {
+            "line": 585,
+            "character": 14
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+      "is_function": false
+    },
+    "_branch_${_opt}": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+        "range": {
+          "start": {
+            "line": 572,
+            "character": 10
+          },
+          "end": {
+            "line": 572,
+            "character": 25
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+      "is_function": false
+    },
+    "_GNUInstallDirs_cache_path": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 274,
+            "character": 9
+          },
+          "end": {
+            "line": 274,
+            "character": 35
+          }
+        }
+      },
+      "document_info": "defined function\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake\n\nCreate a cache variable with default for a path.",
+      "is_function": true
+    },
+    "generate_apple_architecture_selection_file": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+        "range": {
+          "start": {
+            "line": 584,
+            "character": 9
+          },
+          "end": {
+            "line": 584,
+            "character": 51
+          }
+        }
+      },
+      "document_info": "defined function\nfrom: /usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+      "is_function": true
+    },
+    "SDLIMAGE_BACKEND_WIC": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 41,
+            "character": 4
+          },
+          "end": {
+            "line": 41,
+            "character": 24
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "SDLIMAGE_AVIF": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 10,
+            "character": 4
+          },
+          "end": {
+            "line": 10,
+            "character": 17
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "one": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CheckIPOSupported.cmake",
+        "range": {
+          "start": {
+            "line": 238,
+            "character": 6
+          },
+          "end": {
+            "line": 238,
+            "character": 9
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CheckIPOSupported.cmake",
+      "is_function": false
+    },
+    "_GNUInstallDirs_RUNSTATEDIR_get_default": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 495,
+            "character": 9
+          },
+          "end": {
+            "line": 495,
+            "character": 48
+          }
+        }
+      },
+      "document_info": "defined function\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake\n\nDepends on current CMAKE_INSTALL_LOCALSTATEDIR value",
+      "is_function": true
+    },
+    "languages": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CheckIPOSupported.cmake",
+        "range": {
+          "start": {
+            "line": 293,
+            "character": 8
+          },
+          "end": {
+            "line": 293,
+            "character": 17
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CheckIPOSupported.cmake",
+      "is_function": false
+    },
+    "_GNUInstallDirs_DATAROOTDIR_DEFAULT": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 428,
+            "character": 4
+          },
+          "end": {
+            "line": 428,
+            "character": 39
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": false
+    },
+    "check_required_components": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 154,
+            "character": 6
+          },
+          "end": {
+            "line": 154,
+            "character": 31
+          }
+        }
+      },
+      "document_info": "defined macro\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": true
+    },
+    "SDLIMAGE_LBM": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 18,
+            "character": 4
+          },
+          "end": {
+            "line": 18,
+            "character": 16
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "SDLIMAGE_TIF": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 26,
+            "character": 4
+          },
+          "end": {
+            "line": 26,
+            "character": 16
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "SPV_FILE": {
+      "location": {
+        "uri": "file:///home/lili/Documents/Lili2D/CMakeLists.txt",
+        "range": {
+          "start": {
+            "line": 23,
+            "character": 8
+          },
+          "end": {
+            "line": 23,
+            "character": 16
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /home/lili/Documents/Lili2D/CMakeLists.txt",
+      "is_function": false
+    },
+    "\"${X_RESULT}\"": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CheckIPOSupported.cmake",
+        "range": {
+          "start": {
+            "line": 322,
+            "character": 6
+          },
+          "end": {
+            "line": 322,
+            "character": 19
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CheckIPOSupported.cmake",
+      "is_function": false
+    },
+    "GNUInstallDirs_get_absolute_install_dir": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 640,
+            "character": 9
+          },
+          "end": {
+            "line": 640,
+            "character": 48
+          }
+        }
+      },
+      "document_info": "defined function\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": true
+    },
+    "multiple": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CheckIPOSupported.cmake",
+        "range": {
+          "start": {
+            "line": 239,
+            "character": 6
+          },
+          "end": {
+            "line": 239,
+            "character": 14
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CheckIPOSupported.cmake",
+      "is_function": false
+    },
+    "_IMPORT_PREFIX": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_image-shared-targets.cmake",
+        "range": {
+          "start": {
+            "line": 76,
+            "character": 4
+          },
+          "end": {
+            "line": 76,
+            "character": 18
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_image-shared-targets.cmake\n\nCleanup temporary variables.",
+      "is_function": false
+    },
+    "SDLIMAGE_JPG": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 14,
+            "character": 4
+          },
+          "end": {
+            "line": 14,
+            "character": 16
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "try_compile_src": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CheckIPOSupported.cmake",
+        "range": {
+          "start": {
+            "line": 167,
+            "character": 6
+          },
+          "end": {
+            "line": 167,
+            "character": 21
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CheckIPOSupported.cmake",
+      "is_function": false
+    },
+    "check_ipo_supported": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CheckIPOSupported.cmake",
+        "range": {
+          "start": {
+            "line": 219,
+            "character": 9
+          },
+          "end": {
+            "line": 219,
+            "character": 28
+          }
+        }
+      },
+      "document_info": "defined function\nfrom: /usr/share/cmake/Modules/CheckIPOSupported.cmake",
+      "is_function": true
+    },
+    "__GNUInstallDirs_default_in_root": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 392,
+            "character": 9
+          },
+          "end": {
+            "line": 392,
+            "character": 41
+          }
+        }
+      },
+      "document_info": "defined function\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake\n\ni.e. SYSCONFDIR and LOCALSTATEDIR",
+      "is_function": true
+    },
+    "HEADER_FILE": {
+      "location": {
+        "uri": "file:///home/lili/Documents/Lili2D/CMakeLists.txt",
+        "range": {
+          "start": {
+            "line": 46,
+            "character": 8
+          },
+          "end": {
+            "line": 46,
+            "character": 19
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /home/lili/Documents/Lili2D/CMakeLists.txt",
+      "is_function": false
+    },
+    "full_description": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 315,
+            "character": 6
+          },
+          "end": {
+            "line": 315,
+            "character": 22
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake\n\nNormal flow",
+      "is_function": false
+    },
+    "_GNUInstallDirs_DOCDIR_DEFAULT": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 582,
+            "character": 4
+          },
+          "end": {
+            "line": 582,
+            "character": 34
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": false
+    },
+    "SDLIMAGE_XPM": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 29,
+            "character": 4
+          },
+          "end": {
+            "line": 29,
+            "character": 16
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "ASSET_FILES": {
+      "location": {
+        "uri": "file:///home/lili/Documents/Lili2D/CMakeLists.txt",
+        "range": {
+          "start": {
+            "line": 39,
+            "character": 4
+          },
+          "end": {
+            "line": 39,
+            "character": 15
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /home/lili/Documents/Lili2D/CMakeLists.txt",
+      "is_function": false
+    },
+    "_GNUInstallDirs_SBINDIR_DEFAULT": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 420,
+            "character": 4
+          },
+          "end": {
+            "line": 420,
+            "character": 35
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": false
+    },
+    "_GNUInstallDirs_SHAREDSTATEDIR_DEFAULT": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 423,
+            "character": 4
+          },
+          "end": {
+            "line": 423,
+            "character": 42
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": false
+    },
+    "SDLIMAGE_GIF": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 13,
+            "character": 4
+          },
+          "end": {
+            "line": 13,
+            "character": 16
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "unsupported_languages": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CheckIPOSupported.cmake",
+        "range": {
+          "start": {
+            "line": 295,
+            "character": 8
+          },
+          "end": {
+            "line": 295,
+            "character": 29
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CheckIPOSupported.cmake",
+      "is_function": false
+    },
+    "SDL3_image_SDL3_image-static_FOUND": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 122,
+            "character": 8
+          },
+          "end": {
+            "line": 122,
+            "character": 42
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "SDL3_SDL3_FOUND": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+        "range": {
+          "start": {
+            "line": 76,
+            "character": 6
+          },
+          "end": {
+            "line": 76,
+            "character": 21
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3/SDL3Config.cmake",
+      "is_function": false
+    },
+    "_sdl_create_target_alias_compat": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 125,
+            "character": 9
+          },
+          "end": {
+            "line": 125,
+            "character": 40
+          }
+        }
+      },
+      "document_info": "defined function\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": true
+    },
+    "GGAID_extra_args": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 641,
+            "character": 6
+          },
+          "end": {
+            "line": 641,
+            "character": 22
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": false
+    },
+    "${var}": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 672,
+            "character": 12
+          },
+          "end": {
+            "line": 672,
+            "character": 18
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": false
+    },
+    "EMBEDDED_SHADERS": {
+      "location": {
+        "uri": "file:///home/lili/Documents/Lili2D/CMakeLists.txt",
+        "range": {
+          "start": {
+            "line": 19,
+            "character": 4
+          },
+          "end": {
+            "line": 19,
+            "character": 20
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /home/lili/Documents/Lili2D/CMakeLists.txt",
+      "is_function": false
+    },
+    "SDLIMAGE_AVIF_SHARED": {
+      "location": {
+        "uri": "file:///usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+        "range": {
+          "start": {
+            "line": 11,
+            "character": 4
+          },
+          "end": {
+            "line": 11,
+            "character": 24
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/local/lib/cmake/SDL3_image/SDL3_imageConfig.cmake",
+      "is_function": false
+    },
+    "install_prefix_is_same": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 284,
+            "character": 10
+          },
+          "end": {
+            "line": 284,
+            "character": 32
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": false
+    },
+    "_GNUInstallDirs_DATADIR_DEFAULT": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/GNUInstallDirs.cmake",
+        "range": {
+          "start": {
+            "line": 580,
+            "character": 4
+          },
+          "end": {
+            "line": 580,
+            "character": 35
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/GNUInstallDirs.cmake",
+      "is_function": false
+    },
+    "copy_sources": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CheckIPOSupported.cmake",
+        "range": {
+          "start": {
+            "line": 144,
+            "character": 8
+          },
+          "end": {
+            "line": 144,
+            "character": 20
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CheckIPOSupported.cmake",
+      "is_function": false
+    },
+    "PACKAGE_${var}": {
+      "location": {
+        "uri": "file:///usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+        "range": {
+          "start": {
+            "line": 459,
+            "character": 12
+          },
+          "end": {
+            "line": 459,
+            "character": 26
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /usr/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+      "is_function": false
+    }
+  }
+}

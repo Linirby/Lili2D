@@ -25,8 +25,8 @@ struct Vertex {
     Vertex() = default;
     Vertex(
         float x, float y, float z, float u = 0.0f, float v = 0.0f,
-        float material_id = 0.0f, float r = 0.0f, float g = 0.0f,
-        float b = 0.0f, float a = 0.0f
+        float material_id = 0.0f, float r = 1.0f, float g = 1.0f,
+        float b = 1.0f, float a = 1.0f
     );
 };
 

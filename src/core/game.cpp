@@ -13,7 +13,7 @@ Game::Game(
 ) {
     window = std::make_unique<Window>(title, width, height);
 
-    auto& config = GameConfig::get();
+    GameConfig& config = GameConfig::get();
     config.setWindowSize(this, width, height);
     config.setWindowFullscreen(this, config.isWindowFullscreen());
     config.setWindowResizable(this, config.isWindowResizable());
@@ -104,7 +104,30 @@ Game::onInit() {}
 
 void
 Game::onEvent(const Event& event) {
-    (void)event;
+    if (event.type() == lili::EventType::WINDOW) {
+        lili::GameConfig& conf = lili::GameConfig::get();
+        lili::WindowEvent win_event = event.window();
+        switch (win_event.type) {
+            case lili::WindowEventType::WINDOW_RESIZED:
+            case lili::WindowEventType::WINDOW_PIXEL_SIZE_CHANGED:
+                conf.updateWindowSize(win_event.data1, win_event.data2);
+                break;
+            case lili::WindowEventType::WINDOW_ENTER_FULLSCREEN:
+                conf.setWindowFullscreen(this, true);
+                break;
+            case lili::WindowEventType::WINDOW_LEAVE_FULLSCREEN:
+                conf.setWindowFullscreen(this, false);
+                break;
+            default:
+                break;
+        }
+    } else if (event.type() == lili::EventType::KEYBOARD) {
+        lili::KeyboardEvent kb = event.keyboard();
+        if (kb.action == lili::KeyAction::PRESSED && kb.key == SDLK_F11) {
+            lili::GameConfig& conf = lili::GameConfig::get();
+            conf.setWindowFullscreen(this, !conf.isWindowFullscreen());
+        }
+    }
 }
 
 void

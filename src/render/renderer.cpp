@@ -1,11 +1,15 @@
 #include "lili2d/render/renderer.hpp"
 
+#include <cstdint>
 #include <iostream>
+#include <memory>
 #include <stdexcept>
 #include <string>
 
+#include "lili2d/geometry/vec2.hpp"
 #include "lili2d/render/scene/common/model.hpp"
 #include "lili2d/render/scene/common/utils.hpp"
+#include "lili2d/render/scene/shapes/circle.hpp"
 #include "lili2d/render/scene/shapes/rect.hpp"
 #include "lili2d/render/white_1x1_png.hpp"
 #include "shader/world_2d_frag_spv.hpp"
@@ -144,13 +148,30 @@ Renderer::drawDebugRect(float x, float y, float w, float h, const Vec4& color) {
     uint32_t key = (r << 24) | (g << 16) | (b << 8) | a;
 
     if (debug_rects.find(key) == debug_rects.end()) {
-        debug_rects[key] =
-            std::make_unique<Rect>(this, RectShape(0, 0, 0, 0), color);
+        debug_rects[key] = std::make_unique<Rect>(this, RectShape(), color);
         debug_rects[key]->setHollow(true);
     }
 
     debug_rects[key]->setShape(RectShape(x, y, w, h));
     debug_rects[key]->draw();
+}
+
+void
+Renderer::drawDebugCircle(float x, float y, float radius, const Vec4& color) {
+    uint32_t r = (uint32_t)(color.x * 255.0f);
+    uint32_t g = (uint32_t)(color.y * 255.0f);
+    uint32_t b = (uint32_t)(color.z * 255.0f);
+    uint32_t a = (uint32_t)(color.w * 255.0f);
+    uint32_t key = (r << 24) | (g << 16) | (b << 8) | a;
+
+    if (debug_circles.find(key) == debug_circles.end()) {
+        debug_circles[key] =
+            std::make_unique<Circle>(this, CircleShape(), color);
+        debug_circles[key]->setHollow(true);
+    }
+
+    debug_circles[key]->setShape(CircleShape(Vec2(x, y), radius, 16));
+    debug_circles[key]->draw();
 }
 
 void

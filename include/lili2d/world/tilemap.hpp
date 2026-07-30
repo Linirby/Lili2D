@@ -6,7 +6,7 @@
 
 #include "lili2d/geometry/point3.hpp"
 #include "lili2d/geometry/vec2.hpp"
-#include "lili2d/physics/collision.hpp"
+#include "lili2d/physics/aabb_collider.hpp"
 #include "lili2d/render/renderer.hpp"
 #include "lili2d/world/chunk.hpp"
 

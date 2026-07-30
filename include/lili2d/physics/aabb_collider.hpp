@@ -2,6 +2,7 @@
 
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/geometry/vec3.hpp"
+#include "lili2d/physics/circle_collider.hpp"
 #include "lili2d/render/scene/shapes/circle.hpp"
 #include "lili2d/render/scene/shapes/line.hpp"
 #include "lili2d/render/scene/shapes/rect.hpp"
@@ -47,6 +48,16 @@ struct AABB2 {
     /// @return True if there is an intersection, false otherwise.
     bool
     intersect(const Rect& rect) const;
+    /// @brief Checks if this AABB2 intersects with a CircleCollider.
+    /// @param circle The CircleCollider to test against.
+    /// @return True if there is an intersection, false otherwise.
+    bool
+    intersect(const CircleCollider& circle) const;
+    /// @brief Checks if this AABB2 intersects with a Circle shape.
+    /// @param circle The Circle shape to test against.
+    /// @return True if there is an intersection, false otherwise.
+    bool
+    intersect(const Circle& circle) const;
 
     /// @brief Checks if this AABB2 contains another.
     /// @param other The other AABB2 to test against.
@@ -107,17 +118,6 @@ struct AABB3 {
     /// @return True if this AABB3 contains the other, false otherwise.
     bool
     contains(const AABB3& other) const;
-};
-
-/// @brief Contains the result of a raycast operation.
-struct RaycastResult {
-    bool hit = false;  ///< True if the raycast hit something.
-    int hit_x = 0;     ///< Hit X coordinate.
-    int hit_y = 0;     ///< Hit Y coordinate.
-    int hit_z = 0;     ///< Hit Z coordinate.
-    int adj_x = 0;     ///< Adjacent X coordinate (surface normal).
-    int adj_y = 0;     ///< Adjacent Y coordinate (surface normal).
-    int adj_z = 0;     ///< Adjacent Z coordinate (surface normal).
 };
 
 }  // namespace lili

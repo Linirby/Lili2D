@@ -1,6 +1,6 @@
 #include "lili2d/world/tilemap.hpp"
 
-#include "lili2d/physics/collision.hpp"
+#include "lili2d/physics/aabb_collider.hpp"
 #include "lili2d/render/renderer.hpp"
 #include "lili2d/world/chunk.hpp"
 #include "lili2d/world/tile_registry.hpp"

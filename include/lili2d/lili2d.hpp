@@ -74,6 +74,8 @@ struct Vec3;
 /// @brief A 4D vector.
 struct Vec4;
 
+/// @brief A 2D circle collider for collision detection.
+struct CircleCollider;
 /// @brief An axis-aligned bounding box 2D for collision detection.
 struct AABB2;
 /// @brief An axis-aligned bounding box 3D for collision detection.

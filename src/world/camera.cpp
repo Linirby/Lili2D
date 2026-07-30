@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-#include "lili2d/physics/collision.hpp"
+#include "lili2d/physics/aabb_collider.hpp"
 
 namespace lili {
 

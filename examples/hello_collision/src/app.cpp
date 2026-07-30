@@ -1,5 +1,7 @@
 #include "app.hpp"
 
+#include "lili2d/physics/circle_collider.hpp"
+
 App::App() : lili::Game("hello_collision - Lili2D", 800, 800) {
     lili::Renderer* renderer = getRenderer();
     cursor_rect = lili::Rect(
@@ -67,7 +69,7 @@ App::onUpdate(float dt) {
     }
     if (draw_circle) {
         cursor_circle.setCenter(mouse.getPos());
-        if (lili::AABB2(cursor_circle).intersect(random_rect))
+        if (lili::CircleCollider(cursor_circle).intersect(random_rect))
             cursor_circle.setColor(lili::Vec4(0, 1, 0, 1));
         else
             cursor_circle.setColor(lili::Vec4(0, 0, 1, 1));
@@ -95,7 +97,7 @@ App::onRender(float alpha) {
     }
     if (draw_circle) {
         cursor_circle.draw();
-        lili::AABB2(cursor_circle).debugDraw(renderer, debug_color);
+        lili::CircleCollider(cursor_circle).debugDraw(renderer, debug_color);
     }
     if (draw_line) {
         cursor_line.draw();

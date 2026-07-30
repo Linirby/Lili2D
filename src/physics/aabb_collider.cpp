@@ -1,4 +1,4 @@
-#include "lili2d/physics/collision.hpp"
+#include "lili2d/physics/aabb_collider.hpp"
 
 #include <map>
 #include <memory>
@@ -43,6 +43,16 @@ AABB2::intersect(const AABB2& other) const {
 bool
 AABB2::intersect(const Rect& rect) const {
     return intersect(AABB2(rect));
+}
+
+bool
+AABB2::intersect(const CircleCollider& circle) const {
+    return circle.intersect(*this);
+}
+
+bool
+AABB2::intersect(const Circle& circle) const {
+    return CircleCollider(circle).intersect(*this);
 }
 
 bool

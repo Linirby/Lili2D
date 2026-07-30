@@ -2,12 +2,14 @@
 
 #include <SDL3/SDL.h>
 
+#include <cstdint>
 #include <map>
 #include <memory>
 #include <vector>
 
 #include "lili2d/core/sdl_deleters.hpp"
 #include "lili2d/core/window.hpp"
+#include "lili2d/geometry/vec4.hpp"
 #include "lili2d/render/core/shader.hpp"
 #include "lili2d/render/core/texture.hpp"
 #include "lili2d/render/passes/main_render_pass.hpp"
@@ -20,6 +22,8 @@ namespace lili {
 
 /// @brief A renderable rectangle object.
 class Rect;
+/// @brief A renderable circle object.
+class Circle;
 
 /// @brief Main renderer class responsible for handling drawing operations.
 class Renderer {
@@ -141,6 +145,15 @@ public:
     /// @param color The color.
     void
     drawDebugRect(float x, float y, float w, float h, const Vec4& color);
+    /// @brief Draws a cached hollow debug circle.
+    /// @param center_x X centered position.
+    /// @param center_y Y centered position.
+    /// @param radius The Radius.
+    /// @param color The color.
+    void
+    drawDebugCircle(
+        float center_x, float center_y, float radius, const Vec4& color
+    );
 
 private:
     Window* window = nullptr;
@@ -167,6 +180,7 @@ private:
     std::map<int, std::unique_ptr<GPUMesh>> unit_circles;
 
     std::map<uint32_t, std::unique_ptr<Rect>> debug_rects;
+    std::map<uint32_t, std::unique_ptr<Circle>> debug_circles;
 
     /// @brief initDevice method.
     /// @param preferred_mode The preferred present mode for the swapchain.

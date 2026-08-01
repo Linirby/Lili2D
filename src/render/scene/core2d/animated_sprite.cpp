@@ -60,21 +60,35 @@ AnimatedSprite::setFrameSpeed(float speed_sec) {
 
 void
 AnimatedSprite::setColorTint(const Vec4& color) {
-    material->properties.color_tint = color;
+    if (material) {
+        material->properties.color_tint = color;
+    }
 }
 
 void
-AnimatedSprite::setPosition(const Vec2& position) {
+AnimatedSprite::setColor(Vec4 color) {
+    setColorTint(color);
+}
+
+void
+AnimatedSprite::setMaterial(Material* material) {
+    external_material = material;
+}
+
+void
+AnimatedSprite::setPosition(Vec2 position) {
     this->position = position;
+    ui_layout.offset = position;
 }
 
+
 void
-AnimatedSprite::setScale(const Vec2& scale) {
+AnimatedSprite::setScale(Vec2 scale) {
     this->scale = scale;
 }
 
 void
-AnimatedSprite::setSize(const Vec2& size) {
+AnimatedSprite::setSize(Vec2 size) {
     this->size = size;
 }
 
@@ -88,9 +102,24 @@ AnimatedSprite::setLayer(float layer) {
     this->layer = layer;
 }
 
+void
+AnimatedSprite::setRender(RenderLayer render_layer) {
+    this->render_layer = render_layer;
+}
+
 Vec2
 AnimatedSprite::getPosition() const {
     return position;
+}
+
+float
+AnimatedSprite::getRotation() const {
+    return lili::radToDeg(rotation);
+}
+
+Vec2
+AnimatedSprite::getScale() const {
+    return scale;
 }
 
 float
@@ -108,9 +137,42 @@ AnimatedSprite::getSize() const {
     return Vec2(size.x * scale.x, size.y * scale.y);
 }
 
+Mat3
+AnimatedSprite::getTransformMatrix() const {
+    if (render_layer == RenderLayer::UI && renderer) {
+        Vec2 viewport_size = {
+            static_cast<float>(renderer->getSwapchainWidth()),
+            static_cast<float>(renderer->getSwapchainHeight())
+        };
+        Vec2 obj_size = getSize();
+        return ui_layout.getTransformationMatrix(
+            viewport_size, obj_size, rotation, obj_size
+        );
+    }
+    return Mat3::translate(position) * Mat3::rotation(rotation) *
+           Mat3::scale(getSize());
+}
+
+
+float
+AnimatedSprite::getLayer() const {
+    return layer;
+}
+
+RenderLayer
+AnimatedSprite::getRender() const {
+    return render_layer;
+}
+
+Vec4
+AnimatedSprite::getColor() const {
+    Material* mat = getMaterial();
+    return mat ? mat->properties.color_tint : Vec4(1, 1, 1, 1);
+}
+
 Material*
 AnimatedSprite::getMaterial() const {
-    return material.get();
+    return external_material ? external_material : material.get();
 }
 
 void
@@ -134,21 +196,22 @@ AnimatedSprite::reset() {
 
 void
 AnimatedSprite::draw() {
-    Mat3 mat_transform =
-        (Mat3::translate(position) * Mat3::rotation(rotation) *
-         Mat3::scale(getSize()));
+    if (!is_visible) return;
+    Mat3 mat_transform = getTransformMatrix();
     renderer->submit(
-        Model({mesh, material.get()}), mat_transform, layer,
-        RenderLayer::WORLD2D
+        Model({mesh, getMaterial()}), mat_transform, layer, render_layer
     );
 }
 
 void
 AnimatedSprite::applyFrame(const SliceUV& frame) {
-    material->albedoMap = frame.texture;
-    material->properties.uv_bounds = {
-        frame.u_min, frame.v_min, frame.u_max, frame.v_max
-    };
+    Material* mat = getMaterial();
+    if (mat) {
+        mat->albedoMap = frame.texture;
+        mat->properties.uv_bounds = {
+            frame.u_min, frame.v_min, frame.u_max, frame.v_max
+        };
+    }
     this->size = {frame.width, frame.height};
 }
 

@@ -14,11 +14,17 @@ struct Vec2 {
     /// @param y The Y component.
     Vec2(float x, float y);
 
+    /// @brief Unary negation operator.
+    /// @return The negated vector.
+    Vec2
+    operator-() const;
+
     /// @brief Subtraction operator.
     /// @param o The vector to subtract.
     /// @return The result of subtraction.
     Vec2
     operator-(const Vec2& o) const;
+
     /// @brief Subtraction assignment operator.
     /// @param o The vector to subtract.
     /// @return A reference to this vector.

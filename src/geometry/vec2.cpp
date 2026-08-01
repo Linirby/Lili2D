@@ -7,9 +7,15 @@ namespace lili {
 Vec2::Vec2(float x, float y) : x(x), y(y) {}
 
 Vec2
+Vec2::operator-() const {
+    return {-x, -y};
+}
+
+Vec2
 Vec2::operator-(const Vec2& o) const {
     return {x - o.x, y - o.y};
 }
+
 
 Vec2
 Vec2::operator-=(const Vec2& o) {

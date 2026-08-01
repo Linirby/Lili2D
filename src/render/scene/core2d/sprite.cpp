@@ -45,21 +45,33 @@ Sprite::setImage(const std::string& path) {
 
 void
 Sprite::setColorTint(const Vec4& color) {
-    material->properties.color_tint = color;
+    if (material) material->properties.color_tint = color;
 }
 
 void
-Sprite::setPosition(const Vec2& position) {
+Sprite::setColor(Vec4 color) {
+    setColorTint(color);
+}
+
+void
+Sprite::setMaterial(Material* material) {
+    external_material = material;
+}
+
+void
+Sprite::setPosition(Vec2 position) {
     this->position = position;
+    ui_layout.offset = position;
 }
 
+
 void
-Sprite::setScale(const Vec2& scale) {
+Sprite::setScale(Vec2 scale) {
     this->scale = scale;
 }
 
 void
-Sprite::setSize(const Vec2& size) {
+Sprite::setSize(Vec2 size) {
     this->size = size;
 }
 
@@ -74,11 +86,17 @@ Sprite::setLayer(float layer) {
 }
 
 void
+Sprite::setRender(RenderLayer render_layer) {
+    this->render_layer = render_layer;
+}
+
+void
 Sprite::setSlice(SliceUV slice) {
     current_slice = slice;
-    if (material) {
-        material->albedoMap = slice.texture;
-        material->properties.uv_bounds = {
+    Material* mat = getMaterial();
+    if (mat) {
+        mat->albedoMap = slice.texture;
+        mat->properties.uv_bounds = {
             slice.u_min, slice.v_min, slice.u_max, slice.v_max
         };
     }
@@ -87,6 +105,16 @@ Sprite::setSlice(SliceUV slice) {
 Vec2
 Sprite::getPosition() const {
     return position;
+}
+
+float
+Sprite::getRotation() const {
+    return lili::radToDeg(rotation);
+}
+
+Vec2
+Sprite::getScale() const {
+    return scale;
 }
 
 float
@@ -104,19 +132,50 @@ Sprite::getSize() const {
     return Vec2(size.x * scale.x, size.y * scale.y);
 }
 
+Mat3
+Sprite::getTransformMatrix() const {
+    if (render_layer == RenderLayer::UI && renderer) {
+        Vec2 viewport_size = {
+            static_cast<float>(renderer->getSwapchainWidth()),
+            static_cast<float>(renderer->getSwapchainHeight())
+        };
+        Vec2 obj_size = getSize();
+        return ui_layout.getTransformationMatrix(
+            viewport_size, obj_size, rotation, obj_size
+        );
+    }
+    return Mat3::translate(position) * Mat3::rotation(rotation) *
+           Mat3::scale(getSize());
+}
+
+
+float
+Sprite::getLayer() const {
+    return layer;
+}
+
+RenderLayer
+Sprite::getRender() const {
+    return render_layer;
+}
+
+Vec4
+Sprite::getColor() const {
+    Material* mat = getMaterial();
+    return mat ? mat->properties.color_tint : Vec4(1, 1, 1, 1);
+}
+
 Material*
 Sprite::getMaterial() const {
-    return material.get();
+    return external_material ? external_material : material.get();
 }
 
 void
 Sprite::draw() {
-    Mat3 mat_transform =
-        (Mat3::translate(position) * Mat3::rotation(rotation) *
-         Mat3::scale(getSize()));
+    if (!is_visible) return;
+    Mat3 mat_transform = getTransformMatrix();
     renderer->submit(
-        Model({mesh, material.get()}), mat_transform, layer,
-        RenderLayer::WORLD2D
+        Model({mesh, getMaterial()}), mat_transform, layer, render_layer
     );
 }
 

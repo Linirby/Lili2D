@@ -1,5 +1,9 @@
 #include "app.hpp"
 
+#include <SDL3/SDL_scancode.h>
+
+#include "lili2d/render/passes/pass_types.hpp"
+
 App::App() : lili::Game("hello_text - Lili2D", 625, 300) {
     getWindow()->setResizable(true);
     lili::Renderer* renderer = getRenderer();
@@ -11,10 +15,13 @@ App::App() : lili::Game("hello_text - Lili2D", 625, 300) {
     welcome_text.setScale(3.0f);
     letter_spacing = 1.0f;
     welcome_text.setSpacing(letter_spacing);
-    welcome_text.setPosition({150.0f, 150.0f});
+    welcome_text.setRender(lili::RenderLayer::UI);
+    welcome_text.setAnchor(lili::Anchor::Center);
+    welcome_text.setPivot(lili::Pivot::Center);
 
     info_text = lili::Text(
-        renderer, font_example.get(), "<- & ->: change letter spacing"
+        renderer, font_example.get(),
+        "<- & ->: change letter spacing | R: rotate"
     );
     info_text.setScale(3.0f);
     info_text.setPosition({10.0f, 10.0f});
@@ -41,6 +48,10 @@ App::onUpdate(float dt) {
     if (keyboard.held(SDL_SCANCODE_RIGHT)) {
         letter_spacing += speed_change * dt;
         welcome_text.setSpacing(letter_spacing);
+    }
+    if (keyboard.held(SDL_SCANCODE_R)) {
+        text_rotation += 5.0f * speed_change * dt;
+        welcome_text.setRotation(text_rotation);
     }
 }
 

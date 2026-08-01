@@ -1,6 +1,7 @@
 #include "lili2d/render/scene/common/text.hpp"
 
 #include "lili2d/geometry/mat3x3.hpp"
+#include "lili2d/geometry/utils.hpp"
 
 namespace lili {
 
@@ -62,6 +63,8 @@ Text::Text(Renderer* renderer, BitmapFont* font, const std::string& text) {
         this->text = "text";
     material = std::make_unique<Material>(font->getTexture());
     material->properties.color_tint = {1.0f, 1.0f, 1.0f, 1.0f};
+    pos = {0.0f, 0.0f};
+    ui_layout.offset = {0.0f, 0.0f};
     rebuildMesh();
 }
 
@@ -73,8 +76,31 @@ Text::setText(const std::string& value) {
 }
 
 void
-Text::setPosition(const Vec2& position) {
+Text::setPosition(Vec2 position) {
     pos = position;
+    ui_layout.offset = position;
+}
+
+
+void
+Text::setRotation(float degree) {
+    rotation = lili::degToRad(degree);
+}
+
+void
+Text::setScale(Vec2 scale) {
+    this->scale = scale;
+}
+
+void
+Text::setScale(float value) {
+    this->scale = Vec2(value, value);
+}
+
+void
+Text::setSize(Vec2 size) {
+    // Unused for fixed bitmap font rendering
+    (void)size;
 }
 
 void
@@ -84,8 +110,15 @@ Text::setSpacing(float value) {
 }
 
 void
-Text::setScale(float value) {
-    scale = value;
+Text::setColor(Vec4 color) {
+    if (material) {
+        material->properties.color_tint = color;
+    }
+}
+
+void
+Text::setMaterial(Material* material) {
+    external_material = material;
 }
 
 void
@@ -98,17 +131,68 @@ Text::setRender(RenderLayer render_layer) {
     this->render_layer = render_layer;
 }
 
+Vec2
+Text::getPosition() const {
+    return pos;
+}
+
+float
+Text::getRotation() const {
+    return lili::radToDeg(rotation);
+}
+
+Vec2
+Text::getScale() const {
+    return scale;
+}
+
+Vec2
+Text::getSize() const {
+    float width = text.length() * advance * scale.x;
+    float height = glyph_h * scale.y;
+    return {width, height};
+}
+
+Mat3
+Text::getTransformMatrix() const {
+    if (render_layer == RenderLayer::UI && renderer) {
+        Vec2 viewport_size = {
+            static_cast<float>(renderer->getSwapchainWidth()),
+            static_cast<float>(renderer->getSwapchainHeight())
+        };
+        return ui_layout.getTransformationMatrix(
+            viewport_size, getSize(), rotation, scale
+        );
+    }
+    return Mat3::translate(pos) * Mat3::rotation(rotation) * Mat3::scale(scale);
+}
+
+float
+Text::getLayer() const {
+    return layer;
+}
+
+RenderLayer
+Text::getRender() const {
+    return render_layer;
+}
+
+Vec4
+Text::getColor() const {
+    Material* mat = getMaterial();
+    return mat ? mat->properties.color_tint : Vec4(1, 1, 1, 1);
+}
+
 Material*
 Text::getMaterial() const {
-    return material.get();
+    return external_material ? external_material : material.get();
 }
 
 void
 Text::draw() {
-    if (!mesh) return;
-    Mat3 translation = Mat3::translate(pos);
-    Mat3 scaling = Mat3::scale({scale, scale});
-    Mat3 transform = translation * scaling;
+    if (!mesh || !is_visible) return;
+    Mat3 transform = getTransformMatrix();
+    model.material = getMaterial();
     renderer->submit(model, transform, layer, render_layer);
 }
 

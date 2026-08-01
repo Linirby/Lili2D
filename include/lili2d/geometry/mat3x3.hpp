@@ -14,6 +14,33 @@ struct Mat3 {
     Mat3
     operator*(const Mat3& other) const;
 
+    /// @brief Transforms a 2D point (x, y, 1) by this matrix.
+    /// @param point The 2D point to transform.
+    /// @return The transformed point.
+    Vec2
+    transformPoint(const Vec2& point) const;
+
+    /// @brief Transforms a 2D direction vector (x, y, 0) by this matrix.
+    /// @param vector The 2D direction vector to transform.
+    /// @return The transformed vector.
+    Vec2
+    transformVector(const Vec2& vector) const;
+
+    /// @brief Calculates the determinant of the matrix.
+    /// @return The determinant value.
+    float
+    determinant() const;
+
+    /// @brief Calculates the inverse of the matrix.
+    /// @return The inverse matrix. If not invertible, returns identity matrix.
+    Mat3
+    inverse() const;
+
+    /// @brief Calculates the transpose of the matrix.
+    /// @return The transposed matrix.
+    Mat3
+    transpose() const;
+
     /// @brief Creates an identity matrix.
     /// @return The identity matrix.
     static Mat3
@@ -44,3 +71,4 @@ struct Mat3 {
 };
 
 }  // namespace lili
+

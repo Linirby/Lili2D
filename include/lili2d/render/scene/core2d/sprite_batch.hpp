@@ -4,6 +4,7 @@
 
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/render/core/gpu_mesh.hpp"
+#include "lili2d/render/interfaces/renderable.hpp"
 #include "lili2d/render/renderer.hpp"
 #include "lili2d/render/scene/common/atlas_map.hpp"
 #include "lili2d/render/scene/common/material.hpp"
@@ -11,19 +12,14 @@
 namespace lili {
 
 /// @brief Batches multiple sprites into a single draw call.
-///
-/// SpriteBatch is optimized for rendering many tiles or sprites that share
-/// the same texture (AtlasMap). Call begin() to start building the batch,
-/// draw() to add sprites, and end() to update the GPU mesh. Finally, call
-/// render() to submit the batch to the renderer.
-class SpriteBatch {
+class SpriteBatch : public IRenderable {
 public:
     /// @brief Constructor.
     /// @param renderer The renderer.
     /// @param texture The texture to use for the batch.
     SpriteBatch(Renderer* renderer, Texture* texture);
     /// @brief Destructor.
-    ~SpriteBatch();
+    ~SpriteBatch() override;
     SpriteBatch(const SpriteBatch&) = delete;
     SpriteBatch&
     operator=(const SpriteBatch&) = delete;
@@ -80,35 +76,96 @@ public:
     /// @param color The new color tint.
     void
     setColorTint(const Vec4& color);
+    /// @brief Sets color tint for the batch.
+    /// @param color The new color tint.
+    void
+    setColor(Vec4 color) override;
+    /// @brief Sets material for the batch.
+    /// @param material Pointer to material.
+    void
+    setMaterial(Material* material) override;
 
     /// @brief Sets the position of the entire batch.
     /// @param position The new position.
     void
-    setPosition(const Vec2& position);
-
+    setPosition(Vec2 position) override;
+    /// @brief Sets the rotation of the entire batch in degrees.
+    /// @param degree Rotation angle in degrees.
+    void
+    setRotation(float degree) override;
     /// @brief Sets the scale of the entire batch.
     /// @param scale The new scale.
     void
-    setScale(const Vec2& scale);
+    setScale(Vec2 scale) override;
+    /// @brief Overrides the computed bounds size of the batch.
+    /// @param size Custom bounds size.
+    void
+    setSize(Vec2 size) override;
 
-    /// @brief Sets the rendering layer for the batch.
+    /// @brief Sets the rendering layer depth for the batch.
     /// @param layer The new layer depth.
     void
-    setLayer(float layer);
+    setLayer(float layer) override;
+    /// @brief Sets render pass layer.
+    /// @param render_layer Render pass layer.
+    void
+    setRender(RenderLayer render_layer) override;
+
+    /// @brief Gets position of batch.
+    /// @return Position vector.
+    Vec2
+    getPosition() const override;
+    /// @brief Gets rotation angle in degrees.
+    /// @return Rotation in degrees.
+    float
+    getRotation() const override;
+    /// @brief Gets scale.
+    /// @return Scale vector.
+    Vec2
+    getScale() const override;
+    /// @brief Gets bounding size of batch mesh.
+    /// @return Size vector.
+    Vec2
+    getSize() const override;
+    /// @brief Gets transformation matrix.
+    /// @return Mat3 matrix.
+    Mat3
+    getTransformMatrix() const override;
+    /// @brief Gets layer depth.
+    /// @return Depth layer.
+    float
+    getLayer() const override;
+    /// @brief Gets render pass layer.
+    /// @return Render pass layer.
+    RenderLayer
+    getRender() const override;
+    /// @brief Gets color tint.
+    /// @return Color tint.
+    Vec4
+    getColor() const override;
+    /// @brief Gets material.
+    /// @return Material pointer.
+    Material*
+    getMaterial() const override;
 
     /// @brief Submits the batched mesh to the renderer.
     void
-    draw();
+    draw() override;
 
 private:
     Renderer* renderer = nullptr;
     std::unique_ptr<Material> material = nullptr;
+    Material* external_material = nullptr;
     std::unique_ptr<GPUMesh> mesh = nullptr;
 
     MeshData mesh_data;
     Vec2 position;
     Vec2 scale = {1.0f, 1.0f};
-    float layer;
+    Vec2 custom_size = {0.0f, 0.0f};
+    float rotation = 0.0f;
+    float layer = 0.0f;
+    RenderLayer render_layer = RenderLayer::WORLD2D;
 };
 
 }  // namespace lili
+

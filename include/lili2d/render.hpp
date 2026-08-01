@@ -4,6 +4,7 @@
 /// @brief Aggregates the rendering components of the Lili2D engine, including
 /// shapes, sprites, models, and text.
 
+#include "lili2d/render/interfaces/renderable.hpp"
 #include "lili2d/render/renderer.hpp"
 #include "lili2d/render/scene/common/animation.hpp"
 #include "lili2d/render/scene/common/animation_player.hpp"
@@ -19,8 +20,12 @@
 #include "lili2d/render/scene/shapes/circle.hpp"
 #include "lili2d/render/scene/shapes/line.hpp"
 #include "lili2d/render/scene/shapes/rect.hpp"
+#include "lili2d/render/ui/ui_layout.hpp"
 
 namespace lili {
+
+/// @brief Abstract base interface for all renderable 2D objects.
+class IRenderable;
 
 /// @brief Represents an animation as a sequence of frames.
 class Animation;

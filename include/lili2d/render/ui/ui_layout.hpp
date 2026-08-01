@@ -10,6 +10,7 @@ enum class Anchor {
     Top,
     TopRight,
     Left,
+    Center,
     Right,
     BottomLeft,
     Bottom,
@@ -22,6 +23,7 @@ enum class Pivot {
     Top,
     TopRight,
     Left,
+    Center,
     Right,
     BottomLeft,
     Bottom,
@@ -42,12 +44,12 @@ struct UILayout {
     Vec2 custom_pivot = {0.0f, 0.0f};
 
     Vec2
-    getScreenPosition(Vec2 viewport_size, Vec2 obj_size);
+    getScreenPosition(Vec2 viewport_size, Vec2 obj_size) const;
     Mat3
     getTransformationMatrix(
         Vec2 viewport_size, Vec2 obj_size, float rotation_rad = 0.0f,
         Vec2 scale = {1.0f, 1.0f}
-    );
+    ) const;
 };
 
 }  // namespace lili

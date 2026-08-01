@@ -1,7 +1,6 @@
 #include "app.hpp"
 
 App::App() : lili::Game("hello_shapes - Lili2D", 500, 350) {
-    getWindow()->setResizable(true);
     lili::Renderer* renderer = getRenderer();
 
     thin_line = lili::Line(

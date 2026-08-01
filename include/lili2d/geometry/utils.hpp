@@ -8,4 +8,10 @@ namespace lili {
 float
 degToRad(float degrees);
 
+/// @brief Converts radians to degrees.
+/// @param radians The angle in radians.
+/// @return The angle in degrees.
+float
+radToDeg(float radians);
+
 }  // namespace lili

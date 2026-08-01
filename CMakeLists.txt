@@ -97,9 +97,14 @@ target_sources(Lili2D PRIVATE
     src/render/core/shader.cpp
     src/render/core/texture.cpp
 
+    src/render/interfaces/renderable.cpp
+
     src/render/passes/main_render_pass.cpp
 
     src/render/pipelines/main_graphics_pipeline.cpp
+
+    src/render/ui/ui_layout.cpp
+
 
     src/render/scene/common/animation.cpp
     src/render/scene/common/animation_player.cpp

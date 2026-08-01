@@ -1,5 +1,7 @@
 #include "app.hpp"
 
+#include "lili2d/render/ui/ui_layout.hpp"
+
 App::App() : lili::Game("hello_camera - Lili2D", 600, 400) {
     setTps(20.0f);
     lili::Window* window = getWindow();
@@ -12,14 +14,12 @@ App::App() : lili::Game("hello_camera - Lili2D", 600, 400) {
     camera.setPosition(cam_pos);
     camera_zoom = camera.getZoom();
     camera_center = lili::Circle(
-        renderer,
-        lili::CircleShape(
-            lili::Vec2(window->getWidth() / 2.0f, window->getHeight() / 2.0f),
-            5, 16
-        ),
+        renderer, lili::CircleShape(lili::Vec2(0.0f, 0.0f), 5, 16),
         lili::Vec4(1, 1, 1, 0.5)
     );
     camera_center.setRender(lili::RenderLayer::UI);
+    camera_center.setAnchor(lili::Anchor::Center);
+    camera_center.setPivot(lili::Pivot::Center);
     renderer->setCamera(&camera);
 
     red_rect = lili::Rect(
@@ -35,14 +35,18 @@ App::App() : lili::Game("hello_camera - Lili2D", 600, 400) {
     font = std::make_unique<lili::BitmapFont>(renderer, "lili_font.png", 16, 6);
     text_cam_pos = lili::Text(renderer, font.get(), "");
     text_cam_pos.setScale(2);
-    text_cam_pos.setPosition({10, 10});
+    text_cam_pos.setPosition({0, 10});
     text_cam_pos.setRender(lili::RenderLayer::UI);
+    text_cam_pos.setAnchor(lili::Anchor::Top);
+    text_cam_pos.setPivot(lili::Pivot::Top);
     text_controls = lili::Text(
         renderer, font.get(), "IJKL = move the camera | ZX = zoom/dezoom"
     );
     text_controls.setScale(2);
-    text_controls.setPosition({10, 32});
+    text_controls.setPosition({0, 32});
     text_controls.setRender(lili::RenderLayer::UI);
+    text_controls.setAnchor(lili::Anchor::Top);
+    text_controls.setPivot(lili::Pivot::Top);
 }
 
 void
@@ -71,11 +75,6 @@ App::onUpdate(float dt) {
     text_cam_pos.setText(
         "Camera Position: (X=" + std::to_string(cam_pos.x) +
         ", Y=" + std::to_string(cam_pos.y) + ")"
-    );
-
-    lili::Window* window = getWindow();
-    camera_center.setCenter(
-        lili::Vec2(window->getWidth() / 2.0f, window->getHeight() / 2.0f)
     );
 }
 

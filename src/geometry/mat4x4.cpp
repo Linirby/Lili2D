@@ -20,6 +20,106 @@ Mat4::operator*(const Mat4& other) const {
     return result;
 }
 
+Vec3
+Mat4::transformPoint(const Vec3& point) const {
+    float x = m[0] * point.x + m[4] * point.y + m[8] * point.z + m[12];
+    float y = m[1] * point.x + m[5] * point.y + m[9] * point.z + m[13];
+    float z = m[2] * point.x + m[6] * point.y + m[10] * point.z + m[14];
+    float w = m[3] * point.x + m[7] * point.y + m[11] * point.z + m[15];
+
+    if (std::abs(w) > 1e-6f && std::abs(w - 1.0f) > 1e-6f) {
+        float inv_w = 1.0f / w;
+        return {x * inv_w, y * inv_w, z * inv_w};
+    }
+    return {x, y, z};
+}
+
+Vec3
+Mat4::transformVector(const Vec3& vector) const {
+    float x = m[0] * vector.x + m[4] * vector.y + m[8] * vector.z;
+    float y = m[1] * vector.x + m[5] * vector.y + m[9] * vector.z;
+    float z = m[2] * vector.x + m[6] * vector.y + m[10] * vector.z;
+    return {x, y, z};
+}
+
+float
+Mat4::determinant() const {
+    float s0 = m[0] * m[5] - m[4] * m[1];
+    float s1 = m[0] * m[9] - m[8] * m[1];
+    float s2 = m[0] * m[13] - m[12] * m[1];
+    float s3 = m[4] * m[9] - m[8] * m[5];
+    float s4 = m[4] * m[13] - m[12] * m[5];
+    float s5 = m[8] * m[13] - m[12] * m[9];
+
+    float c5 = m[10] * m[15] - m[14] * m[11];
+    float c4 = m[6] * m[15] - m[14] * m[7];
+    float c3 = m[6] * m[11] - m[10] * m[7];
+    float c2 = m[2] * m[15] - m[14] * m[3];
+    float c1 = m[2] * m[11] - m[10] * m[3];
+    float c0 = m[2] * m[7] - m[6] * m[3];
+
+    return s0 * c5 - s1 * c4 + s2 * c3 + s3 * c2 - s4 * c1 + s5 * c0;
+}
+
+Mat4
+Mat4::inverse() const {
+    float s0 = m[0] * m[5] - m[4] * m[1];
+    float s1 = m[0] * m[9] - m[8] * m[1];
+    float s2 = m[0] * m[13] - m[12] * m[1];
+    float s3 = m[4] * m[9] - m[8] * m[5];
+    float s4 = m[4] * m[13] - m[12] * m[5];
+    float s5 = m[8] * m[13] - m[12] * m[9];
+
+    float c5 = m[10] * m[15] - m[14] * m[11];
+    float c4 = m[6] * m[15] - m[14] * m[7];
+    float c3 = m[6] * m[11] - m[10] * m[7];
+    float c2 = m[2] * m[15] - m[14] * m[3];
+    float c1 = m[2] * m[11] - m[10] * m[3];
+    float c0 = m[2] * m[7] - m[6] * m[3];
+
+    float det = s0 * c5 - s1 * c4 + s2 * c3 + s3 * c2 - s4 * c1 + s5 * c0;
+    if (std::abs(det) < 1e-8f) {
+        return identity();
+    }
+
+    float inv_det = 1.0f / det;
+
+    Mat4 inv;
+    inv.m[0] = (m[5] * c5 - m[9] * c4 + m[13] * c3) * inv_det;
+    inv.m[1] = (-m[1] * c5 + m[9] * c2 - m[13] * c1) * inv_det;
+    inv.m[2] = (m[1] * c4 - m[5] * c2 + m[13] * c0) * inv_det;
+    inv.m[3] = (-m[1] * c3 + m[5] * c1 - m[9] * c0) * inv_det;
+
+    inv.m[4] = (-m[4] * c5 + m[8] * c4 - m[12] * c3) * inv_det;
+    inv.m[5] = (m[0] * c5 - m[8] * c2 + m[12] * c1) * inv_det;
+    inv.m[6] = (-m[0] * c4 + m[4] * c2 - m[12] * c0) * inv_det;
+    inv.m[7] = (m[0] * c3 - m[4] * c1 + m[8] * c0) * inv_det;
+
+    inv.m[8] = (m[7] * s5 - m[11] * s4 + m[15] * s3) * inv_det;
+    inv.m[9] = (-m[3] * s5 + m[11] * s2 - m[15] * s1) * inv_det;
+    inv.m[10] = (m[3] * s4 - m[7] * s2 + m[15] * s0) * inv_det;
+    inv.m[11] = (-m[3] * s3 + m[7] * s1 - m[11] * s0) * inv_det;
+
+    inv.m[12] = (-m[6] * s5 + m[10] * s4 - m[14] * s3) * inv_det;
+    inv.m[13] = (m[2] * s5 - m[10] * s2 + m[14] * s1) * inv_det;
+    inv.m[14] = (-m[2] * s4 + m[6] * s2 - m[14] * s0) * inv_det;
+    inv.m[15] = (m[2] * s3 - m[6] * s1 + m[10] * s0) * inv_det;
+
+    return inv;
+}
+
+Mat4
+Mat4::transpose() const {
+    Mat4 result;
+    for (int col = 0; col < 4; ++col) {
+        for (int row = 0; row < 4; ++row) {
+            result.m[row * 4 + col] = m[col * 4 + row];
+        }
+    }
+    return result;
+}
+
+
 Mat4
 Mat4::identity() {
     Mat4 result = {};

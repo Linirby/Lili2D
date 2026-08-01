@@ -14,7 +14,7 @@ private:
     std::unique_ptr<lili::SpriteBatch> sprite_batch;
     std::vector<lili::Entity> spawned_entities;
 
-    static constexpr int N_ENTITIES = 50000;
+    static constexpr int N_ENTITIES = 1000;
 
     void
     onEvent(const lili::Event& event) override;

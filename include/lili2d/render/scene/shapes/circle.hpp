@@ -2,33 +2,19 @@
 
 #include <memory>
 
+#include "lili2d/geometry/shapes2d.hpp"
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/geometry/vec4.hpp"
 #include "lili2d/render/core/gpu_mesh.hpp"
+#include "lili2d/render/interfaces/renderable.hpp"
 #include "lili2d/render/renderer.hpp"
 #include "lili2d/render/scene/common/material.hpp"
 
 namespace lili {
 
-/// @brief Defines the geometry of a circle.
-struct CircleShape {
-    Vec2 center;       ///< The center position.
-    float radius = 0;  ///< The radius.
-    int segments = 3;  ///< The number of segments.
-
-    /// @brief Default constructor.
-    CircleShape() = default;
-    /// @brief Copy constructor.
-    CircleShape(const CircleShape&) = default;
-    /// @brief Constructs a circle shape.
-    /// @param center The center position.
-    /// @param radius The radius.
-    /// @param segments The number of segments.
-    CircleShape(Vec2 center, float radius, int segments);
-};
-
 /// @brief A renderable circle.
-class Circle {
+class Circle : public IRenderable {
+
 public:
     /// @brief Default constructor.
     Circle() = default;
@@ -38,6 +24,7 @@ public:
     /// @param color The color.
     Circle(Renderer* renderer, CircleShape shape, Vec4 color);
     /// @brief Default destructor.
+    ~Circle() override = default;
 
     /// @brief Move constructor.
     Circle(Circle&&) = default;
@@ -45,6 +32,23 @@ public:
     /// @return Reference to the assigned circle.
     Circle&
     operator=(Circle&&) = default;
+
+    /// @brief Sets the center position.
+    /// @param pos The new center.
+    void
+    setPosition(Vec2 pos) override;
+    /// @brief Sets rotation in degrees.
+    /// @param degree Rotation in degrees.
+    void
+    setRotation(float degree) override;
+    /// @brief Sets scale factors.
+    /// @param scale The new scale.
+    void
+    setScale(Vec2 scale) override;
+    /// @brief Sets size (width, height) by setting radius = max(w,h)/2.
+    /// @param size The new size.
+    void
+    setSize(Vec2 size) override;
 
     /// @brief Sets the center position.
     /// @param pos The new center.
@@ -65,7 +69,11 @@ public:
     /// @brief Sets the color.
     /// @param color The new color.
     void
-    setColor(Vec4 color);
+    setColor(Vec4 color) override;
+    /// @brief Sets the material.
+    /// @param material The new material.
+    void
+    setMaterial(Material* material) override;
     /// @brief Sets whether the circle is hollow.
     /// @param hollow The new hollow state.
     void
@@ -75,23 +83,50 @@ public:
     void
     setHollowThickness(float thickness);
     /// @brief Sets the depth value for Z-ordering.
-    ///
-    /// This determines the drawing order relative to other objects within the
-    /// same render pass.
-    /// To change which render pass this object belongs to, use setRender().
-    ///
     /// @param value The new layer depth.
     void
-    setLayer(float value);
+    setLayer(float value) override;
     /// @brief Sets the render pass layer.
-    ///
-    /// This determines which overall pass (e.g., WORLD2D or UI) the object is
-    /// drawn in.
-    /// To change the depth ordering within a pass, use setLayer().
-    ///
     /// @param render_layer The new render pass layer.
     void
-    setRender(RenderLayer render_layer);
+    setRender(RenderLayer render_layer) override;
+
+    /// @brief Gets position (center).
+    /// @return The center position.
+    Vec2
+    getPosition() const override;
+    /// @brief Gets rotation in degrees.
+    /// @return Rotation in degrees.
+    float
+    getRotation() const override;
+    /// @brief Gets scale.
+    /// @return The scale.
+    Vec2
+    getScale() const override;
+    /// @brief Gets size (diameter, diameter).
+    /// @return The size.
+    Vec2
+    getSize() const override;
+    /// @brief Gets the transformation matrix.
+    /// @return The Mat3 transform matrix.
+    Mat3
+    getTransformMatrix() const override;
+    /// @brief Gets layer depth.
+    /// @return The depth.
+    float
+    getLayer() const override;
+    /// @brief Gets render pass layer.
+    /// @return The render layer.
+    RenderLayer
+    getRender() const override;
+
+    /// @brief Checks if a point is inside the circle.
+    /// @param point Point to test.
+    /// @param renderer Optional renderer pointer.
+    /// @return True if point is inside circle radius.
+    bool
+    containsPoint(Vec2 point, const Renderer* renderer = nullptr) const override;
+
 
     /// @brief Gets the center position.
     /// @return The center position.
@@ -116,11 +151,11 @@ public:
     /// @brief Gets the color.
     /// @return The color.
     Vec4
-    getColor() const;
+    getColor() const override;
     /// @brief Gets the material.
     /// @return Pointer to the material.
     Material*
-    getMaterial() const;
+    getMaterial() const override;
     /// @brief Returns whether the circle is hollow.
     /// @return True if hollow, false otherwise.
     bool
@@ -132,18 +167,21 @@ public:
 
     /// @brief Submits the circle for drawing.
     void
-    draw();
+    draw() override;
 
 private:
     Renderer* renderer = nullptr;
     CircleShape shape;
+    float rotation = 0.0f;
+    Vec2 scale = {1.0f, 1.0f};
     bool is_hollow = false;
     float hollow_thickness = 1.0f;
 
-    float layer = 0;
+    float layer = 0.0f;
     RenderLayer render_layer = RenderLayer::WORLD2D;
     GPUMesh* mesh = nullptr;
     std::unique_ptr<Material> material = nullptr;
+    Material* external_material = nullptr;
     std::unique_ptr<GPUMesh> hollow_mesh = nullptr;
     bool hollow_dirty = true;
 };

@@ -14,10 +14,38 @@ struct Mat4 {
     Mat4
     operator*(const Mat4& other) const;
 
+    /// @brief Transforms a 3D point (x, y, z, 1) by this matrix.
+    /// @param point The 3D point to transform.
+    /// @return The transformed point.
+    Vec3
+    transformPoint(const Vec3& point) const;
+
+    /// @brief Transforms a 3D direction vector (x, y, z, 0) by this matrix.
+    /// @param vector The 3D direction vector to transform.
+    /// @return The transformed vector.
+    Vec3
+    transformVector(const Vec3& vector) const;
+
+    /// @brief Calculates the determinant of the matrix.
+    /// @return The determinant value.
+    float
+    determinant() const;
+
+    /// @brief Calculates the inverse of the matrix.
+    /// @return The inverse matrix. If not invertible, returns identity matrix.
+    Mat4
+    inverse() const;
+
+    /// @brief Calculates the transpose of the matrix.
+    /// @return The transposed matrix.
+    Mat4
+    transpose() const;
+
     /// @brief Creates an identity matrix.
     /// @return The identity matrix.
     static Mat4
     identity();
+
     /// @brief Creates a look-at view matrix.
     /// @param eye The camera position.
     /// @param center The target position.

@@ -152,17 +152,41 @@ SpriteBatch::end() {
 
 void
 SpriteBatch::setColorTint(const Vec4& color) {
-    material->properties.color_tint = color;
+    if (material) {
+        material->properties.color_tint = color;
+    }
 }
 
 void
-SpriteBatch::setPosition(const Vec2& position) {
+SpriteBatch::setColor(Vec4 color) {
+    setColorTint(color);
+}
+
+void
+SpriteBatch::setMaterial(Material* material) {
+    external_material = material;
+}
+
+void
+SpriteBatch::setPosition(Vec2 position) {
     this->position = position;
+    ui_layout.offset = position;
+}
+
+
+void
+SpriteBatch::setRotation(float degree) {
+    rotation = lili::degToRad(degree);
 }
 
 void
-SpriteBatch::setScale(const Vec2& scale) {
+SpriteBatch::setScale(Vec2 scale) {
     this->scale = scale;
+}
+
+void
+SpriteBatch::setSize(Vec2 size) {
+    custom_size = size;
 }
 
 void
@@ -171,14 +195,92 @@ SpriteBatch::setLayer(float layer) {
 }
 
 void
-SpriteBatch::draw() {
-    if (mesh_data.indices.empty()) return;
+SpriteBatch::setRender(RenderLayer render_layer) {
+    this->render_layer = render_layer;
+}
 
-    Mat3 mat_transform = Mat3::translate(position) * Mat3::scale(scale);
+Vec2
+SpriteBatch::getPosition() const {
+    return position;
+}
+
+float
+SpriteBatch::getRotation() const {
+    return lili::radToDeg(rotation);
+}
+
+Vec2
+SpriteBatch::getScale() const {
+    return scale;
+}
+
+Vec2
+SpriteBatch::getSize() const {
+    if (custom_size.x > 0.0f || custom_size.y > 0.0f) {
+        return Vec2(custom_size.x * scale.x, custom_size.y * scale.y);
+    }
+    if (mesh_data.vertices.empty()) return Vec2(0.0f, 0.0f);
+
+    float min_x = mesh_data.vertices[0].x;
+    float max_x = mesh_data.vertices[0].x;
+    float min_y = mesh_data.vertices[0].y;
+    float max_y = mesh_data.vertices[0].y;
+
+    for (const auto& v : mesh_data.vertices) {
+        if (v.x < min_x) min_x = v.x;
+        if (v.x > max_x) max_x = v.x;
+        if (v.y < min_y) min_y = v.y;
+        if (v.y > max_y) max_y = v.y;
+    }
+
+    return Vec2((max_x - min_x) * scale.x, (max_y - min_y) * scale.y);
+}
+
+Mat3
+SpriteBatch::getTransformMatrix() const {
+    if (render_layer == RenderLayer::UI && renderer) {
+        Vec2 viewport_size = {
+            static_cast<float>(renderer->getSwapchainWidth()),
+            static_cast<float>(renderer->getSwapchainHeight())
+        };
+        Vec2 obj_size = getSize();
+        return ui_layout.getTransformationMatrix(
+            viewport_size, obj_size, rotation, scale
+        );
+    }
+    return Mat3::translate(position) * Mat3::rotation(rotation) *
+           Mat3::scale(scale);
+}
+
+float
+SpriteBatch::getLayer() const {
+    return layer;
+}
+
+RenderLayer
+SpriteBatch::getRender() const {
+    return render_layer;
+}
+
+Vec4
+SpriteBatch::getColor() const {
+    Material* mat = getMaterial();
+    return mat ? mat->properties.color_tint : Vec4(1, 1, 1, 1);
+}
+
+Material*
+SpriteBatch::getMaterial() const {
+    return external_material ? external_material : material.get();
+}
+
+void
+SpriteBatch::draw() {
+    if (mesh_data.indices.empty() || !is_visible) return;
+
+    Mat3 mat_transform = getTransformMatrix();
 
     renderer->submit(
-        Model({mesh.get(), material.get()}), mat_transform, layer,
-        RenderLayer::WORLD2D
+        Model({mesh.get(), getMaterial()}), mat_transform, layer, render_layer
     );
 }
 

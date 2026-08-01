@@ -8,10 +8,12 @@
 #include "lili2d/geometry/mat4x4.hpp"
 #include "lili2d/geometry/point2.hpp"
 #include "lili2d/geometry/point3.hpp"
+#include "lili2d/geometry/shapes2d.hpp"
 #include "lili2d/geometry/utils.hpp"
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/geometry/vec3.hpp"
 #include "lili2d/geometry/vec4.hpp"
+
 
 namespace lili {
 

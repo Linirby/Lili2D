@@ -1,16 +1,21 @@
 #include "game.hpp"
 
+#include <SDL3/SDL_keycode.h>
+
 #include <iostream>
 #include <random>
 
 #include "components.hpp"
 #include "entities.hpp"
+#include "lili2d/core/game.hpp"
 #include "systems.hpp"
 
 App::App() : lili::Game("hello_ecs - Lili2D", 800, 600) {
     setTps(20.0f);
     lili::Window* window = getWindow();
     lili::Renderer* renderer = getRenderer();
+
+    window->setResizable(true);
 
     camera = lili::Camera();
     camera.setPosition({window->getWidth() / 2.0f, window->getHeight() / 2.0f});
@@ -33,10 +38,13 @@ App::App() : lili::Game("hello_ecs - Lili2D", 800, 600) {
 
 void
 App::onEvent(const lili::Event& event) {
+    lili::Game::onEvent(event);
     if (event.type() == lili::EventType::KEYBOARD) {
         lili::KeyboardEvent kb = event.keyboard();
         if (kb.action == lili::KeyAction::PRESSED) {
-            if (kb.key == SDLK_SPACE)
+            if (kb.key == SDLK_ESCAPE)
+                shutdown();
+            else if (kb.key == SDLK_SPACE)
                 spawnRandomBall();
             else if (kb.key == SDLK_BACKSPACE)
                 destroyRandomBall();
@@ -49,6 +57,7 @@ App::onEvent(const lili::Event& event) {
 void
 App::onUpdate(float dt) {
     lili::Window* window = getWindow();
+    camera.setPosition({window->getWidth() / 2.0f, window->getHeight() / 2.0f});
     systems::updateMovement(
         ecs_registry, dt, static_cast<float>(window->getWidth()),
         static_cast<float>(window->getHeight())

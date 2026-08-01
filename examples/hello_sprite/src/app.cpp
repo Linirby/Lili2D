@@ -1,8 +1,6 @@
 #include "app.hpp"
 
 App::App() : lili::Game("hello_sprite - Lili2D", 800, 800) {
-    getWindow()->setResizable(true);
-
     cat_sprite = lili::Sprite(getRenderer(), "cat.png");
     cat_sprite.setScale({0.5f, 0.5f});
     cat_sprite.setPosition({400, 50});

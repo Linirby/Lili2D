@@ -5,32 +5,14 @@
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/geometry/vec4.hpp"
 #include "lili2d/render/core/gpu_mesh.hpp"
+#include "lili2d/render/interfaces/renderable.hpp"
 #include "lili2d/render/renderer.hpp"
 #include "lili2d/render/scene/common/material.hpp"
 
 namespace lili {
 
-/// @brief Defines the geometry of a rectangle.
-struct RectShape {
-    float x = 0;  ///< X position.
-    float y = 0;  ///< Y position.
-    float w = 0;  ///< Width.
-    float h = 0;  ///< Height.
-
-    /// @brief Default constructor.
-    RectShape() = default;
-    /// @brief Copy constructor.
-    RectShape(const RectShape&) = default;
-    /// @brief Constructs a rectangle shape.
-    /// @param x X coordinate.
-    /// @param y Y coordinate.
-    /// @param w Width.
-    /// @param h Height.
-    RectShape(float x, float y, float w, float h);
-};
-
 /// @brief A renderable rectangle.
-class Rect {
+class Rect : public IRenderable {
 public:
     /// @brief Default constructor.
     Rect() = default;
@@ -40,6 +22,7 @@ public:
     /// @param color The color of the rectangle.
     Rect(Renderer* renderer, RectShape shape, Vec4 color);
     /// @brief Default destructor.
+    ~Rect() override = default;
 
     /// @brief Move constructor.
     Rect(Rect&&) = default;
@@ -51,15 +34,19 @@ public:
     /// @brief Sets the rectangle's position.
     /// @param pos The new position.
     void
-    setPosition(Vec2 pos);
+    setPosition(Vec2 pos) override;
     /// @brief Sets the rectangle's size.
     /// @param size The new size.
     void
-    setSize(Vec2 size);
+    setSize(Vec2 size) override;
     /// @brief Sets the rectangle's rotation.
     /// @param degree The rotation in degrees.
     void
-    setRotation(float degree);
+    setRotation(float degree) override;
+    /// @brief Sets scale factors.
+    /// @param scale The new scale.
+    void
+    setScale(Vec2 scale) override;
     /// @brief Sets the rectangle's shape.
     /// @param shape The new shape.
     void
@@ -67,7 +54,11 @@ public:
     /// @brief Sets the rectangle's color.
     /// @param color The new color.
     void
-    setColor(Vec4 color);
+    setColor(Vec4 color) override;
+    /// @brief Sets the material.
+    /// @param material The new material.
+    void
+    setMaterial(Material* material) override;
     /// @brief Sets whether the rectangle is hollow.
     /// @param hollow The new hollow state.
     void
@@ -77,32 +68,42 @@ public:
     void
     setHollowThickness(float thickness);
     /// @brief Sets the depth value for Z-ordering.
-    ///
-    /// This determines the drawing order relative to other objects within the
-    /// same render pass.
-    /// To change which render pass this object belongs to, use setRender().
-    ///
     /// @param value The new layer depth.
     void
-    setLayer(float value);
+    setLayer(float value) override;
     /// @brief Sets the render pass layer.
-    ///
-    /// This determines which overall pass (e.g., WORLD2D or UI) the object is
-    /// drawn in.
-    /// To change the depth ordering within a pass, use setLayer().
-    ///
     /// @param render_layer The new render pass layer.
     void
-    setRender(RenderLayer render_layer);
+    setRender(RenderLayer render_layer) override;
 
     /// @brief Gets the position.
     /// @return The position.
     Vec2
-    getPosition() const;
+    getPosition() const override;
     /// @brief Gets the size.
     /// @return The size.
     Vec2
-    getSize() const;
+    getSize() const override;
+    /// @brief Gets rotation in degrees.
+    /// @return Rotation in degrees.
+    float
+    getRotation() const override;
+    /// @brief Gets scale factors.
+    /// @return The scale.
+    Vec2
+    getScale() const override;
+    /// @brief Gets the transformation matrix.
+    /// @return The Mat3 transform matrix.
+    Mat3
+    getTransformMatrix() const override;
+    /// @brief Gets the layer depth.
+    /// @return The depth.
+    float
+    getLayer() const override;
+    /// @brief Gets the render pass layer.
+    /// @return The render layer.
+    RenderLayer
+    getRender() const override;
     /// @brief Gets the shape geometry.
     /// @return The shape.
     RectShape
@@ -110,11 +111,11 @@ public:
     /// @brief Gets the color.
     /// @return The color.
     Vec4
-    getColor() const;
+    getColor() const override;
     /// @brief Gets the material.
     /// @return Pointer to the material.
     Material*
-    getMaterial() const;
+    getMaterial() const override;
     /// @brief Returns whether the rectangle is hollow.
     /// @return True if hollow, false otherwise.
     bool
@@ -126,19 +127,21 @@ public:
 
     /// @brief Submits the rectangle for drawing.
     void
-    draw();
+    draw() override;
 
 private:
     Renderer* renderer = nullptr;
     RectShape shape;
-    float rotation = 0;
+    float rotation = 0.0f;
+    Vec2 scale = {1.0f, 1.0f};
     bool is_hollow = false;
     float hollow_thickness = 1.0f;
 
-    float layer = 0;
+    float layer = 0.0f;
     RenderLayer render_layer = RenderLayer::WORLD2D;
     GPUMesh* mesh = nullptr;
     std::unique_ptr<Material> material = nullptr;
+    Material* external_material = nullptr;
     std::unique_ptr<GPUMesh> hollow_mesh = nullptr;
     bool hollow_dirty = true;
 };

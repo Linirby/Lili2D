@@ -9,8 +9,13 @@ AnotherScene::AnotherScene(lili::Renderer* renderer)
       text(renderer, &font, "AnotherMenu Scene"),
       info_text(renderer, &font, "J and L to change") {
     text.setScale(3.0f);
-    info_text.setPosition({0, 30});
+    text.setRender(lili::RenderLayer::UI);
+    text.setAnchor(lili::Anchor::Center);
+    text.setPivot(lili::Pivot::Bottom);
     info_text.setScale(2.0f);
+    info_text.setRender(lili::RenderLayer::UI);
+    info_text.setAnchor(lili::Anchor::Center);
+    info_text.setPivot(lili::Pivot::Top);
 }
 
 void

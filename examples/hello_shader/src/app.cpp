@@ -1,5 +1,8 @@
 #include "app.hpp"
 
+#include "lili2d/render/passes/pass_types.hpp"
+#include "lili2d/render/ui/ui_layout.hpp"
+
 App::App() : lili::Game("hello_shader - Lili2D", 800, 800) {
     lili::Renderer* renderer = getRenderer();
     lili::ShaderInfo vert_rect_info{};
@@ -14,10 +17,15 @@ App::App() : lili::Game("hello_shader - Lili2D", 800, 800) {
         renderer->createMainGraphicsPipeline(rect_shader.get())
     );
     rect = lili::Rect(
-        renderer, lili::RectShape(200.0f, 200.0f, 400.0f, 400.0f),
+        renderer, lili::RectShape(0.0f, 0.0f, 400.0f, 400.0f),
         lili::Vec4(1.0f, 1.0f, 1.0f, 1.0f)
     );
     rect.getMaterial()->custom_pipeline = rect_pipeline->getSdlPipeline();
+    rect.setRender(lili::RenderLayer::UI);
+    rect.setAnchor(lili::Anchor::Center);
+    rect.setPivot(lili::Pivot::Center);
+    rect.setOffset({0.0f, 0.0f});
+
 
     lili::ShaderInfo vert_text_info{};
     vert_text_info.num_uniform_buffers = 2;
@@ -35,10 +43,17 @@ App::App() : lili::Game("hello_shader - Lili2D", 800, 800) {
     text.setPosition(lili::Vec2(250.0f, 75.0f));
     text.setScale(3.0f);
     text.getMaterial()->custom_pipeline = text_pipeline->getSdlPipeline();
+    text.setAnchor(lili::Anchor::Top);
+    text.setPivot(lili::Pivot::Top);
+    text.setOffset({0.0f, 30.0f});
+    text.setRender(lili::RenderLayer::UI);
     text_info =
         lili::Text(renderer, font.get(), "SPACE: toggle custom shaders");
-    text_info.setPosition(lili::Vec2(10.0, getWindow()->getHeight() - 32.0f));
+    text_info.setAnchor(lili::Anchor::Bottom);
+    text_info.setPivot(lili::Pivot::Bottom);
+    text_info.setOffset({0.0f, -30.0f});
     text_info.setScale(3.0f);
+    text_info.setRender(lili::RenderLayer::UI);
 
     toggle_custom_shaders = true;
 }

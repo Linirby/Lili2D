@@ -150,7 +150,6 @@ private:
     SDL_Event sdl_event = SDL_Event();
     EventType current_type = EventType::NONE;
 
-    /// @brief resolveType method.
     EventType
     resolveType() const;
 };

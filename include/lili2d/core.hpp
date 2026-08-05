@@ -51,6 +51,8 @@ class Keyboard;
 /// @brief Handles mouse input state and queries.
 class Mouse;
 
+/// @brief Type-erased base interface for resource managers.
+class IResourceManager;
 /// @brief Generic scoped resource manager with hot-reloading support.
 /// @tparam T Type of resource managed.
 template <typename T>

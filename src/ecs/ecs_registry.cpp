@@ -25,7 +25,7 @@ void
 ECSRegistry::destroyEntity(Entity entity) {
     if (!isValid(entity)) return;
 
-    for (std::unique_ptr<IComponentPool>& pool : component_pools)
+    for (auto& pool : component_pools)
         if (pool && pool->has(entity)) pool->remove(entity);
 
     uint32_t id = getEntityID(entity);

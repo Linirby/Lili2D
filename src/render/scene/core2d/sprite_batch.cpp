@@ -173,7 +173,6 @@ SpriteBatch::setPosition(Vec2 position) {
     ui_layout.offset = position;
 }
 
-
 void
 SpriteBatch::setRotation(float degree) {
     rotation = lili::degToRad(degree);
@@ -226,7 +225,7 @@ SpriteBatch::getSize() const {
     float min_y = mesh_data.vertices[0].y;
     float max_y = mesh_data.vertices[0].y;
 
-    for (const auto& v : mesh_data.vertices) {
+    for (const Vertex& v : mesh_data.vertices) {
         if (v.x < min_x) min_x = v.x;
         if (v.x > max_x) max_x = v.x;
         if (v.y < min_y) min_y = v.y;

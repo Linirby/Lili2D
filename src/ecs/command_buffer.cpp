@@ -18,9 +18,7 @@ CommandBuffer::destroyEntity(Entity entity) {
 
 void
 CommandBuffer::play(ECSRegistry& registry) {
-    for (auto& command : commands) {
-        command(registry);
-    }
+    for (auto& command : commands) command(registry);
     commands.clear();
 }
 

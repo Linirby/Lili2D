@@ -156,10 +156,7 @@ Text::getSize() const {
 Mat3
 Text::getTransformMatrix() const {
     if (render_layer == RenderLayer::UI && renderer) {
-        Vec2 viewport_size = {
-            static_cast<float>(renderer->getSwapchainWidth()),
-            static_cast<float>(renderer->getSwapchainHeight())
-        };
+        Vec2 viewport_size = renderer->getLogicalResolution();
         return ui_layout.getTransformationMatrix(
             viewport_size, getSize(), rotation, scale
         );

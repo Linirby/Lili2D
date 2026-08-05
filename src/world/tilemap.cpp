@@ -77,10 +77,8 @@ TileMap::draw(Renderer* renderer, ThreadPool* thread_pool) {
 
     AABB2 bounds;
     if (use_culling) {
-        bounds = camera->getViewportBounds(
-            static_cast<float>(renderer->getSwapchainWidth()),
-            static_cast<float>(renderer->getSwapchainHeight())
-        );
+        Vec2 log_res = renderer->getLogicalResolution();
+        bounds = camera->getViewportBounds(log_res.x, log_res.y);
         bounds.min.x -= chunk_sz_x;
         bounds.min.y -= chunk_sz_y;
         bounds.max.x += chunk_sz_x;

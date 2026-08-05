@@ -2,6 +2,7 @@
 
 #include <SDL3/SDL_init.h>
 
+#include <algorithm>
 #include <stdexcept>
 
 namespace lili {
@@ -39,6 +40,9 @@ Window::Window(Window&& other) noexcept
     : resizable(other.resizable),
       borderless(other.borderless),
       fullscreen(other.fullscreen),
+      logical_width(other.logical_width),
+      logical_height(other.logical_height),
+      use_logical_resolution(other.use_logical_resolution),
       window(other.window) {
     other.window = nullptr;
 }
@@ -54,6 +58,9 @@ Window::operator=(Window&& other) noexcept {
         resizable = other.resizable;
         borderless = other.borderless;
         fullscreen = other.fullscreen;
+        logical_width = other.logical_width;
+        logical_height = other.logical_height;
+        use_logical_resolution = other.use_logical_resolution;
         window = other.window;
         other.window = nullptr;
     }
@@ -174,6 +181,53 @@ Window::isFullscreen() const {
 bool
 Window::isRelativeMouseMode() const {
     return SDL_GetWindowRelativeMouseMode(window);
+}
+
+void
+Window::setLogicalResolution(int width, int height) {
+    logical_width = width;
+    logical_height = height;
+    use_logical_resolution = (width > 0 && height > 0);
+}
+
+Vec2
+Window::getLogicalResolution() const {
+    if (use_logical_resolution)
+        return {
+            static_cast<float>(logical_width),
+            static_cast<float>(logical_height)
+        };
+    return getSize();
+}
+
+bool
+Window::hasLogicalResolution() const {
+    return use_logical_resolution;
+}
+
+Vec2
+Window::toLogicalCoords(float screen_x, float screen_y) const {
+    if (!use_logical_resolution) return {screen_x, screen_y};
+
+    float physical_w = static_cast<float>(getWidth());
+    float physical_h = static_cast<float>(getHeight());
+
+    if (physical_w <= 0.0f || physical_h <= 0.0f) return {screen_x, screen_y};
+
+    float scale = std::min(
+        physical_w / static_cast<float>(logical_width),
+        physical_h / static_cast<float>(logical_height)
+    );
+
+    float viewport_w = static_cast<float>(logical_width) * scale;
+    float viewport_h = static_cast<float>(logical_height) * scale;
+    float viewport_x = (physical_w - viewport_w) / 2.0f;
+    float viewport_y = (physical_h - viewport_h) / 2.0f;
+
+    float logical_x = (screen_x - viewport_x) / scale;
+    float logical_y = (screen_y - viewport_y) / scale;
+
+    return {logical_x, logical_y};
 }
 
 SDL_Window*

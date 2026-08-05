@@ -92,6 +92,18 @@ public:
     void
     setPresentMode(SDL_GPUPresentMode mode);
 
+    /// @brief Sets an explicit logical (virtual) resolution on the renderer.
+    /// @param width Logical width in pixels (0 to use window logical/physical
+    /// size).
+    /// @param height Logical height in pixels (0 to use window logical/physical
+    /// size).
+    void
+    setLogicalResolution(int width, int height);
+    /// @brief Gets the active logical resolution used for projections.
+    /// @return Vec2 containing logical width and height.
+    Vec2
+    getLogicalResolution() const;
+
     /// @brief Creates a shader from file paths.
     /// @param vert_path Path to the vertex shader file.
     /// @param frag_path Path to the fragment shader file.
@@ -160,6 +172,8 @@ private:
     std::unique_ptr<SDL_GPUDevice, SDLGPUDeviceDeleter> device;
 
     uint32_t swapchain_width, swapchain_height = 0;
+    int logical_width = 0;
+    int logical_height = 0;
     SDL_GPUTexture* current_swapchain_texture = nullptr;
     SDL_GPUCommandBuffer* current_cmd_buffer = nullptr;
 

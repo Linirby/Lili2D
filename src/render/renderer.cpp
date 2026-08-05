@@ -1,5 +1,6 @@
 #include "lili2d/render/renderer.hpp"
 
+#include <algorithm>
 #include <cstdint>
 #include <iostream>
 #include <memory>
@@ -64,17 +65,14 @@ Renderer::beginFrame() {
         swapchain_height = height;
     }
 
-    Mat3 projection = Mat3::orthographic(
-        0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height)
-    );
+    Vec2 logical_res = getLogicalResolution();
+
+    Mat3 projection =
+        Mat3::orthographic(0.0f, logical_res.x, 0.0f, logical_res.y);
     Mat3 view = Mat3::identity();
     if (camera) {
-        projection = camera->getProjection(
-            static_cast<float>(width), static_cast<float>(height)
-        );
-        view = camera->getViewMatrix(
-            static_cast<float>(width), static_cast<float>(height)
-        );
+        projection = camera->getProjection(logical_res.x, logical_res.y);
+        view = camera->getViewMatrix(logical_res.x, logical_res.y);
     }
     proj_view_world2d = projection * view;
 
@@ -100,12 +98,32 @@ void
 Renderer::endFrame() {
     SDL_GPUColorTargetInfo color_ti{};
     color_ti.texture = current_swapchain_texture;
-    color_ti.clear_color = SDL_FColor{0.1f, 0.1f, 0.1f, 1.0f};
+    color_ti.clear_color = SDL_FColor{0.0f, 0.0f, 0.0f, 1.0f};
     color_ti.load_op = SDL_GPU_LOADOP_CLEAR;
     color_ti.store_op = SDL_GPU_STOREOP_STORE;
 
     SDL_GPURenderPass* main_pass =
         SDL_BeginGPURenderPass(current_cmd_buffer, &color_ti, 1, nullptr);
+
+    Vec2 res = getLogicalResolution();
+    bool w_or_h_different = static_cast<uint32_t>(res.x) != swapchain_width ||
+                            static_cast<uint32_t>(res.y) != swapchain_height;
+    if (res.x > 0.0f && res.y > 0.0f && w_or_h_different) {
+        float scale_x = static_cast<float>(swapchain_width) / res.x;
+        float scale_y = static_cast<float>(swapchain_height) / res.y;
+        float scale = std::min(scale_x, scale_y);
+
+        float viewport_w = res.x * scale;
+        float viewport_h = res.y * scale;
+        float viewport_x =
+            (static_cast<float>(swapchain_width) - viewport_w) / 2.0f;
+        float viewport_y =
+            (static_cast<float>(swapchain_height) - viewport_h) / 2.0f;
+
+        SDL_GPUViewport viewport{viewport_x, viewport_y, viewport_w,
+                                 viewport_h, 0.0f,       1.0f};
+        SDL_SetGPUViewport(main_pass, &viewport);
+    }
 
     world_2d_pass->render(
         main_pass, current_cmd_buffer, proj_view_world2d, world_2d_queue
@@ -276,6 +294,27 @@ Renderer::setPresentMode(SDL_GPUPresentMode mode) {
             device.get(), window->getSdlWindow(),
             SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_VSYNC
         );
+}
+
+void
+Renderer::setLogicalResolution(int width, int height) {
+    logical_width = width;
+    logical_height = height;
+}
+
+Vec2
+Renderer::getLogicalResolution() const {
+    if (logical_width > 0 && logical_height > 0)
+        return {
+            static_cast<float>(logical_width),
+            static_cast<float>(logical_height)
+        };
+    if (window && window->hasLogicalResolution())
+        return window->getLogicalResolution();
+    return {
+        static_cast<float>(swapchain_width),
+        static_cast<float>(swapchain_height)
+    };
 }
 
 Shader*

@@ -94,6 +94,28 @@ public:
     bool
     isRelativeMouseMode() const;
 
+    /// @brief Sets the logical (virtual) resolution for the window.
+    /// @param width Logical width in pixels (0 to disable).
+    /// @param height Logical height in pixels (0 to disable).
+    void
+    setLogicalResolution(int width, int height);
+    /// @brief Gets the active logical resolution (or physical window size if
+    /// not set).
+    /// @return Vec2 containing logical width and height.
+    Vec2
+    getLogicalResolution() const;
+    /// @brief Checks if a custom logical resolution is enabled.
+    /// @return True if logical resolution is set.
+    bool
+    hasLogicalResolution() const;
+    /// @brief Translates physical screen coordinates to logical game
+    /// coordinates.
+    /// @param screen_x Physical X coordinate.
+    /// @param screen_y Physical Y coordinate.
+    /// @return Vec2 representing logical coordinates.
+    Vec2
+    toLogicalCoords(float screen_x, float screen_y) const;
+
     /// @brief Gets the underlying SDL_Window pointer.
     /// @return Pointer to the SDL_Window.
     SDL_Window*
@@ -103,6 +125,9 @@ private:
     bool resizable = false;
     bool borderless = false;
     bool fullscreen = false;
+    int logical_width = 0;
+    int logical_height = 0;
+    bool use_logical_resolution = false;
     SDL_Window* window = nullptr;
 };
 

@@ -59,10 +59,7 @@ IRenderable::getOffset() const {
 Vec2
 IRenderable::getGlobalPosition(const Renderer* renderer) const {
     if (getRender() == RenderLayer::UI && renderer) {
-        Vec2 viewport_size = {
-            static_cast<float>(renderer->getSwapchainWidth()),
-            static_cast<float>(renderer->getSwapchainHeight())
-        };
+        Vec2 viewport_size = renderer->getLogicalResolution();
         return ui_layout.getScreenPosition(viewport_size, getSize());
     }
     return getPosition();

@@ -128,10 +128,7 @@ Circle::getSize() const {
 Mat3
 Circle::getTransformMatrix() const {
     if (render_layer == RenderLayer::UI && renderer) {
-        Vec2 viewport_size = {
-            static_cast<float>(renderer->getSwapchainWidth()),
-            static_cast<float>(renderer->getSwapchainHeight())
-        };
+        Vec2 viewport_size = renderer->getLogicalResolution();
         Vec2 obj_size = {getDiameter() * scale.x, getDiameter() * scale.y};
         Vec2 top_left = ui_layout.getScreenPosition(viewport_size, obj_size);
         Vec2 center_pos = top_left + obj_size * 0.5f;

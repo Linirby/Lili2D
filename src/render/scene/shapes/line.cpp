@@ -127,10 +127,7 @@ Line::getTransformMatrix() const {
     float angle = std::atan2(diff.y, diff.x);
 
     if (render_layer == RenderLayer::UI && renderer) {
-        Vec2 viewport_size = {
-            static_cast<float>(renderer->getSwapchainWidth()),
-            static_cast<float>(renderer->getSwapchainHeight())
-        };
+        Vec2 viewport_size = renderer->getLogicalResolution();
         Vec2 obj_size = {length, thick};
         return ui_layout.getTransformationMatrix(
             viewport_size, obj_size, angle, scale

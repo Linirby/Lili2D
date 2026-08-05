@@ -5,10 +5,15 @@ App::App() : lili::Game("hello_animation - Lili2D", 400, 400) {
     getWindow()->setResizable(true);
 
     lili::Renderer* renderer = getRenderer();
-    head_atlas = lili::AtlasMap(renderer, "head_animation.png");
-    head_atlas.slice(8, 1);
+
+    lili::Assets::setHotReloadEnabled(true);
+
+    lili::AtlasMap* head_atlas = lili::Assets::loadAtlas(
+        "head_atlas", renderer, "head_animation.png", 8, 1
+    );
+
     head_sprite = lili::AnimatedSprite(
-        renderer, lili::Animation(head_atlas.getSliceUVs(0, 8))
+        renderer, lili::Animation(head_atlas->getSliceUVs(0, 8))
     );
     head_sprite.setScale({15, 15});
     head_sprite.setFrameSpeed(0.2f);
@@ -25,6 +30,8 @@ App::onEvent(const lili::Event& event) {
 
 void
 App::onUpdate(float dt) {
+    lili::Assets::checkHotReload();
+
     lili::Window* window = getWindow();
     head_sprite.setPosition(
         lili::Vec2(

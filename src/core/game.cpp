@@ -1,5 +1,6 @@
 #include "lili2d/core/game.hpp"
 
+#include "lili2d/core/asset_manager.hpp"
 #include "lili2d/core/event.hpp"
 #include "lili2d/core/game_config.hpp"
 #include "lili2d/core/thread_pool.hpp"
@@ -28,6 +29,8 @@ Game::Game(
     this->engine_config = engine_config;
     thread_pool = std::make_unique<ThreadPool>(engine_config);
 }
+
+Game::~Game() { AssetManager::clear(); }
 
 void
 Game::run() {

@@ -27,7 +27,7 @@ public:
     );
 
     /// @brief Destructor.
-    virtual ~Game() = default;
+    virtual ~Game();
 
     Game(Game&& other) noexcept = default;
     Game&

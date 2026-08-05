@@ -21,10 +21,11 @@ App::App() : lili::Game("hello_ecs - Lili2D", 800, 600) {
     camera.setPosition({window->getWidth() / 2.0f, window->getHeight() / 2.0f});
     renderer->setCamera(&camera);
 
-    circle_texture =
-        std::make_unique<lili::Texture>(renderer->getDevice(), "circle.png");
+    circle_texture = lili::Assets::loadTexture(
+        "circle_tex", "circle.png", renderer->getDevice()
+    );
     sprite_batch =
-        std::make_unique<lili::SpriteBatch>(renderer, circle_texture.get());
+        std::make_unique<lili::SpriteBatch>(renderer, circle_texture);
     for (int i = 0; i < N_ENTITIES; ++i) spawnRandomBall();
 
     std::cout
@@ -92,7 +93,7 @@ App::spawnRandomBall() {
 
     lili::Entity ent = entities::spawnBall(
         ecs_registry, pos, vel,
-        lili::SliceUV(circle_texture.get(), 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f),
+        lili::SliceUV(circle_texture, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f),
         color, radius
     );
     spawned_entities.push_back(ent);

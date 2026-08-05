@@ -13,13 +13,12 @@ private:
     lili::Camera camera;
     lili::Keyboard keyboard;
 
-    lili::AtlasMap env_atlas;
-    lili::AtlasMap char_atlas;
+    lili::AtlasMap* env_atlas = nullptr;
+    lili::AtlasMap* char_atlas = nullptr;
 
     std::unique_ptr<lili::ThreadPool> thread_pool;
     std::unique_ptr<lili::TileMap> tilemap = nullptr;
 
-    lili::BitmapFont font;
     lili::Text text_infos;
 
     void

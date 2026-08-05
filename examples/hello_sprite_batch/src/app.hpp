@@ -23,9 +23,9 @@ private:
     lili::Camera camera;
     lili::Keyboard keyboard;
 
-    lili::AtlasMap env_atlas;
+    lili::AtlasMap* env_atlas = nullptr;
     std::unique_ptr<lili::SpriteBatch> env_batch;
-    lili::AtlasMap char_atlas;
+    lili::AtlasMap* char_atlas = nullptr;
     std::unique_ptr<lili::SpriteBatch> char_batch;
 
     Character player;
@@ -37,7 +37,6 @@ private:
     lili::Animation anim_run_bottom;
     lili::Animation* current_anim = nullptr;
 
-    lili::BitmapFont font;
     lili::Text text_infos;
 
     void

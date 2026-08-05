@@ -32,16 +32,16 @@ App::App() : lili::Game("hello_camera - Lili2D", 600, 400) {
         renderer, lili::RectShape(400, 250, 50, 200), lili::Vec4(0, 0, 1, 1)
     );
 
-    font = std::make_unique<lili::BitmapFont>(renderer, "lili_font.png", 16, 6);
-    text_cam_pos = lili::Text(renderer, font.get(), "");
+    lili::BitmapFont* font =
+        lili::Assets::loadFont("lili_font", renderer, "lili_font.png", 16, 6);
+    text_cam_pos = lili::Text(renderer, font, "");
     text_cam_pos.setScale(2);
     text_cam_pos.setPosition({0, 10});
     text_cam_pos.setRender(lili::RenderLayer::UI);
     text_cam_pos.setAnchor(lili::Anchor::Top);
     text_cam_pos.setPivot(lili::Pivot::Top);
-    text_controls = lili::Text(
-        renderer, font.get(), "IJKL = move the camera | ZX = zoom/dezoom"
-    );
+    text_controls =
+        lili::Text(renderer, font, "IJKL = move the camera | ZX = zoom/dezoom");
     text_controls.setScale(2);
     text_controls.setPosition({0, 32});
     text_controls.setRender(lili::RenderLayer::UI);

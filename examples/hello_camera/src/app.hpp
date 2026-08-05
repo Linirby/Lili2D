@@ -19,7 +19,6 @@ private:
     lili::Rect green_rect;
     lili::Rect blue_rect;
 
-    std::unique_ptr<lili::BitmapFont> font;
     lili::Text text_cam_pos;
     lili::Text text_controls;
 

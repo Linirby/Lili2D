@@ -22,13 +22,10 @@ public:
 private:
     lili::Clock clock;
 
-    std::unique_ptr<lili::Shader> rect_shader;
     std::unique_ptr<lili::MainGraphicsPipeline> rect_pipeline;
     lili::Rect rect;
 
-    std::unique_ptr<lili::Shader> text_shader;
     std::unique_ptr<lili::MainGraphicsPipeline> text_pipeline;
-    std::unique_ptr<lili::BitmapFont> font;
     lili::Text text;
     lili::Text text_info;
 

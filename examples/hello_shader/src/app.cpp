@@ -5,16 +5,12 @@
 
 App::App() : lili::Game("hello_shader - Lili2D", 800, 800) {
     lili::Renderer* renderer = getRenderer();
-    lili::ShaderInfo vert_rect_info{};
-    vert_rect_info.num_uniform_buffers = 2;  // Slot 0 internal, Slot 1 custom
-    lili::ShaderInfo frag_rect_info{};
-    frag_rect_info.num_samplers = 1;  // Sampler internal
-    rect_shader.reset(renderer->createShader(
-        "build/rect.vert.spv", "build/rect.frag.spv", vert_rect_info,
-        frag_rect_info
-    ));
-    rect_pipeline.reset(
-        renderer->createMainGraphicsPipeline(rect_shader.get())
+    lili::Shader* rect_shader = lili::Assets::loadShader(
+        "rect_shader", "build/rect.vert.spv", "build/rect.frag.spv",
+        renderer->getDevice()
+    );
+    rect_pipeline = std::make_unique<lili::MainGraphicsPipeline>(
+        renderer->getDevice(), getWindow()->getSdlWindow(), rect_shader
     );
     rect = lili::Rect(
         renderer, lili::RectShape(0.0f, 0.0f, 400.0f, 400.0f),
@@ -26,20 +22,16 @@ App::App() : lili::Game("hello_shader - Lili2D", 800, 800) {
     rect.setPivot(lili::Pivot::Center);
     rect.setOffset({0.0f, 0.0f});
 
-
-    lili::ShaderInfo vert_text_info{};
-    vert_text_info.num_uniform_buffers = 2;
-    lili::ShaderInfo frag_text_info{};
-    frag_text_info.num_samplers = 1;
-    text_shader.reset(renderer->createShader(
-        "build/text.vert.spv", "build/text.frag.spv", vert_text_info,
-        frag_text_info
-    ));
-    text_pipeline.reset(
-        renderer->createMainGraphicsPipeline(text_shader.get())
+    lili::Shader* text_shader = lili::Assets::loadShader(
+        "text_shader", "build/text.vert.spv", "build/text.frag.spv",
+        renderer->getDevice()
     );
-    font = std::make_unique<lili::BitmapFont>(renderer, "lili_font.png", 16, 6);
-    text = lili::Text(renderer, font.get(), "Yay, shaders :D");
+    text_pipeline = std::make_unique<lili::MainGraphicsPipeline>(
+        renderer->getDevice(), getWindow()->getSdlWindow(), text_shader
+    );
+    lili::BitmapFont* font =
+        lili::Assets::loadFont("lili_font", renderer, "lili_font.png", 16, 6);
+    text = lili::Text(renderer, font, "Yay, shaders :D");
     text.setPosition(lili::Vec2(250.0f, 75.0f));
     text.setScale(3.0f);
     text.getMaterial()->custom_pipeline = text_pipeline->getSdlPipeline();
@@ -47,8 +39,7 @@ App::App() : lili::Game("hello_shader - Lili2D", 800, 800) {
     text.setPivot(lili::Pivot::Top);
     text.setOffset({0.0f, 30.0f});
     text.setRender(lili::RenderLayer::UI);
-    text_info =
-        lili::Text(renderer, font.get(), "SPACE: toggle custom shaders");
+    text_info = lili::Text(renderer, font, "SPACE: toggle custom shaders");
     text_info.setAnchor(lili::Anchor::Bottom);
     text_info.setPivot(lili::Pivot::Bottom);
     text_info.setOffset({0.0f, -30.0f});

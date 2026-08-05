@@ -8,7 +8,6 @@ public:
     App();
 
 private:
-    std::unique_ptr<lili::BitmapFont> font_example;
     float letter_spacing;
     float text_rotation = 0.0f;
     lili::Text welcome_text;

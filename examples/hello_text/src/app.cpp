@@ -8,10 +8,9 @@ App::App() : lili::Game("hello_text - Lili2D", 625, 300) {
     getWindow()->setResizable(true);
     lili::Renderer* renderer = getRenderer();
 
-    font_example =
-        std::make_unique<lili::BitmapFont>(renderer, "lili_font.png", 16, 6);
-    welcome_text =
-        lili::Text(renderer, font_example.get(), "Welcome to Lili2D");
+    lili::BitmapFont* font_example =
+        lili::Assets::loadFont("lili_font", renderer, "lili_font.png", 16, 6);
+    welcome_text = lili::Text(renderer, font_example, "Welcome to Lili2D");
     welcome_text.setScale(3.0f);
     letter_spacing = 1.0f;
     welcome_text.setSpacing(letter_spacing);
@@ -20,8 +19,7 @@ App::App() : lili::Game("hello_text - Lili2D", 625, 300) {
     welcome_text.setPivot(lili::Pivot::Center);
 
     info_text = lili::Text(
-        renderer, font_example.get(),
-        "<- & ->: change letter spacing | R: rotate"
+        renderer, font_example, "<- & ->: change letter spacing | R: rotate"
     );
     info_text.setScale(3.0f);
     info_text.setPosition({10.0f, 10.0f});

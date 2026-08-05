@@ -10,7 +10,7 @@ private:
     lili::Camera camera;
     lili::ECSRegistry ecs_registry;
 
-    std::unique_ptr<lili::Texture> circle_texture;
+    lili::Texture* circle_texture = nullptr;
     std::unique_ptr<lili::SpriteBatch> sprite_batch;
     std::vector<lili::Entity> spawned_entities;
 

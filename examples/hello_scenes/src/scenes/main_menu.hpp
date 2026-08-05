@@ -15,7 +15,6 @@ public:
     render(float alpha) override;
 
 private:
-    lili::BitmapFont font;
     lili::Text text;
     lili::Text info_text;
 };

@@ -5,9 +5,16 @@
 
 MainScene::MainScene(lili::Renderer* renderer)
     : lili::Scene("MainMenu", renderer),
-      font(renderer, "lili_font.png", 16, 6),
-      text(renderer, &font, "MainMenu Scene"),
-      info_text(renderer, &font, "J and L to change") {
+      text(
+          renderer,
+          lili::Assets::loadFont("lili_font", renderer, "lili_font.png", 16, 6),
+          "MainMenu Scene"
+      ),
+      info_text(
+          renderer,
+          lili::Assets::loadFont("lili_font", renderer, "lili_font.png", 16, 6),
+          "J and L to change"
+      ) {
     text.setScale(3.0f);
     text.setRender(lili::RenderLayer::UI);
     text.setAnchor(lili::Anchor::Center);

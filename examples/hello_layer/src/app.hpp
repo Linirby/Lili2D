@@ -17,7 +17,6 @@ private:
     lili::Rect red_square;
     int red_square_layer;
 
-    std::unique_ptr<lili::BitmapFont> font;
     lili::Text text_current_layer;
     lili::Text text_control_info;
 

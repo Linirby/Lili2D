@@ -8,28 +8,30 @@ App::App() : lili::Game("hello_sprite_batch - Lili2D", 768, 640) {
     camera.setZoom(4.0f);
     renderer->setCamera(&camera);
 
-    env_atlas = lili::AtlasMap(renderer, "assets/environment.png");
-    env_atlas.slice(4, 2);
+    env_atlas = lili::Assets::loadAtlas(
+        "env_atlas", renderer, "assets/environment.png", 4, 2
+    );
     env_batch =
-        std::make_unique<lili::SpriteBatch>(renderer, env_atlas.getTexture());
-    char_atlas = lili::AtlasMap(renderer, "assets/player.png");
-    char_atlas.slice(4, 5);
+        std::make_unique<lili::SpriteBatch>(renderer, env_atlas->getTexture());
+    char_atlas = lili::Assets::loadAtlas(
+        "char_atlas", renderer, "assets/player.png", 4, 5
+    );
     char_batch =
-        std::make_unique<lili::SpriteBatch>(renderer, char_atlas.getTexture());
+        std::make_unique<lili::SpriteBatch>(renderer, char_atlas->getTexture());
 
-    anim_idle = lili::Animation(char_atlas.getSliceUVs(0, 4));
-    anim_run_right = lili::Animation(char_atlas.getSliceUVs(4, 4));
-    anim_run_left = lili::Animation(char_atlas.getSliceUVs(8, 4));
-    anim_run_top = lili::Animation(char_atlas.getSliceUVs(12, 4));
-    anim_run_bottom = lili::Animation(char_atlas.getSliceUVs(16, 4));
+    anim_idle = lili::Animation(char_atlas->getSliceUVs(0, 4));
+    anim_run_right = lili::Animation(char_atlas->getSliceUVs(4, 4));
+    anim_run_left = lili::Animation(char_atlas->getSliceUVs(8, 4));
+    anim_run_top = lili::Animation(char_atlas->getSliceUVs(12, 4));
+    anim_run_bottom = lili::Animation(char_atlas->getSliceUVs(16, 4));
 
-    lili::SliceUV slice_floor = env_atlas.getSliceUV(0);
-    lili::SliceUV slice_dark_floor = env_atlas.getSliceUV(1);
-    lili::SliceUV slice_wall = env_atlas.getSliceUV(2);
-    lili::SliceUV slice_corner_tl = env_atlas.getSliceUV(4);
-    lili::SliceUV slice_corner_tr = env_atlas.getSliceUV(5);
-    lili::SliceUV slice_corner_bl = env_atlas.getSliceUV(6);
-    lili::SliceUV slice_corner_br = env_atlas.getSliceUV(7);
+    lili::SliceUV slice_floor = env_atlas->getSliceUV(0);
+    lili::SliceUV slice_dark_floor = env_atlas->getSliceUV(1);
+    lili::SliceUV slice_wall = env_atlas->getSliceUV(2);
+    lili::SliceUV slice_corner_tl = env_atlas->getSliceUV(4);
+    lili::SliceUV slice_corner_tr = env_atlas->getSliceUV(5);
+    lili::SliceUV slice_corner_bl = env_atlas->getSliceUV(6);
+    lili::SliceUV slice_corner_br = env_atlas->getSliceUV(7);
 
     int map_width = 100;
     int map_height = 80;
@@ -69,8 +71,10 @@ App::App() : lili::Game("hello_sprite_batch - Lili2D", 768, 640) {
     current_anim = &anim_idle;
     player.anim_player = lili::AnimationPlayer(current_anim);
 
-    font = lili::BitmapFont(renderer, "assets/lili_font.png", 16, 6);
-    text_infos = lili::Text(renderer, &font, "WASD: move | IK: zoom/dezoom");
+    lili::BitmapFont* font = lili::Assets::loadFont(
+        "lili_font", renderer, "assets/lili_font.png", 16, 6
+    );
+    text_infos = lili::Text(renderer, font, "WASD: move | IK: zoom/dezoom");
     text_infos.setRender(lili::RenderLayer::UI);
     text_infos.setPosition({10.0f, 10.0f});
     text_infos.setScale(3.0f);

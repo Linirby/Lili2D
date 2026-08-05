@@ -22,10 +22,11 @@ App::onInit() {
     camera.setPosition({window->getWidth() / 2.0f, window->getHeight() / 2.0f});
     renderer->setCamera(&camera);
 
-    circle_texture =
-        std::make_unique<lili::Texture>(renderer->getDevice(), "circle.png");
+    circle_texture = lili::Assets::loadTexture(
+        "circle_tex", "circle.png", renderer->getDevice()
+    );
     sprite_batch =
-        std::make_unique<lili::SpriteBatch>(renderer, circle_texture.get());
+        std::make_unique<lili::SpriteBatch>(renderer, circle_texture);
 
     movement_system = std::make_unique<systems::MovementSystem>(
         static_cast<float>(window->getWidth()),
@@ -117,8 +118,7 @@ App::spawnRandomBall() {
     ecs_registry.emplaceComponent<PositionComponent>(ent, pos);
     ecs_registry.emplaceComponent<VelocityComponent>(ent, vel);
     ecs_registry.emplaceComponent<RenderComponent>(
-        ent,
-        lili::SliceUV(circle_texture.get(), 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f),
+        ent, lili::SliceUV(circle_texture, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f),
         color, radius
     );
     spawned_entities.push_back(ent);

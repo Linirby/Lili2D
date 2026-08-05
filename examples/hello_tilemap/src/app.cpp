@@ -17,14 +17,15 @@ App::App() : lili::Game("hello_sprite_batch - Lili2D", 768, 640) {
     lili::Vec2 tile_render_size = lili::Vec2(16, 16);
     tilemap = std::make_unique<lili::TileMap>(lili::Vec2(tile_render_size));
 
-    env_atlas = lili::AtlasMap(renderer, "assets/environment.png");
-    env_atlas.slice(3, 2);
+    env_atlas = lili::Assets::loadAtlas(
+        "env_atlas", renderer, "assets/environment.png", 3, 2
+    );
 
     lili::TileRegistry& registry = lili::TileRegistry::get();
-    registry.registerTile("grass:light", lili::Tile(env_atlas.getSliceUV(0)));
-    registry.registerTile("grass:medium", lili::Tile(env_atlas.getSliceUV(1)));
-    registry.registerTile("grass:dark", lili::Tile(env_atlas.getSliceUV(2)));
-    registry.registerTile("dirt:light", lili::Tile(env_atlas.getSliceUV(3)));
+    registry.registerTile("grass:light", lili::Tile(env_atlas->getSliceUV(0)));
+    registry.registerTile("grass:medium", lili::Tile(env_atlas->getSliceUV(1)));
+    registry.registerTile("grass:dark", lili::Tile(env_atlas->getSliceUV(2)));
+    registry.registerTile("dirt:light", lili::Tile(env_atlas->getSliceUV(3)));
     lili::Tile invisible_solid;
     invisible_solid.is_solid = true;
     lili::TileRegistry::get().registerTile(
@@ -60,8 +61,10 @@ App::App() : lili::Game("hello_sprite_batch - Lili2D", 768, 640) {
         }
     }
 
-    font = lili::BitmapFont(renderer, "assets/lili_font.png", 16, 6);
-    text_infos = lili::Text(renderer, &font, "WASD: move | IK: zoom/dezoom");
+    lili::BitmapFont* font = lili::Assets::loadFont(
+        "lili_font", renderer, "assets/lili_font.png", 16, 6
+    );
+    text_infos = lili::Text(renderer, font, "WASD: move | IK: zoom/dezoom");
     text_infos.setRender(lili::RenderLayer::UI);
     text_infos.setPosition({10.0f, 10.0f});
     text_infos.setScale(3.0f);

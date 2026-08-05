@@ -36,7 +36,7 @@ private:
     std::vector<lili::Entity> spawned_entities;
     lili::Camera camera;
 
-    std::unique_ptr<lili::Texture> circle_texture;
+    lili::Texture* circle_texture = nullptr;
     std::unique_ptr<lili::SpriteBatch> sprite_batch;
     std::unique_ptr<lili::SystemBase> movement_system;
 

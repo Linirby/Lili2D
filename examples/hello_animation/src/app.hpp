@@ -7,7 +7,6 @@ public:
     App();
 
 private:
-    lili::AtlasMap head_atlas;
     lili::AnimatedSprite head_sprite;
 
     void

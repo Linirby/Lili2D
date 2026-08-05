@@ -6,11 +6,37 @@
 
 App::App() : lili::Game("hello_layer - Lili2D", 1024, 576) {
     lili::Renderer* renderer = getRenderer();
-    layer_1 = lili::Sprite(renderer, "layer_1.png");
+
+    lili::Texture* tex1 = lili::Assets::loadTexture(
+        "layer_1", "layer_1.png", renderer->getDevice()
+    );
+    lili::Texture* tex2 = lili::Assets::loadTexture(
+        "layer_2", "layer_2.png", renderer->getDevice()
+    );
+    lili::Texture* tex3 = lili::Assets::loadTexture(
+        "layer_3", "layer_3.png", renderer->getDevice()
+    );
+
+    layer_1 = lili::Sprite(
+        renderer, lili::SliceUV{
+                      tex1, 0.0f, 0.0f, 1.0f, 1.0f, (float)tex1->getWidth(),
+                      (float)tex1->getHeight()
+                  }
+    );
     layer_1.setLayer(1);
-    layer_2 = lili::Sprite(renderer, "layer_2.png");
+    layer_2 = lili::Sprite(
+        renderer, lili::SliceUV{
+                      tex2, 0.0f, 0.0f, 1.0f, 1.0f, (float)tex2->getWidth(),
+                      (float)tex2->getHeight()
+                  }
+    );
     layer_2.setLayer(0);
-    layer_3 = lili::Sprite(renderer, "layer_3.png");
+    layer_3 = lili::Sprite(
+        renderer, lili::SliceUV{
+                      tex3, 0.0f, 0.0f, 1.0f, 1.0f, (float)tex3->getWidth(),
+                      (float)tex3->getHeight()
+                  }
+    );
     layer_3.setLayer(-1);
 
     red_square = lili::Rect(
@@ -19,16 +45,16 @@ App::App() : lili::Game("hello_layer - Lili2D", 1024, 576) {
     red_square_layer = 1;
     red_square.setLayer(red_square_layer);
 
-    font = std::make_unique<lili::BitmapFont>(renderer, "lili_font.png", 16, 6);
-    text_current_layer = lili::Text(renderer, font.get(), "Current layer: 1");
+    lili::BitmapFont* font =
+        lili::Assets::loadFont("lili_font", renderer, "lili_font.png", 16, 6);
+    text_current_layer = lili::Text(renderer, font, "Current layer: 1");
     text_current_layer.setScale(2);
     text_current_layer.setRender(lili::RenderLayer::UI);
     text_current_layer.setAnchor(lili::Anchor::BottomLeft);
     text_current_layer.setPivot(lili::Pivot::BottomLeft);
     text_current_layer.setOffset({10.0f, -32.0f});
-    text_control_info = lili::Text(
-        renderer, font.get(), "I/K: Increase/decrease red rect layer"
-    );
+    text_control_info =
+        lili::Text(renderer, font, "I/K: Increase/decrease red rect layer");
     text_control_info.setScale(2);
     text_control_info.setRender(lili::RenderLayer::UI);
     text_control_info.setAnchor(lili::Anchor::BottomLeft);

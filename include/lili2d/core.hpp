@@ -4,16 +4,21 @@
 /// @brief Aggregates the core components of the Lili2D engine, including
 /// window management, input handling, and core events.
 
+#include "lili2d/core/asset_manager.hpp"
 #include "lili2d/core/clock.hpp"
 #include "lili2d/core/event.hpp"
 #include "lili2d/core/game.hpp"
 #include "lili2d/core/game_config.hpp"
 #include "lili2d/core/keyboard.hpp"
 #include "lili2d/core/mouse.hpp"
+#include "lili2d/core/resource_manager.hpp"
 #include "lili2d/core/thread_pool.hpp"
 #include "lili2d/core/window.hpp"
 
 namespace lili {
+
+/// @brief Centralized facade for engine asset management.
+class AssetManager;
 
 /// @brief A utility class for measuring and managing time.
 class Clock;
@@ -45,6 +50,11 @@ class Keyboard;
 
 /// @brief Handles mouse input state and queries.
 class Mouse;
+
+/// @brief Generic scoped resource manager with hot-reloading support.
+/// @tparam T Type of resource managed.
+template <typename T>
+class ResourceManager;
 
 /// @brief Represents an operating system window.
 class Window;

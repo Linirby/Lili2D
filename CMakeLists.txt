@@ -67,6 +67,7 @@ target_sources(Lili2D PRIVATE
     ${EMBEDDED_SHADERS}
     ${EMBEDDED_ASSETS}
 
+    src/core/asset_manager.cpp
     src/core/clock.cpp
     src/core/event.cpp
     src/core/game.cpp
@@ -189,3 +190,9 @@ install(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/Lili2DConfigVersion.cmake
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Lili2D
 )
+
+enable_testing()
+add_executable(test_resource_manager tests/test_resource_manager.cpp)
+target_link_libraries(test_resource_manager PRIVATE Lili2D)
+add_test(NAME test_resource_manager COMMAND test_resource_manager)
+

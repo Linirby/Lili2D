@@ -45,10 +45,18 @@ BitmapFont::glyphUv(char c) const {
     const float DELTA_U = 1.0f / static_cast<float>(cols);
     const float DELTA_V = 1.0f / static_cast<float>(rows);
 
-    return GlyphUV(
-        CURRENT_X * DELTA_U, CURRENT_Y * DELTA_V, (CURRENT_X + 1) * DELTA_U,
-        (CURRENT_Y + 1) * DELTA_V
-    );
+    float tex_w = static_cast<float>(texture->getWidth());
+    float tex_h = static_cast<float>(texture->getHeight());
+
+    float eps_u = 0.5f / tex_w;
+    float eps_v = 0.5f / tex_h;
+
+    float u0 = CURRENT_X * DELTA_U + eps_u;
+    float v0 = CURRENT_Y * DELTA_V + eps_v;
+    float u1 = (CURRENT_X + 1) * DELTA_U - eps_u;
+    float v1 = (CURRENT_Y + 1) * DELTA_V - eps_v;
+
+    return GlyphUV(u0, v0, u1, v1);
 }
 
 Text::Text(Renderer* renderer, BitmapFont* font, const std::string& text) {
@@ -80,7 +88,6 @@ Text::setPosition(Vec2 position) {
     pos = position;
     ui_layout.offset = position;
 }
-
 
 void
 Text::setRotation(float degree) {

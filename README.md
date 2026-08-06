@@ -4,50 +4,52 @@
 ![CMake](https://img.shields.io/badge/CMake-3.10+-brightgreen.svg)
 ![SDL3](https://img.shields.io/badge/SDL3-Powered-orange.svg)
 
-**Lili2D** is a lightweight, easy-to-use C++ library designed to help you create
-2D games (Thanks to SDL_GPU :3)
+**Lili2D** is a modern, lightweight, high-performance C++20 2D game engine built on top of **SDL3** and modern hardware graphics APIs (via `SDL_GPU`).
 
-Whether you are prototyping a quick idea, participating in a game jam, or
-building a full 2D game, Lili2D provides you with the modern tools you need to
-get things running on screen.
+Whether you are prototyping a quick game jam idea, building full 2D games, or exploring game engine architecture, Lili2D provides clean abstractions, high CPU/GPU performance, and modern developer ergonomics.
 
 https://github.com/user-attachments/assets/352365ba-e0da-4004-91dd-b28a029c2b4e
 
+## Key Features
+
+- ⚡ **Modern `SDL_GPU` Renderer**: Next-gen hardware-accelerated rendering pipeline with support for custom shaders, materials, layers, and automated texture batching (`SpriteBatch`).
+- 📦 **Unified Asset & Resource Management**: Scoped lifecycle management (`unloadScope`), string-keyed caching, custom asset loaders, and **live filesystem hot-reloading** (`Assets` / `ResourceManager<T>`).
+- 📐 **Virtual Logical Resolution & Scaling**: Automatic letterboxing, viewport scale handling, and seamless physical-to-logical screen coordinate conversion (`toLogicalCoords`).
+- 🎨 **UI Layout System**: Comprehensive anchor alignment (`Anchor`), element bounding pivot positioning (`Pivot`), pixel offsets, and inverse-matrix point containment testing (`containsPoint`).
+- 🚀 **Data-Oriented Entity Component System (ECS)**: Cache-friendly contiguous memory pools (`ComponentPool<T>`) and a thread-safe deferred `CommandBuffer` for lock-free parallel execution.
+- 🧵 **Priority-Scheduled Multithreading**: C++20 `ThreadPool` using `std::jthread` with priority queues (`HIGH`, `NORMAL`, `LOW`) for frame-critical and background workloads.
+- 🎯 **Spatial Physics & Collision Queries**: Axis-Aligned Bounding Boxes (`AABB2`), `CircleCollider`, line segment intersections, containment testing, and zero-allocation debug rendering.
+- 🗺️ **TileMap & World Chunking**: Frustum viewport culling and dynamic rebuild budgeting (max 8 chunk rebuilds per frame) for butter-smooth camera movement in massive game worlds.
+
 ## Technical Showcase
 
-For technical leads, developers, and recruiters interested in the engine's
-internals (such as the C++20 thread pool, prioritized task scheduler,
-cache-friendly ECS design, frustum culling, and command buffering), check out
-the **[Technical & Architectural Showcase](docs/ARCHITECTURE.md)**.
+For technical leads, CTOs, senior developers, and recruiters interested in the engine's internal mechanics (such as lock-free ECS command buffering, C++20 thread pool priorities, matrix transform pipelines, and Vulkan/Direct3D GPU budgeting), check out the **[Technical & Architectural Showcase](docs/ARCHITECTURE.md)**.
 
 ## Repository Structure
 
 Lili2D follows the modern C++ Pitchfork layout:
 
-- **[`include/lili2d/`](include/lili2d/)**: The public API headers for the
-  engine.
-- **[`src/`](src/)**: The private implementation files and internal headers.
-- **[`examples/`](examples/)**: Example projects demonstrating how to use
-  Lili2D.
-- **[`docs/`](docs/)**: API documentation and Doxygen configuration.
-- **[`assets/`](assets/)**: Engine-level default assets.
-- **[`scripts/`](scripts/)**: Build and installation utility scripts.
+- **[`include/lili2d/`](include/lili2d/)**: Public API headers for the engine.
+- **[`src/`](src/)**: Private implementation files and internal rendering/ECS routines.
+- **[`examples/`](examples/)**: Standalone example applications showcasing engine systems.
+- **[`docs/`](docs/)**: Architecture deep dives and Doxygen configuration.
+- **[`assets/`](assets/)**: Default engine assets (shaders, fonts, textures).
+- **[`scripts/`](scripts/)**: Build and utility scripts.
 
 ## Getting Started
 
 ### Prerequisites
 
-To build and use Lili2D, you will need:
+To build and use Lili2D, you need:
 
-- A **C++20** compatible compiler (GCC, Clang, or MSVC)
+- A **C++20** compatible compiler (GCC 10+, Clang 11+, or MSVC 2019+)
 - **CMake** 3.10 or higher
 - **SDL3** and **SDL3_image**
-- **glslc** (Google's shader compiler for compiling custom Vulkan shaders)
+- **glslc** (Google's SPIR-V shader compiler for Vulkan shaders)
 
 ### Building from Source
 
-Lili2D uses CMake. You can build and install it globally or include it in your
-project's subdirectories. (Pre-release are currently not updated)
+Lili2D uses CMake for building and installation. You can build it standalone or include it as a CMake subdirectory in your game project.
 
 ```bash
 git clone https://github.com/Linirby/Lili2D.git
@@ -60,17 +62,16 @@ sudo make install
 
 ### Generating Documentation
 
-You can generate the HTML documentation for the API by running Doxygen in the
-`docs/` directory:
+Generate HTML API documentation using Doxygen:
 
 ```bash
 cd docs
 doxygen Doxyfile
 ```
 
-## Quick Start: Hello Shapes
+## Quick Start: Hello Shapes & Assets
 
-Here is how simple it is to get a window open and draw shapes with Lili2D!
+Here is how simple it is to initialize a window, load assets, position UI elements with anchors/pivots, and render shapes with Lili2D!
 
 **1. Create your application class:**
 
@@ -83,100 +84,75 @@ public:
     App() : lili::Game("Hello Lili2D :3", 800, 800) {}
 
     void onInit() override {
-        // Create some cool shapes!
-        lili::Renderer *renderer = getRenderer();
-        line = lili::Line(
-            renderer,
-            lili::LineShape({ 50.0f, 50.0f }, { 100.0f, 300.0f }, 1.0f),
-            lili::Vec4(0.0f, 1.0f, 0.0f, 1.0f)
+        // Set virtual logical resolution (automatic aspect ratio scaling)
+        getWindow()->setLogicalResolution(800, 800);
+
+        // Load assets using the static Assets facade
+        lili::Texture* cat_tex = lili::Assets::loadTexture(
+            "cat", "assets/textures/cat.png", getRenderer()->getDevice()
         );
-        rect = lili::Rect(
-            renderer,
-            lili::RectShape(350.0f, 375.0f, 100.0f, 50.0f),
-            lili::Vec4(1.0f, 0.0f, 0.0f, 1.0f)
-        );
+
+        // Create a sprite with UI anchor & pivot positioning
+        sprite = lili::Sprite(getRenderer(), cat_tex);
+        sprite.setAnchor(lili::Anchor::Center);
+        sprite.setPivot(lili::Pivot::Center);
+        sprite.setOffset({ 0.0f, -50.0f });
+
+        // Create vector shapes
         circle = lili::Circle(
-            renderer,
-            lili::CircleShape({ 400.0f, 100.0f }, 50.0f, 32.0f),
-            lili::Vec4(0.0f, 0.0f, 1.0f, 1.0f)
+            getRenderer(),
+            lili::CircleShape({ 400.0f, 600.0f }, 60.0f, 32.0f),
+            lili::Vec4(0.2f, 0.6f, 1.0f, 1.0f)
         );
     }
 
     void onRender(float alpha) override {
         (void)alpha;
-        line.draw();
-        rect.draw();
+        sprite.draw();
         circle.draw();
     }
 
 private:
-    lili::Line line;
-    lili::Rect rect;
+    lili::Sprite sprite;
     lili::Circle circle;
 };
-```
-
-**2. Run your app:**
-
-```cpp
-#include <iostream>
 
 int main() {
     App app;
-    try {
-        app.run();
-    } catch (std::exception &e) {
-        std::cerr << e.what() << '\n';
-    }
+    app.run();
     return 0;
 }
 ```
 
-Check out the `examples/` directory in the repository for more details and
-complete projects!
-
 ### Available Examples
 
-- **`hello_shapes`**: Demonstrates the basics of window creation and rendering
-  simples colored shapes.
-- **`hello_sprite`**: Learn how to initialize a window, load a texture, and
-  render a basic sprite.
-- **`hello_text`**: See how to load a bitmap font and render dynamic text on the
-  screen.
-- **`hello_camera`**: Show how to use camera and different render layer (WORLD2D
-  / UI)
-- **`hello_layer`**: Demonstrates the use of rendering layers to control the
-  drawing order of sprites and shapes.
-- **`hello_scenes`**: Demonstrates the use of scenes with its manager.
-- **`hello_animation`**: An example of how to load an AtlasMap and create
-  Animations from it.
-- **`hello_shader`**: Demonstrates how to write, compile, and load custom vertex
-  and fragment shaders.
-- **`hello_collision`**: A new example showing the v1 implementation of the AABB
-  collision system and how it interacts with different shapes.
-- **`hello_sprite_batch`**: An example of how to use SpriteBatch with a big map.
-- **`hello_tilemap`**: Demonstrates the TileMap and Chunk system for rendering
-  optimized grid worlds.
-- **`hello_ecs`**: Demonstrates the lightweight Entity Component System (ECS) by
-  spawning and animating thousands of ball entities.
-- **`hello_multithreading`**: Demonstrates C++20 multithreaded systems, dynamic
-  thread allocation, and parallel ECS execution using the prioritized ThreadPool.
+Check out the [`examples/`](examples/) directory for comprehensive code samples:
+
+- **`hello_shapes`**: Window initialization and 2D shape rendering (`Line`, `Rect`, `Circle`).
+- **`hello_sprite`**: Texture loading using `lili::Assets` and 2D sprite transforms.
+- **`hello_text`**: Bitmap font rendering and text alignment.
+- **`hello_camera`**: Camera viewports, zoom factors, and rendering layers (`WORLD2D` vs `UI`).
+- **`hello_layer`**: Render layer sorting and draw-order management.
+- **`hello_scenes`**: Scene stack management and smooth state transitions.
+- **`hello_animation`**: Loading sprite sheets (`AtlasMap`) and playing frame animations.
+- **`hello_shader`**: Writing, compiling, and binding custom SPIR-V vertex and fragment shaders.
+- **`hello_collision`**: AABB and `CircleCollider` spatial collision testing and debug drawing.
+- **`hello_sprite_batch`**: High-performance batch rendering of thousands of sprites in a single GPU call.
+- **`hello_tilemap`**: Optimized grid tilemaps, chunking, and viewport frustum culling.
+- **`hello_ecs`**: High-entity-count physics and animation driven by the Data-Oriented ECS.
+- **`hello_multithreading`**: Priority multithreaded task scheduling and parallel ECS updates via `ThreadPool`.
 
 ## Join the Community
 
-Whether you want to follow the daily development logs, ask questions about
-integrating the library, or share the cool 2D games you are building, we'd love
-to have you!
+Whether you want to follow development logs, ask integration questions, or share your game projects:
 
-Join **Lili's | Dev Lounge** on Discord:
-**[https://discord.gg/6S6HyKWgK3](https://discord.gg/6S6HyKWgK3)**
+Join **Lili's | Dev Lounge** on Discord:  
+👉 **[https://discord.gg/6S6HyKWgK3](https://discord.gg/6S6HyKWgK3)**
 
 ## Support the Project
 
-If you like Lili2D and want to support its development, you can buy me a coffee!
-Your support helps me spend more time making this library even cooler. :3
+If you enjoy using Lili2D and want to support its ongoing development:
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/liliowo)
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/liliowo)  
+👉 **[https://ko-fi.com/liliowo](https://ko-fi.com/liliowo)** ❤️
 
-You can support me here:
-**[https://ko-fi.com/liliowo](https://ko-fi.com/liliowo)** ❤️

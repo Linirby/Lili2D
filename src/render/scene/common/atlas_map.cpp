@@ -6,6 +6,37 @@ AtlasMap::AtlasMap(Renderer* renderer, const std::string& filename) {
     full_texture = std::make_unique<Texture>(renderer->getDevice(), filename);
 }
 
+AtlasMap::AtlasMap(AtlasMap&& other) noexcept
+    : full_texture(std::move(other.full_texture)),
+      slices(std::move(other.slices)),
+      n_cols(other.n_cols),
+      n_rows(other.n_rows),
+      unit_size(other.unit_size) {
+    for (auto& slice : slices) {
+        slice.texture = full_texture.get();
+    }
+}
+
+AtlasMap&
+AtlasMap::operator=(AtlasMap&& other) noexcept {
+    if (this != &other) {
+        if (full_texture && other.full_texture) {
+            *full_texture = std::move(*other.full_texture);
+        } else {
+            full_texture = std::move(other.full_texture);
+        }
+        slices = std::move(other.slices);
+        n_cols = other.n_cols;
+        n_rows = other.n_rows;
+        unit_size = other.unit_size;
+
+        for (auto& slice : slices) {
+            slice.texture = full_texture.get();
+        }
+    }
+    return *this;
+}
+
 void
 AtlasMap::slice(int num_columns, int num_rows) {
     n_cols = num_columns;

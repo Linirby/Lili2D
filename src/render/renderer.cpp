@@ -33,7 +33,9 @@ Renderer::Renderer(Window* window, SDL_GPUPresentMode preferred_mode)
     );
 }
 
-Renderer::~Renderer() = default;
+Renderer::~Renderer() {
+    if (device) SDL_WaitForGPUIdle(device.get());
+}
 
 SDL_GPUDevice*
 Renderer::getDevice() const {
@@ -96,6 +98,7 @@ Renderer::submit(
 
 void
 Renderer::endFrame() {
+    if (!current_cmd_buffer || !current_swapchain_texture) return;
     SDL_GPUColorTargetInfo color_ti{};
     color_ti.texture = current_swapchain_texture;
     color_ti.clear_color = SDL_FColor{0.0f, 0.0f, 0.0f, 1.0f};

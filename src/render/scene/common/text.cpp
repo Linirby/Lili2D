@@ -19,6 +19,29 @@ BitmapFont::BitmapFont(
     glyph_h = texture->getHeight() / rows;
 }
 
+BitmapFont::BitmapFont(BitmapFont&& other) noexcept
+    : texture(std::move(other.texture)),
+      cols(other.cols),
+      rows(other.rows),
+      glyph_w(other.glyph_w),
+      glyph_h(other.glyph_h) {}
+
+BitmapFont&
+BitmapFont::operator=(BitmapFont&& other) noexcept {
+    if (this != &other) {
+        if (texture && other.texture) {
+            *texture = std::move(*other.texture);
+        } else {
+            texture = std::move(other.texture);
+        }
+        cols = other.cols;
+        rows = other.rows;
+        glyph_w = other.glyph_w;
+        glyph_h = other.glyph_h;
+    }
+    return *this;
+}
+
 Texture*
 BitmapFont::getTexture() const {
     return texture.get();

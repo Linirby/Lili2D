@@ -2,6 +2,7 @@
 
 #include <filesystem>
 #include <functional>
+#include <iostream>
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -346,18 +347,23 @@ ResourceManager<T>::checkHotReload() {
         if (ec) continue;
 
         if (current_write_time > record.last_write_time) {
-            record.last_write_time = current_write_time;
-
-            if (record.reloader && record.resource)
-                record.reloader(*record.resource, record.filepath);
-            else if (record.loader && record.resource) {
-                std::unique_ptr<T> fresh = record.loader(record.filepath);
-                if (fresh) {
-                    if constexpr (std::is_move_assignable_v<T>)
-                        *record.resource = std::move(*fresh);
-                    else
-                        record.resource = std::move(fresh);
+            try {
+                if (record.reloader && record.resource) {
+                    record.reloader(*record.resource, record.filepath);
+                    record.last_write_time = current_write_time;
+                } else if (record.loader && record.resource) {
+                    std::unique_ptr<T> fresh = record.loader(record.filepath);
+                    if (fresh) {
+                        if constexpr (std::is_move_assignable_v<T>)
+                            *record.resource = std::move(*fresh);
+                        else
+                            record.resource = std::move(fresh);
+                        record.last_write_time = current_write_time;
+                    }
                 }
+            } catch (const std::exception& e) {
+                std::cerr << "Hot reload failed for " << record.filepath << ": "
+                          << e.what() << std::endl;
             }
         }
     }

@@ -111,6 +111,13 @@ Texture::transferToGpu(SDL_Surface* surface) {
     SDL_GPUTransferBuffer* transfer_buffer =
         SDL_CreateGPUTransferBuffer(device, &transfer_bi);
     void* map = SDL_MapGPUTransferBuffer(device, transfer_buffer, false);
+    if (!map) {
+        SDL_ReleaseGPUTransferBuffer(device, transfer_buffer);
+        throw std::runtime_error(
+            "Failed to map GPU transfer buffer for texture: " +
+            std::string(SDL_GetError())
+        );
+    }
     std::memcpy(map, surface->pixels, image_size);
     SDL_UnmapGPUTransferBuffer(device, transfer_buffer);
     SDL_GPUCommandBuffer* cmd = SDL_AcquireGPUCommandBuffer(device);

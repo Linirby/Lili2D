@@ -46,6 +46,13 @@ public:
         Renderer* renderer, const std::string& path, uint8_t cols, uint8_t rows
     );
 
+    /// @brief Move constructor.
+    BitmapFont(BitmapFont&& other) noexcept;
+    /// @brief Move assignment operator.
+    /// @return Reference to assigned BitmapFont.
+    BitmapFont&
+    operator=(BitmapFont&& other) noexcept;
+
     /// @brief Gets the font's underlying texture.
     /// @return Pointer to the texture.
     Texture*

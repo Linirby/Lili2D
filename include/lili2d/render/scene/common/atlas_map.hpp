@@ -31,11 +31,11 @@ public:
     /// @param filename The path to the image file.
     AtlasMap(Renderer* renderer, const std::string& filename);
     /// @brief Move constructor.
-    AtlasMap(AtlasMap&&) = default;
+    AtlasMap(AtlasMap&& other) noexcept;
     /// @brief Move assignment operator.
     /// @return Reference to the assigned atlas map.
     AtlasMap&
-    operator=(AtlasMap&&) = default;
+    operator=(AtlasMap&& other) noexcept;
 
     /// @brief Slices the underlying texture into a grid of uniform frames.
     /// @param num_columns The number of columns in the sprite sheet.

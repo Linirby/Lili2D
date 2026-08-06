@@ -25,22 +25,18 @@ MainRenderPass::render(
     SDL_BindGPUGraphicsPipeline(pass, current_pipeline);
     for (auto& pair : queue) {
         for (const DrawCommand& draw_cmd : pair.second) {
-            if (!draw_cmd.model.mesh)
-                throw std::runtime_error(
-                    "MainRenderPass received draw command without "
-                    "mesh."
-                );
-            if (!draw_cmd.model.material)
-                throw std::runtime_error(
-                    "MainRenderPass received draw command without "
-                    "material."
-                );
-            if (!draw_cmd.model.material->albedoMap)
-                throw std::runtime_error(
-                    "MainRenderPass received draw command with "
-                    "material missing "
-                    "albedo map."
-                );
+            if (!draw_cmd.model.mesh || !draw_cmd.model.material ||
+                !draw_cmd.model.material->albedoMap)
+                continue;
+
+            SDL_GPUBuffer* vertex_buf = draw_cmd.model.mesh->getVertex();
+            SDL_GPUBuffer* index_buf = draw_cmd.model.mesh->getIndex();
+            SDL_GPUTexture* tex =
+                draw_cmd.model.material->albedoMap->getTexture();
+            SDL_GPUSampler* smp =
+                draw_cmd.model.material->albedoMap->getSampler();
+
+            if (!vertex_buf || !index_buf || !tex || !smp) continue;
 
             SDL_GPUGraphicsPipeline* target_pipeline =
                 (draw_cmd.model.material->custom_pipeline);
@@ -109,13 +105,13 @@ MainRenderPass::render(
             }
 
             SDL_GPUBufferBinding vertex_binding{};
-            vertex_binding.buffer = draw_cmd.model.mesh->getVertex();
+            vertex_binding.buffer = vertex_buf;
             vertex_binding.offset = 0;
 
             SDL_BindGPUVertexBuffers(pass, 0, &vertex_binding, 1);
 
             SDL_GPUBufferBinding index_binding{};
-            index_binding.buffer = draw_cmd.model.mesh->getIndex();
+            index_binding.buffer = index_buf;
             index_binding.offset = 0;
 
             SDL_BindGPUIndexBuffer(
@@ -123,10 +119,8 @@ MainRenderPass::render(
             );
 
             SDL_GPUTextureSamplerBinding texture_sb{};
-            texture_sb.texture =
-                draw_cmd.model.material->albedoMap->getTexture();
-            texture_sb.sampler =
-                draw_cmd.model.material->albedoMap->getSampler();
+            texture_sb.texture = tex;
+            texture_sb.sampler = smp;
 
             SDL_BindGPUFragmentSamplers(pass, 0, &texture_sb, 1);
 

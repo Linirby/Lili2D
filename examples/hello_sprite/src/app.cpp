@@ -4,13 +4,7 @@ App::App() : lili::Game("hello_sprite - Lili2D", 800, 800) {
     lili::Texture* cat_tex = lili::Assets::loadTexture(
         "cat_texture", "cat.png", getRenderer()->getDevice()
     );
-    cat_sprite = lili::Sprite(
-        getRenderer(),
-        lili::SliceUV{
-            cat_tex, 0.0f, 0.0f, 1.0f, 1.0f, (float)cat_tex->getWidth(),
-            (float)cat_tex->getHeight()
-        }
-    );
+    cat_sprite = lili::Sprite(getRenderer(), cat_tex);
     cat_sprite.setScale({0.5f, 0.5f});
     cat_sprite.setPosition({400, 50});
     cat_sprite.setRotation(45.0f);

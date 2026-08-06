@@ -35,6 +35,20 @@ Sprite::Sprite(Renderer* renderer, SliceUV slice) : renderer(renderer) {
     setSlice(slice);
 }
 
+Sprite::Sprite(Renderer* renderer, Texture* texture) : renderer(renderer) {
+    mesh = renderer->getUnitQuad();
+
+    material = std::make_unique<Material>(texture);
+    material->properties.color_tint = {1.0f, 1.0f, 1.0f, 1.0f};
+
+    position = {0.0f, 0.0f};
+    scale = {1.0f, 1.0f};
+    if (texture)
+        size = {(float)texture->getWidth(), (float)texture->getHeight()};
+    rotation = 0.0f;
+    layer = 0.0f;
+}
+
 void
 Sprite::setImage(const std::string& path) {
     texture = std::make_unique<Texture>(renderer->getDevice(), path);

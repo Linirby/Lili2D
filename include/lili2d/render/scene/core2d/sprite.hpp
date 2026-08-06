@@ -27,6 +27,10 @@ public:
     /// @param renderer The renderer.
     /// @param slice The UV slice of an atlas.
     Sprite(Renderer* renderer, SliceUV slice);
+    /// @brief Constructs a sprite from a Texture.
+    /// @param renderer The renderer.
+    /// @param texture The texture.
+    Sprite(Renderer* renderer, Texture* texture);
     /// @brief Destructor.
     ~Sprite() override = default;
 

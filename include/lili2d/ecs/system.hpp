@@ -1,12 +1,13 @@
 #pragma once
 
-#include <vector>
+#include <algorithm>
 #include <future>
 #include <memory>
-#include <algorithm>
-#include "lili2d/ecs/entity.hpp"
-#include "lili2d/ecs/ecs_registry.hpp"
+#include <vector>
+
 #include "lili2d/core/thread_pool.hpp"
+#include "lili2d/ecs/ecs_registry.hpp"
+#include "lili2d/ecs/entity.hpp"
 
 namespace lili {
 
@@ -14,17 +15,17 @@ namespace lili {
 /// storage.
 class SystemBase {
 public:
-	virtual ~SystemBase() = default;
+    /// @brief Default virtual destructor.
+    virtual ~SystemBase() = default;
 
-	/// @brief Runs the system update loop. Decides dynamically between
-	/// single-threaded and parallel execution.
-	/// @param registry The ECSRegistry.
-	/// @param dt Delta time.
-	/// @param thread_pool Pointer to the ThreadPool. If nullptr, runs
-	// single-threaded.
-	virtual void run(
-		ECSRegistry& registry, float dt, ThreadPool* thread_pool
-	) = 0;
+    /// @brief Runs the system update loop. Decides dynamically between
+    /// single-threaded and parallel execution.
+    /// @param registry The ECSRegistry.
+    /// @param dt Delta time.
+    /// @param thread_pool Pointer to the ThreadPool. If nullptr, runs
+    /// single-threaded.
+    virtual void
+    run(ECSRegistry& registry, float dt, ThreadPool* thread_pool) = 0;
 };
 
 /// @brief Templated base class for all ECS systems operating on a specific
@@ -33,120 +34,114 @@ public:
 template <typename TargetComponent>
 class System : public SystemBase {
 public:
-	virtual ~System() = default;
+    /// @brief Virtual destructor.
+    virtual ~System() = default;
 
-	/// @brief The entity count threshold at which multithreading is enabled.
-	/// If the component pool size is below this threshold, it executes
-	/// sequentially on the main thread.
-	size_t parallel_threshold = 1000;
+    /// @brief The entity count threshold at which multithreading is enabled.
+    /// If the component pool size is below this threshold, it executes
+    /// sequentially on the main thread.
+    size_t parallel_threshold = 1000;
 
-	/// @brief Virtual method that the user overrides to define logic for a
-	/// single entity.
-	/// @param registry Reference to the ECSRegistry.
-	/// @param entity The current entity.
-	/// @param component Reference to the target component.
-	/// @param dt Delta time.
-	virtual void updateEntity(
-		ECSRegistry& registry,
-		Entity entity,
-		TargetComponent& component,
-		float dt
-	) = 0;
+    /// @brief Virtual method that the user overrides to define logic for a
+    /// single entity.
+    /// @param registry Reference to the ECSRegistry.
+    /// @param entity The current entity.
+    /// @param component Reference to the target component.
+    /// @param dt Delta time.
+    virtual void
+    updateEntity(
+        ECSRegistry& registry, Entity entity, TargetComponent& component,
+        float dt
+    ) = 0;
 
-	/// @brief Overridden runner that manages execution strategies.
-	void run(ECSRegistry& registry, float dt, ThreadPool* thread_pool) override;
+    /// @brief Overridden runner that manages execution strategies.
+    void
+    run(ECSRegistry& registry, float dt, ThreadPool* thread_pool) override;
 
 private:
-	void runSequentially(
-		ECSRegistry& registry,
-		const std::vector<Entity>& entities,
-		std::vector<TargetComponent>& components,
-		float dt
-	);
+    /// @brief Runs entity updates sequentially on a single thread.
+    /// @param registry Reference to ECSRegistry.
+    /// @param entities Vector of entities to process.
+    /// @param components Vector of components corresponding to entities.
+    /// @param dt Delta time.
+    void
+    runSequentially(
+        ECSRegistry& registry, const std::vector<Entity>& entities,
+        std::vector<TargetComponent>& components, float dt
+    );
 
-	void runInParallel(
-		ECSRegistry& registry,
-		const std::vector<Entity>& entities,
-		std::vector<TargetComponent>& components,
-		float dt,
-		ThreadPool& pool
-	);
+    /// @brief Runs entity updates in parallel across worker threads.
+    /// @param registry Reference to ECSRegistry.
+    /// @param entities Vector of entities to process.
+    /// @param components Vector of components corresponding to entities.
+    /// @param dt Delta time.
+    /// @param pool Reference to active ThreadPool.
+    void
+    runInParallel(
+        ECSRegistry& registry, const std::vector<Entity>& entities,
+        std::vector<TargetComponent>& components, float dt, ThreadPool& pool
+    );
 };
 
-template<typename TargetComponent>
-void System<TargetComponent>::run(
-	ECSRegistry& registry, float dt, ThreadPool* thread_pool
+template <typename TargetComponent>
+void
+System<TargetComponent>::run(
+    ECSRegistry& registry, float dt, ThreadPool* thread_pool
 ) {
-	auto& pool = registry.getPool<TargetComponent>();
-	const auto& entities = pool.getEntities();
-	auto& components = pool.getComponents();
-	size_t total = entities.size();
+    auto& pool = registry.getPool<TargetComponent>();
+    const auto& entities = pool.getEntities();
+    auto& components = pool.getComponents();
+    size_t total = entities.size();
 
-	if (total == 0)
-		return;
+    if (total == 0) return;
 
-	if (
-		!thread_pool ||
-		thread_pool->getProfile() == PerformanceProfile::YES ||
-		total < parallel_threshold
-	)
-		runSequentially(registry, entities, components, dt);
-	else
-		runInParallel(registry, entities, components, dt, *thread_pool);
+    if (!thread_pool || thread_pool->getProfile() == PerformanceProfile::YES ||
+        total < parallel_threshold)
+        runSequentially(registry, entities, components, dt);
+    else
+        runInParallel(registry, entities, components, dt, *thread_pool);
 }
 
-template<typename TargetComponent>
-void System<TargetComponent>::runSequentially(
-	ECSRegistry& registry,
-	const std::vector<Entity>& entities,
-	std::vector<TargetComponent>& components,
-	float dt
+template <typename TargetComponent>
+void
+System<TargetComponent>::runSequentially(
+    ECSRegistry& registry, const std::vector<Entity>& entities,
+    std::vector<TargetComponent>& components, float dt
 ) {
-	for (size_t i = 0; i < entities.size(); ++i)
-		updateEntity(registry, entities[i], components[i], dt);
+    for (size_t i = 0; i < entities.size(); ++i)
+        updateEntity(registry, entities[i], components[i], dt);
 }
 
-template<typename TargetComponent>
-void System<TargetComponent>::runInParallel(
-	ECSRegistry& registry,
-	const std::vector<Entity>& entities,
-	std::vector<TargetComponent>& components,
-	float dt,
-	ThreadPool& pool
+template <typename TargetComponent>
+void
+System<TargetComponent>::runInParallel(
+    ECSRegistry& registry, const std::vector<Entity>& entities,
+    std::vector<TargetComponent>& components, float dt, ThreadPool& pool
 ) {
-	size_t num_workers = std::thread::hardware_concurrency();
-	size_t chunk_size = entities.size() / num_workers;
-	if (chunk_size == 0) chunk_size = entities.size();
+    size_t num_workers = std::thread::hardware_concurrency();
+    size_t chunk_size = entities.size() / num_workers;
+    if (chunk_size == 0) chunk_size = entities.size();
 
-	std::vector<std::future<void>> futures;
+    std::vector<std::future<void>> futures;
 
-	for (size_t start = 0; start < entities.size(); start += chunk_size) {
-		size_t end = std::min(start + chunk_size, entities.size());
+    for (size_t start = 0; start < entities.size(); start += chunk_size) {
+        size_t end = std::min(start + chunk_size, entities.size());
 
-		auto promise = std::make_shared<std::promise<void>>();
-		futures.push_back(promise->get_future());
+        auto promise = std::make_shared<std::promise<void>>();
+        futures.push_back(promise->get_future());
 
-		pool.enqueue(
-			[
-				this,
-				&registry,
-				&entities,
-				&components,
-				start,
-				end,
-				dt,
-				promise
-			]() {
-				for (size_t i = start; i < end; ++i)
-					updateEntity(registry, entities[i], components[i], dt);
-				promise->set_value();
-			},
-			TaskPriority::HIGH
-		);
-	}
+        pool.enqueue(
+            [this, &registry, &entities, &components, start, end, dt,
+             promise]() {
+                for (size_t i = start; i < end; ++i)
+                    updateEntity(registry, entities[i], components[i], dt);
+                promise->set_value();
+            },
+            TaskPriority::HIGH
+        );
+    }
 
-	for (auto& f : futures)
-		f.wait();
+    for (auto& f : futures) f.wait();
 }
 
 }  // namespace lili

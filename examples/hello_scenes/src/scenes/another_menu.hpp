@@ -5,15 +5,25 @@
 class MainScene;
 class YetAgainScene;
 
-class AnotherScene: public lili::Scene {
+/// @brief Secondary scene implementation for demonstration.
+class AnotherScene : public lili::Scene {
 public:
-	AnotherScene(lili::Renderer *renderer);
+    /// @brief Constructor.
+    /// @param renderer Renderer pointer.
+    AnotherScene(lili::Renderer* renderer);
 
-	void handleEvents(const lili::Event &event) override;
-	void render(float alpha) override;
+    /// @brief Event handling callback.
+    /// @param event Incoming event.
+    void
+    handleEvents(const lili::Event& event) override;
+    /// @brief Frame render callback.
+    /// @param alpha Interpolation factor.
+    void
+    render(float alpha) override;
 
 private:
-	lili::BitmapFont font;
-	lili::Text text;
-	lili::Text info_text;
+    /// @brief Title text.
+    lili::Text text;
+    /// @brief Info text.
+    lili::Text info_text;
 };

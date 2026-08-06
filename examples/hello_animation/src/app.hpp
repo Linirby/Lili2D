@@ -4,13 +4,15 @@
 
 class App : public lili::Game {
 public:
-	App();
+    App();
 
 private:
-	lili::AtlasMap head_atlas;
-	lili::AnimatedSprite head_sprite;
+    lili::AnimatedSprite head_sprite;
 
-	void onEvent(const lili::Event &event) override;
-	void onUpdate(float dt) override;
-	void onRender(float alpha) override;
+    void
+    onEvent(const lili::Event& event) override;
+    void
+    onUpdate(float dt) override;
+    void
+    onRender(float alpha) override;
 };

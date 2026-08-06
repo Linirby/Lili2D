@@ -1,30 +1,30 @@
 #pragma once
 
-#include "lili2d/core/thread_pool.hpp"
-#include <memory>
-#include <lili2d/lili2d.hpp>
 #include <SDL3/SDL.h>
 
-
+#include <lili2d/lili2d.hpp>
+#include <memory>
 
 class App : public lili::Game {
 public:
-	App();
+    App();
 
 private:
-	lili::Camera camera;
-	lili::Keyboard keyboard;
+    lili::Camera camera;
+    lili::Keyboard keyboard;
 
-	lili::AtlasMap env_atlas;
-	lili::AtlasMap char_atlas;
+    lili::AtlasMap* env_atlas = nullptr;
+    lili::AtlasMap* char_atlas = nullptr;
 
-	std::unique_ptr<lili::ThreadPool> thread_pool;
-	std::unique_ptr<lili::TileMap> tilemap = nullptr;
+    std::unique_ptr<lili::ThreadPool> thread_pool;
+    std::unique_ptr<lili::TileMap> tilemap = nullptr;
 
-	lili::BitmapFont font;
-	lili::Text text_infos;
+    lili::Text text_infos;
 
-	void onEvent(const lili::Event &event) override;
-	void onUpdate(float dt) override;
-	void onRender(float alpha) override;
+    void
+    onEvent(const lili::Event& event) override;
+    void
+    onUpdate(float dt) override;
+    void
+    onRender(float alpha) override;
 };

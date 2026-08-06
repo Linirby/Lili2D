@@ -25,10 +25,10 @@ the **[Technical & Architectural Showcase](docs/ARCHITECTURE.md)**.
 Lili2D follows the modern C++ Pitchfork layout:
 
 - **[`include/lili2d/`](include/lili2d/)**: The public API headers for the
-engine.
+  engine.
 - **[`src/`](src/)**: The private implementation files and internal headers.
 - **[`examples/`](examples/)**: Example projects demonstrating how to use
-Lili2D.
+  Lili2D.
 - **[`docs/`](docs/)**: API documentation and Doxygen configuration.
 - **[`assets/`](assets/)**: Engine-level default assets.
 - **[`scripts/`](scripts/)**: Build and installation utility scripts.
@@ -47,7 +47,7 @@ To build and use Lili2D, you will need:
 ### Building from Source
 
 Lili2D uses CMake. You can build and install it globally or include it in your
-project's subdirectories.
+project's subdirectories. (Pre-release are currently not updated)
 
 ```bash
 git clone https://github.com/Linirby/Lili2D.git
@@ -138,29 +138,29 @@ complete projects!
 ### Available Examples
 
 - **`hello_shapes`**: Demonstrates the basics of window creation and rendering
-simples colored shapes.
+  simples colored shapes.
 - **`hello_sprite`**: Learn how to initialize a window, load a texture, and
-render a basic sprite.
+  render a basic sprite.
 - **`hello_text`**: See how to load a bitmap font and render dynamic text on the
-screen.
+  screen.
 - **`hello_camera`**: Show how to use camera and different render layer (WORLD2D
-/ UI)
+  / UI)
 - **`hello_layer`**: Demonstrates the use of rendering layers to control the
-drawing order of sprites and shapes.
+  drawing order of sprites and shapes.
 - **`hello_scenes`**: Demonstrates the use of scenes with its manager.
 - **`hello_animation`**: An example of how to load an AtlasMap and create
-Animations from it.
+  Animations from it.
 - **`hello_shader`**: Demonstrates how to write, compile, and load custom vertex
-and fragment shaders.
+  and fragment shaders.
 - **`hello_collision`**: A new example showing the v1 implementation of the AABB
-collision system and how it interacts with different shapes.
+  collision system and how it interacts with different shapes.
 - **`hello_sprite_batch`**: An example of how to use SpriteBatch with a big map.
 - **`hello_tilemap`**: Demonstrates the TileMap and Chunk system for rendering
-optimized grid worlds.
+  optimized grid worlds.
 - **`hello_ecs`**: Demonstrates the lightweight Entity Component System (ECS) by
-spawning and animating thousands of ball entities.
+  spawning and animating thousands of ball entities.
 - **`hello_multithreading`**: Demonstrates C++20 multithreaded systems, dynamic
-thread allocation, and parallel ECS execution using the prioritized ThreadPool.
+  thread allocation, and parallel ECS execution using the prioritized ThreadPool.
 
 ## Join the Community
 

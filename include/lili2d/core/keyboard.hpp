@@ -9,25 +9,32 @@ namespace lili {
 /// @brief Manages keyboard state and input tracking.
 class Keyboard {
 public:
-	/// @brief Updates the keyboard state for the current frame.
-	void update();
-	/// @brief Checks if a key is currently held down.
-	/// @param key The scancode of the key to check.
-	/// @return True if the key is held, false otherwise.
-	bool held(Scancode key) const;
-	/// @brief Checks if a key was pressed down in the current frame.
-	/// @param key The scancode of the key to check.
-	/// @return True if the key was just pressed, false otherwise.
-	bool pressed(Scancode key) const;
-	/// @brief Checks if a key was released in the current frame.
-	/// @param key The scancode of the key to check.
-	/// @return True if the key was just released, false otherwise.
-	bool released(Scancode key) const;
+    /// @brief Updates the keyboard state for the current frame.
+    void
+    update();
+    /// @brief Checks if a key is currently held down.
+    /// @param key The scancode of the key to check.
+    /// @return True if the key is held, false otherwise.
+    bool
+    held(Scancode key) const;
+    /// @brief Checks if a key was pressed down in the current frame.
+    /// @param key The scancode of the key to check.
+    /// @return True if the key was just pressed, false otherwise.
+    bool
+    pressed(Scancode key) const;
+    /// @brief Checks if a key was released in the current frame.
+    /// @param key The scancode of the key to check.
+    /// @return True if the key was just released, false otherwise.
+    bool
+    released(Scancode key) const;
 
 private:
-	const bool *current = nullptr;
-	bool previous[SDL_SCANCODE_COUNT] = {};
-	int key_count = 0;
+    /// @brief Current frame key states array.
+    bool current[SDL_SCANCODE_COUNT] = {};
+    /// @brief Previous frame key states array.
+    bool previous[SDL_SCANCODE_COUNT] = {};
+    /// @brief Number of keys.
+    int key_count = 0;
 };
 
 }  // namespace lili

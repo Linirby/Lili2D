@@ -1,8 +1,9 @@
 #pragma once
 
 #include <string>
-#include "lili2d/render/renderer.hpp"
+
 #include "lili2d/core/event.hpp"
+#include "lili2d/render/renderer.hpp"
 
 namespace lili {
 
@@ -12,56 +13,74 @@ class SceneManager;
 /// @brief Represents a single game state or screen.
 class Scene {
 public:
-	/// @brief Constructs a new Scene.
-	/// @param name The name of the scene.
-	/// @param renderer Pointer to the renderer used for rendering.
-	Scene(const std::string &name, Renderer *renderer);
-	virtual ~Scene() = default;
-	Scene(const Scene&) = delete;
-	Scene& operator=(const Scene&) = delete;
-	Scene(Scene&&) = delete;
-	Scene& operator=(Scene&&) = delete;
+    /// @brief Constructs a Scene with a name and renderer pointer.
+    /// @param name Name of the scene.
+    /// @param renderer Pointer to Renderer.
+    Scene(const std::string& name, Renderer* renderer);
+    /// @brief Virtual destructor.
+    virtual ~Scene() = default;
+    /// @brief Deleted copy constructor.
+    Scene(const Scene&) = delete;
+    /// @brief Deleted copy assignment operator.
+    Scene&
+    operator=(const Scene&) = delete;
+    /// @brief Deleted move constructor.
+    Scene(Scene&&) = delete;
+    /// @brief Deleted move assignment operator.
+    Scene&
+    operator=(Scene&&) = delete;
 
-	/// @brief Called when the scene becomes active.
-	virtual void onEnter() {}
-	/// @brief Called when the scene becomes inactive.
-	virtual void onExit() {}
-	/// @brief Called when another scene is pushed on top of this one.
-	virtual void onPause() {}
-	/// @brief Called when a scene on top of this one is popped.
-	virtual void onResume() {}
+    /// @brief Called when the scene becomes active.
+    virtual void
+    onEnter() {}
+    /// @brief Called when the scene becomes inactive.
+    virtual void
+    onExit() {}
+    /// @brief Called when another scene is pushed on top of this one.
+    virtual void
+    onPause() {}
+    /// @brief Called when a scene on top of this one is popped.
+    virtual void
+    onResume() {}
 
-	/// @brief Handles an incoming event.
-	/// @param event The event.
-	virtual void handleEvents(const Event& event);
-	/// @brief Updates the scene logic.
-	/// @param dt Delta time in seconds.
-	virtual void update(float dt);
-	/// @brief Updates the scene physics logic.
-	/// @param dt Delta time in seconds.
-	virtual void fixedUpdate(float dt);
-	/// @brief Renders the scene.
-	/// @param alpha Interpolation factor.
-	virtual void render(float alpha);
+    /// @brief Handles an incoming event.
+    /// @param event The event.
+    virtual void
+    handleEvents(const Event& event);
+    /// @brief Updates the scene logic.
+    /// @param dt Delta time in seconds.
+    virtual void
+    update(float dt);
+    /// @brief Updates the scene physics logic.
+    /// @param dt Delta time in seconds.
+    virtual void
+    fixedUpdate(float dt);
+    /// @brief Renders the scene.
+    /// @param alpha Interpolation factor.
+    virtual void
+    render(float alpha);
 
-	/// @brief Sets the parent scene manager.
-	/// @param manager The manager.
-	void setManager(SceneManager *manager);
+    /// @brief Sets the parent scene manager.
+    /// @param manager The manager.
+    void
+    setManager(SceneManager* manager);
 
-	/// @brief Gets the scene name.
-	/// @return The name.
-	const std::string &getName() const;
-	/// @brief Gets the parent scene manager.
-	/// @return The manager.
-	SceneManager *getManager() const;
+    /// @brief Gets the scene name.
+    /// @return The name.
+    const std::string&
+    getName() const;
+    /// @brief Gets the parent scene manager.
+    /// @return The manager.
+    SceneManager*
+    getManager() const;
 
 protected:
-	/// @brief The unique name of the scene.
-	std::string name;
-	/// @brief Pointer to the engine renderer.
-	Renderer *renderer;
-	/// @brief Pointer to the parent SceneManager.
-	SceneManager *manager;
+    /// @brief Name identifier of the scene.
+    std::string name;
+    /// @brief Pointer to Renderer instance.
+    Renderer* renderer = nullptr;
+    /// @brief Pointer to managing SceneManager.
+    SceneManager* manager = nullptr;
 };
 
 }  // namespace lili

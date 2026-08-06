@@ -4,15 +4,14 @@
 /// @brief Aggregates the scene components of the Lili2D engine, including
 /// scene, scene manager.
 
-#include "lili2d/scene/scene.hpp"  // IWYU pragma: keep
-#include "lili2d/scene/scene_manager.hpp"  // IWYU pragma: keep
+#include "lili2d/scene/scene.hpp"
+#include "lili2d/scene/scene_manager.hpp"
 
 namespace lili {
 
-/// @brief Defines a scene.
+/// @brief Represents a single game state or screen.
 class Scene;
-/// @brief Define a manager for scenes.
+/// @brief Manager for transitioning and updating scenes.
 class SceneManager;
 
 }  // namespace lili
-

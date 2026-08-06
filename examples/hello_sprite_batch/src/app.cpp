@@ -1,151 +1,144 @@
 #include "app.hpp"
 
 App::App() : lili::Game("hello_sprite_batch - Lili2D", 768, 640) {
-	const float TILE_SIZE = 16.0f;
-	lili::Renderer *renderer = getRenderer();
+    const float TILE_SIZE = 16.0f;
+    lili::Renderer* renderer = getRenderer();
 
-	setTps(20.0f);
-	camera.setZoom(4.0f);
-	renderer->setCamera(&camera);
+    setTps(20.0f);
+    camera.setZoom(4.0f);
+    renderer->setCamera(&camera);
 
-	env_atlas = lili::AtlasMap(renderer, "assets/environment.png");
-	env_atlas.slice(4, 2);
-	env_batch = std::make_unique<lili::SpriteBatch>(
-		renderer, env_atlas.getTexture()
-	);
-	char_atlas = lili::AtlasMap(renderer, "assets/player.png");
-	char_atlas.slice(4, 5);
-	char_batch = std::make_unique<lili::SpriteBatch>(
-		renderer, char_atlas.getTexture()
-	);
+    env_atlas = lili::Assets::loadAtlas(
+        "env_atlas", renderer, "assets/environment.png", 4, 2
+    );
+    env_batch =
+        std::make_unique<lili::SpriteBatch>(renderer, env_atlas->getTexture());
+    char_atlas = lili::Assets::loadAtlas(
+        "char_atlas", renderer, "assets/player.png", 4, 5
+    );
+    char_batch =
+        std::make_unique<lili::SpriteBatch>(renderer, char_atlas->getTexture());
 
-	anim_idle = lili::Animation(char_atlas.getSliceUVs(0, 4));
-	anim_run_right = lili::Animation(char_atlas.getSliceUVs(4, 4));
-	anim_run_left = lili::Animation(char_atlas.getSliceUVs(8, 4));
-	anim_run_top = lili::Animation(char_atlas.getSliceUVs(12, 4));
-	anim_run_bottom = lili::Animation(char_atlas.getSliceUVs(16, 4));
+    anim_idle = lili::Animation(char_atlas->getSliceUVs(0, 4));
+    anim_run_right = lili::Animation(char_atlas->getSliceUVs(4, 4));
+    anim_run_left = lili::Animation(char_atlas->getSliceUVs(8, 4));
+    anim_run_top = lili::Animation(char_atlas->getSliceUVs(12, 4));
+    anim_run_bottom = lili::Animation(char_atlas->getSliceUVs(16, 4));
 
-	lili::SliceUV slice_floor = env_atlas.getSliceUV(0);
-	lili::SliceUV slice_dark_floor = env_atlas.getSliceUV(1);
-	lili::SliceUV slice_wall = env_atlas.getSliceUV(2);
-	lili::SliceUV slice_corner_tl = env_atlas.getSliceUV(4);
-	lili::SliceUV slice_corner_tr = env_atlas.getSliceUV(5);
-	lili::SliceUV slice_corner_bl = env_atlas.getSliceUV(6);
-	lili::SliceUV slice_corner_br = env_atlas.getSliceUV(7);
+    lili::SliceUV slice_floor = env_atlas->getSliceUV(0);
+    lili::SliceUV slice_dark_floor = env_atlas->getSliceUV(1);
+    lili::SliceUV slice_wall = env_atlas->getSliceUV(2);
+    lili::SliceUV slice_corner_tl = env_atlas->getSliceUV(4);
+    lili::SliceUV slice_corner_tr = env_atlas->getSliceUV(5);
+    lili::SliceUV slice_corner_bl = env_atlas->getSliceUV(6);
+    lili::SliceUV slice_corner_br = env_atlas->getSliceUV(7);
 
-	int map_width = 100;
-	int map_height = 80;
+    int map_width = 100;
+    int map_height = 80;
 
-	env_batch->begin();
-	for (int y = 0; y < map_height; ++y) {
-		for (int x = 0; x < map_width; ++x) {
-			lili::SliceUV slice = slice_floor;
-			if ((x + y) % 2 == 0)
-				slice = slice_dark_floor;
+    env_batch->begin();
+    for (int y = 0; y < map_height; ++y) {
+        for (int x = 0; x < map_width; ++x) {
+            lili::SliceUV slice = slice_floor;
+            if ((x + y) % 2 == 0) slice = slice_dark_floor;
 
-			if (x == 0 && y == 0)
-				slice = slice_corner_tl;
-			else if (x == map_width - 1 && y == 0)
-				slice = slice_corner_tr;
-			else if (x == 0 && y == map_height - 1)
-				slice = slice_corner_bl;
-			else if (x == map_width - 1 && y == map_height - 1)
-				slice = slice_corner_br;
-			else if (
-				x == 0 || x == map_width - 1 ||
-				y == 0 || y == map_height - 1
-			)
-				slice = slice_wall;
+            if (x == 0 && y == 0)
+                slice = slice_corner_tl;
+            else if (x == map_width - 1 && y == 0)
+                slice = slice_corner_tr;
+            else if (x == 0 && y == map_height - 1)
+                slice = slice_corner_bl;
+            else if (x == map_width - 1 && y == map_height - 1)
+                slice = slice_corner_br;
+            else if (
+                x == 0 || x == map_width - 1 || y == 0 || y == map_height - 1
+            )
+                slice = slice_wall;
 
-			env_batch->draw(
-				slice,
-				lili::Vec2(
-					(x + 1.5 - 50) * (TILE_SIZE - 0.1f),
-					(y + 1.5 - 40) * (TILE_SIZE - 0.1f)
-				)
-			);
-		}
-	}
-	env_batch->end();
+            env_batch->draw(
+                slice, lili::Vec2(
+                           (x + 1.5 - 50) * (TILE_SIZE - 0.1f),
+                           (y + 1.5 - 40) * (TILE_SIZE - 0.1f)
+                       )
+            );
+        }
+    }
+    env_batch->end();
 
-	env_batch->setLayer(0.5f);
-	char_batch->setLayer(1.0f);
+    env_batch->setLayer(0.5f);
+    char_batch->setLayer(1.0f);
 
-	current_anim = &anim_idle;
-	player.anim_player = lili::AnimationPlayer(current_anim);
+    current_anim = &anim_idle;
+    player.anim_player = lili::AnimationPlayer(current_anim);
 
-	font = lili::BitmapFont(renderer, "assets/lili_font.png", 16, 6);
-	text_infos = lili::Text(
-		renderer, &font, "WASD: move | IK: zoom/dezoom"
-	);
-	text_infos.setRender(lili::RenderLayer::UI);
-	text_infos.setPosition({10.0f, 10.0f});
-	text_infos.setScale(3.0f);
+    lili::BitmapFont* font = lili::Assets::loadFont(
+        "lili_font", renderer, "assets/lili_font.png", 16, 6
+    );
+    text_infos = lili::Text(renderer, font, "WASD: move | IK: zoom/dezoom");
+    text_infos.setRender(lili::RenderLayer::UI);
+    text_infos.setPosition({10.0f, 10.0f});
+    text_infos.setScale(3.0f);
 }
 
-void App::onEvent(const lili::Event &event) {
-	lili::KeyboardEvent kb = event.keyboard();
+void
+App::onEvent(const lili::Event& event) {
+    lili::KeyboardEvent kb = event.keyboard();
 
-	if (event.type() == lili::EventType::KEYBOARD)
-		if (kb.action == lili::KeyAction::PRESSED)
-			if (kb.key == SDLK_ESCAPE)
-				shutdown();
+    if (event.type() == lili::EventType::KEYBOARD)
+        if (kb.action == lili::KeyAction::PRESSED)
+            if (kb.key == SDLK_ESCAPE) shutdown();
 }
 
-void App::onUpdate(float dt) {
-	keyboard.update();
-	lili::Vec2 velocity(0, 0);
+void
+App::onUpdate(float dt) {
+    keyboard.update();
+    lili::Vec2 velocity(0, 0);
 
-	if (keyboard.held(SDL_SCANCODE_W))
-		velocity.y -= 1;
-	if (keyboard.held(SDL_SCANCODE_S))
-		velocity.y += 1;
-	if (keyboard.held(SDL_SCANCODE_A))
-		velocity.x -= 1;
-	if (keyboard.held(SDL_SCANCODE_D))
-		velocity.x += 1;
+    if (keyboard.held(SDL_SCANCODE_W)) velocity.y -= 1;
+    if (keyboard.held(SDL_SCANCODE_S)) velocity.y += 1;
+    if (keyboard.held(SDL_SCANCODE_A)) velocity.x -= 1;
+    if (keyboard.held(SDL_SCANCODE_D)) velocity.x += 1;
 
-	if (keyboard.held(SDL_SCANCODE_I))
-		camera.setZoom(camera.getZoom() + dt);
-	if (keyboard.held(SDL_SCANCODE_K))
-		camera.setZoom(camera.getZoom() - dt);
+    if (keyboard.held(SDL_SCANCODE_I)) camera.setZoom(camera.getZoom() + dt);
+    if (keyboard.held(SDL_SCANCODE_K)) camera.setZoom(camera.getZoom() - dt);
 
-	bool is_moving = (velocity.x != 0 || velocity.y != 0);
-	lili::Animation* target_anim = current_anim;
+    bool is_moving = (velocity.x != 0 || velocity.y != 0);
+    lili::Animation* target_anim = current_anim;
 
-	if (is_moving) {
-		float speed = 80.0f;
-		player.position.x += velocity.x * speed * dt;
-		player.position.y += velocity.y * speed * dt;
+    if (is_moving) {
+        float speed = 80.0f;
+        player.position.x += velocity.x * speed * dt;
+        player.position.y += velocity.y * speed * dt;
 
-		if (velocity.y < 0)
-			target_anim = &anim_run_top;
-		else if (velocity.y > 0)
-			target_anim = &anim_run_bottom;
-		else if (velocity.x < 0)
-			target_anim = &anim_run_left;
-		else if (velocity.x > 0)
-			target_anim = &anim_run_right;
-	} else
-		target_anim = &anim_idle;
+        if (velocity.y < 0)
+            target_anim = &anim_run_top;
+        else if (velocity.y > 0)
+            target_anim = &anim_run_bottom;
+        else if (velocity.x < 0)
+            target_anim = &anim_run_left;
+        else if (velocity.x > 0)
+            target_anim = &anim_run_right;
+    } else
+        target_anim = &anim_idle;
 
-	if (current_anim != target_anim) {
-		current_anim = target_anim;
-		player.anim_player.setAnimation(current_anim);
-	}
+    if (current_anim != target_anim) {
+        current_anim = target_anim;
+        player.anim_player.setAnimation(current_anim);
+    }
 
-	player.anim_player.update(dt);
-	camera.setPosition(player.position);
+    player.anim_player.update(dt);
+    camera.setPosition(player.position);
 }
 
-void App::onRender(float alpha) {
-	(void)alpha;
-	env_batch->draw();
+void
+App::onRender(float alpha) {
+    (void)alpha;
+    env_batch->draw();
 
-	char_batch->begin();
-	char_batch->draw(player.anim_player.getCurrentFrame(), player.position);
-	char_batch->end();
-	char_batch->draw();
+    char_batch->begin();
+    char_batch->draw(player.anim_player.getCurrentFrame(), player.position);
+    char_batch->end();
+    char_batch->draw();
 
-	text_infos.draw();
+    text_infos.draw();
 }

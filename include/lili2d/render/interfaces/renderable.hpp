@@ -82,15 +82,6 @@ public:
     virtual float
     getLayer() const = 0;
 
-    /// @brief Sets the render pass layer (e.g. WORLD2D, UI).
-    /// @param render_layer Render pass layer enum.
-    virtual void
-    setRender(RenderLayer render_layer) = 0;
-    /// @brief Gets the render pass layer.
-    /// @return Render pass layer enum.
-    virtual RenderLayer
-    getRender() const = 0;
-
     /// @brief Sets the main color tint.
     /// @param color Color RGBA vector.
     virtual void
@@ -108,6 +99,15 @@ public:
     /// @return Pointer to Material instance.
     virtual Material*
     getMaterial() const = 0;
+
+    /// @brief Sets the render pass layer (e.g. WORLD2D, UI).
+    /// @param render_layer Render pass layer enum.
+    virtual void
+    setRender(RenderLayer render_layer);
+    /// @brief Gets the render pass layer.
+    /// @return Render pass layer enum.
+    virtual RenderLayer
+    getRender() const;
 
     /// @brief Sets the UI layout properties.
     /// @param layout UI layout configuration.
@@ -171,6 +171,8 @@ protected:
     bool is_visible = true;
     /// @brief UI layout configuration data.
     UILayout ui_layout;
+    /// @brief The render layer
+    RenderLayer render_layer = RenderLayer::WORLD2D;
 };
 
 }  // namespace lili

@@ -110,10 +110,6 @@ public:
     /// @param layer The new layer depth.
     void
     setLayer(float layer) override;
-    /// @brief Sets render pass layer.
-    /// @param render_layer Render pass layer.
-    void
-    setRender(RenderLayer render_layer) override;
 
     /// @brief Gets position of batch.
     /// @return Position vector.
@@ -139,10 +135,6 @@ public:
     /// @return Depth layer.
     float
     getLayer() const override;
-    /// @brief Gets render pass layer.
-    /// @return Render pass layer.
-    RenderLayer
-    getRender() const override;
     /// @brief Gets color tint.
     /// @return Color tint.
     Vec4
@@ -178,8 +170,6 @@ private:
     float rotation = 0.0f;
     /// @brief Render layer depth.
     float layer = 0.0f;
-    /// @brief Target render pass layer.
-    RenderLayer render_layer = RenderLayer::WORLD2D;
 };
 
 }  // namespace lili

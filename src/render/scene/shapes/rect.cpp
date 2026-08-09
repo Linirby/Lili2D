@@ -82,11 +82,6 @@ Rect::setLayer(float value) {
     layer = value;
 }
 
-void
-Rect::setRender(RenderLayer render_layer) {
-    this->render_layer = render_layer;
-}
-
 Vec2
 Rect::getPosition() const {
     return {shape.x, shape.y};
@@ -123,11 +118,6 @@ Rect::getTransformMatrix() const {
 float
 Rect::getLayer() const {
     return layer;
-}
-
-RenderLayer
-Rect::getRender() const {
-    return render_layer;
 }
 
 RectShape

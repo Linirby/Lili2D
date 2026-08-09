@@ -193,11 +193,6 @@ SpriteBatch::setLayer(float layer) {
     this->layer = layer;
 }
 
-void
-SpriteBatch::setRender(RenderLayer render_layer) {
-    this->render_layer = render_layer;
-}
-
 Vec2
 SpriteBatch::getPosition() const {
     return position;
@@ -251,11 +246,6 @@ SpriteBatch::getTransformMatrix() const {
 float
 SpriteBatch::getLayer() const {
     return layer;
-}
-
-RenderLayer
-SpriteBatch::getRender() const {
-    return render_layer;
 }
 
 Vec4

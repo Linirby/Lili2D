@@ -99,146 +99,27 @@ Renderer::submit(
 void
 Renderer::endFrame() {
     if (!current_cmd_buffer || !current_swapchain_texture) return;
-    SDL_GPUColorTargetInfo color_ti{};
-    color_ti.texture = current_swapchain_texture;
-    color_ti.clear_color = SDL_FColor{0.0f, 0.0f, 0.0f, 1.0f};
-    color_ti.load_op = SDL_GPU_LOADOP_CLEAR;
-    color_ti.store_op = SDL_GPU_STOREOP_STORE;
 
-    SDL_GPURenderPass* main_pass =
-        SDL_BeginGPURenderPass(current_cmd_buffer, &color_ti, 1, nullptr);
-
-    Vec2 res = getLogicalResolution();
-    bool w_or_h_different = static_cast<uint32_t>(res.x) != swapchain_width ||
-                            static_cast<uint32_t>(res.y) != swapchain_height;
-    if (res.x > 0.0f && res.y > 0.0f && w_or_h_different) {
-        float scale_x = static_cast<float>(swapchain_width) / res.x;
-        float scale_y = static_cast<float>(swapchain_height) / res.y;
+    Vec2 logical_res = getLogicalResolution();
+    if (logical_res.x > 0.0f && logical_res.y > 0.0f) {
+        float scale_x = static_cast<float>(swapchain_width) / logical_res.x;
+        float scale_y = static_cast<float>(swapchain_height) / logical_res.y;
         float scale = std::min(scale_x, scale_y);
 
-        float viewport_w = res.x * scale;
-        float viewport_h = res.y * scale;
-        float viewport_x =
-            (static_cast<float>(swapchain_width) - viewport_w) / 2.0f;
-        float viewport_y =
-            (static_cast<float>(swapchain_height) - viewport_h) / 2.0f;
-
-        SDL_GPUViewport viewport{viewport_x, viewport_y, viewport_w,
-                                 viewport_h, 0.0f,       1.0f};
-        SDL_SetGPUViewport(main_pass, &viewport);
+        viewport_w = logical_res.x * scale;
+        viewport_h = logical_res.y * scale;
+        viewport_x = (static_cast<float>(swapchain_width) - viewport_w) / 2.0f;
+        viewport_y = (static_cast<float>(swapchain_height) - viewport_h) / 2.0f;
     }
 
-    world_2d_pass->render(
-        main_pass, current_cmd_buffer, proj_view_world2d, world_2d_queue
-    );
-    ui_pass->render(main_pass, current_cmd_buffer, proj_view_ui, ui_queue);
+    offscreenRender();
+    swapchainRender();
 
     world_2d_queue.clear();
     ui_queue.clear();
-    SDL_EndGPURenderPass(main_pass);
+    pixel_world_2d_queue.clear();
     SDL_SubmitGPUCommandBuffer(current_cmd_buffer);
     current_cmd_buffer = nullptr;
-}
-
-Texture*
-Renderer::getTheWhitePixel() const {
-    return the_white_pixel.get();
-}
-
-GPUMesh*
-Renderer::getUnitQuad() {
-    if (!unit_quad)
-        unit_quad = std::make_unique<GPUMesh>(device.get(), createUnitQuad());
-    return unit_quad.get();
-}
-
-GPUMesh*
-Renderer::getUnitCircle(int segments) {
-    if (unit_circles.find(segments) == unit_circles.end())
-        unit_circles[segments] =
-            std::make_unique<GPUMesh>(device.get(), createUnitCircle(segments));
-    return unit_circles[segments].get();
-}
-
-void
-Renderer::drawDebugRect(float x, float y, float w, float h, const Vec4& color) {
-    uint32_t r = (uint32_t)(color.x * 255.0f);
-    uint32_t g = (uint32_t)(color.y * 255.0f);
-    uint32_t b = (uint32_t)(color.z * 255.0f);
-    uint32_t a = (uint32_t)(color.w * 255.0f);
-    uint32_t key = (r << 24) | (g << 16) | (b << 8) | a;
-
-    if (debug_rects.find(key) == debug_rects.end()) {
-        debug_rects[key] = std::make_unique<Rect>(this, RectShape(), color);
-        debug_rects[key]->setHollow(true);
-    }
-
-    debug_rects[key]->setShape(RectShape(x, y, w, h));
-    debug_rects[key]->draw();
-}
-
-void
-Renderer::drawDebugCircle(float x, float y, float radius, const Vec4& color) {
-    uint32_t r = (uint32_t)(color.x * 255.0f);
-    uint32_t g = (uint32_t)(color.y * 255.0f);
-    uint32_t b = (uint32_t)(color.z * 255.0f);
-    uint32_t a = (uint32_t)(color.w * 255.0f);
-    uint32_t key = (r << 24) | (g << 16) | (b << 8) | a;
-
-    if (debug_circles.find(key) == debug_circles.end()) {
-        debug_circles[key] =
-            std::make_unique<Circle>(this, CircleShape(), color);
-        debug_circles[key]->setHollow(true);
-    }
-
-    debug_circles[key]->setShape(CircleShape(Vec2(x, y), radius, 16));
-    debug_circles[key]->draw();
-}
-
-void
-Renderer::initDevice(SDL_GPUPresentMode preferred_mode) {
-    device = std::unique_ptr<SDL_GPUDevice, SDLGPUDeviceDeleter>(
-        SDL_CreateGPUDevice(SDL_GPU_SHADERFORMAT_SPIRV, true, nullptr)
-    );
-    if (!device)
-        throw std::runtime_error(
-            "Device creation failed!\n-> " + std::string(SDL_GetError())
-        );
-    if (!SDL_ClaimWindowForGPUDevice(device.get(), window->getSdlWindow()))
-        throw std::runtime_error(
-            "SDL_ClaimWindowForGPUDevice() failed!\n-> " +
-            std::string(SDL_GetError())
-        );
-    setPresentMode(preferred_mode);
-}
-
-void
-Renderer::initShaders() {
-    main_shader = std::make_unique<Shader>(
-        device.get(), world_2d_vert_spv, world_2d_vert_spv_len,
-        world_2d_frag_spv, world_2d_frag_spv_len,
-        ShaderInfo({.num_uniform_buffers = 1}),
-        ShaderInfo({
-            .num_samplers = 1,
-        })
-    );
-}
-
-void
-Renderer::initPipelines() {
-    main_pipeline = std::make_unique<MainGraphicsPipeline>(
-        device.get(), window->getSdlWindow(), main_shader.get()
-    );
-}
-
-void
-Renderer::initPasses() {
-    world_2d_pass = std::make_unique<MainRenderPass>(
-        device.get(), main_pipeline->getSdlPipeline()
-    );
-    ui_pass = std::make_unique<MainRenderPass>(
-        device.get(), main_pipeline->getSdlPipeline()
-    );
 }
 
 void
@@ -346,6 +227,130 @@ Renderer::createMainGraphicsPipeline(Shader* shader) {
     return new MainGraphicsPipeline(
         device.get(), window->getSdlWindow(), shader
     );
+}
+
+Texture*
+Renderer::getTheWhitePixel() const {
+    return the_white_pixel.get();
+}
+
+GPUMesh*
+Renderer::getUnitQuad() {
+    if (!unit_quad)
+        unit_quad = std::make_unique<GPUMesh>(device.get(), createUnitQuad());
+    return unit_quad.get();
+}
+
+GPUMesh*
+Renderer::getUnitCircle(int segments) {
+    if (unit_circles.find(segments) == unit_circles.end())
+        unit_circles[segments] =
+            std::make_unique<GPUMesh>(device.get(), createUnitCircle(segments));
+    return unit_circles[segments].get();
+}
+
+void
+Renderer::drawDebugRect(float x, float y, float w, float h, const Vec4& color) {
+    uint32_t r = (uint32_t)(color.x * 255.0f);
+    uint32_t g = (uint32_t)(color.y * 255.0f);
+    uint32_t b = (uint32_t)(color.z * 255.0f);
+    uint32_t a = (uint32_t)(color.w * 255.0f);
+    uint32_t key = (r << 24) | (g << 16) | (b << 8) | a;
+
+    if (debug_rects.find(key) == debug_rects.end()) {
+        debug_rects[key] = std::make_unique<Rect>(this, RectShape(), color);
+        debug_rects[key]->setHollow(true);
+    }
+
+    debug_rects[key]->setShape(RectShape(x, y, w, h));
+    debug_rects[key]->draw();
+}
+
+void
+Renderer::drawDebugCircle(float x, float y, float radius, const Vec4& color) {
+    uint32_t r = (uint32_t)(color.x * 255.0f);
+    uint32_t g = (uint32_t)(color.y * 255.0f);
+    uint32_t b = (uint32_t)(color.z * 255.0f);
+    uint32_t a = (uint32_t)(color.w * 255.0f);
+    uint32_t key = (r << 24) | (g << 16) | (b << 8) | a;
+
+    if (debug_circles.find(key) == debug_circles.end()) {
+        debug_circles[key] =
+            std::make_unique<Circle>(this, CircleShape(), color);
+        debug_circles[key]->setHollow(true);
+    }
+
+    debug_circles[key]->setShape(CircleShape(Vec2(x, y), radius, 16));
+    debug_circles[key]->draw();
+}
+
+void
+Renderer::initDevice(SDL_GPUPresentMode preferred_mode) {
+    device = std::unique_ptr<SDL_GPUDevice, SDLGPUDeviceDeleter>(
+        SDL_CreateGPUDevice(SDL_GPU_SHADERFORMAT_SPIRV, true, nullptr)
+    );
+    if (!device)
+        throw std::runtime_error(
+            "Device creation failed!\n-> " + std::string(SDL_GetError())
+        );
+    if (!SDL_ClaimWindowForGPUDevice(device.get(), window->getSdlWindow()))
+        throw std::runtime_error(
+            "SDL_ClaimWindowForGPUDevice() failed!\n-> " +
+            std::string(SDL_GetError())
+        );
+    setPresentMode(preferred_mode);
+}
+
+void
+Renderer::initShaders() {
+    main_shader = std::make_unique<Shader>(
+        device.get(), world_2d_vert_spv, world_2d_vert_spv_len,
+        world_2d_frag_spv, world_2d_frag_spv_len,
+        ShaderInfo({.num_uniform_buffers = 1}),
+        ShaderInfo({
+            .num_samplers = 1,
+        })
+    );
+}
+
+void
+Renderer::initPipelines() {
+    main_pipeline = std::make_unique<MainGraphicsPipeline>(
+        device.get(), window->getSdlWindow(), main_shader.get()
+    );
+}
+
+void
+Renderer::initPasses() {
+    render_pass = std::make_unique<MainRenderPass>(
+        device.get(), main_pipeline->getSdlPipeline()
+    );
+}
+
+void
+Renderer::offscreenRender() {}
+
+void
+Renderer::swapchainRender() {
+    SDL_GPUColorTargetInfo color_ti{};
+    color_ti.texture = current_swapchain_texture;
+    color_ti.clear_color = SDL_FColor{0.0f, 0.0f, 0.0f, 1.0f};
+    color_ti.load_op = SDL_GPU_LOADOP_CLEAR;
+    color_ti.store_op = SDL_GPU_STOREOP_STORE;
+
+    SDL_GPURenderPass* pass =
+        SDL_BeginGPURenderPass(current_cmd_buffer, &color_ti, 1, nullptr);
+
+    SDL_GPUViewport vp{viewport_x, viewport_y, viewport_w,
+                       viewport_h, 0.0f,       1.0f};
+    SDL_SetGPUViewport(pass, &vp);
+
+    render_pass->render(
+        pass, current_cmd_buffer, proj_view_world2d, world_2d_queue
+    );
+    render_pass->render(pass, current_cmd_buffer, proj_view_ui, ui_queue);
+
+    SDL_EndGPURenderPass(pass);
 }
 
 }  // namespace lili

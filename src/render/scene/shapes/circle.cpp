@@ -99,11 +99,6 @@ Circle::setLayer(float value) {
     layer = value;
 }
 
-void
-Circle::setRender(RenderLayer render_layer) {
-    this->render_layer = render_layer;
-}
-
 Vec2
 Circle::getPosition() const {
     return shape.center;
@@ -142,11 +137,6 @@ Circle::getTransformMatrix() const {
 float
 Circle::getLayer() const {
     return layer;
-}
-
-RenderLayer
-Circle::getRender() const {
-    return render_layer;
 }
 
 bool

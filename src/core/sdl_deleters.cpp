@@ -53,4 +53,3 @@ SDLGPUGraphicsPipelineDeleter::operator()(
 }
 
 }  // namespace lili
-

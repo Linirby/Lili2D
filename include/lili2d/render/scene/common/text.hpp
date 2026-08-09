@@ -145,10 +145,6 @@ public:
     /// @param layer Layer depth.
     void
     setLayer(float layer) override;
-    /// @brief Sets render pass layer.
-    /// @param render_layer Render pass layer.
-    void
-    setRender(RenderLayer render_layer) override;
 
     /// @brief Gets position.
     /// @return Position.
@@ -174,10 +170,6 @@ public:
     /// @return Depth layer.
     float
     getLayer() const override;
-    /// @brief Gets render pass layer.
-    /// @return Render pass layer.
-    RenderLayer
-    getRender() const override;
     /// @brief Gets color tint.
     /// @return Color tint vector.
     Vec4
@@ -223,9 +215,6 @@ private:
     Model model;
     /// @brief Rendering layer depth.
     float layer = 0.0f;
-
-    /// @brief Render pass layer target.
-    RenderLayer render_layer = RenderLayer::WORLD2D;
 
     /// @brief Rebuilds text GPU mesh vertices and indices based on string
     /// content.

@@ -15,6 +15,16 @@ IRenderable::isVisible() const {
 }
 
 void
+IRenderable::setRender(RenderLayer render_layer) {
+    this->render_layer = render_layer;
+}
+
+RenderLayer
+IRenderable::getRender() const {
+    return render_layer;
+}
+
+void
 IRenderable::setUILayout(const UILayout& layout) {
     ui_layout = layout;
 }
@@ -57,7 +67,9 @@ IRenderable::getOffset() const {
 
 Vec2
 IRenderable::getGlobalPosition(const Renderer* renderer) const {
-    if (getRender() == RenderLayer::UI && renderer) {
+    bool is_ui = render_layer == RenderLayer::UI ||
+                 render_layer == RenderLayer::PIXEL_UI;
+    if (is_ui && renderer) {
         Vec2 viewport_size = renderer->getLogicalResolution();
         return ui_layout.getScreenPosition(viewport_size, getSize());
     }

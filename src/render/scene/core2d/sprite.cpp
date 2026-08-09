@@ -99,11 +99,6 @@ Sprite::setLayer(float layer) {
 }
 
 void
-Sprite::setRender(RenderLayer render_layer) {
-    this->render_layer = render_layer;
-}
-
-void
 Sprite::setSlice(SliceUV slice) {
     current_slice = slice;
     Material* mat = getMaterial();
@@ -161,11 +156,6 @@ Sprite::getTransformMatrix() const {
 float
 Sprite::getLayer() const {
     return layer;
-}
-
-RenderLayer
-Sprite::getRender() const {
-    return render_layer;
 }
 
 Vec4

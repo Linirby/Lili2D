@@ -91,11 +91,6 @@ Line::setLayer(float value) {
     layer = value;
 }
 
-void
-Line::setRender(RenderLayer render_layer) {
-    this->render_layer = render_layer;
-}
-
 Vec2
 Line::getPosition() const {
     return shape.start;
@@ -142,11 +137,6 @@ Line::getTransformMatrix() const {
 float
 Line::getLayer() const {
     return layer;
-}
-
-RenderLayer
-Line::getRender() const {
-    return render_layer;
 }
 
 Vec2

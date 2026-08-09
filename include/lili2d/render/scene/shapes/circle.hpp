@@ -85,10 +85,6 @@ public:
     /// @param value The new layer depth.
     void
     setLayer(float value) override;
-    /// @brief Sets the render pass layer.
-    /// @param render_layer The new render pass layer.
-    void
-    setRender(RenderLayer render_layer) override;
 
     /// @brief Gets position (center).
     /// @return The center position.
@@ -114,10 +110,6 @@ public:
     /// @return The depth.
     float
     getLayer() const override;
-    /// @brief Gets render pass layer.
-    /// @return The render layer.
-    RenderLayer
-    getRender() const override;
 
     /// @brief Checks if a point is inside the circle.
     /// @param point Point to test.
@@ -185,8 +177,6 @@ private:
 
     /// @brief Render layer depth.
     float layer = 0.0f;
-    /// @brief Target render pass layer.
-    RenderLayer render_layer = RenderLayer::WORLD2D;
     /// @brief Pointer to filled GPU mesh.
     GPUMesh* mesh = nullptr;
     /// @brief Unique pointer to owned Material.

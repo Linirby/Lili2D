@@ -101,11 +101,6 @@ AnimatedSprite::setLayer(float layer) {
     this->layer = layer;
 }
 
-void
-AnimatedSprite::setRender(RenderLayer render_layer) {
-    this->render_layer = render_layer;
-}
-
 Vec2
 AnimatedSprite::getPosition() const {
     return position;
@@ -152,11 +147,6 @@ AnimatedSprite::getTransformMatrix() const {
 float
 AnimatedSprite::getLayer() const {
     return layer;
-}
-
-RenderLayer
-AnimatedSprite::getRender() const {
-    return render_layer;
 }
 
 Vec4

@@ -156,11 +156,6 @@ Text::setLayer(float layer) {
     this->layer = layer;
 }
 
-void
-Text::setRender(RenderLayer render_layer) {
-    this->render_layer = render_layer;
-}
-
 Vec2
 Text::getPosition() const {
     return pos;
@@ -197,11 +192,6 @@ Text::getTransformMatrix() const {
 float
 Text::getLayer() const {
     return layer;
-}
-
-RenderLayer
-Text::getRender() const {
-    return render_layer;
 }
 
 Vec4

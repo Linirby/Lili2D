@@ -77,10 +77,6 @@ public:
     /// @param value The new layer depth.
     void
     setLayer(float value) override;
-    /// @brief Sets the render pass layer.
-    /// @param render_layer The new render pass layer.
-    void
-    setRender(RenderLayer render_layer) override;
 
     /// @brief Gets start position.
     /// @return Start position.
@@ -106,11 +102,6 @@ public:
     /// @return Depth layer.
     float
     getLayer() const override;
-    /// @brief Gets render pass layer.
-    /// @return Render pass layer.
-    RenderLayer
-    getRender() const override;
-
     /// @brief Gets the start position.
     /// @return The start position.
     Vec2
@@ -150,8 +141,6 @@ private:
     Vec2 scale = {1.0f, 1.0f};
     /// @brief Render layer depth.
     float layer = 0.0f;
-    /// @brief Target render pass layer.
-    RenderLayer render_layer = RenderLayer::WORLD2D;
     /// @brief Pointer to GPU mesh.
     GPUMesh* mesh = nullptr;
     /// @brief Unique pointer to owned Material.

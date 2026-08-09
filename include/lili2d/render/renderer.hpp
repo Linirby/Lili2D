@@ -183,8 +183,21 @@ private:
     int logical_width = 0;
     /// @brief Active logical viewport height.
     int logical_height = 0;
+    /// @brief Active offscreen width.
+    uint32_t offscreen_width = 0;
+    /// @brief Active offscreen height.
+    uint32_t offscreen_height = 0;
+    /// @brief Active viewport x offset
+    float viewport_x = 0.0f;
+    /// @brief Active viewport y offset
+    float viewport_y = 0.0f;
+    /// @brief Active viewport width
+    float viewport_w = 0.0f;
+    /// @brief Active viewport height
+    float viewport_h = 0.0f;
     /// @brief Pointer to current off-screen texture.
-    SDL_GPUTexture* current_offscreen_texture = nullptr;
+    std::unique_ptr<SDL_GPUTexture, SDLGPUTextureDeleter>
+        current_offscreen_texture = nullptr;
     /// @brief Pointer to current frame swapchain texture.
     SDL_GPUTexture* current_swapchain_texture = nullptr;
     /// @brief Pointer to current frame GPU command buffer.
@@ -195,18 +208,15 @@ private:
     /// @brief Built-in main graphics pipeline.
     std::unique_ptr<MainGraphicsPipeline> main_pipeline;
 
-    /// @brief Built-in 2D world render pass.
-    std::unique_ptr<MainRenderPass> world_2d_pass;
+    /// @brief Built-in 2D render pass.
+    std::unique_ptr<MainRenderPass> render_pass;
+
     /// @brief Map of depth layer to queued 2D world draw commands.
     std::map<float, std::vector<DrawCommand>> world_2d_queue;
-
-    /// @brief Built-in UI render pass.
-    std::unique_ptr<MainRenderPass> ui_pass;
     /// @brief Map of depth layer to queued UI draw commands.
     std::map<float, std::vector<DrawCommand>> ui_queue;
-
-    /// @brief Built-in pixelated 2D world render pass.
-    /// @brief Map of depth layer to queued pixelated 2d world draw command.
+    /// @brief Map of depth layer to queued pixel 2d world draw command.
+    std::map<float, std::vector<DrawCommand>> pixel_world_2d_queue;
 
     /// @brief Projection-view matrix for 2D world pass.
     Mat3 proj_view_world2d;
@@ -240,6 +250,12 @@ private:
     /// @brief Initializes default render passes.
     void
     initPasses();
+    /// @brief The offscreen render pass + extra.
+    void
+    offscreenRender();
+    /// @brief The swapchain render pass + extra.
+    void
+    swapchainRender();
 };
 
 }  // namespace lili

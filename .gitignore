@@ -1,6 +1,6 @@
 build/
-lili2d/src/shader/*.spv
-lili2d/src/shader/*_spv.hpp
+*.spv
+*_spv.hpp
 lili2d/src/render/white_1x1_png.hpp
 lili_cpp_norm/
 .antigravitycli/

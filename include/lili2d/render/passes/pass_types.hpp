@@ -7,8 +7,10 @@ namespace lili {
 
 /// @brief Enum defining different rendering layers/passes.
 enum class RenderLayer {
-    WORLD2D,  ///< The 2D world layer.
-    UI,       ///< The UI world layer.
+    WORLD2D,        ///< The 2D world layer.
+    UI,             ///< The UI world layer.
+    PIXEL_WORLD2D,  ///< The pixelated 2D world layer.
+    PIXEL_UI,       ///< The pixelated UI world layer.
 };
 
 /// @brief A command to draw a model.

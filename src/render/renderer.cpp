@@ -214,7 +214,7 @@ Renderer::initDevice(SDL_GPUPresentMode preferred_mode) {
 
 void
 Renderer::initShaders() {
-    world_2d_shader = std::make_unique<Shader>(
+    main_shader = std::make_unique<Shader>(
         device.get(), world_2d_vert_spv, world_2d_vert_spv_len,
         world_2d_frag_spv, world_2d_frag_spv_len,
         ShaderInfo({.num_uniform_buffers = 1}),
@@ -227,7 +227,7 @@ Renderer::initShaders() {
 void
 Renderer::initPipelines() {
     main_pipeline = std::make_unique<MainGraphicsPipeline>(
-        device.get(), window->getSdlWindow(), world_2d_shader.get()
+        device.get(), window->getSdlWindow(), main_shader.get()
     );
 }
 

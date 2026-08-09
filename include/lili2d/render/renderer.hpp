@@ -183,15 +183,18 @@ private:
     int logical_width = 0;
     /// @brief Active logical viewport height.
     int logical_height = 0;
+    /// @brief Pointer to current off-screen texture.
+    SDL_GPUTexture* current_offscreen_texture = nullptr;
     /// @brief Pointer to current frame swapchain texture.
     SDL_GPUTexture* current_swapchain_texture = nullptr;
     /// @brief Pointer to current frame GPU command buffer.
     SDL_GPUCommandBuffer* current_cmd_buffer = nullptr;
 
-    /// @brief Built-in 2D world shader program.
-    std::unique_ptr<Shader> world_2d_shader;
+    /// @brief Built-in main shader program.
+    std::unique_ptr<Shader> main_shader;
     /// @brief Built-in main graphics pipeline.
     std::unique_ptr<MainGraphicsPipeline> main_pipeline;
+
     /// @brief Built-in 2D world render pass.
     std::unique_ptr<MainRenderPass> world_2d_pass;
     /// @brief Map of depth layer to queued 2D world draw commands.
@@ -201,6 +204,9 @@ private:
     std::unique_ptr<MainRenderPass> ui_pass;
     /// @brief Map of depth layer to queued UI draw commands.
     std::map<float, std::vector<DrawCommand>> ui_queue;
+
+    /// @brief Built-in pixelated 2D world render pass.
+    /// @brief Map of depth layer to queued pixelated 2d world draw command.
 
     /// @brief Projection-view matrix for 2D world pass.
     Mat3 proj_view_world2d;

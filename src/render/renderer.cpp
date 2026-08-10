@@ -1,5 +1,8 @@
 #include "lili2d/render/renderer.hpp"
 
+#include <SDL3/SDL_gpu.h>
+#include <SDL3/SDL_pixels.h>
+
 #include <algorithm>
 #include <cstdint>
 #include <iostream>
@@ -7,6 +10,7 @@
 #include <stdexcept>
 #include <string>
 
+#include "lili2d/core/sdl_deleters.hpp"
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/render/scene/common/model.hpp"
 #include "lili2d/render/scene/common/utils.hpp"
@@ -94,6 +98,8 @@ Renderer::submit(
         world_2d_queue[layer].push_back({model, transform, layer});
     if (layer_type == RenderLayer::UI)
         ui_queue[layer].push_back({model, transform, layer});
+    if (layer_type == RenderLayer::PIXEL_WORLD2D)
+        pixel_world_2d_queue[layer].push_back({model, transform, layer});
 }
 
 void
@@ -113,6 +119,30 @@ Renderer::endFrame() {
     }
 
     offscreenRender();
+
+    SDL_GPUBlitRegion src{};
+    src.texture = current_offscreen_texture.get();
+    src.x = 0;
+    src.y = 0;
+    src.w = offscreen_width;
+    src.h = offscreen_height;
+
+    SDL_GPUBlitRegion dst{};
+    dst.texture = current_swapchain_texture;
+    dst.x = viewport_x;
+    dst.y = viewport_y;
+    dst.w = viewport_w;
+    dst.h = viewport_h;
+
+    SDL_GPUBlitInfo blit_info{};
+    blit_info.source = src;
+    blit_info.destination = dst;
+    blit_info.load_op = SDL_GPU_LOADOP_CLEAR;
+    blit_info.clear_color = SDL_FColor{0.0f, 0.0f, 0.0f, 1.0f};
+    blit_info.filter = SDL_GPU_FILTER_NEAREST;
+
+    SDL_BlitGPUTexture(current_cmd_buffer, &blit_info);
+
     swapchainRender();
 
     world_2d_queue.clear();
@@ -328,14 +358,64 @@ Renderer::initPasses() {
 }
 
 void
-Renderer::offscreenRender() {}
+Renderer::offscreenRender() {
+    Vec2 logical_res = getLogicalResolution();
+    uint32_t target_w = static_cast<uint32_t>(logical_res.x);
+    uint32_t target_h = static_cast<uint32_t>(logical_res.y);
+
+    bool not_same_size =
+        target_w != offscreen_width || target_h != offscreen_height;
+    if (!current_offscreen_texture || not_same_size) {
+        if (current_offscreen_texture) current_offscreen_texture.reset(nullptr);
+
+        SDL_GPUTextureCreateInfo ci{};
+        ci.type = SDL_GPU_TEXTURETYPE_2D;
+        ci.format = SDL_GetGPUSwapchainTextureFormat(
+            device.get(), window->getSdlWindow()
+        );
+        ci.usage =
+            SDL_GPU_TEXTUREUSAGE_COLOR_TARGET | SDL_GPU_TEXTUREUSAGE_SAMPLER;
+        ci.width = target_w;
+        ci.height = target_h;
+        ci.layer_count_or_depth = 1;
+        ci.num_levels = 1;
+
+        current_offscreen_texture =
+            std::unique_ptr<SDL_GPUTexture, SDLGPUTextureDeleter>(
+                SDL_CreateGPUTexture(device.get(), &ci),
+                SDLGPUTextureDeleter(device.get())
+            );
+        offscreen_width = target_w;
+        offscreen_height = target_h;
+    }
+
+    SDL_GPUColorTargetInfo color_ti{};
+    color_ti.texture = current_offscreen_texture.get();
+    color_ti.clear_color = SDL_FColor{0.0f, 0.0f, 0.0f, 1.0f};
+    color_ti.load_op = SDL_GPU_LOADOP_CLEAR;
+    color_ti.store_op = SDL_GPU_STOREOP_STORE;
+
+    SDL_GPURenderPass* pass =
+        SDL_BeginGPURenderPass(current_cmd_buffer, &color_ti, 1, nullptr);
+
+    SDL_GPUViewport vp{
+        0.0f, 0.0f, static_cast<float>(target_w), static_cast<float>(target_h),
+        0.0f, 1.0f
+    };
+    SDL_SetGPUViewport(pass, &vp);
+
+    render_pass->render(
+        pass, current_cmd_buffer, proj_view_world2d, pixel_world_2d_queue
+    );
+
+    SDL_EndGPURenderPass(pass);
+}
 
 void
 Renderer::swapchainRender() {
     SDL_GPUColorTargetInfo color_ti{};
     color_ti.texture = current_swapchain_texture;
-    color_ti.clear_color = SDL_FColor{0.0f, 0.0f, 0.0f, 1.0f};
-    color_ti.load_op = SDL_GPU_LOADOP_CLEAR;
+    color_ti.load_op = SDL_GPU_LOADOP_LOAD;
     color_ti.store_op = SDL_GPU_STOREOP_STORE;
 
     SDL_GPURenderPass* pass =

@@ -30,7 +30,7 @@ private:
     void
     toggleMultithreading();
 
-    static constexpr int N_ENTITIES = 50000;
+    static constexpr int N_ENTITIES = 10000;
 
     lili::ECSRegistry ecs_registry;
     std::vector<lili::Entity> spawned_entities;

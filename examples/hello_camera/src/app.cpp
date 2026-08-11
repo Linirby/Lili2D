@@ -1,5 +1,8 @@
 #include "app.hpp"
 
+#include "lili2d/core/action_map.hpp"
+#include "lili2d/core/event.hpp"
+#include "lili2d/core/keys.hpp"
 #include "lili2d/render/ui/ui_layout.hpp"
 
 App::App() : lili::Game("hello_camera - Lili2D", 600, 400) {
@@ -47,6 +50,14 @@ App::App() : lili::Game("hello_camera - Lili2D", 600, 400) {
     text_controls.setRender(lili::RenderLayer::UI);
     text_controls.setAnchor(lili::Anchor::Top);
     text_controls.setPivot(lili::Pivot::Top);
+
+    lili::ActionMap& action_map = lili::ActionMap::get();
+    action_map.add("MoveUp", {lili::Key::I, lili::Key::W, lili::Key::Up});
+    action_map.add("MoveDown", {lili::Key::K, lili::Key::S, lili::Key::Down});
+    action_map.add("MoveLeft", {lili::Key::J, lili::Key::A, lili::Key::Left});
+    action_map.add("MoveRight", {lili::Key::L, lili::Key::D, lili::Key::Right});
+    action_map.add("Zoom", {lili::Key::Z});
+    action_map.add("Dezoom", {lili::Key::X});
 }
 
 void
@@ -60,16 +71,17 @@ App::onEvent(const lili::Event& event) {
 
 void
 App::onUpdate(float dt) {
-    keyboard.update();
+    lili::ActionMap& action_map = lili::ActionMap::get();
+    action_map.update();
     cam_pos = camera.getPosition();
-    if (keyboard.held(SDL_SCANCODE_I)) cam_pos.y -= 100.0f * dt;
-    if (keyboard.held(SDL_SCANCODE_K)) cam_pos.y += 100.0f * dt;
-    if (keyboard.held(SDL_SCANCODE_J)) cam_pos.x -= 100.0f * dt;
-    if (keyboard.held(SDL_SCANCODE_L)) cam_pos.x += 100.0f * dt;
+    if (action_map.isHeld("MoveUp")) cam_pos.y -= 100.0f * dt;
+    if (action_map.isHeld("MoveDown")) cam_pos.y += 100.0f * dt;
+    if (action_map.isHeld("MoveLeft")) cam_pos.x -= 100.0f * dt;
+    if (action_map.isHeld("MoveRight")) cam_pos.x += 100.0f * dt;
     camera.setPosition(cam_pos);
 
-    if (keyboard.held(SDL_SCANCODE_Z)) camera_zoom += 2.0f * dt;
-    if (keyboard.held(SDL_SCANCODE_X)) camera_zoom -= 2.0f * dt;
+    if (action_map.isHeld("Zoom")) camera_zoom += 2.0f * dt;
+    if (action_map.isHeld("Dezoom")) camera_zoom -= 2.0f * dt;
     camera.setZoom(camera_zoom);
 
     text_cam_pos.setText(

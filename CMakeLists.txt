@@ -67,6 +67,7 @@ target_sources(Lili2D PRIVATE
     ${EMBEDDED_SHADERS}
     ${EMBEDDED_ASSETS}
 
+    src/core/action_map.cpp
     src/core/asset_manager.cpp
     src/core/clock.cpp
     src/core/event.cpp
@@ -105,7 +106,6 @@ target_sources(Lili2D PRIVATE
     src/render/pipelines/main_graphics_pipeline.cpp
 
     src/render/ui/ui_layout.cpp
-
 
     src/render/scene/common/animation.cpp
     src/render/scene/common/animation_player.cpp

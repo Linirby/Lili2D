@@ -27,12 +27,12 @@ Keyboard::held(Scancode key) const {
 }
 
 bool
-Keyboard::pressed(Scancode key) const {
+Keyboard::justPressed(Scancode key) const {
     return key < SDL_SCANCODE_COUNT && current[key] && !previous[key];
 }
 
 bool
-Keyboard::released(Scancode key) const {
+Keyboard::justReleased(Scancode key) const {
     return key < SDL_SCANCODE_COUNT && !current[key] && previous[key];
 }
 

@@ -21,12 +21,12 @@ public:
     /// @param key The scancode of the key to check.
     /// @return True if the key was just pressed, false otherwise.
     bool
-    pressed(Scancode key) const;
+    justPressed(Scancode key) const;
     /// @brief Checks if a key was released in the current frame.
     /// @param key The scancode of the key to check.
     /// @return True if the key was just released, false otherwise.
     bool
-    released(Scancode key) const;
+    justReleased(Scancode key) const;
 
 private:
     /// @brief Current frame key states array.

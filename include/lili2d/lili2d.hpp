@@ -110,6 +110,8 @@ class IComponentPool;
 class IRenderable;
 /// @brief Type-erased base interface for resource managers.
 class IResourceManager;
+/// @brief Keyboard scancode enumeration.
+enum class Key;
 /// @brief Keyboard key actions (e.g., press, release).
 enum class KeyAction;
 /// @brief Handles keyboard input state and queries.

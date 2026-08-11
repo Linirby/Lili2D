@@ -4,6 +4,7 @@
 /// @brief Aggregates the core components of the Lili2D engine, including
 /// window management, input handling, and core events.
 
+#include "lili2d/core/action_map.hpp"
 #include "lili2d/core/asset_manager.hpp"
 #include "lili2d/core/asset_registry.hpp"
 #include "lili2d/core/clock.hpp"
@@ -11,6 +12,7 @@
 #include "lili2d/core/game.hpp"
 #include "lili2d/core/game_config.hpp"
 #include "lili2d/core/keyboard.hpp"
+#include "lili2d/core/keys.hpp"
 #include "lili2d/core/mouse.hpp"
 #include "lili2d/core/resource_manager.hpp"
 #include "lili2d/core/sdl_deleters.hpp"
@@ -19,6 +21,8 @@
 
 namespace lili {
 
+/// @brief Map action with custom set of keys
+class ActionMap;
 /// @brief Centralized facade for engine asset management.
 class AssetManager;
 /// @brief Generic registry for loading, storing, and referencing game assets.
@@ -42,6 +46,8 @@ class Game;
 class GameConfig;
 /// @brief Type-erased base interface for resource managers.
 class IResourceManager;
+/// @brief Keyboard scancode enumeration.
+enum class Key;
 /// @brief Keyboard key actions (e.g., press, release).
 enum class KeyAction;
 /// @brief Handles keyboard input state and queries.

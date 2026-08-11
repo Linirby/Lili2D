@@ -14,11 +14,7 @@ Below is the categorized list of general 2D engine features designed to remove b
 
 ### 1. Asset & Resource Management (`lili::ResourceManager`)
 
-- **Problem in game code:** Manually loading textures, fonts, and sounds, managing raw pointers, and risking redundant re-loads or memory leaks.
-- **Proposed Features:**
-    - **Centralized Asset Cache (`ResourceManager<T>` / `AssetManager`):** Deduplicated resource loading by file path or string ID (e.g., `lili::Assets::loadTexture("player", "assets/player.png")`).
-    - **Lifetime & Scope Control:** Auto-unloading of scene-specific assets upon scene change while keeping global assets (like UI fonts/SFX) persistent.
-    - **Hot-Reloading (Dev Mode):** File watcher interface to automatically refresh shaders/textures on save during development.
+Done, it just still need hot-reloading for compiled shader and making hot-reloading only in DEV mode.
 
 ---
 

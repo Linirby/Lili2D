@@ -21,7 +21,7 @@ ActionMap::update() {
 }
 
 bool
-ActionMap::has(const std::string& action) {
+ActionMap::has(const std::string& action) const {
     return action_to_keys.contains(action) ||
            action_to_mouse_btn.contains(action);
 }
@@ -91,8 +91,8 @@ ActionMap::replaceKey(const std::string& action, Key old_key, Key new_key) {
 }
 
 std::set<Key>
-ActionMap::getKeys(const std::string& action) {
-    if (action_to_keys.contains(action)) return action_to_keys[action];
+ActionMap::getKeys(const std::string& action) const {
+    if (action_to_keys.contains(action)) return action_to_keys.at(action);
     return {};
 }
 
@@ -136,46 +136,46 @@ ActionMap::replaceMouseButton(
 }
 
 std::set<MouseButton>
-ActionMap::getMouseButtons(const std::string& action) {
+ActionMap::getMouseButtons(const std::string& action) const {
     if (action_to_mouse_btn.contains(action))
-        return action_to_mouse_btn[action];
+        return action_to_mouse_btn.at(action);
     return {};
 }
 
 bool
-ActionMap::isHeld(const std::string& action) {
+ActionMap::isHeld(const std::string& action) const {
     if (action_to_keys.contains(action))
-        for (Key key : action_to_keys[action])
+        for (Key key : action_to_keys.at(action))
             if (keyboard.held(static_cast<Scancode>(key))) return true;
 
     if (action_to_mouse_btn.contains(action))
-        for (MouseButton btn : action_to_mouse_btn[action])
+        for (MouseButton btn : action_to_mouse_btn.at(action))
             if (mouse.held(btn)) return true;
 
     return false;
 }
 
 bool
-ActionMap::isJustPressed(const std::string& action) {
+ActionMap::isJustPressed(const std::string& action) const {
     if (action_to_keys.contains(action))
-        for (Key key : action_to_keys[action])
+        for (Key key : action_to_keys.at(action))
             if (keyboard.justPressed(static_cast<Scancode>(key))) return true;
 
     if (action_to_mouse_btn.contains(action))
-        for (MouseButton btn : action_to_mouse_btn[action])
+        for (MouseButton btn : action_to_mouse_btn.at(action))
             if (mouse.justPressed(btn)) return true;
 
     return false;
 }
 
 bool
-ActionMap::isJustReleased(const std::string& action) {
+ActionMap::isJustReleased(const std::string& action) const {
     if (action_to_keys.contains(action))
-        for (Key key : action_to_keys[action])
+        for (Key key : action_to_keys.at(action))
             if (keyboard.justReleased(static_cast<Scancode>(key))) return true;
 
     if (action_to_mouse_btn.contains(action))
-        for (MouseButton btn : action_to_mouse_btn[action])
+        for (MouseButton btn : action_to_mouse_btn.at(action))
             if (mouse.justReleased(btn)) return true;
 
     return false;

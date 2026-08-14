@@ -56,8 +56,8 @@ App::App() : lili::Game("hello_camera - Lili2D", 600, 400) {
     action_map.add("MoveDown", {lili::Key::K, lili::Key::S, lili::Key::Down});
     action_map.add("MoveLeft", {lili::Key::J, lili::Key::A, lili::Key::Left});
     action_map.add("MoveRight", {lili::Key::L, lili::Key::D, lili::Key::Right});
-    action_map.add("Zoom", {lili::Key::Z});
-    action_map.add("Dezoom", {lili::Key::X});
+    action_map.add("Zoom", {lili::Key::Z}, {lili::MouseButton::LEFT});
+    action_map.add("Dezoom", {lili::Key::X}, {lili::MouseButton::RIGHT});
 }
 
 void

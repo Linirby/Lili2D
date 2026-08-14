@@ -20,12 +20,12 @@ public:
     /// @param button The mouse button to check.
     /// @return True if the button was just pressed, false otherwise.
     bool
-    pressed(MouseButton button) const;
+    justPressed(MouseButton button) const;
     /// @brief Checks if a mouse button was released in the current frame.
     /// @param button The mouse button to check.
     /// @return True if the button was just released, false otherwise.
     bool
-    released(MouseButton button) const;
+    justReleased(MouseButton button) const;
 
     /// @brief Gets the current X position of the mouse.
     /// @return The X position.

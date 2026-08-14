@@ -26,7 +26,7 @@ Mouse::held(MouseButton button) const {
 }
 
 bool
-Mouse::pressed(MouseButton button) const {
+Mouse::justPressed(MouseButton button) const {
     if (button == MouseButton::LEFT)
         return (current & SDL_BUTTON_LMASK) && !(previous & SDL_BUTTON_LMASK);
     else if (button == MouseButton::MIDDLE)
@@ -38,7 +38,7 @@ Mouse::pressed(MouseButton button) const {
 }
 
 bool
-Mouse::released(MouseButton button) const {
+Mouse::justReleased(MouseButton button) const {
     if (button == MouseButton::LEFT)
         return !(current & SDL_BUTTON_LMASK) && (previous & SDL_BUTTON_LMASK);
     else if (button == MouseButton::MIDDLE)

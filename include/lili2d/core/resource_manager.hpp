@@ -1,14 +1,18 @@
 #pragma once
 
 #include <filesystem>
+#include <format>
 #include <functional>
 #include <iostream>
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <typeindex>
 #include <unordered_map>
 #include <vector>
+
+#include "lili2d/core/string_hash.hpp"
 
 namespace lili {
 
@@ -21,7 +25,7 @@ public:
     /// @param scope Scope tag.
     /// @return Number of resources unloaded.
     virtual size_t
-    unloadScope(const std::string& scope) = 0;
+    unloadScope(std::string_view scope) = 0;
 
     /// @brief Clears all managed resources.
     virtual void
@@ -129,32 +133,32 @@ public:
     /// @param key Resource identifier.
     /// @return Raw pointer to resource, or nullptr if not found.
     T*
-    get(const std::string& key) const;
+    get(std::string_view key) const;
 
     /// @brief Retrieves a reference to a cached resource by key.
     /// @param key Resource identifier.
     /// @return Reference to the resource. Throws std::runtime_error if not
     /// found.
     T&
-    getRef(const std::string& key) const;
+    getRef(std::string_view key) const;
 
     /// @brief Checks if a resource with the key exists.
     /// @param key Resource identifier.
     /// @return True if resource exists in cache.
     bool
-    has(const std::string& key) const;
+    has(std::string_view key) const;
 
     /// @brief Unloads a single resource by key.
     /// @param key Resource identifier.
     /// @return True if resource was found and unloaded.
     bool
-    unload(const std::string& key);
+    unload(std::string_view key);
 
     /// @brief Unloads all resources matching a specific scope.
     /// @param scope Scope tag to clear.
     /// @return Number of resources unloaded.
     size_t
-    unloadScope(const std::string& scope) override;
+    unloadScope(std::string_view scope) override;
 
     /// @brief Clears all cached resources.
     void
@@ -182,7 +186,7 @@ public:
 
 private:
     /// @brief Hash map of cached resources by string key.
-    std::unordered_map<std::string, ResourceRecord> resources;
+    StringMap<ResourceRecord> resources;
     /// @brief Flag indicating if hot reloading file watcher is enabled.
     bool hot_reload_enabled = false;
 };
@@ -261,50 +265,45 @@ ResourceManager<T>::emplace(
 
 template <typename T>
 T*
-ResourceManager<T>::get(const std::string& key) const {
+ResourceManager<T>::get(std::string_view key) const {
     auto it = resources.find(key);
-    if (it != resources.end()) return it->second.resource.get();
-    return nullptr;
+    if (it == resources.end()) return nullptr;
+    return it->second.resource.get();
 }
 
 template <typename T>
 T&
-ResourceManager<T>::getRef(const std::string& key) const {
+ResourceManager<T>::getRef(std::string_view key) const {
     T* ptr = get(key);
-    if (!ptr)
-        throw std::runtime_error(
-            "ResourceManager::getRef asset not found: " + key
-        );
-    return *ptr;
+    if (ptr) return *ptr;
+    throw std::runtime_error(
+        std::format("ResourceManager::getRef asset not found: {}", key)
+    );
 }
 
 template <typename T>
 bool
-ResourceManager<T>::has(const std::string& key) const {
+ResourceManager<T>::has(std::string_view key) const {
     return resources.contains(key);
 }
 
 template <typename T>
 bool
-ResourceManager<T>::unload(const std::string& key) {
+ResourceManager<T>::unload(std::string_view key) {
     auto it = resources.find(key);
-    if (it != resources.end()) {
-        resources.erase(it);
-        return true;
-    }
-    return false;
+    if (it == resources.end()) return false;
+    resources.erase(it);
+    return true;
 }
 
 template <typename T>
 size_t
-ResourceManager<T>::unloadScope(const std::string& scope) {
+ResourceManager<T>::unloadScope(std::string_view scope) {
     size_t unloaded = 0;
     for (auto it = resources.begin(); it != resources.end();) {
-        if (it->second.scope == scope) {
-            it = resources.erase(it);
-            ++unloaded;
-        } else
-            ++it;
+        if (it->second.scope != scope) ++it;
+        it = resources.erase(it);
+        ++unloaded;
     }
     return unloaded;
 }
@@ -346,25 +345,24 @@ ResourceManager<T>::checkHotReload() {
             std::filesystem::last_write_time(record.filepath, ec);
         if (ec) continue;
 
-        if (current_write_time > record.last_write_time) {
-            try {
-                if (record.reloader && record.resource) {
-                    record.reloader(*record.resource, record.filepath);
+        if (current_write_time <= record.last_write_time) continue;
+        try {
+            if (record.reloader && record.resource) {
+                record.reloader(*record.resource, record.filepath);
+                record.last_write_time = current_write_time;
+            } else if (record.loader && record.resource) {
+                std::unique_ptr<T> fresh = record.loader(record.filepath);
+                if (fresh) {
+                    if constexpr (std::is_move_assignable_v<T>)
+                        *record.resource = std::move(*fresh);
+                    else
+                        record.resource = std::move(fresh);
                     record.last_write_time = current_write_time;
-                } else if (record.loader && record.resource) {
-                    std::unique_ptr<T> fresh = record.loader(record.filepath);
-                    if (fresh) {
-                        if constexpr (std::is_move_assignable_v<T>)
-                            *record.resource = std::move(*fresh);
-                        else
-                            record.resource = std::move(fresh);
-                        record.last_write_time = current_write_time;
-                    }
                 }
-            } catch (const std::exception& e) {
-                std::cerr << "Hot reload failed for " << record.filepath << ": "
-                          << e.what() << std::endl;
             }
+        } catch (const std::exception& e) {
+            std::cerr << "Hot reload failed for " << record.filepath << ": "
+                      << e.what() << std::endl;
         }
     }
 }

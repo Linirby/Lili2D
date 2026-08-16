@@ -1,11 +1,15 @@
 #pragma once
 
 #include <cstdint>
+#include <format>
 #include <limits>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <vector>
+
+#include "lili2d/core/string_hash.hpp"
 
 namespace lili {
 
@@ -16,7 +20,7 @@ template <typename T, typename IdType = uint32_t>
 class AssetRegistry {
 protected:
     /// @brief Mapping from asset string key to assigned unique numeric ID.
-    std::unordered_map<std::string, IdType> key_to_id;
+    StringMap<IdType> ids;
     /// @brief Storage vector of registered asset instances indexed by ID.
     std::vector<T> id_to_asset;
 
@@ -54,19 +58,19 @@ public:
     /// @param key The key to check.
     /// @return True if the asset exists, false otherwise.
     bool
-    hasAsset(const std::string& key) const;
+    hasAsset(std::string_view key) const;
 
     /// @brief Gets the ID of the asset with the given key.
     /// @param key The key of the asset.
     /// @return The asset's ID.
     IdType
-    getAssetID(const std::string& key) const;
+    getAssetID(std::string_view key) const;
 
     /// @brief Gets a const reference to the asset with the given key.
     /// @param key The key of the asset.
     /// @return Const reference to the asset.
     const T&
-    getAsset(const std::string& key) const;
+    getAsset(std::string_view key) const;
 
     /// @brief Gets a const reference to the asset with the given ID.
     /// @param key The ID of the asset.
@@ -98,8 +102,8 @@ public:
 template <typename T, typename IdType>
 IdType
 AssetRegistry<T, IdType>::registerAsset(const std::string& key, T&& asset) {
-    auto it = key_to_id.find(key);
-    if (it != key_to_id.end()) {
+    auto it = ids.find(key);
+    if (it != ids.end()) {
         id_to_asset[it->second] = std::move(asset);
         return it->second;
     }
@@ -109,7 +113,7 @@ AssetRegistry<T, IdType>::registerAsset(const std::string& key, T&& asset) {
 
     IdType new_id = static_cast<IdType>(id_to_asset.size());
     id_to_asset.push_back(std::move(asset));
-    key_to_id[key] = new_id;
+    ids[key] = new_id;
     return new_id;
 }
 
@@ -118,8 +122,8 @@ IdType
 AssetRegistry<T, IdType>::registerAsset(
     const std::string& key, const T& asset
 ) {
-    auto it = key_to_id.find(key);
-    if (it != key_to_id.end()) {
+    auto it = ids.find(key);
+    if (it != ids.end()) {
         id_to_asset[it->second] = asset;
         return it->second;
     }
@@ -129,28 +133,28 @@ AssetRegistry<T, IdType>::registerAsset(
 
     IdType new_id = static_cast<IdType>(id_to_asset.size());
     id_to_asset.push_back(asset);
-    key_to_id[key] = new_id;
+    ids[key] = new_id;
     return new_id;
 }
 
 template <typename T, typename IdType>
 bool
-AssetRegistry<T, IdType>::hasAsset(const std::string& key) const {
-    return key_to_id.contains(key);
+AssetRegistry<T, IdType>::hasAsset(std::string_view key) const {
+    return ids.contains(key);
 }
 
 template <typename T, typename IdType>
 IdType
-AssetRegistry<T, IdType>::getAssetID(const std::string& key) const {
-    auto it = key_to_id.find(key);
-    if (it == key_to_id.end())
-        throw std::runtime_error("Asset key not found: " + key);
+AssetRegistry<T, IdType>::getAssetID(std::string_view key) const {
+    auto it = ids.find(key);
+    if (it == ids.end())
+        throw std::runtime_error(std::format("Asset key not found: {}", key));
     return it->second;
 }
 
 template <typename T, typename IdType>
 const T&
-AssetRegistry<T, IdType>::getAsset(const std::string& key) const {
+AssetRegistry<T, IdType>::getAsset(std::string_view key) const {
     return this->getAsset(getAssetID(key));
 }
 
@@ -186,7 +190,7 @@ template <typename T, typename IdType>
 void
 AssetRegistry<T, IdType>::clear() {
     id_to_asset.clear();
-    key_to_id.clear();
+    ids.clear();
 }
 
 }  // namespace lili

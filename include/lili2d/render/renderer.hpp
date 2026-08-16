@@ -170,90 +170,60 @@ public:
     );
 
 private:
-    /// @brief Pointer to target Window.
     Window* window = nullptr;
-    /// @brief Unique pointer to SDL_GPUDevice handle.
     std::unique_ptr<SDL_GPUDevice, SDLGPUDeviceDeleter> device;
 
-    /// @brief Active swapchain width in pixels.
     uint32_t swapchain_width = 0;
-    /// @brief Active swapchain height in pixels.
     uint32_t swapchain_height = 0;
-    /// @brief Active logical viewport width.
+
     int logical_width = 0;
-    /// @brief Active logical viewport height.
     int logical_height = 0;
-    /// @brief Active offscreen width.
+
     uint32_t offscreen_width = 0;
-    /// @brief Active offscreen height.
     uint32_t offscreen_height = 0;
-    /// @brief Active viewport x offset
-    float viewport_x = 0.0f;
-    /// @brief Active viewport y offset
-    float viewport_y = 0.0f;
-    /// @brief Active viewport width
-    float viewport_w = 0.0f;
-    /// @brief Active viewport height
-    float viewport_h = 0.0f;
-    /// @brief Pointer to current off-screen texture.
     std::unique_ptr<SDL_GPUTexture, SDLGPUTextureDeleter>
         current_offscreen_texture = nullptr;
-    /// @brief Pointer to current frame swapchain texture.
+
+    float viewport_x = 0.0f;
+    float viewport_y = 0.0f;
+    float viewport_w = 0.0f;
+    float viewport_h = 0.0f;
+
     SDL_GPUTexture* current_swapchain_texture = nullptr;
-    /// @brief Pointer to current frame GPU command buffer.
     SDL_GPUCommandBuffer* current_cmd_buffer = nullptr;
 
-    /// @brief Built-in main shader program.
-    std::unique_ptr<Shader> main_shader;
-    /// @brief Built-in main graphics pipeline.
-    std::unique_ptr<MainGraphicsPipeline> main_pipeline;
+    std::unique_ptr<Shader> main_shader = nullptr;
+    std::unique_ptr<MainGraphicsPipeline> main_pipeline = nullptr;
 
-    /// @brief Built-in 2D render pass.
-    std::unique_ptr<MainRenderPass> render_pass;
+    std::unique_ptr<MainRenderPass> render_pass = nullptr;
 
-    /// @brief Map of depth layer to queued 2D world draw commands.
-    std::map<float, std::vector<DrawCommand>> world_2d_queue;
-    /// @brief Map of depth layer to queued UI draw commands.
-    std::map<float, std::vector<DrawCommand>> ui_queue;
-    /// @brief Map of depth layer to queued pixel 2d world draw command.
-    std::map<float, std::vector<DrawCommand>> pixel_world_2d_queue;
+    std::map<float, std::vector<DrawCommand>> world_2d_queue{};
+    std::map<float, std::vector<DrawCommand>> ui_queue{};
+    std::map<float, std::vector<DrawCommand>> pixel_world_2d_queue{};
 
-    /// @brief Projection-view matrix for 2D world pass.
     Mat3 proj_view_world2d;
-    /// @brief Projection-view matrix for UI pass.
     Mat3 proj_view_ui;
-    /// @brief Pointer to active Camera.
+
     Camera* camera = nullptr;
 
-    /// @brief 1x1 white pixel fallback texture.
     std::unique_ptr<Texture> the_white_pixel;
-    /// @brief Shared unit quad GPU mesh.
     std::unique_ptr<GPUMesh> unit_quad;
-    /// @brief Map of segment resolution to shared unit circle GPU meshes.
     std::map<int, std::unique_ptr<GPUMesh>> unit_circles;
 
-    /// @brief Map of hash to cached debug Rect shapes.
     std::map<uint32_t, std::unique_ptr<Rect>> debug_rects;
-    /// @brief Map of hash to cached debug Circle shapes.
     std::map<uint32_t, std::unique_ptr<Circle>> debug_circles;
 
-    /// @brief Initializes the SDL_GPUDevice and swapchain.
-    /// @param preferred_mode The preferred present mode for the swapchain.
     void
     initDevice(SDL_GPUPresentMode preferred_mode);
-    /// @brief Initializes default shaders.
     void
     initShaders();
-    /// @brief Initializes default graphics pipelines.
     void
     initPipelines();
-    /// @brief Initializes default render passes.
     void
     initPasses();
-    /// @brief The offscreen render pass + extra.
+
     void
     offscreenRender();
-    /// @brief The swapchain render pass + extra.
     void
     swapchainRender();
 };

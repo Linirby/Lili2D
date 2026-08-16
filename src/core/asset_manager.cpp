@@ -50,7 +50,7 @@ AssetManager::loadTexture(
 }
 
 Texture*
-AssetManager::getTexture(const std::string& key) {
+AssetManager::getTexture(std::string_view key) {
     return get().textures().get(key);
 }
 
@@ -73,7 +73,7 @@ AssetManager::loadShader(
 }
 
 Shader*
-AssetManager::getShader(const std::string& key) {
+AssetManager::getShader(std::string_view key) {
     return get().shaders().get(key);
 }
 
@@ -92,7 +92,7 @@ AssetManager::loadFont(
 }
 
 BitmapFont*
-AssetManager::getFont(const std::string& key) {
+AssetManager::getFont(std::string_view key) {
     return get().fonts().get(key);
 }
 
@@ -113,12 +113,12 @@ AssetManager::loadAtlas(
 }
 
 AtlasMap*
-AssetManager::getAtlas(const std::string& key) {
+AssetManager::getAtlas(std::string_view key) {
     return get().atlases().get(key);
 }
 
 size_t
-AssetManager::unloadScope(const std::string& scope) {
+AssetManager::unloadScope(std::string_view scope) {
     size_t count = 0;
     count += get().textures().unloadScope(scope);
     count += get().shaders().unloadScope(scope);

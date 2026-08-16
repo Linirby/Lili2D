@@ -4,6 +4,7 @@
 
 #include <memory>
 #include <string>
+#include <string_view>
 #include <typeindex>
 #include <unordered_map>
 
@@ -91,7 +92,7 @@ public:
     /// @param key Unique key.
     /// @return Raw pointer to Texture or nullptr.
     static Texture*
-    getTexture(const std::string& key);
+    getTexture(std::string_view key);
 
     /// @brief Loads or retrieves a shader by key.
     /// @param key Unique key.
@@ -115,7 +116,7 @@ public:
     /// @param key Unique key.
     /// @return Raw pointer to Shader or nullptr.
     static Shader*
-    getShader(const std::string& key);
+    getShader(std::string_view key);
 
     /// @brief Loads or retrieves a bitmap font by key.
     /// @param key Unique key.
@@ -135,7 +136,7 @@ public:
     /// @param key Unique key.
     /// @return Raw pointer to BitmapFont or nullptr.
     static BitmapFont*
-    getFont(const std::string& key);
+    getFont(std::string_view key);
 
     /// @brief Loads or retrieves an AtlasMap by key.
     /// @param key Unique key.
@@ -155,14 +156,14 @@ public:
     /// @param key Unique key.
     /// @return Raw pointer to AtlasMap or nullptr.
     static AtlasMap*
-    getAtlas(const std::string& key);
+    getAtlas(std::string_view key);
 
     /// @brief Unloads all assets matching the specified scope across all
     /// managers (built-in and custom).
     /// @param scope Scope tag to clear.
     /// @return Total number of unloaded assets.
     static size_t
-    unloadScope(const std::string& scope);
+    unloadScope(std::string_view scope);
 
     /// @brief Clears all assets across all managers (built-in and custom).
     static void

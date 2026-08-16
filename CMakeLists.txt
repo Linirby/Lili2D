@@ -76,6 +76,7 @@ target_sources(Lili2D PRIVATE
     src/core/keyboard.cpp
     src/core/mouse.cpp
     src/core/sdl_deleters.cpp
+    src/core/string_hash.cpp
     src/core/thread_pool.cpp
     src/core/window.cpp
 

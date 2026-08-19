@@ -9,6 +9,7 @@ add_compile_options(-Wall -Wextra -Wpedantic)
 
 find_package(SDL3 REQUIRED CONFIG)
 find_package(SDL3_image REQUIRED CONFIG)
+find_package(SDL3_shadercross REQUIRED CONFIG)
 
 add_library(Lili2D SHARED)
 
@@ -154,7 +155,11 @@ target_include_directories(Lili2D
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
 )
 
-target_link_libraries(Lili2D PUBLIC SDL3::SDL3 SDL3_image::SDL3_image)
+target_link_libraries(Lili2D PUBLIC
+    SDL3::SDL3
+    SDL3_image::SDL3_image
+    SDL3_shadercross::SDL3_shadercross
+)
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)

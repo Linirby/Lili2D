@@ -15,19 +15,22 @@ layout(set = 1, binding = 0) uniform UniformBlock {
     float layer;
     float time;
     float padding[2];
-} ubo;
+}
+ubo;
 
 layout(set = 1, binding = 1) uniform RectUB {
     float time;
     float amplitude;
     float frequency;
     float speed;
-} custom;
+}
+custom;
 
-void main() {
-    float wave_offset = sin(
-            custom.time * custom.speed + in_pos.y * custom.frequency
-        ) * custom.amplitude;
+void
+main() {
+    float wave_offset =
+        sin(custom.time * custom.speed + in_pos.y * custom.frequency) *
+        custom.amplitude;
 
     vec3 pos2d = ubo.matrix * vec3(in_pos.x + wave_offset, in_pos.y, 1.0);
     gl_Position = vec4(pos2d.xy, in_pos.z + ubo.layer, 1.0);

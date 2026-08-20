@@ -2,14 +2,14 @@ struct VSInput {
     float3 pos : POSITION;
     float2 uv : TEXCOORD0;
     float material_id : TEXCOORD1;
-    float4 color : COLOR0;
+    float4 color : COLOR;
 };
 
 struct VSOutput {
     float4 pos : SV_Position;
     float2 uv : TEXCOORD0;
     nointerpolation uint material_id : TEXCOORD1;
-    float4 color : COLOR0;
+    float4 color : COLOR;
 };
 
 cbuffer UniformBlock : register(b0, space1) {

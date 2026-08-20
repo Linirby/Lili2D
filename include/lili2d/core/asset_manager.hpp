@@ -94,21 +94,21 @@ public:
     static Texture*
     getTexture(std::string_view key);
 
-    /// @brief Loads or retrieves a shader by key.
+    /// @brief Loads or retrieves an HLSL shader by key.
     /// @param key Unique key.
-    /// @param vertPath Vertex shader file path.
-    /// @param fragPath Fragment shader file path.
+    /// @param vertPath Vertex shader file path (.hlsl).
+    /// @param fragPath Fragment shader file path (.hlsl).
     /// @param device SDL GPU device.
-    /// @param vert_infos Binding info for the vertex shader.
-    /// @param frag_infos Binding info for the fragment shader.
+    /// @param vert_entry Vertex entry point (default: "main").
+    /// @param frag_entry Fragment entry point (default: "main").
     /// @param scope Asset scope tag (default: "global").
     /// @return Raw pointer to Shader.
     static Shader*
     loadShader(
         const std::string& key, const std::string& vertPath,
         const std::string& fragPath, SDL_GPUDevice* device,
-        ShaderInfo vert_infos = ShaderInfo({.num_uniform_buffers = 1}),
-        ShaderInfo frag_infos = ShaderInfo({.num_samplers = 1}),
+        const std::string& vert_entry = "main",
+        const std::string& frag_entry = "main",
         const std::string& scope = "global"
     );
 

@@ -25,17 +25,17 @@ MainGraphicsPipeline::MainGraphicsPipeline(
     vertexAttrs[0].format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
     vertexAttrs[0].offset = offsetof(Vertex, x);
 
-    vertexAttrs[1].location = 2;
+    vertexAttrs[1].location = 1;
     vertexAttrs[1].buffer_slot = 0;
     vertexAttrs[1].format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2;
     vertexAttrs[1].offset = offsetof(Vertex, u);
 
-    vertexAttrs[2].location = 3;
+    vertexAttrs[2].location = 2;
     vertexAttrs[2].buffer_slot = 0;
     vertexAttrs[2].format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT;
     vertexAttrs[2].offset = offsetof(Vertex, material_id);
 
-    vertexAttrs[3].location = 4;
+    vertexAttrs[3].location = 3;
     vertexAttrs[3].buffer_slot = 0;
     vertexAttrs[3].format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT4;
     vertexAttrs[3].offset = offsetof(Vertex, r);

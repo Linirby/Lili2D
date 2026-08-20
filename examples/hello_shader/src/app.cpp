@@ -4,11 +4,11 @@
 #include "lili2d/render/ui/ui_layout.hpp"
 
 App::App() : lili::Game("hello_shader - Lili2D", 800, 800) {
+    lili::Assets::setHotReloadEnabled(true);
     lili::Renderer* renderer = getRenderer();
     lili::Shader* rect_shader = lili::Assets::loadShader(
-        "rect_shader", "build/rect.vert.spv", "build/rect.frag.spv",
-        renderer->getDevice(), lili::ShaderInfo({.num_uniform_buffers = 2}),
-        lili::ShaderInfo({.num_samplers = 1})
+        "rect_shader", "src/rect.vert.hlsl", "src/rect.frag.hlsl",
+        renderer->getDevice()
     );
     rect_pipeline = std::make_unique<lili::MainGraphicsPipeline>(
         renderer->getDevice(), getWindow()->getSdlWindow(), rect_shader
@@ -24,9 +24,8 @@ App::App() : lili::Game("hello_shader - Lili2D", 800, 800) {
     rect.setOffset({0.0f, 0.0f});
 
     lili::Shader* text_shader = lili::Assets::loadShader(
-        "text_shader", "build/text.vert.spv", "build/text.frag.spv",
-        renderer->getDevice(), lili::ShaderInfo({.num_uniform_buffers = 2}),
-        lili::ShaderInfo({.num_samplers = 1})
+        "text_shader", "src/text.vert.hlsl", "src/text.frag.hlsl",
+        renderer->getDevice()
     );
     text_pipeline = std::make_unique<lili::MainGraphicsPipeline>(
         renderer->getDevice(), getWindow()->getSdlWindow(), text_shader
@@ -72,6 +71,7 @@ void
 App::onUpdate(float dt) {
     (void)dt;
     clock.update();
+    lili::Assets::checkHotReload();
 }
 
 void

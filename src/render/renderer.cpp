@@ -11,18 +11,14 @@
 #include <string>
 
 #include "lili2d/core/sdl_deleters.hpp"
+#include "lili2d/geometry/mat3x3.hpp"
 #include "lili2d/geometry/vec2.hpp"
+#include "lili2d/render/default_shaders.hpp"
 #include "lili2d/render/scene/common/model.hpp"
 #include "lili2d/render/scene/common/utils.hpp"
 #include "lili2d/render/scene/shapes/circle.hpp"
 #include "lili2d/render/scene/shapes/rect.hpp"
 #include "lili2d/render/white_1x1_png.hpp"
-#include "shader/world_2d_frag_spv.hpp"
-#include "shader/world_2d_vert_spv.hpp"
-// #include "shader/ui_vert_spv.hpp"
-// #include "shader/ui_frag_spv.hpp"
-
-#include "lili2d/geometry/mat3x3.hpp"
 
 namespace lili {
 
@@ -234,22 +230,22 @@ Renderer::getLogicalResolution() const {
 Shader*
 Renderer::createShader(
     const std::string& vert_path, const std::string& frag_path,
-    ShaderInfo vert_infos, ShaderInfo frag_infos
+    const std::string& vert_entry, const std::string& frag_entry
 ) {
     return new Shader(
-        device.get(), vert_path, frag_path, vert_infos, frag_infos
+        device.get(), vert_path, frag_path, vert_entry, frag_entry
     );
 }
 
 Shader*
 Renderer::createShader(
-    const uint8_t* vert_code, size_t vert_size, const uint8_t* frag_code,
-    size_t frag_size, ShaderInfo vert_infos, ShaderInfo frag_infos
+    std::string_view vert_source, std::string_view frag_source,
+    const std::string& vert_entry, const std::string& frag_entry
 ) {
-    return new Shader(
-        device.get(), vert_code, vert_size, frag_code, frag_size, vert_infos,
-        frag_infos
-    );
+    return Shader::fromSource(
+               device.get(), vert_source, frag_source, vert_entry, frag_entry
+    )
+        .release();
 }
 
 MainGraphicsPipeline*
@@ -316,8 +312,14 @@ Renderer::drawDebugCircle(float x, float y, float radius, const Vec4& color) {
 
 void
 Renderer::initDevice(SDL_GPUPresentMode preferred_mode) {
+    if (!SDL_ShaderCross_Init()) {
+        throw std::runtime_error(
+            "SDL_ShaderCross_Init failed!\n-> " + std::string(SDL_GetError())
+        );
+    }
+    SDL_GPUShaderFormat formats = SDL_ShaderCross_GetSPIRVShaderFormats();
     device = std::unique_ptr<SDL_GPUDevice, SDLGPUDeviceDeleter>(
-        SDL_CreateGPUDevice(SDL_GPU_SHADERFORMAT_SPIRV, true, nullptr)
+        SDL_CreateGPUDevice(formats, true, nullptr)
     );
     if (!device)
         throw std::runtime_error(
@@ -333,13 +335,8 @@ Renderer::initDevice(SDL_GPUPresentMode preferred_mode) {
 
 void
 Renderer::initShaders() {
-    main_shader = std::make_unique<Shader>(
-        device.get(), world_2d_vert_spv, world_2d_vert_spv_len,
-        world_2d_frag_spv, world_2d_frag_spv_len,
-        ShaderInfo({.num_uniform_buffers = 1}),
-        ShaderInfo({
-            .num_samplers = 1,
-        })
+    main_shader = Shader::fromSource(
+        device.get(), shaders::world_2d_vert_hlsl, shaders::world_2d_frag_hlsl
     );
 }
 

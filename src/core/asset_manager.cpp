@@ -57,18 +57,33 @@ AssetManager::getTexture(std::string_view key) {
 Shader*
 AssetManager::loadShader(
     const std::string& key, const std::string& vertPath,
-    const std::string& fragPath, SDL_GPUDevice* device, ShaderInfo vert_infos,
-    ShaderInfo frag_infos, const std::string& scope
+    const std::string& fragPath, SDL_GPUDevice* device,
+    const std::string& vert_entry, const std::string& frag_entry,
+    const std::string& scope
 ) {
     return get().shaders().load(
         key, vertPath,
-        [device, vertPath, fragPath, vert_infos,
-         frag_infos](const std::string&) {
+        [device, vertPath, fragPath, vert_entry,
+         frag_entry](const std::string&) {
             return std::make_unique<Shader>(
-                device, vertPath, fragPath, vert_infos, frag_infos
+                device, vertPath, fragPath, vert_entry, frag_entry
             );
         },
-        scope
+        scope,
+        [device, vertPath, fragPath, vert_entry,
+         frag_entry](Shader& target, const std::string&) -> bool {
+            try {
+                auto reloaded = std::make_unique<Shader>(
+                    device, vertPath, fragPath, vert_entry, frag_entry
+                );
+                target = std::move(*reloaded);
+                return true;
+            } catch (const std::exception& e) {
+                std::cerr << "Shader hot-reload failed for " << vertPath
+                          << " / " << fragPath << ": " << e.what() << std::endl;
+                return false;
+            }
+        }
     );
 }
 

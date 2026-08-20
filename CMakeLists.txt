@@ -13,33 +13,6 @@ find_package(SDL3_shadercross REQUIRED CONFIG)
 
 add_library(Lili2D SHARED)
 
-find_program(GLSLC_COMPILER glslc REQUIRED)
-set(SHADER_FILES
-    src/shader/world_2d.vert
-    src/shader/world_2d.frag
-)
-set(EMBEDDED_SHADERS "")
-foreach(SHADER IN LISTS SHADER_FILES)
-    get_filename_component(SHADER_NAME ${SHADER} NAME)
-    string(REPLACE "." "_" VAR_NAME "${SHADER_NAME}_spv")
-    set(SPV_FILE "${CMAKE_CURRENT_SOURCE_DIR}/src/shader/${SHADER_NAME}.spv")
-    set(HEADER_FILE "${CMAKE_CURRENT_SOURCE_DIR}/src/shader/${VAR_NAME}.hpp")
-    add_custom_command(
-        OUTPUT ${HEADER_FILE}
-        COMMAND ${GLSLC_COMPILER} "${CMAKE_CURRENT_SOURCE_DIR}/${SHADER}" -o
-            "${SPV_FILE}"
-        COMMAND ${CMAKE_COMMAND}
-            -DINPUT_FILE="${SPV_FILE}"
-            -DOUTPUT_FILE="${HEADER_FILE}"
-            -DVAR_NAME="${VAR_NAME}" -P
-            "${CMAKE_CURRENT_SOURCE_DIR}/cmake/embed_shader.cmake"
-        DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${SHADER}"
-            "${CMAKE_CURRENT_SOURCE_DIR}/cmake/embed_shader.cmake"
-        COMMENT "Compiling and embedding shader ${SHADER_NAME}"
-    )
-    list(APPEND EMBEDDED_SHADERS ${HEADER_FILE})
-endforeach()
-
 set(ASSET_FILES
     assets/white_1x1.png
 )
@@ -65,7 +38,6 @@ foreach(ASSET IN LISTS ASSET_FILES)
 endforeach()
 
 target_sources(Lili2D PRIVATE
-    ${EMBEDDED_SHADERS}
     ${EMBEDDED_ASSETS}
 
     src/core/action_map.cpp

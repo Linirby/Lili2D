@@ -21,24 +21,21 @@ cbuffer UniformBlock : register(b0, space1) {
     float2 padding;
 };
 
-cbuffer RectUB : register(b1, space1) {
-    float custom_time;
-    float amplitude;
-    float frequency;
+cbuffer TextUB : register(b1, space1) {
     float speed;
+    float custom_time;
 };
 
 VSOutput main(VSInput input) {
     VSOutput output;
-    float wave_offset = sin(
-        custom_time * speed + input.in_pos.y * frequency
-    ) * amplitude;
-
-    float3 pos2d = mul(u_matrix, float3(input.in_pos.x + wave_offset, input.in_pos.y, 1.0));
+    float3 pos2d = mul(u_matrix, float3(input.in_pos.x, input.in_pos.y, 1.0));
     output.pos = float4(pos2d.xy, input.in_pos.z + layer, 1.0);
-
+    
     output.uv = input.in_uv;
     output.material_id = (uint)(input.in_material_id + 0.5);
-    output.color = color_tint;
+    
+    float hue = custom_time * speed - input.in_pos.x * 0.02;
+    float3 rainbow = 0.5 + 0.5 * cos(hue + float3(0.0, 2.094, 4.188));
+    output.color = float4(rainbow, 1.0) * color_tint;
     return output;
 }

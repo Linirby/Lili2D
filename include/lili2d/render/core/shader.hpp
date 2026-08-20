@@ -1,22 +1,18 @@
 #pragma once
 
 #include <SDL3/SDL_gpu.h>
+#include <SDL3_shadercross/SDL_shadercross.h>
 
 #include <memory>
 #include <string>
+#include <string_view>
 #include <vector>
 
 #include "lili2d/core/sdl_deleters.hpp"
 
 namespace lili {
 
-/// @brief Information about loaded shader code.
-struct CodeInfo {
-    size_t size = 0;           ///< Size of the code buffer.
-    std::vector<char> buffer;  ///< The code buffer.
-};
-
-/// @brief Information about shader bindings.
+/// @brief Information about shader bindings (optional for HLSL, auto-reflected by SDL_ShaderCross).
 struct ShaderInfo {
     uint32_t num_samplers = 0;          ///< Number of samplers.
     uint32_t num_storage_textures = 0;  ///< Number of storage textures.
@@ -24,43 +20,70 @@ struct ShaderInfo {
     uint32_t num_uniform_buffers = 0;   ///< Number of uniform buffers.
 };
 
-/// @brief Represents a compiled shader program.
+/// @brief Represents a compiled shader program using HLSL sources.
 class Shader {
 public:
-    /// @brief Constructs a shader from files.
+    /// @brief Constructs a shader from HLSL files.
     /// @param device The SDL GPU device.
-    /// @param vert_path Path to the vertex shader file.
-    /// @param frag_path Path to the fragment shader file.
-    /// @param vert_infos Binding info for the vertex shader.
-    /// @param frag_infos Binding info for the fragment shader.
+    /// @param vert_path Path to the vertex shader file (.hlsl).
+    /// @param frag_path Path to the fragment shader file (.hlsl).
+    /// @param vert_entry Entry point for the vertex shader (default: "main").
+    /// @param frag_entry Entry point for the fragment shader (default: "main").
     Shader(
         SDL_GPUDevice* device, const std::string& vert_path,
         const std::string& frag_path,
-        ShaderInfo vert_infos = ShaderInfo({.num_uniform_buffers = 1}),
-        ShaderInfo frag_infos = ShaderInfo({.num_samplers = 1})
+        const std::string& vert_entry = "main",
+        const std::string& frag_entry = "main"
     );
-    /// @brief Constructs a shader from memory.
+
+    /// @brief Creates a shader from HLSL source strings.
     /// @param device The SDL GPU device.
-    /// @param vert_code Pointer to the vertex shader code.
-    /// @param vert_size Size of the vertex shader code.
-    /// @param frag_code Pointer to the fragment shader code.
-    /// @param frag_size Size of the fragment shader code.
-    /// @param vert_infos Binding info for the vertex shader.
-    /// @param frag_infos Binding info for the fragment shader.
-    Shader(
-        SDL_GPUDevice* device, const uint8_t* vert_code, size_t vert_size,
-        const uint8_t* frag_code, size_t frag_size,
-        ShaderInfo vert_infos = ShaderInfo({.num_uniform_buffers = 1}),
-        ShaderInfo frag_infos = ShaderInfo({.num_samplers = 1})
+    /// @param vert_source Vertex HLSL source code.
+    /// @param frag_source Fragment HLSL source code.
+    /// @param vert_entry Entry point for the vertex shader (default: "main").
+    /// @param frag_entry Entry point for the fragment shader (default: "main").
+    /// @return Unique pointer to the created Shader.
+    static std::unique_ptr<Shader>
+    fromSource(
+        SDL_GPUDevice* device,
+        std::string_view vert_source,
+        std::string_view frag_source,
+        const std::string& vert_entry = "main",
+        const std::string& frag_entry = "main"
     );
+
+    /// @brief Creates a shader from HLSL files.
+    /// @param device The SDL GPU device.
+    /// @param vert_path Path to the vertex shader file (.hlsl).
+    /// @param frag_path Path to the fragment shader file (.hlsl).
+    /// @param vert_entry Entry point for the vertex shader (default: "main").
+    /// @param frag_entry Entry point for the fragment shader (default: "main").
+    /// @return Unique pointer to the created Shader.
+    static std::unique_ptr<Shader>
+    fromFiles(
+        SDL_GPUDevice* device,
+        const std::string& vert_path,
+        const std::string& frag_path,
+        const std::string& vert_entry = "main",
+        const std::string& frag_entry = "main"
+    );
+
+    /// @brief Constructs a shader directly from compiled SDL_GPUShader handles.
+    /// @param device The SDL GPU device.
+    /// @param vert Pointer to vertex SDL_GPUShader.
+    /// @param frag Pointer to fragment SDL_GPUShader.
+    Shader(
+        SDL_GPUDevice* device,
+        SDL_GPUShader* vert,
+        SDL_GPUShader* frag
+    );
+
     /// @brief Destructor.
     ~Shader() = default;
 
     /// @brief Move constructor.
     Shader(Shader&& other) noexcept = default;
     /// @brief Move assignment operator.
-    /// @param other Shader instance to move from.
-    /// @return Reference to this Shader.
     Shader&
     operator=(Shader&& other) noexcept = default;
 
@@ -81,6 +104,20 @@ public:
     SDL_GPUShader*
     getFragment() const;
 
+    /// @brief Compiles a single HLSL shader stage using SDL_ShaderCross.
+    /// @param device The SDL GPU device.
+    /// @param source HLSL source code.
+    /// @param entrypoint Entry point function name.
+    /// @param stage Vertex or Fragment stage.
+    /// @return Compiled SDL_GPUShader pointer.
+    static SDL_GPUShader*
+    compileHLSL(
+        SDL_GPUDevice* device,
+        const std::string& source,
+        const std::string& entrypoint,
+        SDL_ShaderCross_ShaderStage stage
+    );
+
 private:
     /// @brief Pointer to the parent SDL_GPUDevice.
     SDL_GPUDevice* device = nullptr;
@@ -89,11 +126,11 @@ private:
     /// @brief Unique pointer to compiled fragment shader handle.
     std::unique_ptr<SDL_GPUShader, SDLGPUShaderDeleter> fragment_shader;
 
-    /// @brief Reads shader byte code from file into a buffer.
-    /// @param code_path Path to the compiled shader file (.spv).
-    /// @return CodeInfo structure containing buffer and size.
-    CodeInfo
-    getCodeInfo(const std::string& code_path);
+    /// @brief Reads text file contents into a string.
+    /// @param file_path Path to the file.
+    /// @return String containing file contents.
+    static std::string
+    readFile(const std::string& file_path);
 };
 
 }  // namespace lili

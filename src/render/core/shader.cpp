@@ -1,110 +1,160 @@
 #include "lili2d/render/core/shader.hpp"
 
 #include <fstream>
+#include <sstream>
+#include <stdexcept>
 
 namespace lili {
 
+static void
+ensureShaderCrossInit() {
+    static bool initialized = []() {
+        if (!SDL_ShaderCross_Init()) {
+            throw std::runtime_error(
+                "SDL_ShaderCross_Init failed: " + std::string(SDL_GetError())
+            );
+        }
+        return true;
+    }();
+    (void)initialized;
+}
+
+std::string
+Shader::readFile(const std::string& file_path) {
+    std::ifstream file(file_path);
+    if (!file.is_open()) {
+        throw std::runtime_error(
+            "Failed to open shader file: \"" + file_path + "\""
+        );
+    }
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    return buffer.str();
+}
+
+SDL_GPUShader*
+Shader::compileHLSL(
+    SDL_GPUDevice* device, const std::string& source,
+    const std::string& entrypoint, SDL_ShaderCross_ShaderStage stage
+) {
+    if (!device) {
+        throw std::runtime_error(
+            "Cannot compile shader: SDL_GPUDevice is null!"
+        );
+    }
+
+    ensureShaderCrossInit();
+
+    SDL_ShaderCross_HLSL_Info hlsl_info{};
+    hlsl_info.source = source.c_str();
+    hlsl_info.entrypoint = entrypoint.c_str();
+    hlsl_info.shader_stage = stage;
+
+    size_t spirv_size = 0;
+    void* spirv_data =
+        SDL_ShaderCross_CompileSPIRVFromHLSL(&hlsl_info, &spirv_size);
+    if (!spirv_data) {
+        throw std::runtime_error(
+            "HLSL to SPIR-V compilation failed for entrypoint '" + entrypoint +
+            "':\n-> " + std::string(SDL_GetError())
+        );
+    }
+
+    SDL_ShaderCross_GraphicsShaderMetadata* metadata =
+        SDL_ShaderCross_ReflectGraphicsSPIRV(
+            static_cast<const Uint8*>(spirv_data), spirv_size, 0
+        );
+
+    SDL_ShaderCross_SPIRV_Info spirv_info{};
+    spirv_info.bytecode = static_cast<const Uint8*>(spirv_data);
+    spirv_info.bytecode_size = spirv_size;
+    spirv_info.entrypoint = entrypoint.c_str();
+    spirv_info.shader_stage = stage;
+
+    SDL_GPUShader* gpu_shader = SDL_ShaderCross_CompileGraphicsShaderFromSPIRV(
+        device, &spirv_info, metadata ? &metadata->resource_info : nullptr, 0
+    );
+
+    if (metadata) {
+        SDL_free(metadata);
+    }
+    SDL_free(spirv_data);
+
+    if (!gpu_shader) {
+        throw std::runtime_error(
+            "SDL_ShaderCross_CompileGraphicsShaderFromSPIRV failed for "
+            "entrypoint '" +
+            entrypoint + "':\n-> " + std::string(SDL_GetError())
+        );
+    }
+
+    return gpu_shader;
+}
+
 Shader::Shader(
     SDL_GPUDevice* device, const std::string& vert_path,
-    const std::string& frag_path, ShaderInfo vert_infos, ShaderInfo frag_infos
+    const std::string& frag_path, const std::string& vert_entry,
+    const std::string& frag_entry
 )
     : device(device) {
-    CodeInfo vertex_code_info = getCodeInfo(vert_path);
-    SDL_GPUShaderCreateInfo vertex_ci{};
-    vertex_ci.code_size = vertex_code_info.size;
-    vertex_ci.code = reinterpret_cast<uint8_t*>(vertex_code_info.buffer.data());
-    vertex_ci.entrypoint = "main";
-    vertex_ci.format = SDL_GPU_SHADERFORMAT_SPIRV;
-    vertex_ci.stage = SDL_GPU_SHADERSTAGE_VERTEX;
-    vertex_ci.num_samplers = vert_infos.num_samplers;
-    vertex_ci.num_storage_textures = vert_infos.num_storage_textures;
-    vertex_ci.num_storage_buffers = vert_infos.num_storage_buffers;
-    vertex_ci.num_uniform_buffers = vert_infos.num_uniform_buffers;
+    std::string vert_source = readFile(vert_path);
+    std::string frag_source = readFile(frag_path);
 
     vertex_shader = std::unique_ptr<SDL_GPUShader, SDLGPUShaderDeleter>(
-        SDL_CreateGPUShader(this->device, &vertex_ci),
-        SDLGPUShaderDeleter(this->device)
+        compileHLSL(
+            device, vert_source, vert_entry, SDL_SHADERCROSS_SHADERSTAGE_VERTEX
+        ),
+        SDLGPUShaderDeleter(device)
     );
-    if (!vertex_shader) {
-        throw std::runtime_error(
-            "vertex_shader creation failed!\n-> " + std::string(SDL_GetError())
-        );
-    }
-
-    CodeInfo fragment_code_info = getCodeInfo(frag_path);
-    SDL_GPUShaderCreateInfo fragment_ci{};
-    fragment_ci.code_size = fragment_code_info.size;
-    fragment_ci.code =
-        (reinterpret_cast<uint8_t*>(fragment_code_info.buffer.data()));
-    fragment_ci.entrypoint = "main";
-    fragment_ci.format = SDL_GPU_SHADERFORMAT_SPIRV;
-    fragment_ci.stage = SDL_GPU_SHADERSTAGE_FRAGMENT;
-    fragment_ci.num_samplers = frag_infos.num_samplers;
-    fragment_ci.num_storage_textures = frag_infos.num_storage_textures;
-    fragment_ci.num_storage_buffers = frag_infos.num_storage_buffers;
-    fragment_ci.num_uniform_buffers = frag_infos.num_uniform_buffers;
 
     fragment_shader = std::unique_ptr<SDL_GPUShader, SDLGPUShaderDeleter>(
-        SDL_CreateGPUShader(this->device, &fragment_ci),
-        SDLGPUShaderDeleter(this->device)
+        compileHLSL(
+            device, frag_source, frag_entry,
+            SDL_SHADERCROSS_SHADERSTAGE_FRAGMENT
+        ),
+        SDLGPUShaderDeleter(device)
     );
-    if (!fragment_shader) {
-        throw std::runtime_error(
-            "fragment_shader creation failed!\n-> " +
-            std::string(SDL_GetError())
-        );
-    }
 }
 
-Shader::Shader(
-    SDL_GPUDevice* device, const uint8_t* vert_code, size_t vert_size,
-    const uint8_t* frag_code, size_t frag_size, ShaderInfo vert_infos,
-    ShaderInfo frag_infos
-)
-    : device(device) {
-    SDL_GPUShaderCreateInfo vertex_ci{};
-    vertex_ci.code_size = vert_size;
-    vertex_ci.code = vert_code;
-    vertex_ci.entrypoint = "main";
-    vertex_ci.format = SDL_GPU_SHADERFORMAT_SPIRV;
-    vertex_ci.stage = SDL_GPU_SHADERSTAGE_VERTEX;
-    vertex_ci.num_samplers = vert_infos.num_samplers;
-    vertex_ci.num_storage_textures = vert_infos.num_storage_textures;
-    vertex_ci.num_storage_buffers = vert_infos.num_storage_buffers;
-    vertex_ci.num_uniform_buffers = vert_infos.num_uniform_buffers;
-
-    vertex_shader = std::unique_ptr<SDL_GPUShader, SDLGPUShaderDeleter>(
-        SDL_CreateGPUShader(this->device, &vertex_ci),
-        SDLGPUShaderDeleter(this->device)
+std::unique_ptr<Shader>
+Shader::fromSource(
+    SDL_GPUDevice* device, std::string_view vert_source,
+    std::string_view frag_source, const std::string& vert_entry,
+    const std::string& frag_entry
+) {
+    SDL_GPUShader* vs = compileHLSL(
+        device, std::string(vert_source), vert_entry,
+        SDL_SHADERCROSS_SHADERSTAGE_VERTEX
     );
-    if (!vertex_shader) {
-        throw std::runtime_error(
-            "vertex_shader creation failed!\n-> " + std::string(SDL_GetError())
+    SDL_GPUShader* fs = nullptr;
+    try {
+        fs = compileHLSL(
+            device, std::string(frag_source), frag_entry,
+            SDL_SHADERCROSS_SHADERSTAGE_FRAGMENT
         );
+    } catch (...) {
+        if (vs) SDL_ReleaseGPUShader(device, vs);
+        throw;
     }
 
-    SDL_GPUShaderCreateInfo fragment_ci{};
-    fragment_ci.code_size = frag_size;
-    fragment_ci.code = frag_code;
-    fragment_ci.entrypoint = "main";
-    fragment_ci.format = SDL_GPU_SHADERFORMAT_SPIRV;
-    fragment_ci.stage = SDL_GPU_SHADERSTAGE_FRAGMENT;
-    fragment_ci.num_samplers = frag_infos.num_samplers;
-    fragment_ci.num_storage_textures = frag_infos.num_storage_textures;
-    fragment_ci.num_storage_buffers = frag_infos.num_storage_buffers;
-    fragment_ci.num_uniform_buffers = frag_infos.num_uniform_buffers;
-
-    fragment_shader = std::unique_ptr<SDL_GPUShader, SDLGPUShaderDeleter>(
-        SDL_CreateGPUShader(this->device, &fragment_ci),
-        SDLGPUShaderDeleter(this->device)
-    );
-    if (!fragment_shader) {
-        throw std::runtime_error(
-            "fragment_shader creation failed!\n-> " +
-            std::string(SDL_GetError())
-        );
-    }
+    return std::make_unique<Shader>(device, vs, fs);
 }
+
+std::unique_ptr<Shader>
+Shader::fromFiles(
+    SDL_GPUDevice* device, const std::string& vert_path,
+    const std::string& frag_path, const std::string& vert_entry,
+    const std::string& frag_entry
+) {
+    return std::make_unique<Shader>(
+        device, vert_path, frag_path, vert_entry, frag_entry
+    );
+}
+
+Shader::Shader(SDL_GPUDevice* device, SDL_GPUShader* vert, SDL_GPUShader* frag)
+    : device(device),
+      vertex_shader(vert, SDLGPUShaderDeleter(device)),
+      fragment_shader(frag, SDLGPUShaderDeleter(device)) {}
 
 SDL_GPUShader*
 Shader::getVertex() const {
@@ -114,22 +164,6 @@ Shader::getVertex() const {
 SDL_GPUShader*
 Shader::getFragment() const {
     return fragment_shader.get();
-}
-
-CodeInfo
-Shader::getCodeInfo(const std::string& code_path) {
-    CodeInfo code_info;
-
-    std::ifstream file(code_path, std::ios::ate | std::ios::binary);
-    if (!file.is_open()) {
-        throw std::runtime_error("Failed to open file! \"" + code_path + "\"");
-    }
-    code_info.size = file.tellg();
-    file.seekg(0);
-    code_info.buffer.resize(code_info.size);
-    file.read(code_info.buffer.data(), code_info.size);
-    file.close();
-    return code_info;
 }
 
 }  // namespace lili

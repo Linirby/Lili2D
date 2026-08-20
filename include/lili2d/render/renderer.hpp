@@ -106,29 +106,29 @@ public:
     Vec2
     getLogicalResolution() const;
 
-    /// @brief Creates a shader from file paths.
-    /// @param vert_path Path to the vertex shader file.
-    /// @param frag_path Path to the fragment shader file.
-    /// @param vert_infos Binding info for the vertex shader.
-    /// @param frag_infos Binding info for the fragment shader.
+    /// @brief Creates a shader from HLSL file paths.
+    /// @param vert_path Path to the vertex shader file (.hlsl).
+    /// @param frag_path Path to the fragment shader file (.hlsl).
+    /// @param vert_entry Entry point for vertex shader.
+    /// @param frag_entry Entry point for fragment shader.
     /// @return A new Shader instance.
     Shader*
     createShader(
         const std::string& vert_path, const std::string& frag_path,
-        ShaderInfo vert_infos = {}, ShaderInfo frag_infos = {}
+        const std::string& vert_entry = "main",
+        const std::string& frag_entry = "main"
     );
-    /// @brief Creates a shader from memory.
-    /// @param vert_code Pointer to the vertex shader code.
-    /// @param vert_size Size of the vertex shader code.
-    /// @param frag_code Pointer to the fragment shader code.
-    /// @param frag_size Size of the fragment shader code.
-    /// @param vert_infos Binding info for the vertex shader.
-    /// @param frag_infos Binding info for the fragment shader.
+    /// @brief Creates a shader from HLSL source strings.
+    /// @param vert_source Vertex HLSL source code.
+    /// @param frag_source Fragment HLSL source code.
+    /// @param vert_entry Entry point for vertex shader.
+    /// @param frag_entry Entry point for fragment shader.
     /// @return A new Shader instance.
     Shader*
     createShader(
-        const uint8_t* vert_code, size_t vert_size, const uint8_t* frag_code,
-        size_t frag_size, ShaderInfo vert_infos = {}, ShaderInfo frag_infos = {}
+        std::string_view vert_source, std::string_view frag_source,
+        const std::string& vert_entry = "main",
+        const std::string& frag_entry = "main"
     );
 
     /// @brief Creates a custom graphics pipeline with a given shader.

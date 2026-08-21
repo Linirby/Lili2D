@@ -1,6 +1,7 @@
 #include "lili2d/render/pipelines/main_graphics_pipeline.hpp"
 
 #include <cstddef>
+#include <iostream>
 #include <stdexcept>
 #include <vector>
 
@@ -9,10 +10,11 @@
 
 namespace lili {
 
-MainGraphicsPipeline::MainGraphicsPipeline(
-    SDL_GPUDevice* device, SDL_Window* window, Shader* shader
-)
-    : device(device), window(window), shader(shader) {
+bool
+MainGraphicsPipeline::createPipelineInternal() {
+    if (!device || !window || !shader) return false;
+    if (!shader->getVertex() || !shader->getFragment()) return false;
+
     SDL_GPUVertexBufferDescription vertex_bd{};
     vertex_bd.slot = 0;
     vertex_bd.pitch = sizeof(Vertex);
@@ -82,17 +84,74 @@ MainGraphicsPipeline::MainGraphicsPipeline(
     ci.target_info.depth_stencil_format = SDL_GPU_TEXTUREFORMAT_D32_FLOAT;
     ci.target_info.has_depth_stencil_target = false;
 
+    SDL_GPUGraphicsPipeline* new_pipeline =
+        SDL_CreateGPUGraphicsPipeline(device, &ci);
+    if (!new_pipeline) return false;
+
     pipeline =
         std::unique_ptr<SDL_GPUGraphicsPipeline, SDLGPUGraphicsPipelineDeleter>(
-            SDL_CreateGPUGraphicsPipeline(device, &ci),
-            SDLGPUGraphicsPipelineDeleter(device)
+            new_pipeline, SDLGPUGraphicsPipelineDeleter(device)
         );
-    if (!pipeline) {
+    return true;
+}
+
+MainGraphicsPipeline::MainGraphicsPipeline(
+    SDL_GPUDevice* device, SDL_Window* window, Shader* shader
+)
+    : device(device), window(window), shader(shader) {
+    if (!createPipelineInternal())
         throw std::runtime_error(
             "Main graphics pipeline creation failed!\n-> " +
             std::string(SDL_GetError())
         );
+    if (this->shader)
+        this->shader->addReloadListener(this, [this]() { rebuild(); });
+}
+
+MainGraphicsPipeline::~MainGraphicsPipeline() {
+    if (shader) shader->removeReloadListener(this);
+}
+
+MainGraphicsPipeline::MainGraphicsPipeline(
+    MainGraphicsPipeline&& other
+) noexcept
+    : device(other.device),
+      window(other.window),
+      shader(other.shader),
+      pipeline(std::move(other.pipeline)) {
+    if (other.shader) other.shader->removeReloadListener(&other);
+    if (shader) shader->addReloadListener(this, [this]() { rebuild(); });
+    other.device = nullptr;
+    other.window = nullptr;
+    other.shader = nullptr;
+}
+
+MainGraphicsPipeline&
+MainGraphicsPipeline::operator=(MainGraphicsPipeline&& other) noexcept {
+    if (this != &other) {
+        if (shader) shader->removeReloadListener(this);
+        if (other.shader) other.shader->removeReloadListener(&other);
+        device = other.device;
+        window = other.window;
+        shader = other.shader;
+        pipeline = std::move(other.pipeline);
+
+        if (shader) shader->addReloadListener(this, [this]() { rebuild(); });
+        other.device = nullptr;
+        other.window = nullptr;
+        other.shader = nullptr;
     }
+    return *this;
+}
+
+bool
+MainGraphicsPipeline::rebuild() {
+    if (!createPipelineInternal()) {
+        std::cerr << "MainGraphicsPipeline::rebuild failed: " << SDL_GetError()
+                  << std::endl;
+        return false;
+    }
+    return true;
 }
 
 SDL_GPUGraphicsPipeline*

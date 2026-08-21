@@ -14,17 +14,26 @@ struct MaterialProps {
     Vec4 uv_bounds = {0.0f, 0.0f, 1.0f, 1.0f};   ///< UV bounds bounds.
 };
 
+class MainGraphicsPipeline;
+
 /// @brief Defines how a model is rendered.
 struct Material {
     MaterialProps properties;      ///< Material properties.
     Texture* albedoMap = nullptr;  ///< Albedo texture map.
     SDL_GPUGraphicsPipeline* custom_pipeline = nullptr;
-    ///< Custom graphics pipeline.
+    ///< Custom raw graphics pipeline.
+    MainGraphicsPipeline* pipeline = nullptr;
+    ///< Custom graphics pipeline wrapper (supports hot-reloading).
 
     std::vector<uint8_t> custom_vertex_uniforms;
     ///< Custom vertex uniforms for binding 1.
     std::vector<uint8_t> custom_fragment_uniforms;
     ///< Custom fragment uniforms for binding 0.
+
+    /// @brief Gets the active SDL GPU pipeline handle.
+    /// @return Pointer to SDL_GPUGraphicsPipeline, or nullptr.
+    SDL_GPUGraphicsPipeline*
+    getPipeline() const;
 
     /// @brief Sets custom vertex uniforms.
     /// @param data The uniform data struct.
@@ -45,6 +54,10 @@ struct Material {
     /// @param texture Pointer to the texture.
     /// @param pipeline Pointer to the custom pipeline.
     Material(Texture* texture, SDL_GPUGraphicsPipeline* pipeline);
+    /// @brief Constructs a material with an albedo map and MainGraphicsPipeline.
+    /// @param texture Pointer to the texture.
+    /// @param pipeline Pointer to the MainGraphicsPipeline.
+    Material(Texture* texture, MainGraphicsPipeline* pipeline);
 };
 
 template <typename T>

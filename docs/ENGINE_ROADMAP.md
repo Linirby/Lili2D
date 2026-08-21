@@ -14,7 +14,7 @@ Below is the categorized list of general 2D engine features designed to remove b
 
 ### 1. Asset & Resource Management (`lili::ResourceManager`)
 
-Done, it just still need hot-reloading for compiled shader and making hot-reloading only in DEV mode.
+Done (including hot-reloading for textures, fonts, atlases, and shaders with automatic graphics pipeline rebuilding). Hot-reloading can be enabled per-project via `Assets::setHotReloadEnabled(true)`.
 
 ---
 

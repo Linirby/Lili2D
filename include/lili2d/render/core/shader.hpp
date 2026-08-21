@@ -3,9 +3,11 @@
 #include <SDL3/SDL_gpu.h>
 #include <SDL3_shadercross/SDL_shadercross.h>
 
+#include <functional>
 #include <memory>
 #include <string>
 #include <string_view>
+#include <unordered_map>
 #include <vector>
 
 #include "lili2d/core/sdl_deleters.hpp"
@@ -23,6 +25,9 @@ struct ShaderInfo {
 /// @brief Represents a compiled shader program using HLSL sources.
 class Shader {
 public:
+    /// @brief Reload listener callback type alias.
+    using ReloadCallback = std::function<void()>;
+
     /// @brief Constructs a shader from HLSL files.
     /// @param device The SDL GPU device.
     /// @param vert_path Path to the vertex shader file (.hlsl).
@@ -79,13 +84,13 @@ public:
     );
 
     /// @brief Destructor.
-    ~Shader() = default;
+    ~Shader();
 
     /// @brief Move constructor.
-    Shader(Shader&& other) noexcept = default;
+    Shader(Shader&& other) noexcept;
     /// @brief Move assignment operator.
     Shader&
-    operator=(Shader&& other) noexcept = default;
+    operator=(Shader&& other) noexcept;
 
     /// @brief Copy constructor is deleted to prevent double-freeing the
     /// compiled shader programs.
@@ -94,6 +99,21 @@ public:
     /// compiled shader programs.
     Shader&
     operator=(const Shader&) = delete;
+
+    /// @brief Registers a reload observer listener.
+    /// @param owner Unique pointer identifying the observer.
+    /// @param callback Function called when the shader has reloaded.
+    void
+    addReloadListener(void* owner, ReloadCallback callback);
+
+    /// @brief Unregisters a reload observer listener.
+    /// @param owner Unique pointer identifying the observer.
+    void
+    removeReloadListener(void* owner);
+
+    /// @brief Notifies all registered listeners that the shader has reloaded.
+    void
+    notifyReloaded();
 
     /// @brief Gets the underlying SDL GPU vertex shader.
     /// @return Pointer to the vertex shader.
@@ -125,6 +145,8 @@ private:
     std::unique_ptr<SDL_GPUShader, SDLGPUShaderDeleter> vertex_shader;
     /// @brief Unique pointer to compiled fragment shader handle.
     std::unique_ptr<SDL_GPUShader, SDLGPUShaderDeleter> fragment_shader;
+    /// @brief Registered reload listeners keyed by owner pointer.
+    std::unordered_map<void*, ReloadCallback> reload_listeners;
 
     /// @brief Reads text file contents into a string.
     /// @param file_path Path to the file.

@@ -61,15 +61,25 @@ public:
     /// @brief Function type for reloading a resource in-place from a file path.
     using ReloaderFunc = std::function<bool(T&, const std::string&)>;
 
+    /// @brief Record tracking a watched file and its last write time.
+    struct WatchedFile {
+        /// @brief Path to the watched file on disk.
+        std::string path;
+        /// @brief Last write timestamp of the file.
+        std::filesystem::file_time_type last_write_time{};
+    };
+
     /// @brief Record tracking a managed resource and its metadata.
     struct ResourceRecord {
         /// @brief Unique pointer to the managed resource instance.
         std::unique_ptr<T> resource;
-        /// @brief Path to the resource file on disk.
+        /// @brief Path to the primary resource file on disk.
         std::string filepath;
+        /// @brief List of watched files and their timestamps for hot reloading.
+        std::vector<WatchedFile> watched_files;
         /// @brief Scope tag assigned to the resource.
         std::string scope;
-        /// @brief Last write timestamp of the file for hot reloading.
+        /// @brief Last write timestamp of the primary file for hot reloading.
         std::filesystem::file_time_type last_write_time{};
         /// @brief Loader function stored for hot reloading.
         LoaderFunc loader;
@@ -104,6 +114,20 @@ public:
     load(
         const std::string& key, const std::string& filepath, LoaderFunc loader,
         const std::string& scope = "global", ReloaderFunc reloader = nullptr
+    );
+
+    /// @brief Loads or retrieves a cached resource watching multiple filepaths.
+    /// @param key Unique string identifier.
+    /// @param filepaths Vector of filepaths to watch for hot reloading.
+    /// @param loader Function that constructs a unique_ptr<T> from the primary filepath.
+    /// @param scope Resource scope tag (default: "global").
+    /// @param reloader Optional custom in-place reloader for hot reloading.
+    /// @return Raw pointer to the loaded resource.
+    T*
+    load(
+        const std::string& key, const std::vector<std::string>& filepaths,
+        LoaderFunc loader, const std::string& scope = "global",
+        ReloaderFunc reloader = nullptr
     );
 
     /// @brief Loads or retrieves a cached resource using filepath as key.
@@ -224,7 +248,57 @@ ResourceManager<T>::load(
     if (!filepath.empty()) {
         std::error_code ec;
         auto write_time = std::filesystem::last_write_time(filepath, ec);
-        if (!ec) record.last_write_time = write_time;
+        if (!ec) {
+            record.last_write_time = write_time;
+            record.watched_files.push_back({filepath, write_time});
+        }
+    }
+
+    T* ptr = record.resource.get();
+    resources[key] = std::move(record);
+    return ptr;
+}
+
+template <typename T>
+T*
+ResourceManager<T>::load(
+    const std::string& key, const std::vector<std::string>& filepaths,
+    LoaderFunc loader, const std::string& scope, ReloaderFunc reloader
+) {
+    auto it = resources.find(key);
+    if (it != resources.end()) return it->second.resource.get();
+
+    if (!loader)
+        throw std::runtime_error(
+            "ResourceManager::load failed: loader function is null for key: " +
+            key
+        );
+
+    std::string primary_path = filepaths.empty() ? "" : filepaths[0];
+    std::unique_ptr<T> res = loader(primary_path);
+    if (!res)
+        throw std::runtime_error(
+            "ResourceManager::load failed to load asset at path: " +
+            primary_path
+        );
+
+    ResourceRecord record;
+    record.resource = std::move(res);
+    record.filepath = primary_path;
+    record.scope = scope;
+    record.loader = std::move(loader);
+    record.reloader = std::move(reloader);
+
+    for (const auto& fp : filepaths) {
+        if (fp.empty()) continue;
+        std::error_code ec;
+        auto write_time = std::filesystem::last_write_time(fp, ec);
+        if (!ec) {
+            record.watched_files.push_back({fp, write_time});
+            if (record.last_write_time == std::filesystem::file_time_type{}) {
+                record.last_write_time = write_time;
+            }
+        }
     }
 
     T* ptr = record.resource.get();
@@ -338,31 +412,76 @@ ResourceManager<T>::checkHotReload() {
     if (!hot_reload_enabled) return;
 
     for (auto& [key, record] : resources) {
-        if (record.filepath.empty()) continue;
+        if (record.watched_files.empty() && record.filepath.empty()) continue;
 
-        std::error_code ec;
-        auto current_write_time =
-            std::filesystem::last_write_time(record.filepath, ec);
-        if (ec) continue;
+        bool needs_reload = false;
+        std::vector<std::filesystem::file_time_type> current_times;
 
-        if (current_write_time <= record.last_write_time) continue;
+        if (!record.watched_files.empty()) {
+            current_times.reserve(record.watched_files.size());
+            for (const auto& watched : record.watched_files) {
+                if (watched.path.empty()) {
+                    current_times.push_back({});
+                    continue;
+                }
+                std::error_code ec;
+                auto current_write_time =
+                    std::filesystem::last_write_time(watched.path, ec);
+                if (ec) {
+                    current_times.push_back(watched.last_write_time);
+                    continue;
+                }
+                current_times.push_back(current_write_time);
+                if (current_write_time > watched.last_write_time) {
+                    needs_reload = true;
+                }
+            }
+        } else if (!record.filepath.empty()) {
+            std::error_code ec;
+            auto current_write_time =
+                std::filesystem::last_write_time(record.filepath, ec);
+            if (!ec) {
+                current_times.push_back(current_write_time);
+                if (current_write_time > record.last_write_time) {
+                    needs_reload = true;
+                }
+            }
+        }
+
+        if (!needs_reload) continue;
+
         try {
+            bool success = false;
+            std::string primary_path = !record.watched_files.empty()
+                                           ? record.watched_files[0].path
+                                           : record.filepath;
             if (record.reloader && record.resource) {
-                record.reloader(*record.resource, record.filepath);
-                record.last_write_time = current_write_time;
+                success = record.reloader(*record.resource, primary_path);
             } else if (record.loader && record.resource) {
-                std::unique_ptr<T> fresh = record.loader(record.filepath);
+                std::unique_ptr<T> fresh = record.loader(primary_path);
                 if (fresh) {
                     if constexpr (std::is_move_assignable_v<T>)
                         *record.resource = std::move(*fresh);
                     else
                         record.resource = std::move(fresh);
-                    record.last_write_time = current_write_time;
+                    success = true;
+                }
+            }
+            if (success) {
+                if (!record.watched_files.empty()) {
+                    for (size_t i = 0; i < record.watched_files.size(); ++i) {
+                        record.watched_files[i].last_write_time =
+                            current_times[i];
+                    }
+                    record.last_write_time =
+                        record.watched_files[0].last_write_time;
+                } else if (!current_times.empty()) {
+                    record.last_write_time = current_times[0];
                 }
             }
         } catch (const std::exception& e) {
-            std::cerr << "Hot reload failed for " << record.filepath << ": "
-                      << e.what() << std::endl;
+            std::cerr << "Hot reload failed for key '" << key
+                      << "': " << e.what() << std::endl;
         }
     }
 }

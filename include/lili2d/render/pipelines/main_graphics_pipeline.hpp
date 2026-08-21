@@ -18,12 +18,12 @@ public:
     MainGraphicsPipeline() = default;
 
     /// @brief Move constructor.
-    MainGraphicsPipeline(MainGraphicsPipeline&& other) noexcept = default;
+    MainGraphicsPipeline(MainGraphicsPipeline&& other) noexcept;
     /// @brief Move assignment operator.
     /// @param other MainGraphicsPipeline instance to move from.
     /// @return Reference to this MainGraphicsPipeline.
     MainGraphicsPipeline&
-    operator=(MainGraphicsPipeline&& other) noexcept = default;
+    operator=(MainGraphicsPipeline&& other) noexcept;
 
     /// @brief Copy constructor is deleted.
     MainGraphicsPipeline(const MainGraphicsPipeline&) = delete;
@@ -39,7 +39,12 @@ public:
         SDL_GPUDevice* device, SDL_Window* window, Shader* shader
     );
     /// @brief Destructor.
-    ~MainGraphicsPipeline() = default;
+    ~MainGraphicsPipeline();
+
+    /// @brief Rebuilds the underlying graphics pipeline from the current shader.
+    /// @return True if rebuilt successfully, false otherwise.
+    bool
+    rebuild();
 
     /// @brief Gets the underlying SDL GPU pipeline.
     /// @return Pointer to the SDL_GPUGraphicsPipeline.
@@ -47,6 +52,10 @@ public:
     getSdlPipeline();
 
 private:
+    /// @brief Helper to build the SDL GPU pipeline object.
+    bool
+    createPipelineInternal();
+
     /// @brief Pointer to the parent SDL_GPUDevice.
     SDL_GPUDevice* device = nullptr;
     /// @brief Pointer to target SDL_Window.

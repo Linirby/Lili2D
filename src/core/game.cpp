@@ -46,6 +46,7 @@ Game::run() {
             onEvent(event);
         }
         onUpdate(clock.getDt());
+        AssetManager::checkHotReload();
         while (clock.step()) onFixedUpdate(clock.getFixedDt());
         if (renderer->beginFrame()) {
             onRender(clock.getAlpha());

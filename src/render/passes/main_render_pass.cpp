@@ -39,7 +39,7 @@ MainRenderPass::render(
             if (!vertex_buf || !index_buf || !tex || !smp) continue;
 
             SDL_GPUGraphicsPipeline* target_pipeline =
-                (draw_cmd.model.material->custom_pipeline);
+                (draw_cmd.model.material->getPipeline());
             if (!target_pipeline) target_pipeline = pipeline;
             if (target_pipeline != current_pipeline) {
                 SDL_BindGPUGraphicsPipeline(pass, target_pipeline);

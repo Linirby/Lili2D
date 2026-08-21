@@ -62,7 +62,7 @@ AssetManager::loadShader(
     const std::string& scope
 ) {
     return get().shaders().load(
-        key, vertPath,
+        key, std::vector<std::string>{vertPath, fragPath},
         [device, vertPath, fragPath, vert_entry,
          frag_entry](const std::string&) {
             return std::make_unique<Shader>(

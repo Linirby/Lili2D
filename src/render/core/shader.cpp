@@ -156,6 +156,45 @@ Shader::Shader(SDL_GPUDevice* device, SDL_GPUShader* vert, SDL_GPUShader* frag)
       vertex_shader(vert, SDLGPUShaderDeleter(device)),
       fragment_shader(frag, SDLGPUShaderDeleter(device)) {}
 
+Shader::~Shader() { reload_listeners.clear(); }
+
+Shader::Shader(Shader&& other) noexcept
+    : device(other.device),
+      vertex_shader(std::move(other.vertex_shader)),
+      fragment_shader(std::move(other.fragment_shader)),
+      reload_listeners(std::move(other.reload_listeners)) {
+    other.device = nullptr;
+}
+
+Shader&
+Shader::operator=(Shader&& other) noexcept {
+    if (this != &other) {
+        device = other.device;
+        vertex_shader = std::move(other.vertex_shader);
+        fragment_shader = std::move(other.fragment_shader);
+        other.device = nullptr;
+        notifyReloaded();
+    }
+    return *this;
+}
+
+void
+Shader::addReloadListener(void* owner, ReloadCallback callback) {
+    if (owner && callback) reload_listeners[owner] = std::move(callback);
+}
+
+void
+Shader::removeReloadListener(void* owner) {
+    reload_listeners.erase(owner);
+}
+
+void
+Shader::notifyReloaded() {
+    auto listeners = reload_listeners;
+    for (const auto& [owner, callback] : listeners)
+        if (callback) callback();
+}
+
 SDL_GPUShader*
 Shader::getVertex() const {
     return vertex_shader.get();

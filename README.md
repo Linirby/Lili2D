@@ -13,7 +13,7 @@ https://github.com/user-attachments/assets/352365ba-e0da-4004-91dd-b28a029c2b4e
 ## Key Features
 
 - **Modern `SDL_GPU` Renderer**: Next-gen hardware-accelerated rendering pipeline with support for custom shaders, materials, layers, and automated texture batching (`SpriteBatch`).
-- **Unified Asset & Resource Management**: Scoped lifecycle management (`unloadScope`), string-keyed caching, custom asset loaders, and **live filesystem hot-reloading** (`Assets` / `ResourceManager<T>`).
+- **Unified Asset & Resource Management**: Scoped lifecycle management (`unloadScope`), string-keyed caching, custom asset loaders, and **live filesystem & shader hot-reloading** (`Assets` / `ResourceManager<T>`).
 - **Virtual Logical Resolution & Scaling**: Automatic letterboxing, viewport scale handling, and seamless physical-to-logical screen coordinate conversion (`toLogicalCoords`).
 - **UI Layout System**: Comprehensive anchor alignment (`Anchor`), element bounding pivot positioning (`Pivot`), pixel offsets, and inverse-matrix point containment testing (`containsPoint`).
 - **Data-Oriented Entity Component System (ECS)**: Cache-friendly contiguous memory pools (`ComponentPool<T>`) and a thread-safe deferred `CommandBuffer` for lock-free parallel execution.
@@ -155,4 +155,3 @@ If you enjoy using Lili2D and want to support its ongoing development:
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/liliowo)  
 👉 **[https://ko-fi.com/liliowo](https://ko-fi.com/liliowo)** ❤️
-

@@ -27,6 +27,13 @@ jobs:
             cc: clang
             cxx: clang++
 
+    env:
+      DEPS_DIR: /home/runner/deps
+      CMAKE_PREFIX_PATH: /home/runner/deps
+      PKG_CONFIG_PATH: /home/runner/deps/lib/pkgconfig:/home/runner/deps/lib64/pkgconfig
+      LD_LIBRARY_PATH: /home/runner/deps/lib:/home/runner/deps/lib64
+      PATH: /home/runner/deps/bin:/usr/local/bin:/usr/bin:/bin
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -74,33 +81,26 @@ jobs:
         id: cache-sdl3
         uses: actions/cache@v4
         with:
-          path: |
-            /usr/local/include/SDL3
-            /usr/local/include/SDL3_image
-            /usr/local/include/SDL3_shadercross
-            /usr/local/lib/libSDL3*
-            /usr/local/lib/cmake/SDL3*
-            /usr/local/lib/pkgconfig/sdl3*
-            /usr/local/bin/shadercross
-          key: sdl3-deps-v1-${{ runner.os }}-${{ matrix.compiler }}
+          path: /home/runner/deps
+          key: sdl3-deps-v3-${{ runner.os }}-${{ matrix.compiler }}
+          restore-keys: |
+            sdl3-deps-v3-${{ runner.os }}-
 
       - name: Build & Install SDL3 from source
         if: steps.cache-sdl3.outputs.cache-hit != 'true'
         run: |
           git clone --depth 1 https://github.com/libsdl-org/SDL.git /tmp/SDL
-          cd /tmp/SDL
-          cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DSDL_TESTS=OFF
-          cmake --build build -j$(nproc)
-          sudo cmake --install build
+          cmake -B /tmp/SDL/build -S /tmp/SDL -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DEPS_DIR -DSDL_TESTS=OFF
+          cmake --build /tmp/SDL/build -j$(nproc)
+          cmake --install /tmp/SDL/build
 
       - name: Build & Install SDL3_image from source
         if: steps.cache-sdl3.outputs.cache-hit != 'true'
         run: |
           git clone --depth 1 https://github.com/libsdl-org/SDL_image.git /tmp/SDL_image
-          cd /tmp/SDL_image
-          cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DSDLIMAGE_TESTS=OFF
-          cmake --build build -j$(nproc)
-          sudo cmake --install build
+          cmake -B /tmp/SDL_image/build -S /tmp/SDL_image -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DEPS_DIR -DSDLIMAGE_TESTS=OFF
+          cmake --build /tmp/SDL_image/build -j$(nproc)
+          cmake --install /tmp/SDL_image/build
 
       - name: Build & Install SDL3_shadercross from source
         if: steps.cache-sdl3.outputs.cache-hit != 'true'
@@ -108,17 +108,15 @@ jobs:
           git clone --depth 1 https://github.com/libsdl-org/SDL_shadercross.git /tmp/SDL_shadercross
           cd /tmp/SDL_shadercross
           ./external/download.sh
-          cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DSDLSHADERCROSS_STATIC=OFF -DSDLSHADERCROSS_VENDORED=ON
+          cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DEPS_DIR -DSDLSHADERCROSS_STATIC=OFF -DSDLSHADERCROSS_VENDORED=ON
           cmake --build build -j$(nproc)
-          sudo cmake --install build
-
-      - name: Update dynamic linker cache
-        run: sudo ldconfig
+          cmake --install build
 
       - name: Configure CMake
         run: |
           cmake -B build -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_PREFIX_PATH=$DEPS_DIR \
             -DLILI2D_BUILD_TESTS=ON
 
       - name: Build Lili2D and Test Suite
@@ -131,14 +129,16 @@ jobs:
 
       - name: Install Lili2D locally
         run: |
-          sudo cmake --install build
+          cmake --install build --prefix $DEPS_DIR
 
       - name: Test Example Applications Build
         run: |
           for example in examples/*/; do
             if [ -f "$example/CMakeLists.txt" ]; then
               echo "=== Building $example ==="
-              cmake -B "$example/build" -S "$example" -G Ninja -DCMAKE_BUILD_TYPE=Release
+              cmake -B "$example/build" -S "$example" -G Ninja \
+                -DCMAKE_BUILD_TYPE=Release \
+                -DCMAKE_PREFIX_PATH=$DEPS_DIR
               cmake --build "$example/build" -j$(nproc)
             fi
           done

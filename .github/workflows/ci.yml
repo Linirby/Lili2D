@@ -107,6 +107,7 @@ jobs:
         run: |
           git clone --depth 1 https://github.com/libsdl-org/SDL_shadercross.git /tmp/SDL_shadercross
           cd /tmp/SDL_shadercross
+          ./external/download.sh
           cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DSDLSHADERCROSS_STATIC=OFF -DSDLSHADERCROSS_VENDORED=ON
           cmake --build build -j$(nproc)
           sudo cmake --install build

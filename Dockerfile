@@ -62,6 +62,7 @@ RUN git clone --depth 1 https://github.com/libsdl-org/SDL_image.git /tmp/SDL_ima
 # Download and build SDL3_shadercross from source
 RUN git clone --depth 1 https://github.com/libsdl-org/SDL_shadercross.git /tmp/SDL_shadercross && \
     cd /tmp/SDL_shadercross && \
+    ./external/download.sh && \
     mkdir build && cd build && \
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DSDLSHADERCROSS_STATIC=OFF -DSDLSHADERCROSS_VENDORED=ON .. && \
     make -j$(nproc) && make install && \

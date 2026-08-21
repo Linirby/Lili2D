@@ -2,7 +2,8 @@
 
 namespace lili {
 
-Clock::Clock(float tick_per_second) : fixed_dt(1.0f / tick_per_second) {}
+Clock::Clock(float tick_per_second)
+    : tps(tick_per_second), fixed_dt(1.0f / tick_per_second) {}
 
 void
 Clock::setTps(float value) {

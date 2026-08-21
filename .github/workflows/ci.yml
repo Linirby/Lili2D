@@ -1,0 +1,144 @@
+name: Lili2D CI
+
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main, dev ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: ${{ matrix.os }} - ${{ matrix.compiler }} (C++20)
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        compiler: [gcc, clang]
+        include:
+          - compiler: gcc
+            cc: gcc
+            cxx: g++
+          - compiler: clang
+            cc: clang
+            cxx: clang++
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up environment
+        run: |
+          echo "CC=${{ matrix.cc }}" >> $GITHUB_ENV
+          echo "CXX=${{ matrix.cxx }}" >> $GITHUB_ENV
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            cmake \
+            ninja-build \
+            pkg-config \
+            libasound2-dev \
+            libpulse-dev \
+            libx11-dev \
+            libxext-dev \
+            libxrandr-dev \
+            libxcursor-dev \
+            libxfixes-dev \
+            libxi-dev \
+            libxss-dev \
+            libxtst-dev \
+            libxkbcommon-dev \
+            libgl1-mesa-dev \
+            libgles2-mesa-dev \
+            libegl1-mesa-dev \
+            libdbus-1-dev \
+            libudev-dev \
+            libwayland-dev \
+            libdecor-0-dev \
+            libpipewire-0.3-dev \
+            libjpeg-dev \
+            libpng-dev \
+            libwebp-dev \
+            libtiff-dev
+
+      - name: Cache SDL3 dependencies
+        id: cache-sdl3
+        uses: actions/cache@v4
+        with:
+          path: |
+            /usr/local/include/SDL3
+            /usr/local/include/SDL3_image
+            /usr/local/include/SDL3_shadercross
+            /usr/local/lib/libSDL3*
+            /usr/local/lib/cmake/SDL3*
+            /usr/local/lib/pkgconfig/sdl3*
+            /usr/local/bin/shadercross
+          key: sdl3-deps-v1-${{ runner.os }}-${{ matrix.compiler }}
+
+      - name: Build & Install SDL3 from source
+        if: steps.cache-sdl3.outputs.cache-hit != 'true'
+        run: |
+          git clone --depth 1 https://github.com/libsdl-org/SDL.git /tmp/SDL
+          cd /tmp/SDL
+          cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DSDL_TESTS=OFF
+          cmake --build build -j$(nproc)
+          sudo cmake --install build
+
+      - name: Build & Install SDL3_image from source
+        if: steps.cache-sdl3.outputs.cache-hit != 'true'
+        run: |
+          git clone --depth 1 https://github.com/libsdl-org/SDL_image.git /tmp/SDL_image
+          cd /tmp/SDL_image
+          cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DSDLIMAGE_TESTS=OFF
+          cmake --build build -j$(nproc)
+          sudo cmake --install build
+
+      - name: Build & Install SDL3_shadercross from source
+        if: steps.cache-sdl3.outputs.cache-hit != 'true'
+        run: |
+          git clone --depth 1 https://github.com/libsdl-org/SDL_shadercross.git /tmp/SDL_shadercross
+          cd /tmp/SDL_shadercross
+          ./external/download.sh
+          cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DSDLSHADERCROSS_STATIC=OFF -DSDLSHADERCROSS_VENDORED=ON
+          cmake --build build -j$(nproc)
+          sudo cmake --install build
+
+      - name: Update dynamic linker cache
+        run: sudo ldconfig
+
+      - name: Configure CMake
+        run: |
+          cmake -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DLILI2D_BUILD_TESTS=ON
+
+      - name: Build Lili2D and Test Suite
+        run: |
+          cmake --build build --target lili2d_tests -j$(nproc)
+
+      - name: Run Test Suite (CTest)
+        run: |
+          ctest --test-dir build --output-on-failure --schedule-random
+
+      - name: Install Lili2D locally
+        run: |
+          sudo cmake --install build
+
+      - name: Test Example Applications Build
+        run: |
+          for example in examples/*/; do
+            if [ -f "$example/CMakeLists.txt" ]; then
+              echo "=== Building $example ==="
+              cmake -B "$example/build" -S "$example" -G Ninja -DCMAKE_BUILD_TYPE=Release
+              cmake --build "$example/build" -j$(nproc)
+            fi
+          done

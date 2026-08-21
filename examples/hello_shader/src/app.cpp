@@ -17,7 +17,7 @@ App::App() : lili::Game("hello_shader - Lili2D", 800, 800) {
         renderer, lili::RectShape(0.0f, 0.0f, 400.0f, 400.0f),
         lili::Vec4(1.0f, 1.0f, 1.0f, 1.0f)
     );
-    rect.getMaterial()->custom_pipeline = rect_pipeline->getSdlPipeline();
+    rect.getMaterial()->pipeline = rect_pipeline.get();
     rect.setRender(lili::RenderLayer::UI);
     rect.setAnchor(lili::Anchor::Center);
     rect.setPivot(lili::Pivot::Center);
@@ -35,7 +35,7 @@ App::App() : lili::Game("hello_shader - Lili2D", 800, 800) {
     text = lili::Text(renderer, font, "Yay, shaders :D");
     text.setPosition(lili::Vec2(250.0f, 75.0f));
     text.setScale(3.0f);
-    text.getMaterial()->custom_pipeline = text_pipeline->getSdlPipeline();
+    text.getMaterial()->pipeline = text_pipeline.get();
     text.setAnchor(lili::Anchor::Top);
     text.setPivot(lili::Pivot::Top);
     text.setOffset({0.0f, 30.0f});
@@ -81,11 +81,11 @@ App::onRender(float alpha) {
         TextUB text_uniform{};
         text_uniform.speed = 2.0f;
         text_uniform.time = clock.getTime();
-        text.getMaterial()->custom_pipeline = (text_pipeline->getSdlPipeline());
+        text.getMaterial()->pipeline = text_pipeline.get();
         text.getMaterial()->setVertexUniforms(text_uniform);
         text.setText("Yay, shaders :D");
     } else {
-        text.getMaterial()->custom_pipeline = nullptr;
+        text.getMaterial()->pipeline = nullptr;
         text.setText("Oh, no shaders :(");
     }
     text.draw();
@@ -97,10 +97,9 @@ App::onRender(float alpha) {
         rect_uniform.amplitude = 0.2f;
         rect_uniform.frequency = 30.0f;
         rect_uniform.speed = 5.0f;
-        rect.getMaterial()->custom_pipeline = (rect_pipeline->getSdlPipeline());
+        rect.getMaterial()->pipeline = rect_pipeline.get();
         rect.getMaterial()->setVertexUniforms(rect_uniform);
-    } else {
-        rect.getMaterial()->custom_pipeline = nullptr;
-    }
+    } else
+        rect.getMaterial()->pipeline = nullptr;
     rect.draw();
 }

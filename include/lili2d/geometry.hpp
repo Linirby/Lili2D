@@ -13,38 +13,3 @@
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/geometry/vec3.hpp"
 #include "lili2d/geometry/vec4.hpp"
-
-namespace lili {
-
-/// @brief Defines the properties of a 2D circle shape.
-struct CircleShape;
-/// @brief Converts an angle from degrees to radians.
-/// @param degrees The angle in degrees.
-/// @return The angle in radians.
-inline float
-degToRad(float degrees);
-/// @brief Defines the properties of a 2D line shape.
-struct LineShape;
-/// @brief A 3x3 matrix for 2D transformations.
-struct Mat3;
-/// @brief A 4x4 matrix for 3D or advanced transformations.
-struct Mat4;
-/// @brief An integer-based 2D point.
-struct Point2;
-/// @brief An integer-based 3D point (chunk indexing).
-struct Point3;
-/// @brief Converts an angle from radians to degrees.
-/// @param radians The angle in radians.
-/// @return The angle in degrees.
-inline float
-radToDeg(float radians);
-/// @brief Defines the properties of a 2D rectangle shape.
-struct RectShape;
-/// @brief A 2D vector.
-struct Vec2;
-/// @brief A 3D vector.
-struct Vec3;
-/// @brief A 4D vector.
-struct Vec4;
-
-}  // namespace lili

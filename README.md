@@ -3,6 +3,7 @@
 ![C++20](https://img.shields.io/badge/C++-20-blue.svg)
 ![CMake](https://img.shields.io/badge/CMake-3.10+-brightgreen.svg)
 ![SDL3](https://img.shields.io/badge/SDL3-Powered-orange.svg)
+[![Lili2D CI](https://github.com/Linirby/Lili2D/actions/workflows/ci.yml/badge.svg)](https://github.com/Linirby/Lili2D/actions/workflows/ci.yml)
 
 **Lili2D** is a modern, lightweight, high-performance C++20 2D game engine built on top of **SDL3** and modern hardware graphics APIs (via `SDL_GPU`).
 
@@ -31,6 +32,7 @@ Lili2D follows the modern C++ Pitchfork layout:
 
 - **[`include/lili2d/`](include/lili2d/)**: Public API headers for the engine.
 - **[`src/`](src/)**: Private implementation files and internal rendering/ECS routines.
+- **[`tests/`](tests/)**: Automated Catch2 unit tests and regression suites.
 - **[`examples/`](examples/)**: Standalone example applications showcasing engine systems.
 - **[`docs/`](docs/)**: Architecture deep dives and Doxygen configuration.
 - **[`assets/`](assets/)**: Default engine assets (shaders, fonts, textures).
@@ -44,8 +46,7 @@ To build and use Lili2D, you need:
 
 - A **C++20** compatible compiler (GCC 10+, Clang 11+, or MSVC 2019+)
 - **CMake** 3.10 or higher
-- **SDL3** and **SDL3_image**
-- **glslc** (Google's SPIR-V shader compiler for Vulkan shaders)
+- **SDL3**, **SDL3_image**, and **SDL3_shadercross**
 
 ### Building from Source
 
@@ -58,6 +59,15 @@ mkdir build && cd build
 cmake ..
 make -j$(nproc)
 sudo make install
+```
+
+### Running Unit Tests
+
+Lili2D comes with an automated unit test suite powered by [Catch2](https://github.com/catchorg/Catch2):
+
+```bash
+cd build
+ctest --output-on-failure
 ```
 
 ### Generating Documentation

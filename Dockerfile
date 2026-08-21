@@ -43,14 +43,8 @@ RUN apt-get update && apt-get install -y \
     libpipewire-0.3-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Add LunarG Vulkan repository to get glslc (Vulkan SDK)
-RUN wget -qO - https://packages.lunarg.com/lunarg-signing-key-pub.asc | tee /etc/apt/trusted.gpg.d/lunarg.asc && \
-    wget -qO /etc/apt/sources.list.d/lunarg-vulkan-jammy.list https://packages.lunarg.com/vulkan/lunarg-vulkan-jammy.list && \
-    apt-get update && apt-get install -y vulkan-sdk && \
-    rm -rf /var/lib/apt/lists/*
-
 # Download and build SDL3 from source
-RUN git clone --depth 1 --branch release-3.4.10 https://github.com/libsdl-org/SDL.git /tmp/SDL && \
+RUN git clone --depth 1 https://github.com/libsdl-org/SDL.git /tmp/SDL && \
     cd /tmp/SDL && \
     mkdir build && cd build && \
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local .. && \
@@ -58,12 +52,20 @@ RUN git clone --depth 1 --branch release-3.4.10 https://github.com/libsdl-org/SD
     rm -rf /tmp/SDL
 
 # Download and build SDL3_image from source
-RUN git clone --depth 1 --branch release-3.4.4 https://github.com/libsdl-org/SDL_image.git /tmp/SDL_image && \
+RUN git clone --depth 1 https://github.com/libsdl-org/SDL_image.git /tmp/SDL_image && \
     cd /tmp/SDL_image && \
     mkdir build && cd build && \
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local .. && \
     make -j$(nproc) && make install && \
     rm -rf /tmp/SDL_image
+
+# Download and build SDL3_shadercross from source
+RUN git clone --depth 1 https://github.com/libsdl-org/SDL_shadercross.git /tmp/SDL_shadercross && \
+    cd /tmp/SDL_shadercross && \
+    mkdir build && cd build && \
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DSDLSHADERCROSS_STATIC=OFF -DSDLSHADERCROSS_VENDORED=ON .. && \
+    make -j$(nproc) && make install && \
+    rm -rf /tmp/SDL_shadercross
 
 # Refresh dynamic linker
 RUN ldconfig

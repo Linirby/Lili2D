@@ -1,7 +1,5 @@
 #include "app.hpp"
 
-#include "lili2d/physics/circle_collider.hpp"
-
 App::App() : lili::Game("hello_collision - Lili2D", 800, 800) {
     lili::Renderer* renderer = getRenderer();
     cursor_rect = lili::Rect(

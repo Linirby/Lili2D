@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
+#include <unordered_map>
 
 namespace lili {
 
@@ -190,7 +191,7 @@ Shader::removeReloadListener(void* owner) {
 
 void
 Shader::notifyReloaded() {
-    auto listeners = reload_listeners;
+    std::unordered_map<void*, ReloadCallback> listeners = reload_listeners;
     for (const auto& [owner, callback] : listeners)
         if (callback) callback();
 }

@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.10)
-project(Lili2D VERSION 0.1.2)
+cmake_minimum_required(VERSION 3.14)
+project(Lili2D VERSION 0.1.2 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -11,8 +11,7 @@ find_package(SDL3 REQUIRED CONFIG)
 find_package(SDL3_image REQUIRED CONFIG)
 find_package(SDL3_shadercross REQUIRED CONFIG)
 
-add_library(Lili2D SHARED)
-
+# Embedded assets (e.g. 1x1 white fallback pixel)
 set(ASSET_FILES
     assets/white_1x1.png
 )
@@ -37,104 +36,31 @@ foreach(ASSET IN LISTS ASSET_FILES)
     list(APPEND EMBEDDED_ASSETS ${HEADER_FILE})
 endforeach()
 
-target_sources(Lili2D PRIVATE
-    ${EMBEDDED_ASSETS}
+# Engine Submodules
+add_subdirectory(src)
 
-    src/core/action_map.cpp
-    src/core/asset_manager.cpp
-    src/core/clock.cpp
-    src/core/event.cpp
-    src/core/game.cpp
-    src/core/game_config.cpp
-    src/core/keyboard.cpp
-    src/core/mouse.cpp
-    src/core/sdl_deleters.cpp
-    src/core/string_hash.cpp
-    src/core/thread_pool.cpp
-    src/core/window.cpp
+# Unit Tests
+option(LILI2D_BUILD_TESTS "Build Lili2D unit tests" ON)
 
-    src/ecs/command_buffer.cpp
-    src/ecs/ecs_registry.cpp
-    src/ecs/entity.cpp
-
-    src/geometry/mat3x3.cpp
-    src/geometry/mat4x4.cpp
-    src/geometry/point2.cpp
-    src/geometry/point3.cpp
-    src/geometry/utils.cpp
-    src/geometry/vec2.cpp
-    src/geometry/vec3.cpp
-    src/geometry/vec4.cpp
-
-    src/physics/circle_collider.cpp
-    src/physics/aabb_collider.cpp
-
-    src/render/core/gpu_mesh.cpp
-    src/render/core/shader.cpp
-    src/render/core/texture.cpp
-
-    src/render/interfaces/renderable.cpp
-
-    src/render/passes/main_render_pass.cpp
-
-    src/render/pipelines/main_graphics_pipeline.cpp
-
-    src/render/ui/ui_layout.cpp
-
-    src/render/scene/common/animation.cpp
-    src/render/scene/common/animation_player.cpp
-    src/render/scene/common/animation_registry.cpp
-    src/render/scene/common/atlas_map.cpp
-    src/render/scene/common/material.cpp
-    src/render/scene/common/material_registry.cpp
-    src/render/scene/common/model.cpp
-    src/render/scene/common/text.cpp
-    src/render/scene/common/utils.cpp
-
-    src/render/scene/core2d/animated_sprite.cpp
-    src/render/scene/core2d/sprite.cpp
-    src/render/scene/core2d/sprite_batch.cpp
-
-    src/render/scene/shapes/circle.cpp
-    src/render/scene/shapes/line.cpp
-    src/render/scene/shapes/rect.cpp
-
-    src/render/renderer.cpp
-
-    src/scene/scene.cpp
-    src/scene/scene_manager.cpp
-
-    src/world/camera.cpp
-    src/world/chunk.cpp
-    src/world/tile.cpp
-    src/world/tile_registry.cpp
-    src/world/tilemap.cpp
-)
-
-include(CheckIPOSupported)
-check_ipo_supported(RESULT result OUTPUT output)
-if(result)
-    set_target_properties(Lili2D PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
-else()
-    message(WARNING "IPO is not supported: ${output}")
+if(LILI2D_BUILD_TESTS)
+    enable_testing()
+    find_package(Catch2 3 QUIET)
+    if(NOT Catch2_FOUND)
+        include(FetchContent)
+        FetchContent_Declare(
+            Catch2
+            GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+            GIT_TAG        v3.5.2
+        )
+        FetchContent_MakeAvailable(Catch2)
+    endif()
+    add_subdirectory(tests)
 endif()
 
-target_include_directories(Lili2D
-    PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include>
-    PRIVATE
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
-)
-
-target_link_libraries(Lili2D PUBLIC
-    SDL3::SDL3
-    SDL3_image::SDL3_image
-    SDL3_shadercross::SDL3_shadercross
-)
-
+# Installation & CMake Package Configuration
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
+
 install(TARGETS Lili2D
     EXPORT Lili2DTargets
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -168,20 +94,3 @@ install(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/Lili2DConfigVersion.cmake
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Lili2D
 )
-
-option(LILI2D_BUILD_TESTS "Build Lili2D unit tests" ON)
-
-if(LILI2D_BUILD_TESTS)
-    enable_testing()
-    find_package(Catch2 3 QUIET)
-    if(NOT Catch2_FOUND)
-        include(FetchContent)
-        FetchContent_Declare(
-            Catch2
-            GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-            GIT_TAG        v3.5.2
-        )
-        FetchContent_MakeAvailable(Catch2)
-    endif()
-    add_subdirectory(tests)
-endif()

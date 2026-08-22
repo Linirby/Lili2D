@@ -1,35 +1,27 @@
 #include "lili2d/physics/aabb_collider.hpp"
 
-#include <map>
-#include <memory>
+#include <algorithm>
+
+#include "lili2d/physics/circle_collider.hpp"
 
 namespace lili {
 
 AABB2::AABB2(const Vec2& pos, const Vec2& size) : min(pos), max(pos + size) {}
 
-AABB2::AABB2(const Rect& rect)
-    : min(rect.getPosition()), max(rect.getPosition() + rect.getSize()) {}
+AABB2::AABB2(const RectShape& rect)
+    : min(Vec2(rect.x, rect.y)), max(Vec2(rect.x + rect.w, rect.y + rect.h)) {}
 
-AABB2::AABB2(const Circle& circle)
-    : min(circle.getTopLeft()),
-      max(circle.getCenter() + Vec2(circle.getRadius(), circle.getRadius())) {}
+AABB2::AABB2(const CircleShape& circle)
+    : min(circle.center - Vec2(circle.radius, circle.radius)),
+      max(circle.center + Vec2(circle.radius, circle.radius)) {}
 
-AABB2::AABB2(const Line& line) {
-    Vec2 start = line.getStart();
-    Vec2 end = line.getEnd();
-    if (start.x < end.x && start.y < end.y) {
-        min = start;
-        max = end;
-    } else if (start.x < end.x && start.y > end.y) {
-        min = Vec2(start.x, end.y);
-        max = Vec2(end.x, start.y);
-    } else if (start.x > end.x && start.y > end.y) {
-        min = end;
-        max = start;
-    } else {
-        min = Vec2(end.x, start.y);
-        max = Vec2(start.x, end.y);
-    }
+AABB2::AABB2(const LineShape& line) {
+    min = Vec2(
+        std::min(line.start.x, line.end.x), std::min(line.start.y, line.end.y)
+    );
+    max = Vec2(
+        std::max(line.start.x, line.end.x), std::max(line.start.y, line.end.y)
+    );
 }
 
 bool
@@ -41,7 +33,7 @@ AABB2::intersect(const AABB2& other) const {
 }
 
 bool
-AABB2::intersect(const Rect& rect) const {
+AABB2::intersect(const RectShape& rect) const {
     return intersect(AABB2(rect));
 }
 
@@ -51,7 +43,7 @@ AABB2::intersect(const CircleCollider& circle) const {
 }
 
 bool
-AABB2::intersect(const Circle& circle) const {
+AABB2::intersect(const CircleShape& circle) const {
     return CircleCollider(circle).intersect(*this);
 }
 
@@ -64,23 +56,18 @@ AABB2::contains(const AABB2& other) const {
 }
 
 bool
-AABB2::contains(const Rect& rect) const {
+AABB2::contains(const RectShape& rect) const {
     return contains(AABB2(rect));
 }
 
 bool
-AABB2::contains(const Circle& circle) const {
+AABB2::contains(const CircleShape& circle) const {
     return contains(AABB2(circle));
 }
 
 bool
-AABB2::contains(const Line& line) const {
+AABB2::contains(const LineShape& line) const {
     return contains(AABB2(line));
-}
-
-void
-AABB2::debugDraw(Renderer* renderer, const Vec4& color) const {
-    renderer->drawDebugRect(min.x, min.y, max.x - min.x, max.y - min.y, color);
 }
 
 AABB3::AABB3(const Vec3& pos, const Vec3& size) : min(pos), max(pos + size) {}

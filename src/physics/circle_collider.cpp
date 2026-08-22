@@ -4,22 +4,18 @@
 #include <cmath>
 
 #include "lili2d/physics/aabb_collider.hpp"
-#include "lili2d/render/renderer.hpp"
-#include "lili2d/render/scene/shapes/circle.hpp"
-#include "lili2d/render/scene/shapes/line.hpp"
-#include "lili2d/render/scene/shapes/rect.hpp"
 
 namespace lili {
 
 CircleCollider::CircleCollider(const Vec2& center, float radius)
     : center(center), radius(radius) {}
 
-CircleCollider::CircleCollider(const Circle& circle)
-    : center(circle.getCenter()), radius(circle.getRadius()) {}
+CircleCollider::CircleCollider(const CircleShape& circle)
+    : center(circle.center), radius(circle.radius) {}
 
-CircleCollider::CircleCollider(const Rect& rect)
-    : center(rect.getPosition() + rect.getSize() * 0.5f),
-      radius(std::min(rect.getSize().x, rect.getSize().y) * 0.5f) {}
+CircleCollider::CircleCollider(const RectShape& rect)
+    : center(Vec2(rect.x + rect.w * 0.5f, rect.y + rect.h * 0.5f)),
+      radius(std::min(rect.w, rect.h) * 0.5f) {}
 
 bool
 CircleCollider::intersect(const CircleCollider& other) const {
@@ -38,14 +34,14 @@ CircleCollider::intersect(const AABB2& aabb) const {
 }
 
 bool
-CircleCollider::intersect(const Rect& rect) const {
+CircleCollider::intersect(const RectShape& rect) const {
     return intersect(AABB2(rect));
 }
 
 bool
-CircleCollider::intersect(const Line& line) const {
-    Vec2 start = line.getStart();
-    Vec2 end = line.getEnd();
+CircleCollider::intersect(const LineShape& line) const {
+    Vec2 start = line.start;
+    Vec2 end = line.end;
     Vec2 seg = end - start;
     float seg_len_sq = seg.dot(seg);
     if (seg_len_sq == 0.0f) {
@@ -78,11 +74,6 @@ CircleCollider::getAABB() const {
     return AABB2(
         center - Vec2(radius, radius), Vec2(radius * 2.0f, radius * 2.0f)
     );
-}
-
-void
-CircleCollider::debugDraw(Renderer* renderer, const Vec4& color) const {
-    renderer->drawDebugCircle(center.x, center.y, radius, color);
 }
 
 }  // namespace lili

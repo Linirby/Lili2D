@@ -9,6 +9,7 @@
 
 #include "lili2d/core/sdl_deleters.hpp"
 #include "lili2d/core/window.hpp"
+#include "lili2d/geometry/shapes2d.hpp"
 #include "lili2d/geometry/vec4.hpp"
 #include "lili2d/render/core/shader.hpp"
 #include "lili2d/render/core/texture.hpp"
@@ -159,6 +160,11 @@ public:
     /// @param color The color.
     void
     drawDebugRect(float x, float y, float w, float h, const Vec4& color);
+    /// @brief Draws a cached hollow debug rectangle from a RectShape.
+    /// @param rect The rectangle geometry.
+    /// @param color The color.
+    void
+    drawDebugRect(const RectShape& rect, const Vec4& color);
     /// @brief Draws a cached hollow debug circle.
     /// @param center_x X centered position.
     /// @param center_y Y centered position.
@@ -168,6 +174,11 @@ public:
     drawDebugCircle(
         float center_x, float center_y, float radius, const Vec4& color
     );
+    /// @brief Draws a cached hollow debug circle from a CircleShape.
+    /// @param circle The circle geometry.
+    /// @param color The color.
+    void
+    drawDebugCircle(const CircleShape& circle, const Vec4& color);
 
 private:
     Window* window = nullptr;

@@ -1,15 +1,12 @@
 #pragma once
 
+#include "lili2d/geometry/shapes2d.hpp"
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/geometry/vec4.hpp"
 
 namespace lili {
 
 struct AABB2;
-class Rect;
-class Circle;
-class Line;
-class Renderer;
 
 /// @brief Represents a 2D Circle Collider for precise circle-based collision
 /// detection.
@@ -31,13 +28,13 @@ struct CircleCollider {
     /// @param radius Circle radius.
     CircleCollider(const Vec2& center, float radius);
 
-    /// @brief Constructs a CircleCollider from a renderable Circle shape.
-    /// @param circle The renderable circle shape.
-    CircleCollider(const Circle& circle);
+    /// @brief Constructs a CircleCollider from a geometry CircleShape.
+    /// @param circle The circle shape.
+    CircleCollider(const CircleShape& circle);
 
-    /// @brief Constructs a CircleCollider from a Rect shape.
+    /// @brief Constructs a CircleCollider from a geometry RectShape.
     /// @param rect The rectangle shape.
-    CircleCollider(const Rect& rect);
+    CircleCollider(const RectShape& rect);
 
     /// @brief Copy assignment operator.
     CircleCollider&
@@ -59,17 +56,17 @@ struct CircleCollider {
     bool
     intersect(const AABB2& aabb) const;
 
-    /// @brief Checks if this circle intersects with a Rect shape.
+    /// @brief Checks if this circle intersects with a RectShape.
     /// @param rect The rect to check against.
     /// @return True if there is an intersection, false otherwise.
     bool
-    intersect(const Rect& rect) const;
+    intersect(const RectShape& rect) const;
 
-    /// @brief Checks if this circle intersects with a Line segment.
+    /// @brief Checks if this circle intersects with a LineShape segment.
     /// @param line The line segment to check against.
     /// @return True if there is an intersection, false otherwise.
     bool
-    intersect(const Line& line) const;
+    intersect(const LineShape& line) const;
 
     /// @brief Checks if a point is contained inside this circle.
     /// @param point The point to test.
@@ -89,12 +86,6 @@ struct CircleCollider {
     /// @return Bounding AABB2.
     AABB2
     getAABB() const;
-
-    /// @brief Draws a debug representation of this circle collider.
-    /// @param renderer The renderer.
-    /// @param color The outline color.
-    void
-    debugDraw(Renderer* renderer, const Vec4& color) const;
 };
 
 }  // namespace lili

@@ -60,14 +60,14 @@ App::onUpdate(float dt) {
 
     if (draw_rect) {
         cursor_rect.setPosition(mouse.getPos() - cursor_rect.getSize() * 0.5);
-        if (lili::AABB2(cursor_rect).intersect(random_rect))
+        if (lili::AABB2(cursor_rect.getShape()).intersect(random_rect.getShape()))
             cursor_rect.setColor(lili::Vec4(0, 1, 0, 1));
         else
             cursor_rect.setColor(lili::Vec4(0, 0, 1, 1));
     }
     if (draw_circle) {
         cursor_circle.setCenter(mouse.getPos());
-        if (lili::CircleCollider(cursor_circle).intersect(random_rect))
+        if (lili::CircleCollider(cursor_circle.getShape()).intersect(random_rect.getShape()))
             cursor_circle.setColor(lili::Vec4(0, 1, 0, 1));
         else
             cursor_circle.setColor(lili::Vec4(0, 0, 1, 1));
@@ -76,7 +76,7 @@ App::onUpdate(float dt) {
         cursor_line.setEnd(
             mouse.getPos() - lili::Vec2(cursor_line.getThickness(), 0.0f) * 0.5
         );
-        if (lili::AABB2(cursor_line).intersect(random_rect))
+        if (lili::AABB2(cursor_line.getShape()).intersect(random_rect.getShape()))
             cursor_line.setColor(lili::Vec4(0, 1, 0, 1));
         else
             cursor_line.setColor(lili::Vec4(0, 0, 1, 1));
@@ -91,14 +91,19 @@ App::onRender(float alpha) {
     lili::Vec4 debug_color = lili::Vec4(0, 1, 0, 1);
     if (draw_rect) {
         cursor_rect.draw();
-        lili::AABB2(cursor_rect).debugDraw(renderer, debug_color);
+        renderer->drawDebugRect(cursor_rect.getShape(), debug_color);
     }
     if (draw_circle) {
         cursor_circle.draw();
-        lili::CircleCollider(cursor_circle).debugDraw(renderer, debug_color);
+        renderer->drawDebugCircle(cursor_circle.getShape(), debug_color);
     }
     if (draw_line) {
         cursor_line.draw();
-        lili::AABB2(cursor_line).debugDraw(renderer, debug_color);
+        lili::AABB2 line_box(cursor_line.getShape());
+        renderer->drawDebugRect(
+            line_box.min.x, line_box.min.y,
+            line_box.max.x - line_box.min.x, line_box.max.y - line_box.min.y,
+            debug_color
+        );
     }
 }

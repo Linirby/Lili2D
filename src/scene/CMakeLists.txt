@@ -15,4 +15,5 @@ target_include_directories(lili_scene
 target_link_libraries(lili_scene PUBLIC
     lili_core
     lili_render
+    SDL3::SDL3
 )

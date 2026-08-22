@@ -1,13 +1,12 @@
 #pragma once
 
+#include "lili2d/geometry/shapes2d.hpp"
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/geometry/vec3.hpp"
-#include "lili2d/physics/circle_collider.hpp"
-#include "lili2d/render/scene/shapes/circle.hpp"
-#include "lili2d/render/scene/shapes/line.hpp"
-#include "lili2d/render/scene/shapes/rect.hpp"
 
 namespace lili {
+
+struct CircleCollider;
 
 /// @brief Represents an Axis-Aligned Bounding Box.
 struct AABB2 {
@@ -21,15 +20,15 @@ struct AABB2 {
     /// @param pos The position of the topleft.
     /// @param size The size of the bounding rect.
     AABB2(const Vec2& pos, const Vec2& size);
-    /// @brief Construct AABB2 with a Rect
-    /// @param rect The shape of the bounding rect
-    AABB2(const Rect& rect);
-    /// @brief Construct AABB2 with a Circle
-    /// @param circle The shape of the bounding circle
-    AABB2(const Circle& circle);
-    /// @brief Construct AABB2 with a Line
-    /// @param line The shape of the bounding line
-    AABB2(const Line& line);
+    /// @brief Construct AABB2 with a RectShape.
+    /// @param rect The shape of the bounding rect.
+    AABB2(const RectShape& rect);
+    /// @brief Construct AABB2 with a CircleShape.
+    /// @param circle The shape of the bounding circle.
+    AABB2(const CircleShape& circle);
+    /// @brief Construct AABB2 with a LineShape.
+    /// @param line The shape of the bounding line.
+    AABB2(const LineShape& line);
     /// @brief Copy assignment operator.
     /// @return Reference to the assigned rectangle.
     AABB2&
@@ -47,48 +46,42 @@ struct AABB2 {
     /// @return True if the AABB2s intersect, false otherwise.
     bool
     intersect(const AABB2& other) const;
-    /// @brief Checks if this AABB2 intersects with a rect.
-    /// @param rect The rect to test against.
+    /// @brief Checks if this AABB2 intersects with a RectShape.
+    /// @param rect The RectShape to test against.
     /// @return True if there is an intersection, false otherwise.
     bool
-    intersect(const Rect& rect) const;
+    intersect(const RectShape& rect) const;
     /// @brief Checks if this AABB2 intersects with a CircleCollider.
     /// @param circle The CircleCollider to test against.
     /// @return True if there is an intersection, false otherwise.
     bool
     intersect(const CircleCollider& circle) const;
-    /// @brief Checks if this AABB2 intersects with a Circle shape.
-    /// @param circle The Circle shape to test against.
+    /// @brief Checks if this AABB2 intersects with a CircleShape.
+    /// @param circle The CircleShape to test against.
     /// @return True if there is an intersection, false otherwise.
     bool
-    intersect(const Circle& circle) const;
+    intersect(const CircleShape& circle) const;
 
     /// @brief Checks if this AABB2 contains another.
     /// @param other The other AABB2 to test against.
     /// @return True if this AABB2 contains the other, false otherwise.
     bool
     contains(const AABB2& other) const;
-    /// @brief Checks if this AABB2 contains a Rect.
-    /// @param rect The Rect to test against.
-    /// @return True if this AABB2 contains the Rect, false otherwise.
+    /// @brief Checks if this AABB2 contains a RectShape.
+    /// @param rect The RectShape to test against.
+    /// @return True if this AABB2 contains the RectShape, false otherwise.
     bool
-    contains(const Rect& rect) const;
-    /// @brief Checks if this AABB2 contains a Circle.
-    /// @param circle The Circle to test against.
-    /// @return True if this AABB2 contains the Circle, false otherwise.
+    contains(const RectShape& rect) const;
+    /// @brief Checks if this AABB2 contains a CircleShape.
+    /// @param circle The CircleShape to test against.
+    /// @return True if this AABB2 contains the CircleShape, false otherwise.
     bool
-    contains(const Circle& circle) const;
-    /// @brief Checks if this AABB2 contains a Line.
-    /// @param line The Line to test against.
-    /// @return True if this AABB2 contains the Line, false otherwise.
+    contains(const CircleShape& circle) const;
+    /// @brief Checks if this AABB2 contains a LineShape.
+    /// @param line The LineShape to test against.
+    /// @return True if this AABB2 contains the LineShape, false otherwise.
     bool
-    contains(const Line& line) const;
-
-    /// @brief Draws a debug representation of this AABB.
-    /// @param renderer The renderer.
-    /// @param color The outline color.
-    void
-    debugDraw(Renderer* renderer, const Vec4& color) const;
+    contains(const LineShape& line) const;
 };
 
 /// @brief Represents a 3D Axis-Aligned Bounding Box.

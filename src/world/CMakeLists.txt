@@ -19,4 +19,5 @@ target_link_libraries(lili_world PUBLIC
     lili_geometry
     lili_physics
     lili_render
+    SDL3::SDL3
 )

@@ -17,12 +17,12 @@ YetAgainScene::YetAgainScene(lili::Renderer* renderer)
       ) {
     text.setScale(3.0f);
     text.setRender(lili::RenderLayer::UI);
-    text.setAnchor(lili::Anchor::Center);
-    text.setPivot(lili::Pivot::Bottom);
+    text.setAnchor(lili::Anchor::CENTER);
+    text.setPivot(lili::Pivot::BOTTOM);
     info_text.setScale(2.0f);
     info_text.setRender(lili::RenderLayer::UI);
-    info_text.setAnchor(lili::Anchor::Center);
-    info_text.setPivot(lili::Pivot::Top);
+    info_text.setAnchor(lili::Anchor::CENTER);
+    info_text.setPivot(lili::Pivot::TOP);
 }
 
 void

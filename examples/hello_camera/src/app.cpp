@@ -21,8 +21,8 @@ App::App() : lili::Game("hello_camera - Lili2D", 600, 400) {
         lili::Vec4(1, 1, 1, 0.5)
     );
     camera_center.setRender(lili::RenderLayer::UI);
-    camera_center.setAnchor(lili::Anchor::Center);
-    camera_center.setPivot(lili::Pivot::Center);
+    camera_center.setAnchor(lili::Anchor::CENTER);
+    camera_center.setPivot(lili::Pivot::CENTER);
     renderer->setCamera(&camera);
 
     red_rect = lili::Rect(
@@ -41,21 +41,21 @@ App::App() : lili::Game("hello_camera - Lili2D", 600, 400) {
     text_cam_pos.setScale(2);
     text_cam_pos.setPosition({0, 10});
     text_cam_pos.setRender(lili::RenderLayer::UI);
-    text_cam_pos.setAnchor(lili::Anchor::Top);
-    text_cam_pos.setPivot(lili::Pivot::Top);
+    text_cam_pos.setAnchor(lili::Anchor::TOP);
+    text_cam_pos.setPivot(lili::Pivot::TOP);
     text_controls =
         lili::Text(renderer, font, "IJKL = move the camera | ZX = zoom/dezoom");
     text_controls.setScale(2);
     text_controls.setPosition({0, 32});
     text_controls.setRender(lili::RenderLayer::UI);
-    text_controls.setAnchor(lili::Anchor::Top);
-    text_controls.setPivot(lili::Pivot::Top);
+    text_controls.setAnchor(lili::Anchor::TOP);
+    text_controls.setPivot(lili::Pivot::TOP);
 
     lili::ActionMap& action_map = lili::ActionMap::get();
-    action_map.add("MoveUp", {lili::Key::I, lili::Key::W, lili::Key::Up});
-    action_map.add("MoveDown", {lili::Key::K, lili::Key::S, lili::Key::Down});
-    action_map.add("MoveLeft", {lili::Key::J, lili::Key::A, lili::Key::Left});
-    action_map.add("MoveRight", {lili::Key::L, lili::Key::D, lili::Key::Right});
+    action_map.add("MoveUp", {lili::Key::I, lili::Key::W, lili::Key::UP});
+    action_map.add("MoveDown", {lili::Key::K, lili::Key::S, lili::Key::DOWN});
+    action_map.add("MoveLeft", {lili::Key::J, lili::Key::A, lili::Key::LEFT});
+    action_map.add("MoveRight", {lili::Key::L, lili::Key::D, lili::Key::RIGHT});
     action_map.add("Zoom", {lili::Key::Z}, {lili::MouseButton::LEFT});
     action_map.add("Dezoom", {lili::Key::X}, {lili::MouseButton::RIGHT});
 }

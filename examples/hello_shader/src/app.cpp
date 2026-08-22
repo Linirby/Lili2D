@@ -19,8 +19,8 @@ App::App() : lili::Game("hello_shader - Lili2D", 800, 800) {
     );
     rect.getMaterial()->pipeline = rect_pipeline.get();
     rect.setRender(lili::RenderLayer::UI);
-    rect.setAnchor(lili::Anchor::Center);
-    rect.setPivot(lili::Pivot::Center);
+    rect.setAnchor(lili::Anchor::CENTER);
+    rect.setPivot(lili::Pivot::CENTER);
     rect.setOffset({0.0f, 0.0f});
 
     lili::Shader* text_shader = lili::Assets::loadShader(
@@ -36,13 +36,14 @@ App::App() : lili::Game("hello_shader - Lili2D", 800, 800) {
     text.setPosition(lili::Vec2(250.0f, 75.0f));
     text.setScale(3.0f);
     text.getMaterial()->pipeline = text_pipeline.get();
-    text.setAnchor(lili::Anchor::Top);
-    text.setPivot(lili::Pivot::Top);
+    text.setAnchor(lili::Anchor::TOP);
+    text.setPivot(lili::Pivot::TOP);
     text.setOffset({0.0f, 30.0f});
     text.setRender(lili::RenderLayer::UI);
+
     text_info = lili::Text(renderer, font, "SPACE: toggle custom shaders");
-    text_info.setAnchor(lili::Anchor::Bottom);
-    text_info.setPivot(lili::Pivot::Bottom);
+    text_info.setAnchor(lili::Anchor::BOTTOM);
+    text_info.setPivot(lili::Pivot::BOTTOM);
     text_info.setOffset({0.0f, -30.0f});
     text_info.setScale(3.0f);
     text_info.setRender(lili::RenderLayer::UI);
@@ -71,7 +72,6 @@ void
 App::onUpdate(float dt) {
     (void)dt;
     clock.update();
-    lili::Assets::checkHotReload();
 }
 
 void

@@ -50,15 +50,15 @@ App::App() : lili::Game("hello_layer - Lili2D", 1024, 576) {
     text_current_layer = lili::Text(renderer, font, "Current layer: 1");
     text_current_layer.setScale(2);
     text_current_layer.setRender(lili::RenderLayer::UI);
-    text_current_layer.setAnchor(lili::Anchor::BottomLeft);
-    text_current_layer.setPivot(lili::Pivot::BottomLeft);
+    text_current_layer.setAnchor(lili::Anchor::BOTTOM_LEFT);
+    text_current_layer.setPivot(lili::Pivot::BOTTOM_LEFT);
     text_current_layer.setOffset({10.0f, -32.0f});
     text_control_info =
         lili::Text(renderer, font, "I/K: Increase/decrease red rect layer");
     text_control_info.setScale(2);
     text_control_info.setRender(lili::RenderLayer::UI);
-    text_control_info.setAnchor(lili::Anchor::BottomLeft);
-    text_control_info.setPivot(lili::Pivot::BottomLeft);
+    text_control_info.setAnchor(lili::Anchor::BOTTOM_LEFT);
+    text_control_info.setPivot(lili::Pivot::BOTTOM_LEFT);
     text_control_info.setOffset({10.0f, -10.0f});
 }
 

@@ -2,6 +2,7 @@ add_library(lili_core OBJECT
     action_map.cpp
     asset_manager.cpp
     clock.cpp
+    easing.cpp
     event.cpp
     game.cpp
     game_config.cpp

@@ -205,8 +205,8 @@ All rendered 2D objects inherit from `lili::IRenderable`, establishing a unified
 
 Lili2D features a coordinate-independent UI positioning pipeline based on normalized **Anchors** (screen/viewport relative) and **Pivots** (element bounding box relative).
 
-* **Anchor**: Position relative to the active screen viewport (e.g. `TopLeft` `(0,0)`, `Center` `(0.5,0.5)`, `BottomRight` `(1,1)`).
-* **Pivot**: Alignment origin inside the element's bounding rect (e.g. `Center` aligns rotation and translation to the element's mid-point).
+* **Anchor**: Position relative to the active screen viewport (e.g. `TOP_LEFT` `(0,0)`, `CENTER` `(0.5,0.5)`, `BOTTOM_RIGHT` `(1,1)`).
+* **Pivot**: Alignment origin inside the element's bounding rect (e.g. `CENTER` aligns rotation and translation to the element's mid-point).
 
 $$\text{GlobalPos} = (\text{ViewportSize} \odot \vec{A}) + \vec{\text{Offset}} - (\text{ObjSize} \odot \vec{P})$$
 
@@ -377,9 +377,9 @@ Actions decouple game logic from physical hardware input devices:
 
 ```cpp
 // Register composite key and mouse bindings
-ActionMap::get().add("Jump", { Key::Space, Key::W });
-ActionMap::get().add("Shoot", {}, { MouseButton::Left });
-ActionMap::get().add("MoveRight", { Key::D, Key::Right });
+ActionMap::get().add("Jump", { Key::SPACE, Key::W });
+ActionMap::get().add("Shoot", {}, { MouseButton::LEFT });
+ActionMap::get().add("MoveRight", { Key::D, Key::RIGHT });
 ```
 
 ### Tri-State Frame Queries

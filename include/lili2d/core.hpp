@@ -8,6 +8,7 @@
 #include "lili2d/core/asset_manager.hpp"
 #include "lili2d/core/asset_registry.hpp"
 #include "lili2d/core/clock.hpp"
+#include "lili2d/core/easing.hpp"
 #include "lili2d/core/event.hpp"
 #include "lili2d/core/game.hpp"
 #include "lili2d/core/game_config.hpp"

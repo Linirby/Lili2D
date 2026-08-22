@@ -8,25 +8,25 @@ namespace lili {
 Vec2
 anchorToVector(Anchor anchor, Vec2 custom) {
     switch (anchor) {
-        case Anchor::TopLeft:
+        case Anchor::TOP_LEFT:
             return Vec2(0.0f, 0.0f);
-        case Anchor::Top:
+        case Anchor::TOP:
             return Vec2(0.5f, 0.0f);
-        case Anchor::TopRight:
+        case Anchor::TOP_RIGHT:
             return Vec2(1.0f, 0.0f);
-        case Anchor::Left:
+        case Anchor::LEFT:
             return Vec2(0.0f, 0.5f);
-        case Anchor::Center:
+        case Anchor::CENTER:
             return Vec2(0.5f, 0.5f);
-        case Anchor::Right:
+        case Anchor::RIGHT:
             return Vec2(1.0f, 0.5f);
-        case Anchor::BottomLeft:
+        case Anchor::BOTTOM_LEFT:
             return Vec2(0.0f, 1.0f);
-        case Anchor::Bottom:
+        case Anchor::BOTTOM:
             return Vec2(0.5f, 1.0f);
-        case Anchor::BottomRight:
+        case Anchor::BOTTOM_RIGHT:
             return Vec2(1.0f, 1.0f);
-        case Anchor::Custom:
+        case Anchor::CUSTOM:
             return custom;
     }
     return Vec2(0.0f, 0.0f);

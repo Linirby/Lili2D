@@ -104,8 +104,8 @@ public:
 
         // Create a sprite with UI anchor & pivot positioning
         sprite = lili::Sprite(getRenderer(), cat_tex);
-        sprite.setAnchor(lili::Anchor::Center);
-        sprite.setPivot(lili::Pivot::Center);
+        sprite.setAnchor(lili::Anchor::CENTER);
+        sprite.setPivot(lili::Pivot::CENTER);
         sprite.setOffset({ 0.0f, -50.0f });
 
         // Create vector shapes

@@ -152,7 +152,7 @@ TEST_CASE("Mat3 Transformations", "[geometry][mat3]") {
     }
 
     SECTION("Rotation") {
-        float rad = static_cast<float>(M_PI) / 2.0f; // 90 degrees
+        float rad = static_cast<float>(M_PI) / 2.0f;  // 90 degrees
         Mat3 r = Mat3::rotation(rad);
         Vec2 p(1.0f, 0.0f);
         Vec2 tp = r.transformPoint(p);

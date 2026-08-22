@@ -15,8 +15,8 @@ App::App() : lili::Game("hello_text - Lili2D", 625, 300) {
     letter_spacing = 1.0f;
     welcome_text.setSpacing(letter_spacing);
     welcome_text.setRender(lili::RenderLayer::UI);
-    welcome_text.setAnchor(lili::Anchor::Center);
-    welcome_text.setPivot(lili::Pivot::Center);
+    welcome_text.setAnchor(lili::Anchor::CENTER);
+    welcome_text.setPivot(lili::Pivot::CENTER);
 
     info_text = lili::Text(
         renderer, font_example, "<- & ->: change letter spacing | R: rotate"

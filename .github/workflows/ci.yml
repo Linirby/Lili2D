@@ -28,11 +28,11 @@ jobs:
             cxx: clang++
 
     env:
-      DEPS_DIR: /home/runner/deps
-      CMAKE_PREFIX_PATH: /home/runner/deps
-      PKG_CONFIG_PATH: /home/runner/deps/lib/pkgconfig:/home/runner/deps/lib64/pkgconfig
-      LD_LIBRARY_PATH: /home/runner/deps/lib:/home/runner/deps/lib64
-      PATH: /home/runner/deps/bin:/usr/local/bin:/usr/bin:/bin
+      SDL_DEPS_DIR: /home/runner/sdl_deps
+      CMAKE_PREFIX_PATH: /home/runner/sdl_deps
+      PKG_CONFIG_PATH: /home/runner/sdl_deps/lib/pkgconfig:/home/runner/sdl_deps/lib64/pkgconfig
+      LD_LIBRARY_PATH: /home/runner/sdl_deps/lib:/home/runner/sdl_deps/lib64
+      PATH: /home/runner/sdl_deps/bin:/usr/local/bin:/usr/bin:/bin
 
     steps:
       - name: Checkout repository
@@ -81,16 +81,16 @@ jobs:
         id: cache-sdl3
         uses: actions/cache@v4
         with:
-          path: /home/runner/deps
-          key: sdl3-deps-v3-${{ runner.os }}-${{ matrix.compiler }}
+          path: /home/runner/sdl_deps
+          key: sdl3-deps-v4-${{ runner.os }}-${{ matrix.compiler }}
           restore-keys: |
-            sdl3-deps-v3-${{ runner.os }}-
+            sdl3-deps-v4-${{ runner.os }}-
 
       - name: Build & Install SDL3 from source
         if: steps.cache-sdl3.outputs.cache-hit != 'true'
         run: |
           git clone --depth 1 https://github.com/libsdl-org/SDL.git /tmp/SDL
-          cmake -B /tmp/SDL/build -S /tmp/SDL -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DEPS_DIR -DSDL_TESTS=OFF
+          cmake -B /tmp/SDL/build -S /tmp/SDL -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$SDL_DEPS_DIR -DSDL_TESTS=OFF
           cmake --build /tmp/SDL/build -j$(nproc)
           cmake --install /tmp/SDL/build
 
@@ -98,7 +98,7 @@ jobs:
         if: steps.cache-sdl3.outputs.cache-hit != 'true'
         run: |
           git clone --depth 1 https://github.com/libsdl-org/SDL_image.git /tmp/SDL_image
-          cmake -B /tmp/SDL_image/build -S /tmp/SDL_image -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DEPS_DIR -DSDLIMAGE_TESTS=OFF
+          cmake -B /tmp/SDL_image/build -S /tmp/SDL_image -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$SDL_DEPS_DIR -DSDLIMAGE_TESTS=OFF
           cmake --build /tmp/SDL_image/build -j$(nproc)
           cmake --install /tmp/SDL_image/build
 
@@ -108,7 +108,7 @@ jobs:
           git clone --depth 1 https://github.com/libsdl-org/SDL_shadercross.git /tmp/SDL_shadercross
           cd /tmp/SDL_shadercross
           ./external/download.sh
-          cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DEPS_DIR -DSDLSHADERCROSS_STATIC=OFF -DSDLSHADERCROSS_VENDORED=ON
+          cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$SDL_DEPS_DIR -DSDLSHADERCROSS_STATIC=OFF -DSDLSHADERCROSS_VENDORED=ON
           cmake --build build -j$(nproc)
           cmake --install build
 
@@ -116,7 +116,7 @@ jobs:
         run: |
           cmake -B build -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
-            -DCMAKE_PREFIX_PATH=$DEPS_DIR \
+            -DCMAKE_PREFIX_PATH=$SDL_DEPS_DIR \
             -DLILI2D_BUILD_TESTS=ON
 
       - name: Build Lili2D and Test Suite
@@ -127,10 +127,6 @@ jobs:
         run: |
           ctest --test-dir build --output-on-failure --schedule-random
 
-      - name: Install Lili2D locally
-        run: |
-          cmake --install build --prefix $DEPS_DIR
-
       - name: Test Example Applications Build
         run: |
           for example in examples/*/; do
@@ -138,7 +134,7 @@ jobs:
               echo "=== Building $example ==="
               cmake -B "$example/build" -S "$example" -G Ninja \
                 -DCMAKE_BUILD_TYPE=Release \
-                -DCMAKE_PREFIX_PATH=$DEPS_DIR
+                -DCMAKE_PREFIX_PATH="$SDL_DEPS_DIR;${{ github.workspace }}/build"
               cmake --build "$example/build" -j$(nproc)
             fi
           done

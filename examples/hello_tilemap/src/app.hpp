@@ -14,7 +14,6 @@ private:
     lili::Keyboard keyboard;
 
     lili::AtlasMap* env_atlas = nullptr;
-    lili::AtlasMap* char_atlas = nullptr;
 
     std::unique_ptr<lili::ThreadPool> thread_pool;
     std::unique_ptr<lili::TileMap> tilemap = nullptr;

@@ -15,8 +15,6 @@ struct RectShape {
 
     /// @brief Default constructor.
     RectShape() = default;
-    /// @brief Copy constructor.
-    RectShape(const RectShape&) = default;
     /// @brief Constructs a rectangle shape.
     /// @param x X coordinate.
     /// @param y Y coordinate.
@@ -42,8 +40,6 @@ struct CircleShape {
 
     /// @brief Default constructor.
     CircleShape() = default;
-    /// @brief Copy constructor.
-    CircleShape(const CircleShape&) = default;
     /// @brief Constructs a circle shape.
     /// @param center The center position.
     /// @param radius The radius.
@@ -68,8 +64,6 @@ struct LineShape {
 
     /// @brief Default constructor.
     LineShape() = default;
-    /// @brief Copy constructor.
-    LineShape(const LineShape&) = default;
     /// @brief Constructs a line shape.
     /// @param start The start position.
     /// @param end The end position.

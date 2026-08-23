@@ -9,7 +9,7 @@
 
 namespace lili {
 
-class Material;
+struct Material;
 class Renderer;
 
 /// @brief Abstract base interface for all renderable 2D objects.

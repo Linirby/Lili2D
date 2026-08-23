@@ -18,7 +18,6 @@
 #include "lili2d/render/scene/common/utils.hpp"
 #include "lili2d/render/scene/shapes/circle.hpp"
 #include "lili2d/render/scene/shapes/rect.hpp"
-#include "lili2d/render/white_1x1_png.hpp"
 
 namespace lili {
 

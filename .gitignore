@@ -1,7 +1,6 @@
 build/
 *.spv
 *_spv.hpp
-lili2d/src/render/white_1x1_png.hpp
 lili_cpp_norm/
 .antigravitycli/
 build_release/

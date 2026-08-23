@@ -28,4 +28,3 @@
 #include "lili2d/render/scene/shapes/line.hpp"
 #include "lili2d/render/scene/shapes/rect.hpp"
 #include "lili2d/render/ui/ui_layout.hpp"
-#include "lili2d/render/white_1x1_png.hpp"

@@ -28,9 +28,12 @@ Renderer::Renderer(Window* window, SDL_GPUPresentMode preferred_mode)
     initShaders();
     initPipelines();
     initPasses();
-    the_white_pixel = std::make_unique<Texture>(
-        device.get(), white_1x1_png, white_1x1_png_len
-    );
+    const uint32_t white_pixel = 0xFFFFFFFF;
+    auto temp_surf =
+        std::unique_ptr<SDL_Surface, SDLSurfaceDeleter>(SDL_CreateSurfaceFrom(
+            1, 1, SDL_PIXELFORMAT_RGBA32, const_cast<uint32_t*>(&white_pixel), 4
+        ));
+    the_white_pixel = std::make_unique<Texture>(device.get(), temp_surf.get());
 }
 
 Renderer::~Renderer() {

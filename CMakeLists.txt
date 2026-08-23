@@ -11,37 +11,9 @@ find_package(SDL3 REQUIRED CONFIG)
 find_package(SDL3_image REQUIRED CONFIG)
 find_package(SDL3_shadercross REQUIRED CONFIG)
 
-# Embedded assets (e.g. 1x1 white fallback pixel)
-set(ASSET_FILES
-    assets/white_1x1.png
-)
-set(EMBEDDED_ASSETS "")
-foreach(ASSET IN LISTS ASSET_FILES)
-    get_filename_component(ASSET_NAME ${ASSET} NAME)
-    string(REPLACE "." "_" VAR_NAME "${ASSET_NAME}")
-    set(
-        HEADER_FILE
-        "${CMAKE_CURRENT_SOURCE_DIR}/include/lili2d/render/${VAR_NAME}.hpp"
-    )
-    add_custom_command(
-        OUTPUT ${HEADER_FILE}
-        COMMAND ${CMAKE_COMMAND}
-            -DINPUT_FILE="${CMAKE_CURRENT_SOURCE_DIR}/${ASSET}"
-            -DOUTPUT_FILE="${HEADER_FILE}" -DVAR_NAME="${VAR_NAME}" -P
-            "${CMAKE_CURRENT_SOURCE_DIR}/cmake/embed_shader.cmake"
-        DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${ASSET}"
-            "${CMAKE_CURRENT_SOURCE_DIR}/cmake/embed_shader.cmake"
-        COMMENT "Embedding asset ${ASSET_NAME}"
-    )
-    list(APPEND EMBEDDED_ASSETS ${HEADER_FILE})
-endforeach()
-
-# Engine Submodules
 add_subdirectory(src)
 
-# Unit Tests
 option(LILI2D_BUILD_TESTS "Build Lili2D unit tests" ON)
-
 if(LILI2D_BUILD_TESTS)
     enable_testing()
     find_package(Catch2 3 QUIET)
@@ -57,7 +29,6 @@ if(LILI2D_BUILD_TESTS)
     add_subdirectory(tests)
 endif()
 
-# Installation & CMake Package Configuration
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 

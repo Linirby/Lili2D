@@ -3,6 +3,11 @@
 namespace lili {
 
 void
+SDLSurfaceDeleter::operator()(SDL_Surface* surf) const {
+    if (surf) SDL_DestroySurface(surf);
+}
+
+void
 SDLGPUDeviceDeleter::operator()(SDL_GPUDevice* dev) const {
     if (dev) SDL_DestroyGPUDevice(dev);
 }

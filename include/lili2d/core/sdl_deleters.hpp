@@ -4,6 +4,14 @@
 
 namespace lili {
 
+/// @brief Deleter for SDL_Surface
+struct SDLSurfaceDeleter {
+    /// @brief Releases the SDL_Surface pointer.
+    /// @param surf Pointer to the SDL_Surface to destroy.
+    void
+    operator()(SDL_Surface* surf) const;
+};
+
 /// @brief Deleter for SDL_GPUDevice
 struct SDLGPUDeviceDeleter {
     /// @brief Releases the SDL_GPUDevice resource.

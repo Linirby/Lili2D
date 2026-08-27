@@ -20,7 +20,7 @@ public:
     /// @param renderer The renderer.
     /// @param shape The rectangle geometry.
     /// @param color The color of the rectangle.
-    Rect(Renderer* renderer, RectShape shape, Vec4 color);
+    explicit Rect(Renderer* renderer, RectShape shape, Vec4 color);
     /// @brief Default destructor.
     ~Rect() override = default;
 

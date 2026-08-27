@@ -21,7 +21,7 @@ public:
     /// @param renderer The renderer.
     /// @param shape The circle geometry.
     /// @param color The color.
-    Circle(Renderer* renderer, CircleShape shape, Vec4 color);
+    explicit Circle(Renderer* renderer, CircleShape shape, Vec4 color);
     /// @brief Default destructor.
     ~Circle() override = default;
 

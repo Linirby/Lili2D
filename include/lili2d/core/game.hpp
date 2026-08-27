@@ -21,7 +21,7 @@ public:
     /// @param width The window width.
     /// @param height The window height.
     /// @param config The engine configuration settings.
-    Game(
+    explicit Game(
         const std::string& title, int width, int height,
         const EngineConfig& config = {}
     );

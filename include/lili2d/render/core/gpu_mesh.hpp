@@ -55,7 +55,7 @@ public:
     /// @brief Constructs a GPU mesh from CPU data.
     /// @param device The SDL GPU device.
     /// @param mesh The CPU mesh data.
-    GPUMesh(SDL_GPUDevice* device, const MeshData& mesh);
+    explicit GPUMesh(SDL_GPUDevice* device, const MeshData& mesh);
     /// @brief Destructor.
     ~GPUMesh() = default;
 

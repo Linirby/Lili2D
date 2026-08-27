@@ -9,13 +9,13 @@ public:
     AnimationPlayer() = default;
     /// @brief Constructs a player for a specific animation.
     /// @param animation Pointer to the animation to play.
-    AnimationPlayer(const Animation* animation);
+    explicit AnimationPlayer(const Animation* animation);
     /// @brief Constructs a player from a registered animation ID.
     /// @param animation_id The registered animation numeric ID.
-    AnimationPlayer(uint16_t animation_id);
+    explicit AnimationPlayer(uint16_t animation_id);
     /// @brief Constructs a player from a registered animation key.
     /// @param animation_key The registered animation string key.
-    AnimationPlayer(const std::string& animation_key);
+    explicit AnimationPlayer(const std::string& animation_key);
 
     /// @brief Sets the animation to play.
     /// @param animation Pointer to the Animation instance.

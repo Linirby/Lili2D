@@ -11,7 +11,7 @@ struct Tile {
     /// @brief Constructs a Tile with a texture slice and collision flag.
     /// @param slice Texture UV slice.
     /// @param is_solid True if tile is solid/collidable.
-    Tile(const SliceUV& slice, bool is_solid = false);
+    explicit Tile(const SliceUV& slice, bool is_solid = false);
 
     SliceUV slice;          ///< Texture slice for rendering.
     bool is_solid = false;  ///< Flag indicating if tile is solid/collidable.

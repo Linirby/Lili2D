@@ -15,7 +15,7 @@ public:
     /// @param title The window title.
     /// @param width The width of the window in pixels.
     /// @param height The height of the window in pixels.
-    Window(const std::string& title, int width, int height);
+    explicit Window(const std::string& title, int width, int height);
 
     /// @brief Destroys the window and cleans up resources.
     ~Window();

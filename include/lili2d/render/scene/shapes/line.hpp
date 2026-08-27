@@ -21,7 +21,7 @@ public:
     /// @param renderer The renderer.
     /// @param shape The line geometry.
     /// @param color The color.
-    Line(Renderer* renderer, LineShape shape, Vec4 color);
+    explicit Line(Renderer* renderer, LineShape shape, Vec4 color);
     /// @brief Default destructor.
     ~Line() override = default;
 

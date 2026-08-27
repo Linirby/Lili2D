@@ -16,7 +16,7 @@ public:
     /// @brief Constructs a Scene with a name and renderer pointer.
     /// @param name Name of the scene.
     /// @param renderer Pointer to Renderer.
-    Scene(const std::string& name, Renderer* renderer);
+    explicit Scene(const std::string& name, Renderer* renderer);
     /// @brief Virtual destructor.
     virtual ~Scene() = default;
     /// @brief Deleted copy constructor.

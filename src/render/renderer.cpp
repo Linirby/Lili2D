@@ -278,7 +278,7 @@ Renderer::getUnitCircle(int segments) {
 }
 
 void
-Renderer::drawDebugRect(float x, float y, float w, float h, const Vec4& color) {
+Renderer::drawDebugRect(float x, float y, float w, float h, Vec4 color) {
     uint32_t r = (uint32_t)(color.x * 255.0f);
     uint32_t g = (uint32_t)(color.y * 255.0f);
     uint32_t b = (uint32_t)(color.z * 255.0f);
@@ -295,12 +295,12 @@ Renderer::drawDebugRect(float x, float y, float w, float h, const Vec4& color) {
 }
 
 void
-Renderer::drawDebugRect(const RectShape& rect, const Vec4& color) {
+Renderer::drawDebugRect(RectShape rect, Vec4 color) {
     drawDebugRect(rect.x, rect.y, rect.w, rect.h, color);
 }
 
 void
-Renderer::drawDebugCircle(float x, float y, float radius, const Vec4& color) {
+Renderer::drawDebugCircle(float x, float y, float radius, Vec4 color) {
     uint32_t r = (uint32_t)(color.x * 255.0f);
     uint32_t g = (uint32_t)(color.y * 255.0f);
     uint32_t b = (uint32_t)(color.z * 255.0f);
@@ -318,7 +318,7 @@ Renderer::drawDebugCircle(float x, float y, float radius, const Vec4& color) {
 }
 
 void
-Renderer::drawDebugCircle(const CircleShape& circle, const Vec4& color) {
+Renderer::drawDebugCircle(CircleShape circle, Vec4 color) {
     drawDebugCircle(circle.center.x, circle.center.y, circle.radius, color);
 }
 

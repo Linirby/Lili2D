@@ -8,15 +8,13 @@
 namespace lili {
 
 bool
-Point3Compare::operator()(
-    const lili::Point3& lhs, const lili::Point3& rhs
-) const {
+Point3Compare::operator()(lili::Point3 lhs, lili::Point3 rhs) const {
     if (lhs.z != rhs.z) return lhs.z < rhs.z;
     if (lhs.y != rhs.y) return lhs.y < rhs.y;
     return lhs.x < rhs.x;
 }
 
-TileMap::TileMap(const lili::Vec2& tile_size) : tile_size(tile_size) {}
+TileMap::TileMap(lili::Vec2 tile_size) : tile_size(tile_size) {}
 
 void
 TileMap::setTile(const std::string& name, lili::Point3 pos) {

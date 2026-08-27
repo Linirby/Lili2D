@@ -10,7 +10,7 @@ class AnotherScene : public lili::Scene {
 public:
     /// @brief Constructor.
     /// @param renderer Renderer pointer.
-    AnotherScene(lili::Renderer* renderer);
+    explicit AnotherScene(lili::Renderer* renderer);
 
     /// @brief Event handling callback.
     /// @param event Incoming event.

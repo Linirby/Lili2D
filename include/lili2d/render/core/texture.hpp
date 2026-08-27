@@ -15,12 +15,12 @@ public:
     /// @brief Constructs a texture from an image file.
     /// @param device The SDL GPU device.
     /// @param img_path Path to the image file.
-    Texture(SDL_GPUDevice* device, const std::string& img_path);
+    explicit Texture(SDL_GPUDevice* device, const std::string& img_path);
     /// @brief Constructs a texture from memory data.
     /// @param device The SDL GPU device.
     /// @param data Pointer to the image data.
     /// @param len Length of the image data.
-    Texture(SDL_GPUDevice* device, const unsigned char* data, unsigned int len);
+    explicit Texture(SDL_GPUDevice* device, const unsigned char* data, unsigned int len);
     /// @brief Destructor.
     ~Texture() = default;
 
@@ -43,7 +43,7 @@ public:
     /// @brief Constructs a texture directly from an SDL_Surface.
     /// @param device The SDL GPU device.
     /// @param surface The surface (it is NOT destroyed by this constructor).
-    Texture(SDL_GPUDevice* device, SDL_Surface* surface);
+    explicit Texture(SDL_GPUDevice* device, SDL_Surface* surface);
 
     /// @brief Gets the width of the texture.
     /// @return The width in pixels.

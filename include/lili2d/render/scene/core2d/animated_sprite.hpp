@@ -20,15 +20,17 @@ public:
     /// @brief Constructs an animated sprite from an animation.
     /// @param renderer The renderer.
     /// @param animation The animation to play.
-    AnimatedSprite(Renderer* renderer, const Animation& animation);
+    explicit AnimatedSprite(Renderer* renderer, const Animation& animation);
     /// @brief Constructs an animated sprite from a registered animation key.
     /// @param renderer The renderer.
     /// @param animation_key The registry key of the animation.
-    AnimatedSprite(Renderer* renderer, const std::string& animation_key);
+    explicit AnimatedSprite(
+        Renderer* renderer, const std::string& animation_key
+    );
     /// @brief Constructs an animated sprite from a registered animation ID.
     /// @param renderer The renderer.
     /// @param animation_id The registry ID of the animation.
-    AnimatedSprite(Renderer* renderer, uint16_t animation_id);
+    explicit AnimatedSprite(Renderer* renderer, uint16_t animation_id);
     /// @brief Destructor.
     ~AnimatedSprite() override = default;
 
@@ -60,7 +62,7 @@ public:
     /// @brief Sets the sprite's color tint.
     /// @param color The new color tint.
     void
-    setColorTint(const Vec4& color);
+    setColorTint(Vec4 color);
     /// @brief Sets the sprite's color tint.
     /// @param color The new color tint.
     void

@@ -22,13 +22,13 @@ struct AABB2 {
     AABB2(const Vec2& pos, const Vec2& size);
     /// @brief Construct AABB2 with a RectShape.
     /// @param rect The shape of the bounding rect.
-    AABB2(const RectShape& rect);
+    explicit AABB2(const RectShape& rect);
     /// @brief Construct AABB2 with a CircleShape.
     /// @param circle The shape of the bounding circle.
-    AABB2(const CircleShape& circle);
+    explicit AABB2(const CircleShape& circle);
     /// @brief Construct AABB2 with a LineShape.
     /// @param line The shape of the bounding line.
-    AABB2(const LineShape& line);
+    explicit AABB2(const LineShape& line);
     /// @brief Copy assignment operator.
     /// @return Reference to the assigned rectangle.
     AABB2&

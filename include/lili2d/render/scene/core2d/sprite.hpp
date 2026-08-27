@@ -22,15 +22,15 @@ public:
     /// @brief Constructs a sprite from an image file.
     /// @param renderer The renderer.
     /// @param path Path to the image file.
-    Sprite(Renderer* renderer, const std::string& path);
+    explicit Sprite(Renderer* renderer, const std::string& path);
     /// @brief Constructs a sprite from a UV slice.
     /// @param renderer The renderer.
     /// @param slice The UV slice of an atlas.
-    Sprite(Renderer* renderer, SliceUV slice);
+    explicit Sprite(Renderer* renderer, const SliceUV& slice);
     /// @brief Constructs a sprite from a Texture.
     /// @param renderer The renderer.
     /// @param texture The texture.
-    Sprite(Renderer* renderer, Texture* texture);
+    explicit Sprite(Renderer* renderer, Texture* texture);
     /// @brief Destructor.
     ~Sprite() override = default;
 
@@ -48,11 +48,11 @@ public:
     /// @brief Sets the sprite's slice from an atlas map.
     /// @param slice The new UV slice.
     void
-    setSlice(SliceUV slice);
+    setSlice(const SliceUV& slice);
     /// @brief Sets the sprite's color tint.
     /// @param color The new color tint.
     void
-    setColorTint(const Vec4& color);
+    setColorTint(Vec4 color);
     /// @brief Sets the sprite's color tint.
     /// @param color The new color tint.
     void

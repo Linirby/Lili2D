@@ -28,7 +28,7 @@ struct SDLGPUDeviceDependentDeleter {
     SDLGPUDeviceDependentDeleter() = default;
     /// @brief Constructs a deleter bound to an SDL_GPUDevice.
     /// @param dev Pointer to the target SDL_GPUDevice.
-    SDLGPUDeviceDependentDeleter(SDL_GPUDevice* dev);
+    explicit SDLGPUDeviceDependentDeleter(SDL_GPUDevice* dev);
 };
 
 /// @brief Deleter for SDL_GPUTexture

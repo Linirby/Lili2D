@@ -21,7 +21,7 @@ struct Point3Compare {
     /// @param rhs The right-hand side point.
     /// @return True if lhs < rhs.
     bool
-    operator()(const lili::Point3& lhs, const lili::Point3& rhs) const;
+    operator()(lili::Point3 lhs, lili::Point3 rhs) const;
 };
 
 /// @brief Manages a grid-based world of chunks and tiles.
@@ -29,7 +29,7 @@ class TileMap {
 public:
     /// @brief Constructs a tilemap.
     /// @param tile_size_px The size of each tile in pixels.
-    TileMap(const lili::Vec2& tile_size_px);
+    explicit TileMap(lili::Vec2 tile_size_px);
 
     /// @brief Sets a tile at a specific world position.
     /// @param name The registry name of the tile.

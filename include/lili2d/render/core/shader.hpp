@@ -34,7 +34,7 @@ public:
     /// @param frag_path Path to the fragment shader file (.hlsl).
     /// @param vert_entry Entry point for the vertex shader (default: "main").
     /// @param frag_entry Entry point for the fragment shader (default: "main").
-    Shader(
+    explicit Shader(
         SDL_GPUDevice* device, const std::string& vert_path,
         const std::string& frag_path,
         const std::string& vert_entry = "main",
@@ -77,7 +77,7 @@ public:
     /// @param device The SDL GPU device.
     /// @param vert Pointer to vertex SDL_GPUShader.
     /// @param frag Pointer to fragment SDL_GPUShader.
-    Shader(
+    explicit Shader(
         SDL_GPUDevice* device,
         SDL_GPUShader* vert,
         SDL_GPUShader* frag

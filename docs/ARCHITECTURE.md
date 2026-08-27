@@ -6,6 +6,27 @@ This document details the core system designs, concurrency patterns, memory layo
 
 ---
 
+## Table of Contents
+
+| # | Subsystem / Topic | Key Focus & Patterns |
+| :-: | :--- | :--- |
+| **1** | [Engine Core & The Game Loop](#1-engine-core--the-game-loop) | Fixed-timestep simulation, render interpolation ($\alpha$), RAII subsystem ownership. |
+| **2** | [Priority-Scheduled Multithreading (`ThreadPool`)](#2-priority-scheduled-multithreading-threadpool) | C++20 `std::jthread` workers, cooperative cancellation, 3-tier task priority queues. |
+| **3** | [Data-Oriented Entity Component System (ECS)](#3-data-oriented-entity-component-system-ecs) | Contiguous `ComponentPool<T>` storage, thread-safe deferred `CommandBuffer`. |
+| **4** | [Unified Scoped Asset & Resource Engine](#4-unified-scoped-asset--resource-engine) | Polymorphic `ResourceManager<T>`, tag-based scope memory isolation, static facade. |
+| **5** | [Live Asset & Shader Hot-Reloading Architecture](#5-live-asset--shader-hot-reloading-architecture) | Filesystem timestamp watcher, observer pipeline rebuilding, runtime safety guards. |
+| **6** | [UI Layout Engine & Matrix Transform Pipeline](#6-ui-layout-engine--matrix-transform-pipeline) | Normalized Anchor/Pivot layout math, 3x3 affine transforms, inverse matrix hit tests. |
+| **7** | [Virtual Viewport Scaling & Logical Resolution](#7-virtual-viewport-scaling--logical-resolution) | Display-independent aspect ratio letterboxing, physical-to-logical coordinate mapping. |
+| **8** | [Spatial Physics & Collision Query Subsystem](#8-spatial-physics--collision-query-subsystem) | `AABB2`, `AABB3`, `CircleCollider`, narrow-phase clamping math, zero-alloc debug draw. |
+| **9** | [Hardware Rendering & GPU Memory Optimizations](#9-hardware-rendering--gpu-memory-optimizations) | Frustum culling, dynamic `SpriteBatch`, progressive chunk budget, GPU idle barriers. |
+| **10** | [Custom Shader Cross-Compilation & Dynamic Uniform Buffering](#10-custom-shader-cross-compilation--dynamic-uniform-buffering) | HLSL $\rightarrow$ SPIR-V $\rightarrow$ Driver shader transpilation, direct command buffer uniform push. |
+| **11** | [Input Action Mapping Subsystem (`ActionMap`)](#11-input-action-mapping-subsystem-actionmap) | String-keyed logical action bindings, tri-state input polling (`held`, `justPressed`, `justReleased`). |
+| **12** | [Chunk-Based 3D Grid Tilemap & Asynchronous Meshing](#12-chunk-based-3d-grid-tilemap--asynchronous-meshing) | `Point3` spatial chunk maps, multithreaded vertex/index baking, layer collision sweep. |
+| **13** | [Frame Animation Pipeline & Sprite Slicing (`AtlasMap`, `AnimationPlayer`)](#13-frame-animation-pipeline--sprite-slicing-atlasmap-animationplayer) | UV grid coordinate slicing, frame accumulator playback, frame-specific event hooks. |
+| **14** | [Modern C++ Calling Conventions & Inlining Guidelines (Planned Optimization)](#14-modern-c-calling-conventions--inlining-guidelines-planned-optimization) | Pass-by-value ($\le 16$B PODs), System V/ARM64 ABI register passing, header inlining vs TU separation. |
+
+---
+
 ## 1. Engine Core & The Game Loop
 
 Lili2D centers around a synchronized fixed-timestep game loop that decouples deterministic physics updates (TPS) from variable rendering framerates (FPS) using an accumulator pattern.
@@ -425,4 +446,75 @@ $$\text{UV}_{\min} = \left(\frac{c}{\text{Cols}}, \frac{r}{\text{Rows}}\right), 
 
 * **Normalized Frame Accumulation**: `AnimationPlayer` accumulates game delta time against `frame_duration`, advancing the active frame index and wrapping according to the selected `LoopMode` (`Loop`, `Once`, `PingPong`).
 * **Frame Callbacks**: Custom events (footstep SFX, attack hitbox activation, projectile spawning) can be attached to specific animation frame indices via `onFrame(frame_idx, callback)`.
+
+---
+
+## 14. Modern C++ Calling Conventions & Inlining Guidelines (Planned Optimization)
+
+To maximize runtime throughput and align with modern C++ standard best practices, Lili2D follows specific parameter passing and inlining guidelines across its subsystems.
+
+### 14.1 Pass-by-Value for Small Trivially Copyable Types ($\le 16$ Bytes / 128 Bits)
+
+In historical C++ (C++98/03), passing non-primitive types by `const &` was standard practice. In modern C++ on 64-bit architectures, passing small trivially copyable structs ($\le 16$ bytes) by value is strictly superior:
+
+```mermaid
+graph TD
+    subgraph ConstReference["Pass by const T& (Pointer Indirection)"]
+        CR1["Caller creates stack reference"] --> CR2["Passes 8-byte pointer in General Purpose Register (RDI/RCX)"]
+        CR2 --> CR3["Callee dereferences pointer (Memory Load / Cache Dependency)"]
+        CR3 --> CR4["Pointer Aliasing: Compiler must assume memory might change!"]
+    end
+
+    subgraph ByValue["Pass by Value T (Hardware Registers)"]
+        BV1["Caller loads 8B/16B data into CPU registers (XMM0-XMM7 / GPRs)"] --> BV2["Callee typically operates directly on registers (avoids memory indirection)"]
+        BV2 --> BV3["No Aliasing: Trivially proved local (actual latency depends on optimization & register pressure)"]
+    end
+```
+
+#### Hardware ABI Mechanics:
+* **x86-64 System V ABI (Linux, macOS)**: Homogeneous floating-point aggregates up to 16 bytes (`Vec2` [8B], `Vec3` [12B], `Vec4` [16B], `RectShape` [16B]) are classified as `SSE` and passed directly in `XMM0`–`XMM7` vector registers. Small integer types (`Point2`, `Point3`, `Entity`) are classified as `INTEGER` and passed in general-purpose registers (`RDI`, `RSI`, `RDX`).
+  * *Mixed-Field Types*: For types with mixed integer and floating-point fields such as `CircleShape` (`Vec2` [8B float] + `float` [4B] + `int` [4B]), System V ABI classifies an eightbyte containing both `INTEGER` and `SSE` fields as `INTEGER`. Thus, `CircleShape` is split across an `SSE` register (`XMM` for `Vec2`) and a general-purpose register (`RDI`/`RSI` for `float` + `int`), still passing entirely in registers.
+* **ARM64 AAPCS (Apple Silicon, Android, ARM Linux)**: Homogeneous Floating-Point Aggregates (HFAs) up to 4 floats (`Vec2`, `Vec3`, `Vec4`) are passed in SIMD/FP registers `v0`–`v7` (or `s0`–`s3`).
+* **Windows x64 ABI**: Types $\le 8$ bytes (`Vec2`, `Point2`) are passed directly in integer registers (`RCX`, `RDX`, `R8`, `R9`).
+* **Zero Aliasing**: By-value parameters guarantee that the passed object cannot alias with other pointers or member fields (`*this`), allowing compiler optimizers to reorder instructions, unroll loops, and auto-vectorize safely.
+* **Large Types Exception**: Types exceeding 16 bytes (e.g. `SliceUV` [32B], `std::string`, `MeshData`) exceed the two-eightbyte hardware register limit and must remain passed by `const &` to avoid stack copying.
+
+---
+
+### 14.2 Targeted Header Inlining Strategy & Trade-Offs
+
+Inlining is an enabling optimization that unlocks **constant folding**, **SIMD auto-vectorization**, and **dead code elimination** across call sites.
+
+#### Engineering Trade-offs:
+* **Compile-Time Overhead**: Inlining code in headers increases parsing volume across translation units.
+* **Instruction Cache ($L1i$) Pressure**: Excessive inlining duplicates assembly instructions, potentially causing instruction cache thrashing.
+
+**Lili2D Strategy:**
+* **Header-Inlined (`.hpp`)**: Verified per-frame hot paths and leaf primitives:
+  * Vector & point math operators (`Vec2`, `Vec3`, `Vec4`, `Point2`, `Point3`, `Mat3`, `Mat4`).
+  * Collision algorithms (`AABB2::intersect`, `CircleCollider::intersect`, bounding tests).
+  * 23 animation easing functions (`lili::Easing`).
+  * Hot functors and index calculators (`StringHash`, `Point3Compare`, `BatchKeyHash`, `Chunk::flattenIndex`).
+  * 1-line property accessors and forwarding wrappers.
+* **Source-Separated (`.cpp`)**: Subsystem orchestration, GPU pipeline initialization, memory allocations, resource loaders, and complex multi-line algorithms (`Game::run`, `Renderer::initPipeline`, `Chunk::generateMeshData`, `AtlasMap::loadXml`).
+
+---
+
+### 14.3 Planned Optimization Roadmap
+
+The following optimizations are scheduled for implementation:
+1. **Geometry Modernization**:
+   * Migrate `Vec2`, `Vec3`, `Vec4`, `Point2`, `Point3`, `Mat3`, `Mat4`, and `utils.hpp` to `constexpr inline` header implementations.
+   * Switch vector/point arithmetic parameters from `const VecN&` to by-value `VecN`.
+   * Correct compound assignment return types (`operator+=`, `-=`, `*=`) from `T` (by value) to `T&` (lvalue reference) to eliminate redundant copies and allow operator chaining.
+2. **Physics & Spatial Inlining**:
+   * Pass bounding shapes (`RectShape`, `CircleShape`, `AABB2`, `CircleCollider`) by value.
+   * Move 1-line bounding box and circle intersection/containment routines into headers.
+3. **Core & Gameloop Inlining**:
+   * Move `Easing` curves, `StringHash`, input device queries (`Keyboard`, `Mouse`), gameloop clock accessors (`Clock`), and `SDLDeleters` smart pointer destructors into headers.
+   * Clean up event accessors (removing redundant `const` on value returns).
+4. **Render & Scene Property Inlining**:
+   * Pass `Vec4` color tints and shape descriptors by value across `Renderer`, `Sprite`, `AnimatedSprite`, and `SpriteBatch`.
+   * Inline 1-line property getters/setters across `Sprite`, `AnimatedSprite`, `SpriteBatch`, `Circle`, `Line`, and `Rect`.
+
 

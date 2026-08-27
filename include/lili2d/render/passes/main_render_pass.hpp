@@ -12,7 +12,7 @@ public:
     /// @brief Constructs a render pass.
     /// @param device The SDL GPU device.
     /// @param pipeline The graphics pipeline to use.
-    MainRenderPass(SDL_GPUDevice* device, SDL_GPUGraphicsPipeline* pipeline);
+    explicit MainRenderPass(SDL_GPUDevice* device, SDL_GPUGraphicsPipeline* pipeline);
     /// @brief Default destructor.
     ~MainRenderPass() = default;
 

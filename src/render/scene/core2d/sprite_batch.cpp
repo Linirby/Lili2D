@@ -10,12 +10,12 @@ namespace lili {
 SpriteBatch::SpriteBatch(Renderer* renderer, Texture* texture)
     : renderer(renderer) {
     material = std::make_unique<Material>(texture);
-    material->properties.color_tint = {1.0f, 1.0f, 1.0f, 1.0f};
+    material->properties.color_tint = Vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
     mesh = std::make_unique<GPUMesh>(renderer->getDevice(), mesh_data);
 
-    position = {0.0f, 0.0f};
-    scale = {1.0f, 1.0f};
+    position = Vec2(0.0f, 0.0f);
+    scale = Vec2(1.0f, 1.0f);
     layer = 0.0f;
 }
 
@@ -36,8 +36,8 @@ SpriteBatch::clear() {
 
 void
 SpriteBatch::appendSpriteToMesh(
-    MeshData& mesh_data, const SliceUV& slice, const Vec2& pos,
-    const Vec2& scale, float rotation, const Vec4& color
+    MeshData& mesh_data, const SliceUV& slice, Vec2 pos, Vec2 scale,
+    float rotation, Vec4 color
 ) {
     uint32_t current_vertex_count =
         static_cast<uint32_t>(mesh_data.vertices.size());
@@ -59,10 +59,10 @@ SpriteBatch::appendSpriteToMesh(
     Vec2 p2{half_w, half_h};
     Vec2 p3{-half_w, half_h};
 
-    auto transform_point = [&](const Vec2& p) -> Vec2 {
-        return {
+    auto transform_point = [&](Vec2 p) -> Vec2 {
+        return Vec2(
             pos.x + p.x * cos_r - p.y * sin_r, pos.y + p.x * sin_r + p.y * cos_r
-        };
+        );
     };
 
     Vec2 tp0 = transform_point(p0);
@@ -139,8 +139,7 @@ SpriteBatch::setMeshData(MeshData&& data) {
 
 void
 SpriteBatch::draw(
-    const SliceUV& slice, const Vec2& pos, const Vec2& scale, float rotation,
-    const Vec4& color
+    const SliceUV& slice, Vec2 pos, Vec2 scale, float rotation, Vec4 color
 ) {
     appendSpriteToMesh(mesh_data, slice, pos, scale, rotation, color);
 }
@@ -151,10 +150,8 @@ SpriteBatch::end() {
 }
 
 void
-SpriteBatch::setColorTint(const Vec4& color) {
-    if (material) {
-        material->properties.color_tint = color;
-    }
+SpriteBatch::setColorTint(Vec4 color) {
+    if (material) material->properties.color_tint = color;
 }
 
 void
@@ -210,9 +207,8 @@ SpriteBatch::getScale() const {
 
 Vec2
 SpriteBatch::getSize() const {
-    if (custom_size.x > 0.0f || custom_size.y > 0.0f) {
+    if (custom_size.x > 0.0f || custom_size.y > 0.0f)
         return Vec2(custom_size.x * scale.x, custom_size.y * scale.y);
-    }
     if (mesh_data.vertices.empty()) return Vec2(0.0f, 0.0f);
 
     float min_x = mesh_data.vertices[0].x;
@@ -266,7 +262,7 @@ SpriteBatch::draw() {
     Mat3 mat_transform = getTransformMatrix();
 
     renderer->submit(
-        Model({mesh.get(), getMaterial()}), mat_transform, layer, render_layer
+        Model(mesh.get(), getMaterial()), mat_transform, layer, render_layer
     );
 }
 

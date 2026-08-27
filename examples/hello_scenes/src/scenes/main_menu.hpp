@@ -10,7 +10,7 @@ class MainScene : public lili::Scene {
 public:
     /// @brief Constructor.
     /// @param renderer Renderer pointer.
-    MainScene(lili::Renderer* renderer);
+    explicit MainScene(lili::Renderer* renderer);
 
     /// @brief Event handling callback.
     /// @param event Incoming event.

@@ -17,7 +17,7 @@ public:
     Animation() = default;
     /// @brief Constructs an animation from a pre-built list of frames.
     /// @param frames The sequence of frames.
-    Animation(const std::vector<SliceUV>& frames);
+    explicit Animation(const std::vector<SliceUV>& frames);
 
     /// @brief Gets the number of frames.
     /// @return The frame count.

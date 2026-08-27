@@ -2,6 +2,7 @@
 
 #include "lili2d/geometry/mat3x3.hpp"
 #include "lili2d/geometry/utils.hpp"
+#include "lili2d/geometry/vec2.hpp"
 #include "lili2d/render/scene/common/animation_registry.hpp"
 
 namespace lili {
@@ -59,10 +60,8 @@ AnimatedSprite::setFrameSpeed(float speed_sec) {
 }
 
 void
-AnimatedSprite::setColorTint(const Vec4& color) {
-    if (material) {
-        material->properties.color_tint = color;
-    }
+AnimatedSprite::setColorTint(Vec4 color) {
+    if (material) material->properties.color_tint = color;
 }
 
 void
@@ -184,7 +183,7 @@ AnimatedSprite::draw() {
     if (!is_visible) return;
     Mat3 mat_transform = getTransformMatrix();
     renderer->submit(
-        Model({mesh, getMaterial()}), mat_transform, layer, render_layer
+        Model(mesh, getMaterial()), mat_transform, layer, render_layer
     );
 }
 
@@ -193,11 +192,10 @@ AnimatedSprite::applyFrame(const SliceUV& frame) {
     Material* mat = getMaterial();
     if (mat) {
         mat->albedoMap = frame.texture;
-        mat->properties.uv_bounds = {
-            frame.u_min, frame.v_min, frame.u_max, frame.v_max
-        };
+        mat->properties.uv_bounds =
+            Vec4(frame.u_min, frame.v_min, frame.u_max, frame.v_max);
     }
-    this->size = {frame.width, frame.height};
+    this->size = Vec2(frame.width, frame.height);
 }
 
 }  // namespace lili

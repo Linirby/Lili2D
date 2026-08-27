@@ -49,7 +49,7 @@ struct Material {
     Material() = default;
     /// @brief Constructs a material with an albedo map.
     /// @param texture Pointer to the texture.
-    Material(Texture* texture);
+    explicit Material(Texture* texture);
     /// @brief Constructs a material with an albedo map and custom pipeline.
     /// @param texture Pointer to the texture.
     /// @param pipeline Pointer to the custom pipeline.

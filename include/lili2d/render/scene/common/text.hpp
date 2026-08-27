@@ -29,7 +29,7 @@ struct GlyphUV {
     /// @param v0 Minimum V coordinate.
     /// @param u1 Maximum U coordinate.
     /// @param v1 Maximum V coordinate.
-    GlyphUV(float u0 = 0.0f, float v0 = 0.0f, float u1 = 0.0f, float v1 = 0.0f);
+    GlyphUV(float u0, float v0, float u1, float v1);
 };
 
 /// @brief Represents a bitmap font loaded from an image.
@@ -42,7 +42,7 @@ public:
     /// @param path Path to the font image.
     /// @param cols Number of columns in the font grid.
     /// @param rows Number of rows in the font grid.
-    BitmapFont(
+    explicit BitmapFont(
         Renderer* renderer, const std::string& path, uint8_t cols, uint8_t rows
     );
 
@@ -94,7 +94,7 @@ public:
     /// @param renderer The renderer.
     /// @param font Pointer to the bitmap font.
     /// @param text The text string to render.
-    Text(Renderer* renderer, BitmapFont* font, const std::string& text);
+    explicit Text(Renderer* renderer, BitmapFont* font, const std::string& text);
     /// @brief Destructor.
     ~Text() override = default;
 

@@ -12,24 +12,24 @@ Sprite::Sprite(Renderer* renderer, const std::string& path)
     mesh = renderer->getUnitQuad();
 
     material = std::make_unique<Material>(texture.get());
-    material->properties.color_tint = {1.0f, 1.0f, 1.0f, 1.0f};
+    material->properties.color_tint = Vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-    position = {0.0f, 0.0f};
-    scale = {1.0f, 1.0f};
-    size = {(float)texture->getWidth(), (float)texture->getHeight()};
+    position = Vec2(0.0f, 0.0f);
+    scale = Vec2(1.0f, 1.0f);
+    size = Vec2(texture->getWidth(), texture->getHeight());
     rotation = 0.0f;
     layer = 0.0f;
 }
 
-Sprite::Sprite(Renderer* renderer, SliceUV slice) : renderer(renderer) {
+Sprite::Sprite(Renderer* renderer, const SliceUV& slice) : renderer(renderer) {
     mesh = renderer->getUnitQuad();
 
     material = std::make_unique<Material>(slice.texture);
-    material->properties.color_tint = {1.0f, 1.0f, 1.0f, 1.0f};
+    material->properties.color_tint = Vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-    position = {0.0f, 0.0f};
-    scale = {1.0f, 1.0f};
-    size = {slice.width, slice.height};
+    position = Vec2(0.0f, 0.0f);
+    scale = Vec2(1.0f, 1.0f);
+    size = Vec2(slice.width, slice.height);
     rotation = 0.0f;
     layer = 0.0f;
     setSlice(slice);
@@ -39,12 +39,11 @@ Sprite::Sprite(Renderer* renderer, Texture* texture) : renderer(renderer) {
     mesh = renderer->getUnitQuad();
 
     material = std::make_unique<Material>(texture);
-    material->properties.color_tint = {1.0f, 1.0f, 1.0f, 1.0f};
+    material->properties.color_tint = Vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-    position = {0.0f, 0.0f};
-    scale = {1.0f, 1.0f};
-    if (texture)
-        size = {(float)texture->getWidth(), (float)texture->getHeight()};
+    position = Vec2(0.0f, 0.0f);
+    scale = Vec2(1.0f, 1.0f);
+    if (texture) size = Vec2(texture->getWidth(), texture->getHeight());
     rotation = 0.0f;
     layer = 0.0f;
 }
@@ -53,12 +52,12 @@ void
 Sprite::setImage(const std::string& path) {
     texture = std::make_unique<Texture>(renderer->getDevice(), path);
     material = std::make_unique<Material>(texture.get());
-    material->properties.color_tint = {1.0f, 1.0f, 1.0f, 1.0f};
+    material->properties.color_tint = Vec4(1.0f, 1.0f, 1.0f, 1.0f);
     mesh = renderer->getUnitQuad();
 }
 
 void
-Sprite::setColorTint(const Vec4& color) {
+Sprite::setColorTint(Vec4 color) {
     if (material) material->properties.color_tint = color;
 }
 
@@ -99,14 +98,13 @@ Sprite::setLayer(float layer) {
 }
 
 void
-Sprite::setSlice(SliceUV slice) {
+Sprite::setSlice(const SliceUV& slice) {
     current_slice = slice;
     Material* mat = getMaterial();
     if (mat) {
         mat->albedoMap = slice.texture;
-        mat->properties.uv_bounds = {
-            slice.u_min, slice.v_min, slice.u_max, slice.v_max
-        };
+        mat->properties.uv_bounds =
+            Vec4(slice.u_min, slice.v_min, slice.u_max, slice.v_max);
     }
 }
 

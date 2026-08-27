@@ -10,7 +10,7 @@ class YetAgainScene : public lili::Scene {
 public:
     /// @brief Constructor.
     /// @param renderer Renderer pointer.
-    YetAgainScene(lili::Renderer* renderer);
+    explicit YetAgainScene(lili::Renderer* renderer);
 
     /// @brief Event handling callback.
     /// @param event Incoming event.

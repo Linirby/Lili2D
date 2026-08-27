@@ -30,11 +30,11 @@ struct CircleCollider {
 
     /// @brief Constructs a CircleCollider from a geometry CircleShape.
     /// @param circle The circle shape.
-    CircleCollider(const CircleShape& circle);
+    explicit CircleCollider(const CircleShape& circle);
 
     /// @brief Constructs a CircleCollider from a geometry RectShape.
     /// @param rect The rectangle shape.
-    CircleCollider(const RectShape& rect);
+    explicit CircleCollider(const RectShape& rect);
 
     /// @brief Copy assignment operator.
     CircleCollider&

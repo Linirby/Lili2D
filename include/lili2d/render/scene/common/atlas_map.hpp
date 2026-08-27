@@ -29,7 +29,7 @@ public:
     /// @brief Constructs an AtlasMap and loads its texture from a file.
     /// @param renderer The renderer used to allocate the texture.
     /// @param filename The path to the image file.
-    AtlasMap(Renderer* renderer, const std::string& filename);
+    explicit AtlasMap(Renderer* renderer, const std::string& filename);
     /// @brief Move constructor.
     AtlasMap(AtlasMap&& other) noexcept;
     /// @brief Move assignment operator.

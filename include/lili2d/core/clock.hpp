@@ -13,7 +13,7 @@ public:
     Clock() = default;
     /// @brief Constructs the Clock with a target ticks per second rate.
     /// @param tick_per_second Target ticks per second (TPS).
-    Clock(float tick_per_second);
+    explicit Clock(float tick_per_second);
 
     /// @brief Sets the fixed delta time for physics or fixed updates.
     /// @param value The fixed delta time in seconds.

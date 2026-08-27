@@ -17,7 +17,7 @@ public:
     /// @brief Constructor.
     /// @param renderer The renderer.
     /// @param texture The texture to use for the batch.
-    SpriteBatch(Renderer* renderer, Texture* texture);
+    explicit SpriteBatch(Renderer* renderer, Texture* texture);
     /// @brief Destructor.
     ~SpriteBatch() override;
     /// @brief Deleted copy constructor.
@@ -45,9 +45,9 @@ public:
     /// @param color The color tint for the vertices.
     static void
     appendSpriteToMesh(
-        MeshData& mesh_data, const SliceUV& slice, const Vec2& position,
-        const Vec2& scale = {1.0f, 1.0f}, float rotation = 0.0f,
-        const Vec4& color = {1.0f, 1.0f, 1.0f, 1.0f}
+        MeshData& mesh_data, const SliceUV& slice, Vec2 position,
+        Vec2 scale = {1.0f, 1.0f}, float rotation = 0.0f,
+        Vec4 color = {1.0f, 1.0f, 1.0f, 1.0f}
     );
 
     /// @brief Directly updates the GPU mesh with the provided CPU mesh data.
@@ -67,9 +67,8 @@ public:
     /// @param color The color tint for the vertices.
     void
     draw(
-        const SliceUV& slice, const Vec2& position,
-        const Vec2& scale = {1.0f, 1.0f}, float rotation = 0.0f,
-        const Vec4& color = {1.0f, 1.0f, 1.0f, 1.0f}
+        const SliceUV& slice, Vec2 position, Vec2 scale = {1.0f, 1.0f},
+        float rotation = 0.0f, Vec4 color = {1.0f, 1.0f, 1.0f, 1.0f}
     );
 
     /// @brief Ends the batch and updates the GPU mesh.
@@ -79,7 +78,7 @@ public:
     /// @brief Sets the color tint for the entire batch.
     /// @param color The new color tint.
     void
-    setColorTint(const Vec4& color);
+    setColorTint(Vec4 color);
     /// @brief Sets color tint for the batch.
     /// @param color The new color tint.
     void

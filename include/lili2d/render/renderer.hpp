@@ -32,7 +32,7 @@ public:
     /// @brief Constructor for the renderer.
     /// @param window The window to render to.
     /// @param preferred_mode The preferred present mode for the swapchain.
-    Renderer(
+    explicit Renderer(
         Window* window,
         SDL_GPUPresentMode preferred_mode = SDL_GPU_PRESENTMODE_MAILBOX
     );
@@ -159,26 +159,24 @@ public:
     /// @param h Height.
     /// @param color The color.
     void
-    drawDebugRect(float x, float y, float w, float h, const Vec4& color);
+    drawDebugRect(float x, float y, float w, float h, Vec4 color);
     /// @brief Draws a cached hollow debug rectangle from a RectShape.
     /// @param rect The rectangle geometry.
     /// @param color The color.
     void
-    drawDebugRect(const RectShape& rect, const Vec4& color);
+    drawDebugRect(RectShape rect, Vec4 color);
     /// @brief Draws a cached hollow debug circle.
     /// @param center_x X centered position.
     /// @param center_y Y centered position.
     /// @param radius The Radius.
     /// @param color The color.
     void
-    drawDebugCircle(
-        float center_x, float center_y, float radius, const Vec4& color
-    );
+    drawDebugCircle(float center_x, float center_y, float radius, Vec4 color);
     /// @brief Draws a cached hollow debug circle from a CircleShape.
     /// @param circle The circle geometry.
     /// @param color The color.
     void
-    drawDebugCircle(const CircleShape& circle, const Vec4& color);
+    drawDebugCircle(CircleShape circle, Vec4 color);
 
 private:
     Window* window = nullptr;

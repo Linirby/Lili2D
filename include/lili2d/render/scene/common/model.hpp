@@ -11,11 +11,12 @@ struct Model {
     Material* material = nullptr;  ///< Pointer to the material.
 
     /// @brief Default constructor.
-    Model();
+    constexpr Model() noexcept = default;
     /// @brief Constructs a model with a mesh and material.
     /// @param mesh Pointer to the GPU mesh.
     /// @param material Pointer to the material.
-    Model(GPUMesh* mesh, Material* material);
+    constexpr Model(GPUMesh* mesh, Material* material) noexcept
+        : mesh(mesh), material(material) {}
 };
 
 }  // namespace lili

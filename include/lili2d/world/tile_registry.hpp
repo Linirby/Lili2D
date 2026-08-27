@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string_view>
+
 #include "lili2d/core/asset_registry.hpp"
 #include "lili2d/world/tile.hpp"
 
@@ -23,32 +25,44 @@ public:
     /// @param key The unique string key.
     /// @param tile The tile to register.
     /// @return The assigned tile ID.
-    uint16_t
-    registerTile(const std::string& key, Tile&& tile);
+    inline uint16_t
+    registerTile(const std::string& key, Tile&& tile) {
+        return registerAsset(key, std::move(tile));
+    }
     /// @brief Checks if a tile exists.
     /// @param key The tile key.
     /// @return True if the tile exists.
-    bool
-    hasTile(const std::string& key) const;
+    [[nodiscard]] inline bool
+    hasTile(std::string_view key) const noexcept {
+        return hasAsset(key);
+    }
     /// @brief Gets the total number of registered tiles.
     /// @return The number of tiles.
-    size_t
-    tileCount() const;
+    [[nodiscard]] inline size_t
+    tileCount() const noexcept {
+        return assetCount();
+    }
     /// @brief Gets a tile ID by key.
     /// @param key The tile key.
     /// @return The tile ID.
-    uint16_t
-    getTileID(const std::string& key) const;
+    [[nodiscard]] inline uint16_t
+    getTileID(std::string_view key) const {
+        return getAssetID(key);
+    }
     /// @brief Gets a tile by key.
     /// @param key The tile key.
     /// @return Reference to the tile.
-    const Tile&
-    getTile(const std::string& key) const;
+    [[nodiscard]] inline const Tile&
+    getTile(std::string_view key) const {
+        return getAsset(key);
+    }
     /// @brief Gets a tile by 16-bit ID.
     /// @param tile_id The tile ID.
     /// @return Reference to the tile.
-    const Tile&
-    getTile(uint16_t tile_id) const;
+    [[nodiscard]] inline const Tile&
+    getTile(uint16_t tile_id) const {
+        return getAsset(tile_id);
+    }
 
 private:
     /// @brief Private constructor enforcing singleton pattern.

@@ -4,21 +4,12 @@
 
 namespace lili {
 
-AnimationPlayer::AnimationPlayer(const Animation* animation)
-    : animation(animation) {}
-
 AnimationPlayer::AnimationPlayer(uint16_t animation_id) {
     setAnimation(animation_id);
 }
 
-AnimationPlayer::AnimationPlayer(const std::string& animation_key) {
+AnimationPlayer::AnimationPlayer(std::string_view animation_key) {
     setAnimation(animation_key);
-}
-
-void
-AnimationPlayer::setAnimation(const Animation* animation) {
-    this->animation = animation;
-    reset();
 }
 
 void
@@ -28,18 +19,13 @@ AnimationPlayer::setAnimation(uint16_t animation_id) {
 }
 
 void
-AnimationPlayer::setAnimation(const std::string& animation_key) {
+AnimationPlayer::setAnimation(std::string_view animation_key) {
     this->animation = &AnimationRegistry::get().getAnimation(animation_key);
     reset();
 }
 
 void
-AnimationPlayer::setFrameSpeed(float speed_sec) {
-    frame_speed_sec = speed_sec;
-}
-
-void
-AnimationPlayer::update(float dt) {
+AnimationPlayer::update(float dt) noexcept {
     if (!animation || animation->frameCount() == 0) return;
 
     frame_time_sec += dt;
@@ -52,14 +38,8 @@ AnimationPlayer::update(float dt) {
     }
 }
 
-void
-AnimationPlayer::reset() {
-    current_frame = 0;
-    frame_time_sec = 0.0f;
-}
-
 const SliceUV&
-AnimationPlayer::getCurrentFrame() const {
+AnimationPlayer::getCurrentFrame() const noexcept {
     if (!animation || animation->frameCount() == 0) {
         static SliceUV empty_slice;
         return empty_slice;

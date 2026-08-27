@@ -5,9 +5,6 @@
 
 namespace lili {
 
-GlyphUV::GlyphUV(float u0, float v0, float u1, float v1)
-    : u0(u0), v0(v0), u1(u1), v1(v1) {}
-
 BitmapFont::BitmapFont(
     Renderer* renderer, const std::string& path, uint8_t cols, uint8_t rows
 )
@@ -42,23 +39,8 @@ BitmapFont::operator=(BitmapFont&& other) noexcept {
     return *this;
 }
 
-Texture*
-BitmapFont::getTexture() const {
-    return texture.get();
-}
-
-int
-BitmapFont::getGlyphW() const {
-    return glyph_w;
-}
-
-int
-BitmapFont::getGlyphH() const {
-    return glyph_h;
-}
-
 GlyphUV
-BitmapFont::glyphUv(char c) const {
+BitmapFont::glyphUv(char c) const noexcept {
     const int ASCII = static_cast<unsigned char>(c);
     const int FIRST = static_cast<unsigned char>(' ');
     int idx = ASCII - FIRST;
@@ -85,8 +67,8 @@ BitmapFont::glyphUv(char c) const {
 Text::Text(Renderer* renderer, BitmapFont* font, const std::string& text) {
     this->renderer = renderer;
     this->font = font;
-    glyph_w = font->getGlyphW();
-    glyph_h = font->getGlyphH();
+    glyph_w = static_cast<float>(font->getGlyphW());
+    glyph_h = static_cast<float>(font->getGlyphH());
     advance = glyph_w + 1.0f;
     if (!text.empty())
         this->text = text;
@@ -107,75 +89,9 @@ Text::setText(const std::string& value) {
 }
 
 void
-Text::setPosition(Vec2 position) {
-    pos = position;
-    ui_layout.offset = position;
-}
-
-void
-Text::setRotation(float degree) {
-    rotation = lili::degToRad(degree);
-}
-
-void
-Text::setScale(Vec2 scale) {
-    this->scale = scale;
-}
-
-void
-Text::setScale(float value) {
-    this->scale = Vec2(value, value);
-}
-
-void
-Text::setSize(Vec2 size) {
-    // Unused for fixed bitmap font rendering
-    (void)size;
-}
-
-void
 Text::setSpacing(float value) {
     advance = glyph_w + value;
     rebuildMesh();
-}
-
-void
-Text::setColor(Vec4 color) {
-    if (material) {
-        material->properties.color_tint = color;
-    }
-}
-
-void
-Text::setMaterial(Material* material) {
-    external_material = material;
-}
-
-void
-Text::setLayer(float layer) {
-    this->layer = layer;
-}
-
-Vec2
-Text::getPosition() const {
-    return pos;
-}
-
-float
-Text::getRotation() const {
-    return lili::radToDeg(rotation);
-}
-
-Vec2
-Text::getScale() const {
-    return scale;
-}
-
-Vec2
-Text::getSize() const {
-    float width = text.length() * advance * scale.x;
-    float height = glyph_h * scale.y;
-    return {width, height};
 }
 
 Mat3
@@ -187,22 +103,6 @@ Text::getTransformMatrix() const {
         );
     }
     return Mat3::translate(pos) * Mat3::rotation(rotation) * Mat3::scale(scale);
-}
-
-float
-Text::getLayer() const {
-    return layer;
-}
-
-Vec4
-Text::getColor() const {
-    Material* mat = getMaterial();
-    return mat ? mat->properties.color_tint : Vec4(1, 1, 1, 1);
-}
-
-Material*
-Text::getMaterial() const {
-    return external_material ? external_material : material.get();
 }
 
 void

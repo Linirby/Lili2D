@@ -16,7 +16,7 @@ namespace lili {
 class Line : public IRenderable {
 public:
     /// @brief Default constructor.
-    Line() = default;
+    Line() noexcept = default;
     /// @brief Constructs a renderable line.
     /// @param renderer The renderer.
     /// @param shape The line geometry.
@@ -26,106 +26,162 @@ public:
     ~Line() override = default;
 
     /// @brief Move constructor.
-    Line(Line&&) = default;
+    Line(Line&&) noexcept = default;
     /// @brief Move assignment operator.
     /// @return Reference to the assigned line.
     Line&
-    operator=(Line&&) = default;
+    operator=(Line&&) noexcept = default;
 
     /// @brief Sets start position.
     /// @param pos New start position.
     void
-    setPosition(Vec2 pos) override;
+    setPosition(Vec2 pos) noexcept override;
     /// @brief Sets rotation in degrees (rotates end around start).
     /// @param degree Angle in degrees.
     void
-    setRotation(float degree) override;
+    setRotation(float degree) noexcept override;
     /// @brief Sets scale factors.
     /// @param scale The new scale.
-    void
-    setScale(Vec2 scale) override;
+    inline void
+    setScale(Vec2 scale) noexcept override {
+        this->scale = scale;
+    }
     /// @brief Sets size (length = size.x, thickness = size.y).
     /// @param size The new size.
     void
-    setSize(Vec2 size) override;
+    setSize(Vec2 size) noexcept override;
 
     /// @brief Sets the start position.
     /// @param pos The new start position.
-    void
-    setStart(Vec2 pos);
+    inline void
+    setStart(Vec2 pos) noexcept {
+        shape.start = pos;
+        ui_layout.offset = pos;
+    }
+
     /// @brief Sets the end position.
     /// @param pos The new end position.
-    void
-    setEnd(Vec2 pos);
+    inline void
+    setEnd(Vec2 pos) noexcept {
+        shape.end = pos;
+    }
+
     /// @brief Sets the thickness.
     /// @param value The new thickness.
-    void
-    setThickness(float value);
+    inline void
+    setThickness(float value) noexcept {
+        shape.thickness = value;
+    }
+
     /// @brief Sets the line shape.
     /// @param shape The new shape.
-    void
-    setShape(LineShape shape);
+    inline void
+    setShape(LineShape shape) noexcept {
+        this->shape = shape;
+        ui_layout.offset = shape.start;
+    }
+
     /// @brief Sets the color.
     /// @param color The new color.
-    void
-    setColor(Vec4 color) override;
+    inline void
+    setColor(Vec4 color) noexcept override {
+        if (material) {
+            material->properties.color_tint = color;
+        }
+    }
+
     /// @brief Sets the material pointer.
-    /// @param material Material pointer.
-    void
-    setMaterial(Material* material) override;
+    /// @param mat Material pointer.
+    inline void
+    setMaterial(Material* mat) noexcept override {
+        external_material = mat;
+    }
+
     /// @brief Sets the depth value for Z-ordering.
     /// @param value The new layer depth.
-    void
-    setLayer(float value) override;
+    inline void
+    setLayer(float value) noexcept override {
+        layer = value;
+    }
 
     /// @brief Gets start position.
     /// @return Start position.
-    Vec2
-    getPosition() const override;
+    [[nodiscard]] inline Vec2
+    getPosition() const noexcept override {
+        return shape.start;
+    }
+
     /// @brief Gets rotation angle in degrees.
     /// @return Rotation angle in degrees.
-    float
-    getRotation() const override;
+    [[nodiscard]] float
+    getRotation() const noexcept override;
+
     /// @brief Gets scale.
     /// @return Scale vector.
-    Vec2
-    getScale() const override;
+    [[nodiscard]] inline Vec2
+    getScale() const noexcept override {
+        return scale;
+    }
+
     /// @brief Gets bounding size (length * scale.x, thickness * scale.y).
     /// @return Size vector.
-    Vec2
-    getSize() const override;
+    [[nodiscard]] Vec2
+    getSize() const noexcept override;
+
     /// @brief Gets the transformation matrix.
     /// @return Mat3 matrix.
-    Mat3
+    [[nodiscard]] Mat3
     getTransformMatrix() const override;
+
     /// @brief Gets layer depth.
-    /// @return Depth layer.
-    float
-    getLayer() const override;
-    /// @brief Gets the start position.
-    /// @return The start position.
-    Vec2
-    getStart() const;
-    /// @brief Gets the end position.
-    /// @return The end position.
-    Vec2
-    getEnd() const;
-    /// @brief Gets the thickness.
+    /// @return The depth.
+    [[nodiscard]] inline float
+    getLayer() const noexcept override {
+        return layer;
+    }
+
+    /// @brief Gets start position.
+    /// @return Start position.
+    [[nodiscard]] inline Vec2
+    getStart() const noexcept {
+        return shape.start;
+    }
+
+    /// @brief Gets end position.
+    /// @return End position.
+    [[nodiscard]] inline Vec2
+    getEnd() const noexcept {
+        return shape.end;
+    }
+
+    /// @brief Gets thickness.
     /// @return The thickness.
-    float
-    getThickness() const;
-    /// @brief Gets the shape geometry.
+    [[nodiscard]] inline float
+    getThickness() const noexcept {
+        return shape.thickness;
+    }
+
+    /// @brief Gets line shape geometry.
     /// @return The shape.
-    LineShape
-    getShape() const;
+    [[nodiscard]] inline LineShape
+    getShape() const noexcept {
+        return shape;
+    }
+
     /// @brief Gets the color.
     /// @return The color.
-    Vec4
-    getColor() const override;
+    [[nodiscard]] inline Vec4
+    getColor() const noexcept override {
+        Material* mat = getMaterial();
+        return mat ? mat->properties.color_tint : Vec4(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+
     /// @brief Gets the material.
     /// @return Pointer to the material.
-    Material*
-    getMaterial() const override;
+    [[nodiscard]] inline Material*
+    getMaterial() const noexcept override {
+        return external_material ? external_material : material.get();
+    }
 
     /// @brief Submits the line for drawing.
     void
@@ -136,9 +192,9 @@ private:
     Renderer* renderer = nullptr;
     /// @brief Line shape geometry.
     LineShape shape;
-
     /// @brief 2D scale vector.
     Vec2 scale = {1.0f, 1.0f};
+
     /// @brief Render layer depth.
     float layer = 0.0f;
     /// @brief Pointer to GPU mesh.

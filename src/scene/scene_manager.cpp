@@ -47,9 +47,4 @@ SceneManager::render(float alpha) {
     if (!scenes.empty()) scenes.back()->render(alpha);
 }
 
-bool
-SceneManager::empty() const {
-    return scenes.empty();
-}
-
 }  // namespace lili

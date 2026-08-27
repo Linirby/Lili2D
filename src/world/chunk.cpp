@@ -7,27 +7,11 @@
 
 namespace lili {
 
-bool
-BatchKey::operator==(const BatchKey& other) const {
-    return texture == other.texture && z == other.z;
-}
-
-std::size_t
-BatchKeyHash::operator()(const BatchKey& k) const {
-    return std::hash<Texture*>()(k.texture) ^ (std::hash<int>()(k.z) << 1);
-}
-
 Chunk::Chunk() { tiles.resize(SIZE * SIZE * SIZE, 0); }
-
-size_t
-Chunk::flattenIndex(lili::Point3 local_pos) {
-    return (local_pos.x + local_pos.y * SIZE + local_pos.z * SIZE * SIZE);
-}
 
 ChunkMeshData
 Chunk::generateMeshData(
-    Point3 chunk_pos, const Vec2& tile_size,
-    const std::vector<uint16_t>& chunk_tiles
+    Point3 chunk_pos, Vec2 tile_size, const std::vector<uint16_t>& chunk_tiles
 ) const {
     ChunkMeshData chunk_mesh;
     TileRegistry& registry = TileRegistry::get();
@@ -57,18 +41,15 @@ Chunk::generateMeshData(
     }
 
     chunk_mesh.batches.reserve(temp_meshes.size());
-    for (auto& pair : temp_meshes) {
+    for (auto& pair : temp_meshes)
         chunk_mesh.batches.push_back({pair.first, std::move(pair.second)});
-    }
 
     return chunk_mesh;
 }
 
 void
 Chunk::uploadMeshData(Renderer* renderer, ChunkMeshData&& mesh_data) const {
-    for (auto& pair : batches) {
-        pair.second->clear();
-    }
+    for (auto& pair : batches) pair.second->clear();
 
     for (auto& batch_data : mesh_data.batches) {
         const BatchKey& key = batch_data.key;
@@ -83,7 +64,7 @@ Chunk::uploadMeshData(Renderer* renderer, ChunkMeshData&& mesh_data) const {
 void
 Chunk::rebuildBatches(
     Renderer* renderer, ThreadPool* thread_pool, Point3 chunk_pos,
-    const Vec2& tile_size
+    Vec2 tile_size
 ) const {
     if (!rebuilding) {
         rebuilding = true;

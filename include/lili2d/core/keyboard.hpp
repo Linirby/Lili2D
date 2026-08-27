@@ -11,22 +11,31 @@ class Keyboard {
 public:
     /// @brief Updates the keyboard state for the current frame.
     void
-    update();
+    update() noexcept;
+
     /// @brief Checks if a key is currently held down.
     /// @param key The scancode of the key to check.
     /// @return True if the key is held, false otherwise.
-    bool
-    held(Scancode key) const;
+    [[nodiscard]] inline bool
+    held(Scancode key) const noexcept {
+        return key < SDL_SCANCODE_COUNT && current[key];
+    }
+
     /// @brief Checks if a key was pressed down in the current frame.
     /// @param key The scancode of the key to check.
     /// @return True if the key was just pressed, false otherwise.
-    bool
-    justPressed(Scancode key) const;
+    [[nodiscard]] inline bool
+    justPressed(Scancode key) const noexcept {
+        return key < SDL_SCANCODE_COUNT && current[key] && !previous[key];
+    }
+
     /// @brief Checks if a key was released in the current frame.
     /// @param key The scancode of the key to check.
     /// @return True if the key was just released, false otherwise.
-    bool
-    justReleased(Scancode key) const;
+    [[nodiscard]] inline bool
+    justReleased(Scancode key) const noexcept {
+        return key < SDL_SCANCODE_COUNT && !current[key] && previous[key];
+    }
 
 private:
     /// @brief Current frame key states array.

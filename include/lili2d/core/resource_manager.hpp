@@ -29,7 +29,7 @@ public:
 
     /// @brief Clears all managed resources.
     virtual void
-    clear() = 0;
+    clear() noexcept = 0;
 
     /// @brief Polls file modification times for watched assets.
     virtual void
@@ -38,17 +38,17 @@ public:
     /// @brief Enables or disables hot reloading file polling.
     /// @param enabled True to enable.
     virtual void
-    setHotReloadEnabled(bool enabled) = 0;
+    setHotReloadEnabled(bool enabled) noexcept = 0;
 
     /// @brief Checks if hot reloading is enabled.
     /// @return True if enabled.
-    virtual bool
-    isHotReloadEnabled() const = 0;
+    [[nodiscard]] virtual bool
+    isHotReloadEnabled() const noexcept = 0;
 
     /// @brief Gets total number of managed resources.
     /// @return Resource count.
-    virtual size_t
-    count() const = 0;
+    [[nodiscard]] virtual size_t
+    count() const noexcept = 0;
 };
 
 /// @brief Generic scoped resource manager with hot-reloading support.
@@ -67,6 +67,18 @@ public:
         std::string path;
         /// @brief Last write timestamp of the file.
         std::filesystem::file_time_type last_write_time{};
+
+        WatchedFile() = default;
+        WatchedFile(
+            std::string path, std::filesystem::file_time_type last_write_time
+        )
+            : path(std::move(path)), last_write_time(last_write_time) {}
+        WatchedFile(const WatchedFile&) = default;
+        WatchedFile&
+        operator=(const WatchedFile&) = default;
+        WatchedFile(WatchedFile&&) noexcept = default;
+        WatchedFile&
+        operator=(WatchedFile&&) noexcept = default;
     };
 
     /// @brief Record tracking a managed resource and its metadata.
@@ -119,7 +131,8 @@ public:
     /// @brief Loads or retrieves a cached resource watching multiple filepaths.
     /// @param key Unique string identifier.
     /// @param filepaths Vector of filepaths to watch for hot reloading.
-    /// @param loader Function that constructs a unique_ptr<T> from the primary filepath.
+    /// @param loader Function that constructs a unique_ptr<T> from the primary
+    /// filepath.
     /// @param scope Resource scope tag (default: "global").
     /// @param reloader Optional custom in-place reloader for hot reloading.
     /// @return Raw pointer to the loaded resource.
@@ -156,21 +169,21 @@ public:
     /// @brief Retrieves a cached resource by key.
     /// @param key Resource identifier.
     /// @return Raw pointer to resource, or nullptr if not found.
-    T*
-    get(std::string_view key) const;
+    [[nodiscard]] T*
+    get(std::string_view key) const noexcept;
 
     /// @brief Retrieves a reference to a cached resource by key.
     /// @param key Resource identifier.
     /// @return Reference to the resource. Throws std::runtime_error if not
     /// found.
-    T&
+    [[nodiscard]] T&
     getRef(std::string_view key) const;
 
     /// @brief Checks if a resource with the key exists.
     /// @param key Resource identifier.
     /// @return True if resource exists in cache.
-    bool
-    has(std::string_view key) const;
+    [[nodiscard]] bool
+    has(std::string_view key) const noexcept;
 
     /// @brief Unloads a single resource by key.
     /// @param key Resource identifier.
@@ -186,12 +199,12 @@ public:
 
     /// @brief Clears all cached resources.
     void
-    clear() override;
+    clear() noexcept override;
 
     /// @brief Gets total number of managed resources.
     /// @return Resource count.
-    size_t
-    count() const override;
+    [[nodiscard]] size_t
+    count() const noexcept override;
 
     /// @brief Polls file modification times for watched assets and reloads
     /// modified files.
@@ -201,12 +214,12 @@ public:
     /// @brief Enables or disables hot reloading file polling.
     /// @param enabled True to enable file watcher checks.
     void
-    setHotReloadEnabled(bool enabled) override;
+    setHotReloadEnabled(bool enabled) noexcept override;
 
     /// @brief Checks if hot reloading is enabled.
     /// @return True if enabled.
-    bool
-    isHotReloadEnabled() const override;
+    [[nodiscard]] bool
+    isHotReloadEnabled() const noexcept override;
 
 private:
     /// @brief Hash map of cached resources by string key.
@@ -339,7 +352,7 @@ ResourceManager<T>::emplace(
 
 template <typename T>
 T*
-ResourceManager<T>::get(std::string_view key) const {
+ResourceManager<T>::get(std::string_view key) const noexcept {
     auto it = resources.find(key);
     if (it == resources.end()) return nullptr;
     return it->second.resource.get();
@@ -357,8 +370,8 @@ ResourceManager<T>::getRef(std::string_view key) const {
 
 template <typename T>
 bool
-ResourceManager<T>::has(std::string_view key) const {
-    return resources.contains(key);
+ResourceManager<T>::has(std::string_view key) const noexcept {
+    return resources.find(key) != resources.end();
 }
 
 template <typename T>
@@ -375,34 +388,37 @@ size_t
 ResourceManager<T>::unloadScope(std::string_view scope) {
     size_t unloaded = 0;
     for (auto it = resources.begin(); it != resources.end();) {
-        if (it->second.scope != scope) ++it;
-        it = resources.erase(it);
-        ++unloaded;
+        if (it->second.scope != scope) {
+            ++it;
+        } else {
+            it = resources.erase(it);
+            ++unloaded;
+        }
     }
     return unloaded;
 }
 
 template <typename T>
 void
-ResourceManager<T>::clear() {
+ResourceManager<T>::clear() noexcept {
     resources.clear();
 }
 
 template <typename T>
 size_t
-ResourceManager<T>::count() const {
+ResourceManager<T>::count() const noexcept {
     return resources.size();
 }
 
 template <typename T>
 void
-ResourceManager<T>::setHotReloadEnabled(bool enabled) {
+ResourceManager<T>::setHotReloadEnabled(bool enabled) noexcept {
     hot_reload_enabled = enabled;
 }
 
 template <typename T>
 bool
-ResourceManager<T>::isHotReloadEnabled() const {
+ResourceManager<T>::isHotReloadEnabled() const noexcept {
     return hot_reload_enabled;
 }
 

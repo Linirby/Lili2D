@@ -62,17 +62,29 @@ public:
 
     /// @brief Sets the parent scene manager.
     /// @param manager The manager.
-    void
-    setManager(SceneManager* manager);
+    inline void
+    setManager(SceneManager* manager) noexcept {
+        this->manager = manager;
+    }
 
     /// @brief Gets the scene name.
     /// @return The name.
-    const std::string&
-    getName() const;
+    [[nodiscard]] inline const std::string&
+    getName() const noexcept {
+        return name;
+    }
     /// @brief Gets the parent scene manager.
     /// @return The manager.
-    SceneManager*
-    getManager() const;
+    [[nodiscard]] inline SceneManager*
+    getManager() const noexcept {
+        return manager;
+    }
+    /// @brief Gets the renderer.
+    /// @return Pointer to Renderer.
+    [[nodiscard]] inline Renderer*
+    getRenderer() const noexcept {
+        return renderer;
+    }
 
 protected:
     /// @brief Name identifier of the scene.

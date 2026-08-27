@@ -1,8 +1,3 @@
 #include "lili2d/world/tile.hpp"
 
-namespace lili {
-
-Tile::Tile(const SliceUV& slice, bool is_solid)
-    : slice(slice), is_solid(is_solid) {}
-
-}  // namespace lili
+// Intentionally empty - Tile constructors are fully inlined in tile.hpp

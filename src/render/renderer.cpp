@@ -39,11 +39,6 @@ Renderer::~Renderer() {
     if (device) SDL_WaitForGPUIdle(device.get());
 }
 
-SDL_GPUDevice*
-Renderer::getDevice() const {
-    return device.get();
-}
-
 bool
 Renderer::beginFrame() {
     current_cmd_buffer = SDL_AcquireGPUCommandBuffer(device.get());
@@ -151,26 +146,6 @@ Renderer::endFrame() {
 }
 
 void
-Renderer::setCamera(Camera* camera) {
-    this->camera = camera;
-}
-
-Camera*
-Renderer::getCamera() const {
-    return camera;
-}
-
-uint32_t
-Renderer::getSwapchainWidth() const {
-    return swapchain_width;
-}
-
-uint32_t
-Renderer::getSwapchainHeight() const {
-    return swapchain_height;
-}
-
-void
 Renderer::setPresentMode(SDL_GPUPresentMode mode) {
     if (mode == SDL_GPU_PRESENTMODE_MAILBOX) {
         if (!SDL_SetGPUSwapchainParameters(
@@ -206,12 +181,6 @@ Renderer::setPresentMode(SDL_GPUPresentMode mode) {
             device.get(), window->getSdlWindow(),
             SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_VSYNC
         );
-}
-
-void
-Renderer::setLogicalResolution(int width, int height) {
-    logical_width = width;
-    logical_height = height;
 }
 
 Vec2
@@ -255,11 +224,6 @@ Renderer::createMainGraphicsPipeline(Shader* shader) {
     return new MainGraphicsPipeline(
         device.get(), window->getSdlWindow(), shader
     );
-}
-
-Texture*
-Renderer::getTheWhitePixel() const {
-    return the_white_pixel.get();
 }
 
 GPUMesh*

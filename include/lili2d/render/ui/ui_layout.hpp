@@ -38,15 +38,15 @@ enum class Pivot {
 /// @param anchor Target anchor enum.
 /// @param custom Custom anchor vector used when anchor is Anchor::CUSTOM.
 /// @return Normalized 2D vector [0, 1].
-Vec2
-anchorToVector(Anchor anchor, Vec2 custom = {0.0f, 0.0f});
+[[nodiscard]] Vec2
+anchorToVector(Anchor anchor, Vec2 custom = {0.0f, 0.0f}) noexcept;
 
 /// @brief Converts a Pivot enum value to a normalized 2D vector coordinate.
 /// @param pivot Target pivot enum.
 /// @param custom Custom pivot vector used when pivot is Pivot::CUSTOM.
 /// @return Normalized 2D vector [0, 1].
-Vec2
-pivotToVector(Pivot pivot, Vec2 custom = {0.0f, 0.0f});
+[[nodiscard]] Vec2
+pivotToVector(Pivot pivot, Vec2 custom = {0.0f, 0.0f}) noexcept;
 
 /// @brief Layout configuration for anchoring and positioning UI elements.
 struct UILayout {
@@ -60,13 +60,15 @@ struct UILayout {
         0.0f, 0.0f
     };  ///< Custom pivot vector (when Pivot::CUSTOM).
 
+    constexpr UILayout() noexcept = default;
+
     /// @brief Calculates the screen position for an element given viewport and
     /// object sizes.
     /// @param viewport_size Size of the screen viewport in pixels.
     /// @param obj_size Size of the UI element in pixels.
     /// @return 2D screen position vector.
-    Vec2
-    getScreenPosition(Vec2 viewport_size, Vec2 obj_size) const;
+    [[nodiscard]] Vec2
+    getScreenPosition(Vec2 viewport_size, Vec2 obj_size) const noexcept;
 
     /// @brief Calculates the 3x3 transformation matrix for UI rendering.
     /// @param viewport_size Size of the screen viewport in pixels.
@@ -74,11 +76,11 @@ struct UILayout {
     /// @param rotation_rad Rotation angle in radians (default: 0).
     /// @param scale 2D scale vector (default: {1, 1}).
     /// @return 3x3 transformation matrix.
-    Mat3
+    [[nodiscard]] Mat3
     getTransformationMatrix(
         Vec2 viewport_size, Vec2 obj_size, float rotation_rad = 0.0f,
         Vec2 scale = {1.0f, 1.0f}
-    ) const;
+    ) const noexcept;
 };
 
 }  // namespace lili

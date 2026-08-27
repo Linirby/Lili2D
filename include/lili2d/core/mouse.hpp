@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SDL3/SDL_mouse.h>
+
 #include "lili2d/core/event.hpp"
 #include "lili2d/geometry/vec2.hpp"
 
@@ -10,43 +12,90 @@ class Mouse {
 public:
     /// @brief Updates the mouse state for the current frame.
     void
-    update();
+    update() noexcept;
+
     /// @brief Checks if a mouse button is currently held down.
     /// @param button The mouse button to check.
     /// @return True if the button is held, false otherwise.
-    bool
-    held(MouseButton button) const;
+    [[nodiscard]] inline bool
+    held(MouseButton button) const noexcept {
+        if (button == MouseButton::LEFT)
+            return (current & SDL_BUTTON_LMASK) != 0;
+        else if (button == MouseButton::MIDDLE)
+            return (current & SDL_BUTTON_MMASK) != 0;
+        else if (button == MouseButton::RIGHT)
+            return (current & SDL_BUTTON_RMASK) != 0;
+        return false;
+    }
+
     /// @brief Checks if a mouse button was pressed down in the current frame.
     /// @param button The mouse button to check.
     /// @return True if the button was just pressed, false otherwise.
-    bool
-    justPressed(MouseButton button) const;
+    [[nodiscard]] inline bool
+    justPressed(MouseButton button) const noexcept {
+        if (button == MouseButton::LEFT)
+            return (current & SDL_BUTTON_LMASK) &&
+                   !(previous & SDL_BUTTON_LMASK);
+        else if (button == MouseButton::MIDDLE)
+            return (current & SDL_BUTTON_MMASK) &&
+                   !(previous & SDL_BUTTON_MMASK);
+        else if (button == MouseButton::RIGHT)
+            return (current & SDL_BUTTON_RMASK) &&
+                   !(previous & SDL_BUTTON_RMASK);
+        return false;
+    }
+
     /// @brief Checks if a mouse button was released in the current frame.
     /// @param button The mouse button to check.
     /// @return True if the button was just released, false otherwise.
-    bool
-    justReleased(MouseButton button) const;
+    [[nodiscard]] inline bool
+    justReleased(MouseButton button) const noexcept {
+        if (button == MouseButton::LEFT)
+            return !(current & SDL_BUTTON_LMASK) &&
+                   (previous & SDL_BUTTON_LMASK);
+        else if (button == MouseButton::MIDDLE)
+            return !(current & SDL_BUTTON_MMASK) &&
+                   (previous & SDL_BUTTON_MMASK);
+        else if (button == MouseButton::RIGHT)
+            return !(current & SDL_BUTTON_RMASK) &&
+                   (previous & SDL_BUTTON_RMASK);
+        return false;
+    }
 
     /// @brief Gets the current X position of the mouse.
     /// @return The X position.
-    float
-    getX() const;
+    [[nodiscard]] inline float
+    getX() const noexcept {
+        return current_x;
+    }
+
     /// @brief Gets the current Y position of the mouse.
     /// @return The Y position.
-    float
-    getY() const;
+    [[nodiscard]] inline float
+    getY() const noexcept {
+        return current_y;
+    }
+
     /// @brief Gets the current X, Y position of the mouse.
     /// @return The 2D vector of X, Y position.
-    Vec2
-    getPos() const;
+    [[nodiscard]] inline Vec2
+    getPos() const noexcept {
+        return {current_x, current_y};
+    }
+
     /// @brief Gets the change in X position since the last frame.
     /// @return The change in X.
-    float
-    getDx() const;
+    [[nodiscard]] inline float
+    getDx() const noexcept {
+        return current_dx;
+    }
+
     /// @brief Gets the change in Y position since the last frame.
     /// @return The change in Y.
-    float
-    getDy() const;
+    [[nodiscard]] inline float
+    getDy() const noexcept {
+        return current_dy;
+    }
 
 private:
     /// @brief Current frame mouse button state mask.

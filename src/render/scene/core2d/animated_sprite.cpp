@@ -24,7 +24,7 @@ AnimatedSprite::AnimatedSprite(Renderer* renderer, const Animation& animation)
 }
 
 AnimatedSprite::AnimatedSprite(
-    Renderer* renderer, const std::string& animation_key
+    Renderer* renderer, std::string_view animation_key
 )
     : AnimatedSprite(
           renderer, AnimationRegistry::get().getAnimation(animation_key)
@@ -45,89 +45,13 @@ AnimatedSprite::setAnimation(const Animation& animation) {
 }
 
 void
-AnimatedSprite::setAnimation(const std::string& animation_key) {
+AnimatedSprite::setAnimation(std::string_view animation_key) {
     setAnimation(AnimationRegistry::get().getAnimation(animation_key));
 }
 
 void
 AnimatedSprite::setAnimation(uint16_t animation_id) {
     setAnimation(AnimationRegistry::get().getAnimation(animation_id));
-}
-
-void
-AnimatedSprite::setFrameSpeed(float speed_sec) {
-    frame_speed_sec = speed_sec;
-}
-
-void
-AnimatedSprite::setColorTint(Vec4 color) {
-    if (material) material->properties.color_tint = color;
-}
-
-void
-AnimatedSprite::setColor(Vec4 color) {
-    setColorTint(color);
-}
-
-void
-AnimatedSprite::setMaterial(Material* material) {
-    external_material = material;
-}
-
-void
-AnimatedSprite::setPosition(Vec2 position) {
-    this->position = position;
-    ui_layout.offset = position;
-}
-
-void
-AnimatedSprite::setScale(Vec2 scale) {
-    this->scale = scale;
-}
-
-void
-AnimatedSprite::setSize(Vec2 size) {
-    this->size = size;
-}
-
-void
-AnimatedSprite::setRotation(float degree) {
-    rotation = lili::degToRad(degree);
-}
-
-void
-AnimatedSprite::setLayer(float layer) {
-    this->layer = layer;
-}
-
-Vec2
-AnimatedSprite::getPosition() const {
-    return position;
-}
-
-float
-AnimatedSprite::getRotation() const {
-    return lili::radToDeg(rotation);
-}
-
-Vec2
-AnimatedSprite::getScale() const {
-    return scale;
-}
-
-float
-AnimatedSprite::getWidth() const {
-    return size.x * scale.x;
-}
-
-float
-AnimatedSprite::getHeight() const {
-    return size.y * scale.y;
-}
-
-Vec2
-AnimatedSprite::getSize() const {
-    return Vec2(size.x * scale.x, size.y * scale.y);
 }
 
 Mat3
@@ -143,22 +67,6 @@ AnimatedSprite::getTransformMatrix() const {
            Mat3::scale(getSize());
 }
 
-float
-AnimatedSprite::getLayer() const {
-    return layer;
-}
-
-Vec4
-AnimatedSprite::getColor() const {
-    Material* mat = getMaterial();
-    return mat ? mat->properties.color_tint : Vec4(1, 1, 1, 1);
-}
-
-Material*
-AnimatedSprite::getMaterial() const {
-    return external_material ? external_material : material.get();
-}
-
 void
 AnimatedSprite::update(float dt) {
     if (animation.frameCount() <= 1) return;
@@ -172,7 +80,7 @@ AnimatedSprite::update(float dt) {
 }
 
 void
-AnimatedSprite::reset() {
+AnimatedSprite::reset() noexcept {
     current_frame = 0;
     frame_time_sec = 0.0f;
     if (animation.frameCount() > 0) applyFrame(animation.getFrame(0));

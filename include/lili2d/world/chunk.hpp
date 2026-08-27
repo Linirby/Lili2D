@@ -23,8 +23,10 @@ struct BatchKey {
     /// @brief Equality comparison operator for BatchKey.
     /// @param other Key to compare against.
     /// @return True if equal, false otherwise.
-    bool
-    operator==(const BatchKey& other) const;
+    [[nodiscard]] constexpr bool
+    operator==(BatchKey other) const noexcept {
+        return texture == other.texture && z == other.z;
+    }
 };
 
 /// @brief Hash function for BatchKey.
@@ -32,8 +34,10 @@ struct BatchKeyHash {
     /// @brief Calculates the hash for a BatchKey.
     /// @param k The BatchKey.
     /// @return The hash value.
-    std::size_t
-    operator()(const BatchKey& k) const;
+    [[nodiscard]] inline std::size_t
+    operator()(BatchKey k) const noexcept {
+        return std::hash<void*>{}(k.texture) ^ (std::hash<int>{}(k.z) << 1);
+    }
 };
 
 /// @brief Struct to hold pre-calculated CPU mesh data for all batches of a
@@ -83,8 +87,12 @@ struct Chunk {
     /// @brief Flattens a 3D local position into a 1D index.
     /// @param local_pos The local 3D position within the chunk.
     /// @return The 1D index.
-    static size_t
-    flattenIndex(lili::Point3 local_pos);
+    [[nodiscard]] static constexpr inline size_t
+    flattenIndex(lili::Point3 local_pos) noexcept {
+        return static_cast<size_t>(
+            local_pos.x + local_pos.y * SIZE + local_pos.z * SIZE * SIZE
+        );
+    }
 
     /// @brief CPU-only function to generate mesh data. Thread-safe, no
     /// GPU/SDL3 calls.
@@ -94,7 +102,7 @@ struct Chunk {
     /// @return The generated CPU-side mesh data.
     ChunkMeshData
     generateMeshData(
-        Point3 chunk_pos, const Vec2& tile_size,
+        Point3 chunk_pos, Vec2 tile_size,
         const std::vector<uint16_t>& chunk_tiles
     ) const;
 
@@ -112,7 +120,7 @@ struct Chunk {
     void
     rebuildBatches(
         Renderer* renderer, ThreadPool* thread_pool, Point3 chunk_pos,
-        const Vec2& tile_size
+        Vec2 tile_size
     ) const;
 };
 

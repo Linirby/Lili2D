@@ -128,7 +128,7 @@ Window::setRelativeMouseMode(bool activate) {
     SDL_SyncWindow(window);
 }
 
-const std::string
+std::string
 Window::getTitle() const {
     return std::string(SDL_GetWindowTitle(window));
 }
@@ -163,26 +163,6 @@ Window::getSize() const {
     return {(float)w, (float)h};
 }
 
-bool
-Window::isResizable() const {
-    return resizable;
-}
-
-bool
-Window::isBorderless() const {
-    return borderless;
-}
-
-bool
-Window::isFullscreen() const {
-    return fullscreen;
-}
-
-bool
-Window::isRelativeMouseMode() const {
-    return SDL_GetWindowRelativeMouseMode(window);
-}
-
 void
 Window::setLogicalResolution(int width, int height) {
     logical_width = width;
@@ -198,11 +178,6 @@ Window::getLogicalResolution() const {
             static_cast<float>(logical_height)
         };
     return getSize();
-}
-
-bool
-Window::hasLogicalResolution() const {
-    return use_logical_resolution;
 }
 
 Vec2
@@ -228,11 +203,6 @@ Window::toLogicalCoords(float screen_x, float screen_y) const {
     float logical_y = (screen_y - viewport_y) / scale;
 
     return {logical_x, logical_y};
-}
-
-SDL_Window*
-Window::getSdlWindow() const {
-    return window;
 }
 
 }  // namespace lili

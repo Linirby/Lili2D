@@ -18,6 +18,18 @@ public:
     /// @brief Default destructor.
     ~CommandBuffer() = default;
 
+    /// @brief Move constructor.
+    CommandBuffer(CommandBuffer&&) noexcept = default;
+    /// @brief Move assignment operator.
+    CommandBuffer&
+    operator=(CommandBuffer&&) noexcept = default;
+
+    /// @brief Deleted copy constructor.
+    CommandBuffer(const CommandBuffer&) = delete;
+    /// @brief Deleted copy assignment operator.
+    CommandBuffer&
+    operator=(const CommandBuffer&) = delete;
+
     /// @brief Queue an entity creation command.
     void
     createEntity();
@@ -51,18 +63,21 @@ public:
 
     /// @brief Clears all queued commands without executing them.
     void
-    clear();
+    clear() noexcept;
 
-    /// @brief Deleted copy constructor.
-    CommandBuffer(const CommandBuffer&) = delete;
-    /// @brief Deleted copy assignment operator.
-    CommandBuffer&
-    operator=(const CommandBuffer&) = delete;
-    /// @brief Deleted move constructor.
-    CommandBuffer(CommandBuffer&&) = delete;
-    /// @brief Deleted move assignment operator.
-    CommandBuffer&
-    operator=(CommandBuffer&&) = delete;
+    /// @brief Checks if there are no queued commands.
+    /// @return True if empty, false otherwise.
+    [[nodiscard]] inline bool
+    empty() const noexcept {
+        return commands.empty();
+    }
+
+    /// @brief Gets the number of queued commands.
+    /// @return Number of commands.
+    [[nodiscard]] inline size_t
+    size() const noexcept {
+        return commands.size();
+    }
 
 private:
     /// @brief List of deferred command callbacks.

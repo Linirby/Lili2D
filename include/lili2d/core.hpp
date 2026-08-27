@@ -18,4 +18,6 @@
 #include "lili2d/core/resource_manager.hpp"
 #include "lili2d/core/sdl_deleters.hpp"
 #include "lili2d/core/thread_pool.hpp"
+#include "lili2d/core/timer.hpp"
+#include "lili2d/core/timer_manager.hpp"
 #include "lili2d/core/window.hpp"

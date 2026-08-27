@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <string>
+#include <string_view>
 
 #include "lili2d/core/asset_registry.hpp"
 #include "lili2d/render/scene/common/material.hpp"
@@ -26,43 +27,59 @@ public:
     /// @param key The unique string key.
     /// @param material The material to register.
     /// @return The assigned material ID.
-    uint16_t
-    registerMaterial(const std::string& key, const Material& material);
+    inline uint16_t
+    registerMaterial(const std::string& key, const Material& material) {
+        return registerAsset(key, material);
+    }
 
     /// @brief Checks if a material exists.
     /// @param key The material key.
     /// @return True if the material exists.
-    bool
-    hasMaterial(const std::string& key) const;
+    [[nodiscard]] inline bool
+    hasMaterial(std::string_view key) const noexcept {
+        return hasAsset(key);
+    }
     /// @brief Gets a material ID by key.
     /// @param key The material key.
     /// @return The material ID.
-    uint16_t
-    getMaterialID(const std::string& key) const;
+    [[nodiscard]] inline uint16_t
+    getMaterialID(std::string_view key) const {
+        return getAssetID(key);
+    }
     /// @brief Gets a material by key.
     /// @param key The material key.
     /// @return Reference to the material.
-    const Material&
-    getMaterial(const std::string& key) const;
+    [[nodiscard]] inline const Material&
+    getMaterial(std::string_view key) const {
+        return getAsset(key);
+    }
     /// @brief Gets a material by 16-bit ID.
     /// @param material_id The material ID.
     /// @return Reference to the material.
-    const Material&
-    getMaterial(uint16_t material_id) const;
+    [[nodiscard]] inline const Material&
+    getMaterial(uint16_t material_id) const {
+        return getAsset(material_id);
+    }
     /// @brief Gets a material by 8-bit ID.
     /// @param material_id The material ID.
     /// @return Reference to the material.
-    const Material&
-    getMaterial(uint8_t material_id) const;
+    [[nodiscard]] inline const Material&
+    getMaterial(uint8_t material_id) const {
+        return getAsset(static_cast<uint16_t>(material_id));
+    }
 
     /// @brief Gets the total number of registered materials.
     /// @return The number of materials.
-    size_t
-    materialCount() const;
+    [[nodiscard]] inline size_t
+    materialCount() const noexcept {
+        return assetCount();
+    }
     /// @brief Gets the raw material data array.
     /// @return Pointer to the material data.
-    const Material*
-    materialData() const;
+    [[nodiscard]] inline const Material*
+    materialData() const noexcept {
+        return assetData();
+    }
 
 private:
     /// @brief Private constructor to enforce singleton pattern.

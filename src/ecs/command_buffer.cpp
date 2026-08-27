@@ -6,7 +6,9 @@ namespace lili {
 
 void
 CommandBuffer::createEntity() {
-    commands.push_back([](ECSRegistry& registry) { registry.createEntity(); });
+    commands.push_back([](ECSRegistry& registry) {
+        (void)registry.createEntity();
+    });
 }
 
 void
@@ -23,7 +25,7 @@ CommandBuffer::play(ECSRegistry& registry) {
 }
 
 void
-CommandBuffer::clear() {
+CommandBuffer::clear() noexcept {
     commands.clear();
 }
 

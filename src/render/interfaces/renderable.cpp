@@ -5,63 +5,63 @@
 namespace lili {
 
 void
-IRenderable::setVisible(bool visible) {
+IRenderable::setVisible(bool visible) noexcept {
     is_visible = visible;
 }
 
 bool
-IRenderable::isVisible() const {
+IRenderable::isVisible() const noexcept {
     return is_visible;
 }
 
 void
-IRenderable::setRender(RenderLayer render_layer) {
+IRenderable::setRender(RenderLayer render_layer) noexcept {
     this->render_layer = render_layer;
 }
 
 RenderLayer
-IRenderable::getRender() const {
+IRenderable::getRender() const noexcept {
     return render_layer;
 }
 
 void
-IRenderable::setUILayout(const UILayout& layout) {
+IRenderable::setUILayout(const UILayout& layout) noexcept {
     ui_layout = layout;
 }
 
 UILayout
-IRenderable::getUILayout() const {
+IRenderable::getUILayout() const noexcept {
     return ui_layout;
 }
 
 void
-IRenderable::setAnchor(Anchor anchor) {
+IRenderable::setAnchor(Anchor anchor) noexcept {
     ui_layout.anchor = anchor;
 }
 
 Anchor
-IRenderable::getAnchor() const {
+IRenderable::getAnchor() const noexcept {
     return ui_layout.anchor;
 }
 
 void
-IRenderable::setPivot(Pivot pivot) {
+IRenderable::setPivot(Pivot pivot) noexcept {
     ui_layout.pivot = pivot;
 }
 
 Pivot
-IRenderable::getPivot() const {
+IRenderable::getPivot() const noexcept {
     return ui_layout.pivot;
 }
 
 void
-IRenderable::setOffset(Vec2 offset) {
+IRenderable::setOffset(Vec2 offset) noexcept {
     ui_layout.offset = offset;
     setPosition(offset);
 }
 
 Vec2
-IRenderable::getOffset() const {
+IRenderable::getOffset() const noexcept {
     return ui_layout.offset;
 }
 

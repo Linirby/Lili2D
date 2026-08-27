@@ -9,33 +9,45 @@ class GameConfig {
 public:
     /// @brief Gets the configured window width.
     /// @return Width in pixels.
-    int
-    getWindowWidth() const;
+    [[nodiscard]] inline int
+    getWindowWidth() const noexcept {
+        return window_w;
+    }
 
     /// @brief Gets the configured window height.
     /// @return Height in pixels.
-    int
-    getWindowHeight() const;
+    [[nodiscard]] inline int
+    getWindowHeight() const noexcept {
+        return window_h;
+    }
 
     /// @brief Checks if fullscreen mode is enabled.
     /// @return True if fullscreen is active.
-    bool
-    isWindowFullscreen() const;
+    [[nodiscard]] inline bool
+    isWindowFullscreen() const noexcept {
+        return window_fullscreen;
+    }
 
     /// @brief Checks if window resizability is enabled.
     /// @return True if resizable.
-    bool
-    isWindowResizable() const;
+    [[nodiscard]] inline bool
+    isWindowResizable() const noexcept {
+        return window_resizable;
+    }
 
     /// @brief Checks if borderless mode is enabled.
     /// @return True if borderless.
-    bool
-    isWindowBorderless() const;
+    [[nodiscard]] inline bool
+    isWindowBorderless() const noexcept {
+        return window_borderless;
+    }
 
     /// @brief Checks if relative mouse mode is enabled.
     /// @return True if relative mouse mode is active.
-    bool
-    isRelativeMouseMode() const;
+    [[nodiscard]] inline bool
+    isRelativeMouseMode() const noexcept {
+        return relative_mouse_mode;
+    }
 
     /// @brief Sets the window size and updates the target Game window.
     /// @param game Pointer to Game instance.
@@ -47,8 +59,13 @@ public:
     /// @brief Updates internal window size state without applying to window.
     /// @param width Width in pixels.
     /// @param height Height in pixels.
-    void
-    updateWindowSize(int width, int height);
+    inline void
+    updateWindowSize(int width, int height) noexcept {
+        if (width > 0 && height > 0) {
+            window_w = width;
+            window_h = height;
+        }
+    }
 
     /// @brief Sets window fullscreen mode and updates the target Game window.
     /// @param game Pointer to Game instance.
@@ -58,8 +75,10 @@ public:
 
     /// @brief Updates internal fullscreen state without applying to window.
     /// @param set_fullscreen True for fullscreen.
-    void
-    updateWindowFullscreen(bool set_fullscreen);
+    inline void
+    updateWindowFullscreen(bool set_fullscreen) noexcept {
+        window_fullscreen = set_fullscreen;
+    }
 
     /// @brief Sets window resizable state and updates the target Game window.
     /// @param game Pointer to Game instance.
@@ -69,8 +88,10 @@ public:
 
     /// @brief Updates internal resizable state without applying to window.
     /// @param resizable True for resizable.
-    void
-    updateWindowResizable(bool resizable);
+    inline void
+    updateWindowResizable(bool resizable) noexcept {
+        window_resizable = resizable;
+    }
 
     /// @brief Sets window borderless state and updates the target Game window.
     /// @param game Pointer to Game instance.
@@ -80,8 +101,10 @@ public:
 
     /// @brief Updates internal borderless state without applying to window.
     /// @param borderless True for borderless.
-    void
-    updateWindowBorderless(bool borderless);
+    inline void
+    updateWindowBorderless(bool borderless) noexcept {
+        window_borderless = borderless;
+    }
 
     /// @brief Sets relative mouse mode and updates the target Game window.
     /// @param game Pointer to Game instance.
@@ -92,12 +115,14 @@ public:
     /// @brief Updates internal relative mouse mode state without applying to
     /// window.
     /// @param relative_mouse True for relative mouse mode.
-    void
-    updateRelativeMouseMode(bool relative_mouse);
+    inline void
+    updateRelativeMouseMode(bool relative_mouse) noexcept {
+        relative_mouse_mode = relative_mouse;
+    }
 
     /// @brief Gets the singleton instance of GameConfig.
     /// @return Reference to GameConfig.
-    static GameConfig&
+    [[nodiscard]] static GameConfig&
     get();
 
 private:

@@ -3,7 +3,7 @@
 namespace lili {
 
 bool
-Event::poll() {
+Event::poll() noexcept {
     if (SDL_PollEvent(&sdl_event)) {
         current_type = resolveType();
         return true;
@@ -11,23 +11,8 @@ Event::poll() {
     return false;
 }
 
-EventType
-Event::type() const {
-    return current_type;
-}
-
-bool
-Event::keyJustPressed(const KeyboardEvent& keyboard) const {
-    return keyboard.action == KeyAction::PRESSED && !keyboard.repeat;
-}
-
-bool
-Event::mouseButtonPressed(const MouseButtonEvent& mouse_button) const {
-    return mouse_button.action == MouseAction::PRESSED;
-}
-
-const KeyboardEvent
-Event::keyboard() const {
+KeyboardEvent
+Event::keyboard() const noexcept {
     return {
         .key = sdl_event.key.key,
         .scancode = sdl_event.key.scancode,
@@ -37,8 +22,8 @@ Event::keyboard() const {
     };
 }
 
-const MouseButtonEvent
-Event::mouseButton() const {
+MouseButtonEvent
+Event::mouseButton() const noexcept {
     MouseButton button;
     switch (sdl_event.button.button) {
         case SDL_BUTTON_LEFT:
@@ -64,8 +49,8 @@ Event::mouseButton() const {
     };
 }
 
-const MouseMotionEvent
-Event::mouseMotion() const {
+MouseMotionEvent
+Event::mouseMotion() const noexcept {
     return {
         .x = sdl_event.motion.x,
         .y = sdl_event.motion.y,
@@ -74,13 +59,13 @@ Event::mouseMotion() const {
     };
 }
 
-const MouseWheelEvent
-Event::mouseWheel() const {
+MouseWheelEvent
+Event::mouseWheel() const noexcept {
     return {.dx = sdl_event.wheel.x, .dy = sdl_event.wheel.y};
 }
 
-const WindowEvent
-Event::window() const {
+WindowEvent
+Event::window() const noexcept {
     WindowEventType type;
     switch (sdl_event.type) {
         case SDL_EVENT_WINDOW_SHOWN:
@@ -171,7 +156,7 @@ Event::window() const {
 }
 
 EventType
-Event::resolveType() const {
+Event::resolveType() const noexcept {
     if (sdl_event.type >= SDL_EVENT_WINDOW_FIRST &&
         sdl_event.type <= SDL_EVENT_WINDOW_LAST) {
         return EventType::WINDOW;

@@ -6,7 +6,7 @@
 namespace lili {
 
 Vec2
-anchorToVector(Anchor anchor, Vec2 custom) {
+anchorToVector(Anchor anchor, Vec2 custom) noexcept {
     switch (anchor) {
         case Anchor::TOP_LEFT:
             return Vec2(0.0f, 0.0f);
@@ -33,12 +33,12 @@ anchorToVector(Anchor anchor, Vec2 custom) {
 }
 
 Vec2
-pivotToVector(Pivot pivot, Vec2 custom) {
+pivotToVector(Pivot pivot, Vec2 custom) noexcept {
     return anchorToVector(static_cast<Anchor>(pivot), custom);
 }
 
 Vec2
-UILayout::getScreenPosition(Vec2 viewport_size, Vec2 obj_size) const {
+UILayout::getScreenPosition(Vec2 viewport_size, Vec2 obj_size) const noexcept {
     Vec2 anchor_vec = anchorToVector(anchor, custom_anchor);
     Vec2 pivot_vec = pivotToVector(pivot, custom_pivot);
 
@@ -52,7 +52,7 @@ UILayout::getScreenPosition(Vec2 viewport_size, Vec2 obj_size) const {
 Mat3
 UILayout::getTransformationMatrix(
     Vec2 viewport_size, Vec2 obj_size, float rotation_rad, Vec2 scale
-) const {
+) const noexcept {
     Vec2 anchor_vec = anchorToVector(anchor, custom_anchor);
     Vec2 pivot_vec = pivotToVector(pivot, custom_pivot);
 

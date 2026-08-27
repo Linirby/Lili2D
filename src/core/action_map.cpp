@@ -27,8 +27,8 @@ ActionMap::clear() {
 }
 
 bool
-ActionMap::has(std::string_view action) const {
-    return actions.contains(action);
+ActionMap::has(std::string_view action) const noexcept {
+    return actions.find(action) != actions.end();
 }
 
 bool
@@ -36,19 +36,19 @@ ActionMap::add(
     const std::string& action, std::vector<Key> keys,
     std::vector<MouseButton> mouse_btn
 ) {
-    auto [it, res] = actions.insert_or_assign(
-        action, ActionBinding(std::move(keys), std::move(mouse_btn))
-    );
-    return res;
+    auto [it, inserted] =
+        actions.insert_or_assign(action, ActionBinding{keys, mouse_btn});
+    return inserted;
 }
 
 bool
 ActionMap::remove(std::string_view action) {
     auto it = actions.find(action);
-    if (it == actions.end()) return false;
-
-    actions.erase(it);
-    return true;
+    if (it != actions.end()) {
+        actions.erase(it);
+        return true;
+    }
+    return false;
 }
 
 bool
@@ -87,7 +87,7 @@ ActionMap::replaceKey(std::string_view action, Key old_key, Key new_key) {
 }
 
 const std::vector<Key>&
-ActionMap::getKeys(std::string_view action) const {
+ActionMap::getKeys(std::string_view action) const noexcept {
     static const std::vector<Key> empty{};
     auto it = actions.find(action);
     return (it != actions.end()) ? it->second.keys : empty;
@@ -131,14 +131,14 @@ ActionMap::replaceMouseButton(
 }
 
 const std::vector<MouseButton>&
-ActionMap::getMouseButtons(std::string_view action) const {
+ActionMap::getMouseButtons(std::string_view action) const noexcept {
     static const std::vector<MouseButton> empty{};
     auto it = actions.find(action);
     return (it != actions.end()) ? it->second.mouse_buttons : empty;
 }
 
 bool
-ActionMap::isHeld(std::string_view action) const {
+ActionMap::isHeld(std::string_view action) const noexcept {
     auto it = actions.find(action);
     if (it == actions.end()) return false;
 
@@ -150,7 +150,7 @@ ActionMap::isHeld(std::string_view action) const {
 }
 
 bool
-ActionMap::isJustPressed(std::string_view action) const {
+ActionMap::isJustPressed(std::string_view action) const noexcept {
     auto it = actions.find(action);
     if (it == actions.end()) return false;
 
@@ -162,7 +162,7 @@ ActionMap::isJustPressed(std::string_view action) const {
 }
 
 bool
-ActionMap::isJustReleased(std::string_view action) const {
+ActionMap::isJustReleased(std::string_view action) const noexcept {
     auto it = actions.find(action);
     if (it == actions.end()) return false;
 

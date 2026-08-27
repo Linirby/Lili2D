@@ -175,3 +175,35 @@ TEST_CASE("Math Utils", "[geometry][utils]") {
     CHECK_THAT(degToRad(180.0f), WithinAbs(static_cast<float>(M_PI), 0.0001f));
     CHECK_THAT(radToDeg(static_cast<float>(M_PI)), WithinAbs(180.0f, 0.0001f));
 }
+
+TEST_CASE(
+    "Geometry Type Traits and Compile-Time Constants", "[geometry][traits]"
+) {
+    // Verify sizeof <= 16 bytes for pass-by-value guarantees
+    static_assert(sizeof(Vec2) == 8);
+    static_assert(sizeof(Point2) == 8);
+    static_assert(sizeof(Vec3) == 12);
+    static_assert(sizeof(Point3) == 12);
+    static_assert(sizeof(Vec4) == 16);
+    static_assert(sizeof(CircleShape) == 16);
+    static_assert(sizeof(RectShape) == 16);
+
+    // Verify trivial / nothrow move constructors
+    static_assert(std::is_nothrow_move_constructible_v<Vec2>);
+    static_assert(std::is_nothrow_move_constructible_v<Vec3>);
+    static_assert(std::is_nothrow_move_constructible_v<Vec4>);
+    static_assert(std::is_nothrow_move_constructible_v<Point2>);
+    static_assert(std::is_nothrow_move_constructible_v<Point3>);
+    static_assert(std::is_nothrow_move_constructible_v<Mat3>);
+    static_assert(std::is_nothrow_move_constructible_v<Mat4>);
+
+    // Verify constexpr operations
+    constexpr Vec2 cv(3.0f, 4.0f);
+    constexpr Vec2 cv2 = cv + Vec2(1.0f, 2.0f);
+    static_assert(cv2.x == 4.0f && cv2.y == 6.0f);
+
+    constexpr float dot_val = cv.dot(cv2);
+    static_assert(dot_val == 36.0f);
+
+    CHECK(true);
+}

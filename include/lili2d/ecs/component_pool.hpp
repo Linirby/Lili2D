@@ -28,8 +28,8 @@ public:
     /// @brief Checks if the entity has a component in this pool.
     /// @param entity The entity to check.
     /// @return True if the component exists, false otherwise.
-    virtual bool
-    has(Entity entity) const = 0;
+    [[nodiscard]] virtual bool
+    has(Entity entity) const noexcept = 0;
 
     /// @brief Removes the component for the entity from this pool.
     /// @param entity The entity.
@@ -54,14 +54,20 @@ public:
     /// @brief Gets the component for the entity.
     /// @param entity The entity.
     /// @return Reference to the component.
-    T&
-    get(Entity entity);
+    [[nodiscard]] T&
+    get(Entity entity) noexcept;
+
+    /// @brief Gets a const reference to the component for the entity.
+    /// @param entity The entity.
+    /// @return Const reference to the component.
+    [[nodiscard]] const T&
+    get(Entity entity) const noexcept;
 
     /// @brief Checks if the entity has a component in this pool.
     /// @param entity The entity to check.
     /// @return True if the component exists, false otherwise.
-    bool
-    has(Entity entity) const override;
+    [[nodiscard]] bool
+    has(Entity entity) const noexcept override;
 
     /// @brief Removes the component for the entity from this pool.
     /// @param entity The entity.
@@ -70,23 +76,23 @@ public:
 
     /// @brief Gets a const reference to the vector of components.
     /// @return Const reference to the components vector.
-    const std::vector<T>&
-    getComponents() const;
+    [[nodiscard]] const std::vector<T>&
+    getComponents() const noexcept;
 
     /// @brief Gets a mutable reference to the vector of components.
     /// @return Mutable reference to the components vector.
-    std::vector<T>&
-    getComponents();
+    [[nodiscard]] std::vector<T>&
+    getComponents() noexcept;
 
     /// @brief Gets a const reference to the vector of entities in this pool.
     /// @return Const reference to the entities vector.
-    const std::vector<Entity>&
-    getEntities() const;
+    [[nodiscard]] const std::vector<Entity>&
+    getEntities() const noexcept;
 
     /// @brief Gets the number of active components in this pool.
     /// @return The number of components.
-    size_t
-    size() const;
+    [[nodiscard]] size_t
+    size() const noexcept;
 
 private:
     /// @brief Dense vector storing component instances contiguously.
@@ -119,7 +125,16 @@ ComponentPool<T>::emplace(Entity entity, Args&&... args) {
 
 template <typename T>
 T&
-ComponentPool<T>::get(Entity entity) {
+ComponentPool<T>::get(Entity entity) noexcept {
+    assert(has(entity) && "Entity does not have this component!");
+
+    uint32_t entity_id = getEntityID(entity);
+    return dense_components[sparse_entities[entity_id]];
+}
+
+template <typename T>
+const T&
+ComponentPool<T>::get(Entity entity) const noexcept {
     assert(has(entity) && "Entity does not have this component!");
 
     uint32_t entity_id = getEntityID(entity);
@@ -128,7 +143,7 @@ ComponentPool<T>::get(Entity entity) {
 
 template <typename T>
 bool
-ComponentPool<T>::has(Entity entity) const {
+ComponentPool<T>::has(Entity entity) const noexcept {
     uint32_t entity_id = getEntityID(entity);
     return (
         entity_id < sparse_entities.size() &&
@@ -159,25 +174,25 @@ ComponentPool<T>::remove(Entity entity) {
 
 template <typename T>
 const std::vector<T>&
-ComponentPool<T>::getComponents() const {
+ComponentPool<T>::getComponents() const noexcept {
     return dense_components;
 }
 
 template <typename T>
 std::vector<T>&
-ComponentPool<T>::getComponents() {
+ComponentPool<T>::getComponents() noexcept {
     return dense_components;
 }
 
 template <typename T>
 const std::vector<Entity>&
-ComponentPool<T>::getEntities() const {
+ComponentPool<T>::getEntities() const noexcept {
     return dense_entities;
 }
 
 template <typename T>
 size_t
-ComponentPool<T>::size() const {
+ComponentPool<T>::size() const noexcept {
     return dense_components.size();
 }
 

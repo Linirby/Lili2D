@@ -166,3 +166,80 @@ TEST_CASE("Easing Evaluation", "[core][easing]") {
     CHECK(Easing::inBounce(0.0f) == 0.0f);
     CHECK(Easing::inBounce(1.0f) == 1.0f);
 }
+
+TEST_CASE("Timer and TimerManager", "[core][timer]") {
+    SECTION("Timer Progress and Expiration") {
+        Timer timer(1.0f, false, true);
+        CHECK(timer.isRunning());
+        CHECK_FALSE(timer.isFinished());
+        CHECK(timer.getProgress() == 0.0f);
+
+        timer.update(0.5f);
+        CHECK(timer.getElapsed() == 0.5f);
+        CHECK(timer.getProgress() == 0.5f);
+        CHECK(timer.getRemaining() == 0.5f);
+        CHECK_FALSE(timer.isFinished());
+
+        bool completed = false;
+        timer.onComplete([&]() { completed = true; });
+
+        timer.update(0.5f);
+        CHECK(completed);
+        CHECK(timer.isFinished());
+        CHECK_FALSE(timer.isRunning());
+    }
+
+    SECTION("Repeating Timer") {
+        Timer timer(1.0f, true, true);
+        int completions = 0;
+        timer.onComplete([&]() { completions++; });
+
+        timer.update(1.0f);
+        CHECK(completions == 1);
+        CHECK_FALSE(timer.isFinished());
+        CHECK(timer.isRunning());
+
+        timer.update(1.0f);
+        CHECK(completions == 2);
+    }
+
+    SECTION("TimerManager Lifecycle") {
+        TimerManager manager;
+        bool t1_done = false;
+        bool t2_done = false;
+
+        manager.create(0.5f, [&]() { t1_done = true; });
+        manager.create(1.0f, [&]() { t2_done = true; });
+
+        CHECK(manager.count() == 2);
+
+        manager.update(0.6f);
+        CHECK(t1_done);
+        CHECK_FALSE(t2_done);
+        CHECK(manager.count() == 1);
+
+        manager.update(0.5f);
+        CHECK(t2_done);
+        CHECK(manager.count() == 0);
+        CHECK(manager.empty());
+    }
+}
+
+TEST_CASE("Type Traits and Move Guarantees", "[core][traits]") {
+    static_assert(std::is_nothrow_move_constructible_v<Clock>);
+    static_assert(std::is_nothrow_move_assignable_v<Clock>);
+
+    static_assert(std::is_nothrow_move_constructible_v<TimerManager>);
+    static_assert(std::is_nothrow_move_assignable_v<TimerManager>);
+
+    // ThreadPool is pinned with active jthreads, non-movable and non-copyable
+    static_assert(!std::is_move_constructible_v<ThreadPool>);
+    static_assert(!std::is_move_assignable_v<ThreadPool>);
+    static_assert(!std::is_copy_constructible_v<ThreadPool>);
+    static_assert(!std::is_copy_assignable_v<ThreadPool>);
+
+    static_assert(std::is_nothrow_move_constructible_v<Window>);
+    static_assert(std::is_nothrow_move_assignable_v<Window>);
+
+    CHECK(true);
+}

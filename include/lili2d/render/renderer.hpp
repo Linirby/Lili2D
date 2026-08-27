@@ -55,8 +55,10 @@ public:
 
     /// @brief Gets the SDL GPU device.
     /// @return Pointer to the SDL_GPUDevice.
-    SDL_GPUDevice*
-    getDevice() const;
+    [[nodiscard]] inline SDL_GPUDevice*
+    getDevice() const noexcept {
+        return device.get();
+    }
 
     /// @brief Begins the rendering frame.
     /// @return True if the frame was successfully started, false otherwise.
@@ -74,22 +76,33 @@ public:
     /// @brief Ends the rendering frame.
     void
     endFrame();
+
     /// @brief Sets the active camera.
     /// @param camera Pointer to the camera.
-    void
-    setCamera(Camera* camera);
+    inline void
+    setCamera(Camera* camera) noexcept {
+        this->camera = camera;
+    }
     /// @brief Gets the active camera.
     /// @return Pointer to the active camera.
-    Camera*
-    getCamera() const;
+    [[nodiscard]] inline Camera*
+    getCamera() const noexcept {
+        return camera;
+    }
+
     /// @brief Gets the swapchain width.
     /// @return The width in pixels.
-    uint32_t
-    getSwapchainWidth() const;
+    [[nodiscard]] inline uint32_t
+    getSwapchainWidth() const noexcept {
+        return swapchain_width;
+    }
     /// @brief Gets the swapchain height.
     /// @return The height in pixels.
-    uint32_t
-    getSwapchainHeight() const;
+    [[nodiscard]] inline uint32_t
+    getSwapchainHeight() const noexcept {
+        return swapchain_height;
+    }
+
     /// @brief Sets the active present mode.
     /// @param mode New present mode
     void
@@ -100,11 +113,14 @@ public:
     /// size).
     /// @param height Logical height in pixels (0 to use window logical/physical
     /// size).
-    void
-    setLogicalResolution(int width, int height);
+    inline void
+    setLogicalResolution(int width, int height) noexcept {
+        logical_width = width;
+        logical_height = height;
+    }
     /// @brief Gets the active logical resolution used for projections.
     /// @return Vec2 containing logical width and height.
-    Vec2
+    [[nodiscard]] Vec2
     getLogicalResolution() const;
 
     /// @brief Creates a shader from HLSL file paths.
@@ -140,8 +156,10 @@ public:
 
     /// @brief Gets the default white pixel texture.
     /// @return Pointer to the white pixel texture.
-    Texture*
-    getTheWhitePixel() const;
+    [[nodiscard]] inline Texture*
+    getTheWhitePixel() const noexcept {
+        return the_white_pixel.get();
+    }
     /// @brief Gets the shared unit quad mesh.
     /// @return Pointer to the shared GPUMesh for a unit quad.
     GPUMesh*

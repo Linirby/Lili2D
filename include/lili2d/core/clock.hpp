@@ -10,48 +10,77 @@ namespace lili {
 class Clock {
 public:
     /// @brief Constructs the Clock.
-    Clock() = default;
+    Clock() noexcept = default;
+
     /// @brief Constructs the Clock with a target ticks per second rate.
     /// @param tick_per_second Target ticks per second (TPS).
-    explicit Clock(float tick_per_second);
+    explicit Clock(float tick_per_second) noexcept
+        : tps(tick_per_second), fixed_dt(1.0f / tick_per_second) {}
 
     /// @brief Sets the fixed delta time for physics or fixed updates.
     /// @param value The fixed delta time in seconds.
-    void
-    setTps(float value);
+    inline void
+    setTps(float value) noexcept {
+        fixed_dt = 1.0f / value;
+        tps = value;
+    }
 
     /// @brief Updates the clock, calculating delta time since the last update.
     void
-    update();
+    update() noexcept;
+
     /// @brief Steps the fixed accumulator.
     /// @return True if a fixed step should be executed, false otherwise.
-    bool
-    step();
+    [[nodiscard]] inline bool
+    step() noexcept {
+        if (accumulator >= fixed_dt) {
+            accumulator -= fixed_dt;
+            return true;
+        }
+        return false;
+    }
 
     /// @brief Gets the fixed delta time.
     /// @return The fixed delta time in seconds.
-    float
-    getFixedDt() const;
+    [[nodiscard]] constexpr float
+    getFixedDt() const noexcept {
+        return fixed_dt;
+    }
+
     /// @brief Gets the delta time since the last frame.
     /// @return The delta time in seconds.
-    float
-    getDt() const;
+    [[nodiscard]] constexpr float
+    getDt() const noexcept {
+        return dt;
+    }
+
     /// @brief Gets the interpolation alpha for rendering between fixed steps.
     /// @return The alpha value [0.0, 1.0].
-    float
-    getAlpha() const;
+    [[nodiscard]] inline float
+    getAlpha() const noexcept {
+        return accumulator / fixed_dt;
+    }
+
     /// @brief Gets the current frames per second.
     /// @return The frames per second.
-    int
-    getFps() const;
+    [[nodiscard]] constexpr int
+    getFps() const noexcept {
+        return fps;
+    }
+
     /// @brief Gets the current time in seconds.
     /// @return The time value (float).
-    float
-    getTime() const;
+    [[nodiscard]] inline float
+    getTime() const noexcept {
+        return SDL_GetTicks() / 1000.0f;
+    }
+
     /// @brief Gets the current tps.
     /// @return The tps (float).
-    float
-    getTps() const;
+    [[nodiscard]] constexpr float
+    getTps() const noexcept {
+        return tps;
+    }
 
 private:
     /// @brief Timestamp of the previous update tick in milliseconds.

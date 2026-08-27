@@ -30,11 +30,6 @@ ThreadPool::enqueue(std::function<void()> task, TaskPriority priority) {
     cv.notify_one();
 }
 
-PerformanceProfile
-ThreadPool::getProfile() const {
-    return profile;
-}
-
 size_t
 ThreadPool::calculateThreadCount(const EngineConfig& config) {
     if (config.thread_count_override > 0) return config.thread_count_override;

@@ -154,9 +154,4 @@ MainGraphicsPipeline::rebuild() {
     return true;
 }
 
-SDL_GPUGraphicsPipeline*
-MainGraphicsPipeline::getSdlPipeline() {
-    return pipeline.get();
-}
-
 }  // namespace lili

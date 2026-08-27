@@ -25,19 +25,4 @@ Scene::render(float alpha) {
     (void)alpha;
 }
 
-void
-Scene::setManager(SceneManager* manager) {
-    this->manager = manager;
-}
-
-const std::string&
-Scene::getName() const {
-    return name;
-}
-
-SceneManager*
-Scene::getManager() const {
-    return manager;
-}
-
 }  // namespace lili

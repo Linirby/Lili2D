@@ -5,6 +5,7 @@
 #include <memory>
 #include <string>
 
+#include "lili2d/geometry/utils.hpp"
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/render/core/texture.hpp"
 #include "lili2d/render/interfaces/renderable.hpp"
@@ -18,7 +19,7 @@ namespace lili {
 class Sprite : public IRenderable {
 public:
     /// @brief Default constructor.
-    Sprite() = default;
+    Sprite() noexcept = default;
     /// @brief Constructs a sprite from an image file.
     /// @param renderer The renderer.
     /// @param path Path to the image file.
@@ -35,11 +36,11 @@ public:
     ~Sprite() override = default;
 
     /// @brief Move constructor.
-    Sprite(Sprite&&) = default;
+    Sprite(Sprite&&) noexcept = default;
     /// @brief Move assignment operator.
     /// @return Reference to the assigned sprite.
     Sprite&
-    operator=(Sprite&&) = default;
+    operator=(Sprite&&) noexcept = default;
 
     /// @brief Sets the sprite's image.
     /// @param path Path to the new image file.
@@ -49,79 +50,132 @@ public:
     /// @param slice The new UV slice.
     void
     setSlice(const SliceUV& slice);
+
     /// @brief Sets the sprite's color tint.
     /// @param color The new color tint.
-    void
-    setColorTint(Vec4 color);
+    inline void
+    setColorTint(Vec4 color) noexcept {
+        if (material) material->properties.color_tint = color;
+    }
+
     /// @brief Sets the sprite's color tint.
     /// @param color The new color tint.
-    void
-    setColor(Vec4 color) override;
+    inline void
+    setColor(Vec4 color) noexcept override {
+        setColorTint(color);
+    }
+
     /// @brief Sets the material pointer.
-    /// @param material Material pointer.
-    void
-    setMaterial(Material* material) override;
+    /// @param mat Material pointer.
+    inline void
+    setMaterial(Material* mat) noexcept override {
+        external_material = mat;
+    }
+
     /// @brief Sets the sprite's position.
-    /// @param position The new position.
-    void
-    setPosition(Vec2 position) override;
+    /// @param pos The new position.
+    inline void
+    setPosition(Vec2 pos) noexcept override {
+        this->position = pos;
+        ui_layout.offset = pos;
+    }
+
     /// @brief Sets the sprite's scale.
-    /// @param scale The new scale.
-    void
-    setScale(Vec2 scale) override;
+    /// @param s The new scale.
+    inline void
+    setScale(Vec2 s) noexcept override {
+        this->scale = s;
+    }
+
     /// @brief Sets the sprite's size (in px).
-    /// @param size The new size.
-    void
-    setSize(Vec2 size) override;
+    /// @param s The new size.
+    inline void
+    setSize(Vec2 s) noexcept override {
+        this->size = s;
+    }
+
     /// @brief Sets the sprite's rotation.
     /// @param degree The rotation in degrees.
-    void
-    setRotation(float degree) override;
+    inline void
+    setRotation(float degree) noexcept override {
+        rotation = lili::degToRad(degree);
+    }
+
     /// @brief Sets the sprite's rendering layer depth.
-    /// @param layer The new layer depth.
-    void
-    setLayer(float layer) override;
+    /// @param l The new layer depth.
+    inline void
+    setLayer(float l) noexcept override {
+        this->layer = l;
+    }
 
     /// @brief Get the position of the sprite.
     /// @return The position.
-    Vec2
-    getPosition() const override;
+    [[nodiscard]] inline Vec2
+    getPosition() const noexcept override {
+        return position;
+    }
+
     /// @brief Get rotation in degrees.
     /// @return Rotation in degrees.
-    float
-    getRotation() const override;
+    [[nodiscard]] inline float
+    getRotation() const noexcept override {
+        return lili::radToDeg(rotation);
+    }
+
     /// @brief Get scale factors.
     /// @return Scale vector.
-    Vec2
-    getScale() const override;
+    [[nodiscard]] inline Vec2
+    getScale() const noexcept override {
+        return scale;
+    }
+
     /// @brief Get the render width of the sprite.
     /// @return The width.
-    float
-    getWidth() const;
+    [[nodiscard]] inline float
+    getWidth() const noexcept {
+        return size.x * scale.x;
+    }
+
     /// @brief Get the render height of the sprite.
     /// @return The height.
-    float
-    getHeight() const;
+    [[nodiscard]] inline float
+    getHeight() const noexcept {
+        return size.y * scale.y;
+    }
+
     /// @brief Get the render size of the sprite.
     /// @return A 2D vector of the width and height.
-    Vec2
-    getSize() const override;
+    [[nodiscard]] inline Vec2
+    getSize() const noexcept override {
+        return Vec2(size.x * scale.x, size.y * scale.y);
+    }
+
     /// @brief Gets the transformation matrix.
     /// @return Mat3 matrix.
-    Mat3
+    [[nodiscard]] Mat3
     getTransformMatrix() const override;
+
     /// @brief Gets layer depth.
     /// @return Depth layer.
-    float
-    getLayer() const override;
+    [[nodiscard]] inline float
+    getLayer() const noexcept override {
+        return layer;
+    }
+
     /// @brief Gets color tint.
     /// @return Color tint.
-    Vec4
-    getColor() const override;
+    [[nodiscard]] inline Vec4
+    getColor() const noexcept override {
+        Material* mat = getMaterial();
+        return mat ? mat->properties.color_tint : Vec4(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+
     /// @brief Gets the material.
     /// @return Pointer to the material.
-    Material*
-    getMaterial() const override;
+    [[nodiscard]] inline Material*
+    getMaterial() const noexcept override {
+        return external_material ? external_material : material.get();
+    }
 
     /// @brief Submits the sprite for drawing.
     void

@@ -81,26 +81,6 @@ Texture::initFromSurface(SDL_Surface* surface) {
     }
 }
 
-int
-Texture::getWidth() const {
-    return width;
-}
-
-int
-Texture::getHeight() const {
-    return height;
-}
-
-SDL_GPUTexture*
-Texture::getTexture() const {
-    return texture.get();
-}
-
-SDL_GPUSampler*
-Texture::getSampler() const {
-    return sampler.get();
-}
-
 void
 Texture::transferToGpu(SDL_Surface* surface) {
     uint32_t image_size = surface->w * surface->h * 4;

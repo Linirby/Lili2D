@@ -41,15 +41,18 @@ public:
     /// @brief Destructor.
     ~MainGraphicsPipeline();
 
-    /// @brief Rebuilds the underlying graphics pipeline from the current shader.
+    /// @brief Rebuilds the underlying graphics pipeline from the current
+    /// shader.
     /// @return True if rebuilt successfully, false otherwise.
     bool
     rebuild();
 
     /// @brief Gets the underlying SDL GPU pipeline.
     /// @return Pointer to the SDL_GPUGraphicsPipeline.
-    SDL_GPUGraphicsPipeline*
-    getSdlPipeline();
+    [[nodiscard]] inline SDL_GPUGraphicsPipeline*
+    getSdlPipeline() const noexcept {
+        return pipeline.get();
+    }
 
 private:
     /// @brief Helper to build the SDL GPU pipeline object.

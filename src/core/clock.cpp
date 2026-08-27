@@ -2,17 +2,8 @@
 
 namespace lili {
 
-Clock::Clock(float tick_per_second)
-    : tps(tick_per_second), fixed_dt(1.0f / tick_per_second) {}
-
 void
-Clock::setTps(float value) {
-    fixed_dt = 1.0f / value;
-    tps = value;
-}
-
-void
-Clock::update() {
+Clock::update() noexcept {
     now = SDL_GetTicks();
     dt = (now - last) / 1000.0f;
     last = now;
@@ -28,45 +19,6 @@ Clock::update() {
         second_counter = 0.0f;
         temp_fps = 0;
     }
-}
-
-bool
-Clock::step() {
-    if (accumulator >= fixed_dt) {
-        accumulator -= fixed_dt;
-        return true;
-    }
-    return false;
-}
-
-float
-Clock::getFixedDt() const {
-    return fixed_dt;
-}
-
-float
-Clock::getDt() const {
-    return dt;
-}
-
-float
-Clock::getAlpha() const {
-    return accumulator / fixed_dt;
-}
-
-int
-Clock::getFps() const {
-    return fps;
-}
-
-float
-Clock::getTime() const {
-    return SDL_GetTicks() / 1000.0f;
-}
-
-float
-Clock::getTps() const {
-    return tps;
 }
 
 }  // namespace lili

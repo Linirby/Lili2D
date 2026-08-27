@@ -57,47 +57,6 @@ Sprite::setImage(const std::string& path) {
 }
 
 void
-Sprite::setColorTint(Vec4 color) {
-    if (material) material->properties.color_tint = color;
-}
-
-void
-Sprite::setColor(Vec4 color) {
-    setColorTint(color);
-}
-
-void
-Sprite::setMaterial(Material* material) {
-    external_material = material;
-}
-
-void
-Sprite::setPosition(Vec2 position) {
-    this->position = position;
-    ui_layout.offset = position;
-}
-
-void
-Sprite::setScale(Vec2 scale) {
-    this->scale = scale;
-}
-
-void
-Sprite::setSize(Vec2 size) {
-    this->size = size;
-}
-
-void
-Sprite::setRotation(float degree) {
-    rotation = lili::degToRad(degree);
-}
-
-void
-Sprite::setLayer(float layer) {
-    this->layer = layer;
-}
-
-void
 Sprite::setSlice(const SliceUV& slice) {
     current_slice = slice;
     Material* mat = getMaterial();
@@ -106,36 +65,6 @@ Sprite::setSlice(const SliceUV& slice) {
         mat->properties.uv_bounds =
             Vec4(slice.u_min, slice.v_min, slice.u_max, slice.v_max);
     }
-}
-
-Vec2
-Sprite::getPosition() const {
-    return position;
-}
-
-float
-Sprite::getRotation() const {
-    return lili::radToDeg(rotation);
-}
-
-Vec2
-Sprite::getScale() const {
-    return scale;
-}
-
-float
-Sprite::getWidth() const {
-    return size.x * scale.x;
-}
-
-float
-Sprite::getHeight() const {
-    return size.y * scale.y;
-}
-
-Vec2
-Sprite::getSize() const {
-    return Vec2(size.x * scale.x, size.y * scale.y);
 }
 
 Mat3
@@ -149,22 +78,6 @@ Sprite::getTransformMatrix() const {
     }
     return Mat3::translate(position) * Mat3::rotation(rotation) *
            Mat3::scale(getSize());
-}
-
-float
-Sprite::getLayer() const {
-    return layer;
-}
-
-Vec4
-Sprite::getColor() const {
-    Material* mat = getMaterial();
-    return mat ? mat->properties.color_tint : Vec4(1, 1, 1, 1);
-}
-
-Material*
-Sprite::getMaterial() const {
-    return external_material ? external_material : material.get();
 }
 
 void

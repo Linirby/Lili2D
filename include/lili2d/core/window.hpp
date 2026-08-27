@@ -64,37 +64,45 @@ public:
 
     /// @brief Gets the current window title.
     /// @return The window title.
-    const std::string
+    [[nodiscard]] std::string
     getTitle() const;
     /// @brief Gets the window width.
     /// @return The width in pixels.
-    int
+    [[nodiscard]] int
     getWidth() const;
     /// @brief Gets the window height.
     /// @return The height in pixels.
-    int
+    [[nodiscard]] int
     getHeight() const;
     /// @brief Gets the window size.
     /// @return An array containing width and height.
-    Vec2
+    [[nodiscard]] Vec2
     getSize() const;
 
     /// @brief Checks if the window is resizable.
     /// @return True if resizable, false otherwise.
-    bool
-    isResizable() const;
+    [[nodiscard]] inline bool
+    isResizable() const noexcept {
+        return resizable;
+    }
     /// @brief Checks if the window is borderless.
     /// @return True if borderless, false otherwise.
-    bool
-    isBorderless() const;
+    [[nodiscard]] inline bool
+    isBorderless() const noexcept {
+        return borderless;
+    }
     /// @brief Checks if the window is in fullscreen mode.
     /// @return True if fullscreen, false otherwise.
-    bool
-    isFullscreen() const;
+    [[nodiscard]] inline bool
+    isFullscreen() const noexcept {
+        return fullscreen;
+    }
     /// @brief Checks if relative mouse mode is enabled.
     /// @return True if relative mouse mode is enabled, false otherwise.
-    bool
-    isRelativeMouseMode() const;
+    [[nodiscard]] inline bool
+    isRelativeMouseMode() const noexcept {
+        return SDL_GetWindowRelativeMouseMode(window);
+    }
 
     /// @brief Sets the logical (virtual) resolution for the window.
     /// @param width Logical width in pixels (0 to disable).
@@ -104,24 +112,28 @@ public:
     /// @brief Gets the active logical resolution (or physical window size if
     /// not set).
     /// @return Vec2 containing logical width and height.
-    Vec2
+    [[nodiscard]] Vec2
     getLogicalResolution() const;
     /// @brief Checks if a custom logical resolution is enabled.
     /// @return True if logical resolution is set.
-    bool
-    hasLogicalResolution() const;
+    [[nodiscard]] inline bool
+    hasLogicalResolution() const noexcept {
+        return use_logical_resolution;
+    }
     /// @brief Translates physical screen coordinates to logical game
     /// coordinates.
     /// @param screen_x Physical X coordinate.
     /// @param screen_y Physical Y coordinate.
     /// @return Vec2 representing logical coordinates.
-    Vec2
+    [[nodiscard]] Vec2
     toLogicalCoords(float screen_x, float screen_y) const;
 
     /// @brief Gets the underlying SDL_Window pointer.
     /// @return Pointer to the SDL_Window.
-    SDL_Window*
-    getSdlWindow() const;
+    [[nodiscard]] inline SDL_Window*
+    getSdlWindow() const noexcept {
+        return window;
+    }
 
 private:
     /// @brief Flag indicating if window is resizable.

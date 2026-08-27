@@ -14,19 +14,20 @@ struct RectShape {
     float h = 0.0f;  ///< Height.
 
     /// @brief Default constructor.
-    RectShape() = default;
+    constexpr RectShape() noexcept = default;
     /// @brief Constructs a rectangle shape.
     /// @param x X coordinate.
     /// @param y Y coordinate.
     /// @param w Width.
     /// @param h Height.
-    RectShape(float x, float y, float w, float h) : x(x), y(y), w(w), h(h) {}
+    constexpr RectShape(float x, float y, float w, float h) noexcept
+        : x(x), y(y), w(w), h(h) {}
 
     /// @brief Checks if a point is contained inside this rectangle.
     /// @param point The 2D point to test.
     /// @return True if point is inside.
-    bool
-    contains(const Vec2& point) const {
+    [[nodiscard]] constexpr bool
+    contains(Vec2 point) const noexcept {
         return point.x >= x && point.x <= x + w && point.y >= y &&
                point.y <= y + h;
     }
@@ -39,19 +40,19 @@ struct CircleShape {
     int segments = 3;            ///< The number of segments.
 
     /// @brief Default constructor.
-    CircleShape() = default;
+    constexpr CircleShape() noexcept = default;
     /// @brief Constructs a circle shape.
     /// @param center The center position.
     /// @param radius The radius.
     /// @param segments The number of segments.
-    CircleShape(Vec2 center, float radius, int segments = 16)
+    constexpr CircleShape(Vec2 center, float radius, int segments = 16) noexcept
         : center(center), radius(radius), segments(segments) {}
 
     /// @brief Checks if a point is contained inside this circle.
     /// @param point The 2D point to test.
     /// @return True if point is inside circle radius.
-    bool
-    contains(const Vec2& point) const {
+    [[nodiscard]] inline bool
+    contains(Vec2 point) const noexcept {
         return (point - center).length() <= radius;
     }
 };
@@ -63,12 +64,12 @@ struct LineShape {
     float thickness = 1.0f;     ///< The thickness of the line.
 
     /// @brief Default constructor.
-    LineShape() = default;
+    constexpr LineShape() noexcept = default;
     /// @brief Constructs a line shape.
     /// @param start The start position.
     /// @param end The end position.
     /// @param thickness The thickness.
-    LineShape(Vec2 start, Vec2 end, float thickness = 1.0f)
+    constexpr LineShape(Vec2 start, Vec2 end, float thickness = 1.0f) noexcept
         : start(start), end(end), thickness(thickness) {}
 };
 

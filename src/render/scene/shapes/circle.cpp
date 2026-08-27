@@ -8,7 +8,6 @@
 namespace lili {
 
 Circle::Circle(Renderer* renderer, CircleShape shape, Vec4 color)
-
     : renderer(renderer) {
     mesh = renderer->getUnitCircle(shape.segments);
     material = std::make_unique<Material>(renderer->getTheWhitePixel());
@@ -16,42 +15,6 @@ Circle::Circle(Renderer* renderer, CircleShape shape, Vec4 color)
     setColor(color);
     ui_layout.offset = shape.center;
     layer = 0.0f;
-}
-
-void
-Circle::setPosition(Vec2 pos) {
-    shape.center = pos;
-    ui_layout.offset = pos;
-}
-
-void
-Circle::setRotation(float degree) {
-    rotation = lili::degToRad(degree);
-}
-
-void
-Circle::setScale(Vec2 scale) {
-    this->scale = scale;
-}
-
-void
-Circle::setSize(Vec2 size) {
-    float max_dim = std::max(size.x, size.y);
-    setRadius(max_dim * 0.5f);
-}
-
-void
-Circle::setCenter(Vec2 pos) {
-    shape.center = pos;
-    ui_layout.offset = pos;
-}
-
-void
-Circle::setRadius(float r) {
-    if (shape.radius != r) {
-        shape.radius = r;
-        hollow_dirty = true;
-    }
 }
 
 void
@@ -71,55 +34,6 @@ Circle::setShape(CircleShape shape) {
     hollow_dirty = true;
 }
 
-void
-Circle::setColor(Vec4 color) {
-    if (material) material->properties.color_tint = color;
-}
-
-void
-Circle::setMaterial(Material* material) {
-    external_material = material;
-}
-
-void
-Circle::setHollow(bool hollow) {
-    is_hollow = hollow;
-}
-
-void
-Circle::setHollowThickness(float thickness) {
-    if (hollow_thickness != thickness) {
-        hollow_thickness = thickness;
-        hollow_dirty = true;
-    }
-}
-
-void
-Circle::setLayer(float value) {
-    layer = value;
-}
-
-Vec2
-Circle::getPosition() const {
-    return shape.center;
-}
-
-float
-Circle::getRotation() const {
-    return lili::radToDeg(rotation);
-}
-
-Vec2
-Circle::getScale() const {
-    return scale;
-}
-
-Vec2
-Circle::getSize() const {
-    float d = getDiameter();
-    return {d, d};
-}
-
 Mat3
 Circle::getTransformMatrix() const {
     if (render_layer == RenderLayer::UI && renderer) {
@@ -134,11 +48,6 @@ Circle::getTransformMatrix() const {
            Mat3::scale({getDiameter() * scale.x, getDiameter() * scale.y});
 }
 
-float
-Circle::getLayer() const {
-    return layer;
-}
-
 bool
 Circle::containsPoint(Vec2 point, const Renderer* renderer) const {
     if (!is_visible) return false;
@@ -146,52 +55,6 @@ Circle::containsPoint(Vec2 point, const Renderer* renderer) const {
     Mat3 inv_mat = getTransformMatrix().inverse();
     Vec2 local_pt = inv_mat.transformPoint(point);
     return local_pt.length() <= 0.5f;
-}
-
-Vec2
-Circle::getCenter() const {
-    return shape.center;
-}
-
-Vec2
-Circle::getTopLeft() const {
-    return shape.center - Vec2(shape.radius, shape.radius);
-}
-
-float
-Circle::getRadius() const {
-    return shape.radius;
-}
-
-float
-Circle::getDiameter() const {
-    return shape.radius * 2.0f;
-}
-
-CircleShape
-Circle::getShape() const {
-    return shape;
-}
-
-Vec4
-Circle::getColor() const {
-    Material* mat = getMaterial();
-    return mat ? mat->properties.color_tint : Vec4(1, 1, 1, 1);
-}
-
-Material*
-Circle::getMaterial() const {
-    return external_material ? external_material : material.get();
-}
-
-bool
-Circle::isHollow() const {
-    return is_hollow;
-}
-
-float
-Circle::getHollowThickness() const {
-    return hollow_thickness;
 }
 
 void
@@ -218,17 +81,13 @@ Circle::draw() {
                 float angle = i * angle_step;
                 float cos_a = std::cos(angle);
                 float sin_a = std::sin(angle);
-                vertices.push_back(
-                    Vertex{
-                        inner_r * cos_a, inner_r * sin_a, 0.0f,
-                        inner_r * cos_a + 0.5f, inner_r * sin_a + 0.5f
-                    }
+                vertices.emplace_back(
+                    Vec3(inner_r * cos_a, inner_r * sin_a, 0.0f),
+                    Vec2(inner_r * cos_a + 0.5f, inner_r * sin_a + 0.5f)
                 );
-                vertices.push_back(
-                    Vertex{
-                        outer_r * cos_a, outer_r * sin_a, 0.0f,
-                        outer_r * cos_a + 0.5f, outer_r * sin_a + 0.5f
-                    }
+                vertices.emplace_back(
+                    Vec3(outer_r * cos_a, outer_r * sin_a, 0.0f),
+                    Vec2(outer_r * cos_a + 0.5f, outer_r * sin_a + 0.5f)
                 );
 
                 uint32_t current_inner = i * 2;
@@ -245,25 +104,28 @@ Circle::draw() {
                 indices.push_back(next_outer);
             }
 
-            MeshData mesh_data;
-            mesh_data.vertices = vertices;
-            mesh_data.indices = indices;
-            if (!hollow_mesh)
+            MeshData md;
+            md.vertices = std::move(vertices);
+            md.indices = std::move(indices);
+
+            if (!hollow_mesh) {
                 hollow_mesh =
-                    std::make_unique<GPUMesh>(renderer->getDevice(), mesh_data);
-            else
-                hollow_mesh->update(mesh_data);
+                    std::make_unique<GPUMesh>(renderer->getDevice(), md);
+            } else {
+                hollow_mesh->update(md);
+            }
             hollow_dirty = false;
         }
 
         renderer->submit(
-            Model(hollow_mesh.get(), getMaterial()), mat_transform, layer,
+            Model({hollow_mesh.get(), getMaterial()}), mat_transform, layer,
             render_layer
         );
-    } else
+    } else {
         renderer->submit(
-            Model(mesh, getMaterial()), mat_transform, layer, render_layer
+            Model({mesh, getMaterial()}), mat_transform, layer, render_layer
         );
+    }
 }
 
 }  // namespace lili

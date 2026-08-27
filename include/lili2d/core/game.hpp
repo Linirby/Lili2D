@@ -47,8 +47,10 @@ public:
 
     /// @brief Sets the fixed ticks per second.
     /// @param value Ticks per second rate.
-    void
-    setTps(float value);
+    inline void
+    setTps(float value) noexcept {
+        clock.setTps(value);
+    }
 
     /// @brief Reconfigures the game's performance and threading settings at
     /// runtime.
@@ -58,33 +60,45 @@ public:
 
     /// @brief Gets the game's window.
     /// @return Pointer to the game's window.
-    Window*
-    getWindow() const;
+    [[nodiscard]] inline Window*
+    getWindow() const noexcept {
+        return window.get();
+    }
 
     /// @brief Gets the renderer link to the game's window.
     /// @return Pointer to the used renderer.
-    Renderer*
-    getRenderer() const;
+    [[nodiscard]] inline Renderer*
+    getRenderer() const noexcept {
+        return renderer.get();
+    }
 
     /// @brief Gets the thread pool.
     /// @return Pointer to the thread pool.
-    ThreadPool*
-    getThreadPool() const;
+    [[nodiscard]] inline ThreadPool*
+    getThreadPool() const noexcept {
+        return thread_pool.get();
+    }
 
     /// @brief Gets the active engine configuration.
     /// @return Reference to the active configuration.
-    const EngineConfig&
-    getConfig() const;
+    [[nodiscard]] inline const EngineConfig&
+    getConfig() const noexcept {
+        return engine_config;
+    }
 
     /// @brief Gets the clock used in gameloop.
     /// @return Reference to the used clock.
-    const Clock&
-    getClock() const;
+    [[nodiscard]] inline const Clock&
+    getClock() const noexcept {
+        return clock;
+    }
 
     /// @brief Gets the TPS used in the game clock.
     /// @return A float of the used TPS.
-    float
-    getTps() const;
+    [[nodiscard]] inline float
+    getTps() const noexcept {
+        return clock.getTps();
+    }
 
     /// @brief Called once when the game initializes.
     virtual void
@@ -115,8 +129,10 @@ public:
     onExit();
 
     /// @brief Stop the main gameloop
-    void
-    shutdown();
+    inline void
+    shutdown() noexcept {
+        running = false;
+    }
 
 private:
     /// @brief Unique pointer to the application window.

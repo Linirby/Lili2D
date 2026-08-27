@@ -23,7 +23,7 @@ This document details the core system designs, concurrency patterns, memory layo
 | **11** | [Input Action Mapping Subsystem (`ActionMap`)](#11-input-action-mapping-subsystem-actionmap) | String-keyed logical action bindings, tri-state input polling (`held`, `justPressed`, `justReleased`). |
 | **12** | [Chunk-Based 3D Grid Tilemap & Asynchronous Meshing](#12-chunk-based-3d-grid-tilemap--asynchronous-meshing) | `Point3` spatial chunk maps, multithreaded vertex/index baking, layer collision sweep. |
 | **13** | [Frame Animation Pipeline & Sprite Slicing (`AtlasMap`, `AnimationPlayer`)](#13-frame-animation-pipeline--sprite-slicing-atlasmap-animationplayer) | UV grid coordinate slicing, frame accumulator playback, frame-specific event hooks. |
-| **14** | [Modern C++ Calling Conventions & Inlining Guidelines (Planned Optimization)](#14-modern-c-calling-conventions--inlining-guidelines-planned-optimization) | Pass-by-value ($\le 16$B PODs), System V/ARM64 ABI register passing, header inlining vs TU separation. |
+| **14** | [Modern C++ Standards, Compile-Time Optimizations & Calling Conventions](#14-modern-c-standards-compile-time-optimizations--calling-conventions) | Pass-by-value ($\le 16$B PODs), ABI registers, `constexpr` constructors, `[[nodiscard]]` triggers, `noexcept` move guarantees, header inlining. |
 
 ---
 
@@ -449,9 +449,9 @@ $$\text{UV}_{\min} = \left(\frac{c}{\text{Cols}}, \frac{r}{\text{Rows}}\right), 
 
 ---
 
-## 14. Modern C++ Calling Conventions & Inlining Guidelines (Planned Optimization)
+## 14. Modern C++ Standards, Compile-Time Optimizations & Calling Conventions
 
-To maximize runtime throughput and align with modern C++ standard best practices, Lili2D follows specific parameter passing and inlining guidelines across its subsystems.
+To maximize runtime throughput, ensure API safety, and align with modern **C++20** standard best practices, Lili2D follows strict parameter passing, compile-time evaluation, diagnostic attribute enforcement, and inlining guidelines across its subsystems.
 
 ### 14.1 Pass-by-Value for Small Trivially Copyable Types ($\le 16$ Bytes / 128 Bits)
 
@@ -500,7 +500,123 @@ Inlining is an enabling optimization that unlocks **constant folding**, **SIMD a
 
 ---
 
-### 14.3 Planned Optimization Roadmap
+### 14.3 `constexpr` Constructors & Compile-Time Evaluation
+
+In high-performance game architectures, initializing math primitives and configuration state must incur **zero runtime latency**. Lili2D designates constructors of geometric, physical, and timing primitives (`Vec2`, `Vec3`, `Vec4`, `Point2`, `Point3`, `RectShape`, `CircleCollider`, `Clock`) as `constexpr`.
+
+```mermaid
+graph TD
+    subgraph ConstexprInit["constexpr Constructor (Compile-Time)"]
+        CC1["Code: constexpr Vec2 v(10.0f, 20.0f);"] --> CC2["Compiler Constant Evaluator (AST)"]
+        CC2 --> CC3["Values baked directly into .rodata / immediate registers"]
+        CC3 --> CC4["Zero runtime cycles / No Static Initialization Order Fiasco (SIOF)"]
+    end
+
+    subgraph DynamicInit["Runtime Non-constexpr Constructor"]
+        DC1["Code: Vec2 v(10.0f, 20.0f);"] --> DC2["Emits runtime function prologue / call"]
+        DC2 --> DC3["Dynamic initialization table executed at startup"]
+        DC3 --> DC4["Potential startup latency / Static Init race conditions"]
+    end
+```
+
+#### Core Architectural Benefits:
+
+1. **Literal Types & `static_assert` Validation**:
+   * Marking constructors (including `= default` constructors) as `constexpr` promotes structs to **Literal Types**.
+   * Geometric structures can participate in compile-time layout validation, matrix precomputations, and static verification:
+     ```cpp
+     // Compile-time verification of geometry invariants
+     constexpr Vec2 origin{0.0f, 0.0f};
+     constexpr CircleCollider collider{origin, 15.0f};
+     static_assert(collider.contains(Vec2{5.0f, 5.0f}), "Collision math must be valid at compile-time!");
+     ```
+2. **Zero-Cost Static Constant Initialization**:
+   * Global or static engine constants (e.g., `Vec2::ZERO`, `Mat3::IDENTITY`, predefined UV boxes) constructed with `constexpr` are evaluated during compilation and embedded directly into the binary's read-only data segment (`.rodata`).
+   * Eliminates the **Static Initialization Order Fiasco (SIOF)**, guaranteeing that global constants are initialized before any runtime translation unit code executes.
+3. **Aggressive Compiler Constant Folding in Hot Paths**:
+   * When inline `constexpr` constructors are invoked in inner frame loops (e.g. `Vec2 diff = center - other.center;`), the compiler does not emit function calls or stack frames. It folds constants, evaluates member expressions directly inside CPU registers, and optimizes temporary structs away entirely.
+
+---
+
+### 14.4 `[[nodiscard]]` Attribute: Compiler Enforcement & Warning Triggers
+
+Lili2D extensively applies the standard C++ `[[nodiscard]]` attribute to functions, member accessors, and state-transition routines. `[[nodiscard]]` instructs the compiler to emit a compilation diagnostic (`-Wunused-result` on GCC/Clang, `C4834` on MSVC) whenever the caller invokes a function without consuming, assigning, or testing its return value.
+
+```mermaid
+graph TD
+    Call["Caller invokes function: e.g. clock.step(), keyboard.justPressed(K), vec.operator+()"] --> Check{"Is return value captured, assigned, or evaluated in a condition?"}
+    Check -- Yes --> OK["Compiled cleanly without warning (Correct logic flow)"]
+    Check -- No --> Warn["Compiler Warning: -Wunused-result\n'ignoring return value of function declared with [[nodiscard]]'"]
+    Warn --> Fix1["Capture result: bool active = keyboard.justPressed(Key::SPACE);"]
+    Warn --> Fix2["Use in condition: while (clock.step()) { onFixedUpdate(); }"]
+    Warn --> Fix3["Explicit intent suppression: (void)clock.step();"]
+```
+
+#### What Triggers a `[[nodiscard]]` Warning in Lili2D:
+
+| Trigger Scenario | Code Example & Signature | Bug Prevented / Rationale |
+| :--- | :--- | :--- |
+| **State Mutation with Progress Signal** | `[[nodiscard]] inline bool Clock::step()` | Calling `clock.step();` as an unassigned statement decrements the accumulator by `fixed_dt` without executing the required physics tick, causing silent simulation skips. |
+| **Pure Input Queries** | `[[nodiscard]] inline bool Keyboard::justPressed(Scancode) const` | Querying `keyboard.justPressed(Key::SPACE);` without reading the boolean indicates a logic omission or forgotten conditional branch. |
+| **Pure Timing & Interpolation Accessors** | `[[nodiscard]] constexpr float Clock::getDt() const`<br>`[[nodiscard]] inline float Clock::getAlpha() const` | Reading delta time or render alpha without passing it to physics solvers or render interpolation indicates dead code. |
+| **Out-of-Place Geometric Transforms** | `[[nodiscard]] constexpr Vec2 Vec2::operator-(Vec2) const`<br>`[[nodiscard]] constexpr AABB2 CircleCollider::getAABB() const` | Mathematical operations in Lili2D return a newly calculated instance rather than mutating `*this`. Discarding the return value instantly drops the calculated result. |
+| **Transparent Hash Calculations** | `[[nodiscard]] constexpr std::size_t StringHash::operator()(string_view) const` | Invoking the transparent hash functor without using the resulting 64-bit integer hash is a redundant CPU operation. |
+
+#### Intentional Discard Suppression:
+
+In rare testing scenarios or benchmarking setups where a return value is intentionally ignored, callers must explicitly document this intent to bypass the compiler diagnostic:
+
+```cpp
+// Explicit cast to void documents intentional discard and suppresses -Wunused-result
+static_cast<void>(clock.step());
+// or using std::ignore:
+std::ignore = keyboard.justPressed(Key::ESCAPE);
+```
+
+---
+
+### 14.5 `noexcept` Exception Specifications & Move Semantics Guarantees
+
+In modern C++ and low-latency game engine architecture, exception specifications are not merely documentation—they directly dictate code generation, binary size, and standard container performance.
+
+```mermaid
+graph TD
+    subgraph NoexceptMove["noexcept Move Operations (Lili2D Standard)"]
+        NM1["std::vector grows / reallocates capacity"] --> NM2["Checks std::move_if_noexcept<T>"]
+        NM2 --> NM3["True: Fast In-Place Memory Move (Pointer Swap / Register Move)"]
+        NM3 --> NM4["Zero heap allocations, optimal O(1) transfer per element"]
+    end
+
+    subgraph ThrowingMove["Non-noexcept Move Operations (Fallback)"]
+        TM1["std::vector grows / reallocates capacity"] --> TM2["Checks std::move_if_noexcept<T>"]
+        TM2 --> TM3["False: Falls back to deep copy constructor for strong exception guarantee"]
+        TM3 --> TM4["High CPU overhead, deep heap duplication, or compile error on move-only types"]
+    end
+```
+
+#### Core Architectural Mechanics:
+
+1. **`std::vector` Reallocation & `std::move_if_noexcept`**:
+   * Standard library containers (`std::vector<Vertex>`, `std::vector<WatchedFile>`, `ComponentPool<T>`) enforce the **strong exception guarantee**. If an exception is thrown while moving an element during dynamic array reallocation, the vector cannot roll back without corrupting state.
+   * To prevent this, standard containers query `std::is_nothrow_move_constructible<T>`. If a type's move constructor or move assignment operator lacks `noexcept`, `std::vector` falls back to **deep copying** every element.
+   * For **move-only RAII resources** ([`Shader`](file:///home/lili/Documents/Lili2D/include/lili2d/render/core/shader.hpp), [`GPUMesh`](file:///home/lili/Documents/Lili2D/include/lili2d/render/core/gpu_mesh.hpp), [`Texture`](file:///home/lili/Documents/Lili2D/include/lili2d/render/core/texture.hpp), [`MainGraphicsPipeline`](file:///home/lili/Documents/Lili2D/include/lili2d/render/pipelines/main_graphics_pipeline.hpp), [`Window`](file:///home/lili/Documents/Lili2D/include/lili2d/core/window.hpp)), omitting `noexcept` causes compiler errors or disables safe container relocation. In Lili2D, all move constructors and move assignment operators are explicitly marked `noexcept`:
+     ```cpp
+     // Example: RAII Move semantics in GPUMesh and Shader
+     GPUMesh(GPUMesh&& other) noexcept = default;
+     GPUMesh& operator=(GPUMesh&& other) noexcept = default;
+     ```
+
+2. **Elimination of Exception Unwinding Overhead (`.eh_frame` / Landing Pads)**:
+   * Non-`noexcept` functions require compilers to emit landing pads and stack unwinding metadata tables (`.eh_frame` on Linux/ELF, `.pdata`/`.xdata` on Windows PE) to clean up stack variables if an exception unwinds through the call frame.
+   * Marking leaf arithmetic, string hashing ([`StringHash::operator()`](file:///home/lili/Documents/Lili2D/include/lili2d/core/string_hash.hpp)), easing curves ([`Easing`](file:///home/lili/Documents/Lili2D/include/lili2d/core/easing.hpp)), and destructors as `noexcept` strips all unwinding tables. This reduces binary size, conserves instruction cache ($L1i$) space, and removes branch prediction penalties.
+
+3. **Compiler Optimization & Safe Instruction Reordering**:
+   * When a function is declared `noexcept`, the compiler optimizer guarantees that control flow will never abruptly branch to an exception handler at runtime.
+   * This allows the compiler to perform aggressive dead-store elimination, register caching across function calls, and automatic loop vectorization that would otherwise be blocked by potential exception escape paths.
+
+---
+
+### 14.6 Planned Optimization Roadmap
 
 The following optimizations are scheduled for implementation:
 1. **Geometry Modernization**:
@@ -516,5 +632,3 @@ The following optimizations are scheduled for implementation:
 4. **Render & Scene Property Inlining**:
    * Pass `Vec4` color tints and shape descriptors by value across `Renderer`, `Sprite`, `AnimatedSprite`, and `SpriteBatch`.
    * Inline 1-line property getters/setters across `Sprite`, `AnimatedSprite`, `SpriteBatch`, `Circle`, `Line`, and `Rect`.
-
-

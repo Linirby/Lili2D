@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+
 #include "lili2d/geometry/shapes2d.hpp"
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/geometry/vec3.hpp"
@@ -10,115 +12,163 @@ struct CircleCollider;
 
 /// @brief Represents an Axis-Aligned Bounding Box.
 struct AABB2 {
+    Vec2 min;  ///< The minimum coordinates.
+    Vec2 max;  ///< The maximum coordinates.
+
     /// @brief Default constructor.
-    AABB2() = default;
+    constexpr AABB2() noexcept = default;
     /// @brief Copy constructor.
-    AABB2(const AABB2&) = default;
+    constexpr AABB2(const AABB2&) noexcept = default;
     /// @brief Move constructor.
-    AABB2(AABB2&&) = default;
+    constexpr AABB2(AABB2&&) noexcept = default;
+
     /// @brief Construct AABB2 with two Vec2.
     /// @param pos The position of the topleft.
     /// @param size The size of the bounding rect.
-    AABB2(const Vec2& pos, const Vec2& size);
+    constexpr AABB2(Vec2 pos, Vec2 size) noexcept : min(pos), max(pos + size) {}
+
     /// @brief Construct AABB2 with a RectShape.
     /// @param rect The shape of the bounding rect.
-    explicit AABB2(const RectShape& rect);
+    constexpr explicit AABB2(RectShape rect) noexcept
+        : min(Vec2(rect.x, rect.y)),
+          max(Vec2(rect.x + rect.w, rect.y + rect.h)) {}
+
     /// @brief Construct AABB2 with a CircleShape.
     /// @param circle The shape of the bounding circle.
-    explicit AABB2(const CircleShape& circle);
+    constexpr explicit AABB2(CircleShape circle) noexcept
+        : min(circle.center - Vec2(circle.radius, circle.radius)),
+          max(circle.center + Vec2(circle.radius, circle.radius)) {}
+
     /// @brief Construct AABB2 with a LineShape.
     /// @param line The shape of the bounding line.
-    explicit AABB2(const LineShape& line);
+    inline explicit AABB2(LineShape line) noexcept {
+        min = Vec2(
+            std::min(line.start.x, line.end.x),
+            std::min(line.start.y, line.end.y)
+        );
+        max = Vec2(
+            std::max(line.start.x, line.end.x),
+            std::max(line.start.y, line.end.y)
+        );
+    }
+
     /// @brief Copy assignment operator.
     /// @return Reference to the assigned rectangle.
-    AABB2&
-    operator=(const AABB2&) = default;
+    constexpr AABB2&
+    operator=(const AABB2&) noexcept = default;
     /// @brief Move assignment operator.
     /// @return Reference to the assigned rectangle.
-    AABB2&
-    operator=(AABB2&&) = default;
-
-    Vec2 min;  ///< The minimum coordinates.
-    Vec2 max;  ///< The maximum coordinates.
+    constexpr AABB2&
+    operator=(AABB2&&) noexcept = default;
 
     /// @brief Checks if this AABB2 intersects with another.
     /// @param other The other AABB2 to test against.
     /// @return True if the AABB2s intersect, false otherwise.
-    bool
-    intersect(const AABB2& other) const;
+    [[nodiscard]] constexpr bool
+    intersect(AABB2 other) const noexcept {
+        return (min.x <= other.max.x && max.x >= other.min.x) &&
+               (min.y <= other.max.y && max.y >= other.min.y);
+    }
+
     /// @brief Checks if this AABB2 intersects with a RectShape.
     /// @param rect The RectShape to test against.
     /// @return True if there is an intersection, false otherwise.
-    bool
-    intersect(const RectShape& rect) const;
+    [[nodiscard]] constexpr bool
+    intersect(RectShape rect) const noexcept {
+        return intersect(AABB2(rect));
+    }
+
     /// @brief Checks if this AABB2 intersects with a CircleCollider.
     /// @param circle The CircleCollider to test against.
     /// @return True if there is an intersection, false otherwise.
-    bool
-    intersect(const CircleCollider& circle) const;
+    [[nodiscard]] bool
+    intersect(CircleCollider circle) const noexcept;
+
     /// @brief Checks if this AABB2 intersects with a CircleShape.
     /// @param circle The CircleShape to test against.
     /// @return True if there is an intersection, false otherwise.
-    bool
-    intersect(const CircleShape& circle) const;
+    [[nodiscard]] bool
+    intersect(CircleShape circle) const noexcept;
 
     /// @brief Checks if this AABB2 contains another.
     /// @param other The other AABB2 to test against.
     /// @return True if this AABB2 contains the other, false otherwise.
-    bool
-    contains(const AABB2& other) const;
+    [[nodiscard]] constexpr bool
+    contains(AABB2 other) const noexcept {
+        return (min.x <= other.min.x && max.x >= other.max.x) &&
+               (min.y <= other.min.y && max.y >= other.max.y);
+    }
+
     /// @brief Checks if this AABB2 contains a RectShape.
     /// @param rect The RectShape to test against.
     /// @return True if this AABB2 contains the RectShape, false otherwise.
-    bool
-    contains(const RectShape& rect) const;
+    [[nodiscard]] constexpr bool
+    contains(RectShape rect) const noexcept {
+        return contains(AABB2(rect));
+    }
+
     /// @brief Checks if this AABB2 contains a CircleShape.
     /// @param circle The CircleShape to test against.
     /// @return True if this AABB2 contains the CircleShape, false otherwise.
-    bool
-    contains(const CircleShape& circle) const;
+    [[nodiscard]] constexpr bool
+    contains(CircleShape circle) const noexcept {
+        return contains(AABB2(circle));
+    }
+
     /// @brief Checks if this AABB2 contains a LineShape.
     /// @param line The LineShape to test against.
     /// @return True if this AABB2 contains the LineShape, false otherwise.
-    bool
-    contains(const LineShape& line) const;
+    [[nodiscard]] inline bool
+    contains(LineShape line) const noexcept {
+        return contains(AABB2(line));
+    }
 };
 
 /// @brief Represents a 3D Axis-Aligned Bounding Box.
 struct AABB3 {
+    Vec3 min;  ///< The minimum coordinates.
+    Vec3 max;  ///< The maximum coordinates.
+
     /// @brief Default constructor.
-    AABB3() = default;
+    constexpr AABB3() noexcept = default;
     /// @brief Copy constructor.
-    AABB3(const AABB3&) = default;
+    constexpr AABB3(const AABB3&) noexcept = default;
     /// @brief Move constructor.
-    AABB3(AABB3&&) = default;
+    constexpr AABB3(AABB3&&) noexcept = default;
+
     /// @brief Construct AABB3 with two Vec3.
     /// @param pos The position of the min corner.
     /// @param size The size of the bounding box.
-    AABB3(const Vec3& pos, const Vec3& size);
+    constexpr AABB3(Vec3 pos, Vec3 size) noexcept : min(pos), max(pos + size) {}
+
     /// @brief Copy assignment operator.
     /// @return Reference to the assigned box.
-    AABB3&
-    operator=(const AABB3&) = default;
+    constexpr AABB3&
+    operator=(const AABB3&) noexcept = default;
     /// @brief Move assignment operator.
     /// @return Reference to the assigned box.
-    AABB3&
-    operator=(AABB3&&) = default;
-
-    Vec3 min;  ///< The minimum coordinates.
-    Vec3 max;  ///< The maximum coordinates.
+    constexpr AABB3&
+    operator=(AABB3&&) noexcept = default;
 
     /// @brief Checks if this AABB3 intersects with another.
     /// @param other The other AABB3 to test against.
     /// @return True if the AABB3s intersect, false otherwise.
-    bool
-    intersect(const AABB3& other) const;
+    [[nodiscard]] constexpr bool
+    intersect(AABB3 other) const noexcept {
+        return (min.x <= other.max.x && max.x >= other.min.x) &&
+               (min.y <= other.max.y && max.y >= other.min.y) &&
+               (min.z <= other.max.z && max.z >= other.min.z);
+    }
 
     /// @brief Checks if this AABB3 contains another.
     /// @param other The other AABB3 to test against.
     /// @return True if this AABB3 contains the other, false otherwise.
-    bool
-    contains(const AABB3& other) const;
+    [[nodiscard]] constexpr bool
+    contains(AABB3 other) const noexcept {
+        return (min.x <= other.min.x && max.x >= other.max.x) &&
+               (min.y <= other.min.y && max.y >= other.max.y) &&
+               (min.z <= other.min.z && max.z >= other.max.z);
+    }
 };
 
 }  // namespace lili

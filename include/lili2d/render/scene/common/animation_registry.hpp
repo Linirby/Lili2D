@@ -1,3 +1,5 @@
+#pragma once
+
 #include "lili2d/core/asset_registry.hpp"
 #include "lili2d/render/scene/common/animation.hpp"
 
@@ -14,50 +16,66 @@ public:
 
     /// @brief Gets the singleton instance.
     /// @return Reference to the AnimationRegistry.
-    static AnimationRegistry&
+    [[nodiscard]] static AnimationRegistry&
     get();
 
     /// @brief Registers a new animation.
     /// @param key The unique string key.
     /// @param animation The animation to register.
     /// @return The assigned animation ID.
-    uint16_t
-    registerAnimation(const std::string& key, const Animation& animation);
+    inline uint16_t
+    registerAnimation(const std::string& key, const Animation& animation) {
+        return registerAsset(key, animation);
+    }
 
     /// @brief Checks if an animation exists.
     /// @param key The animation key.
     /// @return True if the animation exists.
-    bool
-    hasAnimation(const std::string& key) const;
+    [[nodiscard]] inline bool
+    hasAnimation(std::string_view key) const noexcept {
+        return hasAsset(key);
+    }
     /// @brief Gets an animation ID by key.
     /// @param key The animation key.
     /// @return The animation ID.
-    uint16_t
-    getAnimationId(const std::string& key) const;
+    [[nodiscard]] inline uint16_t
+    getAnimationId(std::string_view key) const noexcept {
+        return getAssetID(key);
+    }
     /// @brief Gets an animation by key.
     /// @param key The animation key.
     /// @return Reference to the animation.
-    const Animation&
-    getAnimation(const std::string& key) const;
+    [[nodiscard]] inline const Animation&
+    getAnimation(std::string_view key) const noexcept {
+        return getAsset(key);
+    }
     /// @brief Gets an animation by 16-bit ID.
     /// @param id The animation ID.
     /// @return Reference to the animation.
-    const Animation&
-    getAnimation(uint16_t id) const;
+    [[nodiscard]] inline const Animation&
+    getAnimation(uint16_t id) const noexcept {
+        return getAsset(id);
+    }
     /// @brief Gets an animation by 8-bit ID.
     /// @param id The animation ID.
     /// @return Reference to the animation.
-    const Animation&
-    getAnimation(uint8_t id) const;
+    [[nodiscard]] inline const Animation&
+    getAnimation(uint8_t id) const noexcept {
+        return getAsset(id);
+    }
 
     /// @brief Gets the total number of registered animations.
     /// @return The number of animations.
-    size_t
-    animationCount() const;
+    [[nodiscard]] inline size_t
+    animationCount() const noexcept {
+        return assetCount();
+    }
     /// @brief Gets the raw animation data array.
     /// @return Pointer to the animation data.
-    const Animation*
-    animationData() const;
+    [[nodiscard]] inline const Animation*
+    animationData() const noexcept {
+        return assetData();
+    }
 
 private:
     /// @brief Private constructor to enforce singleton pattern.

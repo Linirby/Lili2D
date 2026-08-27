@@ -5,21 +5,6 @@
 
 namespace lili {
 
-Vertex::Vertex(
-    float x, float y, float z, float u, float v, float material_id, float r,
-    float g, float b, float a
-)
-    : x(x),
-      y(y),
-      z(z),
-      u(u),
-      v(v),
-      material_id(material_id),
-      r(r),
-      g(g),
-      b(b),
-      a(a) {}
-
 GPUMesh::GPUMesh(SDL_GPUDevice* device, const MeshData& mesh) : device(device) {
     index_count = static_cast<uint32_t>(mesh.indices.size());
 
@@ -75,21 +60,6 @@ GPUMesh::GPUMesh(SDL_GPUDevice* device, const MeshData& mesh) : device(device) {
         index_buffer = nullptr;
         index_capacity = 0;
     }
-}
-
-SDL_GPUBuffer*
-GPUMesh::getVertex() const {
-    return vertex_buffer.get();
-}
-
-SDL_GPUBuffer*
-GPUMesh::getIndex() const {
-    return index_buffer.get();
-}
-
-uint32_t
-GPUMesh::getIndexCount() const {
-    return index_count;
 }
 
 void

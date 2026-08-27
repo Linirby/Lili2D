@@ -41,8 +41,8 @@ public:
     /// @brief Check if an action exist in the ActionMap.
     /// @param action The name of the action.
     /// @return bool `true`: the action exist, `false` the action doesn't exist
-    bool
-    has(std::string_view action) const;
+    [[nodiscard]] bool
+    has(std::string_view action) const noexcept;
     /// @brief Add a new action to the ActionMap. The action is overwrites if
     /// it already exists.
     /// @param action The name of the action.
@@ -87,8 +87,8 @@ public:
     /// @param action The name of the action.
     /// @return const std::vector<Key>& Const reference to a vector of keys for
     /// the corresponding action (empty set if action doesn't exist).
-    const std::vector<Key>&
-    getKeys(std::string_view action) const;
+    [[nodiscard]] const std::vector<Key>&
+    getKeys(std::string_view action) const noexcept;
 
     /// @brief Add a mouse button to an existing action.
     /// @param action The name of the action.
@@ -119,27 +119,27 @@ public:
     /// @param action The name of the action.
     /// @return const std::vector<MouseButton>& Const reference to a vector of
     /// keys for the corresponding action (empty set if action doesn't exist).
-    const std::vector<MouseButton>&
-    getMouseButtons(std::string_view action) const;
+    [[nodiscard]] const std::vector<MouseButton>&
+    getMouseButtons(std::string_view action) const noexcept;
 
     /// @brief Check if an action is currently held down.
     /// @param action The name of the action.
     /// @return bool `true`: action is held down, `false`: action is not held
     /// down or doesn't exist
-    bool
-    isHeld(std::string_view action) const;
+    [[nodiscard]] bool
+    isHeld(std::string_view action) const noexcept;
     /// @brief Check if an action was just pressed in the current frame.
     /// @param action The name of the action.
     /// @return bool `true`: action is just pressed, `false`: action is not
     /// just pressed or doesn't exist
-    bool
-    isJustPressed(std::string_view action) const;
+    [[nodiscard]] bool
+    isJustPressed(std::string_view action) const noexcept;
     /// @brief Check if an action was just released in the current frame.
     /// @param action The name of the action.
     /// @return bool `true`: action is just released, `false`: action is not
     /// just released or doesn't exist
-    bool
-    isJustReleased(std::string_view action) const;
+    [[nodiscard]] bool
+    isJustReleased(std::string_view action) const noexcept;
 
 private:
     Keyboard keyboard;

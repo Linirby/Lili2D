@@ -15,12 +15,12 @@ public:
     /// @brief Checks if the given entity is valid and active.
     /// @param entity The entity to check.
     /// @return True if the entity is valid, false otherwise.
-    bool
-    isValid(Entity entity) const;
+    [[nodiscard]] bool
+    isValid(Entity entity) const noexcept;
 
     /// @brief Creates a new active entity.
     /// @return The created entity.
-    Entity
+    [[nodiscard]] Entity
     createEntity();
 
     /// @brief Destroys an entity and all its components.
@@ -32,7 +32,7 @@ public:
     /// @tparam T The component type.
     /// @return Reference to the component pool.
     template <typename T>
-    ComponentPool<T>&
+    [[nodiscard]] ComponentPool<T>&
     getPool();
 
     /// @brief Emplaces a new component for the specified entity.
@@ -57,7 +57,7 @@ public:
     /// @param entity The entity.
     /// @return Reference to the component.
     template <typename T>
-    T&
+    [[nodiscard]] T&
     getComponent(Entity entity);
 
     /// @brief Checks if the entity has a component of the specified type.
@@ -65,7 +65,7 @@ public:
     /// @param entity The entity.
     /// @return True if the component exists, false otherwise.
     template <typename T>
-    bool
+    [[nodiscard]] bool
     hasComponent(Entity entity) const;
 
 private:
@@ -83,8 +83,8 @@ private:
     /// @tparam T The component type.
     /// @return The unique ID.
     template <typename T>
-    static uint32_t
-    getComponentTypeID();
+    [[nodiscard]] static uint32_t
+    getComponentTypeID() noexcept;
 };
 
 template <typename T>
@@ -129,7 +129,7 @@ ECSRegistry::hasComponent(Entity entity) const {
 
 template <typename T>
 uint32_t
-ECSRegistry::getComponentTypeID() {
+ECSRegistry::getComponentTypeID() noexcept {
     static uint32_t type_id = next_component_type_id++;
     return type_id;
 }

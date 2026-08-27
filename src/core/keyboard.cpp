@@ -6,7 +6,7 @@
 namespace lili {
 
 void
-Keyboard::update() {
+Keyboard::update() noexcept {
     std::memcpy(previous, current, SDL_SCANCODE_COUNT * sizeof(bool));
     int sdl_key_count = 0;
     const bool* sdl_state = SDL_GetKeyboardState(&sdl_key_count);
@@ -19,21 +19,6 @@ Keyboard::update() {
                 (SDL_SCANCODE_COUNT - key_count) * sizeof(bool)
             );
     }
-}
-
-bool
-Keyboard::held(Scancode key) const {
-    return key < SDL_SCANCODE_COUNT && current[key];
-}
-
-bool
-Keyboard::justPressed(Scancode key) const {
-    return key < SDL_SCANCODE_COUNT && current[key] && !previous[key];
-}
-
-bool
-Keyboard::justReleased(Scancode key) const {
-    return key < SDL_SCANCODE_COUNT && !current[key] && previous[key];
 }
 
 }  // namespace lili

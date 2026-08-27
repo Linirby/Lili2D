@@ -54,7 +54,8 @@ struct Material {
     /// @param texture Pointer to the texture.
     /// @param pipeline Pointer to the custom pipeline.
     Material(Texture* texture, SDL_GPUGraphicsPipeline* pipeline);
-    /// @brief Constructs a material with an albedo map and MainGraphicsPipeline.
+    /// @brief Constructs a material with an albedo map and
+    /// MainGraphicsPipeline.
     /// @param texture Pointer to the texture.
     /// @param pipeline Pointer to the MainGraphicsPipeline.
     Material(Texture* texture, MainGraphicsPipeline* pipeline);

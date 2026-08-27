@@ -57,46 +57,46 @@ public:
     /// @brief Checks if an asset with the given key exists.
     /// @param key The key to check.
     /// @return True if the asset exists, false otherwise.
-    bool
-    hasAsset(std::string_view key) const;
+    [[nodiscard]] bool
+    hasAsset(std::string_view key) const noexcept;
 
     /// @brief Gets the ID of the asset with the given key.
     /// @param key The key of the asset.
     /// @return The asset's ID.
-    IdType
+    [[nodiscard]] IdType
     getAssetID(std::string_view key) const;
 
     /// @brief Gets a const reference to the asset with the given key.
     /// @param key The key of the asset.
     /// @return Const reference to the asset.
-    const T&
+    [[nodiscard]] const T&
     getAsset(std::string_view key) const;
 
     /// @brief Gets a const reference to the asset with the given ID.
     /// @param key The ID of the asset.
     /// @return Const reference to the asset.
-    const T&
+    [[nodiscard]] const T&
     getAsset(IdType key) const;
 
     /// @brief Gets a mutable reference to the asset with the given ID.
     /// @param key The ID of the asset.
     /// @return Mutable reference to the asset.
-    T&
+    [[nodiscard]] T&
     getAsset(IdType key);
 
     /// @brief Gets the total number of registered assets.
     /// @return The asset count.
-    size_t
-    assetCount() const;
+    [[nodiscard]] size_t
+    assetCount() const noexcept;
 
     /// @brief Gets a pointer to the raw array of registered assets.
     /// @return Pointer to the asset data.
-    const T*
-    assetData() const;
+    [[nodiscard]] const T*
+    assetData() const noexcept;
 
     /// @brief Clears all registered assets from the registry.
     void
-    clear();
+    clear() noexcept;
 };
 
 template <typename T, typename IdType>
@@ -139,8 +139,8 @@ AssetRegistry<T, IdType>::registerAsset(
 
 template <typename T, typename IdType>
 bool
-AssetRegistry<T, IdType>::hasAsset(std::string_view key) const {
-    return ids.contains(key);
+AssetRegistry<T, IdType>::hasAsset(std::string_view key) const noexcept {
+    return ids.find(key) != ids.end();
 }
 
 template <typename T, typename IdType>
@@ -176,19 +176,19 @@ AssetRegistry<T, IdType>::getAsset(IdType id) {
 
 template <typename T, typename IdType>
 size_t
-AssetRegistry<T, IdType>::assetCount() const {
+AssetRegistry<T, IdType>::assetCount() const noexcept {
     return id_to_asset.size();
 }
 
 template <typename T, typename IdType>
 const T*
-AssetRegistry<T, IdType>::assetData() const {
+AssetRegistry<T, IdType>::assetData() const noexcept {
     return id_to_asset.data();
 }
 
 template <typename T, typename IdType>
 void
-AssetRegistry<T, IdType>::clear() {
+AssetRegistry<T, IdType>::clear() noexcept {
     id_to_asset.clear();
     ids.clear();
 }

@@ -11,6 +11,8 @@ struct RaycastResult {
     int adj_x = 0;     ///< Adjacent X coordinate (surface normal).
     int adj_y = 0;     ///< Adjacent Y coordinate (surface normal).
     int adj_z = 0;     ///< Adjacent Z coordinate (surface normal).
+
+    constexpr RaycastResult() noexcept = default;
 };
 
 }  // namespace lili

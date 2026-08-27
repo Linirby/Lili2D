@@ -74,8 +74,10 @@ public:
 
     /// @brief Returns the active performance profile.
     /// @return Active PerformanceProfile.
-    PerformanceProfile
-    getProfile() const;
+    [[nodiscard]] inline PerformanceProfile
+    getProfile() const noexcept {
+        return profile;
+    }
 
 private:
     /// @brief Calculates optimal worker thread count based on engine config.

@@ -7,7 +7,6 @@
 namespace lili {
 
 Line::Line(Renderer* renderer, LineShape shape, Vec4 color)
-
     : renderer(renderer) {
     mesh = renderer->getUnitQuad();
     material = std::make_unique<Material>(renderer->getTheWhitePixel());
@@ -18,7 +17,7 @@ Line::Line(Renderer* renderer, LineShape shape, Vec4 color)
 }
 
 void
-Line::setPosition(Vec2 pos) {
+Line::setPosition(Vec2 pos) noexcept {
     Vec2 delta = pos - shape.start;
     shape.start = pos;
     shape.end = shape.end + delta;
@@ -26,7 +25,7 @@ Line::setPosition(Vec2 pos) {
 }
 
 void
-Line::setRotation(float degree) {
+Line::setRotation(float degree) noexcept {
     Vec2 diff = shape.end - shape.start;
     float length = diff.length();
     float rad = lili::degToRad(degree);
@@ -35,12 +34,7 @@ Line::setRotation(float degree) {
 }
 
 void
-Line::setScale(Vec2 scale) {
-    this->scale = scale;
-}
-
-void
-Line::setSize(Vec2 size) {
+Line::setSize(Vec2 size) noexcept {
     Vec2 diff = shape.end - shape.start;
     float current_len = diff.length();
     if (current_len > 0.0001f) {
@@ -52,64 +46,15 @@ Line::setSize(Vec2 size) {
     shape.thickness = size.y;
 }
 
-void
-Line::setStart(Vec2 pos) {
-    shape.start = pos;
-    ui_layout.offset = pos;
-}
-
-void
-Line::setEnd(Vec2 pos) {
-    shape.end = pos;
-}
-
-void
-Line::setThickness(float value) {
-    shape.thickness = value;
-}
-
-void
-Line::setShape(LineShape shape) {
-    this->shape = shape;
-    ui_layout.offset = shape.start;
-}
-
-void
-Line::setColor(Vec4 color) {
-    if (material) {
-        material->properties.color_tint = color;
-    }
-}
-
-void
-Line::setMaterial(Material* material) {
-    external_material = material;
-}
-
-void
-Line::setLayer(float value) {
-    layer = value;
-}
-
-Vec2
-Line::getPosition() const {
-    return shape.start;
-}
-
 float
-Line::getRotation() const {
+Line::getRotation() const noexcept {
     Vec2 diff = shape.end - shape.start;
     float angle = std::atan2(diff.y, diff.x);
     return lili::radToDeg(angle);
 }
 
 Vec2
-Line::getScale() const {
-    return scale;
-}
-
-Vec2
-Line::getSize() const {
+Line::getSize() const noexcept {
     Vec2 diff = shape.end - shape.start;
     return {diff.length() * scale.x, shape.thickness * scale.y};
 }
@@ -132,42 +77,6 @@ Line::getTransformMatrix() const {
     return Mat3::translate(shape.start) * Mat3::rotation(angle) *
            Mat3::translate({0.0f, -thick * 0.5f}) *
            Mat3::scale({length, thick});
-}
-
-float
-Line::getLayer() const {
-    return layer;
-}
-
-Vec2
-Line::getStart() const {
-    return shape.start;
-}
-
-Vec2
-Line::getEnd() const {
-    return shape.end;
-}
-
-float
-Line::getThickness() const {
-    return shape.thickness;
-}
-
-LineShape
-Line::getShape() const {
-    return shape;
-}
-
-Vec4
-Line::getColor() const {
-    Material* mat = getMaterial();
-    return mat ? mat->properties.color_tint : Vec4(1, 1, 1, 1);
-}
-
-Material*
-Line::getMaterial() const {
-    return external_material ? external_material : material.get();
 }
 
 void

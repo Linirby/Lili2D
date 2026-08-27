@@ -19,8 +19,6 @@ SpriteBatch::SpriteBatch(Renderer* renderer, Texture* texture)
     layer = 0.0f;
 }
 
-SpriteBatch::~SpriteBatch() {}
-
 void
 SpriteBatch::begin() {
     mesh_data.vertices.clear();
@@ -70,58 +68,18 @@ SpriteBatch::appendSpriteToMesh(
     Vec2 tp2 = transform_point(p2);
     Vec2 tp3 = transform_point(p3);
 
-    Vertex v0;
-    v0.x = tp0.x;
-    v0.y = tp0.y;
-    v0.z = 0.0f;
-    v0.u = slice.u_min;
-    v0.v = slice.v_min;
-    v0.material_id = 0.0f;
-    v0.r = color.x;
-    v0.g = color.y;
-    v0.b = color.z;
-    v0.a = color.w;
-
-    Vertex v1;
-    v1.x = tp1.x;
-    v1.y = tp1.y;
-    v1.z = 0.0f;
-    v1.u = slice.u_max;
-    v1.v = slice.v_min;
-    v1.material_id = 0.0f;
-    v1.r = color.x;
-    v1.g = color.y;
-    v1.b = color.z;
-    v1.a = color.w;
-
-    Vertex v2;
-    v2.x = tp2.x;
-    v2.y = tp2.y;
-    v2.z = 0.0f;
-    v2.u = slice.u_max;
-    v2.v = slice.v_max;
-    v2.material_id = 0.0f;
-    v2.r = color.x;
-    v2.g = color.y;
-    v2.b = color.z;
-    v2.a = color.w;
-
-    Vertex v3;
-    v3.x = tp3.x;
-    v3.y = tp3.y;
-    v3.z = 0.0f;
-    v3.u = slice.u_min;
-    v3.v = slice.v_max;
-    v3.material_id = 0.0f;
-    v3.r = color.x;
-    v3.g = color.y;
-    v3.b = color.z;
-    v3.a = color.w;
-
-    mesh_data.vertices.push_back(v0);
-    mesh_data.vertices.push_back(v1);
-    mesh_data.vertices.push_back(v2);
-    mesh_data.vertices.push_back(v3);
+    mesh_data.vertices.emplace_back(
+        Vec3(tp0.x, tp0.y, 0.0f), Vec2(slice.u_min, slice.v_min), 0.0f, color
+    );
+    mesh_data.vertices.emplace_back(
+        Vec3(tp1.x, tp1.y, 0.0f), Vec2(slice.u_max, slice.v_min), 0.0f, color
+    );
+    mesh_data.vertices.emplace_back(
+        Vec3(tp2.x, tp2.y, 0.0f), Vec2(slice.u_max, slice.v_max), 0.0f, color
+    );
+    mesh_data.vertices.emplace_back(
+        Vec3(tp3.x, tp3.y, 0.0f), Vec2(slice.u_min, slice.v_max), 0.0f, color
+    );
 
     mesh_data.indices.push_back(current_vertex_count + 0);
     mesh_data.indices.push_back(current_vertex_count + 1);
@@ -149,64 +107,8 @@ SpriteBatch::end() {
     mesh->update(mesh_data);
 }
 
-void
-SpriteBatch::setColorTint(Vec4 color) {
-    if (material) material->properties.color_tint = color;
-}
-
-void
-SpriteBatch::setColor(Vec4 color) {
-    setColorTint(color);
-}
-
-void
-SpriteBatch::setMaterial(Material* material) {
-    external_material = material;
-}
-
-void
-SpriteBatch::setPosition(Vec2 position) {
-    this->position = position;
-    ui_layout.offset = position;
-}
-
-void
-SpriteBatch::setRotation(float degree) {
-    rotation = lili::degToRad(degree);
-}
-
-void
-SpriteBatch::setScale(Vec2 scale) {
-    this->scale = scale;
-}
-
-void
-SpriteBatch::setSize(Vec2 size) {
-    custom_size = size;
-}
-
-void
-SpriteBatch::setLayer(float layer) {
-    this->layer = layer;
-}
-
 Vec2
-SpriteBatch::getPosition() const {
-    return position;
-}
-
-float
-SpriteBatch::getRotation() const {
-    return lili::radToDeg(rotation);
-}
-
-Vec2
-SpriteBatch::getScale() const {
-    return scale;
-}
-
-Vec2
-SpriteBatch::getSize() const {
+SpriteBatch::getSize() const noexcept {
     if (custom_size.x > 0.0f || custom_size.y > 0.0f)
         return Vec2(custom_size.x * scale.x, custom_size.y * scale.y);
     if (mesh_data.vertices.empty()) return Vec2(0.0f, 0.0f);
@@ -237,22 +139,6 @@ SpriteBatch::getTransformMatrix() const {
     }
     return Mat3::translate(position) * Mat3::rotation(rotation) *
            Mat3::scale(scale);
-}
-
-float
-SpriteBatch::getLayer() const {
-    return layer;
-}
-
-Vec4
-SpriteBatch::getColor() const {
-    Material* mat = getMaterial();
-    return mat ? mat->properties.color_tint : Vec4(1, 1, 1, 1);
-}
-
-Material*
-SpriteBatch::getMaterial() const {
-    return external_material ? external_material : material.get();
 }
 
 void

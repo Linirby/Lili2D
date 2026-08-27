@@ -5,6 +5,7 @@
 #include <memory>
 #include <string>
 
+#include "lili2d/geometry/utils.hpp"
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/render/core/gpu_mesh.hpp"
 #include "lili2d/render/core/texture.hpp"
@@ -23,13 +24,14 @@ struct GlyphUV {
     float v1 = 0;  ///< V1 coordinate.
 
     /// @brief Default constructor.
-    GlyphUV() = default;
+    constexpr GlyphUV() noexcept = default;
     /// @brief Constructs GlyphUV with bounds coordinates.
     /// @param u0 Minimum U coordinate.
     /// @param v0 Minimum V coordinate.
     /// @param u1 Maximum U coordinate.
     /// @param v1 Maximum V coordinate.
-    GlyphUV(float u0, float v0, float u1, float v1);
+    constexpr GlyphUV(float u0, float v0, float u1, float v1) noexcept
+        : u0(u0), v0(v0), u1(u1), v1(v1) {}
 };
 
 /// @brief Represents a bitmap font loaded from an image.
@@ -55,21 +57,27 @@ public:
 
     /// @brief Gets the font's underlying texture.
     /// @return Pointer to the texture.
-    Texture*
-    getTexture() const;
+    [[nodiscard]] inline Texture*
+    getTexture() const noexcept {
+        return texture.get();
+    }
     /// @brief Gets the width of a single glyph.
     /// @return The width in pixels.
-    int
-    getGlyphW() const;
+    [[nodiscard]] inline int
+    getGlyphW() const noexcept {
+        return glyph_w;
+    }
     /// @brief Gets the height of a single glyph.
     /// @return The height in pixels.
-    int
-    getGlyphH() const;
+    [[nodiscard]] inline int
+    getGlyphH() const noexcept {
+        return glyph_h;
+    }
     /// @brief Calculates the UV coordinates for a specific character.
     /// @param c The character.
     /// @return The UV coordinates.
-    GlyphUV
-    glyphUv(char c) const;
+    [[nodiscard]] GlyphUV
+    glyphUv(char c) const noexcept;
 
 private:
     /// @brief Unique pointer to the font texture.
@@ -89,21 +97,23 @@ private:
 class Text : public IRenderable {
 public:
     /// @brief Default constructor.
-    Text() = default;
+    Text() noexcept = default;
     /// @brief Constructs text using a bitmap font.
     /// @param renderer The renderer.
     /// @param font Pointer to the bitmap font.
     /// @param text The text string to render.
-    explicit Text(Renderer* renderer, BitmapFont* font, const std::string& text);
+    explicit Text(
+        Renderer* renderer, BitmapFont* font, const std::string& text
+    );
     /// @brief Destructor.
     ~Text() override = default;
 
     /// @brief Move constructor.
-    Text(Text&&) = default;
+    Text(Text&&) noexcept = default;
     /// @brief Move assignment operator.
     /// @return Reference to the assigned text.
     Text&
-    operator=(Text&&) = default;
+    operator=(Text&&) noexcept = default;
 
     /// @brief Sets the text string.
     /// @param value The new text string.
@@ -111,73 +121,109 @@ public:
     setText(const std::string& value);
     /// @brief Sets the text's position.
     /// @param position The new position.
-    void
-    setPosition(Vec2 position) override;
+    inline void
+    setPosition(Vec2 position) noexcept override {
+        pos = position;
+        ui_layout.offset = position;
+    }
     /// @brief Sets rotation in degrees.
     /// @param degree Rotation in degrees.
-    void
-    setRotation(float degree) override;
+    inline void
+    setRotation(float degree) noexcept override {
+        rotation = lili::degToRad(degree);
+    }
     /// @brief Sets scale factors.
     /// @param scale The new scale.
-    void
-    setScale(Vec2 scale) override;
+    inline void
+    setScale(Vec2 scale) noexcept override {
+        this->scale = scale;
+    }
     /// @brief Sets uniform scale.
     /// @param value The scale value.
-    void
-    setScale(float value);
+    inline void
+    setScale(float value) noexcept {
+        this->scale = Vec2(value, value);
+    }
     /// @brief Sets text bounds size.
     /// @param size The size.
-    void
-    setSize(Vec2 size) override;
+    inline void
+    setSize(Vec2 size) noexcept override {
+        (void)size;
+    }
     /// @brief Sets the spacing between characters.
     /// @param value The spacing value.
     void
     setSpacing(float value);
     /// @brief Sets text color tint.
     /// @param color Color tint.
-    void
-    setColor(Vec4 color) override;
+    inline void
+    setColor(Vec4 color) noexcept override {
+        if (material) {
+            material->properties.color_tint = color;
+        }
+    }
     /// @brief Sets material.
     /// @param material Material pointer.
-    void
-    setMaterial(Material* material) override;
+    inline void
+    setMaterial(Material* material) noexcept override {
+        external_material = material;
+    }
     /// @brief Sets layer depth.
     /// @param layer Layer depth.
-    void
-    setLayer(float layer) override;
+    inline void
+    setLayer(float layer) noexcept override {
+        this->layer = layer;
+    }
 
     /// @brief Gets position.
     /// @return Position.
-    Vec2
-    getPosition() const override;
+    [[nodiscard]] inline Vec2
+    getPosition() const noexcept override {
+        return pos;
+    }
     /// @brief Gets rotation in degrees.
     /// @return Rotation in degrees.
-    float
-    getRotation() const override;
+    [[nodiscard]] inline float
+    getRotation() const noexcept override {
+        return lili::radToDeg(rotation);
+    }
     /// @brief Gets scale.
     /// @return Scale vector.
-    Vec2
-    getScale() const override;
+    [[nodiscard]] inline Vec2
+    getScale() const noexcept override {
+        return scale;
+    }
     /// @brief Gets bounding size of text.
     /// @return Size vector.
-    Vec2
-    getSize() const override;
+    [[nodiscard]] inline Vec2
+    getSize() const noexcept override {
+        float width = text.length() * advance * scale.x;
+        float height = glyph_h * scale.y;
+        return {width, height};
+    }
     /// @brief Gets transformation matrix.
     /// @return Mat3 transform matrix.
-    Mat3
+    [[nodiscard]] Mat3
     getTransformMatrix() const override;
     /// @brief Gets layer depth.
     /// @return Depth layer.
-    float
-    getLayer() const override;
+    [[nodiscard]] inline float
+    getLayer() const noexcept override {
+        return layer;
+    }
     /// @brief Gets color tint.
     /// @return Color tint vector.
-    Vec4
-    getColor() const override;
+    [[nodiscard]] inline Vec4
+    getColor() const noexcept override {
+        Material* mat = getMaterial();
+        return mat ? mat->properties.color_tint : Vec4(1, 1, 1, 1);
+    }
     /// @brief Gets the material.
     /// @return Pointer to the material.
-    Material*
-    getMaterial() const override;
+    [[nodiscard]] inline Material*
+    getMaterial() const noexcept override {
+        return external_material ? external_material : material.get();
+    }
 
     /// @brief Submits the text for drawing.
     void

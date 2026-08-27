@@ -57,11 +57,6 @@ Game::run() {
 }
 
 void
-Game::setTps(float value) {
-    clock.setTps(value);
-}
-
-void
 Game::configure(const EngineConfig& new_config) {
     this->engine_config = new_config;
 
@@ -71,36 +66,6 @@ Game::configure(const EngineConfig& new_config) {
     if (renderer) renderer->setPresentMode(present_mode);
 
     thread_pool = std::make_unique<ThreadPool>(engine_config);
-}
-
-Window*
-Game::getWindow() const {
-    return window.get();
-}
-
-Renderer*
-Game::getRenderer() const {
-    return renderer.get();
-}
-
-ThreadPool*
-Game::getThreadPool() const {
-    return thread_pool.get();
-}
-
-const EngineConfig&
-Game::getConfig() const {
-    return engine_config;
-}
-
-const Clock&
-Game::getClock() const {
-    return clock;
-}
-
-float
-Game::getTps() const {
-    return clock.getTps();
 }
 
 void
@@ -151,10 +116,5 @@ Game::onRender(float alpha) {
 
 void
 Game::onExit() {}
-
-void
-Game::shutdown() {
-    running = false;
-}
 
 }  // namespace lili

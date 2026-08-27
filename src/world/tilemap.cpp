@@ -7,17 +7,10 @@
 
 namespace lili {
 
-bool
-Point3Compare::operator()(lili::Point3 lhs, lili::Point3 rhs) const {
-    if (lhs.z != rhs.z) return lhs.z < rhs.z;
-    if (lhs.y != rhs.y) return lhs.y < rhs.y;
-    return lhs.x < rhs.x;
-}
-
 TileMap::TileMap(lili::Vec2 tile_size) : tile_size(tile_size) {}
 
 void
-TileMap::setTile(const std::string& name, lili::Point3 pos) {
+TileMap::setTile(std::string_view name, lili::Point3 pos) {
     TileRegistry& registry = TileRegistry::get();
     lili::Point3 chunk_pos = getChunkCoord(pos);
     lili::Point3 local_pos = getLocalCoord(pos);
@@ -28,7 +21,7 @@ TileMap::setTile(const std::string& name, lili::Point3 pos) {
 }
 
 uint16_t
-TileMap::getTile(lili::Point3 pos) const {
+TileMap::getTile(lili::Point3 pos) const noexcept {
     lili::Point3 chunk_pos = getChunkCoord(pos);
     auto it = chunks.find(chunk_pos);
     if (it != chunks.end()) {
@@ -39,7 +32,7 @@ TileMap::getTile(lili::Point3 pos) const {
 }
 
 bool
-TileMap::checkCollision(const lili::AABB3& target_aabb) const {
+TileMap::checkCollision(lili::AABB3 target_aabb) const noexcept {
     TileRegistry& registry = TileRegistry::get();
 
     for (int z = target_aabb.min.z; z <= target_aabb.max.z; ++z) {
@@ -86,7 +79,7 @@ TileMap::draw(Renderer* renderer, ThreadPool* thread_pool) {
     int rebuilds_this_frame = 0;
 
     for (auto& pair : chunks) {
-        const Point3& chunk_pos = pair.first;
+        Point3 chunk_pos = pair.first;
         const Chunk& chunk = pair.second;
 
         if (use_culling) {
@@ -108,33 +101,6 @@ TileMap::draw(Renderer* renderer, ThreadPool* thread_pool) {
         }
         for (auto& batch_pair : chunk.batches) batch_pair.second->draw();
     }
-}
-
-lili::Point3
-TileMap::getChunkCoord(lili::Point3 pos) {
-    auto floor_div = [](int a, int b) {
-        int res = a / b;
-        int rem = a % b;
-        if (rem != 0 && ((a < 0) ^ (b < 0))) res--;
-        return res;
-    };
-    return {
-        floor_div(pos.x, Chunk::SIZE), floor_div(pos.y, Chunk::SIZE),
-        floor_div(pos.z, Chunk::SIZE)
-    };
-}
-
-lili::Point3
-TileMap::getLocalCoord(lili::Point3 pos) {
-    auto floor_mod = [](int a, int b) {
-        int res = a % b;
-        if (res != 0 && ((a < 0) ^ (b < 0))) res += b;
-        return res;
-    };
-    return {
-        floor_mod(pos.x, Chunk::SIZE), floor_mod(pos.y, Chunk::SIZE),
-        floor_mod(pos.z, Chunk::SIZE)
-    };
 }
 
 }  // namespace lili

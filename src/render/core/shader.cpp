@@ -196,14 +196,4 @@ Shader::notifyReloaded() {
         if (callback) callback();
 }
 
-SDL_GPUShader*
-Shader::getVertex() const {
-    return vertex_shader.get();
-}
-
-SDL_GPUShader*
-Shader::getFragment() const {
-    return fragment_shader.get();
-}
-
 }  // namespace lili

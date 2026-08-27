@@ -20,7 +20,9 @@ public:
     /// @param device The SDL GPU device.
     /// @param data Pointer to the image data.
     /// @param len Length of the image data.
-    explicit Texture(SDL_GPUDevice* device, const unsigned char* data, unsigned int len);
+    explicit Texture(
+        SDL_GPUDevice* device, const unsigned char* data, unsigned int len
+    );
     /// @brief Destructor.
     ~Texture() = default;
 
@@ -47,20 +49,28 @@ public:
 
     /// @brief Gets the width of the texture.
     /// @return The width in pixels.
-    int
-    getWidth() const;
+    [[nodiscard]] inline int
+    getWidth() const noexcept {
+        return width;
+    }
     /// @brief Gets the height of the texture.
     /// @return The height in pixels.
-    int
-    getHeight() const;
+    [[nodiscard]] inline int
+    getHeight() const noexcept {
+        return height;
+    }
     /// @brief Gets the underlying SDL GPU texture.
     /// @return Pointer to the SDL_GPUTexture.
-    SDL_GPUTexture*
-    getTexture() const;
+    [[nodiscard]] inline SDL_GPUTexture*
+    getTexture() const noexcept {
+        return texture.get();
+    }
     /// @brief Gets the underlying SDL GPU sampler.
     /// @return Pointer to the SDL_GPUSampler.
-    SDL_GPUSampler*
-    getSampler() const;
+    [[nodiscard]] inline SDL_GPUSampler*
+    getSampler() const noexcept {
+        return sampler.get();
+    }
 
 private:
     /// @brief Pointer to the parent SDL_GPUDevice.

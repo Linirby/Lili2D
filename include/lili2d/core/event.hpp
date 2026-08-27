@@ -110,42 +110,48 @@ public:
     /// @brief Polls the next event from the queue.
     /// @return True if an event was processed, false if the queue is empty.
     bool
-    poll();
+    poll() noexcept;
     /// @brief Gets the type of the current event.
     /// @return The current event type.
-    EventType
-    type() const;
+    [[nodiscard]] inline EventType
+    type() const noexcept {
+        return current_type;
+    }
     /// @brief Checks if a specific key was just pressed based on an event.
     /// @param keyboard The keyboard event to check against.
     /// @return True if the key was just pressed, false otherwise.
-    bool
-    keyJustPressed(const KeyboardEvent& keyboard) const;
+    [[nodiscard]] constexpr bool
+    keyJustPressed(KeyboardEvent keyboard) const noexcept {
+        return keyboard.action == KeyAction::PRESSED && !keyboard.repeat;
+    }
     /// @brief Checks if a specific mouse button was pressed based on an event.
     /// @param mouse The mouse button event to check against.
     /// @return True if the button was pressed, false otherwise.
-    bool
-    mouseButtonPressed(const MouseButtonEvent& mouse) const;
+    [[nodiscard]] constexpr bool
+    mouseButtonPressed(MouseButtonEvent mouse) const noexcept {
+        return mouse.action == MouseAction::PRESSED;
+    }
 
     /// @brief Gets the keyboard event data.
     /// @return The keyboard event data.
-    const KeyboardEvent
-    keyboard() const;
+    [[nodiscard]] KeyboardEvent
+    keyboard() const noexcept;
     /// @brief Gets the mouse button event data.
     /// @return The mouse button event data.
-    const MouseButtonEvent
-    mouseButton() const;
+    [[nodiscard]] MouseButtonEvent
+    mouseButton() const noexcept;
     /// @brief Gets the mouse motion event data.
     /// @return The mouse motion event data.
-    const MouseMotionEvent
-    mouseMotion() const;
+    [[nodiscard]] MouseMotionEvent
+    mouseMotion() const noexcept;
     /// @brief Gets the mouse wheel event data.
     /// @return The mouse wheel event data.
-    const MouseWheelEvent
-    mouseWheel() const;
+    [[nodiscard]] MouseWheelEvent
+    mouseWheel() const noexcept;
     /// @brief Gets the window event data.
     /// @return The window event data.
-    const WindowEvent
-    window() const;
+    [[nodiscard]] WindowEvent
+    window() const noexcept;
 
 private:
     /// @brief Internal SDL_Event structure.
@@ -155,8 +161,8 @@ private:
 
     /// @brief Resolves the engine EventType from the internal SDL_Event.
     /// @return Resolved EventType.
-    EventType
-    resolveType() const;
+    [[nodiscard]] EventType
+    resolveType() const noexcept;
 };
 
 }  // namespace lili

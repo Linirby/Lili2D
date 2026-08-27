@@ -6,6 +6,9 @@
 #include <vector>
 
 #include "lili2d/core/sdl_deleters.hpp"
+#include "lili2d/geometry/vec2.hpp"
+#include "lili2d/geometry/vec3.hpp"
+#include "lili2d/geometry/vec4.hpp"
 
 namespace lili {
 
@@ -23,7 +26,7 @@ struct Vertex {
     float a = 1.0f;            ///< Alpha color.
 
     /// @brief Default constructor.
-    Vertex() = default;
+    constexpr Vertex() noexcept = default;
     /// @brief Constructs a Vertex with position, UV, material ID, and RGBA
     /// color.
     /// @param x X position.
@@ -36,11 +39,42 @@ struct Vertex {
     /// @param g Green color component.
     /// @param b Blue color component.
     /// @param a Alpha color component.
-    Vertex(
+    constexpr Vertex(
         float x, float y, float z, float u = 0.0f, float v = 0.0f,
         float material_id = 0.0f, float r = 1.0f, float g = 1.0f,
         float b = 1.0f, float a = 1.0f
-    );
+    ) noexcept
+        : x(x),
+          y(y),
+          z(z),
+          u(u),
+          v(v),
+          material_id(material_id),
+          r(r),
+          g(g),
+          b(b),
+          a(a) {}
+
+    /// @brief Constructs a Vertex with position, UV, material ID, and RGBA
+    /// color vectors.
+    /// @param xyz 3D position vector.
+    /// @param uv 2D UV texture coordinate vector.
+    /// @param material_id Material ID.
+    /// @param rgba 4D RGBA color tint vector.
+    constexpr Vertex(
+        Vec3 xyz, Vec2 uv = {}, float material_id = 0.0f,
+        Vec4 rgba = {1.0f, 1.0f, 1.0f, 1.0f}
+    ) noexcept
+        : x(xyz.x),
+          y(xyz.y),
+          z(xyz.z),
+          u(uv.x),
+          v(uv.y),
+          material_id(material_id),
+          r(rgba.x),
+          g(rgba.y),
+          b(rgba.z),
+          a(rgba.w) {}
 };
 
 /// @brief Contains the CPU-side data for a mesh.
@@ -76,16 +110,22 @@ public:
 
     /// @brief Gets the vertex buffer.
     /// @return Pointer to the vertex SDL_GPUBuffer.
-    SDL_GPUBuffer*
-    getVertex() const;
+    [[nodiscard]] inline SDL_GPUBuffer*
+    getVertex() const noexcept {
+        return vertex_buffer.get();
+    }
     /// @brief Gets the index buffer.
     /// @return Pointer to the index SDL_GPUBuffer.
-    SDL_GPUBuffer*
-    getIndex() const;
+    [[nodiscard]] inline SDL_GPUBuffer*
+    getIndex() const noexcept {
+        return index_buffer.get();
+    }
     /// @brief Gets the number of indices in the mesh.
     /// @return The index count.
-    uint32_t
-    getIndexCount() const;
+    [[nodiscard]] inline uint32_t
+    getIndexCount() const noexcept {
+        return index_count;
+    }
 
     /// @brief Updates the mesh data.
     /// @param mesh The new CPU mesh data.
@@ -94,22 +134,22 @@ public:
 
 private:
     /// @brief Pointer to the parent SDL_GPUDevice.
-    SDL_GPUDevice* device = nullptr;
-    /// @brief Unique pointer to vertex buffer.
+    SDL_GPUDevice* device;
+    /// @brief Unique pointer to the GPU vertex buffer.
     std::unique_ptr<SDL_GPUBuffer, SDLGPUBufferDeleter> vertex_buffer;
-    /// @brief Unique pointer to index buffer.
+    /// @brief Unique pointer to the GPU index buffer.
     std::unique_ptr<SDL_GPUBuffer, SDLGPUBufferDeleter> index_buffer;
-    /// @brief Total index count.
-    uint32_t index_count = 0;
-    /// @brief Total allocated vertex capacity.
+    /// @brief Current allocated capacity of the vertex buffer in bytes.
     uint32_t vertex_capacity = 0;
-    /// @brief Total allocated index capacity.
+    /// @brief Current allocated capacity of the index buffer in bytes.
     uint32_t index_capacity = 0;
+    /// @brief Total number of active indices in the mesh.
+    uint32_t index_count = 0;
 
-    /// @brief Helper to transfer data to the GPU buffer.
-    /// @param data Pointer to the host data.
-    /// @param buffer Pointer to the GPU buffer.
-    /// @param size The size of the data in bytes.
+    /// @brief Transfers CPU memory to a GPU buffer.
+    /// @param data Pointer to source data.
+    /// @param buffer Destination SDL_GPUBuffer.
+    /// @param size Size in bytes to transfer.
     void
     transferToGpu(const void* data, SDL_GPUBuffer* buffer, uint32_t size);
 };

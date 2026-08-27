@@ -3,7 +3,7 @@
 namespace lili {
 
 bool
-ECSRegistry::isValid(Entity entity) const {
+ECSRegistry::isValid(Entity entity) const noexcept {
     uint32_t idx = getEntityID(entity);
     return idx < entities.size() && entities[idx] == entity;
 }

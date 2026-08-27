@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include "lili2d/geometry/utils.hpp"
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/render/core/gpu_mesh.hpp"
 #include "lili2d/render/interfaces/renderable.hpp"
@@ -19,17 +20,19 @@ public:
     /// @param texture The texture to use for the batch.
     explicit SpriteBatch(Renderer* renderer, Texture* texture);
     /// @brief Destructor.
-    ~SpriteBatch() override;
+    ~SpriteBatch() override = default;
+
+    /// @brief Move constructor.
+    SpriteBatch(SpriteBatch&&) noexcept = default;
+    /// @brief Move assignment operator.
+    SpriteBatch&
+    operator=(SpriteBatch&&) noexcept = default;
+
     /// @brief Deleted copy constructor.
     SpriteBatch(const SpriteBatch&) = delete;
     /// @brief Deleted copy assignment operator.
     SpriteBatch&
     operator=(const SpriteBatch&) = delete;
-    /// @brief Deleted move constructor.
-    SpriteBatch(SpriteBatch&&) = delete;
-    /// @brief Deleted move assignment operator.
-    SpriteBatch&
-    operator=(SpriteBatch&&) = delete;
 
     /// @brief Begins a new batch, clearing previous data.
     void
@@ -77,71 +80,113 @@ public:
 
     /// @brief Sets the color tint for the entire batch.
     /// @param color The new color tint.
-    void
-    setColorTint(Vec4 color);
+    inline void
+    setColorTint(Vec4 color) noexcept {
+        if (material) material->properties.color_tint = color;
+    }
+
     /// @brief Sets color tint for the batch.
     /// @param color The new color tint.
-    void
-    setColor(Vec4 color) override;
+    inline void
+    setColor(Vec4 color) noexcept override {
+        setColorTint(color);
+    }
+
     /// @brief Sets material for the batch.
-    /// @param material Pointer to material.
-    void
-    setMaterial(Material* material) override;
+    /// @param mat Pointer to material.
+    inline void
+    setMaterial(Material* mat) noexcept override {
+        external_material = mat;
+    }
 
     /// @brief Sets the position of the entire batch.
-    /// @param position The new position.
-    void
-    setPosition(Vec2 position) override;
+    /// @param pos The new position.
+    inline void
+    setPosition(Vec2 pos) noexcept override {
+        this->position = pos;
+        ui_layout.offset = pos;
+    }
+
     /// @brief Sets the rotation of the entire batch in degrees.
     /// @param degree Rotation angle in degrees.
-    void
-    setRotation(float degree) override;
+    inline void
+    setRotation(float degree) noexcept override {
+        rotation = lili::degToRad(degree);
+    }
+
     /// @brief Sets the scale of the entire batch.
-    /// @param scale The new scale.
-    void
-    setScale(Vec2 scale) override;
+    /// @param s The new scale.
+    inline void
+    setScale(Vec2 s) noexcept override {
+        this->scale = s;
+    }
+
     /// @brief Overrides the computed bounds size of the batch.
     /// @param size Custom bounds size.
-    void
-    setSize(Vec2 size) override;
+    inline void
+    setSize(Vec2 size) noexcept override {
+        custom_size = size;
+    }
 
     /// @brief Sets the rendering layer depth for the batch.
-    /// @param layer The new layer depth.
-    void
-    setLayer(float layer) override;
+    /// @param l The new layer depth.
+    inline void
+    setLayer(float l) noexcept override {
+        this->layer = l;
+    }
 
     /// @brief Gets position of batch.
     /// @return Position vector.
-    Vec2
-    getPosition() const override;
+    [[nodiscard]] inline Vec2
+    getPosition() const noexcept override {
+        return position;
+    }
+
     /// @brief Gets rotation angle in degrees.
     /// @return Rotation in degrees.
-    float
-    getRotation() const override;
+    [[nodiscard]] inline float
+    getRotation() const noexcept override {
+        return lili::radToDeg(rotation);
+    }
+
     /// @brief Gets scale.
     /// @return Scale vector.
-    Vec2
-    getScale() const override;
+    [[nodiscard]] inline Vec2
+    getScale() const noexcept override {
+        return scale;
+    }
+
     /// @brief Gets bounding size of batch mesh.
     /// @return Size vector.
-    Vec2
-    getSize() const override;
+    [[nodiscard]] Vec2
+    getSize() const noexcept override;
+
     /// @brief Gets transformation matrix.
     /// @return Mat3 matrix.
-    Mat3
+    [[nodiscard]] Mat3
     getTransformMatrix() const override;
+
     /// @brief Gets layer depth.
     /// @return Depth layer.
-    float
-    getLayer() const override;
+    [[nodiscard]] inline float
+    getLayer() const noexcept override {
+        return layer;
+    }
+
     /// @brief Gets color tint.
     /// @return Color tint.
-    Vec4
-    getColor() const override;
+    [[nodiscard]] inline Vec4
+    getColor() const noexcept override {
+        Material* mat = getMaterial();
+        return mat ? mat->properties.color_tint : Vec4(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+
     /// @brief Gets material.
     /// @return Material pointer.
-    Material*
-    getMaterial() const override;
+    [[nodiscard]] inline Material*
+    getMaterial() const noexcept override {
+        return external_material ? external_material : material.get();
+    }
 
     /// @brief Submits the batched mesh to the renderer.
     void

@@ -40,9 +40,8 @@ Line::setSize(Vec2 size) noexcept {
     if (current_len > 0.0001f) {
         Vec2 dir = diff.normalized();
         shape.end = shape.start + dir * size.x;
-    } else {
+    } else
         shape.end = shape.start + Vec2(size.x, 0.0f);
-    }
     shape.thickness = size.y;
 }
 

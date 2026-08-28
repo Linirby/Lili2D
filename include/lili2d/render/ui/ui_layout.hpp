@@ -39,26 +39,22 @@ enum class Pivot {
 /// @param custom Custom anchor vector used when anchor is Anchor::CUSTOM.
 /// @return Normalized 2D vector [0, 1].
 [[nodiscard]] Vec2
-anchorToVector(Anchor anchor, Vec2 custom = {0.0f, 0.0f}) noexcept;
+anchorToVector(Anchor anchor, Vec2 custom = {}) noexcept;
 
 /// @brief Converts a Pivot enum value to a normalized 2D vector coordinate.
 /// @param pivot Target pivot enum.
 /// @param custom Custom pivot vector used when pivot is Pivot::CUSTOM.
 /// @return Normalized 2D vector [0, 1].
 [[nodiscard]] Vec2
-pivotToVector(Pivot pivot, Vec2 custom = {0.0f, 0.0f}) noexcept;
+pivotToVector(Pivot pivot, Vec2 custom = {}) noexcept;
 
 /// @brief Layout configuration for anchoring and positioning UI elements.
 struct UILayout {
     Anchor anchor = Anchor::TOP_LEFT;  ///< Anchor alignment point.
     Pivot pivot = Pivot::TOP_LEFT;     ///< Pivot alignment point.
-    Vec2 offset = {0.0f, 0.0f};        ///< Pixel offset from anchor.
-    Vec2 custom_anchor = {
-        0.0f, 0.0f
-    };  ///< Custom anchor vector (when Anchor::CUSTOM).
-    Vec2 custom_pivot = {
-        0.0f, 0.0f
-    };  ///< Custom pivot vector (when Pivot::CUSTOM).
+    Vec2 offset = {};                  ///< Pixel offset from anchor.
+    Vec2 custom_anchor = {};  ///< Custom anchor vector (when Anchor::CUSTOM).
+    Vec2 custom_pivot = {};   ///< Custom pivot vector (when Pivot::CUSTOM).
 
     constexpr UILayout() noexcept = default;
 

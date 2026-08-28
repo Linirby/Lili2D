@@ -7,9 +7,7 @@ Clock::update() noexcept {
     now = SDL_GetTicks();
     dt = (now - last) / 1000.0f;
     last = now;
-    if (dt > 0.25f) {
-        dt = 0.25f;
-    }
+    if (dt > 0.25f) dt = 0.25f;
     accumulator += dt;
     if (second_counter <= 1.0f) {
         second_counter += dt;

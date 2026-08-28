@@ -13,7 +13,7 @@ namespace lili {
 /// @brief Represents a 2D Circle Collider for precise circle-based collision
 /// detection.
 struct CircleCollider {
-    Vec2 center;          ///< Center position of the circle.
+    Vec2 center = {};     ///< Center position of the circle.
     float radius = 0.0f;  ///< Radius of the circle.
 
     /// @brief Default constructor.
@@ -89,9 +89,7 @@ struct CircleCollider {
         Vec2 end = line.end;
         Vec2 seg = end - start;
         float seg_len_sq = seg.dot(seg);
-        if (seg_len_sq == 0.0f) {
-            return contains(start);
-        }
+        if (seg_len_sq == 0.0f) return contains(start);
         float t =
             ((center.x - start.x) * seg.x + (center.y - start.y) * seg.y) /
             seg_len_sq;

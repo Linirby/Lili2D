@@ -32,9 +32,7 @@ AnimationPlayer::update(float dt) noexcept {
     if (frame_time_sec >= frame_speed_sec) {
         frame_time_sec -= frame_speed_sec;
         current_frame++;
-        if (current_frame >= animation->frameCount()) {
-            current_frame = 0;
-        }
+        if (current_frame >= animation->frameCount()) current_frame = 0;
     }
 }
 

@@ -52,10 +52,8 @@ Event::mouseButton() const noexcept {
 MouseMotionEvent
 Event::mouseMotion() const noexcept {
     return {
-        .x = sdl_event.motion.x,
-        .y = sdl_event.motion.y,
-        .dx = sdl_event.motion.xrel,
-        .dy = sdl_event.motion.yrel
+        sdl_event.motion.x, sdl_event.motion.y, sdl_event.motion.xrel,
+        sdl_event.motion.yrel
     };
 }
 

@@ -489,14 +489,19 @@ Inlining is an enabling optimization that unlocks **constant folding**, **SIMD a
 * **Compile-Time Overhead**: Inlining code in headers increases parsing volume across translation units.
 * **Instruction Cache ($L1i$) Pressure**: Excessive inlining duplicates assembly instructions, potentially causing instruction cache thrashing.
 
-**Lili2D Strategy:**
-* **Header-Inlined (`.hpp`)**: Verified per-frame hot paths and leaf primitives:
-  * Vector & point math operators (`Vec2`, `Vec3`, `Vec4`, `Point2`, `Point3`, `Mat3`, `Mat4`).
-  * Collision algorithms (`AABB2::intersect`, `CircleCollider::intersect`, bounding tests).
-  * 23 animation easing functions (`lili::Easing`).
-  * Hot functors and index calculators (`StringHash`, `Point3Compare`, `BatchKeyHash`, `Chunk::flattenIndex`).
-  * 1-line property accessors and forwarding wrappers.
-* **Source-Separated (`.cpp`)**: Subsystem orchestration, GPU pipeline initialization, memory allocations, resource loaders, and complex multi-line algorithms (`Game::run`, `Renderer::initPipeline`, `Chunk::generateMeshData`, `AtlasMap::loadXml`).
+#### Lili2D Inlining Strategy:
+* **Header-Inlined (`.hpp`)**: Verified per-frame hot paths, leaf primitives, and zero-cost abstractions:
+  * **Header-Only Modules**: `lili::geometry` (`Vec2`, `Vec3`, `Vec4`, `Point2`, `Point3`, `Mat3`, `Mat4`, `utils.hpp`) and `lili::physics` (`AABB2`, `AABB3`, `CircleCollider`, `RectShape`, `CircleShape`) are 100% header-only for maximum cross-unit optimization.
+  * **Math & Geometry Operators**: Vector, matrix, and point arithmetic operators, dot products, length calculations, and matrix transformations.
+  * **Spatial & Collision Solvers**: `AABB2::intersect`, `CircleCollider::intersect`, clamping, and bounding volume tests.
+  * **Easing & Functors**: 23 animation easing functions (`lili::Easing`), transparent hash functors (`StringHash`), index calculators (`Chunk::flattenIndex`), and spatial comparators (`Point3Compare`).
+  * **1-Line Property Accessors & Forwarding Wrappers**: Fast inline getters/setters (`getPosition`, `getScale`, `getLayer`, `getName`, `getManager`, `registerTile`).
+  * **Empty Virtual Base Class Hooks (`{}`)**: Default no-op fallbacks in polymorphic base classes (`Game::onInit`, `Game::onUpdate`, `Game::onRender`, `Scene::onEnter`, `Scene::onExit`, `Scene::onPause`, `Scene::onResume`) generate minimal assembly and avoid redundant `.cpp` stubs.
+  * **Class Templates**: Generic systems (`ResourceManager<T>`, `ComponentPool<T>`, `AssetRegistry<T, IdType>`) have inline linkage by default under C++ ODR rules.
+* **Source-Separated (`.cpp`)**: Non-hot paths, memory-allocating routines, and subsystem drivers:
+  * **Heap Allocations & String Constructors**: Object constructors managing dynamic memory (e.g. `Scene::Scene(const std::string&, Renderer*)`, `Window::Window`, `Game::Game`) prevent code bloat across translation units.
+  * **Meyers' Singletons & Private Constructors**: Central registries (`TileRegistry::get()`, `MaterialRegistry::get()`, `AnimationRegistry::get()`, `ActionMap::get()`, `AssetManager::get()`) encapsulate static instances and startup registration within dedicated translation units.
+  * **Subsystem Orchestration & Game Loop Drivers**: `Game::run()`, `Game::onEvent()`, `Renderer::initPipeline()`, `Chunk::generateMeshData()`, `AtlasMap::loadXml()`.
 
 ---
 
@@ -616,19 +621,21 @@ graph TD
 
 ---
 
-### 14.6 Planned Optimization Roadmap
+### 14.6 Implemented Modernization & Optimization Highlights
 
-The following optimizations are scheduled for implementation:
-1. **Geometry Modernization**:
-   * Migrate `Vec2`, `Vec3`, `Vec4`, `Point2`, `Point3`, `Mat3`, `Mat4`, and `utils.hpp` to `constexpr inline` header implementations.
-   * Switch vector/point arithmetic parameters from `const VecN&` to by-value `VecN`.
-   * Correct compound assignment return types (`operator+=`, `-=`, `*=`) from `T` (by value) to `T&` (lvalue reference) to eliminate redundant copies and allow operator chaining.
-2. **Physics & Spatial Inlining**:
-   * Pass bounding shapes (`RectShape`, `CircleShape`, `AABB2`, `CircleCollider`) by value.
-   * Move 1-line bounding box and circle intersection/containment routines into headers.
-3. **Core & Gameloop Inlining**:
-   * Move `Easing` curves, `StringHash`, input device queries (`Keyboard`, `Mouse`), gameloop clock accessors (`Clock`), and `SDLDeleters` smart pointer destructors into headers.
-   * Clean up event accessors (removing redundant `const` on value returns).
-4. **Render & Scene Property Inlining**:
-   * Pass `Vec4` color tints and shape descriptors by value across `Renderer`, `Sprite`, `AnimatedSprite`, and `SpriteBatch`.
-   * Inline 1-line property getters/setters across `Sprite`, `AnimatedSprite`, `SpriteBatch`, `Circle`, `Line`, and `Rect`.
+The engine includes the following verified optimizations:
+1. **Header-Only Geometry Modernization (`lili::geometry`)**:
+   * `Vec2`, `Vec3`, `Vec4`, `Point2`, `Point3`, `Mat3`, `Mat4`, and `utils.hpp` are fully `constexpr inline` header-only implementations.
+   * Arithmetic parameters pass trivially copyable types by value in registers (`VecN`, `PointN`).
+   * Compound assignment operators (`operator+=`, `-=`, `*=`) return `T&` for copy-free chaining.
+2. **Header-Only Physics & Spatial Collision (`lili::physics`)**:
+   * Bounding primitives (`RectShape`, `CircleShape`, `AABB2`, `CircleCollider`) passed by value.
+   * Fast bounding box and circle intersection/containment routines fully inlined.
+3. **Core & Gameloop Inlining (`lili::core`)**:
+   * `Easing` curves, `StringHash`, `Timer`, and input state checks (`Keyboard`, `Mouse`) inlined.
+   * Empty polymorphic lifecycle hooks (`Game::onInit`, `Game::onUpdate`, `Game::onFixedUpdate`, `Game::onRender`, `Game::onExit`, `Scene::onEnter`, etc.) inlined in headers as `{}`.
+4. **Rendering & Default Shaders (`lili::render`)**:
+   * `Vec4` color tints and shape descriptors passed by value across `Renderer`, `Sprite`, `AnimatedSprite`, and `SpriteBatch`.
+   * 1-line property getters/setters inlined across `Sprite`, `AnimatedSprite`, `SpriteBatch`, `Circle`, `Line`, and `Rect`.
+   * Default 2D shaders embedded as `inline constexpr const char*` HLSL raw string literals in `default_shaders.hpp`, eliminating external shader asset dependencies and build-time code generators.
+

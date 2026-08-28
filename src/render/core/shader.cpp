@@ -10,11 +10,10 @@ namespace lili {
 static void
 ensureShaderCrossInit() {
     static bool initialized = []() {
-        if (!SDL_ShaderCross_Init()) {
+        if (!SDL_ShaderCross_Init())
             throw std::runtime_error(
                 "SDL_ShaderCross_Init failed: " + std::string(SDL_GetError())
             );
-        }
         return true;
     }();
     (void)initialized;
@@ -23,11 +22,10 @@ ensureShaderCrossInit() {
 std::string
 Shader::readFile(const std::string& file_path) {
     std::ifstream file(file_path);
-    if (!file.is_open()) {
+    if (!file.is_open())
         throw std::runtime_error(
             "Failed to open shader file: \"" + file_path + "\""
         );
-    }
     std::stringstream buffer;
     buffer << file.rdbuf();
     return buffer.str();
@@ -38,11 +36,10 @@ Shader::compileHLSL(
     SDL_GPUDevice* device, const std::string& source,
     const std::string& entrypoint, SDL_ShaderCross_ShaderStage stage
 ) {
-    if (!device) {
+    if (!device)
         throw std::runtime_error(
             "Cannot compile shader: SDL_GPUDevice is null!"
         );
-    }
 
     ensureShaderCrossInit();
 
@@ -54,12 +51,11 @@ Shader::compileHLSL(
     size_t spirv_size = 0;
     void* spirv_data =
         SDL_ShaderCross_CompileSPIRVFromHLSL(&hlsl_info, &spirv_size);
-    if (!spirv_data) {
+    if (!spirv_data)
         throw std::runtime_error(
             "HLSL to SPIR-V compilation failed for entrypoint '" + entrypoint +
             "':\n-> " + std::string(SDL_GetError())
         );
-    }
 
     SDL_ShaderCross_GraphicsShaderMetadata* metadata =
         SDL_ShaderCross_ReflectGraphicsSPIRV(
@@ -76,18 +72,15 @@ Shader::compileHLSL(
         device, &spirv_info, metadata ? &metadata->resource_info : nullptr, 0
     );
 
-    if (metadata) {
-        SDL_free(metadata);
-    }
+    if (metadata) SDL_free(metadata);
     SDL_free(spirv_data);
 
-    if (!gpu_shader) {
+    if (!gpu_shader)
         throw std::runtime_error(
             "SDL_ShaderCross_CompileGraphicsShaderFromSPIRV failed for "
             "entrypoint '" +
             entrypoint + "':\n-> " + std::string(SDL_GetError())
         );
-    }
 
     return gpu_shader;
 }

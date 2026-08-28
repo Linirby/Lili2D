@@ -23,7 +23,7 @@ MainRenderPass::render(
 
     SDL_GPUGraphicsPipeline* current_pipeline = pipeline;
     SDL_BindGPUGraphicsPipeline(pass, current_pipeline);
-    for (auto& pair : queue) {
+    for (auto& pair : queue)
         for (const DrawCommand& draw_cmd : pair.second) {
             if (!draw_cmd.model.mesh || !draw_cmd.model.material ||
                 !draw_cmd.model.material->albedoMap)
@@ -128,7 +128,6 @@ MainRenderPass::render(
                 pass, draw_cmd.model.mesh->getIndexCount(), 1, 0, 0, 0
             );
         }
-    }
 }
 
 }  // namespace lili

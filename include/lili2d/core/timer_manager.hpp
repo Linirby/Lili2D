@@ -47,11 +47,10 @@ public:
     update(float dt) {
         for (auto it = timers.begin(); it != timers.end();) {
             (*it)->update(dt);
-            if ((*it)->isFinished()) {
+            if ((*it)->isFinished())
                 it = timers.erase(it);
-            } else {
+            else
                 ++it;
-            }
         }
     }
 

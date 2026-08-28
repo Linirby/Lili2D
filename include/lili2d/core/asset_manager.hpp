@@ -206,9 +206,8 @@ AssetManager::getManager() {
     std::type_index type_idx(typeid(T));
     auto& custom_managers = get().custom_managers;
     auto it = custom_managers.find(type_idx);
-    if (it != custom_managers.end()) {
+    if (it != custom_managers.end())
         return *static_cast<ResourceManager<T>*>(it->second.get());
-    }
     auto manager = std::make_unique<ResourceManager<T>>();
     ResourceManager<T>* ptr = manager.get();
     custom_managers[type_idx] = std::move(manager);

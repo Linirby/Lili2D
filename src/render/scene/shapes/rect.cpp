@@ -29,9 +29,8 @@ Rect::setSize(Vec2 size) noexcept {
 
 void
 Rect::setShape(RectShape shape) noexcept {
-    if (this->shape.w != shape.w || this->shape.h != shape.h) {
+    if (this->shape.w != shape.w || this->shape.h != shape.h)
         hollow_dirty = true;
-    }
     this->shape = shape;
     ui_layout.offset = {shape.x, shape.y};
 }
@@ -86,25 +85,24 @@ Rect::draw() {
                 indices.push_back(start_idx + 3);
             };
 
-            // Top quad
+            // Top quad (hihi ^^)
             add_quad(0.0f, 0.0f, 1.0f, ty);
-            // Bottom quad
+            // Bottom quad (0v0)
             add_quad(0.0f, 1.0f - ty, 1.0f, ty);
-            // Left quad
+            // Left quad (<3)
             add_quad(0.0f, ty, tx, 1.0f - 2.0f * ty);
-            // Right quad
+            // Right quad (0> pinguin)
             add_quad(1.0f - tx, ty, tx, 1.0f - 2.0f * ty);
 
             MeshData md;
             md.vertices = std::move(vertices);
             md.indices = std::move(indices);
 
-            if (!hollow_mesh) {
+            if (!hollow_mesh)
                 hollow_mesh =
                     std::make_unique<GPUMesh>(renderer->getDevice(), md);
-            } else {
+            else
                 hollow_mesh->update(md);
-            }
             hollow_dirty = false;
         }
 
@@ -112,11 +110,10 @@ Rect::draw() {
             Model({hollow_mesh.get(), getMaterial()}), mat_transform, layer,
             render_layer
         );
-    } else {
+    } else
         renderer->submit(
             Model({mesh, getMaterial()}), mat_transform, layer, render_layer
         );
-    }
 }
 
 }  // namespace lili

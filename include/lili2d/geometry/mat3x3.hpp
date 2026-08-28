@@ -17,14 +17,12 @@ struct Mat3 {
     operator*(const Mat3& other) const noexcept {
         Mat3 result{};
 
-        for (int col = 0; col < 3; ++col) {
-            for (int row = 0; row < 3; ++row) {
+        for (int col = 0; col < 3; ++col)
+            for (int row = 0; row < 3; ++row)
                 result.m[col * 3 + row] =
                     (m[0 * 3 + row] * other.m[col * 3 + 0] +
                      m[1 * 3 + row] * other.m[col * 3 + 1] +
                      m[2 * 3 + row] * other.m[col * 3 + 2]);
-            }
-        }
         return result;
     }
 
@@ -79,9 +77,7 @@ struct Mat3 {
     [[nodiscard]] inline Mat3
     inverse() const noexcept {
         float det = determinant();
-        if (std::abs(det) < 1e-8f) {
-            return identity();
-        }
+        if (std::abs(det) < 1e-8f) return identity();
 
         float inv_det = 1.0f / det;
 
@@ -106,11 +102,9 @@ struct Mat3 {
     [[nodiscard]] constexpr Mat3
     transpose() const noexcept {
         Mat3 result{};
-        for (int col = 0; col < 3; ++col) {
-            for (int row = 0; row < 3; ++row) {
+        for (int col = 0; col < 3; ++col)
+            for (int row = 0; row < 3; ++row)
                 result.m[row * 3 + col] = m[col * 3 + row];
-            }
-        }
         return result;
     }
 

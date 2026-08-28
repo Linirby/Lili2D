@@ -1,7 +1,6 @@
 add_library(lili_ecs OBJECT
     command_buffer.cpp
     ecs_registry.cpp
-    entity.cpp
 )
 add_library(lili::ecs ALIAS lili_ecs)
 

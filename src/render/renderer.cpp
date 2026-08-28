@@ -13,6 +13,7 @@
 #include "lili2d/core/sdl_deleters.hpp"
 #include "lili2d/geometry/mat3x3.hpp"
 #include "lili2d/geometry/vec2.hpp"
+#include "lili2d/render/core/shader.hpp"
 #include "lili2d/render/default_shaders.hpp"
 #include "lili2d/render/scene/common/model.hpp"
 #include "lili2d/render/scene/common/utils.hpp"
@@ -131,7 +132,7 @@ Renderer::endFrame() {
     blit_info.source = src;
     blit_info.destination = dst;
     blit_info.load_op = SDL_GPU_LOADOP_CLEAR;
-    blit_info.clear_color = SDL_FColor{0.0f, 0.0f, 0.0f, 1.0f};
+    blit_info.clear_color = SDL_FColor(0.0f, 0.0f, 0.0f, 1.0f);
     blit_info.filter = SDL_GPU_FILTER_NEAREST;
 
     SDL_BlitGPUTexture(current_cmd_buffer, &blit_info);
@@ -213,10 +214,10 @@ Renderer::createShader(
     std::string_view vert_source, std::string_view frag_source,
     const std::string& vert_entry, const std::string& frag_entry
 ) {
-    return Shader::fromSource(
-               device.get(), vert_source, frag_source, vert_entry, frag_entry
-    )
-        .release();
+    std::unique_ptr<Shader> unique_shader = Shader::fromSource(
+        device.get(), vert_source, frag_source, vert_entry, frag_entry
+    );
+    return unique_shader.release();
 }
 
 MainGraphicsPipeline*
@@ -277,7 +278,7 @@ Renderer::drawDebugCircle(float x, float y, float radius, Vec4 color) {
         debug_circles[key]->setHollow(true);
     }
 
-    debug_circles[key]->setShape(CircleShape(Vec2(x, y), radius, 16));
+    debug_circles[key]->setShape(CircleShape({x, y}, radius, 16));
     debug_circles[key]->draw();
 }
 
@@ -288,11 +289,10 @@ Renderer::drawDebugCircle(CircleShape circle, Vec4 color) {
 
 void
 Renderer::initDevice(SDL_GPUPresentMode preferred_mode) {
-    if (!SDL_ShaderCross_Init()) {
+    if (!SDL_ShaderCross_Init())
         throw std::runtime_error(
             "SDL_ShaderCross_Init failed!\n-> " + std::string(SDL_GetError())
         );
-    }
     SDL_GPUShaderFormat formats = SDL_ShaderCross_GetSPIRVShaderFormats();
     device = std::unique_ptr<SDL_GPUDevice, SDLGPUDeviceDeleter>(
         SDL_CreateGPUDevice(formats, true, nullptr)
@@ -364,17 +364,17 @@ Renderer::offscreenRender() {
 
     SDL_GPUColorTargetInfo color_ti{};
     color_ti.texture = current_offscreen_texture.get();
-    color_ti.clear_color = SDL_FColor{0.0f, 0.0f, 0.0f, 1.0f};
+    color_ti.clear_color = SDL_FColor(0.0f, 0.0f, 0.0f, 1.0f);
     color_ti.load_op = SDL_GPU_LOADOP_CLEAR;
     color_ti.store_op = SDL_GPU_STOREOP_STORE;
 
     SDL_GPURenderPass* pass =
         SDL_BeginGPURenderPass(current_cmd_buffer, &color_ti, 1, nullptr);
 
-    SDL_GPUViewport vp{
+    SDL_GPUViewport vp(
         0.0f, 0.0f, static_cast<float>(target_w), static_cast<float>(target_h),
         0.0f, 1.0f
-    };
+    );
     SDL_SetGPUViewport(pass, &vp);
 
     render_pass->render(
@@ -394,8 +394,9 @@ Renderer::swapchainRender() {
     SDL_GPURenderPass* pass =
         SDL_BeginGPURenderPass(current_cmd_buffer, &color_ti, 1, nullptr);
 
-    SDL_GPUViewport vp{viewport_x, viewport_y, viewport_w,
-                       viewport_h, 0.0f,       1.0f};
+    SDL_GPUViewport vp(
+        viewport_x, viewport_y, viewport_w, viewport_h, 0.0f, 1.0f
+    );
     SDL_SetGPUViewport(pass, &vp);
 
     render_pass->render(

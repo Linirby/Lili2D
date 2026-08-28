@@ -12,27 +12,22 @@ AtlasMap::AtlasMap(AtlasMap&& other) noexcept
       n_cols(other.n_cols),
       n_rows(other.n_rows),
       unit_size(other.unit_size) {
-    for (auto& slice : slices) {
-        slice.texture = full_texture.get();
-    }
+    for (auto& slice : slices) slice.texture = full_texture.get();
 }
 
 AtlasMap&
 AtlasMap::operator=(AtlasMap&& other) noexcept {
     if (this != &other) {
-        if (full_texture && other.full_texture) {
+        if (full_texture && other.full_texture)
             *full_texture = std::move(*other.full_texture);
-        } else {
+        else
             full_texture = std::move(other.full_texture);
-        }
         slices = std::move(other.slices);
         n_cols = other.n_cols;
         n_rows = other.n_rows;
         unit_size = other.unit_size;
 
-        for (auto& slice : slices) {
-            slice.texture = full_texture.get();
-        }
+        for (auto& slice : slices) slice.texture = full_texture.get();
     }
     return *this;
 }
@@ -55,7 +50,7 @@ AtlasMap::slice(int num_columns, int num_rows) {
     float u_inset = 0.01f / full_texture->getWidth();
     float v_inset = 0.01f / full_texture->getHeight();
 
-    for (int j = 0; j < num_rows; ++j) {
+    for (int j = 0; j < num_rows; ++j)
         for (int i = 0; i < num_columns; ++i) {
             SliceUV slice;
             slice.texture = full_texture.get();
@@ -67,24 +62,20 @@ AtlasMap::slice(int num_columns, int num_rows) {
             slice.height = unit_size.y;
             slices.push_back(slice);
         }
-    }
 }
 
 SliceUV
 AtlasMap::getSliceUV(Point2 at_pos) const {
     int col = static_cast<int>(at_pos.x);
     int row = static_cast<int>(at_pos.y);
-    if (col >= 0 && col < n_cols && row >= 0 && row < n_rows) {
+    if (col >= 0 && col < n_cols && row >= 0 && row < n_rows)
         return getSliceUV(row * n_cols + col);
-    }
     return SliceUV();
 }
 
 SliceUV
 AtlasMap::getSliceUV(int index) const {
-    if (index >= 0 && (size_t)index < slices.size()) {
-        return slices[index];
-    }
+    if (index >= 0 && (size_t)index < slices.size()) return slices[index];
     return SliceUV();
 }
 
@@ -92,9 +83,8 @@ std::vector<SliceUV>
 AtlasMap::getSliceUVs(int start_index, int count) const {
     std::vector<SliceUV> result;
     result.reserve(count);
-    for (int i = 0; i < count; ++i) {
+    for (int i = 0; i < count; ++i)
         result.push_back(getSliceUV(start_index + i));
-    }
     return result;
 }
 
@@ -111,26 +101,23 @@ AtlasMap::getSliceUVs(Point2 start, Point2 end) const {
         int step = (start_col <= end_col) ? 1 : -1;
         int count = std::abs(end_col - start_col) + 1;
         result.reserve(count);
-        for (int i = 0; i < count; ++i) {
+        for (int i = 0; i < count; ++i)
             result.push_back(
                 getSliceUV(Point2(start_col + i * step, start_row))
             );
-        }
     } else if (start_col == end_col) {
         int step = (start_row <= end_row) ? 1 : -1;
         int count = std::abs(end_row - start_row) + 1;
         result.reserve(count);
-        for (int i = 0; i < count; ++i) {
+        for (int i = 0; i < count; ++i)
             result.push_back(
                 getSliceUV(Point2(start_col, start_row + i * step))
             );
-        }
-    } else {
+    } else
         throw std::runtime_error(
             "AtlasMap::getSliceUVs: start and end points must be on the "
             "same row or same column."
         );
-    }
 
     return result;
 }

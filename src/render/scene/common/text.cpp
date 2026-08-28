@@ -26,11 +26,10 @@ BitmapFont::BitmapFont(BitmapFont&& other) noexcept
 BitmapFont&
 BitmapFont::operator=(BitmapFont&& other) noexcept {
     if (this != &other) {
-        if (texture && other.texture) {
+        if (texture && other.texture)
             *texture = std::move(*other.texture);
-        } else {
+        else
             texture = std::move(other.texture);
-        }
         cols = other.cols;
         rows = other.rows;
         glyph_w = other.glyph_w;

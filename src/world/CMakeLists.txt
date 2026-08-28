@@ -1,7 +1,6 @@
 add_library(lili_world OBJECT
     camera.cpp
     chunk.cpp
-    tile.cpp
     tile_registry.cpp
     tilemap.cpp
 )
@@ -16,8 +15,6 @@ target_include_directories(lili_world
 )
 
 target_link_libraries(lili_world PUBLIC
-    lili_geometry
-    lili_physics
     lili_render
     SDL3::SDL3
 )

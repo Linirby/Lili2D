@@ -46,19 +46,19 @@ public:
     /// @brief Handles an incoming event.
     /// @param event The event.
     virtual void
-    handleEvents(const Event& event);
+    handleEvents([[maybe_unused]] const Event& event) {}
     /// @brief Updates the scene logic.
-    /// @param dt Delta time in seconds.
+    /// @param dt Delta time in seconds used for frame time.
     virtual void
-    update(float dt);
+    update([[maybe_unused]] float dt) {}
     /// @brief Updates the scene physics logic.
-    /// @param dt Delta time in seconds.
+    /// @param dt Delta time in seconds used for physics tick.
     virtual void
-    fixedUpdate(float dt);
+    fixedUpdate([[maybe_unused]] float dt) {}
     /// @brief Renders the scene.
-    /// @param alpha Interpolation factor.
+    /// @param alpha Interpolation factor (between 0.0 and 1.0).
     virtual void
-    render(float alpha);
+    render([[maybe_unused]] float alpha) {}
 
     /// @brief Sets the parent scene manager.
     /// @param manager The manager.

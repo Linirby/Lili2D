@@ -84,10 +84,11 @@ IRenderable::getGlobalBounds(const Renderer* renderer) const {
 }
 
 bool
-IRenderable::containsPoint(Vec2 point, const Renderer* renderer) const {
+IRenderable::containsPoint(
+    Vec2 point, [[maybe_unused]] const Renderer* renderer
+) const {
     if (!is_visible) return false;
 
-    (void)renderer;
     Mat3 inv_mat = getTransformMatrix().inverse();
     Vec2 local_pt = inv_mat.transformPoint(point);
     Vec2 size = getSize();

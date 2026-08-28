@@ -1,6 +1,4 @@
-add_subdirectory(geometry)
 add_subdirectory(ecs)
-add_subdirectory(physics)
 add_subdirectory(core)
 add_subdirectory(render)
 add_subdirectory(world)
@@ -12,9 +10,7 @@ add_library(lili::lili2d ALIAS Lili2D)
 
 target_link_libraries(Lili2D
     PRIVATE
-        lili_geometry
         lili_ecs
-        lili_physics
         lili_core
         lili_render
         lili_world

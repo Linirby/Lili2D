@@ -163,7 +163,9 @@ public:
     /// @param renderer Optional pointer to renderer.
     /// @return True if point is inside object bounds.
     [[nodiscard]] virtual bool
-    containsPoint(Vec2 point, const Renderer* renderer = nullptr) const;
+    containsPoint(
+        Vec2 point, [[maybe_unused]] const Renderer* renderer = nullptr
+    ) const;
 
 protected:
     /// @brief Flag indicating if object is visible.

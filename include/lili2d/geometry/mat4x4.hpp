@@ -17,15 +17,13 @@ struct Mat4 {
     operator*(const Mat4& other) const noexcept {
         Mat4 result{};
 
-        for (int col = 0; col < 4; ++col) {
-            for (int row = 0; row < 4; ++row) {
+        for (int col = 0; col < 4; ++col)
+            for (int row = 0; row < 4; ++row)
                 result.m[col * 4 + row] =
                     (m[0 * 4 + row] * other.m[col * 4 + 0] +
                      m[1 * 4 + row] * other.m[col * 4 + 1] +
                      m[2 * 4 + row] * other.m[col * 4 + 2] +
                      m[3 * 4 + row] * other.m[col * 4 + 3]);
-            }
-        }
         return result;
     }
 
@@ -109,9 +107,7 @@ struct Mat4 {
         float c0 = m[2] * m[7] - m[6] * m[3];
 
         float det = s0 * c5 - s1 * c4 + s2 * c3 + s3 * c2 - s4 * c1 + s5 * c0;
-        if (std::abs(det) < 1e-8f) {
-            return identity();
-        }
+        if (std::abs(det) < 1e-8f) return identity();
 
         float inv_det = 1.0f / det;
 
@@ -144,11 +140,9 @@ struct Mat4 {
     [[nodiscard]] constexpr Mat4
     transpose() const noexcept {
         Mat4 result{};
-        for (int col = 0; col < 4; ++col) {
-            for (int row = 0; row < 4; ++row) {
+        for (int col = 0; col < 4; ++col)
+            for (int row = 0; row < 4; ++row)
                 result.m[row * 4 + col] = m[col * 4 + row];
-            }
-        }
         return result;
     }
 

@@ -117,9 +117,7 @@ struct Vec4 {
     [[nodiscard]] inline Vec4
     normalized() const noexcept {
         float sq_len = x * x + y * y + z * z + w * w;
-        if (sq_len == 0.0f) {
-            return {0.0f, 0.0f, 0.0f, 0.0f};
-        }
+        if (sq_len == 0.0f) return {0.0f, 0.0f, 0.0f, 0.0f};
         return *this * (1.0f / std::sqrt(sq_len));
     }
 

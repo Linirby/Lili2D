@@ -73,12 +73,11 @@ Texture::initFromSurface(SDL_Surface* surface) {
         SDL_CreateGPUSampler(this->device, &sampler_info),
         SDLGPUSamplerDeleter(this->device)
     );
-    if (!sampler) {
+    if (!sampler)
         throw std::runtime_error(
             "res.texture_sampler creation failed!\n-> " +
             std::string(SDL_GetError())
         );
-    }
 }
 
 void

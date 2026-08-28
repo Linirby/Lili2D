@@ -28,10 +28,7 @@ Chunk::generateMeshData(
                 BatchKey key{tile.slice.texture, z};
                 int world_x = chunk_pos.x * SIZE + x;
                 int world_y = chunk_pos.y * SIZE + y;
-                Vec2 pos(
-                    static_cast<float>(world_x) * tile_size.x,
-                    static_cast<float>(world_y) * tile_size.y
-                );
+                Vec2 pos(world_x * tile_size.x, world_y * tile_size.y);
 
                 SpriteBatch::appendSpriteToMesh(
                     temp_meshes[key], tile.slice, pos
@@ -85,14 +82,13 @@ Chunk::rebuildBatches(
                 },
                 TaskPriority::LOW
             );
-        } else {
+        } else
             rebuild_future = std::async(
                 std::launch::async,
                 [this, chunk_pos, tile_size, tiles_copy = tiles]() {
                     return generateMeshData(chunk_pos, tile_size, tiles_copy);
                 }
             );
-        }
     }
 
     auto status = rebuild_future.wait_for(std::chrono::seconds(0));

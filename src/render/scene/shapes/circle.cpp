@@ -108,12 +108,11 @@ Circle::draw() {
             md.vertices = std::move(vertices);
             md.indices = std::move(indices);
 
-            if (!hollow_mesh) {
+            if (!hollow_mesh)
                 hollow_mesh =
                     std::make_unique<GPUMesh>(renderer->getDevice(), md);
-            } else {
+            else
                 hollow_mesh->update(md);
-            }
             hollow_dirty = false;
         }
 
@@ -121,11 +120,10 @@ Circle::draw() {
             Model({hollow_mesh.get(), getMaterial()}), mat_transform, layer,
             render_layer
         );
-    } else {
+    } else
         renderer->submit(
             Model({mesh, getMaterial()}), mat_transform, layer, render_layer
         );
-    }
 }
 
 }  // namespace lili

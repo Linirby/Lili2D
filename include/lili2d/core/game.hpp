@@ -102,7 +102,7 @@ public:
 
     /// @brief Called once when the game initializes.
     virtual void
-    onInit();
+    onInit() {}
 
     /// @brief Called when an SDL event is polled.
     /// @param event The polled event.
@@ -112,21 +112,21 @@ public:
     /// @brief Called once per frame for game logic updates.
     /// @param dt Delta time since the last frame.
     virtual void
-    onUpdate(float dt);
+    onUpdate([[maybe_unused]] float dt) {}
 
     /// @brief Called at a fixed rate for physics updates.
     /// @param dt Fixed delta time.
     virtual void
-    onFixedUpdate(float dt);
+    onFixedUpdate([[maybe_unused]] float dt) {}
 
     /// @brief Called once per frame to render the game.
     /// @param alpha Interpolation factor between fixed updates.
     virtual void
-    onRender(float alpha);
+    onRender([[maybe_unused]] float alpha) {}
 
     /// @brief Called once when the game loop exits.
     virtual void
-    onExit();
+    onExit() {}
 
     /// @brief Stop the main gameloop
     inline void

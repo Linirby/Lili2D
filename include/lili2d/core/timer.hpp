@@ -33,12 +33,11 @@ public:
         if (tick_callback) tick_callback(getProgress());
         if (elapsed >= duration) {
             if (complete_callback) complete_callback();
-            if (repeating) {
+            if (repeating)
                 elapsed =
                     (duration > 0.0f) ? std::fmod(elapsed, duration) : 0.0f;
-            } else {
+            else
                 running = false;
-            }
         }
     }
 

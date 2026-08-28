@@ -11,7 +11,6 @@ add_library(lili_render OBJECT
     scene/common/atlas_map.cpp
     scene/common/material.cpp
     scene/common/material_registry.cpp
-    scene/common/model.cpp
     scene/common/text.cpp
     scene/common/utils.cpp
     scene/core2d/animated_sprite.cpp
@@ -35,7 +34,6 @@ target_include_directories(lili_render
 )
 
 target_link_libraries(lili_render PUBLIC
-    lili_geometry
     lili_core
     SDL3::SDL3
     SDL3_image::SDL3_image

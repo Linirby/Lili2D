@@ -20,12 +20,11 @@ GPUMesh::GPUMesh(SDL_GPUDevice* device, const MeshData& mesh) : device(device) {
             SDL_CreateGPUBuffer(this->device, &vertices_bci),
             SDLGPUBufferDeleter(this->device)
         );
-        if (!vertex_buffer) {
+        if (!vertex_buffer)
             throw std::runtime_error(
                 "vertex_buffer creation failed!\n-> " +
                 std::string(SDL_GetError())
             );
-        }
         vertex_capacity = vertices_buffer_size;
         transferToGpu(
             mesh.vertices.data(), vertex_buffer.get(), vertices_buffer_size
@@ -46,12 +45,11 @@ GPUMesh::GPUMesh(SDL_GPUDevice* device, const MeshData& mesh) : device(device) {
             SDL_CreateGPUBuffer(this->device, &indices_bci),
             SDLGPUBufferDeleter(this->device)
         );
-        if (!index_buffer) {
+        if (!index_buffer)
             throw std::runtime_error(
                 "index_buffer creation failed!\n-> " +
                 std::string(SDL_GetError())
             );
-        }
         index_capacity = indices_buffer_size;
         transferToGpu(
             mesh.indices.data(), index_buffer.get(), indices_buffer_size
@@ -77,12 +75,11 @@ GPUMesh::update(const MeshData& mesh) {
             SDL_CreateGPUBuffer(device, &vertices_bci),
             SDLGPUBufferDeleter(device)
         );
-        if (!vertex_buffer) {
+        if (!vertex_buffer)
             throw std::runtime_error(
                 "vertex_buffer creation failed in update!\n-> " +
                 std::string(SDL_GetError())
             );
-        }
         vertex_capacity = vertices_buffer_size;
     }
 
@@ -94,12 +91,11 @@ GPUMesh::update(const MeshData& mesh) {
             SDL_CreateGPUBuffer(device, &indices_bci),
             SDLGPUBufferDeleter(device)
         );
-        if (!index_buffer) {
+        if (!index_buffer)
             throw std::runtime_error(
                 "index_buffer creation failed in update!\n-> " +
                 std::string(SDL_GetError())
             );
-        }
         index_capacity = indices_buffer_size;
     }
 

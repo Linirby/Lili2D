@@ -308,9 +308,8 @@ ResourceManager<T>::load(
         auto write_time = std::filesystem::last_write_time(fp, ec);
         if (!ec) {
             record.watched_files.push_back({fp, write_time});
-            if (record.last_write_time == std::filesystem::file_time_type{}) {
+            if (record.last_write_time == std::filesystem::file_time_type{})
                 record.last_write_time = write_time;
-            }
         }
     }
 
@@ -388,9 +387,9 @@ size_t
 ResourceManager<T>::unloadScope(std::string_view scope) {
     size_t unloaded = 0;
     for (auto it = resources.begin(); it != resources.end();) {
-        if (it->second.scope != scope) {
+        if (it->second.scope != scope)
             ++it;
-        } else {
+        else {
             it = resources.erase(it);
             ++unloaded;
         }
@@ -448,9 +447,8 @@ ResourceManager<T>::checkHotReload() {
                     continue;
                 }
                 current_times.push_back(current_write_time);
-                if (current_write_time > watched.last_write_time) {
+                if (current_write_time > watched.last_write_time)
                     needs_reload = true;
-                }
             }
         } else if (!record.filepath.empty()) {
             std::error_code ec;
@@ -458,9 +456,8 @@ ResourceManager<T>::checkHotReload() {
                 std::filesystem::last_write_time(record.filepath, ec);
             if (!ec) {
                 current_times.push_back(current_write_time);
-                if (current_write_time > record.last_write_time) {
+                if (current_write_time > record.last_write_time)
                     needs_reload = true;
-                }
             }
         }
 
@@ -471,9 +468,9 @@ ResourceManager<T>::checkHotReload() {
             std::string primary_path = !record.watched_files.empty()
                                            ? record.watched_files[0].path
                                            : record.filepath;
-            if (record.reloader && record.resource) {
+            if (record.reloader && record.resource)
                 success = record.reloader(*record.resource, primary_path);
-            } else if (record.loader && record.resource) {
+            else if (record.loader && record.resource) {
                 std::unique_ptr<T> fresh = record.loader(primary_path);
                 if (fresh) {
                     if constexpr (std::is_move_assignable_v<T>)
@@ -491,9 +488,8 @@ ResourceManager<T>::checkHotReload() {
                     }
                     record.last_write_time =
                         record.watched_files[0].last_write_time;
-                } else if (!current_times.empty()) {
+                } else if (!current_times.empty())
                     record.last_write_time = current_times[0];
-                }
             }
         } catch (const std::exception& e) {
             std::cerr << "Hot reload failed for key '" << key

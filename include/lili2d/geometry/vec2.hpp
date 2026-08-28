@@ -106,9 +106,7 @@ struct Vec2 {
     [[nodiscard]] inline Vec2
     normalized() const noexcept {
         float sq_len = x * x + y * y;
-        if (sq_len == 0.0f) {
-            return {0.0f, 0.0f};
-        }
+        if (sq_len == 0.0f) return {0.0f, 0.0f};
         return *this * (1.0f / std::sqrt(sq_len));
     }
 

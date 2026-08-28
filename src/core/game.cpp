@@ -69,9 +69,6 @@ Game::configure(const EngineConfig& new_config) {
 }
 
 void
-Game::onInit() {}
-
-void
 Game::onEvent(const Event& event) {
     if (event.type() == lili::EventType::WINDOW) {
         lili::GameConfig& conf = lili::GameConfig::get();
@@ -98,23 +95,5 @@ Game::onEvent(const Event& event) {
         }
     }
 }
-
-void
-Game::onUpdate(float dt) {
-    (void)dt;
-}
-
-void
-Game::onFixedUpdate(float dt) {
-    (void)dt;
-}
-
-void
-Game::onRender(float alpha) {
-    (void)alpha;
-}
-
-void
-Game::onExit() {}
 
 }  // namespace lili

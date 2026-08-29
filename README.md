@@ -9,10 +9,7 @@
 
 Whether you are prototyping a quick game jam idea, building full 2D games, or exploring game engine architecture, Lili2D provides clean abstractions, high CPU/GPU performance, and modern developer ergonomics.
 
-<video controls autoplay loop muted playsinline style="max-width: 100%;">
-  <source src="assets/demo_ball.mp4" type="video/mp4">
-  <source src="demo_ball.mp4" type="video/mp4">
-</video>
+![Lili2D Demo](assets/demo_ball.gif)
 
 ## Key Features
 

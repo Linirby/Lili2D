@@ -9,7 +9,10 @@
 
 Whether you are prototyping a quick game jam idea, building full 2D games, or exploring game engine architecture, Lili2D provides clean abstractions, high CPU/GPU performance, and modern developer ergonomics.
 
-https://github.com/user-attachments/assets/352365ba-e0da-4004-91dd-b28a029c2b4e
+<video controls autoplay loop muted playsinline style="max-width: 100%;">
+  <source src="assets/demo_ball.mp4" type="video/mp4">
+  <source src="demo_ball.mp4" type="video/mp4">
+</video>
 
 ## Key Features
 
@@ -161,11 +164,11 @@ Check out the [`examples/`](examples/) directory for comprehensive code samples:
 Whether you want to follow development logs, ask integration questions, or share your game projects:
 
 Join **Lili's | Dev Lounge** on Discord:  
-👉 **[https://discord.gg/6S6HyKWgK3](https://discord.gg/6S6HyKWgK3)**
+**[https://discord.gg/6S6HyKWgK3](https://discord.gg/6S6HyKWgK3)**
 
 ## Support the Project
 
 If you enjoy using Lili2D and want to support its ongoing development:
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/liliowo)  
-👉 **[https://ko-fi.com/liliowo](https://ko-fi.com/liliowo)** ❤️
+**[https://ko-fi.com/liliowo](https://ko-fi.com/liliowo)** ❤️

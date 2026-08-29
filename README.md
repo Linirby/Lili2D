@@ -70,7 +70,11 @@ cd build
 ctest --output-on-failure
 ```
 
-### Generating Documentation
+### Documentation
+
+Check auto-generated documentation: https://linirby.github.io/Lili2D
+
+or
 
 Generate HTML API documentation using Doxygen:
 

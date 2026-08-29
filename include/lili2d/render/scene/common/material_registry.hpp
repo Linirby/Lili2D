@@ -82,7 +82,6 @@ public:
     }
 
 private:
-    /// @brief Private constructor to enforce singleton pattern.
     MaterialRegistry();
 };
 

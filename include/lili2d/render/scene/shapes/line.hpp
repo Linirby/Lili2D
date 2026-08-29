@@ -188,20 +188,13 @@ public:
     draw() override;
 
 private:
-    /// @brief Pointer to parent Renderer.
     Renderer* renderer = nullptr;
-    /// @brief Line shape geometry.
     LineShape shape;
-    /// @brief 2D scale vector.
     Vec2 scale = {1.0f, 1.0f};
 
-    /// @brief Render layer depth.
     float layer = 0.0f;
-    /// @brief Pointer to GPU mesh.
     GPUMesh* mesh = nullptr;
-    /// @brief Unique pointer to owned Material.
     std::unique_ptr<Material> material = nullptr;
-    /// @brief Pointer to external unowned Material.
     Material* external_material = nullptr;
 };
 

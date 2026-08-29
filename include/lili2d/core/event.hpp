@@ -154,13 +154,9 @@ public:
     window() const noexcept;
 
 private:
-    /// @brief Internal SDL_Event structure.
     SDL_Event sdl_event = SDL_Event();
-    /// @brief Cached event type.
     EventType current_type = EventType::NONE;
 
-    /// @brief Resolves the engine EventType from the internal SDL_Event.
-    /// @return Resolved EventType.
     [[nodiscard]] EventType
     resolveType() const noexcept;
 };

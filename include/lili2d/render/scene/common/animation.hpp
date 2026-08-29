@@ -46,7 +46,6 @@ public:
     }
 
 private:
-    /// @brief Vector of frame SliceUV UV coordinates.
     std::vector<SliceUV> frames;
 };
 

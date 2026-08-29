@@ -182,29 +182,18 @@ public:
     draw() override;
 
 private:
-    /// @brief Pointer to parent Renderer.
     Renderer* renderer = nullptr;
 
-    /// @brief Unique pointer to full texture if owned by Sprite.
     std::unique_ptr<Texture> texture = nullptr;
-    /// @brief Pointer to GPU mesh.
     GPUMesh* mesh = nullptr;
-    /// @brief Unique pointer to owned Material.
     std::unique_ptr<Material> material = nullptr;
-    /// @brief Pointer to external unowned Material.
     Material* external_material = nullptr;
 
-    /// @brief Active UV slice configuration.
     SliceUV current_slice;
-    /// @brief Sprite 2D position.
     Vec2 position;
-    /// @brief Sprite 2D scale.
     Vec2 scale = Vec2(1, 1);
-    /// @brief Sprite 2D render size.
     Vec2 size = Vec2(1, 1);
-    /// @brief Sprite rotation in degrees.
     float rotation = 0.0f;
-    /// @brief Render layer depth.
     float layer = 0.0f;
 };
 

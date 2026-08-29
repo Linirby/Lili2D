@@ -193,26 +193,16 @@ public:
     draw() override;
 
 private:
-    /// @brief Pointer to parent Renderer.
     Renderer* renderer = nullptr;
-    /// @brief Unique pointer to owned Material.
     std::unique_ptr<Material> material = nullptr;
-    /// @brief Pointer to external unowned Material.
     Material* external_material = nullptr;
-    /// @brief Unique pointer to GPU mesh.
     std::unique_ptr<GPUMesh> mesh = nullptr;
 
-    /// @brief Accumulated CPU mesh data for batching.
     MeshData mesh_data;
-    /// @brief Batch position vector.
     Vec2 position;
-    /// @brief Batch scale vector.
     Vec2 scale = {1.0f, 1.0f};
-    /// @brief Custom bounding size vector.
     Vec2 custom_size = {0.0f, 0.0f};
-    /// @brief Batch rotation angle in degrees.
     float rotation = 0.0f;
-    /// @brief Render layer depth.
     float layer = 0.0f;
 };
 

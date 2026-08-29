@@ -111,9 +111,7 @@ public:
     }
 
 private:
-    /// @brief Dimensions of a single tile in pixels.
     lili::Vec2 tile_size;
-    /// @brief Map of 3D chunk coordinates to Chunk instances.
     std::map<lili::Point3, Chunk, Point3Compare> chunks;
 };
 

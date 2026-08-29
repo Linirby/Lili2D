@@ -80,29 +80,17 @@ public:
     }
 
 private:
-    /// @brief Calculates optimal worker thread count based on engine config.
-    /// @param config Engine configuration.
-    /// @return Calculated thread count.
     static size_t
     calculateThreadCount(const EngineConfig& config);
-    /// @brief Worker thread loop function.
-    /// @param stop_tok Stop token to observe cancellation requests.
     void
     worker_loop(std::stop_token stop_tok);
 
-    /// @brief Queue for high-priority tasks.
     std::queue<std::function<void()>> high_tasks;
-    /// @brief Queue for normal-priority tasks.
     std::queue<std::function<void()>> normal_tasks;
-    /// @brief Queue for low-priority tasks.
     std::queue<std::function<void()>> low_tasks;
-    /// @brief Mutex synchronizing task queue access.
     std::mutex queue_mutex;
-    /// @brief Condition variable for worker thread notifications.
     std::condition_variable_any cv;
-    /// @brief Worker thread pool array.
     std::vector<std::jthread> threads;
-    /// @brief Performance profile setting.
     PerformanceProfile profile;
 };
 

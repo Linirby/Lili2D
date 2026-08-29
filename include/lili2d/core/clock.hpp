@@ -83,25 +83,16 @@ public:
     }
 
 private:
-    /// @brief Timestamp of the previous update tick in milliseconds.
     uint64_t last = SDL_GetTicks();
-    /// @brief Timestamp of the current update tick in milliseconds.
     uint64_t now = 0;
 
-    /// @brief Target ticks per second.
     float tps = 20.0f;
-    /// @brief Fixed delta time per tick in seconds.
     float fixed_dt = 1.0f / tps;
-    /// @brief Frame delta time in seconds.
     float dt = 0.0f;
-    /// @brief Accumulated time for fixed timestep updates.
     float accumulator = 0.0f;
-    /// @brief Accumulated time for FPS calculation.
     float second_counter = 0.0f;
 
-    /// @brief Calculated frames per second.
     int fps = 0;
-    /// @brief Temporary frame counter during one second.
     int temp_fps = 0;
 };
 

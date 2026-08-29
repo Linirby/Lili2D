@@ -59,23 +59,12 @@ public:
     run(ECSRegistry& registry, float dt, ThreadPool* thread_pool) override;
 
 private:
-    /// @brief Runs entity updates sequentially on a single thread.
-    /// @param registry Reference to ECSRegistry.
-    /// @param entities Vector of entities to process.
-    /// @param components Vector of components corresponding to entities.
-    /// @param dt Delta time.
     void
     runSequentially(
         ECSRegistry& registry, const std::vector<Entity>& entities,
         std::vector<TargetComponent>& components, float dt
     );
 
-    /// @brief Runs entity updates in parallel across worker threads.
-    /// @param registry Reference to ECSRegistry.
-    /// @param entities Vector of entities to process.
-    /// @param components Vector of components corresponding to entities.
-    /// @param dt Delta time.
-    /// @param pool Reference to active ThreadPool.
     void
     runInParallel(
         ECSRegistry& registry, const std::vector<Entity>& entities,

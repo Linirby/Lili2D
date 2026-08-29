@@ -135,17 +135,11 @@ public:
     }
 
 private:
-    /// @brief Unique pointer to the application window.
     std::unique_ptr<Window> window;
-    /// @brief Unique pointer to the main renderer.
     std::unique_ptr<Renderer> renderer;
-    /// @brief Unique pointer to the worker thread pool.
     std::unique_ptr<ThreadPool> thread_pool;
-    /// @brief Engine configuration settings.
     EngineConfig engine_config;
-    /// @brief Game loop clock tracker.
     Clock clock;
-    /// @brief Flag indicating whether the game loop is running.
     bool running = false;
 };
 

@@ -73,25 +73,16 @@ public:
     }
 
 private:
-    /// @brief Pointer to the parent SDL_GPUDevice.
     SDL_GPUDevice* device = nullptr;
 
-    /// @brief Texture width in pixels.
     int width = 0;
-    /// @brief Texture height in pixels.
     int height = 0;
-    /// @brief Unique pointer to GPU texture handle.
     std::unique_ptr<SDL_GPUTexture, SDLGPUTextureDeleter> texture;
-    /// @brief Unique pointer to GPU sampler handle.
     std::unique_ptr<SDL_GPUSampler, SDLGPUSamplerDeleter> sampler;
 
-    /// @brief Initializes GPU texture metadata and objects from an SDL_Surface.
-    /// @param surface Pointer to source SDL_Surface.
     void
     initFromSurface(SDL_Surface* surface);
 
-    /// @brief Transfers CPU surface pixel data to the GPU texture memory.
-    /// @param surface Pointer to source SDL_Surface.
     void
     transferToGpu(SDL_Surface* surface);
 };

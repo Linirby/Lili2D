@@ -12,14 +12,23 @@ namespace lili {
 /// cleanup.
 class TimerManager {
 public:
+    /// @brief Default constructor.
     TimerManager() = default;
+    /// @brief Default destructor.
     ~TimerManager() = default;
 
-    TimerManager(TimerManager&&) noexcept = default;
+    /// @brief Move constructor.
+    /// @param other TimerManager to move from.
+    TimerManager(TimerManager&& other) noexcept = default;
+    /// @brief Move assignment operator.
+    /// @param other TimerManager to move from.
+    /// @return Reference to this TimerManager.
     TimerManager&
-    operator=(TimerManager&&) noexcept = default;
+    operator=(TimerManager&& other) noexcept = default;
 
+    /// @brief Deleted copy constructor.
     TimerManager(const TimerManager&) = delete;
+    /// @brief Deleted copy assignment operator.
     TimerManager&
     operator=(const TimerManager&) = delete;
 

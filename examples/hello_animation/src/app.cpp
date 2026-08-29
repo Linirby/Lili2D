@@ -5,7 +5,6 @@ App::App() : lili::Game("hello_animation - Lili2D", 400, 400) {
     getWindow()->setResizable(true);
 
     lili::Renderer* renderer = getRenderer();
-
     lili::Assets::setHotReloadEnabled(true);
 
     lili::AtlasMap* head_atlas = lili::Assets::loadAtlas(
@@ -15,30 +14,25 @@ App::App() : lili::Game("hello_animation - Lili2D", 400, 400) {
     head_sprite = lili::AnimatedSprite(
         renderer, lili::Animation(head_atlas->getSliceUVs(0, 8))
     );
-    head_sprite.setScale({15, 15});
+    head_sprite.setScale({15.0f, 15.0f});
     head_sprite.setFrameSpeed(0.2f);
+    head_sprite.setRender(lili::RenderLayer::UI);
+    head_sprite.setAnchor(lili::Anchor::BOTTOM);
+    head_sprite.setPivot(lili::Pivot::BOTTOM);
 }
 
 void
 App::onEvent(const lili::Event& event) {
-    lili::KeyboardEvent kb = event.keyboard();
-
-    if (event.type() == lili::EventType::KEYBOARD)
-        if (kb.action == lili::KeyAction::PRESSED)
-            if (kb.key == SDLK_ESCAPE) shutdown();
+    lili::Game::onEvent(event);
+    if (event.type() == lili::EventType::KEYBOARD) {
+        lili::KeyboardEvent kb = event.keyboard();
+        if (kb.action == lili::KeyAction::PRESSED && kb.key == SDLK_ESCAPE)
+            shutdown();
+    }
 }
 
 void
 App::onUpdate(float dt) {
-    lili::Assets::checkHotReload();
-
-    lili::Window* window = getWindow();
-    head_sprite.setPosition(
-        lili::Vec2(
-            (float)window->getWidth() / 2 - head_sprite.getWidth() / 2,
-            (float)window->getHeight() - head_sprite.getHeight()
-        )
-    );
     head_sprite.update(dt);
 }
 

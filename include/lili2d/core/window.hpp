@@ -136,20 +136,12 @@ public:
     }
 
 private:
-    /// @brief Flag indicating if window is resizable.
     bool resizable = false;
-    /// @brief Flag indicating if window is borderless.
     bool borderless = false;
-    /// @brief Flag indicating if window is fullscreen.
     bool fullscreen = false;
-    /// @brief Logical viewport width in pixels.
     int logical_width = 0;
-    /// @brief Logical viewport height in pixels.
     int logical_height = 0;
-    /// @brief Flag indicating if logical resolution resolution scaling is
-    /// active.
     bool use_logical_resolution = false;
-    /// @brief Pointer to the underlying SDL_Window handle.
     SDL_Window* window = nullptr;
 };
 

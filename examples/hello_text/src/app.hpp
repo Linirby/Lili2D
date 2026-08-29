@@ -1,19 +1,18 @@
 #pragma once
 
 #include <lili2d/lili2d.hpp>
-#include <memory>
 
 class App : public lili::Game {
 public:
     App();
 
 private:
-    float letter_spacing;
+    float letter_spacing = 1.0f;
     float text_rotation = 0.0f;
+    float speed_change = 10.0f;
+
     lili::Text welcome_text;
     lili::Text info_text;
-
-    float speed_change;
     lili::Keyboard keyboard;
 
     void

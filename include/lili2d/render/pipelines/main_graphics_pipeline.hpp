@@ -55,18 +55,13 @@ public:
     }
 
 private:
-    /// @brief Helper to build the SDL GPU pipeline object.
     bool
     createPipelineInternal();
 
-    /// @brief Pointer to the parent SDL_GPUDevice.
     SDL_GPUDevice* device = nullptr;
-    /// @brief Pointer to target SDL_Window.
     SDL_Window* window = nullptr;
-    /// @brief Pointer to Shader program.
     Shader* shader = nullptr;
 
-    /// @brief Unique pointer to compiled SDL GPU pipeline handle.
     std::unique_ptr<SDL_GPUGraphicsPipeline, SDLGPUGraphicsPipelineDeleter>
         pipeline;
 };

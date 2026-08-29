@@ -2,17 +2,15 @@
 
 #include <SDL3/SDL_scancode.h>
 
-#include "lili2d/render/passes/pass_types.hpp"
-
 App::App() : lili::Game("hello_text - Lili2D", 625, 300) {
     getWindow()->setResizable(true);
     lili::Renderer* renderer = getRenderer();
 
     lili::BitmapFont* font_example =
         lili::Assets::loadFont("lili_font", renderer, "lili_font.png", 16, 6);
+
     welcome_text = lili::Text(renderer, font_example, "Welcome to Lili2D");
     welcome_text.setScale(3.0f);
-    letter_spacing = 1.0f;
     welcome_text.setSpacing(letter_spacing);
     welcome_text.setRender(lili::RenderLayer::UI);
     welcome_text.setAnchor(lili::Anchor::CENTER);
@@ -23,17 +21,16 @@ App::App() : lili::Game("hello_text - Lili2D", 625, 300) {
     );
     info_text.setScale(3.0f);
     info_text.setPosition({10.0f, 10.0f});
-
-    speed_change = 10.0f;
 }
 
 void
 App::onEvent(const lili::Event& event) {
-    lili::KeyboardEvent kb = event.keyboard();
-
-    if (event.type() == lili::EventType::KEYBOARD)
-        if (kb.action == lili::KeyAction::PRESSED)
-            if (kb.key == SDLK_ESCAPE) shutdown();
+    lili::Game::onEvent(event);
+    if (event.type() == lili::EventType::KEYBOARD) {
+        lili::KeyboardEvent kb = event.keyboard();
+        if (kb.action == lili::KeyAction::PRESSED && kb.key == SDLK_ESCAPE)
+            shutdown();
+    }
 }
 
 void

@@ -7,8 +7,16 @@
 
 #include "components.hpp"
 #include "entities.hpp"
-#include "lili2d/core/game.hpp"
 #include "systems.hpp"
+
+namespace {
+std::mt19937&
+getRng() {
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    return gen;
+}
+}  // namespace
 
 App::App() : lili::Game("hello_ecs - Lili2D", 800, 600) {
     setTps(20.0f);
@@ -32,8 +40,7 @@ App::App() : lili::Game("hello_ecs - Lili2D", 800, 600) {
         << "=== Lili2D ECS Demo Instructions ===\n"
         << "  [SPACE]     : Spawn a new random ball entity\n"
         << "  [BACKSPACE] : Destroy a random ball entity\n"
-        << "  [T]         : Toggle (remove/add) velocity component of a random "
-           "ball\n"
+        << "  [T]         : Toggle velocity component of a random ball\n"
         << "====================================\n";
 }
 
@@ -43,14 +50,10 @@ App::onEvent(const lili::Event& event) {
     if (event.type() == lili::EventType::KEYBOARD) {
         lili::KeyboardEvent kb = event.keyboard();
         if (kb.action == lili::KeyAction::PRESSED) {
-            if (kb.key == SDLK_ESCAPE)
-                shutdown();
-            else if (kb.key == SDLK_SPACE)
-                spawnRandomBall();
-            else if (kb.key == SDLK_BACKSPACE)
-                destroyRandomBall();
-            else if (kb.key == SDLK_T)
-                toggleRandomBallVelocity();
+            if (kb.key == SDLK_ESCAPE) shutdown();
+            else if (kb.key == SDLK_SPACE) spawnRandomBall();
+            else if (kb.key == SDLK_BACKSPACE) destroyRandomBall();
+            else if (kb.key == SDLK_T) toggleRandomBallVelocity();
         }
     }
 }
@@ -68,13 +71,12 @@ App::onUpdate(float dt) {
 void
 App::onRender(float alpha) {
     (void)alpha;
-    systems::renderEntities(ecs_registry, *sprite_batch.get());
+    systems::renderEntities(ecs_registry, *sprite_batch);
 }
 
 void
 App::spawnRandomBall() {
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
+    auto& gen = getRng();
     lili::Window* window = getWindow();
     std::uniform_real_distribution<float> disX(
         50.0f, static_cast<float>(window->getWidth()) - 50.0f
@@ -97,55 +99,36 @@ App::spawnRandomBall() {
         color, radius
     );
     spawned_entities.push_back(ent);
-    std::cout << "Spawned entity ID: " << lili::getEntityID(ent)
-              << " (Gen: " << static_cast<int>(lili::getEntityGen(ent))
-              << ") | Total: " << spawned_entities.size() << "\n";
 }
 
 void
 App::destroyRandomBall() {
-    if (spawned_entities.empty()) {
-        std::cout << "No entities to destroy!\n";
-        return;
-    }
+    if (spawned_entities.empty()) return;
 
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
+    auto& gen = getRng();
     std::uniform_int_distribution<size_t> dis(0, spawned_entities.size() - 1);
     size_t index = dis(gen);
     lili::Entity ent = spawned_entities[index];
 
-    std::cout << "Destroying entity ID: " << lili::getEntityID(ent)
-              << " (Gen: " << static_cast<int>(lili::getEntityGen(ent))
-              << ")\n";
-
     ecs_registry.destroyEntity(ent);
     spawned_entities.erase(spawned_entities.begin() + index);
-    std::cout << "Total active entities: " << spawned_entities.size() << "\n";
 }
 
 void
 App::toggleRandomBallVelocity() {
-    if (spawned_entities.empty()) {
-        std::cout << "No entities to toggle!\n";
-        return;
-    }
+    if (spawned_entities.empty()) return;
 
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
+    auto& gen = getRng();
     std::uniform_int_distribution<size_t> dis(0, spawned_entities.size() - 1);
     size_t index = dis(gen);
     lili::Entity ent = spawned_entities[index];
 
     if (ecs_registry.hasComponent<VelocityComponent>(ent)) {
-        std::cout << "Removing Velocity from entity ID: "
-                  << lili::getEntityID(ent) << " (it will stop moving)\n";
         ecs_registry.removeComponent<VelocityComponent>(ent);
     } else {
         std::uniform_real_distribution<float> disVel(-200.0f, 200.0f);
-        lili::Vec2 newVel(disVel(gen), disVel(gen));
-        std::cout << "Adding Velocity component back to entity ID: "
-                  << lili::getEntityID(ent) << " (it will start moving)\n";
-        ecs_registry.emplaceComponent<VelocityComponent>(ent, newVel);
+        ecs_registry.emplaceComponent<VelocityComponent>(
+            ent, lili::Vec2(disVel(gen), disVel(gen))
+        );
     }
 }

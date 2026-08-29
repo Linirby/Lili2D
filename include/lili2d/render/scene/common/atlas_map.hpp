@@ -72,15 +72,10 @@ public:
     getTexture() const;
 
 private:
-    /// @brief Unique pointer to full atlas texture.
     std::unique_ptr<Texture> full_texture;
-    /// @brief Vector of sliced frame UV coordinates.
     std::vector<SliceUV> slices;
-    /// @brief Number of grid columns.
     int n_cols = 1;
-    /// @brief Number of grid rows.
     int n_rows = 1;
-    /// @brief Dimensions (width, height) of a single grid frame in pixels.
     Point2 unit_size;
 };
 

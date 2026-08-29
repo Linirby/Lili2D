@@ -38,11 +38,8 @@ public:
     }
 
 private:
-    /// @brief Current frame key states array.
     bool current[SDL_SCANCODE_COUNT] = {};
-    /// @brief Previous frame key states array.
     bool previous[SDL_SCANCODE_COUNT] = {};
-    /// @brief Number of keys.
     int key_count = 0;
 };
 

@@ -1,12 +1,8 @@
 #pragma once
 
+#include <lili2d/lili2d.hpp>
 #include <memory>
 #include <vector>
-
-#include "lili2d/core/game.hpp"
-#include "lili2d/ecs.hpp"
-#include "lili2d/render/scene/core2d/sprite_batch.hpp"
-#include "lili2d/world/camera.hpp"
 
 class App : public lili::Game {
 public:
@@ -39,6 +35,4 @@ private:
     lili::Texture* circle_texture = nullptr;
     std::unique_ptr<lili::SpriteBatch> sprite_batch;
     std::unique_ptr<lili::SystemBase> movement_system;
-
-    bool multithreading_enabled = true;
 };

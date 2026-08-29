@@ -8,8 +8,6 @@ public:
     App();
 
 private:
-    lili::Keyboard keyboard;
-
     lili::Camera camera;
     lili::Circle camera_center;
     lili::Vec2 cam_pos;

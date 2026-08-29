@@ -96,13 +96,9 @@ public:
     }
 
 private:
-    /// @brief Pointer to the played Animation object.
     const Animation* animation = nullptr;
-    /// @brief Current active frame index.
     size_t current_frame = 0;
-    /// @brief Frame duration speed in seconds per frame.
     float frame_speed_sec = 0.1f;
-    /// @brief Accumulated time spent on the current frame.
     float frame_time_sec = 0.0f;
 };
 

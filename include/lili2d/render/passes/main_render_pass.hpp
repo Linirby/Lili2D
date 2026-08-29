@@ -10,11 +10,8 @@ namespace lili {
 class MainRenderPass {
 public:
     /// @brief Constructs a render pass.
-    /// @param device The SDL GPU device.
     /// @param pipeline The graphics pipeline to use.
-    explicit MainRenderPass(
-        SDL_GPUDevice* device, SDL_GPUGraphicsPipeline* pipeline
-    );
+    explicit MainRenderPass(SDL_GPUGraphicsPipeline* pipeline);
     /// @brief Default destructor.
     ~MainRenderPass() = default;
 
@@ -31,9 +28,6 @@ public:
     );
 
 private:
-    /// @brief Pointer to the parent SDL_GPUDevice.
-    SDL_GPUDevice* device = nullptr;
-    /// @brief Pointer to the SDL_GPUGraphicsPipeline handle.
     SDL_GPUGraphicsPipeline* pipeline = nullptr;
 };
 

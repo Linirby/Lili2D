@@ -28,13 +28,15 @@ cbuffer RectUB : register(b1, space1) {
     float speed;
 };
 
-VSOutput main(VSInput input) {
+VSOutput
+main(VSInput input) {
     VSOutput output;
-    float wave_offset = sin(
-        custom_time * speed + input.in_pos.y * frequency
-    ) * amplitude;
+    float wave_offset =
+        sin(custom_time * speed + input.in_pos.y * frequency) * amplitude;
 
-    float3 pos2d = mul(u_matrix, float3(input.in_pos.x + wave_offset, input.in_pos.y, 1.0));
+    float3 pos2d =
+        mul(u_matrix,
+            float3(input.in_pos.x + wave_offset, input.in_pos.y, 1.0));
     output.pos = float4(pos2d.xy, input.in_pos.z + layer, 1.0);
 
     output.uv = input.in_uv;

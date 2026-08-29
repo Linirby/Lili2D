@@ -19,9 +19,9 @@ namespace lili {
 template <typename T, typename IdType = uint32_t>
 class AssetRegistry {
 protected:
-    /// @brief Mapping from asset string key to assigned unique numeric ID.
+    /// @brief Map associating string keys to asset IDs.
     StringMap<IdType> ids;
-    /// @brief Storage vector of registered asset instances indexed by ID.
+    /// @brief Vector storing assets indexed by ID.
     std::vector<T> id_to_asset;
 
 public:

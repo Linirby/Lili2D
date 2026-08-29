@@ -325,9 +325,8 @@ Renderer::initPipelines() {
 
 void
 Renderer::initPasses() {
-    render_pass = std::make_unique<MainRenderPass>(
-        device.get(), main_pipeline->getSdlPipeline()
-    );
+    render_pass =
+        std::make_unique<MainRenderPass>(main_pipeline->getSdlPipeline());
 }
 
 void

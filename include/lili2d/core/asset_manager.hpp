@@ -181,21 +181,14 @@ public:
     setHotReloadEnabled(bool enabled);
 
 private:
-    /// @brief Private constructor for singleton pattern.
     AssetManager() = default;
-    /// @brief Private destructor for singleton pattern.
     ~AssetManager() = default;
 
-    /// @brief Manager for texture resources.
     ResourceManager<Texture> texture_manager;
-    /// @brief Manager for shader resources.
     ResourceManager<Shader> shader_manager;
-    /// @brief Manager for bitmap font resources.
     ResourceManager<BitmapFont> font_manager;
-    /// @brief Manager for texture atlas resources.
     ResourceManager<AtlasMap> atlas_manager;
 
-    /// @brief Registry for custom user-defined resource managers.
     std::unordered_map<std::type_index, std::unique_ptr<IResourceManager>>
         custom_managers;
 };
@@ -214,7 +207,6 @@ AssetManager::getManager() {
     return *ptr;
 }
 
-/// @brief Convenient shorthand alias for AssetManager.
 using Assets = AssetManager;
 
 }  // namespace lili

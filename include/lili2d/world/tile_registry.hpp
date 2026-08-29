@@ -65,7 +65,6 @@ public:
     }
 
 private:
-    /// @brief Private constructor enforcing singleton pattern.
     TileRegistry();
 };
 

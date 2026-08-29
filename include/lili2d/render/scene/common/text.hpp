@@ -80,20 +80,15 @@ public:
     glyphUv(char c) const noexcept;
 
 private:
-    /// @brief Unique pointer to the font texture.
     std::unique_ptr<Texture> texture = nullptr;
-    /// @brief Number of grid columns.
     int cols = 1;
-    /// @brief Number of grid rows.
     int rows = 1;
 
-    /// @brief Single glyph width in pixels.
     int glyph_w = 1;
-    /// @brief Single glyph height in pixels.
     int glyph_h = 1;
 };
 
-/// @brief Represents renderable text using a bitmap font.
+/// @brief Renderable Text using a bitmap font.
 class Text : public IRenderable {
 public:
     /// @brief Default constructor.
@@ -230,40 +225,24 @@ public:
     draw() override;
 
 private:
-    /// @brief Pointer to the main Renderer.
     Renderer* renderer = nullptr;
-    /// @brief Pointer to the bitmap font used.
     BitmapFont* font = nullptr;
 
-    /// @brief Rendered string text content.
     std::string text = "default";
-    /// @brief Position vector.
     Vec2 pos;
 
-    /// @brief Rotation angle in degrees.
     float rotation = 0.0f;
-    /// @brief Scale vector.
     Vec2 scale = {1.0f, 1.0f};
-    /// @brief Calculated glyph width.
     float glyph_w = 1.0f;
-    /// @brief Calculated glyph height.
     float glyph_h = 1.0f;
-    /// @brief Character advance spacing.
     float advance = 1.0f;
 
-    /// @brief Owned internal Material instance.
     std::unique_ptr<Material> material = nullptr;
-    /// @brief External unowned Material pointer.
     Material* external_material = nullptr;
-    /// @brief Unique pointer to GPU mesh data.
     std::unique_ptr<GPUMesh> mesh = nullptr;
-    /// @brief Model structure combining mesh and material.
     Model model;
-    /// @brief Rendering layer depth.
     float layer = 0.0f;
 
-    /// @brief Rebuilds text GPU mesh vertices and indices based on string
-    /// content.
     void
     rebuildMesh();
 };

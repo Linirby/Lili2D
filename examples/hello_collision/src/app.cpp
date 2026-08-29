@@ -3,51 +3,34 @@
 App::App() : lili::Game("hello_collision - Lili2D", 800, 800) {
     lili::Renderer* renderer = getRenderer();
     cursor_rect = lili::Rect(
-        renderer, lili::RectShape(0, 0, 75, 75), lili::Vec4(0, 0, 1, 1)
+        renderer, lili::RectShape(0.0f, 0.0f, 75.0f, 75.0f),
+        lili::Vec4(0.0f, 0.0f, 1.0f, 1.0f)
     );
     cursor_circle = lili::Circle(
-        renderer, lili::CircleShape(lili::Vec2(0, 0), 30, 16),
-        lili::Vec4(0, 0, 1, 1)
+        renderer, lili::CircleShape(lili::Vec2(0.0f, 0.0f), 30.0f, 16),
+        lili::Vec4(0.0f, 0.0f, 1.0f, 1.0f)
     );
     cursor_line = lili::Line(
-        renderer, lili::LineShape(lili::Vec2(0, 0), lili::Vec2(0, 0), 3),
-        lili::Vec4(0, 0, 1, 1)
+        renderer,
+        lili::LineShape(lili::Vec2(0.0f, 0.0f), lili::Vec2(0.0f, 0.0f), 3.0f),
+        lili::Vec4(0.0f, 0.0f, 1.0f, 1.0f)
     );
     random_rect = lili::Rect(
-        renderer, lili::RectShape(350, 350, 100, 100), lili::Vec4(1, 0, 0, 1)
+        renderer, lili::RectShape(350.0f, 350.0f, 100.0f, 100.0f),
+        lili::Vec4(1.0f, 0.0f, 0.0f, 1.0f)
     );
-
-    draw_rect = true;
-    draw_circle = false;
-    draw_line = false;
 }
 
 void
 App::onEvent(const lili::Event& event) {
-    lili::KeyboardEvent kb = event.keyboard();
-
-    if (event.type() == lili::EventType::KEYBOARD)
-        if (kb.action == lili::KeyAction::PRESSED)
-            if (kb.key == SDLK_ESCAPE) shutdown();
-
+    lili::Game::onEvent(event);
     if (event.type() == lili::EventType::KEYBOARD) {
-        lili::KeyboardEvent keyboard = event.keyboard();
-        if (keyboard.action == lili::KeyAction::PRESSED) {
-            if (keyboard.key == SDLK_1) {
-                draw_rect = true;
-                draw_circle = false;
-                draw_line = false;
-            }
-            if (keyboard.key == SDLK_2) {
-                draw_rect = false;
-                draw_circle = true;
-                draw_line = false;
-            }
-            if (keyboard.key == SDLK_3) {
-                draw_rect = false;
-                draw_circle = false;
-                draw_line = true;
-            }
+        lili::KeyboardEvent kb = event.keyboard();
+        if (kb.action == lili::KeyAction::PRESSED) {
+            if (kb.key == SDLK_ESCAPE) shutdown();
+            else if (kb.key == SDLK_1) active_shape = ShapeMode::Rect;
+            else if (kb.key == SDLK_2) active_shape = ShapeMode::Circle;
+            else if (kb.key == SDLK_3) active_shape = ShapeMode::Line;
         }
     }
 }
@@ -58,28 +41,36 @@ App::onUpdate(float dt) {
     lili::Mouse mouse;
     mouse.update();
 
-    if (draw_rect) {
-        cursor_rect.setPosition(mouse.getPos() - cursor_rect.getSize() * 0.5);
-        if (lili::AABB2(cursor_rect.getShape()).intersect(random_rect.getShape()))
-            cursor_rect.setColor(lili::Vec4(0, 1, 0, 1));
-        else
-            cursor_rect.setColor(lili::Vec4(0, 0, 1, 1));
-    }
-    if (draw_circle) {
-        cursor_circle.setCenter(mouse.getPos());
-        if (lili::CircleCollider(cursor_circle.getShape()).intersect(random_rect.getShape()))
-            cursor_circle.setColor(lili::Vec4(0, 1, 0, 1));
-        else
-            cursor_circle.setColor(lili::Vec4(0, 0, 1, 1));
-    }
-    if (draw_line) {
-        cursor_line.setEnd(
-            mouse.getPos() - lili::Vec2(cursor_line.getThickness(), 0.0f) * 0.5
-        );
-        if (lili::AABB2(cursor_line.getShape()).intersect(random_rect.getShape()))
-            cursor_line.setColor(lili::Vec4(0, 1, 0, 1));
-        else
-            cursor_line.setColor(lili::Vec4(0, 0, 1, 1));
+    const lili::Vec4 hit_color(0.0f, 1.0f, 0.0f, 1.0f);
+    const lili::Vec4 miss_color(0.0f, 0.0f, 1.0f, 1.0f);
+
+    switch (active_shape) {
+        case ShapeMode::Rect: {
+            cursor_rect.setPosition(
+                mouse.getPos() - cursor_rect.getSize() * 0.5f
+            );
+            bool hit = lili::AABB2(cursor_rect.getShape())
+                           .intersect(random_rect.getShape());
+            cursor_rect.setColor(hit ? hit_color : miss_color);
+            break;
+        }
+        case ShapeMode::Circle: {
+            cursor_circle.setCenter(mouse.getPos());
+            bool hit = lili::CircleCollider(cursor_circle.getShape())
+                           .intersect(random_rect.getShape());
+            cursor_circle.setColor(hit ? hit_color : miss_color);
+            break;
+        }
+        case ShapeMode::Line: {
+            cursor_line.setEnd(
+                mouse.getPos() -
+                lili::Vec2(cursor_line.getThickness(), 0.0f) * 0.5f
+            );
+            bool hit = lili::AABB2(cursor_line.getShape())
+                           .intersect(random_rect.getShape());
+            cursor_line.setColor(hit ? hit_color : miss_color);
+            break;
+        }
     }
 }
 
@@ -88,22 +79,26 @@ App::onRender(float alpha) {
     (void)alpha;
     random_rect.draw();
     lili::Renderer* renderer = getRenderer();
-    lili::Vec4 debug_color = lili::Vec4(0, 1, 0, 1);
-    if (draw_rect) {
-        cursor_rect.draw();
-        renderer->drawDebugRect(cursor_rect.getShape(), debug_color);
-    }
-    if (draw_circle) {
-        cursor_circle.draw();
-        renderer->drawDebugCircle(cursor_circle.getShape(), debug_color);
-    }
-    if (draw_line) {
-        cursor_line.draw();
-        lili::AABB2 line_box(cursor_line.getShape());
-        renderer->drawDebugRect(
-            line_box.min.x, line_box.min.y,
-            line_box.max.x - line_box.min.x, line_box.max.y - line_box.min.y,
-            debug_color
-        );
+    const lili::Vec4 debug_color(0.0f, 1.0f, 0.0f, 1.0f);
+
+    switch (active_shape) {
+        case ShapeMode::Rect:
+            cursor_rect.draw();
+            renderer->drawDebugRect(cursor_rect.getShape(), debug_color);
+            break;
+        case ShapeMode::Circle:
+            cursor_circle.draw();
+            renderer->drawDebugCircle(cursor_circle.getShape(), debug_color);
+            break;
+        case ShapeMode::Line: {
+            cursor_line.draw();
+            lili::AABB2 line_box(cursor_line.getShape());
+            renderer->drawDebugRect(
+                line_box.min.x, line_box.min.y,
+                line_box.max.x - line_box.min.x, line_box.max.y - line_box.min.y,
+                debug_color
+            );
+            break;
+        }
     }
 }

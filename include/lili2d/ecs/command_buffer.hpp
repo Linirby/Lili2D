@@ -80,7 +80,6 @@ public:
     }
 
 private:
-    /// @brief List of deferred command callbacks.
     std::vector<std::function<void(ECSRegistry&)>> commands;
 };
 

@@ -135,18 +135,11 @@ public:
     );
 
 private:
-    /// @brief Pointer to the parent SDL_GPUDevice.
     SDL_GPUDevice* device = nullptr;
-    /// @brief Unique pointer to compiled vertex shader handle.
     std::unique_ptr<SDL_GPUShader, SDLGPUShaderDeleter> vertex_shader;
-    /// @brief Unique pointer to compiled fragment shader handle.
     std::unique_ptr<SDL_GPUShader, SDLGPUShaderDeleter> fragment_shader;
-    /// @brief Registered reload listeners keyed by owner pointer.
     std::unordered_map<void*, ReloadCallback> reload_listeners;
 
-    /// @brief Reads text file contents into a string.
-    /// @param file_path Path to the file.
-    /// @return String containing file contents.
     static std::string
     readFile(const std::string& file_path);
 };

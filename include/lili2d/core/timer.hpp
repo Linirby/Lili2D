@@ -11,7 +11,9 @@ namespace lili {
 /// @brief Represents a single countdown or interval timer.
 class Timer {
 public:
+    /// @brief Callback invoked when a timer completes.
     using CompleteCallback = std::function<void()>;
+    /// @brief Callback invoked on each timer update with normalized progress.
     using TickCallback = std::function<void(float progress)>;
 
     /// @brief Constructs a Timer with a duration in seconds.

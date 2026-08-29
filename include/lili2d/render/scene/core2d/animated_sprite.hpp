@@ -198,38 +198,23 @@ public:
     draw() override;
 
 private:
-    /// @brief Pointer to parent Renderer.
     Renderer* renderer = nullptr;
 
-    /// @brief Pointer to GPU mesh.
     GPUMesh* mesh = nullptr;
-    /// @brief Unique pointer to owned Material.
     std::unique_ptr<Material> material = nullptr;
-    /// @brief Pointer to external unowned Material.
     Material* external_material = nullptr;
 
-    /// @brief Played animation object.
     Animation animation;
-    /// @brief Current frame index.
     size_t current_frame = 0;
-    /// @brief Frame duration speed in seconds per frame.
     float frame_speed_sec = 0.1f;
-    /// @brief Accumulated time spent on current frame.
     float frame_time_sec = 0.0f;
 
-    /// @brief Sprite 2D position.
     Vec2 position;
-    /// @brief Sprite 2D scale.
     Vec2 scale = {1.0f, 1.0f};
-    /// @brief Sprite 2D render size.
     Vec2 size = {1.0f, 1.0f};
-    /// @brief Sprite rotation in degrees.
     float rotation = 0.0f;
-    /// @brief Render layer depth.
     float layer = 0.0f;
 
-    /// @brief Applies a specific slice frame to the sprite's mesh.
-    /// @param frame The frame to apply.
     void
     applyFrame(const SliceUV& frame);
 };

@@ -68,15 +68,23 @@ public:
         /// @brief Last write timestamp of the file.
         std::filesystem::file_time_type last_write_time{};
 
+        /// @brief Default constructor.
         WatchedFile() = default;
+        /// @brief Constructs a watched file record.
+        /// @param path Path to the file.
+        /// @param last_write_time Last write timestamp.
         WatchedFile(
             std::string path, std::filesystem::file_time_type last_write_time
         )
             : path(std::move(path)), last_write_time(last_write_time) {}
+        /// @brief Default copy constructor.
         WatchedFile(const WatchedFile&) = default;
+        /// @brief Default copy assignment operator.
         WatchedFile&
         operator=(const WatchedFile&) = default;
+        /// @brief Default move constructor.
         WatchedFile(WatchedFile&&) noexcept = default;
+        /// @brief Default move assignment operator.
         WatchedFile&
         operator=(WatchedFile&&) noexcept = default;
     };
@@ -222,9 +230,7 @@ public:
     isHotReloadEnabled() const noexcept override;
 
 private:
-    /// @brief Hash map of cached resources by string key.
     StringMap<ResourceRecord> resources;
-    /// @brief Flag indicating if hot reloading file watcher is enabled.
     bool hot_reload_enabled = false;
 };
 

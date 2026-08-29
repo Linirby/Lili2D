@@ -133,23 +133,13 @@ public:
     update(const MeshData& mesh);
 
 private:
-    /// @brief Pointer to the parent SDL_GPUDevice.
     SDL_GPUDevice* device;
-    /// @brief Unique pointer to the GPU vertex buffer.
     std::unique_ptr<SDL_GPUBuffer, SDLGPUBufferDeleter> vertex_buffer;
-    /// @brief Unique pointer to the GPU index buffer.
     std::unique_ptr<SDL_GPUBuffer, SDLGPUBufferDeleter> index_buffer;
-    /// @brief Current allocated capacity of the vertex buffer in bytes.
     uint32_t vertex_capacity = 0;
-    /// @brief Current allocated capacity of the index buffer in bytes.
     uint32_t index_capacity = 0;
-    /// @brief Total number of active indices in the mesh.
     uint32_t index_count = 0;
 
-    /// @brief Transfers CPU memory to a GPU buffer.
-    /// @param data Pointer to source data.
-    /// @param buffer Destination SDL_GPUBuffer.
-    /// @param size Size in bytes to transfer.
     void
     transferToGpu(const void* data, SDL_GPUBuffer* buffer, uint32_t size);
 };

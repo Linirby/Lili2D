@@ -95,14 +95,9 @@ public:
     size() const noexcept;
 
 private:
-    /// @brief Dense vector storing component instances contiguously.
     std::vector<T> dense_components;
-    /// @brief Dense vector storing entities corresponding to dense components.
     std::vector<Entity> dense_entities;
-    /// @brief Sparse vector mapping entity IDs to dense component array
-    /// indices.
     std::vector<size_t> sparse_entities;
-    /// @brief Constant representing empty slot in sparse array.
     static constexpr size_t EMPTY = static_cast<size_t>(-1);
 };
 

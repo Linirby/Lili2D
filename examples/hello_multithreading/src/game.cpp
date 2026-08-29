@@ -6,8 +6,16 @@
 #include <random>
 
 #include "components.hpp"
-#include "lili2d/core/event.hpp"
 #include "systems.hpp"
+
+namespace {
+std::mt19937&
+getRng() {
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    return gen;
+}
+}  // namespace
 
 App::App() : lili::Game("hello_multithreading - Lili2D", 800, 600) {
     setTps(60.0f);
@@ -46,6 +54,7 @@ App::onInit() {
 
 void
 App::onEvent(const lili::Event& event) {
+    lili::Game::onEvent(event);
     if (event.type() == lili::EventType::KEYBOARD) {
         lili::KeyboardEvent kb = event.keyboard();
         if (kb.action == lili::KeyAction::PRESSED) {
@@ -96,8 +105,7 @@ App::onRender(float alpha) {
 
 void
 App::spawnRandomBall() {
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
+    auto& gen = getRng();
     lili::Window* window = getWindow();
     std::uniform_real_distribution<float> disX(
         50.0f, static_cast<float>(window->getWidth()) - 50.0f
@@ -126,12 +134,9 @@ App::spawnRandomBall() {
 
 void
 App::destroyRandomBall() {
-    if (spawned_entities.empty()) {
-        return;
-    }
+    if (spawned_entities.empty()) return;
 
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
+    auto& gen = getRng();
     std::uniform_int_distribution<size_t> dis(0, spawned_entities.size() - 1);
     size_t index = dis(gen);
     lili::Entity ent = spawned_entities[index];

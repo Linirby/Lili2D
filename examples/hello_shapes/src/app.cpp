@@ -18,11 +18,11 @@ App::App() : lili::Game("hello_shapes - Lili2D", 500, 350) {
     );
 
     clean_circle = lili::Circle(
-        renderer, lili::CircleShape({225.0f, 100.0f}, 50.0f, 32.0f),
+        renderer, lili::CircleShape({225.0f, 100.0f}, 50.0f, 32),
         lili::Vec4(0.0f, 0.0f, 1.0f, 1.0f)
     );
     low_poly_circle = lili::Circle(
-        renderer, lili::CircleShape({375.0f, 100.0f}, 50.0f, 8.0f),
+        renderer, lili::CircleShape({375.0f, 100.0f}, 50.0f, 8),
         lili::Vec4(0.0f, 0.0f, 1.0f, 1.0f)
     );
 
@@ -33,16 +33,13 @@ App::App() : lili::Game("hello_shapes - Lili2D", 500, 350) {
 
 void
 App::onEvent(const lili::Event& event) {
-    lili::KeyboardEvent kb = event.keyboard();
-
-    if (event.type() == lili::EventType::KEYBOARD)
-        if (kb.action == lili::KeyAction::PRESSED)
-            if (kb.key == SDLK_ESCAPE) shutdown();
-
+    lili::Game::onEvent(event);
     if (event.type() == lili::EventType::KEYBOARD) {
-        lili::KeyboardEvent keyboard = event.keyboard();
-        if (keyboard.action == lili::KeyAction::PRESSED) {
-            if (keyboard.key == SDLK_H || keyboard.key == SDLK_SPACE) {
+        lili::KeyboardEvent kb = event.keyboard();
+        if (kb.action == lili::KeyAction::PRESSED && !kb.repeat) {
+            if (kb.key == SDLK_ESCAPE) {
+                shutdown();
+            } else if (kb.key == SDLK_H || kb.key == SDLK_SPACE) {
                 bool hollow = !rect.isHollow();
                 rect.setHollow(hollow);
                 clean_circle.setHollow(hollow);

@@ -39,9 +39,7 @@ App::App() : lili::Game("hello_sprite_batch - Lili2D", 768, 640) {
     env_batch->begin();
     for (int y = 0; y < map_height; ++y) {
         for (int x = 0; x < map_width; ++x) {
-            lili::SliceUV slice = slice_floor;
-            if ((x + y) % 2 == 0) slice = slice_dark_floor;
-
+            lili::SliceUV slice;
             if (x == 0 && y == 0)
                 slice = slice_corner_tl;
             else if (x == map_width - 1 && y == 0)
@@ -54,11 +52,13 @@ App::App() : lili::Game("hello_sprite_batch - Lili2D", 768, 640) {
                 x == 0 || x == map_width - 1 || y == 0 || y == map_height - 1
             )
                 slice = slice_wall;
+            else
+                slice = ((x + y) % 2 == 0) ? slice_dark_floor : slice_floor;
 
             env_batch->draw(
                 slice, lili::Vec2(
-                           (x + 1.5 - 50) * (TILE_SIZE - 0.1f),
-                           (y + 1.5 - 40) * (TILE_SIZE - 0.1f)
+                           (x + 1.5f - 50.0f) * (TILE_SIZE - 0.1f),
+                           (y + 1.5f - 40.0f) * (TILE_SIZE - 0.1f)
                        )
             );
         }
@@ -82,44 +82,44 @@ App::App() : lili::Game("hello_sprite_batch - Lili2D", 768, 640) {
 
 void
 App::onEvent(const lili::Event& event) {
-    lili::KeyboardEvent kb = event.keyboard();
-
-    if (event.type() == lili::EventType::KEYBOARD)
-        if (kb.action == lili::KeyAction::PRESSED)
-            if (kb.key == SDLK_ESCAPE) shutdown();
+    lili::Game::onEvent(event);
+    if (event.type() == lili::EventType::KEYBOARD) {
+        lili::KeyboardEvent kb = event.keyboard();
+        if (kb.action == lili::KeyAction::PRESSED && kb.key == SDLK_ESCAPE)
+            shutdown();
+    }
 }
 
 void
 App::onUpdate(float dt) {
     keyboard.update();
-    lili::Vec2 velocity(0, 0);
+    lili::Vec2 velocity(0.0f, 0.0f);
 
-    if (keyboard.held(SDL_SCANCODE_W)) velocity.y -= 1;
-    if (keyboard.held(SDL_SCANCODE_S)) velocity.y += 1;
-    if (keyboard.held(SDL_SCANCODE_A)) velocity.x -= 1;
-    if (keyboard.held(SDL_SCANCODE_D)) velocity.x += 1;
+    if (keyboard.held(SDL_SCANCODE_W)) velocity.y -= 1.0f;
+    if (keyboard.held(SDL_SCANCODE_S)) velocity.y += 1.0f;
+    if (keyboard.held(SDL_SCANCODE_A)) velocity.x -= 1.0f;
+    if (keyboard.held(SDL_SCANCODE_D)) velocity.x += 1.0f;
 
     if (keyboard.held(SDL_SCANCODE_I)) camera.setZoom(camera.getZoom() + dt);
     if (keyboard.held(SDL_SCANCODE_K)) camera.setZoom(camera.getZoom() - dt);
 
-    bool is_moving = (velocity.x != 0 || velocity.y != 0);
     lili::Animation* target_anim = current_anim;
 
-    if (is_moving) {
+    if (velocity.x != 0.0f || velocity.y != 0.0f) {
         float speed = 80.0f;
-        player.position.x += velocity.x * speed * dt;
-        player.position.y += velocity.y * speed * dt;
+        player.position += velocity * (speed * dt);
 
-        if (velocity.y < 0)
+        if (velocity.y < 0.0f)
             target_anim = &anim_run_top;
-        else if (velocity.y > 0)
+        else if (velocity.y > 0.0f)
             target_anim = &anim_run_bottom;
-        else if (velocity.x < 0)
+        else if (velocity.x < 0.0f)
             target_anim = &anim_run_left;
-        else if (velocity.x > 0)
+        else
             target_anim = &anim_run_right;
-    } else
+    } else {
         target_anim = &anim_idle;
+    }
 
     if (current_anim != target_anim) {
         current_anim = target_anim;

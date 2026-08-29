@@ -126,17 +126,11 @@ public:
     get();
 
 private:
-    /// @brief Configured window width in pixels.
     int window_w = 800;
-    /// @brief Configured window height in pixels.
     int window_h = 600;
-    /// @brief Flag indicating if fullscreen is enabled.
     bool window_fullscreen = false;
-    /// @brief Flag indicating if window is resizable.
     bool window_resizable = false;
-    /// @brief Flag indicating if window is borderless.
     bool window_borderless = false;
-    /// @brief Flag indicating if relative mouse mode is enabled.
     bool relative_mouse_mode = false;
 };
 

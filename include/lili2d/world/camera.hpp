@@ -77,11 +77,8 @@ public:
     getViewportBounds(float width, float height) const noexcept;
 
 private:
-    /// @brief Camera world position.
     Vec2 position = {};
-    /// @brief Camera rotation angle in degrees.
     float rotation = 0.0f;
-    /// @brief Camera zoom level multiplier.
     float zoom = 1.0f;
 };
 

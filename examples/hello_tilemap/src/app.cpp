@@ -1,21 +1,22 @@
 #include "app.hpp"
 
+#include <algorithm>
 #include <cmath>
-#include <memory>
 
-App::App() : lili::Game("hello_sprite_batch - Lili2D", 768, 640) {
+App::App() : lili::Game("hello_tilemap - Lili2D", 768, 640) {
     setTps(20.0f);
     lili::Window* window = getWindow();
     lili::Renderer* renderer = getRenderer();
 
     camera.setZoom(4.0f);
-    camera.setPosition({(float)window->getWidth(), (float)window->getHeight()});
+    camera.setPosition(
+        {static_cast<float>(window->getWidth()),
+         static_cast<float>(window->getHeight())}
+    );
     renderer->setCamera(&camera);
 
-    thread_pool = std::make_unique<lili::ThreadPool>();
-
-    lili::Vec2 tile_render_size = lili::Vec2(16, 16);
-    tilemap = std::make_unique<lili::TileMap>(lili::Vec2(tile_render_size));
+    lili::Vec2 tile_render_size(16.0f, 16.0f);
+    tilemap = std::make_unique<lili::TileMap>(tile_render_size);
 
     env_atlas = lili::Assets::loadAtlas(
         "env_atlas", renderer, "assets/environment.png", 3, 2
@@ -28,9 +29,7 @@ App::App() : lili::Game("hello_sprite_batch - Lili2D", 768, 640) {
     registry.registerTile("dirt:light", lili::Tile(env_atlas->getSliceUV(3)));
     lili::Tile invisible_solid;
     invisible_solid.is_solid = true;
-    lili::TileRegistry::get().registerTile(
-        "solid_invisible", std::move(invisible_solid)
-    );
+    registry.registerTile("solid_invisible", std::move(invisible_solid));
 
     int map_width = 1500;
     int map_height = 1500;
@@ -42,7 +41,7 @@ App::App() : lili::Game("hello_sprite_batch - Lili2D", 768, 640) {
                 (std::sin(x * 0.05f + 10.0f) * 2.0f +
                  std::cos(y * 0.05f + 10.0f) * 2.0f);
 
-            int elevation = (int)(noise + 3.0f);
+            int elevation = static_cast<int>(noise + 3.0f);
             if (elevation < 0) elevation = 0;
             if (elevation > 5) elevation = 5;
 
@@ -72,22 +71,23 @@ App::App() : lili::Game("hello_sprite_batch - Lili2D", 768, 640) {
 
 void
 App::onEvent(const lili::Event& event) {
-    lili::KeyboardEvent kb = event.keyboard();
-
-    if (event.type() == lili::EventType::KEYBOARD)
-        if (kb.action == lili::KeyAction::PRESSED)
-            if (kb.key == SDLK_ESCAPE) shutdown();
+    lili::Game::onEvent(event);
+    if (event.type() == lili::EventType::KEYBOARD) {
+        lili::KeyboardEvent kb = event.keyboard();
+        if (kb.action == lili::KeyAction::PRESSED && kb.key == SDLK_ESCAPE)
+            shutdown();
+    }
 }
 
 void
 App::onUpdate(float dt) {
     keyboard.update();
-    lili::Vec2 vel(0, 0);
+    lili::Vec2 vel(0.0f, 0.0f);
 
-    if (keyboard.held(SDL_SCANCODE_W)) vel.y = -1;
-    if (keyboard.held(SDL_SCANCODE_S)) vel.y = 1;
-    if (keyboard.held(SDL_SCANCODE_A)) vel.x = -1;
-    if (keyboard.held(SDL_SCANCODE_D)) vel.x = 1;
+    if (keyboard.held(SDL_SCANCODE_W)) vel.y = -1.0f;
+    if (keyboard.held(SDL_SCANCODE_S)) vel.y = 1.0f;
+    if (keyboard.held(SDL_SCANCODE_A)) vel.x = -1.0f;
+    if (keyboard.held(SDL_SCANCODE_D)) vel.x = 1.0f;
 
     lili::Vec2 camera_pos = camera.getPosition();
     camera.setPosition(camera_pos + (vel * 100.0f * dt));
@@ -101,5 +101,5 @@ void
 App::onRender(float alpha) {
     (void)alpha;
     text_infos.draw();
-    tilemap->draw(getRenderer(), thread_pool.get());
+    tilemap->draw(getRenderer(), getThreadPool());
 }

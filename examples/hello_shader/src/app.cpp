@@ -1,18 +1,14 @@
 #include "app.hpp"
 
-#include "lili2d/render/passes/pass_types.hpp"
-#include "lili2d/render/ui/ui_layout.hpp"
-
 App::App() : lili::Game("hello_shader - Lili2D", 800, 800) {
     lili::Assets::setHotReloadEnabled(true);
     lili::Renderer* renderer = getRenderer();
+
     lili::Shader* rect_shader = lili::Assets::loadShader(
-        "rect_shader", "src/rect.vert.hlsl", "src/rect.frag.hlsl",
+        "rect_shader", "src/rect.vert.hlsl", "src/default.frag.hlsl",
         renderer->getDevice()
     );
-    rect_pipeline = std::make_unique<lili::MainGraphicsPipeline>(
-        renderer->getDevice(), getWindow()->getSdlWindow(), rect_shader
-    );
+    rect_pipeline.reset(renderer->createMainGraphicsPipeline(rect_shader));
     rect = lili::Rect(
         renderer, lili::RectShape(0.0f, 0.0f, 400.0f, 400.0f),
         lili::Vec4(1.0f, 1.0f, 1.0f, 1.0f)
@@ -24,12 +20,10 @@ App::App() : lili::Game("hello_shader - Lili2D", 800, 800) {
     rect.setOffset({0.0f, 0.0f});
 
     lili::Shader* text_shader = lili::Assets::loadShader(
-        "text_shader", "src/text.vert.hlsl", "src/text.frag.hlsl",
+        "text_shader", "src/text.vert.hlsl", "src/default.frag.hlsl",
         renderer->getDevice()
     );
-    text_pipeline = std::make_unique<lili::MainGraphicsPipeline>(
-        renderer->getDevice(), getWindow()->getSdlWindow(), text_shader
-    );
+    text_pipeline.reset(renderer->createMainGraphicsPipeline(text_shader));
     lili::BitmapFont* font =
         lili::Assets::loadFont("lili_font", renderer, "lili_font.png", 16, 6);
     text = lili::Text(renderer, font, "Yay, shaders :D");
@@ -53,17 +47,23 @@ App::App() : lili::Game("hello_shader - Lili2D", 800, 800) {
 
 void
 App::onEvent(const lili::Event& event) {
-    lili::KeyboardEvent kb = event.keyboard();
-
-    if (event.type() == lili::EventType::KEYBOARD)
-        if (kb.action == lili::KeyAction::PRESSED)
-            if (kb.key == SDLK_ESCAPE) shutdown();
-
+    lili::Game::onEvent(event);
     if (event.type() == lili::EventType::KEYBOARD) {
-        lili::KeyboardEvent keyboard = event.keyboard();
-        if (keyboard.action == lili::KeyAction::PRESSED) {
-            if (keyboard.key == SDLK_SPACE && keyboard.repeat == false)
+        lili::KeyboardEvent kb = event.keyboard();
+        if (kb.action == lili::KeyAction::PRESSED && !kb.repeat) {
+            if (kb.key == SDLK_ESCAPE) {
+                shutdown();
+            } else if (kb.key == SDLK_SPACE) {
                 toggle_custom_shaders = !toggle_custom_shaders;
+                rect.getMaterial()->pipeline =
+                    toggle_custom_shaders ? rect_pipeline.get() : nullptr;
+                text.getMaterial()->pipeline =
+                    toggle_custom_shaders ? text_pipeline.get() : nullptr;
+                text.setText(
+                    toggle_custom_shaders ? "Yay, shaders :D"
+                                          : "Oh, no shaders :("
+                );
+            }
         }
     }
 }
@@ -78,28 +78,20 @@ void
 App::onRender(float alpha) {
     (void)alpha;
     if (toggle_custom_shaders) {
-        TextUB text_uniform{};
-        text_uniform.speed = 2.0f;
-        text_uniform.time = clock.getTime();
-        text.getMaterial()->pipeline = text_pipeline.get();
-        text.getMaterial()->setVertexUniforms(text_uniform);
-        text.setText("Yay, shaders :D");
-    } else {
-        text.getMaterial()->pipeline = nullptr;
-        text.setText("Oh, no shaders :(");
+        text.getMaterial()->setVertexUniforms(
+            TextUB{.speed = 2.0f, .time = clock.getTime()}
+        );
+        rect.getMaterial()->setVertexUniforms(
+            RectUB{
+                .time = clock.getTime(),
+                .amplitude = 0.2f,
+                .frequency = 30.0f,
+                .speed = 5.0f
+            }
+        );
     }
+
     text.draw();
     text_info.draw();
-
-    if (toggle_custom_shaders) {
-        RectUB rect_uniform{};
-        rect_uniform.time = clock.getTime();
-        rect_uniform.amplitude = 0.2f;
-        rect_uniform.frequency = 30.0f;
-        rect_uniform.speed = 5.0f;
-        rect.getMaterial()->pipeline = rect_pipeline.get();
-        rect.getMaterial()->setVertexUniforms(rect_uniform);
-    } else
-        rect.getMaterial()->pipeline = nullptr;
     rect.draw();
 }

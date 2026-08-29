@@ -249,30 +249,18 @@ public:
     draw() override;
 
 private:
-    /// @brief Pointer to parent Renderer.
     Renderer* renderer = nullptr;
-    /// @brief Circle shape geometry.
     CircleShape shape;
-    /// @brief Rotation angle in degrees.
     float rotation = 0.0f;
-    /// @brief 2D scale vector.
     Vec2 scale = {1.0f, 1.0f};
-    /// @brief Flag indicating if circle is drawn hollow.
     bool is_hollow = false;
-    /// @brief Outline thickness when hollow.
     float hollow_thickness = 1.0f;
 
-    /// @brief Render layer depth.
     float layer = 0.0f;
-    /// @brief Pointer to filled GPU mesh.
     GPUMesh* mesh = nullptr;
-    /// @brief Unique pointer to owned Material.
     std::unique_ptr<Material> material = nullptr;
-    /// @brief Pointer to external unowned Material.
     Material* external_material = nullptr;
-    /// @brief Unique pointer to hollow outline GPU mesh.
     std::unique_ptr<GPUMesh> hollow_mesh = nullptr;
-    /// @brief Flag indicating if hollow mesh needs rebuilding.
     bool hollow_dirty = true;
 };
 

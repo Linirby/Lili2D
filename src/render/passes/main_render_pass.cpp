@@ -9,10 +9,8 @@
 
 namespace lili {
 
-MainRenderPass::MainRenderPass(
-    SDL_GPUDevice* device, SDL_GPUGraphicsPipeline* pipeline
-)
-    : device(device), pipeline(pipeline) {}
+MainRenderPass::MainRenderPass(SDL_GPUGraphicsPipeline* pipeline)
+    : pipeline(pipeline) {}
 
 void
 MainRenderPass::render(

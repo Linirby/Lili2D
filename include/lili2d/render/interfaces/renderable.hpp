@@ -168,11 +168,11 @@ public:
     ) const;
 
 protected:
-    /// @brief Flag indicating if object is visible.
+    /// @brief Flag indicating whether the object is visible.
     bool is_visible = true;
     /// @brief UI layout configuration data.
     UILayout ui_layout;
-    /// @brief The render layer
+    /// @brief The render layer for this object.
     RenderLayer render_layer = RenderLayer::WORLD2D;
 };
 

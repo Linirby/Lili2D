@@ -98,17 +98,11 @@ public:
     }
 
 private:
-    /// @brief Current frame mouse button state mask.
     uint32_t current = 0;
-    /// @brief Previous frame mouse button state mask.
     uint32_t previous = 0;
-    /// @brief Current mouse X coordinate.
     float current_x = 0.0f;
-    /// @brief Current mouse Y coordinate.
     float current_y = 0.0f;
-    /// @brief Delta mouse movement along X axis.
     float current_dx = 0.0f;
-    /// @brief Delta mouse movement along Y axis.
     float current_dy = 0.0f;
 };
 

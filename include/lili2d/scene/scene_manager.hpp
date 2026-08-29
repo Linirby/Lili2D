@@ -79,7 +79,6 @@ public:
     }
 
 private:
-    /// @brief Stack vector of managed scene pointers.
     std::vector<std::unique_ptr<Scene>> scenes;
 };
 

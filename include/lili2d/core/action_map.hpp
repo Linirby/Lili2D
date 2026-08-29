@@ -13,8 +13,11 @@
 
 namespace lili {
 
+/// @brief Bindings of an action.
 struct ActionBinding {
+    /// @brief Bound keys for the action.
     std::vector<Key> keys;
+    /// @brief Bound mouse buttons for the action.
     std::vector<MouseButton> mouse_buttons;
 };
 

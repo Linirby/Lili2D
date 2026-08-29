@@ -69,19 +69,11 @@ public:
     hasComponent(Entity entity) const;
 
 private:
-    /// @brief Storage vector of type-erased component pools indexed by
-    /// component type ID.
     std::vector<std::unique_ptr<IComponentPool>> component_pools;
-    /// @brief Storage vector of active entities indexed by entity ID.
     std::vector<Entity> entities;
-    /// @brief Recycled entity IDs available for reuse.
     std::vector<uint32_t> free_ids;
-    /// @brief Generator counter for unique component type IDs.
     static inline uint32_t next_component_type_id = 0;
 
-    /// @brief Gets the unique runtime ID for a component type.
-    /// @tparam T The component type.
-    /// @return The unique ID.
     template <typename T>
     [[nodiscard]] static uint32_t
     getComponentTypeID() noexcept;

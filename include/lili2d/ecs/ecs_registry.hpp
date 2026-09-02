@@ -5,6 +5,7 @@
 #include <memory>
 
 #include "lili2d/ecs/component_pool.hpp"
+#include "lili2d/ecs/ecs_view.hpp"
 #include "lili2d/ecs/entity.hpp"
 
 namespace lili {
@@ -67,6 +68,13 @@ public:
     template <typename T>
     [[nodiscard]] bool
     hasComponent(Entity entity) const;
+
+    /// @brief Get the view of entities with their gived components.
+    /// @tparam Components The components you wanna view.
+    /// @return An ECSView with entities and their respective components.
+    template <typename... Components>
+    [[nodiscard]] ECSView<Components...>
+    view();
 
 private:
     std::vector<std::unique_ptr<IComponentPool>> component_pools;

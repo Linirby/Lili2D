@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cassert>
+#include <cstddef>
 #include <vector>
 
 #include "lili2d/ecs/entity.hpp"
@@ -35,6 +36,27 @@ public:
     /// @param entity The entity.
     virtual void
     remove(Entity entity) = 0;
+
+    /// @brief Gets the number of active components in this pool.
+    /// @return The number of components.
+    [[nodiscard]] virtual size_t
+    size() const noexcept = 0;
+
+    /// @brief Get the entity at a specific index in this pool.
+    /// @param index The index where the entity is located.
+    /// @return The entity at the corresponding index.
+    [[nodiscard]] virtual Entity
+    getEntity(size_t index) const = 0;
+
+    /// @brief Check if the pool is empty.
+    /// @return True if empty, False if not.
+    [[nodiscard]] virtual bool
+    empty() const noexcept = 0;
+
+    /// @brief Gets a const reference to the vector of entities in this pool.
+    /// @return Const reference to the entities vector.
+    [[nodiscard]] virtual const std::vector<Entity>&
+    getEntities() const noexcept = 0;
 };
 
 /// @brief Contiguous component pool implementation for a specific type T.
@@ -49,50 +71,121 @@ public:
     /// @return Reference to the created component.
     template <typename... Args>
     T&
-    emplace(Entity entity, Args&&... args);
+    emplace(Entity entity, Args&&... args) {
+        assert(!has(entity) && "Entity already has this component!");
+
+        uint32_t entity_id = getEntityID(entity);
+
+        dense_components.emplace_back(std::forward<Args>(args)...);
+        dense_entities.push_back(entity);
+        if (entity_id >= sparse_entities.size())
+            sparse_entities.resize(entity_id + 1, EMPTY);
+
+        sparse_entities[entity_id] = dense_components.size() - 1;
+        return dense_components.back();
+    }
 
     /// @brief Gets the component for the entity.
     /// @param entity The entity.
     /// @return Reference to the component.
     [[nodiscard]] T&
-    get(Entity entity) noexcept;
+    get(Entity entity) noexcept {
+        assert(has(entity) && "Entity does not have this component!");
+
+        uint32_t entity_id = getEntityID(entity);
+        return dense_components[sparse_entities[entity_id]];
+    }
 
     /// @brief Gets a const reference to the component for the entity.
     /// @param entity The entity.
     /// @return Const reference to the component.
     [[nodiscard]] const T&
-    get(Entity entity) const noexcept;
+    get(Entity entity) const noexcept {
+        assert(has(entity) && "Entity does not have this component!");
+
+        uint32_t entity_id = getEntityID(entity);
+        return dense_components[sparse_entities[entity_id]];
+    }
 
     /// @brief Checks if the entity has a component in this pool.
     /// @param entity The entity to check.
     /// @return True if the component exists, false otherwise.
     [[nodiscard]] bool
-    has(Entity entity) const noexcept override;
+    has(Entity entity) const noexcept override {
+        uint32_t entity_id = getEntityID(entity);
+        return (
+            entity_id < sparse_entities.size() &&
+            sparse_entities[entity_id] != EMPTY
+        );
+    }
 
     /// @brief Removes the component for the entity from this pool.
     /// @param entity The entity.
     void
-    remove(Entity entity) override;
+    remove(Entity entity) override {
+        assert(
+            has(entity) && "Cannot remove component: Entity does not have it!"
+        );
 
-    /// @brief Gets a const reference to the vector of components.
-    /// @return Const reference to the components vector.
-    [[nodiscard]] const std::vector<T>&
-    getComponents() const noexcept;
+        uint32_t entity_id = getEntityID(entity);
+        size_t idx_to_remove = sparse_entities[entity_id];
+        size_t last_dense_idx = dense_components.size() - 1;
 
-    /// @brief Gets a mutable reference to the vector of components.
-    /// @return Mutable reference to the components vector.
-    [[nodiscard]] std::vector<T>&
-    getComponents() noexcept;
+        if (idx_to_remove < last_dense_idx) {
+            Entity last_entity = dense_entities.back();
+            dense_components[idx_to_remove] =
+                std::move(dense_components.back());
+            dense_entities[idx_to_remove] = last_entity;
+            sparse_entities[getEntityID(last_entity)] = idx_to_remove;
+        }
 
-    /// @brief Gets a const reference to the vector of entities in this pool.
-    /// @return Const reference to the entities vector.
-    [[nodiscard]] const std::vector<Entity>&
-    getEntities() const noexcept;
+        sparse_entities[entity_id] = EMPTY;
+        dense_components.pop_back();
+        dense_entities.pop_back();
+    }
 
     /// @brief Gets the number of active components in this pool.
     /// @return The number of components.
     [[nodiscard]] size_t
-    size() const noexcept;
+    size() const noexcept override {
+        return dense_components.size();
+    }
+
+    /// @brief Get the entity at a specific index in this pool.
+    /// @param index The index where the entity is located.
+    /// @return The entity at the corresponding index.
+    [[nodiscard]] virtual Entity
+    getEntity(size_t index) const override {
+        return dense_entities[index];
+    }
+
+    /// @brief Check if the pool is empty.
+    /// @return True if empty, False if not.lead_pool->size()
+    [[nodiscard]] virtual bool
+    empty() const noexcept override {
+        return dense_components.empty();
+    }
+
+    /// @brief Gets a const reference to the vector of components.
+    /// @return Const reference to the components vector.
+    [[nodiscard]] const std::vector<T>&
+    getComponents() const noexcept {
+        return dense_components;
+    }
+
+    /// @brief Gets a mutable reference to the vector of components.
+    /// @return Mutable reference to the components vector.
+    [[nodiscard]] std::vector<T>&
+    getComponents() noexcept {
+        return dense_components;
+    }
+
+    /// @brief Gets a const reference to the vector of entities in this pool.
+    /// @return Const reference to the entities vector.
+    [[nodiscard]] const std::vector<Entity>&
+    getEntities() const noexcept override {
+        return dense_entities;
+    }
 
 private:
     std::vector<T> dense_components;
@@ -100,95 +193,5 @@ private:
     std::vector<size_t> sparse_entities;
     static constexpr size_t EMPTY = static_cast<size_t>(-1);
 };
-
-template <typename T>
-template <typename... Args>
-T&
-ComponentPool<T>::emplace(Entity entity, Args&&... args) {
-    assert(!has(entity) && "Entity already has this component!");
-
-    uint32_t entity_id = getEntityID(entity);
-
-    dense_components.emplace_back(std::forward<Args>(args)...);
-    dense_entities.push_back(entity);
-    if (entity_id >= sparse_entities.size())
-        sparse_entities.resize(entity_id + 1, EMPTY);
-
-    sparse_entities[entity_id] = dense_components.size() - 1;
-    return dense_components.back();
-}
-
-template <typename T>
-T&
-ComponentPool<T>::get(Entity entity) noexcept {
-    assert(has(entity) && "Entity does not have this component!");
-
-    uint32_t entity_id = getEntityID(entity);
-    return dense_components[sparse_entities[entity_id]];
-}
-
-template <typename T>
-const T&
-ComponentPool<T>::get(Entity entity) const noexcept {
-    assert(has(entity) && "Entity does not have this component!");
-
-    uint32_t entity_id = getEntityID(entity);
-    return dense_components[sparse_entities[entity_id]];
-}
-
-template <typename T>
-bool
-ComponentPool<T>::has(Entity entity) const noexcept {
-    uint32_t entity_id = getEntityID(entity);
-    return (
-        entity_id < sparse_entities.size() &&
-        sparse_entities[entity_id] != EMPTY
-    );
-}
-
-template <typename T>
-void
-ComponentPool<T>::remove(Entity entity) {
-    assert(has(entity) && "Cannot remove component: Entity does not have it!");
-
-    uint32_t entity_id = getEntityID(entity);
-    size_t idx_to_remove = sparse_entities[entity_id];
-    size_t last_dense_idx = dense_components.size() - 1;
-
-    if (idx_to_remove < last_dense_idx) {
-        Entity last_entity = dense_entities.back();
-        dense_components[idx_to_remove] = std::move(dense_components.back());
-        dense_entities[idx_to_remove] = last_entity;
-        sparse_entities[getEntityID(last_entity)] = idx_to_remove;
-    }
-
-    sparse_entities[entity_id] = EMPTY;
-    dense_components.pop_back();
-    dense_entities.pop_back();
-}
-
-template <typename T>
-const std::vector<T>&
-ComponentPool<T>::getComponents() const noexcept {
-    return dense_components;
-}
-
-template <typename T>
-std::vector<T>&
-ComponentPool<T>::getComponents() noexcept {
-    return dense_components;
-}
-
-template <typename T>
-const std::vector<Entity>&
-ComponentPool<T>::getEntities() const noexcept {
-    return dense_entities;
-}
-
-template <typename T>
-size_t
-ComponentPool<T>::size() const noexcept {
-    return dense_components.size();
-}
 
 }  // namespace lili

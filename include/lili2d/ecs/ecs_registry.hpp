@@ -5,10 +5,12 @@
 #include <memory>
 
 #include "lili2d/ecs/component_pool.hpp"
-#include "lili2d/ecs/ecs_view.hpp"
 #include "lili2d/ecs/entity.hpp"
 
 namespace lili {
+
+template <typename... Components>
+class ECSView;
 
 /// @brief Central registry that manages entities and their components.
 class ECSRegistry {
@@ -132,6 +134,12 @@ uint32_t
 ECSRegistry::getComponentTypeID() noexcept {
     static uint32_t type_id = next_component_type_id++;
     return type_id;
+}
+
+template <typename... Components>
+ECSView<Components...>
+ECSRegistry::view() {
+    return ECSView<Components...>(*this);
 }
 
 }  // namespace lili

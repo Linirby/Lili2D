@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL3/SDL.h>
+#include <SDL3/SDL_gpu.h>
 
 #include <cstdint>
 #include <map>
@@ -11,20 +11,18 @@
 #include "lili2d/core/window.hpp"
 #include "lili2d/geometry/shapes2d.hpp"
 #include "lili2d/geometry/vec4.hpp"
+#include "lili2d/render/core/gpu_mesh.hpp"
 #include "lili2d/render/core/shader.hpp"
 #include "lili2d/render/core/texture.hpp"
 #include "lili2d/render/passes/main_render_pass.hpp"
 #include "lili2d/render/passes/pass_types.hpp"
 #include "lili2d/render/pipelines/main_graphics_pipeline.hpp"
-#include "lili2d/render/scene/common/model.hpp"
 #include "lili2d/world/camera.hpp"
 
 namespace lili {
 
-/// @brief A renderable rectangle object.
-class Rect;
-/// @brief A renderable circle object.
 class Circle;
+class Rect;
 
 /// @brief Main renderer class responsible for handling drawing operations.
 class Renderer {
@@ -39,12 +37,12 @@ public:
     /// @brief Destructor.
     ~Renderer();
     /// @brief Move constructor.
-    Renderer(Renderer&& other) noexcept = default;
+    Renderer(Renderer&& other) noexcept;
     /// @brief Move assignment operator.
     /// @param other Renderer instance to move from.
     /// @return Reference to this Renderer.
     Renderer&
-    operator=(Renderer&& other) noexcept = default;
+    operator=(Renderer&& other) noexcept;
     /// @brief Copy constructor is deleted to prevent double-freeing the SDL
     /// GPU device.
     Renderer(const Renderer&) = delete;
@@ -219,10 +217,10 @@ private:
     SDL_GPUTexture* current_swapchain_texture = nullptr;
     SDL_GPUCommandBuffer* current_cmd_buffer = nullptr;
 
-    std::unique_ptr<Shader> main_shader = nullptr;
-    std::unique_ptr<MainGraphicsPipeline> main_pipeline = nullptr;
+    std::unique_ptr<Shader> main_shader;
+    std::unique_ptr<MainGraphicsPipeline> main_pipeline;
 
-    std::unique_ptr<MainRenderPass> render_pass = nullptr;
+    std::unique_ptr<MainRenderPass> render_pass;
 
     std::map<float, std::vector<DrawCommand>> world_2d_queue{};
     std::map<float, std::vector<DrawCommand>> ui_queue{};

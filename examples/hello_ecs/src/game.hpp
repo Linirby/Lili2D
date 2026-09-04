@@ -1,6 +1,10 @@
 #pragma once
 
-#include <lili2d/lili2d.hpp>
+#include <lili2d/core/game.hpp>
+#include <lili2d/ecs/ecs_registry.hpp>
+#include <lili2d/render/core/texture.hpp>
+#include <lili2d/render/scene/core2d/sprite_batch.hpp>
+#include <lili2d/world/camera.hpp>
 
 class App : public lili::Game {
 public:
@@ -14,7 +18,7 @@ private:
     std::unique_ptr<lili::SpriteBatch> sprite_batch;
     std::vector<lili::Entity> spawned_entities;
 
-    static constexpr int N_ENTITIES = 10000;
+    static constexpr int N_ENTITIES = 1000;
 
     void
     onEvent(const lili::Event& event) override;

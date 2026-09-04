@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 add_compile_options(-Wall -Wextra -Wpedantic)
+add_link_options(-fuse-ld=mold)
 
 find_package(SDL3 REQUIRED CONFIG)
 find_package(SDL3_image REQUIRED CONFIG)

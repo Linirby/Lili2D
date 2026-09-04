@@ -5,6 +5,9 @@
 #include <stdexcept>
 #include <vector>
 
+#include "lili2d/render/core/gpu_mesh.hpp"
+#include "lili2d/render/core/texture.hpp"
+#include "lili2d/render/scene/common/material.hpp"
 #include "lili2d/render/scene/common/model.hpp"
 
 namespace lili {

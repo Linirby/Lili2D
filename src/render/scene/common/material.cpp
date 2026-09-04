@@ -1,5 +1,6 @@
 #include "lili2d/render/scene/common/material.hpp"
 
+#include "lili2d/render/core/texture.hpp"
 #include "lili2d/render/pipelines/main_graphics_pipeline.hpp"
 
 namespace lili {

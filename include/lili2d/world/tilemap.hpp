@@ -4,6 +4,7 @@
 #include <map>
 #include <string_view>
 
+#include "lili2d/core/thread_pool.hpp"
 #include "lili2d/geometry/point3.hpp"
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/physics/aabb_collider.hpp"
@@ -11,8 +12,6 @@
 #include "lili2d/world/chunk.hpp"
 
 namespace lili {
-
-class ThreadPool;
 
 /// @brief Comparison functor for Point3, used in std::map.
 struct Point3Compare {

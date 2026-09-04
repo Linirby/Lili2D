@@ -1,6 +1,9 @@
 #include "lili2d/core/window.hpp"
 
+#include <SDL3/SDL_error.h>
 #include <SDL3/SDL_init.h>
+#include <SDL3/SDL_mouse.h>
+#include <SDL3/SDL_video.h>
 
 #include <algorithm>
 #include <stdexcept>
@@ -158,6 +161,11 @@ Window::getSize() const {
     return {(float)w, (float)h};
 }
 
+bool
+Window::isRelativeMouseMode() const noexcept {
+    return SDL_GetWindowRelativeMouseMode(window);
+}
+
 void
 Window::setLogicalResolution(int width, int height) {
     logical_width = width;
@@ -198,6 +206,11 @@ Window::toLogicalCoords(float screen_x, float screen_y) const {
     float logical_y = (screen_y - viewport_y) / scale;
 
     return {logical_x, logical_y};
+}
+
+SDL_Window*
+Window::getSdlWindow() const noexcept {
+    return window;
 }
 
 }  // namespace lili

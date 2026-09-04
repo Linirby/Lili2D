@@ -2,11 +2,9 @@
 
 #include "lili2d/geometry/mat3x3.hpp"
 #include "lili2d/geometry/vec2.hpp"
+#include "lili2d/physics/aabb_collider.hpp"
 
 namespace lili {
-
-/// @brief Forward declaration of AABB2.
-struct AABB2;
 
 /// @brief Represents a 2D camera for scene viewing.
 class Camera {

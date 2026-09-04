@@ -4,14 +4,12 @@
 #include <string>
 
 #include "lili2d/core/clock.hpp"
+#include "lili2d/core/event.hpp"
 #include "lili2d/core/thread_pool.hpp"
 #include "lili2d/core/window.hpp"
 #include "lili2d/render/renderer.hpp"
 
 namespace lili {
-
-/// @brief Base class or container for system events.
-class Event;
 
 /// @brief Base class for managing the game lifecycle and main loop.
 class Game {

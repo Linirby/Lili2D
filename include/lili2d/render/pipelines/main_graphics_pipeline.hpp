@@ -5,11 +5,9 @@
 #include <memory>
 
 #include "lili2d/core/sdl_deleters.hpp"
+#include "lili2d/render/core/shader.hpp"
 
 namespace lili {
-
-/// @brief Represents a compiled shader program.
-class Shader;
 
 /// @brief Unified graphics pipeline.
 class MainGraphicsPipeline {

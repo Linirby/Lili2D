@@ -1,6 +1,9 @@
 #pragma once
 
 #include <map>
+#include <vector>
+
+#include <SDL3/SDL_gpu.h>
 
 #include "lili2d/render/passes/pass_types.hpp"
 

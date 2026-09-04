@@ -5,6 +5,7 @@
 #include "lili2d/geometry/utils.hpp"
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/render/core/gpu_mesh.hpp"
+#include "lili2d/render/core/texture.hpp"
 #include "lili2d/render/interfaces/renderable.hpp"
 #include "lili2d/render/renderer.hpp"
 #include "lili2d/render/scene/common/atlas_map.hpp"

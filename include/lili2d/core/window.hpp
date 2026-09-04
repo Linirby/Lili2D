@@ -1,10 +1,10 @@
 #pragma once
 
-#include <SDL3/SDL.h>
-
 #include <string>
 
 #include "lili2d/geometry/vec2.hpp"
+
+struct SDL_Window;
 
 namespace lili {
 
@@ -99,10 +99,8 @@ public:
     }
     /// @brief Checks if relative mouse mode is enabled.
     /// @return True if relative mouse mode is enabled, false otherwise.
-    [[nodiscard]] inline bool
-    isRelativeMouseMode() const noexcept {
-        return SDL_GetWindowRelativeMouseMode(window);
-    }
+    [[nodiscard]] bool
+    isRelativeMouseMode() const noexcept;
 
     /// @brief Sets the logical (virtual) resolution for the window.
     /// @param width Logical width in pixels (0 to disable).
@@ -130,10 +128,8 @@ public:
 
     /// @brief Gets the underlying SDL_Window pointer.
     /// @return Pointer to the SDL_Window.
-    [[nodiscard]] inline SDL_Window*
-    getSdlWindow() const noexcept {
-        return window;
-    }
+    [[nodiscard]] SDL_Window*
+    getSdlWindow() const noexcept;
 
 private:
     bool resizable = false;

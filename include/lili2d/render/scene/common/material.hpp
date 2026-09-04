@@ -5,6 +5,9 @@
 
 #include "lili2d/geometry/vec4.hpp"
 #include "lili2d/render/core/texture.hpp"
+#include "lili2d/render/pipelines/main_graphics_pipeline.hpp"
+
+struct SDL_GPUGraphicsPipeline;
 
 namespace lili {
 
@@ -13,8 +16,6 @@ struct MaterialProps {
     Vec4 color_tint = {1.0f, 1.0f, 1.0f, 1.0f};  ///< Color tint.
     Vec4 uv_bounds = {0.0f, 0.0f, 1.0f, 1.0f};   ///< UV bounds bounds.
 };
-
-class MainGraphicsPipeline;
 
 /// @brief Defines how a model is rendered.
 struct Material {

@@ -10,20 +10,20 @@ This document details the core system designs, concurrency patterns, memory layo
 
 | # | Subsystem / Topic | Key Focus & Patterns |
 | :-: | :--- | :--- |
-| **1** | [Engine Core & The Game Loop](#1-engine-core--the-game-loop) | Fixed-timestep simulation, render interpolation ($\alpha$), RAII subsystem ownership. |
+| **1** | [Engine Core & The Game Loop](#1-engine-core--the-game-loop) | Fixed-timestep simulation, render interpolation (alpha), RAII subsystem ownership. |
 | **2** | [Priority-Scheduled Multithreading (`ThreadPool`)](#2-priority-scheduled-multithreading-threadpool) | C++20 `std::jthread` workers, cooperative cancellation, 3-tier task priority queues. |
-| **3** | [Data-Oriented Entity Component System (ECS)](#3-data-oriented-entity-component-system-ecs) | Contiguous `ComponentPool<T>` storage, thread-safe deferred `CommandBuffer`. |
+| **3** | [Data-Oriented Entity Component System (ECS)](#3-data-oriented-entity-component-system-ecs) | Contiguous `ComponentPool<T>` storage, custom iterator `ECSView`, deferred `CommandBuffer`. |
 | **4** | [Unified Scoped Asset & Resource Engine](#4-unified-scoped-asset--resource-engine) | Polymorphic `ResourceManager<T>`, tag-based scope memory isolation, static facade. |
 | **5** | [Live Asset & Shader Hot-Reloading Architecture](#5-live-asset--shader-hot-reloading-architecture) | Filesystem timestamp watcher, observer pipeline rebuilding, runtime safety guards. |
 | **6** | [UI Layout Engine & Matrix Transform Pipeline](#6-ui-layout-engine--matrix-transform-pipeline) | Normalized Anchor/Pivot layout math, 3x3 affine transforms, inverse matrix hit tests. |
 | **7** | [Virtual Viewport Scaling & Logical Resolution](#7-virtual-viewport-scaling--logical-resolution) | Display-independent aspect ratio letterboxing, physical-to-logical coordinate mapping. |
 | **8** | [Spatial Physics & Collision Query Subsystem](#8-spatial-physics--collision-query-subsystem) | `AABB2`, `AABB3`, `CircleCollider`, narrow-phase clamping math, zero-alloc debug draw. |
 | **9** | [Hardware Rendering & GPU Memory Optimizations](#9-hardware-rendering--gpu-memory-optimizations) | Frustum culling, dynamic `SpriteBatch`, progressive chunk budget, GPU idle barriers. |
-| **10** | [Custom Shader Cross-Compilation & Dynamic Uniform Buffering](#10-custom-shader-cross-compilation--dynamic-uniform-buffering) | HLSL $\rightarrow$ SPIR-V $\rightarrow$ Driver shader transpilation, direct command buffer uniform push. |
+| **10** | [Custom Shader Cross-Compilation & Dynamic Uniform Buffering](#10-custom-shader-cross-compilation--dynamic-uniform-buffering) | HLSL -> SPIR-V -> Driver shader transpilation, direct command buffer uniform push. |
 | **11** | [Input Action Mapping Subsystem (`ActionMap`)](#11-input-action-mapping-subsystem-actionmap) | String-keyed logical action bindings, tri-state input polling (`held`, `justPressed`, `justReleased`). |
 | **12** | [Chunk-Based 3D Grid Tilemap & Asynchronous Meshing](#12-chunk-based-3d-grid-tilemap--asynchronous-meshing) | `Point3` spatial chunk maps, multithreaded vertex/index baking, layer collision sweep. |
 | **13** | [Frame Animation Pipeline & Sprite Slicing (`AtlasMap`, `AnimationPlayer`)](#13-frame-animation-pipeline--sprite-slicing-atlasmap-animationplayer) | UV grid coordinate slicing, frame accumulator playback, frame-specific event hooks. |
-| **14** | [Modern C++ Standards, Compile-Time Optimizations & Calling Conventions](#14-modern-c-standards-compile-time-optimizations--calling-conventions) | Pass-by-value ($\le 16$B PODs), ABI registers, `constexpr` constructors, `[[nodiscard]]` triggers, `noexcept` move guarantees, header inlining. |
+| **14** | [Modern C++ Standards, Compile-Time Optimizations & Calling Conventions](#14-modern-c-standards-compile-time-optimizations--calling-conventions) | Pass-by-value (<= 16B PODs), ABI registers, `constexpr` constructors, `[[nodiscard]]` triggers, `noexcept` move guarantees, header inlining. |
 
 ---
 
@@ -107,6 +107,126 @@ Components of type `T` are stored sequentially in tightly packed arrays (`std::v
 [ComponentPool<Position>] -> [ Pos0 ][ Pos1 ][ Pos2 ][ Pos3 ]  <-- (Packed Contiguous Block)
 [ComponentPool<Velocity>] -> [ Vel0 ][ Vel1 ][ Vel2 ][ Vel3 ]  <-- (Packed Contiguous Block)
 ```
+
+### Multi-Component Query Engine & Custom Iterator (`ECSView`)
+
+A core challenge in Entity Component Systems is executing queries across entities possessing an arbitrary combination of components (e.g., all entities with both `PositionComponent`, `VelocityComponent`, and `RenderComponent`) with zero heap allocation and maximal CPU cache utilization.
+
+Lili2D solves this with `lili::ECSView<Components...>`, a zero-overhead view pipeline backed by a specialized custom C++20 iterator (`ECSView::Iterator`).
+
+```mermaid
+graph TD
+    V["ECSView Construction (registry.view<T...>())"] --> LP["Identify Smallest Pool: 'lead_pool'"]
+    LP --> ItInit["Iterator::begin() (index = 0)"]
+    ItInit --> FV["find_valid(): Inspect Current Lead Entity"]
+    FV --> Chk{"All other pools have Entity?"}
+    Chk -- No --> Inc["Increment index in lead pool"]
+    Inc --> Bounds{"index >= lead_pool.size()?"}
+    Bounds -- No --> FV
+    Bounds -- Yes --> End["Reached Iterator::end()"]
+    Chk -- Yes --> Ready["Iterator Positioned at Valid Entity"]
+    Ready --> Deref["operator*(): Return std::tuple<Entity, Components&...>"]
+    Deref --> User["User System Logic (Structured Binding)"]
+    User --> Next["operator++(): Advance index & find_valid()"]
+    Next --> Inc
+```
+
+#### 1. Smallest Pool Heuristic ("Lead Pool")
+
+When constructing an `ECSView`, the view inspects the registered `ComponentPool<T>` for every requested component type using C++17/20 fold expressions:
+
+```cpp
+explicit ECSView(ECSRegistry& registry)
+    : pool_ptrs(&registry.getPool<Components>()...) {
+    std::apply(
+        [this](ComponentPool<Components>*... pools) {
+            auto inspect = [this](const IComponentPool* pool) {
+                if (!lead_pool || pool->size() < lead_pool->size())
+                    lead_pool = pool;
+            };
+            (inspect(pools), ...);
+        },
+        pool_ptrs
+    );
+}
+```
+
+* **Mathematical Rationale**: The set of matching entities (`E_match`) is an intersection across all requested component pools:
+  ```txt
+  E_match = E_C1 ∩ E_C2 ∩ ... ∩ E_Cn
+  ```
+  Therefore:
+  ```txt
+  count(E_match) <= min(count(E_C1), count(E_C2), ..., count(E_Cn))
+  ```
+* By driving iteration strictly along the smallest pool (`lead_pool`), the iteration candidate space is minimized. For example, if there are 10,000 entities with `PositionComponent` and only 15 with `PlayerInputComponent`, the iterator only tests 15 candidates rather than looping through 10,000 items.
+
+#### 2. Custom Forward Iterator Architecture (`ECSView::Iterator`)
+
+The iterator conforms to standard `std::forward_iterator_tag` requirements and encapsulates:
+* A `std::tuple` of raw pool pointers (`pool_ptrs`).
+* A direct raw pointer to the lead pool's entity array (`lead_entities = lead_pool->getEntities().data()`), bypassing vector accessor overhead in inner loops.
+* The current index within the lead pool and the current `Entity` handle.
+
+#### 3. Short-Circuit Filtering (`find_valid`)
+
+Whenever the iterator is initialized or advanced (`operator++`), it invokes `find_valid()`:
+
+```cpp
+void find_valid() {
+    while (index < max_size) {
+        current_entity = lead_entities[index];
+        bool valid = std::apply(
+            [this](ComponentPool<Components>*... pool) {
+                return (
+                    ((pool == lead_pool) || pool->has(current_entity)) &&
+                    ...
+                );
+            },
+            pool_ptrs
+        );
+        if (valid) return;
+        ++index;
+    }
+}
+```
+
+* **Fold-Expression Short-Circuiting**: The fold expression `((pool == lead_pool || pool->has(current_entity)) && ...)` evaluates with boolean short-circuit behavior. If any component pool does not contain `current_entity`, subsequent pool checks are skipped immediately.
+* **Lead Pool Fast-Path**: The identity test `pool == lead_pool` evaluates to `true` for the driving pool, completely avoiding redundant sparse-set lookups for the component whose pool is currently being traversed.
+
+#### 4. Zero-Copy Tuple Dereferencing & Structured Binding (`operator*`)
+
+When dereferencing (`operator*`), `ECSView::Iterator` returns references directly to the contiguous component storage:
+
+```cpp
+[[nodiscard]] reference operator*() const {
+    return std::apply(
+        [this](ComponentPool<Components>*... pools) {
+            auto get_comp = [this](auto* pool) -> decltype(auto) {
+                if (pool == lead_pool) {
+                    return pool->getComponents()[index]; // Direct O(1) contiguous index
+                }
+                return pool->get(current_entity);        // Fast sparse lookup
+            };
+            return std::tuple<Entity, Components&...>(
+                current_entity, get_comp(pools)...
+            );
+        },
+        pool_ptrs
+    );
+}
+```
+
+* **Direct Array Indexing for Lead Component**: For the `lead_pool`, the component is accessed by direct array index `pool->getComponents()[index]`, yielding maximal L1 data cache prefetching.
+* **In-Place Modification**: Returning `std::tuple<Entity, Components&...>` guarantees that components are mutated directly in their respective pools without temporary copies or heap allocations.
+* **C++17/20 Structured Binding**: Enables idiomatic and expressive iteration syntax across game systems:
+  ```cpp
+  auto view = registry.view<PositionComponent, VelocityComponent, RenderComponent>();
+  for (auto [entity, pos, vel, render] : view) {
+      pos.value += vel.value * dt;
+      // In-place updates to contiguous component memory
+  }
+  ```
 
 ### Thread-Safe Deferred Command Buffer
 
@@ -229,13 +349,17 @@ Lili2D features a coordinate-independent UI positioning pipeline based on normal
 * **Anchor**: Position relative to the active screen viewport (e.g. `TOP_LEFT` `(0,0)`, `CENTER` `(0.5,0.5)`, `BOTTOM_RIGHT` `(1,1)`).
 * **Pivot**: Alignment origin inside the element's bounding rect (e.g. `CENTER` aligns rotation and translation to the element's mid-point).
 
-$$\text{GlobalPos} = (\text{ViewportSize} \odot \vec{A}) + \vec{\text{Offset}} - (\text{ObjSize} \odot \vec{P})$$
+```txt
+GlobalPos = (ViewportSize * AnchorVector) + Offset - (ObjSize * PivotVector)
+```
 
 ### 3x3 Affine Matrix Transformation (`Mat3`)
 
 Renderables construct a 3x3 transformation matrix combining translation, pivot shifts, scale factors, and 2D rotation:
 
-$$M = T(\text{Position} + \text{AnchorOffset}) \cdot R(\theta) \cdot S(\text{Scale}) \cdot T(-\text{PivotOffset})$$
+```txt
+M = Translation(Position + AnchorOffset) * Rotation(theta) * Scale(scale) * Translation(-PivotOffset)
+```
 
 ```cpp
 // Calculating 3x3 transformation matrix for UI layout rendering
@@ -247,7 +371,7 @@ Mat3 transform = Mat3::translation(screen_pos) *
 
 ### Inverse-Matrix Point Containment (`containsPoint`)
 
-To test if a screen/mouse coordinate intersects a transformed renderable element, `containsPoint()` multiplies the point by the **inverse** transformation matrix $M^{-1}$, mapping the coordinate into local unrotated element space for exact bounding box collision.
+To test if a screen/mouse coordinate intersects a transformed renderable element, `containsPoint()` multiplies the point by the **inverse** transformation matrix (`inverse(M)`), mapping the coordinate into local unrotated element space for exact bounding box collision.
 
 ---
 
@@ -259,13 +383,17 @@ To protect game logic and UI layouts from physical display resolution changes, w
 
 When logical resolution is enabled (e.g., `800x600`), the engine computes scale factors and centers the game viewport within physical window dimensions using dynamic pillarboxing or letterboxing:
 
-$$\text{Scale} = \min\left(\frac{\text{Physical}_W}{\text{Logical}_W}, \frac{\text{Physical}_H}{\text{Logical}_H}\right)$$
+```txt
+Scale = min(PhysicalWidth / LogicalWidth, PhysicalHeight / LogicalHeight)
+```
 
 ### Coordinate Space Mapping (`toLogicalCoords`)
 
 Input events (mouse cursor coordinates, touch points) recorded in physical screen pixels are transformed into logical game space automatically:
 
-$$\vec{P}_{\text{logical}} = \frac{\vec{P}_{\text{physical}} - \vec{V}_{\text{offset}}}{\text{Scale}}$$
+```txt
+LogicalPos = (PhysicalPos - ViewportOffset) / Scale
+```
 
 This ensures mouse interactions, UI hit tests, and gameplay logic operate strictly in logical game coordinates regardless of monitor DPI or window resizing.
 
@@ -440,7 +568,10 @@ Lili2D handles 2D sprite animations through a decoupled animation model comprisi
 
 Spritesheets are sliced into uniform grid cells (`slice(cols, rows)`). The engine computes normalized UV bounding coordinates for each frame:
 
-$$\text{UV}_{\min} = \left(\frac{c}{\text{Cols}}, \frac{r}{\text{Rows}}\right), \quad \text{UV}_{\max} = \left(\frac{c+1}{\text{Cols}}, \frac{r+1}{\text{Rows}}\right)$$
+```txt
+UV_min = (col / Cols, row / Rows)
+UV_max = ((col + 1) / Cols, (row + 1) / Rows)
+```
 
 ### Playback & Event Hooks (`AnimationPlayer`)
 
@@ -453,9 +584,9 @@ $$\text{UV}_{\min} = \left(\frac{c}{\text{Cols}}, \frac{r}{\text{Rows}}\right), 
 
 To maximize runtime throughput, ensure API safety, and align with modern **C++20** standard best practices, Lili2D follows strict parameter passing, compile-time evaluation, diagnostic attribute enforcement, and inlining guidelines across its subsystems.
 
-### 14.1 Pass-by-Value for Small Trivially Copyable Types ($\le 16$ Bytes / 128 Bits)
+### 14.1 Pass-by-Value for Small Trivially Copyable Types (<= 16 Bytes / 128 Bits)
 
-In historical C++ (C++98/03), passing non-primitive types by `const &` was standard practice. In modern C++ on 64-bit architectures, passing small trivially copyable structs ($\le 16$ bytes) by value is strictly superior:
+In historical C++ (C++98/03), passing non-primitive types by `const &` was standard practice. In modern C++ on 64-bit architectures, passing small trivially copyable structs (<= 16 bytes) by value is strictly superior:
 
 ```mermaid
 graph TD
@@ -475,7 +606,7 @@ graph TD
 * **x86-64 System V ABI (Linux, macOS)**: Homogeneous floating-point aggregates up to 16 bytes (`Vec2` [8B], `Vec3` [12B], `Vec4` [16B], `RectShape` [16B]) are classified as `SSE` and passed directly in `XMM0`–`XMM7` vector registers. Small integer types (`Point2`, `Point3`, `Entity`) are classified as `INTEGER` and passed in general-purpose registers (`RDI`, `RSI`, `RDX`).
   * *Mixed-Field Types*: For types with mixed integer and floating-point fields such as `CircleShape` (`Vec2` [8B float] + `float` [4B] + `int` [4B]), System V ABI classifies an eightbyte containing both `INTEGER` and `SSE` fields as `INTEGER`. Thus, `CircleShape` is split across an `SSE` register (`XMM` for `Vec2`) and a general-purpose register (`RDI`/`RSI` for `float` + `int`), still passing entirely in registers.
 * **ARM64 AAPCS (Apple Silicon, Android, ARM Linux)**: Homogeneous Floating-Point Aggregates (HFAs) up to 4 floats (`Vec2`, `Vec3`, `Vec4`) are passed in SIMD/FP registers `v0`–`v7` (or `s0`–`s3`).
-* **Windows x64 ABI**: Types $\le 8$ bytes (`Vec2`, `Point2`) are passed directly in integer registers (`RCX`, `RDX`, `R8`, `R9`).
+* **Windows x64 ABI**: Types <= 8 bytes (`Vec2`, `Point2`) are passed directly in integer registers (`RCX`, `RDX`, `R8`, `R9`).
 * **Zero Aliasing**: By-value parameters guarantee that the passed object cannot alias with other pointers or member fields (`*this`), allowing compiler optimizers to reorder instructions, unroll loops, and auto-vectorize safely.
 * **Large Types Exception**: Types exceeding 16 bytes (e.g. `SliceUV` [32B], `std::string`, `MeshData`) exceed the two-eightbyte hardware register limit and must remain passed by `const &` to avoid stack copying.
 
@@ -487,7 +618,7 @@ Inlining is an enabling optimization that unlocks **constant folding**, **SIMD a
 
 #### Engineering Trade-offs:
 * **Compile-Time Overhead**: Inlining code in headers increases parsing volume across translation units.
-* **Instruction Cache ($L1i$) Pressure**: Excessive inlining duplicates assembly instructions, potentially causing instruction cache thrashing.
+* **Instruction Cache (L1i) Pressure**: Excessive inlining duplicates assembly instructions, potentially causing instruction cache thrashing.
 
 #### Lili2D Inlining Strategy:
 * **Header-Inlined (`.hpp`)**: Verified per-frame hot paths, leaf primitives, and zero-cost abstractions:
@@ -613,7 +744,7 @@ graph TD
 
 2. **Elimination of Exception Unwinding Overhead (`.eh_frame` / Landing Pads)**:
    * Non-`noexcept` functions require compilers to emit landing pads and stack unwinding metadata tables (`.eh_frame` on Linux/ELF, `.pdata`/`.xdata` on Windows PE) to clean up stack variables if an exception unwinds through the call frame.
-   * Marking leaf arithmetic, string hashing ([`StringHash::operator()`](file:///home/lili/Documents/Lili2D/include/lili2d/core/string_hash.hpp)), easing curves ([`Easing`](file:///home/lili/Documents/Lili2D/include/lili2d/core/easing.hpp)), and destructors as `noexcept` strips all unwinding tables. This reduces binary size, conserves instruction cache ($L1i$) space, and removes branch prediction penalties.
+   * Marking leaf arithmetic, string hashing ([`StringHash::operator()`](file:///home/lili/Documents/Lili2D/include/lili2d/core/string_hash.hpp)), easing curves ([`Easing`](file:///home/lili/Documents/Lili2D/include/lili2d/core/easing.hpp)), and destructors as `noexcept` strips all unwinding tables. This reduces binary size, conserves instruction cache (L1i) space, and removes branch prediction penalties.
 
 3. **Compiler Optimization & Safe Instruction Reordering**:
    * When a function is declared `noexcept`, the compiler optimizer guarantees that control flow will never abruptly branch to an exception handler at runtime.

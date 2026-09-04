@@ -4,6 +4,7 @@
 #include "lili2d/core/event.hpp"
 #include "lili2d/core/game_config.hpp"
 #include "lili2d/core/thread_pool.hpp"
+#include "lili2d/core/window.hpp"
 #include "lili2d/render/renderer.hpp"
 
 namespace lili {

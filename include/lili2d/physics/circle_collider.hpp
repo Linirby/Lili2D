@@ -5,7 +5,6 @@
 
 #include "lili2d/geometry/shapes2d.hpp"
 #include "lili2d/geometry/vec2.hpp"
-#include "lili2d/geometry/vec4.hpp"
 #include "lili2d/physics/aabb_collider.hpp"
 
 namespace lili {

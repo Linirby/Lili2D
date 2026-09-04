@@ -1,8 +1,8 @@
 #include "lili2d/world/tilemap.hpp"
 
-#include "lili2d/physics/aabb_collider.hpp"
 #include "lili2d/render/renderer.hpp"
-#include "lili2d/world/chunk.hpp"
+#include "lili2d/render/scene/core2d/sprite_batch.hpp"
+#include "lili2d/world/camera.hpp"
 #include "lili2d/world/tile_registry.hpp"
 
 namespace lili {

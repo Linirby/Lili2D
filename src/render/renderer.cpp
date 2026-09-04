@@ -1,24 +1,27 @@
 #include "lili2d/render/renderer.hpp"
 
-#include <SDL3/SDL_gpu.h>
 #include <SDL3/SDL_pixels.h>
 
 #include <algorithm>
-#include <cstdint>
 #include <iostream>
-#include <memory>
 #include <stdexcept>
 #include <string>
 
 #include "lili2d/core/sdl_deleters.hpp"
+#include "lili2d/core/window.hpp"
 #include "lili2d/geometry/mat3x3.hpp"
 #include "lili2d/geometry/vec2.hpp"
+#include "lili2d/render/core/gpu_mesh.hpp"
 #include "lili2d/render/core/shader.hpp"
+#include "lili2d/render/core/texture.hpp"
 #include "lili2d/render/default_shaders.hpp"
+#include "lili2d/render/passes/main_render_pass.hpp"
+#include "lili2d/render/pipelines/main_graphics_pipeline.hpp"
 #include "lili2d/render/scene/common/model.hpp"
 #include "lili2d/render/scene/common/utils.hpp"
 #include "lili2d/render/scene/shapes/circle.hpp"
 #include "lili2d/render/scene/shapes/rect.hpp"
+#include "lili2d/world/camera.hpp"
 
 namespace lili {
 
@@ -39,6 +42,10 @@ Renderer::Renderer(Window* window, SDL_GPUPresentMode preferred_mode)
 Renderer::~Renderer() {
     if (device) SDL_WaitForGPUIdle(device.get());
 }
+
+Renderer::Renderer(Renderer&& other) noexcept = default;
+Renderer&
+Renderer::operator=(Renderer&& other) noexcept = default;
 
 bool
 Renderer::beginFrame() {

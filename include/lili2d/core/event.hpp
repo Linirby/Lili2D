@@ -1,9 +1,7 @@
 #pragma once
 
 #include "SDL3/SDL_events.h"
-
-using Keycode = SDL_Keycode;
-using Scancode = SDL_Scancode;
+#include "lili2d/core/keys.hpp"
 
 namespace lili {
 
@@ -76,10 +74,9 @@ enum class MouseAction {
 
 /// @brief Contains data for a keyboard event.
 struct KeyboardEvent {
-    Keycode key;        ///< The keycode of the key.
-    Scancode scancode;  ///< The scancode of the key.
-    KeyAction action;   ///< The action performed on the key.
-    bool repeat;        ///< True if this is a key repeat event.
+    Key key;           ///< The key.
+    KeyAction action;  ///< The action performed on the key.
+    bool repeat;       ///< True if this is a key repeat event.
 };
 
 /// @brief Contains data for a mouse button event.

@@ -14,8 +14,7 @@ Event::poll() noexcept {
 KeyboardEvent
 Event::keyboard() const noexcept {
     return {
-        .key = sdl_event.key.key,
-        .scancode = sdl_event.key.scancode,
+        .key = static_cast<Key>(sdl_event.key.scancode),
         .action = (sdl_event.type == SDL_EVENT_KEY_DOWN) ? KeyAction::PRESSED
                                                          : KeyAction::RELEASED,
         .repeat = sdl_event.key.repeat

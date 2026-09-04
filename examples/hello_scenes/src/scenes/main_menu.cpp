@@ -26,11 +26,11 @@ MainScene::handleEvents(const lili::Event& event) {
     if (event.type() == lili::EventType::KEYBOARD) {
         lili::KeyboardEvent kb = event.keyboard();
         if (kb.action == lili::KeyAction::PRESSED && !kb.repeat) {
-            if (kb.key == SDLK_ESCAPE)
+            if (kb.key == lili::Key::ESCAPE)
                 manager->pop();
-            else if (kb.key == SDLK_L)
+            else if (kb.key == lili::Key::L)
                 manager->changeScene(std::make_unique<AnotherScene>(renderer));
-            else if (kb.key == SDLK_J)
+            else if (kb.key == lili::Key::J)
                 manager->changeScene(std::make_unique<YetAgainScene>(renderer));
         }
     }

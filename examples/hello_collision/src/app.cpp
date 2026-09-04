@@ -27,10 +27,10 @@ App::onEvent(const lili::Event& event) {
     if (event.type() == lili::EventType::KEYBOARD) {
         lili::KeyboardEvent kb = event.keyboard();
         if (kb.action == lili::KeyAction::PRESSED) {
-            if (kb.key == SDLK_ESCAPE) shutdown();
-            else if (kb.key == SDLK_1) active_shape = ShapeMode::Rect;
-            else if (kb.key == SDLK_2) active_shape = ShapeMode::Circle;
-            else if (kb.key == SDLK_3) active_shape = ShapeMode::Line;
+            if (kb.key == lili::Key::ESCAPE) shutdown();
+            else if (kb.key == lili::Key::NUM_1) active_shape = ShapeMode::Rect;
+            else if (kb.key == lili::Key::NUM_2) active_shape = ShapeMode::Circle;
+            else if (kb.key == lili::Key::NUM_3) active_shape = ShapeMode::Line;
         }
     }
 }

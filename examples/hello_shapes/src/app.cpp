@@ -37,9 +37,9 @@ App::onEvent(const lili::Event& event) {
     if (event.type() == lili::EventType::KEYBOARD) {
         lili::KeyboardEvent kb = event.keyboard();
         if (kb.action == lili::KeyAction::PRESSED && !kb.repeat) {
-            if (kb.key == SDLK_ESCAPE) {
+            if (kb.key == lili::Key::ESCAPE) {
                 shutdown();
-            } else if (kb.key == SDLK_H || kb.key == SDLK_SPACE) {
+            } else if (kb.key == lili::Key::H || kb.key == lili::Key::SPACE) {
                 bool hollow = !rect.isHollow();
                 rect.setHollow(hollow);
                 clean_circle.setHollow(hollow);

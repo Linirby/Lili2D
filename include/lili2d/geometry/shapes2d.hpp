@@ -16,8 +16,7 @@ struct RectShape {
     /// @brief Constructs a rectangle shape from position and size vectors.
     /// @param pos Position (x, y).
     /// @param size Size (width, height).
-    constexpr RectShape(Vec2 pos, Vec2 size) noexcept
-        : pos(pos), size(size) {}
+    constexpr RectShape(Vec2 pos, Vec2 size) noexcept : pos(pos), size(size) {}
     /// @brief Constructs a rectangle shape from scalar components.
     /// @param x X coordinate.
     /// @param y Y coordinate.

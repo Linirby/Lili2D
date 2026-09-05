@@ -174,34 +174,45 @@ public:
     /// @param w Width.
     /// @param h Height.
     /// @param color The color.
-    /// @param hollow Whether the rectangle is hollow (outline only). Default is false.
+    /// @param hollow Whether the rectangle is hollow (outline only). Default is
+    /// false.
     void
     drawRect(
-        float x, float y, float w, float h, Vec4 color, bool hollow = false
+        float x, float y, float w, float h, Vec4 color, bool hollow = false,
+        RenderLayer render_layer = RenderLayer::WORLD2D
     );
     /// @brief Draws a cached rectangle from a RectShape.
     /// @param rect The rectangle geometry.
     /// @param color The color.
-    /// @param hollow Whether the rectangle is hollow (outline only). Default is false.
+    /// @param hollow Whether the rectangle is hollow (outline only). Default is
+    /// false.
     void
-    drawRect(RectShape rect, Vec4 color, bool hollow = false);
+    drawRect(
+        RectShape rect, Vec4 color, bool hollow = false,
+        RenderLayer render_layer = RenderLayer::WORLD2D
+    );
     /// @brief Draws a cached circle.
     /// @param center_x X centered position.
     /// @param center_y Y centered position.
     /// @param radius The radius.
     /// @param color The color.
-    /// @param hollow Whether the circle is hollow (outline only). Default is false.
+    /// @param hollow Whether the circle is hollow (outline only). Default is
+    /// false.
     void
     drawCircle(
         float center_x, float center_y, float radius, Vec4 color,
-        bool hollow = false
+        bool hollow = false, RenderLayer render_layer = RenderLayer::WORLD2D
     );
     /// @brief Draws a cached circle from a CircleShape.
     /// @param circle The circle geometry.
     /// @param color The color.
-    /// @param hollow Whether the circle is hollow (outline only). Default is false.
+    /// @param hollow Whether the circle is hollow (outline only). Default is
+    /// false.
     void
-    drawCircle(CircleShape circle, Vec4 color, bool hollow = false);
+    drawCircle(
+        CircleShape circle, Vec4 color, bool hollow = false,
+        RenderLayer render_layer = RenderLayer::WORLD2D
+    );
     /// @brief Draws a cached line between two points.
     /// @param start_x Start X coordinate.
     /// @param start_y Start Y coordinate.
@@ -212,20 +223,16 @@ public:
     void
     drawLine(
         float start_x, float start_y, float end_x, float end_y, Vec4 color,
-        float thickness = 1.0f
+        float thickness = 1.0f, RenderLayer render_layer = RenderLayer::WORLD2D
     );
-    /// @brief Draws a cached line between two Vec2 points.
-    /// @param start Start position.
-    /// @param end End position.
-    /// @param color The color.
-    /// @param thickness The thickness of the line. Default is 1.0f.
-    void
-    drawLine(Vec2 start, Vec2 end, Vec4 color, float thickness = 1.0f);
     /// @brief Draws a cached line from a LineShape.
     /// @param line The line geometry.
     /// @param color The color.
     void
-    drawLine(LineShape line, Vec4 color);
+    drawLine(
+        LineShape line, Vec4 color,
+        RenderLayer render_layer = RenderLayer::WORLD2D
+    );
 
     /// @brief Draws a cached hollow debug rectangle.
     /// @param x X position.

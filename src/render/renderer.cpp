@@ -13,6 +13,7 @@
 #include "lili2d/geometry/mat3x3.hpp"
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/render/default_shaders.hpp"
+#include "lili2d/render/passes/pass_types.hpp"
 #include "lili2d/render/scene/common/model.hpp"
 #include "lili2d/render/scene/common/utils.hpp"
 #include "lili2d/render/scene/shapes/circle.hpp"
@@ -273,13 +274,16 @@ shapeKey(const Vec4& color, bool hollow) noexcept {
 
 void
 Renderer::drawRect(
-    float x, float y, float w, float h, Vec4 color, bool hollow
+    float x, float y, float w, float h, Vec4 color, bool hollow,
+    RenderLayer render_layer
 ) {
-    drawRect(RectShape(x, y, w, h), color, hollow);
+    drawRect(RectShape(x, y, w, h), color, hollow, render_layer);
 }
 
 void
-Renderer::drawRect(RectShape rect, Vec4 color, bool hollow) {
+Renderer::drawRect(
+    RectShape rect, Vec4 color, bool hollow, RenderLayer render_layer
+) {
     uint64_t key = shapeKey(color, hollow);
 
     if (shapes_cache->rects.find(key) == shapes_cache->rects.end()) {
@@ -289,18 +293,25 @@ Renderer::drawRect(RectShape rect, Vec4 color, bool hollow) {
     }
 
     shapes_cache->rects[key]->setShape(rect);
+    shapes_cache->rects[key]->setRender(render_layer);
     shapes_cache->rects[key]->draw();
 }
 
 void
 Renderer::drawCircle(
-    float center_x, float center_y, float radius, Vec4 color, bool hollow
+    float center_x, float center_y, float radius, Vec4 color, bool hollow,
+    RenderLayer render_layer
 ) {
-    drawCircle(CircleShape({center_x, center_y}, radius, 16), color, hollow);
+    drawCircle(
+        CircleShape({center_x, center_y}, radius, 16), color, hollow,
+        render_layer
+    );
 }
 
 void
-Renderer::drawCircle(CircleShape circle, Vec4 color, bool hollow) {
+Renderer::drawCircle(
+    CircleShape circle, Vec4 color, bool hollow, RenderLayer render_layer
+) {
     uint64_t key = shapeKey(color, hollow);
 
     if (shapes_cache->circles.find(key) == shapes_cache->circles.end()) {
@@ -310,24 +321,23 @@ Renderer::drawCircle(CircleShape circle, Vec4 color, bool hollow) {
     }
 
     shapes_cache->circles[key]->setShape(circle);
+    shapes_cache->circles[key]->setRender(render_layer);
     shapes_cache->circles[key]->draw();
 }
 
 void
 Renderer::drawLine(
     float start_x, float start_y, float end_x, float end_y, Vec4 color,
-    float thickness
+    float thickness, RenderLayer render_layer
 ) {
-    drawLine(LineShape({start_x, start_y}, {end_x, end_y}, thickness), color);
+    drawLine(
+        LineShape({start_x, start_y}, {end_x, end_y}, thickness), color,
+        render_layer
+    );
 }
 
 void
-Renderer::drawLine(Vec2 start, Vec2 end, Vec4 color, float thickness) {
-    drawLine(LineShape(start, end, thickness), color);
-}
-
-void
-Renderer::drawLine(LineShape line, Vec4 color) {
+Renderer::drawLine(LineShape line, Vec4 color, RenderLayer render_layer) {
     uint32_t key = colorToKey(color);
 
     if (shapes_cache->lines.find(key) == shapes_cache->lines.end()) {
@@ -336,6 +346,7 @@ Renderer::drawLine(LineShape line, Vec4 color) {
     }
 
     shapes_cache->lines[key]->setShape(line);
+    shapes_cache->lines[key]->setRender(render_layer);
     shapes_cache->lines[key]->draw();
 }
 

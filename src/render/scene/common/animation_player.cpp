@@ -1,5 +1,6 @@
 #include "lili2d/render/scene/common/animation_player.hpp"
 
+#include "lili2d/render/scene/common/animation.hpp"
 #include "lili2d/render/scene/common/animation_registry.hpp"
 
 namespace lili {

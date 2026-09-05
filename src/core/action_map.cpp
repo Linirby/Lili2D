@@ -2,11 +2,6 @@
 
 #include <algorithm>
 
-#include "lili2d/core/event.hpp"
-#include "lili2d/core/keyboard.hpp"
-#include "lili2d/core/keys.hpp"
-#include "lili2d/core/mouse.hpp"
-
 namespace lili {
 
 ActionMap&

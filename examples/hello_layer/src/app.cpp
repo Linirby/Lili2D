@@ -59,15 +59,15 @@ App::onEvent(const lili::Event& event) {
     if (event.type() == lili::EventType::KEYBOARD) {
         lili::KeyboardEvent kb = event.keyboard();
         if (kb.action == lili::KeyAction::PRESSED && !kb.repeat) {
-            if (kb.key == SDLK_ESCAPE) {
+            if (kb.key == lili::Key::ESCAPE) {
                 shutdown();
-            } else if (kb.scancode == SDL_SCANCODE_I) {
+            } else if (kb.key == lili::Key::I) {
                 red_square_layer += 1;
                 red_square.setLayer(static_cast<float>(red_square_layer));
                 text_current_layer.setText(
                     "Current layer: " + std::to_string(red_square_layer)
                 );
-            } else if (kb.scancode == SDL_SCANCODE_K) {
+            } else if (kb.key == lili::Key::K) {
                 red_square_layer -= 1;
                 red_square.setLayer(static_cast<float>(red_square_layer));
                 text_current_layer.setText(

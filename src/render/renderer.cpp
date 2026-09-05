@@ -1,29 +1,34 @@
 #include "lili2d/render/renderer.hpp"
 
-#include <SDL3/SDL_gpu.h>
 #include <SDL3/SDL_pixels.h>
 
 #include <algorithm>
 #include <cstdint>
 #include <iostream>
+#include <map>
 #include <memory>
 #include <stdexcept>
 #include <string>
 
-#include "lili2d/core/sdl_deleters.hpp"
 #include "lili2d/geometry/mat3x3.hpp"
 #include "lili2d/geometry/vec2.hpp"
-#include "lili2d/render/core/shader.hpp"
 #include "lili2d/render/default_shaders.hpp"
 #include "lili2d/render/scene/common/model.hpp"
 #include "lili2d/render/scene/common/utils.hpp"
 #include "lili2d/render/scene/shapes/circle.hpp"
+#include "lili2d/render/scene/shapes/line.hpp"
 #include "lili2d/render/scene/shapes/rect.hpp"
 
 namespace lili {
 
+struct ShapesCache {
+    std::map<uint64_t, std::unique_ptr<Rect>> rects;
+    std::map<uint64_t, std::unique_ptr<Circle>> circles;
+    std::map<uint32_t, std::unique_ptr<Line>> lines;
+};
+
 Renderer::Renderer(Window* window, SDL_GPUPresentMode preferred_mode)
-    : window(window) {
+    : window(window), shapes_cache(std::make_unique<ShapesCache>()) {
     initDevice(preferred_mode);
     initShaders();
     initPipelines();
@@ -39,6 +44,10 @@ Renderer::Renderer(Window* window, SDL_GPUPresentMode preferred_mode)
 Renderer::~Renderer() {
     if (device) SDL_WaitForGPUIdle(device.get());
 }
+
+Renderer::Renderer(Renderer&& other) noexcept = default;
+Renderer&
+Renderer::operator=(Renderer&& other) noexcept = default;
 
 bool
 Renderer::beginFrame() {
@@ -67,8 +76,9 @@ Renderer::beginFrame() {
 
     Vec2 logical_res = getLogicalResolution();
 
-    Mat3 projection =
+    Mat3 ui_projection =
         Mat3::orthographic(0.0f, logical_res.x, 0.0f, logical_res.y);
+    Mat3 projection = ui_projection;
     Mat3 view = Mat3::identity();
     if (camera) {
         projection = camera->getProjection(logical_res.x, logical_res.y);
@@ -80,7 +90,7 @@ Renderer::beginFrame() {
     Mat3 ui_rotation = Mat3::rotation(0.0f);
     Mat3 ui_scale = Mat3::scale({1.0f, 1.0f});
     Mat3 ui_view = ui_scale * ui_rotation * ui_translation;
-    proj_view_ui = projection * ui_view;
+    proj_view_ui = ui_projection * ui_view;
     return true;
 }
 
@@ -242,49 +252,91 @@ Renderer::getUnitCircle(int segments) {
     return unit_circles[segments].get();
 }
 
-void
-Renderer::drawDebugRect(float x, float y, float w, float h, Vec4 color) {
-    uint32_t r = (uint32_t)(color.x * 255.0f);
-    uint32_t g = (uint32_t)(color.y * 255.0f);
-    uint32_t b = (uint32_t)(color.z * 255.0f);
-    uint32_t a = (uint32_t)(color.w * 255.0f);
-    uint32_t key = (r << 24) | (g << 16) | (b << 8) | a;
+namespace {
 
-    if (debug_rects.find(key) == debug_rects.end()) {
-        debug_rects[key] = std::make_unique<Rect>(this, RectShape(), color);
-        debug_rects[key]->setHollow(true);
+inline uint32_t
+colorToKey(const Vec4& color) noexcept {
+    uint32_t r = static_cast<uint32_t>(color.x * 255.0f);
+    uint32_t g = static_cast<uint32_t>(color.y * 255.0f);
+    uint32_t b = static_cast<uint32_t>(color.z * 255.0f);
+    uint32_t a = static_cast<uint32_t>(color.w * 255.0f);
+    return (r << 24) | (g << 16) | (b << 8) | a;
+}
+
+inline uint64_t
+shapeKey(const Vec4& color, bool hollow) noexcept {
+    return (static_cast<uint64_t>(hollow ? 1 : 0) << 32) |
+           static_cast<uint64_t>(colorToKey(color));
+}
+
+}  // namespace
+
+void
+Renderer::drawRect(
+    float x, float y, float w, float h, Vec4 color, bool hollow
+) {
+    drawRect(RectShape(x, y, w, h), color, hollow);
+}
+
+void
+Renderer::drawRect(RectShape rect, Vec4 color, bool hollow) {
+    uint64_t key = shapeKey(color, hollow);
+
+    if (shapes_cache->rects.find(key) == shapes_cache->rects.end()) {
+        shapes_cache->rects[key] =
+            std::make_unique<Rect>(this, RectShape(), color);
+        shapes_cache->rects[key]->setHollow(hollow);
     }
 
-    debug_rects[key]->setShape(RectShape(x, y, w, h));
-    debug_rects[key]->draw();
+    shapes_cache->rects[key]->setShape(rect);
+    shapes_cache->rects[key]->draw();
 }
 
 void
-Renderer::drawDebugRect(RectShape rect, Vec4 color) {
-    drawDebugRect(rect.x, rect.y, rect.w, rect.h, color);
+Renderer::drawCircle(
+    float center_x, float center_y, float radius, Vec4 color, bool hollow
+) {
+    drawCircle(CircleShape({center_x, center_y}, radius, 16), color, hollow);
 }
 
 void
-Renderer::drawDebugCircle(float x, float y, float radius, Vec4 color) {
-    uint32_t r = (uint32_t)(color.x * 255.0f);
-    uint32_t g = (uint32_t)(color.y * 255.0f);
-    uint32_t b = (uint32_t)(color.z * 255.0f);
-    uint32_t a = (uint32_t)(color.w * 255.0f);
-    uint32_t key = (r << 24) | (g << 16) | (b << 8) | a;
+Renderer::drawCircle(CircleShape circle, Vec4 color, bool hollow) {
+    uint64_t key = shapeKey(color, hollow);
 
-    if (debug_circles.find(key) == debug_circles.end()) {
-        debug_circles[key] =
+    if (shapes_cache->circles.find(key) == shapes_cache->circles.end()) {
+        shapes_cache->circles[key] =
             std::make_unique<Circle>(this, CircleShape(), color);
-        debug_circles[key]->setHollow(true);
+        shapes_cache->circles[key]->setHollow(hollow);
     }
 
-    debug_circles[key]->setShape(CircleShape({x, y}, radius, 16));
-    debug_circles[key]->draw();
+    shapes_cache->circles[key]->setShape(circle);
+    shapes_cache->circles[key]->draw();
 }
 
 void
-Renderer::drawDebugCircle(CircleShape circle, Vec4 color) {
-    drawDebugCircle(circle.center.x, circle.center.y, circle.radius, color);
+Renderer::drawLine(
+    float start_x, float start_y, float end_x, float end_y, Vec4 color,
+    float thickness
+) {
+    drawLine(LineShape({start_x, start_y}, {end_x, end_y}, thickness), color);
+}
+
+void
+Renderer::drawLine(Vec2 start, Vec2 end, Vec4 color, float thickness) {
+    drawLine(LineShape(start, end, thickness), color);
+}
+
+void
+Renderer::drawLine(LineShape line, Vec4 color) {
+    uint32_t key = colorToKey(color);
+
+    if (shapes_cache->lines.find(key) == shapes_cache->lines.end()) {
+        shapes_cache->lines[key] =
+            std::make_unique<Line>(this, LineShape(), color);
+    }
+
+    shapes_cache->lines[key]->setShape(line);
+    shapes_cache->lines[key]->draw();
 }
 
 void

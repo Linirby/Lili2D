@@ -1,8 +1,12 @@
 #include "game.hpp"
 
-#include <SDL3/SDL_keycode.h>
-
 #include <iostream>
+#include <lili2d/core/asset_manager.hpp>
+#include <lili2d/core/event.hpp>
+#include <lili2d/core/window.hpp>
+#include <lili2d/render/renderer.hpp>
+#include <lili2d/render/scene/core2d/sprite_batch.hpp>
+#include <memory>
 #include <random>
 
 #include "components.hpp"
@@ -36,12 +40,11 @@ App::App() : lili::Game("hello_ecs - Lili2D", 800, 600) {
         std::make_unique<lili::SpriteBatch>(renderer, circle_texture);
     for (int i = 0; i < N_ENTITIES; ++i) spawnRandomBall();
 
-    std::cout
-        << "=== Lili2D ECS Demo Instructions ===\n"
-        << "  [SPACE]     : Spawn a new random ball entity\n"
-        << "  [BACKSPACE] : Destroy a random ball entity\n"
-        << "  [T]         : Toggle velocity component of a random ball\n"
-        << "====================================\n";
+    std::cout << "=== Lili2D ECS Demo Instructions ===\n"
+              << "  [SPACE]     : Spawn a new random ball entity\n"
+              << "  [BACKSPACE] : Destroy a random ball entity\n"
+              << "  [T]         : Toggle velocity component of a random ball\n"
+              << "====================================\n";
 }
 
 void
@@ -50,10 +53,14 @@ App::onEvent(const lili::Event& event) {
     if (event.type() == lili::EventType::KEYBOARD) {
         lili::KeyboardEvent kb = event.keyboard();
         if (kb.action == lili::KeyAction::PRESSED) {
-            if (kb.key == SDLK_ESCAPE) shutdown();
-            else if (kb.key == SDLK_SPACE) spawnRandomBall();
-            else if (kb.key == SDLK_BACKSPACE) destroyRandomBall();
-            else if (kb.key == SDLK_T) toggleRandomBallVelocity();
+            if (kb.key == lili::Key::ESCAPE)
+                shutdown();
+            else if (kb.key == lili::Key::SPACE)
+                spawnRandomBall();
+            else if (kb.key == lili::Key::BACKSPACE)
+                destroyRandomBall();
+            else if (kb.key == lili::Key::T)
+                toggleRandomBallVelocity();
         }
     }
 }

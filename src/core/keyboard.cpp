@@ -1,5 +1,7 @@
 #include "lili2d/core/keyboard.hpp"
 
+#include <SDL3/SDL_keyboard.h>
+
 #include <algorithm>
 #include <cstring>
 

@@ -13,13 +13,13 @@ Whether you are prototyping a quick game jam idea, building full 2D games, or ex
 
 ## Key Features
 
-- **Modern `SDL_GPU` Renderer**: Next-gen hardware-accelerated rendering pipeline with support for custom shaders, materials, layers, and automated texture batching (`SpriteBatch`).
+- **Modern `SDL_GPU` Renderer**: Next-gen hardware-accelerated rendering pipeline with support for custom shaders, materials, layers, automated texture batching (`SpriteBatch`), and **cached geometric primitive drawing** (`drawRect`, `drawCircle`, `drawLine`) for fast prototyping without textures.
 - **Unified Asset & Resource Management**: Scoped lifecycle management (`unloadScope`), string-keyed caching, custom asset loaders, and **live filesystem & shader hot-reloading** (`Assets` / `ResourceManager<T>`).
 - **Virtual Logical Resolution & Scaling**: Automatic letterboxing, viewport scale handling, and seamless physical-to-logical screen coordinate conversion (`toLogicalCoords`).
 - **UI Layout System**: Comprehensive anchor alignment (`Anchor`), element bounding pivot positioning (`Pivot`), pixel offsets, and inverse-matrix point containment testing (`containsPoint`).
-- **Data-Oriented Entity Component System (ECS)**: Cache-friendly contiguous memory pools (`ComponentPool<T>`) and a thread-safe deferred `CommandBuffer` for lock-free parallel execution.
+- **Data-Oriented Entity Component System (ECS)**: Cache-friendly contiguous memory pools (`ComponentPool<T>`), multi-component queries (`ECSView`), and a thread-safe deferred `CommandBuffer` for lock-free parallel execution.
 - **Priority-Scheduled Multithreading**: C++20 `ThreadPool` using `std::jthread` with priority queues (`HIGH`, `NORMAL`, `LOW`) for frame-critical and background workloads.
-- **Spatial Physics & Collision Queries**: Axis-Aligned Bounding Boxes (`AABB2`), `CircleCollider`, line segment intersections, containment testing, and zero-allocation debug rendering.
+- **Spatial Physics & Collision Queries**: Axis-Aligned Bounding Boxes (`AABB2`), `CircleCollider`, line segment intersections, containment testing, and decoupled shape extraction (`.getShape()`) for zero-friction rendering.
 - **TileMap & World Chunking**: Frustum viewport culling and dynamic rebuild budgeting (max 8 chunk rebuilds per frame) for butter-smooth camera movement in massive game worlds.
 
 ## Technical Showcase
@@ -115,7 +115,7 @@ public:
         // Create vector shapes
         circle = lili::Circle(
             getRenderer(),
-            lili::CircleShape({ 400.0f, 600.0f }, 60.0f, 32.0f),
+            lili::CircleShape({ 400.0f, 600.0f }, 60.0f, 32),
             lili::Vec4(0.2f, 0.6f, 1.0f, 1.0f)
         );
     }
@@ -124,6 +124,12 @@ public:
         (void)alpha;
         sprite.draw();
         circle.draw();
+
+        // Direct cached primitive drawing (ideal for prototyping & debug overlays)
+        getRenderer()->drawRect(
+            lili::RectShape({ 50.0f, 50.0f }, { 120.0f, 40.0f }),
+            lili::Vec4(1.0f, 0.5f, 0.0f, 1.0f), /*hollow=*/true
+        );
     }
 
 private:
@@ -150,10 +156,10 @@ Check out the [`examples/`](examples/) directory for comprehensive code samples:
 - **`hello_scenes`**: Scene stack management and smooth state transitions.
 - **`hello_animation`**: Loading sprite sheets (`AtlasMap`) and playing frame animations.
 - **`hello_shader`**: Writing, compiling, and binding custom SPIR-V vertex and fragment shaders.
-- **`hello_collision`**: AABB and `CircleCollider` spatial collision testing and debug drawing.
+- **`hello_collision`**: Spatial collision testing (`AABB2`, `CircleCollider`), shape extraction (`getShape()`), and cached primitive rendering.
 - **`hello_sprite_batch`**: High-performance batch rendering of thousands of sprites in a single GPU call.
 - **`hello_tilemap`**: Optimized grid tilemaps, chunking, and viewport frustum culling.
-- **`hello_ecs`**: High-entity-count physics and animation driven by the Data-Oriented ECS.
+- **`hello_ecs`**: High-entity-count physics and animation driven by Data-Oriented ECS and multi-component `ECSView` queries.
 - **`hello_multithreading`**: Priority multithreaded task scheduling and parallel ECS updates via `ThreadPool`.
 
 ## Join the Community

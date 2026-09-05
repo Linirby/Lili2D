@@ -3,6 +3,7 @@
 #include <cmath>
 
 #include "lili2d/geometry.hpp"
+#include "lili2d/world/camera.hpp"
 
 using namespace lili;
 using Catch::Matchers::WithinAbs;
@@ -169,6 +170,44 @@ TEST_CASE("Mat3 Transformations", "[geometry][mat3]") {
         CHECK_THAT(tp.x, WithinAbs(7.0f, 0.0001f));
         CHECK_THAT(tp.y, WithinAbs(9.0f, 0.0001f));
     }
+
+    SECTION("Orthographic Projection") {
+        Mat3 ortho = Mat3::orthographic(0.0f, 800.0f, 0.0f, 600.0f);
+        Vec2 tl = ortho.transformPoint(Vec2(0.0f, 0.0f));
+        CHECK_THAT(tl.x, WithinAbs(-1.0f, 0.0001f));
+        CHECK_THAT(tl.y, WithinAbs(1.0f, 0.0001f));
+
+        Vec2 br = ortho.transformPoint(Vec2(800.0f, 600.0f));
+        CHECK_THAT(br.x, WithinAbs(1.0f, 0.0001f));
+        CHECK_THAT(br.y, WithinAbs(-1.0f, 0.0001f));
+
+        Vec2 center = ortho.transformPoint(Vec2(400.0f, 300.0f));
+        CHECK_THAT(center.x, WithinAbs(0.0f, 0.0001f));
+        CHECK_THAT(center.y, WithinAbs(0.0f, 0.0001f));
+    }
+
+    SECTION("Camera View and Projection") {
+        Camera cam;
+        cam.setPosition(Vec2(100.0f, 200.0f));
+        Mat3 proj = cam.getProjection(800.0f, 600.0f);
+        Vec2 tl = proj.transformPoint(Vec2(0.0f, 0.0f));
+        CHECK_THAT(tl.x, WithinAbs(-1.0f, 0.0001f));
+        CHECK_THAT(tl.y, WithinAbs(1.0f, 0.0001f));
+
+        Mat3 view = cam.getViewMatrix(800.0f, 600.0f);
+        Vec2 cam_center = view.transformPoint(Vec2(100.0f, 200.0f));
+        CHECK_THAT(cam_center.x, WithinAbs(400.0f, 0.0001f));
+        CHECK_THAT(cam_center.y, WithinAbs(300.0f, 0.0001f));
+
+        Vec2 ndc_center = (proj * view).transformPoint(Vec2(100.0f, 200.0f));
+        CHECK_THAT(ndc_center.x, WithinAbs(0.0f, 0.0001f));
+        CHECK_THAT(ndc_center.y, WithinAbs(0.0f, 0.0001f));
+
+        // In 2D, y increases downwards. Point below camera (y = 250) should map below center (NDC y < 0)
+        Vec2 below = (proj * view).transformPoint(Vec2(100.0f, 250.0f));
+        CHECK_THAT(below.x, WithinAbs(0.0f, 0.0001f));
+        CHECK(below.y < 0.0f);
+    }
 }
 
 TEST_CASE("Math Utils", "[geometry][utils]") {
@@ -204,6 +243,15 @@ TEST_CASE(
 
     constexpr float dot_val = cv.dot(cv2);
     static_assert(dot_val == 36.0f);
+
+    constexpr RectShape rect_a(Vec2(10.0f, 20.0f), Vec2(30.0f, 40.0f));
+    static_assert(rect_a.pos.x == 10.0f && rect_a.pos.y == 20.0f);
+    static_assert(rect_a.size.x == 30.0f && rect_a.size.y == 40.0f);
+    static_assert(rect_a.contains(Vec2(15.0f, 25.0f)));
+    static_assert(!rect_a.contains(Vec2(5.0f, 25.0f)));
+
+    constexpr RectShape rect_b(10.0f, 20.0f, 30.0f, 40.0f);
+    static_assert(rect_b.pos.x == 10.0f && rect_b.size.y == 40.0f);
 
     CHECK(true);
 }

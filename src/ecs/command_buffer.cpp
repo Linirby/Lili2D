@@ -1,7 +1,5 @@
 #include "lili2d/ecs/command_buffer.hpp"
 
-#include "lili2d/ecs/ecs_registry.hpp"
-
 namespace lili {
 
 void

@@ -3,7 +3,9 @@
 #include "lili2d/core/asset_manager.hpp"
 #include "lili2d/core/event.hpp"
 #include "lili2d/core/game_config.hpp"
+#include "lili2d/core/keys.hpp"
 #include "lili2d/core/thread_pool.hpp"
+#include "lili2d/core/window.hpp"
 #include "lili2d/render/renderer.hpp"
 
 namespace lili {
@@ -89,7 +91,7 @@ Game::onEvent(const Event& event) {
         }
     } else if (event.type() == lili::EventType::KEYBOARD) {
         lili::KeyboardEvent kb = event.keyboard();
-        if (kb.action == lili::KeyAction::PRESSED && kb.key == SDLK_F11) {
+        if (kb.action == lili::KeyAction::PRESSED && kb.key == Key::F11) {
             lili::GameConfig& conf = lili::GameConfig::get();
             conf.setWindowFullscreen(this, !conf.isWindowFullscreen());
         }

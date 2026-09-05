@@ -51,9 +51,9 @@ App::onEvent(const lili::Event& event) {
     if (event.type() == lili::EventType::KEYBOARD) {
         lili::KeyboardEvent kb = event.keyboard();
         if (kb.action == lili::KeyAction::PRESSED && !kb.repeat) {
-            if (kb.key == SDLK_ESCAPE) {
+            if (kb.key == lili::Key::ESCAPE) {
                 shutdown();
-            } else if (kb.key == SDLK_SPACE) {
+            } else if (kb.key == lili::Key::SPACE) {
                 toggle_custom_shaders = !toggle_custom_shaders;
                 rect.getMaterial()->pipeline =
                     toggle_custom_shaders ? rect_pipeline.get() : nullptr;

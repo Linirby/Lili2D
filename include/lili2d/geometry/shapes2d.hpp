@@ -8,28 +8,31 @@ namespace lili {
 
 /// @brief Defines the geometry of a 2D rectangle.
 struct RectShape {
-    float x = 0.0f;  ///< X position.
-    float y = 0.0f;  ///< Y position.
-    float w = 0.0f;  ///< Width.
-    float h = 0.0f;  ///< Height.
+    Vec2 pos = {0.0f, 0.0f};   ///< The position (top-left).
+    Vec2 size = {0.0f, 0.0f};  ///< The size (width, height).
 
     /// @brief Default constructor.
     constexpr RectShape() noexcept = default;
-    /// @brief Constructs a rectangle shape.
+    /// @brief Constructs a rectangle shape from position and size vectors.
+    /// @param pos Position (x, y).
+    /// @param size Size (width, height).
+    constexpr RectShape(Vec2 pos, Vec2 size) noexcept
+        : pos(pos), size(size) {}
+    /// @brief Constructs a rectangle shape from scalar components.
     /// @param x X coordinate.
     /// @param y Y coordinate.
     /// @param w Width.
     /// @param h Height.
     constexpr RectShape(float x, float y, float w, float h) noexcept
-        : x(x), y(y), w(w), h(h) {}
+        : pos(x, y), size(w, h) {}
 
     /// @brief Checks if a point is contained inside this rectangle.
     /// @param point The 2D point to test.
     /// @return True if point is inside.
     [[nodiscard]] constexpr bool
     contains(Vec2 point) const noexcept {
-        return point.x >= x && point.x <= x + w && point.y >= y &&
-               point.y <= y + h;
+        return point.x >= pos.x && point.x <= pos.x + size.x &&
+               point.y >= pos.y && point.y <= pos.y + size.y;
     }
 };
 

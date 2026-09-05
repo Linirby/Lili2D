@@ -85,7 +85,7 @@ App::onEvent(const lili::Event& event) {
     lili::Game::onEvent(event);
     if (event.type() == lili::EventType::KEYBOARD) {
         lili::KeyboardEvent kb = event.keyboard();
-        if (kb.action == lili::KeyAction::PRESSED && kb.key == SDLK_ESCAPE)
+        if (kb.action == lili::KeyAction::PRESSED && kb.key == lili::Key::ESCAPE)
             shutdown();
     }
 }

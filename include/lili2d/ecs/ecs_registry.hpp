@@ -9,6 +9,9 @@
 
 namespace lili {
 
+template <typename... Components>
+class ECSView;
+
 /// @brief Central registry that manages entities and their components.
 class ECSRegistry {
 public:
@@ -68,6 +71,13 @@ public:
     [[nodiscard]] bool
     hasComponent(Entity entity) const;
 
+    /// @brief Get the view of entities with their gived components.
+    /// @tparam Components The components you wanna view.
+    /// @return An ECSView with entities and their respective components.
+    template <typename... Components>
+    [[nodiscard]] ECSView<Components...>
+    view();
+
 private:
     std::vector<std::unique_ptr<IComponentPool>> component_pools;
     std::vector<Entity> entities;
@@ -124,6 +134,12 @@ uint32_t
 ECSRegistry::getComponentTypeID() noexcept {
     static uint32_t type_id = next_component_type_id++;
     return type_id;
+}
+
+template <typename... Components>
+ECSView<Components...>
+ECSRegistry::view() {
+    return ECSView<Components...>(*this);
 }
 
 }  // namespace lili

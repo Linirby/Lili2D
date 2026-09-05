@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL3/SDL.h>
+#include <SDL3/SDL_gpu.h>
 
 #include <cstdint>
 #include <map>
@@ -11,20 +11,18 @@
 #include "lili2d/core/window.hpp"
 #include "lili2d/geometry/shapes2d.hpp"
 #include "lili2d/geometry/vec4.hpp"
+#include "lili2d/render/core/gpu_mesh.hpp"
 #include "lili2d/render/core/shader.hpp"
 #include "lili2d/render/core/texture.hpp"
 #include "lili2d/render/passes/main_render_pass.hpp"
 #include "lili2d/render/passes/pass_types.hpp"
 #include "lili2d/render/pipelines/main_graphics_pipeline.hpp"
-#include "lili2d/render/scene/common/model.hpp"
 #include "lili2d/world/camera.hpp"
 
 namespace lili {
 
-/// @brief A renderable rectangle object.
-class Rect;
-/// @brief A renderable circle object.
-class Circle;
+/// @brief PIMPL cache for primitive shape rendering (Rect, Circle, Line).
+struct ShapesCache;
 
 /// @brief Main renderer class responsible for handling drawing operations.
 class Renderer {
@@ -39,12 +37,12 @@ public:
     /// @brief Destructor.
     ~Renderer();
     /// @brief Move constructor.
-    Renderer(Renderer&& other) noexcept = default;
+    Renderer(Renderer&& other) noexcept;
     /// @brief Move assignment operator.
     /// @param other Renderer instance to move from.
     /// @return Reference to this Renderer.
     Renderer&
-    operator=(Renderer&& other) noexcept = default;
+    operator=(Renderer&& other) noexcept;
     /// @brief Copy constructor is deleted to prevent double-freeing the SDL
     /// GPU device.
     Renderer(const Renderer&) = delete;
@@ -170,31 +168,98 @@ public:
     GPUMesh*
     getUnitCircle(int segments);
 
+    /// @brief Draws a cached rectangle.
+    /// @param x X position.
+    /// @param y Y position.
+    /// @param w Width.
+    /// @param h Height.
+    /// @param color The color.
+    /// @param hollow Whether the rectangle is hollow (outline only). Default is false.
+    void
+    drawRect(
+        float x, float y, float w, float h, Vec4 color, bool hollow = false
+    );
+    /// @brief Draws a cached rectangle from a RectShape.
+    /// @param rect The rectangle geometry.
+    /// @param color The color.
+    /// @param hollow Whether the rectangle is hollow (outline only). Default is false.
+    void
+    drawRect(RectShape rect, Vec4 color, bool hollow = false);
+    /// @brief Draws a cached circle.
+    /// @param center_x X centered position.
+    /// @param center_y Y centered position.
+    /// @param radius The radius.
+    /// @param color The color.
+    /// @param hollow Whether the circle is hollow (outline only). Default is false.
+    void
+    drawCircle(
+        float center_x, float center_y, float radius, Vec4 color,
+        bool hollow = false
+    );
+    /// @brief Draws a cached circle from a CircleShape.
+    /// @param circle The circle geometry.
+    /// @param color The color.
+    /// @param hollow Whether the circle is hollow (outline only). Default is false.
+    void
+    drawCircle(CircleShape circle, Vec4 color, bool hollow = false);
+    /// @brief Draws a cached line between two points.
+    /// @param start_x Start X coordinate.
+    /// @param start_y Start Y coordinate.
+    /// @param end_x End X coordinate.
+    /// @param end_y End Y coordinate.
+    /// @param color The color.
+    /// @param thickness The thickness of the line. Default is 1.0f.
+    void
+    drawLine(
+        float start_x, float start_y, float end_x, float end_y, Vec4 color,
+        float thickness = 1.0f
+    );
+    /// @brief Draws a cached line between two Vec2 points.
+    /// @param start Start position.
+    /// @param end End position.
+    /// @param color The color.
+    /// @param thickness The thickness of the line. Default is 1.0f.
+    void
+    drawLine(Vec2 start, Vec2 end, Vec4 color, float thickness = 1.0f);
+    /// @brief Draws a cached line from a LineShape.
+    /// @param line The line geometry.
+    /// @param color The color.
+    void
+    drawLine(LineShape line, Vec4 color);
+
     /// @brief Draws a cached hollow debug rectangle.
     /// @param x X position.
     /// @param y Y position.
     /// @param w Width.
     /// @param h Height.
     /// @param color The color.
-    void
-    drawDebugRect(float x, float y, float w, float h, Vec4 color);
+    inline void
+    drawDebugRect(float x, float y, float w, float h, Vec4 color) {
+        drawRect(x, y, w, h, color, true);
+    }
     /// @brief Draws a cached hollow debug rectangle from a RectShape.
     /// @param rect The rectangle geometry.
     /// @param color The color.
-    void
-    drawDebugRect(RectShape rect, Vec4 color);
+    inline void
+    drawDebugRect(RectShape rect, Vec4 color) {
+        drawRect(rect, color, true);
+    }
     /// @brief Draws a cached hollow debug circle.
     /// @param center_x X centered position.
     /// @param center_y Y centered position.
-    /// @param radius The Radius.
+    /// @param radius The radius.
     /// @param color The color.
-    void
-    drawDebugCircle(float center_x, float center_y, float radius, Vec4 color);
+    inline void
+    drawDebugCircle(float center_x, float center_y, float radius, Vec4 color) {
+        drawCircle(center_x, center_y, radius, color, true);
+    }
     /// @brief Draws a cached hollow debug circle from a CircleShape.
     /// @param circle The circle geometry.
     /// @param color The color.
-    void
-    drawDebugCircle(CircleShape circle, Vec4 color);
+    inline void
+    drawDebugCircle(CircleShape circle, Vec4 color) {
+        drawCircle(circle, color, true);
+    }
 
 private:
     Window* window = nullptr;
@@ -219,10 +284,10 @@ private:
     SDL_GPUTexture* current_swapchain_texture = nullptr;
     SDL_GPUCommandBuffer* current_cmd_buffer = nullptr;
 
-    std::unique_ptr<Shader> main_shader = nullptr;
-    std::unique_ptr<MainGraphicsPipeline> main_pipeline = nullptr;
+    std::unique_ptr<Shader> main_shader;
+    std::unique_ptr<MainGraphicsPipeline> main_pipeline;
 
-    std::unique_ptr<MainRenderPass> render_pass = nullptr;
+    std::unique_ptr<MainRenderPass> render_pass;
 
     std::map<float, std::vector<DrawCommand>> world_2d_queue{};
     std::map<float, std::vector<DrawCommand>> ui_queue{};
@@ -237,8 +302,7 @@ private:
     std::unique_ptr<GPUMesh> unit_quad;
     std::map<int, std::unique_ptr<GPUMesh>> unit_circles;
 
-    std::map<uint32_t, std::unique_ptr<Rect>> debug_rects;
-    std::map<uint32_t, std::unique_ptr<Circle>> debug_circles;
+    std::unique_ptr<ShapesCache> shapes_cache;
 
     void
     initDevice(SDL_GPUPresentMode preferred_mode);

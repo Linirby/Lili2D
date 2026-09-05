@@ -46,14 +46,24 @@ public:
     /// @param args The arguments to forward to the component constructor.
     template <typename T, typename... Args>
     void
-    emplaceComponent(Entity entity, Args&&... args);
+    emplaceComponent(Entity entity, Args&&... args) {
+        commands.push_back([entity, ... fwd_args = std::forward<Args>(args)](
+                               ECSRegistry& registry
+                           ) mutable {
+            registry.emplaceComponent<T>(entity, std::move(fwd_args)...);
+        });
+    }
 
     /// @brief Queue a component removal command.
     /// @tparam T The component type to remove.
     /// @param entity The entity.
     template <typename T>
     void
-    removeComponent(Entity entity);
+    removeComponent(Entity entity) {
+        commands.push_back([entity](ECSRegistry& registry) {
+            registry.removeComponent<T>(entity);
+        });
+    }
 
     /// @brief Executes all queued commands sequentially on the registry and
     /// clears the buffer.
@@ -82,23 +92,5 @@ public:
 private:
     std::vector<std::function<void(ECSRegistry&)>> commands;
 };
-
-template <typename T, typename... Args>
-void
-CommandBuffer::emplaceComponent(Entity entity, Args&&... args) {
-    commands.push_back([entity, ... fwd_args = std::forward<Args>(args)](
-                           ECSRegistry& registry
-                       ) mutable {
-        registry.emplaceComponent<T>(entity, std::move(fwd_args)...);
-    });
-}
-
-template <typename T>
-void
-CommandBuffer::removeComponent(Entity entity) {
-    commands.push_back([entity](ECSRegistry& registry) {
-        registry.removeComponent<T>(entity);
-    });
-}
 
 }  // namespace lili

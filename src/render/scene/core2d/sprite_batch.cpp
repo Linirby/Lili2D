@@ -4,6 +4,7 @@
 
 #include "lili2d/geometry/mat3x3.hpp"
 #include "lili2d/geometry/utils.hpp"
+#include "lili2d/render/renderer.hpp"
 
 namespace lili {
 

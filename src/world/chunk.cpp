@@ -3,6 +3,8 @@
 #include <chrono>
 
 #include "lili2d/core/thread_pool.hpp"
+#include "lili2d/render/core/texture.hpp"
+#include "lili2d/render/renderer.hpp"
 #include "lili2d/world/tile_registry.hpp"
 
 namespace lili {

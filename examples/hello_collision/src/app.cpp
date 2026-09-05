@@ -27,10 +27,10 @@ App::onEvent(const lili::Event& event) {
     if (event.type() == lili::EventType::KEYBOARD) {
         lili::KeyboardEvent kb = event.keyboard();
         if (kb.action == lili::KeyAction::PRESSED) {
-            if (kb.key == SDLK_ESCAPE) shutdown();
-            else if (kb.key == SDLK_1) active_shape = ShapeMode::Rect;
-            else if (kb.key == SDLK_2) active_shape = ShapeMode::Circle;
-            else if (kb.key == SDLK_3) active_shape = ShapeMode::Line;
+            if (kb.key == lili::Key::ESCAPE) shutdown();
+            else if (kb.key == lili::Key::NUM_1) active_shape = ShapeMode::Rect;
+            else if (kb.key == lili::Key::NUM_2) active_shape = ShapeMode::Circle;
+            else if (kb.key == lili::Key::NUM_3) active_shape = ShapeMode::Line;
         }
     }
 }
@@ -84,20 +84,16 @@ App::onRender(float alpha) {
     switch (active_shape) {
         case ShapeMode::Rect:
             cursor_rect.draw();
-            renderer->drawDebugRect(cursor_rect.getShape(), debug_color);
+            renderer->drawRect(cursor_rect.getShape(), debug_color, true);
             break;
         case ShapeMode::Circle:
             cursor_circle.draw();
-            renderer->drawDebugCircle(cursor_circle.getShape(), debug_color);
+            renderer->drawCircle(cursor_circle.getShape(), debug_color, true);
             break;
         case ShapeMode::Line: {
             cursor_line.draw();
             lili::AABB2 line_box(cursor_line.getShape());
-            renderer->drawDebugRect(
-                line_box.min.x, line_box.min.y,
-                line_box.max.x - line_box.min.x, line_box.max.y - line_box.min.y,
-                debug_color
-            );
+            renderer->drawRect(line_box.getShape(), debug_color, true);
             break;
         }
     }

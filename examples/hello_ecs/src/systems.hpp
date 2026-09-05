@@ -1,5 +1,7 @@
 #pragma once
-#include <lili2d/lili2d.hpp>
+
+#include <lili2d/ecs/ecs_registry.hpp>
+#include <lili2d/render/scene/core2d/sprite_batch.hpp>
 
 namespace systems {
 

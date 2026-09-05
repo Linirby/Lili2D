@@ -58,13 +58,13 @@ App::onEvent(const lili::Event& event) {
     if (event.type() == lili::EventType::KEYBOARD) {
         lili::KeyboardEvent kb = event.keyboard();
         if (kb.action == lili::KeyAction::PRESSED) {
-            if (kb.key == SDLK_ESCAPE)
+            if (kb.key == lili::Key::ESCAPE)
                 shutdown();
-            else if (kb.key == SDLK_SPACE)
+            else if (kb.key == lili::Key::SPACE)
                 spawnRandomBall();
-            else if (kb.key == SDLK_BACKSPACE)
+            else if (kb.key == lili::Key::BACKSPACE)
                 destroyRandomBall();
-            else if (kb.key == SDLK_M)
+            else if (kb.key == lili::Key::M)
                 toggleMultithreading();
             std::cout << "Total entities: " << spawned_entities.size() << "\n";
         }

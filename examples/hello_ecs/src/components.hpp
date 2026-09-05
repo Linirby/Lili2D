@@ -1,5 +1,8 @@
 #pragma once
-#include <lili2d/lili2d.hpp>
+
+#include <lili2d/geometry/vec2.hpp>
+#include <lili2d/geometry/vec4.hpp>
+#include <lili2d/render/scene/common/atlas_map.hpp>
 
 struct PositionComponent {
     lili::Vec2 value;

@@ -5,15 +5,14 @@
 #include <unordered_map>
 #include <vector>
 
+#include "lili2d/core/thread_pool.hpp"
 #include "lili2d/geometry/point3.hpp"
+#include "lili2d/geometry/vec2.hpp"
 #include "lili2d/render/core/texture.hpp"
+#include "lili2d/render/renderer.hpp"
 #include "lili2d/render/scene/core2d/sprite_batch.hpp"
 
 namespace lili {
-
-/// @brief A simple, lightweight C++20 Thread Pool using jthread and
-/// stop_token.
-class ThreadPool;
 
 /// @brief Key used to group tiles by texture and depth for batching.
 struct BatchKey {

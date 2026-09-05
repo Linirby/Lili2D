@@ -3,6 +3,7 @@
 #include <cmath>
 
 #include "lili2d/geometry/utils.hpp"
+#include "lili2d/render/renderer.hpp"
 
 namespace lili {
 

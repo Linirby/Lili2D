@@ -2,9 +2,7 @@
 
 #include <cmath>
 #include <functional>
-#include <memory>
 #include <utility>
-#include <vector>
 
 namespace lili {
 

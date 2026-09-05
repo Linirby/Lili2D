@@ -80,7 +80,7 @@ RectShape
 IRenderable::getGlobalBounds(const Renderer* renderer) const {
     Vec2 pos = getGlobalPosition(renderer);
     Vec2 size = getSize();
-    return RectShape(pos.x, pos.y, size.x, size.y);
+    return RectShape(pos, size);
 }
 
 bool

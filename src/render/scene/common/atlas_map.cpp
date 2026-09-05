@@ -1,4 +1,5 @@
 #include "lili2d/render/scene/common/atlas_map.hpp"
+#include "lili2d/render/renderer.hpp"
 
 namespace lili {
 

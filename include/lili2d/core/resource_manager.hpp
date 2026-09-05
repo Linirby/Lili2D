@@ -469,13 +469,24 @@ ResourceManager<T>::checkHotReload() {
 
         if (!needs_reload) continue;
 
+        auto update_timestamps = [&]() {
+            if (!record.watched_files.empty()) {
+                for (size_t i = 0; i < record.watched_files.size(); ++i) {
+                    record.watched_files[i].last_write_time = current_times[i];
+                }
+                record.last_write_time =
+                    record.watched_files[0].last_write_time;
+            } else if (!current_times.empty()) {
+                record.last_write_time = current_times[0];
+            }
+        };
+
         try {
-            bool success = false;
             std::string primary_path = !record.watched_files.empty()
                                            ? record.watched_files[0].path
                                            : record.filepath;
             if (record.reloader && record.resource)
-                success = record.reloader(*record.resource, primary_path);
+                record.reloader(*record.resource, primary_path);
             else if (record.loader && record.resource) {
                 std::unique_ptr<T> fresh = record.loader(primary_path);
                 if (fresh) {
@@ -483,21 +494,11 @@ ResourceManager<T>::checkHotReload() {
                         *record.resource = std::move(*fresh);
                     else
                         record.resource = std::move(fresh);
-                    success = true;
                 }
             }
-            if (success) {
-                if (!record.watched_files.empty()) {
-                    for (size_t i = 0; i < record.watched_files.size(); ++i) {
-                        record.watched_files[i].last_write_time =
-                            current_times[i];
-                    }
-                    record.last_write_time =
-                        record.watched_files[0].last_write_time;
-                } else if (!current_times.empty())
-                    record.last_write_time = current_times[0];
-            }
+            update_timestamps();
         } catch (const std::exception& e) {
+            update_timestamps();
             std::cerr << "Hot reload failed for key '" << key
                       << "': " << e.what() << std::endl;
         }

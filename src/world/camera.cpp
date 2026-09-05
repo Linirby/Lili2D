@@ -10,13 +10,13 @@ namespace lili {
 Mat3
 Camera::getViewMatrix(float width, float height) const noexcept {
     Vec2 center(width * 0.5f, height * 0.5f);
-    return Mat3::translate(center) * Mat3::rotation(degToRad(rotation)) *
+    return Mat3::translate(center) * Mat3::rotation(degToRad(-rotation)) *
            Mat3::scale(Vec2(zoom, zoom)) * Mat3::translate(-position);
 }
 
 Mat3
 Camera::getProjection(float width, float height) const noexcept {
-    return Mat3::orthographic(0.0f, width, height, 0.0f);
+    return Mat3::orthographic(0.0f, width, 0.0f, height);
 }
 
 AABB2

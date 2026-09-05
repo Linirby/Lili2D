@@ -37,8 +37,7 @@ public:
     /// @param pos The new position.
     inline void
     setPosition(Vec2 pos) noexcept override {
-        shape.x = pos.x;
-        shape.y = pos.y;
+        shape.pos = pos;
         ui_layout.offset = pos;
     }
 
@@ -110,14 +109,14 @@ public:
     /// @return The position.
     [[nodiscard]] inline Vec2
     getPosition() const noexcept override {
-        return {shape.x, shape.y};
+        return shape.pos;
     }
 
     /// @brief Gets the size.
     /// @return The size.
     [[nodiscard]] inline Vec2
     getSize() const noexcept override {
-        return {shape.w, shape.h};
+        return shape.size;
     }
 
     /// @brief Gets rotation in degrees.

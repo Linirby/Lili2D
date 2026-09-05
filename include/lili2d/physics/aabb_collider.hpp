@@ -30,8 +30,7 @@ struct AABB2 {
     /// @brief Construct AABB2 with a RectShape.
     /// @param rect The shape of the bounding rect.
     constexpr explicit AABB2(RectShape rect) noexcept
-        : min(Vec2(rect.x, rect.y)),
-          max(Vec2(rect.x + rect.w, rect.y + rect.h)) {}
+        : min(rect.pos), max(rect.pos + rect.size) {}
 
     /// @brief Construct AABB2 with a CircleShape.
     /// @param circle The shape of the bounding circle.
@@ -121,6 +120,13 @@ struct AABB2 {
     [[nodiscard]] inline bool
     contains(LineShape line) const noexcept {
         return contains(AABB2(line));
+    }
+
+    /// @brief Gets the RectShape corresponding to this AABB2.
+    /// @return The rectangle shape.
+    [[nodiscard]] constexpr RectShape
+    getShape() const noexcept {
+        return RectShape(min, max - min);
     }
 };
 

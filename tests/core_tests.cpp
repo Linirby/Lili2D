@@ -2,6 +2,8 @@
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
 #include <chrono>
+#include <filesystem>
+#include <fstream>
 #include <string>
 #include <thread>
 
@@ -122,6 +124,55 @@ TEST_CASE("ResourceManager Generic Cache", "[core][resource_manager]") {
 
     manager.clear();
     CHECK(manager.count() == 0);
+}
+
+TEST_CASE(
+    "ResourceManager Hot Reload Single Failure Notice",
+    "[core][resource_manager]"
+) {
+    std::filesystem::path temp_file =
+        std::filesystem::temp_directory_path() / "lili2d_test_reload.txt";
+    {
+        std::ofstream out(temp_file);
+        out << "version 1";
+    }
+
+    ResourceManager<DummyResource> manager;
+    manager.setHotReloadEnabled(true);
+
+    int reloader_calls = 0;
+    auto loader = [](const std::string& path) {
+        auto res = std::make_unique<DummyResource>();
+        res->tag = "loaded:" + path;
+        return res;
+    };
+    auto failing_reloader =
+        [&reloader_calls](DummyResource&, const std::string&) -> bool {
+        ++reloader_calls;
+        return false;
+    };
+
+    manager.load(
+        "test_res", temp_file.string(), loader, "test", failing_reloader
+    );
+    CHECK(reloader_calls == 0);
+
+    // Sleep briefly to ensure new timestamp on filesystem
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    {
+        std::ofstream out(temp_file);
+        out << "version 2 with error";
+    }
+
+    // First check: should attempt reload once
+    manager.checkHotReload();
+    CHECK(reloader_calls == 1);
+
+    // Second check without file change: should NOT attempt reload again
+    manager.checkHotReload();
+    CHECK(reloader_calls == 1);
+
+    std::filesystem::remove(temp_file);
 }
 
 TEST_CASE("Easing Evaluation", "[core][easing]") {

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.10)
 project(Lili2DExamples)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -14,4 +14,3 @@ add_executable(hello_shader
 )
 
 target_link_libraries(hello_shader PRIVATE lili::Lili2D)
-

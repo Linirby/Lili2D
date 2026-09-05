@@ -38,8 +38,8 @@ struct CircleCollider {
     /// @brief Constructs a CircleCollider from a geometry RectShape.
     /// @param rect The rectangle shape.
     inline explicit CircleCollider(RectShape rect) noexcept
-        : center(Vec2(rect.x + rect.w * 0.5f, rect.y + rect.h * 0.5f)),
-          radius(std::min(rect.w, rect.h) * 0.5f) {}
+        : center(rect.pos + rect.size * 0.5f),
+          radius(std::min(rect.size.x, rect.size.y) * 0.5f) {}
 
     /// @brief Copy assignment operator.
     constexpr CircleCollider&
@@ -127,6 +127,14 @@ struct CircleCollider {
         return AABB2(
             center - Vec2(radius, radius), Vec2(radius * 2.0f, radius * 2.0f)
         );
+    }
+
+    /// @brief Gets the CircleShape corresponding to this circle collider.
+    /// @param segments The number of segments (resolution) of the circle.
+    /// @return The circle shape.
+    [[nodiscard]] constexpr CircleShape
+    getShape(int segments = 16) const noexcept {
+        return CircleShape(center, radius, segments);
     }
 };
 

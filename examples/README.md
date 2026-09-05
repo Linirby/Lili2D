@@ -19,13 +19,13 @@ engine.
   Animations from it.
 - **`hello_shader`**: Demonstrates how to write, compile, load and hot-reload
   custom vertex and fragment shaders.
-- **`hello_collision`**: A new example showing the v1 implementation of the AABB
-  collision system and how it interacts with different shapes.
+- **`hello_collision`**: Demonstrates spatial collision queries (`AABB2`,
+  `CircleCollider`), shape extraction (`getShape()`), and cached primitive rendering.
 - **`hello_sprite_batch`**: An example of how to use SpriteBatch with a big map.
 - **`hello_tilemap`**: Demonstrates the TileMap and Chunk system for rendering
   optimized grid worlds.
-- **`hello_ecs`**: Demonstrates the lightweight Entity Component System (ECS) by
-  spawning and animating thousands of ball entities.
+- **`hello_ecs`**: Demonstrates the lightweight Entity Component System (ECS) and
+  multi-component `ECSView` queries by spawning and animating thousands of ball entities.
 - **`hello_multithreading`**: Demonstrates C++20 multithreaded systems, dynamic
   thread allocation, and parallel ECS execution using the prioritized ThreadPool.
 

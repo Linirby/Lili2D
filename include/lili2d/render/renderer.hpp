@@ -21,8 +21,8 @@
 
 namespace lili {
 
-class Circle;
-class Rect;
+/// @brief PIMPL cache for primitive shape rendering (Rect, Circle, Line).
+struct ShapesCache;
 
 /// @brief Main renderer class responsible for handling drawing operations.
 class Renderer {
@@ -168,31 +168,98 @@ public:
     GPUMesh*
     getUnitCircle(int segments);
 
+    /// @brief Draws a cached rectangle.
+    /// @param x X position.
+    /// @param y Y position.
+    /// @param w Width.
+    /// @param h Height.
+    /// @param color The color.
+    /// @param hollow Whether the rectangle is hollow (outline only). Default is false.
+    void
+    drawRect(
+        float x, float y, float w, float h, Vec4 color, bool hollow = false
+    );
+    /// @brief Draws a cached rectangle from a RectShape.
+    /// @param rect The rectangle geometry.
+    /// @param color The color.
+    /// @param hollow Whether the rectangle is hollow (outline only). Default is false.
+    void
+    drawRect(RectShape rect, Vec4 color, bool hollow = false);
+    /// @brief Draws a cached circle.
+    /// @param center_x X centered position.
+    /// @param center_y Y centered position.
+    /// @param radius The radius.
+    /// @param color The color.
+    /// @param hollow Whether the circle is hollow (outline only). Default is false.
+    void
+    drawCircle(
+        float center_x, float center_y, float radius, Vec4 color,
+        bool hollow = false
+    );
+    /// @brief Draws a cached circle from a CircleShape.
+    /// @param circle The circle geometry.
+    /// @param color The color.
+    /// @param hollow Whether the circle is hollow (outline only). Default is false.
+    void
+    drawCircle(CircleShape circle, Vec4 color, bool hollow = false);
+    /// @brief Draws a cached line between two points.
+    /// @param start_x Start X coordinate.
+    /// @param start_y Start Y coordinate.
+    /// @param end_x End X coordinate.
+    /// @param end_y End Y coordinate.
+    /// @param color The color.
+    /// @param thickness The thickness of the line. Default is 1.0f.
+    void
+    drawLine(
+        float start_x, float start_y, float end_x, float end_y, Vec4 color,
+        float thickness = 1.0f
+    );
+    /// @brief Draws a cached line between two Vec2 points.
+    /// @param start Start position.
+    /// @param end End position.
+    /// @param color The color.
+    /// @param thickness The thickness of the line. Default is 1.0f.
+    void
+    drawLine(Vec2 start, Vec2 end, Vec4 color, float thickness = 1.0f);
+    /// @brief Draws a cached line from a LineShape.
+    /// @param line The line geometry.
+    /// @param color The color.
+    void
+    drawLine(LineShape line, Vec4 color);
+
     /// @brief Draws a cached hollow debug rectangle.
     /// @param x X position.
     /// @param y Y position.
     /// @param w Width.
     /// @param h Height.
     /// @param color The color.
-    void
-    drawDebugRect(float x, float y, float w, float h, Vec4 color);
+    inline void
+    drawDebugRect(float x, float y, float w, float h, Vec4 color) {
+        drawRect(x, y, w, h, color, true);
+    }
     /// @brief Draws a cached hollow debug rectangle from a RectShape.
     /// @param rect The rectangle geometry.
     /// @param color The color.
-    void
-    drawDebugRect(RectShape rect, Vec4 color);
+    inline void
+    drawDebugRect(RectShape rect, Vec4 color) {
+        drawRect(rect, color, true);
+    }
     /// @brief Draws a cached hollow debug circle.
     /// @param center_x X centered position.
     /// @param center_y Y centered position.
-    /// @param radius The Radius.
+    /// @param radius The radius.
     /// @param color The color.
-    void
-    drawDebugCircle(float center_x, float center_y, float radius, Vec4 color);
+    inline void
+    drawDebugCircle(float center_x, float center_y, float radius, Vec4 color) {
+        drawCircle(center_x, center_y, radius, color, true);
+    }
     /// @brief Draws a cached hollow debug circle from a CircleShape.
     /// @param circle The circle geometry.
     /// @param color The color.
-    void
-    drawDebugCircle(CircleShape circle, Vec4 color);
+    inline void
+    drawDebugCircle(CircleShape circle, Vec4 color) {
+        drawCircle(circle, color, true);
+    }
 
 private:
     Window* window = nullptr;
@@ -235,8 +302,7 @@ private:
     std::unique_ptr<GPUMesh> unit_quad;
     std::map<int, std::unique_ptr<GPUMesh>> unit_circles;
 
-    std::map<uint32_t, std::unique_ptr<Rect>> debug_rects;
-    std::map<uint32_t, std::unique_ptr<Circle>> debug_circles;
+    std::unique_ptr<ShapesCache> shapes_cache;
 
     void
     initDevice(SDL_GPUPresentMode preferred_mode);

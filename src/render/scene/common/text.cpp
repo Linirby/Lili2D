@@ -17,6 +17,18 @@ BitmapFont::BitmapFont(
     glyph_h = texture->getHeight() / rows;
 }
 
+BitmapFont::BitmapFont(
+    Renderer* renderer, const unsigned char* data, unsigned int len,
+    uint8_t cols, uint8_t rows
+)
+    : cols(cols), rows(rows) {
+    texture = std::make_unique<Texture>(renderer->getDevice(), data, len);
+    this->cols = cols;
+    this->rows = rows;
+    glyph_w = texture->getWidth() / cols;
+    glyph_h = texture->getHeight() / rows;
+}
+
 BitmapFont::BitmapFont(BitmapFont&& other) noexcept
     : texture(std::move(other.texture)),
       cols(other.cols),

@@ -14,8 +14,9 @@ public:
 
     /// @brief Constructs the Clock with a target ticks per second rate.
     /// @param tick_per_second Target ticks per second (TPS).
-    explicit Clock(float tick_per_second) noexcept
-        : tps(tick_per_second), fixed_dt(1.0f / tick_per_second) {}
+    /// @param max_fps_cap Target maximum frames per second (0 = uncapped).
+    explicit Clock(float tick_per_second, uint32_t max_fps_cap = 0) noexcept
+        : max_fps(max_fps_cap), tps(tick_per_second), fixed_dt(1.0f / tick_per_second) {}
 
     /// @brief Sets the fixed delta time for physics or fixed updates.
     /// @param value The fixed delta time in seconds.
@@ -24,6 +25,28 @@ public:
         fixed_dt = 1.0f / value;
         tps = value;
     }
+
+    /// @brief Sets the maximum frames per second cap.
+    /// @param value Target maximum FPS (0 = uncapped).
+    inline void
+    setMaxFps(uint32_t value) noexcept {
+        max_fps = value;
+    }
+
+    /// @brief Gets the maximum frames per second cap.
+    /// @return Target maximum FPS (0 = uncapped).
+    [[nodiscard]] constexpr uint32_t
+    getMaxFps() const noexcept {
+        return max_fps;
+    }
+
+    /// @brief Delays execution if needed to cap the frame rate to max_fps.
+    void
+    limitFps() noexcept;
+
+    /// @brief Resets the frame timer (useful right before entering the game loop).
+    void
+    reset() noexcept;
 
     /// @brief Updates the clock, calculating delta time since the last update.
     void
@@ -72,7 +95,7 @@ public:
     /// @return The time value (float).
     [[nodiscard]] inline float
     getTime() const noexcept {
-        return SDL_GetTicks() / 1000.0f;
+        return static_cast<float>(SDL_GetTicksNS()) / 1'000'000'000.0f;
     }
 
     /// @brief Gets the current tps.
@@ -83,9 +106,10 @@ public:
     }
 
 private:
-    uint64_t last = SDL_GetTicks();
+    uint64_t last = SDL_GetTicksNS();
     uint64_t now = 0;
 
+    uint32_t max_fps = 0;
     float tps = 20.0f;
     float fixed_dt = 1.0f / tps;
     float dt = 0.0f;

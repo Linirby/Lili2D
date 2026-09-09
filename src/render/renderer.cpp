@@ -9,12 +9,16 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <unordered_map>
+#include <vector>
 
 #include "lili2d/geometry/mat3x3.hpp"
 #include "lili2d/geometry/vec2.hpp"
+#include "lili2d/render/default_font.hpp"
 #include "lili2d/render/default_shaders.hpp"
 #include "lili2d/render/passes/pass_types.hpp"
 #include "lili2d/render/scene/common/model.hpp"
+#include "lili2d/render/scene/common/text.hpp"
 #include "lili2d/render/scene/common/utils.hpp"
 #include "lili2d/render/scene/shapes/circle.hpp"
 #include "lili2d/render/scene/shapes/line.hpp"
@@ -22,10 +26,50 @@
 
 namespace lili {
 
+struct TextKey {
+    std::string text;
+    uint32_t color = 0;
+    const BitmapFont* font = nullptr;
+
+    bool
+    operator==(const TextKey& other) const noexcept {
+        return color == other.color && font == other.font && text == other.text;
+    }
+};
+
+struct TextKeyHash {
+    std::size_t
+    operator()(const TextKey& k) const noexcept {
+        std::size_t h1 = std::hash<std::string>{}(k.text);
+        std::size_t h2 = std::hash<uint32_t>{}(k.color);
+        std::size_t h3 =
+            std::hash<const void*>{}(static_cast<const void*>(k.font));
+        return h1 ^ (h2 << 1) ^ (h3 << 2);
+    }
+};
+
+struct CachedTextEntry {
+    TextKey key;
+    std::unique_ptr<Text> text_obj;
+    uint64_t last_frame_used = 0;
+    uint64_t last_used_counter = 0;
+};
+
 struct ShapesCache {
     std::map<uint64_t, std::unique_ptr<Rect>> rects;
     std::map<uint64_t, std::unique_ptr<Circle>> circles;
     std::map<uint32_t, std::unique_ptr<Line>> lines;
+
+    std::unique_ptr<BitmapFont> default_font;
+    BitmapFont* custom_default_font = nullptr;
+
+    static constexpr size_t MAX_TEXT_CACHE_SIZE = 512;
+    uint64_t usage_counter = 0;
+    uint64_t current_frame = 0;
+
+    std::unordered_map<TextKey, size_t, TextKeyHash> text_map;
+    std::vector<CachedTextEntry> text_entries;
+    std::unordered_map<std::string, std::unique_ptr<Text>> id_texts;
 };
 
 Renderer::Renderer(Window* window, SDL_GPUPresentMode preferred_mode)
@@ -43,6 +87,7 @@ Renderer::Renderer(Window* window, SDL_GPUPresentMode preferred_mode)
 }
 
 Renderer::~Renderer() {
+    shapes_cache.reset();
     if (device) SDL_WaitForGPUIdle(device.get());
 }
 
@@ -52,6 +97,7 @@ Renderer::operator=(Renderer&& other) noexcept = default;
 
 bool
 Renderer::beginFrame() {
+    if (shapes_cache) shapes_cache->current_frame++;
     current_cmd_buffer = SDL_AcquireGPUCommandBuffer(device.get());
     if (!current_cmd_buffer)
         throw std::runtime_error("Failed to acquire command buffer!");
@@ -155,6 +201,21 @@ Renderer::endFrame() {
     pixel_world_2d_queue.clear();
     SDL_SubmitGPUCommandBuffer(current_cmd_buffer);
     current_cmd_buffer = nullptr;
+
+    if (shapes_cache && shapes_cache->current_frame % 180 == 0 &&
+        shapes_cache->text_entries.size() > 64) {
+        std::vector<CachedTextEntry> kept;
+        kept.reserve(shapes_cache->text_entries.size());
+        shapes_cache->text_map.clear();
+        for (auto& entry : shapes_cache->text_entries) {
+            if (shapes_cache->current_frame - entry.last_frame_used <= 300) {
+                size_t new_idx = kept.size();
+                shapes_cache->text_map[entry.key] = new_idx;
+                kept.push_back(std::move(entry));
+            }
+        }
+        shapes_cache->text_entries = std::move(kept);
+    }
 }
 
 void
@@ -348,6 +409,155 @@ Renderer::drawLine(LineShape line, Vec4 color, RenderLayer render_layer) {
     shapes_cache->lines[key]->setShape(line);
     shapes_cache->lines[key]->setRender(render_layer);
     shapes_cache->lines[key]->draw();
+}
+
+void
+Renderer::setDefaultFont(BitmapFont* font) noexcept {
+    shapes_cache->custom_default_font = font;
+}
+
+BitmapFont*
+Renderer::getDefaultFont() {
+    if (shapes_cache->custom_default_font) {
+        return shapes_cache->custom_default_font;
+    }
+    if (!shapes_cache->default_font) {
+        shapes_cache->default_font = std::make_unique<BitmapFont>(
+            this, default_font_png, default_font_png_len, default_font_cols,
+            default_font_rows
+        );
+    }
+    return shapes_cache->default_font.get();
+}
+
+void
+Renderer::drawText(
+    const std::string& text, Vec2 pos, Vec4 color, float scale,
+    RenderLayer render_layer
+) {
+    drawText(text, pos, getDefaultFont(), color, scale, render_layer);
+}
+
+void
+Renderer::drawText(
+    const std::string& text, Vec2 pos, BitmapFont* font, Vec4 color,
+    float scale, RenderLayer render_layer
+) {
+    if (text.empty()) return;
+    if (!font) {
+        font = getDefaultFont();
+    }
+    if (!font) return;
+
+    uint32_t color_key = colorToKey(color);
+    TextKey key{text, color_key, font};
+
+    shapes_cache->usage_counter++;
+    uint64_t current_frame = shapes_cache->current_frame;
+
+    auto it = shapes_cache->text_map.find(key);
+    if (it != shapes_cache->text_map.end()) {
+        auto& entry = shapes_cache->text_entries[it->second];
+        entry.last_frame_used = current_frame;
+        entry.last_used_counter = shapes_cache->usage_counter;
+        entry.text_obj->setPosition(pos);
+        entry.text_obj->setScale(scale);
+        entry.text_obj->setRender(render_layer);
+        entry.text_obj->draw();
+        return;
+    }
+
+    if (shapes_cache->text_entries.size() >= ShapesCache::MAX_TEXT_CACHE_SIZE) {
+        size_t best_idx = size_t(-1);
+        uint64_t oldest_counter = UINT64_MAX;
+        for (size_t i = 0; i < shapes_cache->text_entries.size(); ++i) {
+            if (shapes_cache->text_entries[i].last_frame_used < current_frame) {
+                if (shapes_cache->text_entries[i].last_used_counter <
+                    oldest_counter) {
+                    oldest_counter =
+                        shapes_cache->text_entries[i].last_used_counter;
+                    best_idx = i;
+                }
+            }
+        }
+
+        if (best_idx != size_t(-1)) {
+            auto& entry = shapes_cache->text_entries[best_idx];
+            shapes_cache->text_map.erase(entry.key);
+
+            bool same_font = (entry.key.font == font);
+            entry.key = key;
+            entry.last_frame_used = current_frame;
+            entry.last_used_counter = shapes_cache->usage_counter;
+
+            if (entry.text_obj && same_font) {
+                entry.text_obj->setText(text);
+                entry.text_obj->setColor(color);
+            } else {
+                entry.text_obj = std::make_unique<Text>(this, font, text);
+                entry.text_obj->setColor(color);
+            }
+
+            shapes_cache->text_map[key] = best_idx;
+            entry.text_obj->setPosition(pos);
+            entry.text_obj->setScale(scale);
+            entry.text_obj->setRender(render_layer);
+            entry.text_obj->draw();
+            return;
+        }
+    }
+
+    auto text_obj = std::make_unique<Text>(this, font, text);
+    text_obj->setColor(color);
+    size_t idx = shapes_cache->text_entries.size();
+    shapes_cache->text_entries.push_back(
+        {key, std::move(text_obj), current_frame, shapes_cache->usage_counter}
+    );
+    shapes_cache->text_map[key] = idx;
+
+    auto& entry = shapes_cache->text_entries[idx];
+    entry.text_obj->setPosition(pos);
+    entry.text_obj->setScale(scale);
+    entry.text_obj->setRender(render_layer);
+    entry.text_obj->draw();
+}
+
+void
+Renderer::drawTextId(
+    std::string_view id, const std::string& text, Vec2 pos, Vec4 color,
+    float scale, RenderLayer render_layer
+) {
+    drawTextId(id, text, pos, getDefaultFont(), color, scale, render_layer);
+}
+
+void
+Renderer::drawTextId(
+    std::string_view id, const std::string& text, Vec2 pos, BitmapFont* font,
+    Vec4 color, float scale, RenderLayer render_layer
+) {
+    if (text.empty() || id.empty()) return;
+    if (!font) font = getDefaultFont();
+    if (!font) return;
+
+    std::string id_str(id);
+    auto it = shapes_cache->id_texts.find(id_str);
+    if (it == shapes_cache->id_texts.end()) {
+        auto text_obj = std::make_unique<Text>(this, font, text);
+        text_obj->setColor(color);
+        text_obj->setPosition(pos);
+        text_obj->setScale(scale);
+        text_obj->setRender(render_layer);
+        text_obj->draw();
+        shapes_cache->id_texts.emplace(std::move(id_str), std::move(text_obj));
+    } else {
+        auto& text_obj = it->second;
+        text_obj->setText(text);
+        text_obj->setColor(color);
+        text_obj->setPosition(pos);
+        text_obj->setScale(scale);
+        text_obj->setRender(render_layer);
+        text_obj->draw();
+    }
 }
 
 void

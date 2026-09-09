@@ -35,6 +35,40 @@ TEST_CASE("Clock TPS and Accumulator", "[core][clock]") {
     CHECK(clock.getFixedDt() == 1.0f / 30.0f);
 }
 
+TEST_CASE("Clock FPS Limiter", "[core][clock]") {
+    Clock clock(60.0f);
+    CHECK(clock.getMaxFps() == 0);
+
+    clock.setMaxFps(120);
+    CHECK(clock.getMaxFps() == 120);
+
+    clock.setMaxFps(0);
+    CHECK(clock.getMaxFps() == 0);
+
+    Clock capped_clock(60.0f, 60);
+    CHECK(capped_clock.getMaxFps() == 60);
+
+    // Test precision limiting with a 200 FPS cap (5ms per frame)
+    capped_clock.setMaxFps(200);
+    capped_clock.reset();
+
+    auto start = std::chrono::steady_clock::now();
+    capped_clock.update();
+    capped_clock.limitFps();
+    auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
+        std::chrono::steady_clock::now() - start
+    ).count();
+    CHECK(elapsed_us >= 4000);
+}
+
+TEST_CASE("GameConfig Max FPS", "[core][config]") {
+    GameConfig& config = GameConfig::get();
+    config.updateMaxFps(60);
+    CHECK(config.getMaxFps() == 60);
+    config.updateMaxFps(0);
+    CHECK(config.getMaxFps() == 0);
+}
+
 TEST_CASE("ActionMap Key and Mouse Bindings", "[core][action_map]") {
     ActionMap& action_map = ActionMap::get();
     action_map.clear();
@@ -293,4 +327,27 @@ TEST_CASE("Type Traits and Move Guarantees", "[core][traits]") {
     static_assert(std::is_nothrow_move_assignable_v<Window>);
 
     CHECK(true);
+}
+
+#include "lili2d/render/default_font.hpp"
+#include "lili2d/render/scene/common/text.hpp"
+
+TEST_CASE("Default Font Asset Integrity", "[render][font]") {
+    CHECK(default_font_cols == 16);
+    CHECK(default_font_rows == 6);
+    REQUIRE(default_font_png_len > 8);
+    // PNG signature: 0x89 0x50 0x4E 0x47 0x0D 0x0A 0x1A 0x0A
+    CHECK(default_font_png[0] == 0x89);
+    CHECK(default_font_png[1] == 'P');
+    CHECK(default_font_png[2] == 'N');
+    CHECK(default_font_png[3] == 'G');
+    CHECK(default_font_png[4] == 0x0D);
+    CHECK(default_font_png[5] == 0x0A);
+    CHECK(default_font_png[6] == 0x1A);
+    CHECK(default_font_png[7] == 0x0A);
+
+    static_assert(std::is_nothrow_move_constructible_v<BitmapFont>);
+    static_assert(std::is_nothrow_move_assignable_v<BitmapFont>);
+    static_assert(std::is_nothrow_move_constructible_v<Text>);
+    static_assert(std::is_nothrow_move_assignable_v<Text>);
 }

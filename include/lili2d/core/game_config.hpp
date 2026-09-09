@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 namespace lili {
 
 class Game;
@@ -47,6 +49,13 @@ public:
     [[nodiscard]] inline bool
     isRelativeMouseMode() const noexcept {
         return relative_mouse_mode;
+    }
+
+    /// @brief Gets the configured maximum frames per second cap.
+    /// @return Target maximum FPS (0 = uncapped).
+    [[nodiscard]] inline uint32_t
+    getMaxFps() const noexcept {
+        return max_fps;
     }
 
     /// @brief Sets the window size and updates the target Game window.
@@ -120,6 +129,19 @@ public:
         relative_mouse_mode = relative_mouse;
     }
 
+    /// @brief Sets the maximum frames per second cap and updates the target Game.
+    /// @param game Pointer to Game instance.
+    /// @param fps Target maximum FPS (0 = uncapped).
+    void
+    setMaxFps(lili::Game* game, uint32_t fps);
+
+    /// @brief Updates internal maximum FPS state without applying to Game.
+    /// @param fps Target maximum FPS (0 = uncapped).
+    inline void
+    updateMaxFps(uint32_t fps) noexcept {
+        max_fps = fps;
+    }
+
     /// @brief Gets the singleton instance of GameConfig.
     /// @return Reference to GameConfig.
     [[nodiscard]] static GameConfig&
@@ -132,6 +154,7 @@ private:
     bool window_resizable = false;
     bool window_borderless = false;
     bool relative_mouse_mode = false;
+    uint32_t max_fps = 0;
 };
 
 }  // namespace lili

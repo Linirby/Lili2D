@@ -89,6 +89,135 @@ struct AABB2 {
     [[nodiscard]] bool
     intersect(CircleShape circle) const noexcept;
 
+    /// @brief Checks if this AABB2 intersects with a LineShape segment.
+    /// @param line The LineShape to test against.
+    /// @return True if there is an intersection, false otherwise.
+    [[nodiscard]] inline bool
+    intersect(LineShape line) const noexcept {
+        float dx = line.end.x - line.start.x;
+        float dy = line.end.y - line.start.y;
+
+        float t_enter = 0.0f;
+        float t_exit = 1.0f;
+
+        if (dx == 0.0f) {
+            if (line.start.x < min.x || line.start.x > max.x) return false;
+        } else {
+            float t1 = (min.x - line.start.x) / dx;
+            float t2 = (max.x - line.start.x) / dx;
+            if (t1 > t2) std::swap(t1, t2);
+            t_enter = std::max(t_enter, t1);
+            t_exit = std::min(t_exit, t2);
+            if (t_enter > t_exit) return false;
+        }
+
+        if (dy == 0.0f) {
+            if (line.start.y < min.y || line.start.y > max.y) return false;
+        } else {
+            float t1 = (min.y - line.start.y) / dy;
+            float t2 = (max.y - line.start.y) / dy;
+            if (t1 > t2) std::swap(t1, t2);
+            t_enter = std::max(t_enter, t1);
+            t_exit = std::min(t_exit, t2);
+            if (t_enter > t_exit) return false;
+        }
+
+        return t_enter <= t_exit;
+    }
+
+    /// @brief Checks if this AABB2 intersects with a point.
+    /// @param point The point to test against.
+    /// @return True if there is an intersection, false otherwise.
+    [[nodiscard]] constexpr bool
+    intersect(Vec2 point) const noexcept {
+        return contains(point);
+    }
+
+    /// @brief Checks if this AABB2 overlaps with another (non-inclusive).
+    /// @param other The other AABB2 to test against.
+    /// @return True if the AABB2s overlap, false otherwise.
+    [[nodiscard]] constexpr bool
+    overlaps(AABB2 other) const noexcept {
+        return (min.x < other.max.x && max.x > other.min.x) &&
+               (min.y < other.max.y && max.y > other.min.y);
+    }
+
+    /// @brief Checks if this AABB2 overlaps with a RectShape (non-inclusive).
+    /// @param rect The RectShape to test against.
+    /// @return True if there is an overlap, false otherwise.
+    [[nodiscard]] constexpr bool
+    overlaps(RectShape rect) const noexcept {
+        return overlaps(AABB2(rect));
+    }
+
+    /// @brief Checks if this AABB2 overlaps with a CircleCollider
+    /// (non-inclusive).
+    /// @param circle The CircleCollider to test against.
+    /// @return True if there is an overlap, false otherwise.
+    [[nodiscard]] bool
+    overlaps(CircleCollider circle) const noexcept;
+
+    /// @brief Checks if this AABB2 overlaps with a CircleShape (non-inclusive).
+    /// @param circle The CircleShape to test against.
+    /// @return True if there is an overlap, false otherwise.
+    [[nodiscard]] bool
+    overlaps(CircleShape circle) const noexcept;
+
+    /// @brief Checks if this AABB2 overlaps with a LineShape segment
+    /// (non-inclusive).
+    /// @param line The LineShape to test against.
+    /// @return True if there is an overlap, false otherwise.
+    [[nodiscard]] inline bool
+    overlaps(LineShape line) const noexcept {
+        float dx = line.end.x - line.start.x;
+        float dy = line.end.y - line.start.y;
+
+        float t_enter = 0.0f;
+        float t_exit = 1.0f;
+
+        if (dx == 0.0f) {
+            if (line.start.x <= min.x || line.start.x >= max.x) return false;
+        } else {
+            float t1 = (min.x - line.start.x) / dx;
+            float t2 = (max.x - line.start.x) / dx;
+            if (t1 > t2) std::swap(t1, t2);
+            t_enter = std::max(t_enter, t1);
+            t_exit = std::min(t_exit, t2);
+            if (t_enter >= t_exit) return false;
+        }
+
+        if (dy == 0.0f) {
+            if (line.start.y <= min.y || line.start.y >= max.y) return false;
+        } else {
+            float t1 = (min.y - line.start.y) / dy;
+            float t2 = (max.y - line.start.y) / dy;
+            if (t1 > t2) std::swap(t1, t2);
+            t_enter = std::max(t_enter, t1);
+            t_exit = std::min(t_exit, t2);
+            if (t_enter >= t_exit) return false;
+        }
+
+        return t_enter < t_exit;
+    }
+
+    /// @brief Checks if this AABB2 overlaps with a point (non-inclusive).
+    /// @param point The point to test against.
+    /// @return True if there is an overlap, false otherwise.
+    [[nodiscard]] constexpr bool
+    overlaps(Vec2 point) const noexcept {
+        return (point.x > min.x && point.x < max.x) &&
+               (point.y > min.y && point.y < max.y);
+    }
+
+    /// @brief Checks if a point is contained inside this AABB2.
+    /// @param point The point to test against.
+    /// @return True if point is inside, false otherwise.
+    [[nodiscard]] constexpr bool
+    contains(Vec2 point) const noexcept {
+        return (point.x >= min.x && point.x <= max.x) &&
+               (point.y >= min.y && point.y <= max.y);
+    }
+
     /// @brief Checks if this AABB2 contains another.
     /// @param other The other AABB2 to test against.
     /// @return True if this AABB2 contains the other, false otherwise.
@@ -105,6 +234,12 @@ struct AABB2 {
     contains(RectShape rect) const noexcept {
         return contains(AABB2(rect));
     }
+
+    /// @brief Checks if this AABB2 contains a CircleCollider.
+    /// @param circle The CircleCollider to test against.
+    /// @return True if this AABB2 contains the CircleCollider, false otherwise.
+    [[nodiscard]] bool
+    contains(CircleCollider circle) const noexcept;
 
     /// @brief Checks if this AABB2 contains a CircleShape.
     /// @param circle The CircleShape to test against.
@@ -164,6 +299,44 @@ struct AABB3 {
         return (min.x <= other.max.x && max.x >= other.min.x) &&
                (min.y <= other.max.y && max.y >= other.min.y) &&
                (min.z <= other.max.z && max.z >= other.min.z);
+    }
+
+    /// @brief Checks if this AABB3 intersects with a 3D point.
+    /// @param point The point to test.
+    /// @return True if point intersects, false otherwise.
+    [[nodiscard]] constexpr bool
+    intersect(Vec3 point) const noexcept {
+        return contains(point);
+    }
+
+    /// @brief Checks if this AABB3 overlaps with another (non-inclusive).
+    /// @param other The other AABB3 to test against.
+    /// @return True if the AABB3s overlap, false otherwise.
+    [[nodiscard]] constexpr bool
+    overlaps(AABB3 other) const noexcept {
+        return (min.x < other.max.x && max.x > other.min.x) &&
+               (min.y < other.max.y && max.y > other.min.y) &&
+               (min.z < other.max.z && max.z > other.min.z);
+    }
+
+    /// @brief Checks if this AABB3 overlaps with a 3D point (non-inclusive).
+    /// @param point The point to test.
+    /// @return True if point overlaps, false otherwise.
+    [[nodiscard]] constexpr bool
+    overlaps(Vec3 point) const noexcept {
+        return (point.x > min.x && point.x < max.x) &&
+               (point.y > min.y && point.y < max.y) &&
+               (point.z > min.z && point.z < max.z);
+    }
+
+    /// @brief Checks if a 3D point is contained inside this AABB3.
+    /// @param point The point to test.
+    /// @return True if point is inside, false otherwise.
+    [[nodiscard]] constexpr bool
+    contains(Vec3 point) const noexcept {
+        return (point.x >= min.x && point.x <= max.x) &&
+               (point.y >= min.y && point.y <= max.y) &&
+               (point.z >= min.z && point.z <= max.z);
     }
 
     /// @brief Checks if this AABB3 contains another.

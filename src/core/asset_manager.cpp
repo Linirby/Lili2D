@@ -8,26 +8,6 @@ AssetManager::get() {
     return instance;
 }
 
-ResourceManager<Texture>&
-AssetManager::textures() {
-    return texture_manager;
-}
-
-ResourceManager<Shader>&
-AssetManager::shaders() {
-    return shader_manager;
-}
-
-ResourceManager<BitmapFont>&
-AssetManager::fonts() {
-    return font_manager;
-}
-
-ResourceManager<AtlasMap>&
-AssetManager::atlases() {
-    return atlas_manager;
-}
-
 Texture*
 AssetManager::loadTexture(
     const std::string& key, const std::string& path, SDL_GPUDevice* device,

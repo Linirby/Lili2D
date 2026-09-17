@@ -38,15 +38,41 @@ enum class Pivot {
 /// @param anchor Target anchor enum.
 /// @param custom Custom anchor vector used when anchor is Anchor::CUSTOM.
 /// @return Normalized 2D vector [0, 1].
-[[nodiscard]] Vec2
-anchorToVector(Anchor anchor, Vec2 custom = {}) noexcept;
+[[nodiscard]] constexpr inline Vec2
+anchorToVector(Anchor anchor, Vec2 custom = {}) noexcept {
+    switch (anchor) {
+        case Anchor::TOP_LEFT:
+            return Vec2(0.0f, 0.0f);
+        case Anchor::TOP:
+            return Vec2(0.5f, 0.0f);
+        case Anchor::TOP_RIGHT:
+            return Vec2(1.0f, 0.0f);
+        case Anchor::LEFT:
+            return Vec2(0.0f, 0.5f);
+        case Anchor::CENTER:
+            return Vec2(0.5f, 0.5f);
+        case Anchor::RIGHT:
+            return Vec2(1.0f, 0.5f);
+        case Anchor::BOTTOM_LEFT:
+            return Vec2(0.0f, 1.0f);
+        case Anchor::BOTTOM:
+            return Vec2(0.5f, 1.0f);
+        case Anchor::BOTTOM_RIGHT:
+            return Vec2(1.0f, 1.0f);
+        case Anchor::CUSTOM:
+            return custom;
+    }
+    return Vec2(0.0f, 0.0f);
+}
 
 /// @brief Converts a Pivot enum value to a normalized 2D vector coordinate.
 /// @param pivot Target pivot enum.
 /// @param custom Custom pivot vector used when pivot is Pivot::CUSTOM.
 /// @return Normalized 2D vector [0, 1].
-[[nodiscard]] Vec2
-pivotToVector(Pivot pivot, Vec2 custom = {}) noexcept;
+[[nodiscard]] constexpr inline Vec2
+pivotToVector(Pivot pivot, Vec2 custom = {}) noexcept {
+    return anchorToVector(static_cast<Anchor>(pivot), custom);
+}
 
 /// @brief Layout configuration for anchoring and positioning UI elements.
 struct UILayout {

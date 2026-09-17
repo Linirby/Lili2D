@@ -191,8 +191,12 @@ public:
     void
     update(float dt);
     /// @brief Resets the animation to the FIRST frame.
-    void
-    reset() noexcept;
+    inline void
+    reset() noexcept {
+        current_frame = 0;
+        frame_time_sec = 0.0f;
+        if (animation.frameCount() > 0) applyFrame(animation.getFrame(0));
+    }
     /// @brief Submits the sprite for drawing.
     void
     draw() override;
@@ -215,8 +219,16 @@ private:
     float rotation = 0.0f;
     float layer = 0.0f;
 
-    void
-    applyFrame(const SliceUV& frame);
+    inline void
+    applyFrame(const SliceUV& frame) noexcept {
+        Material* mat = getMaterial();
+        if (mat) {
+            mat->albedoMap = frame.texture;
+            mat->properties.uv_bounds =
+                Vec4(frame.u_min, frame.v_min, frame.u_max, frame.v_max);
+        }
+        this->size = Vec2(frame.width, frame.height);
+    }
 };
 
 }  // namespace lili

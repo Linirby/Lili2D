@@ -169,13 +169,6 @@ Window::isRelativeMouseMode() const noexcept {
     return SDL_GetWindowRelativeMouseMode(window);
 }
 
-void
-Window::setLogicalResolution(int width, int height) {
-    logical_width = width;
-    logical_height = height;
-    use_logical_resolution = (width > 0 && height > 0);
-}
-
 Vec2
 Window::getLogicalResolution() const {
     if (use_logical_resolution)
@@ -209,11 +202,6 @@ Window::toLogicalCoords(float screen_x, float screen_y) const {
     float logical_y = (screen_y - viewport_y) / scale;
 
     return {logical_x, logical_y};
-}
-
-SDL_Window*
-Window::getSdlWindow() const noexcept {
-    return window;
 }
 
 }  // namespace lili

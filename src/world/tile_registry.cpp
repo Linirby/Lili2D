@@ -10,4 +10,9 @@ TileRegistry::get() {
 
 TileRegistry::TileRegistry() { registerTile("core:none", Tile()); }
 
+uint16_t
+TileRegistry::registerTile(const std::string& key, Tile&& tile) {
+    return registerAsset(key, std::move(tile));
+}
+
 }  // namespace lili

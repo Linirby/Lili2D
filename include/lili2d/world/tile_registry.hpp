@@ -25,10 +25,8 @@ public:
     /// @param key The unique string key.
     /// @param tile The tile to register.
     /// @return The assigned tile ID.
-    inline uint16_t
-    registerTile(const std::string& key, Tile&& tile) {
-        return registerAsset(key, std::move(tile));
-    }
+    uint16_t
+    registerTile(const std::string& key, Tile&& tile);
     /// @brief Checks if a tile exists.
     /// @param key The tile key.
     /// @return True if the tile exists.

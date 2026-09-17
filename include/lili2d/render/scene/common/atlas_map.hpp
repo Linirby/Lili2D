@@ -46,13 +46,25 @@ public:
     /// @brief Gets the SliceUV for a specific column and row.
     /// @param at_pos The 2D position (col, row) of the frame.
     /// @return The SliceUV at the specified position.
-    SliceUV
-    getSliceUV(Point2 at_pos) const;
+    [[nodiscard]] inline SliceUV
+    getSliceUV(Point2 at_pos) const noexcept {
+        int col = static_cast<int>(at_pos.x);
+        int row = static_cast<int>(at_pos.y);
+        if (col >= 0 && col < n_cols && row >= 0 && row < n_rows)
+            return getSliceUV(row * n_cols + col);
+        return SliceUV();
+    }
+
     /// @brief Gets the SliceUV using a linear 1D index (left-to-right, down).
     /// @param index The 0-based linear index of the frame.
     /// @return The SliceUV at the specified index.
-    SliceUV
-    getSliceUV(int index) const;
+    [[nodiscard]] inline SliceUV
+    getSliceUV(int index) const noexcept {
+        if (index >= 0 && static_cast<size_t>(index) < slices.size())
+            return slices[index];
+        return SliceUV();
+    }
+
     /// @brief Gets a contiguous sequence of SliceUVs using a linear 1D index.
     /// @param start_index The 0-based linear index to start from.
     /// @param count The number of frames to retrieve.
@@ -68,8 +80,10 @@ public:
 
     /// @brief Gets the underlying Texture object.
     /// @return Pointer to the Texture.
-    Texture*
-    getTexture() const;
+    [[nodiscard]] inline Texture*
+    getTexture() const noexcept {
+        return full_texture.get();
+    }
 
 private:
     std::unique_ptr<Texture> full_texture;

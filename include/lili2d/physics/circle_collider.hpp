@@ -237,18 +237,8 @@ AABB2::intersect(CircleCollider circle) const noexcept {
 }
 
 inline bool
-AABB2::intersect(CircleShape circle) const noexcept {
-    return CircleCollider(circle).intersect(*this);
-}
-
-inline bool
 AABB2::overlaps(CircleCollider circle) const noexcept {
     return circle.overlaps(*this);
-}
-
-inline bool
-AABB2::overlaps(CircleShape circle) const noexcept {
-    return CircleCollider(circle).overlaps(*this);
 }
 
 inline bool

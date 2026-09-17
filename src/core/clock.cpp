@@ -1,6 +1,21 @@
 #include "lili2d/core/clock.hpp"
 
+#include <SDL3/SDL_timer.h>
+
 namespace lili {
+
+Clock::Clock() noexcept : last(SDL_GetTicksNS()) {}
+
+Clock::Clock(float tick_per_second, uint32_t max_fps_cap) noexcept
+    : last(SDL_GetTicksNS()),
+      max_fps(max_fps_cap),
+      tps(tick_per_second),
+      fixed_dt(1.0f / tick_per_second) {}
+
+float
+Clock::getTime() const noexcept {
+    return static_cast<float>(SDL_GetTicksNS()) / 1'000'000'000.0f;
+}
 
 void
 Clock::update() noexcept {

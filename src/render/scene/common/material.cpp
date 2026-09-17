@@ -1,23 +1,17 @@
 #include "lili2d/render/scene/common/material.hpp"
 
-#include "lili2d/render/core/texture.hpp"
-#include "lili2d/render/pipelines/main_graphics_pipeline.hpp"
-
 namespace lili {
 
-Material::Material(Texture* texture)
-    : albedoMap(texture), custom_pipeline(nullptr), pipeline(nullptr) {}
+void
+Material::setVertexUniformsRaw(const void* data, size_t size) {
+    const auto* ptr = static_cast<const uint8_t*>(data);
+    custom_vertex_uniforms.assign(ptr, ptr + size);
+}
 
-Material::Material(Texture* texture, SDL_GPUGraphicsPipeline* pipeline)
-    : albedoMap(texture), custom_pipeline(pipeline), pipeline(nullptr) {}
-
-Material::Material(Texture* texture, MainGraphicsPipeline* pipeline)
-    : albedoMap(texture), custom_pipeline(nullptr), pipeline(pipeline) {}
-
-SDL_GPUGraphicsPipeline*
-Material::getPipeline() const {
-    if (pipeline) return pipeline->getSdlPipeline();
-    return custom_pipeline;
+void
+Material::setFragmentUniformsRaw(const void* data, size_t size) {
+    const auto* ptr = static_cast<const uint8_t*>(data);
+    custom_fragment_uniforms.assign(ptr, ptr + size);
 }
 
 }  // namespace lili

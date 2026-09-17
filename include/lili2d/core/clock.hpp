@@ -1,7 +1,5 @@
 #pragma once
 
-#include <SDL3/SDL_timer.h>
-
 #include <cstdint>
 
 namespace lili {
@@ -10,13 +8,12 @@ namespace lili {
 class Clock {
 public:
     /// @brief Constructs the Clock.
-    Clock() noexcept = default;
+    Clock() noexcept;
 
     /// @brief Constructs the Clock with a target ticks per second rate.
     /// @param tick_per_second Target ticks per second (TPS).
     /// @param max_fps_cap Target maximum frames per second (0 = uncapped).
-    explicit Clock(float tick_per_second, uint32_t max_fps_cap = 0) noexcept
-        : max_fps(max_fps_cap), tps(tick_per_second), fixed_dt(1.0f / tick_per_second) {}
+    explicit Clock(float tick_per_second, uint32_t max_fps_cap = 0) noexcept;
 
     /// @brief Sets the fixed delta time for physics or fixed updates.
     /// @param value The fixed delta time in seconds.
@@ -93,10 +90,8 @@ public:
 
     /// @brief Gets the current time in seconds.
     /// @return The time value (float).
-    [[nodiscard]] inline float
-    getTime() const noexcept {
-        return static_cast<float>(SDL_GetTicksNS()) / 1'000'000'000.0f;
-    }
+    [[nodiscard]] float
+    getTime() const noexcept;
 
     /// @brief Gets the current tps.
     /// @return The tps (float).
@@ -106,7 +101,7 @@ public:
     }
 
 private:
-    uint64_t last = SDL_GetTicksNS();
+    uint64_t last = 0;
     uint64_t now = 0;
 
     uint32_t max_fps = 0;

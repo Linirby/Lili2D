@@ -1,8 +1,10 @@
 #pragma once
 
+#include <cmath>
 #include <memory>
 
 #include "lili2d/geometry/shapes2d.hpp"
+#include "lili2d/geometry/utils.hpp"
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/geometry/vec4.hpp"
 #include "lili2d/render/core/gpu_mesh.hpp"
@@ -34,8 +36,13 @@ public:
 
     /// @brief Sets start position.
     /// @param pos New start position.
-    void
-    setPosition(Vec2 pos) noexcept override;
+    inline void
+    setPosition(Vec2 pos) noexcept override {
+        Vec2 delta = pos - shape.start;
+        shape.start = pos;
+        shape.end = shape.end + delta;
+        ui_layout.offset = pos;
+    }
     /// @brief Sets rotation in degrees (rotates end around start).
     /// @param degree Angle in degrees.
     void
@@ -113,8 +120,12 @@ public:
 
     /// @brief Gets rotation angle in degrees.
     /// @return Rotation angle in degrees.
-    [[nodiscard]] float
-    getRotation() const noexcept override;
+    [[nodiscard]] inline float
+    getRotation() const noexcept override {
+        Vec2 diff = shape.end - shape.start;
+        float angle = std::atan2(diff.y, diff.x);
+        return lili::radToDeg(angle);
+    }
 
     /// @brief Gets scale.
     /// @return Scale vector.
@@ -125,8 +136,11 @@ public:
 
     /// @brief Gets bounding size (length * scale.x, thickness * scale.y).
     /// @return Size vector.
-    [[nodiscard]] Vec2
-    getSize() const noexcept override;
+    [[nodiscard]] inline Vec2
+    getSize() const noexcept override {
+        Vec2 diff = shape.end - shape.start;
+        return {diff.length() * scale.x, shape.thickness * scale.y};
+    }
 
     /// @brief Gets the transformation matrix.
     /// @return Mat3 matrix.

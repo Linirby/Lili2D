@@ -19,22 +19,6 @@ Rect::Rect(Renderer* renderer, RectShape shape, Vec4 color)
     layer = 0.0f;
 }
 
-void
-Rect::setSize(Vec2 size) noexcept {
-    if (shape.size != size) {
-        shape.size = size;
-        hollow_dirty = true;
-    }
-}
-
-void
-Rect::setShape(RectShape shape) noexcept {
-    if (this->shape.size != shape.size)
-        hollow_dirty = true;
-    this->shape = shape;
-    ui_layout.offset = shape.pos;
-}
-
 Mat3
 Rect::getTransformMatrix() const {
     Vec2 obj_size = {shape.size.x * scale.x, shape.size.y * scale.y};

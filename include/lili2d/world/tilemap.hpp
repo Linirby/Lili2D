@@ -32,7 +32,7 @@ class TileMap {
 public:
     /// @brief Constructs a tilemap.
     /// @param tile_size_px The size of each tile in pixels.
-    explicit TileMap(lili::Vec2 tile_size_px);
+    explicit TileMap(lili::Vec2 tile_size_px) noexcept : tile_size(tile_size_px) {}
 
     /// @brief Move constructor.
     TileMap(TileMap&&) noexcept = default;
@@ -54,8 +54,16 @@ public:
     /// @brief Gets the tile ID at a specific world position.
     /// @param pos The 3D grid position.
     /// @return The tile ID, or 0 if empty.
-    [[nodiscard]] uint16_t
-    getTile(lili::Point3 pos) const noexcept;
+    [[nodiscard]] inline uint16_t
+    getTile(lili::Point3 pos) const noexcept {
+        lili::Point3 chunk_pos = getChunkCoord(pos);
+        auto it = chunks.find(chunk_pos);
+        if (it != chunks.end()) {
+            lili::Point3 local_pos = getLocalCoord(pos);
+            return it->second.tiles[Chunk::flattenIndex(local_pos)];
+        }
+        return 0;
+    }
 
     /// @brief Checks for collision against the solid tiles in the map.
     /// @param target_aabb The bounding box to check.

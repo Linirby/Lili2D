@@ -86,8 +86,14 @@ struct AABB2 {
     /// @brief Checks if this AABB2 intersects with a CircleShape.
     /// @param circle The CircleShape to test against.
     /// @return True if there is an intersection, false otherwise.
-    [[nodiscard]] bool
-    intersect(CircleShape circle) const noexcept;
+    [[nodiscard]] inline bool
+    intersect(CircleShape circle) const noexcept {
+        float closest_x = std::clamp(circle.center.x, min.x, max.x);
+        float closest_y = std::clamp(circle.center.y, min.y, max.y);
+        Vec2 closest(closest_x, closest_y);
+        Vec2 diff = circle.center - closest;
+        return diff.dot(diff) <= circle.radius * circle.radius;
+    }
 
     /// @brief Checks if this AABB2 intersects with a LineShape segment.
     /// @param line The LineShape to test against.
@@ -160,8 +166,14 @@ struct AABB2 {
     /// @brief Checks if this AABB2 overlaps with a CircleShape (non-inclusive).
     /// @param circle The CircleShape to test against.
     /// @return True if there is an overlap, false otherwise.
-    [[nodiscard]] bool
-    overlaps(CircleShape circle) const noexcept;
+    [[nodiscard]] inline bool
+    overlaps(CircleShape circle) const noexcept {
+        float closest_x = std::clamp(circle.center.x, min.x, max.x);
+        float closest_y = std::clamp(circle.center.y, min.y, max.y);
+        Vec2 closest(closest_x, closest_y);
+        Vec2 diff = circle.center - closest;
+        return diff.dot(diff) < circle.radius * circle.radius;
+    }
 
     /// @brief Checks if this AABB2 overlaps with a LineShape segment
     /// (non-inclusive).

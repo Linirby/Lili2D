@@ -36,8 +36,11 @@ public:
     operator=(const SpriteBatch&) = delete;
 
     /// @brief Begins a new batch, clearing previous data.
-    void
-    begin();
+    inline void
+    begin() noexcept {
+        mesh_data.vertices.clear();
+        mesh_data.indices.clear();
+    }
 
     /// @brief Static helper to append a sprite's vertex data to a MeshData
     /// struct.

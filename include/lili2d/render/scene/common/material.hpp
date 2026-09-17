@@ -33,47 +33,51 @@ struct Material {
 
     /// @brief Gets the active SDL GPU pipeline handle.
     /// @return Pointer to SDL_GPUGraphicsPipeline, or nullptr.
-    SDL_GPUGraphicsPipeline*
-    getPipeline() const;
+    [[nodiscard]] inline SDL_GPUGraphicsPipeline*
+    getPipeline() const noexcept {
+        if (pipeline) return pipeline->getSdlPipeline();
+        return custom_pipeline;
+    }
 
     /// @brief Sets custom vertex uniforms.
     /// @param data The uniform data struct.
     template <typename T>
     void
-    setVertexUniforms(const T& data);
+    setVertexUniforms(const T& data) {
+        setVertexUniformsRaw(&data, sizeof(T));
+    }
+
     /// @brief Sets custom fragment uniforms.
     /// @param data The uniform data struct.
     template <typename T>
     void
-    setFragmentUniforms(const T& data);
+    setFragmentUniforms(const T& data) {
+        setFragmentUniformsRaw(&data, sizeof(T));
+    }
+
     /// @brief Default constructor.
     Material() = default;
     /// @brief Constructs a material with an albedo map.
     /// @param texture Pointer to the texture.
-    explicit Material(Texture* texture);
+    explicit Material(Texture* texture)
+        : albedoMap(texture), custom_pipeline(nullptr), pipeline(nullptr) {}
     /// @brief Constructs a material with an albedo map and custom pipeline.
     /// @param texture Pointer to the texture.
     /// @param pipeline Pointer to the custom pipeline.
-    Material(Texture* texture, SDL_GPUGraphicsPipeline* pipeline);
+    Material(Texture* texture, SDL_GPUGraphicsPipeline* pipeline)
+        : albedoMap(texture), custom_pipeline(pipeline), pipeline(nullptr) {}
     /// @brief Constructs a material with an albedo map and
     /// MainGraphicsPipeline.
     /// @param texture Pointer to the texture.
     /// @param pipeline Pointer to the MainGraphicsPipeline.
-    Material(Texture* texture, MainGraphicsPipeline* pipeline);
+    Material(Texture* texture, MainGraphicsPipeline* pipeline)
+        : albedoMap(texture), custom_pipeline(nullptr), pipeline(pipeline) {}
+
+private:
+    void
+    setVertexUniformsRaw(const void* data, size_t size);
+    void
+    setFragmentUniformsRaw(const void* data, size_t size);
 };
-
-template <typename T>
-void
-Material::setVertexUniforms(const T& data) {
-    const uint8_t* ptr = reinterpret_cast<const uint8_t*>(&data);
-    custom_vertex_uniforms.assign(ptr, ptr + sizeof(T));
-}
-
-template <typename T>
-void
-Material::setFragmentUniforms(const T& data) {
-    const uint8_t* ptr = reinterpret_cast<const uint8_t*>(&data);
-    custom_fragment_uniforms.assign(ptr, ptr + sizeof(T));
-}
 
 }  // namespace lili

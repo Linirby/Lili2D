@@ -7,8 +7,6 @@
 
 namespace lili {
 
-TileMap::TileMap(lili::Vec2 tile_size) : tile_size(tile_size) {}
-
 void
 TileMap::setTile(std::string_view name, lili::Point3 pos) {
     TileRegistry& registry = TileRegistry::get();
@@ -18,17 +16,6 @@ TileMap::setTile(std::string_view name, lili::Point3 pos) {
     Chunk& chunk = chunks[chunk_pos];
     chunk.tiles[Chunk::flattenIndex(local_pos)] = registry.getTileID(name);
     chunk.dirty = true;
-}
-
-uint16_t
-TileMap::getTile(lili::Point3 pos) const noexcept {
-    lili::Point3 chunk_pos = getChunkCoord(pos);
-    auto it = chunks.find(chunk_pos);
-    if (it != chunks.end()) {
-        lili::Point3 local_pos = getLocalCoord(pos);
-        return it->second.tiles[Chunk::flattenIndex(local_pos)];
-    }
-    return 0;
 }
 
 bool

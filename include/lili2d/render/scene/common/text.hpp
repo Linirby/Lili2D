@@ -45,6 +45,16 @@ public:
     explicit BitmapFont(
         Renderer* renderer, const std::string& path, uint8_t cols, uint8_t rows
     );
+    /// @brief Constructs a bitmap font from memory data.
+    /// @param renderer The renderer.
+    /// @param data Pointer to the image data.
+    /// @param len Length of the image data in bytes.
+    /// @param cols Number of columns in the font grid.
+    /// @param rows Number of rows in the font grid.
+    explicit BitmapFont(
+        Renderer* renderer, const unsigned char* data, unsigned int len,
+        uint8_t cols, uint8_t rows
+    );
 
     /// @brief Move constructor.
     BitmapFont(BitmapFont&& other) noexcept;

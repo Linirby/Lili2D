@@ -57,17 +57,6 @@ Sprite::setImage(const std::string& path) {
     mesh = renderer->getUnitQuad();
 }
 
-void
-Sprite::setSlice(const SliceUV& slice) {
-    current_slice = slice;
-    Material* mat = getMaterial();
-    if (mat) {
-        mat->albedoMap = slice.texture;
-        mat->properties.uv_bounds =
-            Vec4(slice.u_min, slice.v_min, slice.u_max, slice.v_max);
-    }
-}
-
 Mat3
 Sprite::getTransformMatrix() const {
     if (render_layer == RenderLayer::UI && renderer) {

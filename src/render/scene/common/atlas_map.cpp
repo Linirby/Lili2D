@@ -65,21 +65,6 @@ AtlasMap::slice(int num_columns, int num_rows) {
         }
 }
 
-SliceUV
-AtlasMap::getSliceUV(Point2 at_pos) const {
-    int col = static_cast<int>(at_pos.x);
-    int row = static_cast<int>(at_pos.y);
-    if (col >= 0 && col < n_cols && row >= 0 && row < n_rows)
-        return getSliceUV(row * n_cols + col);
-    return SliceUV();
-}
-
-SliceUV
-AtlasMap::getSliceUV(int index) const {
-    if (index >= 0 && (size_t)index < slices.size()) return slices[index];
-    return SliceUV();
-}
-
 std::vector<SliceUV>
 AtlasMap::getSliceUVs(int start_index, int count) const {
     std::vector<SliceUV> result;
@@ -121,11 +106,6 @@ AtlasMap::getSliceUVs(Point2 start, Point2 end) const {
         );
 
     return result;
-}
-
-Texture*
-AtlasMap::getTexture() const {
-    return full_texture.get();
 }
 
 }  // namespace lili

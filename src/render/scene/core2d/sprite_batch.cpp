@@ -21,12 +21,6 @@ SpriteBatch::SpriteBatch(Renderer* renderer, Texture* texture)
 }
 
 void
-SpriteBatch::begin() {
-    mesh_data.vertices.clear();
-    mesh_data.indices.clear();
-}
-
-void
 SpriteBatch::clear() {
     mesh_data.vertices.clear();
     mesh_data.indices.clear();

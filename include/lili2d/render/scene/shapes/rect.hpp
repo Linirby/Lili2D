@@ -43,8 +43,13 @@ public:
 
     /// @brief Sets the rectangle's size.
     /// @param size The new size.
-    void
-    setSize(Vec2 size) noexcept override;
+    inline void
+    setSize(Vec2 size) noexcept override {
+        if (shape.size != size) {
+            shape.size = size;
+            hollow_dirty = true;
+        }
+    }
 
     /// @brief Sets the rectangle's rotation.
     /// @param degree The rotation in degrees.
@@ -62,8 +67,13 @@ public:
 
     /// @brief Sets the rectangle's shape.
     /// @param shape The new shape.
-    void
-    setShape(RectShape shape) noexcept;
+    inline void
+    setShape(RectShape shape) noexcept {
+        if (this->shape.size != shape.size)
+            hollow_dirty = true;
+        this->shape = shape;
+        ui_layout.offset = shape.pos;
+    }
 
     /// @brief Sets the rectangle's color.
     /// @param color The new color.

@@ -6,38 +6,6 @@
 namespace lili {
 
 Vec2
-anchorToVector(Anchor anchor, Vec2 custom) noexcept {
-    switch (anchor) {
-        case Anchor::TOP_LEFT:
-            return Vec2(0.0f, 0.0f);
-        case Anchor::TOP:
-            return Vec2(0.5f, 0.0f);
-        case Anchor::TOP_RIGHT:
-            return Vec2(1.0f, 0.0f);
-        case Anchor::LEFT:
-            return Vec2(0.0f, 0.5f);
-        case Anchor::CENTER:
-            return Vec2(0.5f, 0.5f);
-        case Anchor::RIGHT:
-            return Vec2(1.0f, 0.5f);
-        case Anchor::BOTTOM_LEFT:
-            return Vec2(0.0f, 1.0f);
-        case Anchor::BOTTOM:
-            return Vec2(0.5f, 1.0f);
-        case Anchor::BOTTOM_RIGHT:
-            return Vec2(1.0f, 1.0f);
-        case Anchor::CUSTOM:
-            return custom;
-    }
-    return Vec2(0.0f, 0.0f);
-}
-
-Vec2
-pivotToVector(Pivot pivot, Vec2 custom) noexcept {
-    return anchorToVector(static_cast<Anchor>(pivot), custom);
-}
-
-Vec2
 UILayout::getScreenPosition(Vec2 viewport_size, Vec2 obj_size) const noexcept {
     Vec2 anchor_vec = anchorToVector(anchor, custom_anchor);
     Vec2 pivot_vec = pivotToVector(pivot, custom_pivot);

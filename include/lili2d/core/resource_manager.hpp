@@ -161,7 +161,11 @@ public:
     load(
         const std::string& filepath, LoaderFunc loader,
         const std::string& scope = "global", ReloaderFunc reloader = nullptr
-    );
+    ) {
+        return load(
+            filepath, filepath, std::move(loader), scope, std::move(reloader)
+        );
+    }
 
     /// @brief Emplaces a pre-constructed resource into the cache.
     /// @param key Unique string identifier.
@@ -178,26 +182,43 @@ public:
     /// @param key Resource identifier.
     /// @return Raw pointer to resource, or nullptr if not found.
     [[nodiscard]] T*
-    get(std::string_view key) const noexcept;
+    get(std::string_view key) const noexcept {
+        auto it = resources.find(key);
+        if (it == resources.end()) return nullptr;
+        return it->second.resource.get();
+    }
 
     /// @brief Retrieves a reference to a cached resource by key.
     /// @param key Resource identifier.
     /// @return Reference to the resource. Throws std::runtime_error if not
     /// found.
     [[nodiscard]] T&
-    getRef(std::string_view key) const;
+    getRef(std::string_view key) const {
+        T* ptr = get(key);
+        if (ptr) return *ptr;
+        throw std::runtime_error(
+            std::format("ResourceManager::getRef asset not found: {}", key)
+        );
+    }
 
     /// @brief Checks if a resource with the key exists.
     /// @param key Resource identifier.
     /// @return True if resource exists in cache.
     [[nodiscard]] bool
-    has(std::string_view key) const noexcept;
+    has(std::string_view key) const noexcept {
+        return resources.find(key) != resources.end();
+    }
 
     /// @brief Unloads a single resource by key.
     /// @param key Resource identifier.
     /// @return True if resource was found and unloaded.
     bool
-    unload(std::string_view key);
+    unload(std::string_view key) {
+        auto it = resources.find(key);
+        if (it == resources.end()) return false;
+        resources.erase(it);
+        return true;
+    }
 
     /// @brief Unloads all resources matching a specific scope.
     /// @param scope Scope tag to clear.
@@ -207,12 +228,16 @@ public:
 
     /// @brief Clears all cached resources.
     void
-    clear() noexcept override;
+    clear() noexcept override {
+        resources.clear();
+    }
 
     /// @brief Gets total number of managed resources.
     /// @return Resource count.
     [[nodiscard]] size_t
-    count() const noexcept override;
+    count() const noexcept override {
+        return resources.size();
+    }
 
     /// @brief Polls file modification times for watched assets and reloads
     /// modified files.
@@ -222,12 +247,16 @@ public:
     /// @brief Enables or disables hot reloading file polling.
     /// @param enabled True to enable file watcher checks.
     void
-    setHotReloadEnabled(bool enabled) noexcept override;
+    setHotReloadEnabled(bool enabled) noexcept override {
+        hot_reload_enabled = enabled;
+    }
 
     /// @brief Checks if hot reloading is enabled.
     /// @return True if enabled.
     [[nodiscard]] bool
-    isHotReloadEnabled() const noexcept override;
+    isHotReloadEnabled() const noexcept override {
+        return hot_reload_enabled;
+    }
 
 private:
     StringMap<ResourceRecord> resources;
@@ -324,16 +353,6 @@ ResourceManager<T>::load(
     return ptr;
 }
 
-template <typename T>
-T*
-ResourceManager<T>::load(
-    const std::string& filepath, LoaderFunc loader, const std::string& scope,
-    ReloaderFunc reloader
-) {
-    return load(
-        filepath, filepath, std::move(loader), scope, std::move(reloader)
-    );
-}
 
 template <typename T>
 T*
@@ -355,38 +374,6 @@ ResourceManager<T>::emplace(
     return ptr;
 }
 
-template <typename T>
-T*
-ResourceManager<T>::get(std::string_view key) const noexcept {
-    auto it = resources.find(key);
-    if (it == resources.end()) return nullptr;
-    return it->second.resource.get();
-}
-
-template <typename T>
-T&
-ResourceManager<T>::getRef(std::string_view key) const {
-    T* ptr = get(key);
-    if (ptr) return *ptr;
-    throw std::runtime_error(
-        std::format("ResourceManager::getRef asset not found: {}", key)
-    );
-}
-
-template <typename T>
-bool
-ResourceManager<T>::has(std::string_view key) const noexcept {
-    return resources.find(key) != resources.end();
-}
-
-template <typename T>
-bool
-ResourceManager<T>::unload(std::string_view key) {
-    auto it = resources.find(key);
-    if (it == resources.end()) return false;
-    resources.erase(it);
-    return true;
-}
 
 template <typename T>
 size_t
@@ -401,30 +388,6 @@ ResourceManager<T>::unloadScope(std::string_view scope) {
         }
     }
     return unloaded;
-}
-
-template <typename T>
-void
-ResourceManager<T>::clear() noexcept {
-    resources.clear();
-}
-
-template <typename T>
-size_t
-ResourceManager<T>::count() const noexcept {
-    return resources.size();
-}
-
-template <typename T>
-void
-ResourceManager<T>::setHotReloadEnabled(bool enabled) noexcept {
-    hot_reload_enabled = enabled;
-}
-
-template <typename T>
-bool
-ResourceManager<T>::isHotReloadEnabled() const noexcept {
-    return hot_reload_enabled;
 }
 
 template <typename T>

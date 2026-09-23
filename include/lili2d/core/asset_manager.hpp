@@ -38,23 +38,31 @@ public:
 
     /// @brief Gets the texture resource manager.
     /// @return Reference to ResourceManager<Texture>.
-    ResourceManager<Texture>&
-    textures();
+    inline ResourceManager<Texture>&
+    textures() noexcept {
+        return texture_manager;
+    }
 
     /// @brief Gets the shader resource manager.
     /// @return Reference to ResourceManager<Shader>.
-    ResourceManager<Shader>&
-    shaders();
+    inline ResourceManager<Shader>&
+    shaders() noexcept {
+        return shader_manager;
+    }
 
     /// @brief Gets the bitmap font resource manager.
     /// @return Reference to ResourceManager<BitmapFont>.
-    ResourceManager<BitmapFont>&
-    fonts();
+    inline ResourceManager<BitmapFont>&
+    fonts() noexcept {
+        return font_manager;
+    }
 
     /// @brief Gets the atlas map (sprite sheet) resource manager.
     /// @return Reference to ResourceManager<AtlasMap>.
-    ResourceManager<AtlasMap>&
-    atlases();
+    inline ResourceManager<AtlasMap>&
+    atlases() noexcept {
+        return atlas_manager;
+    }
 
     /// @brief Gets or registers a generic ResourceManager for any custom type
     /// T.
@@ -62,7 +70,17 @@ public:
     /// @return Reference to ResourceManager<T>.
     template <typename T>
     static ResourceManager<T>&
-    getManager();
+    getManager() {
+        std::type_index type_idx(typeid(T));
+        auto& custom_managers = get().custom_managers;
+        auto it = custom_managers.find(type_idx);
+        if (it != custom_managers.end())
+            return *static_cast<ResourceManager<T>*>(it->second.get());
+        auto manager = std::make_unique<ResourceManager<T>>();
+        ResourceManager<T>* ptr = manager.get();
+        custom_managers[type_idx] = std::move(manager);
+        return *ptr;
+    }
 
     // --- Static Convenience API ---
 
@@ -193,20 +211,6 @@ private:
     std::unordered_map<std::type_index, std::unique_ptr<IResourceManager>>
         custom_managers;
 };
-
-template <typename T>
-ResourceManager<T>&
-AssetManager::getManager() {
-    std::type_index type_idx(typeid(T));
-    auto& custom_managers = get().custom_managers;
-    auto it = custom_managers.find(type_idx);
-    if (it != custom_managers.end())
-        return *static_cast<ResourceManager<T>*>(it->second.get());
-    auto manager = std::make_unique<ResourceManager<T>>();
-    ResourceManager<T>* ptr = manager.get();
-    custom_managers[type_idx] = std::move(manager);
-    return *ptr;
-}
 
 using Assets = AssetManager;
 

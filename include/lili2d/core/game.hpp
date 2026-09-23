@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <memory>
 #include <string>
 
@@ -50,6 +51,13 @@ public:
         clock.setTps(value);
     }
 
+    /// @brief Sets the maximum frames per second cap.
+    /// @param value Target maximum FPS (0 = uncapped).
+    inline void
+    setMaxFps(uint32_t value) noexcept {
+        clock.setMaxFps(value);
+    }
+
     /// @brief Reconfigures the game's performance and threading settings at
     /// runtime.
     /// @param config The new engine configuration.
@@ -96,6 +104,13 @@ public:
     [[nodiscard]] inline float
     getTps() const noexcept {
         return clock.getTps();
+    }
+
+    /// @brief Gets the maximum frames per second cap.
+    /// @return Target maximum FPS (0 = uncapped).
+    [[nodiscard]] inline uint32_t
+    getMaxFps() const noexcept {
+        return clock.getMaxFps();
     }
 
     /// @brief Called once when the game initializes.

@@ -45,6 +45,14 @@ GameConfig::setRelativeMouseMode(lili::Game* game, bool relative_mouse) {
         game->getWindow()->setRelativeMouseMode(relative_mouse);
 }
 
+void
+GameConfig::setMaxFps(lili::Game* game, uint32_t fps) {
+    max_fps = fps;
+    if (game) {
+        game->setMaxFps(fps);
+    }
+}
+
 GameConfig&
 GameConfig::get() {
     static GameConfig instance;

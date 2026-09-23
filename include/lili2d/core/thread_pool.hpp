@@ -42,6 +42,9 @@ struct EngineConfig {
 
     /// @brief GPU present mode configuration.
     SDL_GPUPresentMode potato_present_mode = SDL_GPU_PRESENTMODE_VSYNC;
+
+    /// @brief Maximum frames per second cap (0 = unlimited / uncapped).
+    uint32_t max_fps = 0;
 };
 
 /// @brief A simple, lightweight C++20 Thread Pool using jthread and

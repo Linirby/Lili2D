@@ -21,7 +21,9 @@
 
 namespace lili {
 
-/// @brief PIMPL cache for primitive shape rendering (Rect, Circle, Line).
+class BitmapFont;
+/// @brief PIMPL cache for primitive shape rendering (Rect, Circle, Line) and
+/// text.
 struct ShapesCache;
 
 /// @brief Main renderer class responsible for handling drawing operations.
@@ -174,34 +176,45 @@ public:
     /// @param w Width.
     /// @param h Height.
     /// @param color The color.
-    /// @param hollow Whether the rectangle is hollow (outline only). Default is false.
+    /// @param hollow Whether the rectangle is hollow (outline only). Default is
+    /// false.
     void
     drawRect(
-        float x, float y, float w, float h, Vec4 color, bool hollow = false
+        float x, float y, float w, float h, Vec4 color, bool hollow = false,
+        RenderLayer render_layer = RenderLayer::WORLD2D
     );
     /// @brief Draws a cached rectangle from a RectShape.
     /// @param rect The rectangle geometry.
     /// @param color The color.
-    /// @param hollow Whether the rectangle is hollow (outline only). Default is false.
+    /// @param hollow Whether the rectangle is hollow (outline only). Default is
+    /// false.
     void
-    drawRect(RectShape rect, Vec4 color, bool hollow = false);
+    drawRect(
+        RectShape rect, Vec4 color, bool hollow = false,
+        RenderLayer render_layer = RenderLayer::WORLD2D
+    );
     /// @brief Draws a cached circle.
     /// @param center_x X centered position.
     /// @param center_y Y centered position.
     /// @param radius The radius.
     /// @param color The color.
-    /// @param hollow Whether the circle is hollow (outline only). Default is false.
+    /// @param hollow Whether the circle is hollow (outline only). Default is
+    /// false.
     void
     drawCircle(
         float center_x, float center_y, float radius, Vec4 color,
-        bool hollow = false
+        bool hollow = false, RenderLayer render_layer = RenderLayer::WORLD2D
     );
     /// @brief Draws a cached circle from a CircleShape.
     /// @param circle The circle geometry.
     /// @param color The color.
-    /// @param hollow Whether the circle is hollow (outline only). Default is false.
+    /// @param hollow Whether the circle is hollow (outline only). Default is
+    /// false.
     void
-    drawCircle(CircleShape circle, Vec4 color, bool hollow = false);
+    drawCircle(
+        CircleShape circle, Vec4 color, bool hollow = false,
+        RenderLayer render_layer = RenderLayer::WORLD2D
+    );
     /// @brief Draws a cached line between two points.
     /// @param start_x Start X coordinate.
     /// @param start_y Start Y coordinate.
@@ -212,20 +225,109 @@ public:
     void
     drawLine(
         float start_x, float start_y, float end_x, float end_y, Vec4 color,
-        float thickness = 1.0f
+        float thickness = 1.0f, RenderLayer render_layer = RenderLayer::WORLD2D
     );
-    /// @brief Draws a cached line between two Vec2 points.
-    /// @param start Start position.
-    /// @param end End position.
-    /// @param color The color.
-    /// @param thickness The thickness of the line. Default is 1.0f.
-    void
-    drawLine(Vec2 start, Vec2 end, Vec4 color, float thickness = 1.0f);
     /// @brief Draws a cached line from a LineShape.
     /// @param line The line geometry.
     /// @param color The color.
     void
-    drawLine(LineShape line, Vec4 color);
+    drawLine(
+        LineShape line, Vec4 color,
+        RenderLayer render_layer = RenderLayer::WORLD2D
+    );
+    /// @brief Draws cached text from a string and position using the default
+    /// font.
+    /// @param text The string to render.
+    /// @param pos The position of the text.
+    /// @param color The color tint. Default is white.
+    /// @param scale The uniform scale of the text. Default is 1.0f.
+    /// @param render_layer The render layer. Default is RenderLayer::WORLD2D.
+    void
+    drawText(
+        const std::string& text, Vec2 pos,
+        Vec4 color = Vec4(1.0f, 1.0f, 1.0f, 1.0f), float scale = 1.0f,
+        RenderLayer render_layer = RenderLayer::WORLD2D
+    );
+    /// @brief Draws cached text from a string, position, and specific font.
+    /// @param text The string to render.
+    /// @param pos The position of the text.
+    /// @param font Pointer to the BitmapFont to use.
+    /// @param color The color tint. Default is white.
+    /// @param scale The uniform scale of the text. Default is 1.0f.
+    /// @param render_layer The render layer. Default is RenderLayer::WORLD2D.
+    void
+    drawText(
+        const std::string& text, Vec2 pos, BitmapFont* font,
+        Vec4 color = Vec4(1.0f, 1.0f, 1.0f, 1.0f), float scale = 1.0f,
+        RenderLayer render_layer = RenderLayer::WORLD2D
+    );
+
+    /// @brief Sets the default font used for cached text rendering.
+    /// @param font Pointer to the default BitmapFont.
+    void
+    setDefaultFont(BitmapFont* font) noexcept;
+    /// @brief Gets the default font used for cached text rendering.
+    /// @return Pointer to the default BitmapFont.
+    [[nodiscard]] BitmapFont*
+    getDefaultFont();
+
+    /// @brief Draws cached debug text on the UI layer using the default font.
+    /// @param text The string to render.
+    /// @param pos The screen position of the text.
+    /// @param color The color tint. Default is white.
+    /// @param scale The uniform scale of the text. Default is 1.0f.
+    inline void
+    drawDebugText(
+        const std::string& text, Vec2 pos,
+        Vec4 color = Vec4(1.0f, 1.0f, 1.0f, 1.0f), float scale = 1.0f
+    ) {
+        drawText(text, pos, color, scale, RenderLayer::UI);
+    }
+
+    /// @brief Draws cached text with an explicit slot ID.
+    /// Ideal for dynamic data (e.g. position, FPS) where the text content
+    /// changes frequently but belongs to the same debug label, reusing the same
+    /// GPU mesh.
+    /// @param id Unique identifier for this text slot.
+    /// @param text The text string to render.
+    /// @param pos The position of the text.
+    /// @param color The color tint. Default is white.
+    /// @param scale The uniform scale of the text. Default is 1.0f.
+    /// @param render_layer The render layer. Default is RenderLayer::WORLD2D.
+    void
+    drawTextId(
+        std::string_view id, const std::string& text, Vec2 pos,
+        Vec4 color = Vec4(1.0f, 1.0f, 1.0f, 1.0f), float scale = 1.0f,
+        RenderLayer render_layer = RenderLayer::WORLD2D
+    );
+    /// @brief Draws cached text with an explicit slot ID and specific font.
+    /// @param id Unique identifier for this text slot.
+    /// @param text The text string to render.
+    /// @param pos The position of the text.
+    /// @param font Pointer to the BitmapFont to use.
+    /// @param color The color tint. Default is white.
+    /// @param scale The uniform scale of the text. Default is 1.0f.
+    /// @param render_layer The render layer. Default is RenderLayer::WORLD2D.
+    void
+    drawTextId(
+        std::string_view id, const std::string& text, Vec2 pos,
+        BitmapFont* font, Vec4 color = Vec4(1.0f, 1.0f, 1.0f, 1.0f),
+        float scale = 1.0f, RenderLayer render_layer = RenderLayer::WORLD2D
+    );
+
+    /// @brief Draws cached debug text with an explicit slot ID on the UI layer.
+    /// @param id Unique identifier for this text slot.
+    /// @param text The text string to render.
+    /// @param pos The screen position of the text.
+    /// @param color The color tint. Default is white.
+    /// @param scale The uniform scale of the text. Default is 1.0f.
+    inline void
+    drawDebugTextId(
+        std::string_view id, const std::string& text, Vec2 pos,
+        Vec4 color = Vec4(1.0f, 1.0f, 1.0f, 1.0f), float scale = 1.0f
+    ) {
+        drawTextId(id, text, pos, color, scale, RenderLayer::UI);
+    }
 
     /// @brief Draws a cached hollow debug rectangle.
     /// @param x X position.

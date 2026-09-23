@@ -2,12 +2,6 @@
 
 namespace lili {
 
-bool
-ECSRegistry::isValid(Entity entity) const noexcept {
-    uint32_t idx = getEntityID(entity);
-    return idx < entities.size() && entities[idx] == entity;
-}
-
 Entity
 ECSRegistry::createEntity() {
     if (!free_ids.empty()) {

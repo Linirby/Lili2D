@@ -1,6 +1,7 @@
 #pragma once
 
 #include "lili2d/geometry/mat3x3.hpp"
+#include "lili2d/geometry/utils.hpp"
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/physics/aabb_collider.hpp"
 
@@ -58,14 +59,21 @@ public:
     /// @param width The viewport width.
     /// @param height The viewport height.
     /// @return The view transformation matrix.
-    [[nodiscard]] Mat3
-    getViewMatrix(float width, float height) const noexcept;
+    [[nodiscard]] inline Mat3
+    getViewMatrix(float width, float height) const noexcept {
+        Vec2 center(width * 0.5f, height * 0.5f);
+        return Mat3::translate(center) * Mat3::rotation(degToRad(-rotation)) *
+               Mat3::scale(Vec2(zoom, zoom)) * Mat3::translate(-position);
+    }
+
     /// @brief Gets the projection matrix.
     /// @param width The viewport width.
     /// @param height The viewport height.
     /// @return The projection matrix.
-    [[nodiscard]] Mat3
-    getProjection(float width, float height) const noexcept;
+    [[nodiscard]] inline Mat3
+    getProjection(float width, float height) const noexcept {
+        return Mat3::orthographic(0.0f, width, 0.0f, height);
+    }
 
     /// @brief Gets the visible world-space bounds of the camera.
     /// @param width The viewport width.

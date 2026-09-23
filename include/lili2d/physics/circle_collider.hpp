@@ -59,6 +59,22 @@ struct CircleCollider {
         return diff.dot(diff) <= r_sum * r_sum;
     }
 
+    /// @brief Checks if this circle intersects with a CircleShape.
+    /// @param circle The circle shape to check against.
+    /// @return True if there is an intersection, false otherwise.
+    [[nodiscard]] constexpr bool
+    intersect(CircleShape circle) const noexcept {
+        return intersect(CircleCollider(circle));
+    }
+
+    /// @brief Checks if this circle intersects with a point.
+    /// @param point The point to test against.
+    /// @return True if point is inside or on the boundary, false otherwise.
+    [[nodiscard]] constexpr bool
+    intersect(Vec2 point) const noexcept {
+        return contains(point);
+    }
+
     /// @brief Checks if this circle intersects with an AABB2.
     /// @param aabb The AABB2 to check against.
     /// @return True if there is an intersection, false otherwise.
@@ -98,6 +114,75 @@ struct CircleCollider {
         return diff.dot(diff) <= radius * radius;
     }
 
+    /// @brief Checks if this circle overlaps with another circle collider (non-inclusive).
+    /// @param other The other circle collider.
+    /// @return True if there is an overlap, false otherwise.
+    [[nodiscard]] constexpr bool
+    overlaps(CircleCollider other) const noexcept {
+        Vec2 diff = center - other.center;
+        float r_sum = radius + other.radius;
+        return diff.dot(diff) < r_sum * r_sum;
+    }
+
+    /// @brief Checks if this circle overlaps with a CircleShape (non-inclusive).
+    /// @param circle The circle shape to check against.
+    /// @return True if there is an overlap, false otherwise.
+    [[nodiscard]] constexpr bool
+    overlaps(CircleShape circle) const noexcept {
+        return overlaps(CircleCollider(circle));
+    }
+
+    /// @brief Checks if this circle overlaps with an AABB2 (non-inclusive).
+    /// @param aabb The AABB2 to check against.
+    /// @return True if there is an overlap, false otherwise.
+    [[nodiscard]] inline bool
+    overlaps(AABB2 aabb) const noexcept {
+        float closest_x = std::clamp(center.x, aabb.min.x, aabb.max.x);
+        float closest_y = std::clamp(center.y, aabb.min.y, aabb.max.y);
+        Vec2 closest(closest_x, closest_y);
+        Vec2 diff = center - closest;
+        return diff.dot(diff) < radius * radius;
+    }
+
+    /// @brief Checks if this circle overlaps with a RectShape (non-inclusive).
+    /// @param rect The rect to check against.
+    /// @return True if there is an overlap, false otherwise.
+    [[nodiscard]] inline bool
+    overlaps(RectShape rect) const noexcept {
+        return overlaps(AABB2(rect));
+    }
+
+    /// @brief Checks if this circle overlaps with a LineShape segment (non-inclusive).
+    /// @param line The line segment to check against.
+    /// @return True if there is an overlap, false otherwise.
+    [[nodiscard]] inline bool
+    overlaps(LineShape line) const noexcept {
+        Vec2 start = line.start;
+        Vec2 end = line.end;
+        Vec2 seg = end - start;
+        float seg_len_sq = seg.dot(seg);
+        if (seg_len_sq == 0.0f) {
+            Vec2 diff = start - center;
+            return diff.dot(diff) < radius * radius;
+        }
+        float t =
+            ((center.x - start.x) * seg.x + (center.y - start.y) * seg.y) /
+            seg_len_sq;
+        t = std::clamp(t, 0.0f, 1.0f);
+        Vec2 closest = start + seg * t;
+        Vec2 diff = center - closest;
+        return diff.dot(diff) < radius * radius;
+    }
+
+    /// @brief Checks if a point overlaps inside this circle (non-inclusive).
+    /// @param point The point to test.
+    /// @return True if point is strictly inside, false otherwise.
+    [[nodiscard]] constexpr bool
+    overlaps(Vec2 point) const noexcept {
+        Vec2 diff = point - center;
+        return diff.dot(diff) < radius * radius;
+    }
+
     /// @brief Checks if a point is contained inside this circle.
     /// @param point The point to test.
     /// @return True if point is inside, false otherwise.
@@ -117,6 +202,14 @@ struct CircleCollider {
         Vec2 diff = center - other.center;
         float max_dist = radius - other.radius;
         return diff.dot(diff) <= max_dist * max_dist;
+    }
+
+    /// @brief Checks if a CircleShape is completely contained inside this circle.
+    /// @param circle The other circle shape.
+    /// @return True if circle is fully contained, false otherwise.
+    [[nodiscard]] constexpr bool
+    contains(CircleShape circle) const noexcept {
+        return contains(CircleCollider(circle));
     }
 
     /// @brief Gets the Axis-Aligned Bounding Box (AABB2) surrounding this
@@ -144,8 +237,13 @@ AABB2::intersect(CircleCollider circle) const noexcept {
 }
 
 inline bool
-AABB2::intersect(CircleShape circle) const noexcept {
-    return CircleCollider(circle).intersect(*this);
+AABB2::overlaps(CircleCollider circle) const noexcept {
+    return circle.overlaps(*this);
+}
+
+inline bool
+AABB2::contains(CircleCollider circle) const noexcept {
+    return contains(circle.getAABB());
 }
 
 }  // namespace lili

@@ -18,14 +18,6 @@ Line::Line(Renderer* renderer, LineShape shape, Vec4 color)
 }
 
 void
-Line::setPosition(Vec2 pos) noexcept {
-    Vec2 delta = pos - shape.start;
-    shape.start = pos;
-    shape.end = shape.end + delta;
-    ui_layout.offset = pos;
-}
-
-void
 Line::setRotation(float degree) noexcept {
     Vec2 diff = shape.end - shape.start;
     float length = diff.length();
@@ -44,19 +36,6 @@ Line::setSize(Vec2 size) noexcept {
     } else
         shape.end = shape.start + Vec2(size.x, 0.0f);
     shape.thickness = size.y;
-}
-
-float
-Line::getRotation() const noexcept {
-    Vec2 diff = shape.end - shape.start;
-    float angle = std::atan2(diff.y, diff.x);
-    return lili::radToDeg(angle);
-}
-
-Vec2
-Line::getSize() const noexcept {
-    Vec2 diff = shape.end - shape.start;
-    return {diff.length() * scale.x, shape.thickness * scale.y};
 }
 
 Mat3

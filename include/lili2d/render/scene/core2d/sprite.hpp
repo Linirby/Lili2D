@@ -46,8 +46,16 @@ public:
     setImage(const std::string& path);
     /// @brief Sets the sprite's slice from an atlas map.
     /// @param slice The new UV slice.
-    void
-    setSlice(const SliceUV& slice);
+    inline void
+    setSlice(const SliceUV& slice) noexcept {
+        current_slice = slice;
+        Material* mat = getMaterial();
+        if (mat) {
+            mat->albedoMap = slice.texture;
+            mat->properties.uv_bounds =
+                Vec4(slice.u_min, slice.v_min, slice.u_max, slice.v_max);
+        }
+    }
 
     /// @brief Sets the sprite's color tint.
     /// @param color The new color tint.

@@ -105,8 +105,12 @@ public:
     /// @brief Sets the logical (virtual) resolution for the window.
     /// @param width Logical width in pixels (0 to disable).
     /// @param height Logical height in pixels (0 to disable).
-    void
-    setLogicalResolution(int width, int height);
+    inline void
+    setLogicalResolution(int width, int height) noexcept {
+        logical_width = width;
+        logical_height = height;
+        use_logical_resolution = (width > 0 && height > 0);
+    }
     /// @brief Gets the active logical resolution (or physical window size if
     /// not set).
     /// @return Vec2 containing logical width and height.
@@ -128,8 +132,10 @@ public:
 
     /// @brief Gets the underlying SDL_Window pointer.
     /// @return Pointer to the SDL_Window.
-    [[nodiscard]] SDL_Window*
-    getSdlWindow() const noexcept;
+    [[nodiscard]] inline SDL_Window*
+    getSdlWindow() const noexcept {
+        return window;
+    }
 
 private:
     bool resizable = false;

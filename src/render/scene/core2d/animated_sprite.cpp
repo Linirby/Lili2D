@@ -81,30 +81,12 @@ AnimatedSprite::update(float dt) {
 }
 
 void
-AnimatedSprite::reset() noexcept {
-    current_frame = 0;
-    frame_time_sec = 0.0f;
-    if (animation.frameCount() > 0) applyFrame(animation.getFrame(0));
-}
-
-void
 AnimatedSprite::draw() {
     if (!is_visible) return;
     Mat3 mat_transform = getTransformMatrix();
     renderer->submit(
         Model(mesh, getMaterial()), mat_transform, layer, render_layer
     );
-}
-
-void
-AnimatedSprite::applyFrame(const SliceUV& frame) {
-    Material* mat = getMaterial();
-    if (mat) {
-        mat->albedoMap = frame.texture;
-        mat->properties.uv_bounds =
-            Vec4(frame.u_min, frame.v_min, frame.u_max, frame.v_max);
-    }
-    this->size = Vec2(frame.width, frame.height);
 }
 
 }  // namespace lili

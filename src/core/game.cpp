@@ -29,6 +29,8 @@ Game::Game(
 
     renderer = std::make_unique<Renderer>(window.get(), preferred_present_mode);
     this->engine_config = engine_config;
+    clock.setMaxFps(engine_config.max_fps);
+    config.updateMaxFps(engine_config.max_fps);
     thread_pool = std::make_unique<ThreadPool>(engine_config);
 }
 
@@ -38,6 +40,7 @@ void
 Game::run() {
     onInit();
     running = true;
+    clock.reset();
 
     while (running) {
         clock.update();
@@ -54,6 +57,7 @@ Game::run() {
             onRender(clock.getAlpha());
             renderer->endFrame();
         }
+        clock.limitFps();
     }
     onExit();
 }
@@ -61,6 +65,8 @@ Game::run() {
 void
 Game::configure(const EngineConfig& new_config) {
     this->engine_config = new_config;
+    clock.setMaxFps(engine_config.max_fps);
+    GameConfig::get().updateMaxFps(engine_config.max_fps);
 
     SDL_GPUPresentMode present_mode = SDL_GPU_PRESENTMODE_MAILBOX;
     if (engine_config.profile == PerformanceProfile::YES)

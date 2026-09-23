@@ -6,7 +6,7 @@
 namespace lili {
 
 /// @brief Enum defining different rendering layers/passes.
-enum class RenderLayer {
+enum class RenderLayer : uint8_t {
     WORLD2D,        ///< The 2D world layer.
     UI,             ///< The UI world layer.
     PIXEL_WORLD2D,  ///< The pixelated 2D world layer.

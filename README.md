@@ -22,7 +22,7 @@ I created this project to learn modern engine architecture and have a fast, clea
 ## Prerequisites
 
 - **C++20 compiler** (GCC 10+, Clang 11+, or MSVC 2019+)
-- **CMake** 3.20+
+- **CMake** 3.10+
 - **SDL3**, **SDL3_image**, and **SDL3_shadercross**
 
 ## Building

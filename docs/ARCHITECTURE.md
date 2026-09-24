@@ -1,33 +1,31 @@
-# Lili2D Engine Architecture & Systems Walkthrough
+# Lili2D Engine Architecture
 
-Welcome to the technical architectural overview of **Lili2D**, a high-performance 2D game engine built with **C++20** and **SDL3 / SDL_GPU**.
-
-This document details the core system designs, concurrency patterns, memory layouts, transform pipelines, and GPU optimization strategies implemented across the engine. It serves as an in-depth reference for engine architects, technical leads, and developers.
+An overview of the core subsystems, memory layouts, and rendering pipeline in Lili2D.
 
 ---
 
 ## Table of Contents
 
 1. [Engine Core & The Game Loop](#1-engine-core--the-game-loop)
-2. [Priority-Scheduled Multithreading (`ThreadPool`)](#2-priority-scheduled-multithreading-threadpool)
-3. [Data-Oriented Entity Component System (ECS)](#3-data-oriented-entity-component-system-ecs)
-4. [Unified Scoped Asset & Resource Engine](#4-unified-scoped-asset--resource-engine)
-5. [Live Asset & Shader Hot-Reloading Architecture](#5-live-asset--shader-hot-reloading-architecture)
-6. [UI Layout Engine & Matrix Transform Pipeline](#6-ui-layout-engine--matrix-transform-pipeline)
-7. [Virtual Viewport Scaling & Logical Resolution](#7-virtual-viewport-scaling--logical-resolution)
-8. [Spatial Physics & Collision Query Subsystem](#8-spatial-physics--collision-query-subsystem)
-9. [Hardware Rendering & GPU Memory Optimizations](#9-hardware-rendering--gpu-memory-optimizations)
-10. [Custom Shader Cross-Compilation & Dynamic Uniform Buffering](#10-custom-shader-cross-compilation--dynamic-uniform-buffering)
-11. [Input Action Mapping Subsystem (`ActionMap`)](#11-input-action-mapping-subsystem-actionmap)
-12. [Chunk-Based 3D Grid Tilemap & Asynchronous Meshing](#12-chunk-based-3d-grid-tilemap--asynchronous-meshing)
-13. [Frame Animation Pipeline & Sprite Slicing (`AtlasMap`, `AnimationPlayer`)](#13-frame-animation-pipeline--sprite-slicing-atlasmap-animationplayer)
-14. [Modern C++20 Standards & Low-Latency Guidelines](#14-modern-c20-standards--low-latency-guidelines)
+2. [Multithreading (`ThreadPool`)](#2-multithreading-threadpool)
+3. [Entity Component System (ECS)](#3-entity-component-system-ecs)
+4. [Asset & Resource Engine](#4-asset--resource-engine)
+5. [Live Asset & Shader Hot-Reloading](#5-live-asset--shader-hot-reloading)
+6. [UI Layout Engine & Matrix Transform](#6-ui-layout-engine--matrix-transform)
+7. [Viewport Scaling & Logical Resolution](#7-viewport-scaling--logical-resolution)
+8. [Physics & Collision](#8-physics--collision)
+9. [Rendering & GPU Memory](#9-rendering--gpu-memory)
+10. [Custom Shader & Uniform Buffer](#10-custom-shader--uniform-buffer)
+11. [Input Action Mapping](#11-input-action-mapping)
+12. [3D Grid Tilemap & Meshing](#12-3d-grid-tilemap--meshing)
+13. [Animation & Sprite Slicing](#13-animation--sprite-slicing)
+14. [Modern C++ & Guidelines](#14-modern-c--guidelines)
 
 ---
 
 ## 1. Engine Core & The Game Loop
 
-Lili2D centers around a synchronized fixed-timestep game loop that decouples deterministic physics updates (TPS) from variable rendering framerates (FPS) using an accumulator pattern.
+Lili2D centers around a fixed-timestep game loop that decouples deterministic physics updates (TPS) from variable rendering framerates (FPS) using an accumulator pattern.
 
 ```mermaid
 graph TD
@@ -47,24 +45,14 @@ graph TD
 
 ### Core Architecture Highlights
 
-* **Decoupled Simulation & Render Interpolation**: Subclasses of `lili::Game` implement `onFixedUpdate()` for tick-rate deterministic state updates, and `onRender(alpha)` for smooth, frame-rate independent visual interpolation.
-* **RAII & Encapsulated Subsystems**: Low-level subsystem lifecycles (`Window`, `Renderer`, `ThreadPool`, `SceneManager`) are strictly owned by `Game`. Subsystem handles are exposed via read-only accessors to protect state invariants.
-* **Global Runtime Bridge (`GameConfig`)**: Provides a centralized state manager for runtime window mode toggles (fullscreen, borderless, resizable, relative mouse) synced safely back to the active `Game` instance.
+* **RAII & Encapsulated Subsystems**: Low-level subsystem lifecycles (`Window`, `Renderer`, `ThreadPool`, `SceneManager`) are owned by `Game` and accessed through getter methods.
+* **Runtime Config (`GameConfig`)**: Manages window modes (fullscreen, borderless, resizable, relative mouse) and keeps them synchronized with the active `Game` instance.
 
 ---
 
-## 2. Priority-Scheduled Multithreading (`ThreadPool`)
+## 2. Multithreading (`ThreadPool`)
 
-To maximize multi-core CPU utilization while eliminating frame-pacing stutter, Lili2D provides a custom C++20 task scheduler (`lili::ThreadPool`) featuring explicit **task prioritization**.
-
-### Concurrency Mechanics
-
-* **Fixed Thread Allocation**: Worker threads default to `std::thread::hardware_concurrency() - 1`, preserving one dedicated core for OS scheduling and the main engine loop.
-* **RAII Lifecycle & Cooperative Cancellation**: Worker threads run via `std::jthread` and monitor `std::stop_token` for clean thread-group tear-downs.
-* **Priority-Based Task Queues**: Tasks are submitted with a `TaskPriority` enum (`HIGH`, `NORMAL`, `LOW`):
-  * **HIGH**: Frame-critical tasks (parallel ECS physics, collision dispatch, camera updates).
-  * **NORMAL**: Asynchronous asset decoding, geometry processing.
-  * **LOW**: Background world generation, tilemap chunk mesh baking.
+To maximize multi-core CPU utilization while eliminating frame-pacing stutter, Lili2D provides a custom C++20 task scheduler (`lili::ThreadPool`) featuring explicit **task prioritization** (High, Normal, Low).
 
 ```mermaid
 graph LR
@@ -88,20 +76,20 @@ q.pop();
 
 ---
 
-## 3. Data-Oriented Entity Component System (ECS)
+## 3. Entity Component System (ECS)
 
-Lili2D implements a cache-friendly Entity Component System (`lili::ECSRegistry`) designed around contiguous memory layouts and data-oriented design (DOD).
+Lili2D implements an Entity Component System (`lili::ECSRegistry`) designed around contiguous memory layouts and data-oriented design (DOD).
 
 ### Contiguous Memory Allocation (`ComponentPool<T>`)
 
-Components of type `T` are stored sequentially in tightly packed arrays (`std::vector<T>`). When ECS systems execute, CPU L1/L2 data caches prefetch contiguous component slices, eliminating pointer-chasing and cache miss penalties inherent to traditional OOP hierarchies.
+Components of type `T` are stored sequentially in packed vectors (`std::vector<T>`), keeping data contiguous in memory for cache efficiency during updates.
 
 ```txt
-[ComponentPool<Position>] -> [ Pos0 ][ Pos1 ][ Pos2 ][ Pos3 ]  <-- (Packed Contiguous Block)
-[ComponentPool<Velocity>] -> [ Vel0 ][ Vel1 ][ Vel2 ][ Vel3 ]  <-- (Packed Contiguous Block)
+[ComponentPool<Pos>] -> [ Pos0 ][ Pos1 ][ Pos2 ][ Pos3 ] <- (Contiguous Block)
+[ComponentPool<Vel>] -> [ Vel0 ][ Vel1 ][ Vel2 ][ Vel3 ] <- (Contiguous Block)
 ```
 
-### Multi-Component Query Engine & Custom Iterator (`ECSView`)
+### Multi-Component Query (`ECSView`)
 
 Lili2D queries entities possessing combinations of components via `lili::ECSView<Components...>`, backed by a custom C++20 forward iterator (`ECSView::Iterator`) with zero heap allocation.
 
@@ -122,47 +110,37 @@ graph TD
     Next --> Inc
 ```
 
-#### 1. Smallest Pool Heuristic ("Lead Pool")
+### Iteration & Component Access
 
-The set of matching entities ($E_{\text{match}}$) is an intersection across all queried component pools:
-
-$$E_{\text{match}} = E_{C_1} \cap E_{C_2} \cap \dots \cap E_{C_n} \implies \text{count}(E_{\text{match}}) \le \min_{i}(\text{count}(E_{C_i}))$$
-
-`ECSView` identifies the smallest pool (`lead_pool`) via fold expressions at construction. Iteration candidate space is constrained strictly to the lead pool, eliminating full traversals of larger pools.
-
-#### 2. Short-Circuit Filtering & Direct Array Indexing
-
-* **Fold Short-Circuiting (`find_valid`)**: `((pool == lead_pool || pool->has(current_entity)) && ...)` short-circuits on the first missing component.
-* **Lead Fast-Path**: The lead pool candidate avoids sparse-set lookups entirely via identity check `pool == lead_pool`.
-* **Zero-Copy Dereference (`operator*`)**: Returns `std::tuple<Entity, Components&...>`. The lead component is fetched via direct O(1) contiguous index `lead_pool->getComponents()[index]`, while secondary pools use sparse lookups.
+* **Zero-Copy Access (`operator*`)**: Returns `std::tuple<Entity, Components&...>`. The lead component is fetched via direct O(1) index `lead_pool->getComponents()[index]`, while secondary pools use sparse lookups.
 
 ```cpp
 // In-place mutation over contiguous component memory with structured bindings
-for (auto [entity, pos, vel, render] : registry.view<Position, Velocity, Render>()) {
+for (auto&& [entity, pos, vel, render] : registry.view<Position, Velocity, Render>()) {
     pos.value += vel.value * dt; // Direct in-place pool modification, zero heap alloc
 }
 ```
 
-### Thread-Safe Deferred Command Buffer
+### Thread-Safe Command Buffer
 
 Modifying ECS state (spawning/destroying entities, attaching components) during multithreaded execution creates data races. Lili2D provides `lili::CommandBuffer`:
-1. Worker threads query components concurrently and enqueue structural mutations to thread-safe deferred queues.
-2. At frame tick completion, the main thread flushes `CommandBuffer` sequentially into `ECSRegistry`, guaranteeing lock-free system updates.
+1. Worker threads query components concurrently and enqueue mutations to thread-safe queues.
+2. At frame tick completion, the main thread flushes `CommandBuffer` into `ECSRegistry`, guaranteeing lock-free system updates.
 
 ---
 
-## 4. Unified Scoped Asset & Resource Engine
+## 4. Asset & Resource Engine
 
-Asset management in Lili2D is powered by a dual-tier architecture: templated scoped resource managers (`lili::ResourceManager<T>`) and a centralized static facade (`lili::AssetManager` / `lili::Assets`).
+Asset management in Lili2D is powered by templated resource managers (`lili::ResourceManager<T>`) and a static facade (`lili::AssetManager` / `lili::Assets`).
 
 ```mermaid
 graph TD
     Facade["Assets / AssetManager (Static Facade)"]
-    Facade --> TexMgr["ResourceManager<Texture>"]
-    Facade --> ShdMgr["ResourceManager<Shader>"]
-    Facade --> FntMgr["ResourceManager<BitmapFont>"]
-    Facade --> AtlMgr["ResourceManager<AtlasMap>"]
-    Facade --> CustMgr["Custom User Managers (ResourceManager<T>)"]
+    Facade --> TexMgr["ResourceManager (Texture)"]
+    Facade --> ShdMgr["ResourceManager (Shader)"]
+    Facade --> FntMgr["ResourceManager (BitmapFont)"]
+    Facade --> AtlMgr["ResourceManager (AtlasMap)"]
+    Facade --> CustMgr["Custom User Managers (ResourceManager (T))"]
     
     TexMgr --> HR["Hot-Reload File Watcher (std::filesystem)"]
     ShdMgr --> HR
@@ -173,15 +151,15 @@ graph TD
 
 ### Key Design Patterns
 
-* **Polymorphic Base Interface (`IResourceManager`)**: Type-erased base class enabling uniform lifecycle control, scope unloading, and hot-reload polling across heterogeneous resource types.
-* **Scoped Memory Isolation (`unloadScope`)**: Resources are assigned scope tags (e.g. `"global"`, `"main_menu"`, `"level_01"`). Calling `Assets::unloadScope("level_01")` purges all unused textures, fonts, and shaders associated with that scene, preventing memory leaks during scene transitions.
+* **Polymorphic Base Interface (`IResourceManager`)**: Enables uniform lifecycle management, scope unloading, and hot-reload polling across different asset types.
+* **Scoped Memory Isolation (`unloadScope`)**: Resources are assigned scope tags (e.g. `"global"`, `"main_menu"`, `"level_01"`). Calling `Assets::unloadScope("level_01")` prevents memory leaks during scene transitions.
 * **Extensible Type Registry**: Custom user asset types `T` can be registered dynamically via `Assets::getManager<T>()`, granting them full caching, scope control, and hot-reloading capabilities.
 
 ---
 
-## 5. Live Asset & Shader Hot-Reloading Architecture
+## 5. Live Asset & Shader Hot-Reloading
 
-Lili2D implements an asynchronous, multi-stage hot-reloading pipeline that allows developers to modify textures, fonts, sprite sheets, and custom HLSL shaders (`.vert.hlsl` / `.frag.hlsl`) on disk while the game is running, updating GPU state in real-time without application restarts.
+Lili2D implements a multi-stage hot-reloading pipeline that allows developers to modify textures, fonts, sprite sheets, and custom HLSL shaders (`.vert.hlsl` / `.frag.hlsl`) on disk while the game is running, updating GPU state in real-time without application restarts.
 
 ```mermaid
 sequenceDiagram
@@ -211,29 +189,23 @@ sequenceDiagram
     end
 ```
 
-### Key Mechanisms
-
-* **Multi-File Tracking (`WatchedFile`)**: Compound assets (e.g., shaders requiring both `.vert.hlsl` and `.frag.hlsl`) store arrays of `WatchedFile`. If any dependency timestamp changes, the reloader triggers and syncs all timestamps simultaneously upon success.
-* **Observer Pipeline Rebuilding**: Modern GPU pipeline state objects (`SDL_GPUGraphicsPipeline`) are immutable. Pipelines subscribe to `Shader` reload events via `notifyReloaded()`, triggering `MainGraphicsPipeline::rebuild()`. `Material` dynamically queries `getPipeline()`, eliminating manual re-binding in gameplay code.
-* **Resilient Exception Guards**: Shader recompilation is wrapped in exception handlers. Compilation errors log diagnostics to `std::cerr` and leave current GPU pipelines untouched, allowing uninterrupted gameplay while fixing syntax errors.
-
 ---
 
-## 6. UI Layout Engine & Matrix Transform Pipeline
+## 6. UI Layout Engine & Matrix Transform
 
 All rendered 2D objects inherit from `lili::IRenderable`, establishing a unified interface for positions, scales, rotations, materials, and UI layout positioning.
 
 ### UI Pivot & Anchor Normalization
 
-Lili2D features a coordinate-independent UI positioning pipeline based on normalized **Anchors** (screen/viewport relative) and **Pivots** (element bounding box relative):
+Lili2D positions UI elements using normalized **Anchors** (relative to the screen/viewport) and **Pivots** (relative to the element's bounding box):
 
-$$\text{GlobalPos} = (\text{ViewportSize} \times \text{Anchor}) + \text{Offset} - (\text{ObjSize} \times \text{Pivot})$$
+```cpp
+Vec2 global_pos = (viewport_size * anchor) + offset - (element_size * pivot);
+```
 
 ### 3x3 Affine Matrix Transformation (`Mat3`)
 
-Renderables compose a 3x3 transformation matrix combining translation, pivot shifts, scale factors, and 2D rotation:
-
-$$M = T(\text{Position} + \text{AnchorOffset}) \times R(\theta) \times S(\text{Scale}) \times T(-\text{PivotOffset})$$
+Renderables combine translation, pivot offsets, rotation, and scale into a 3x3 transformation matrix:
 
 ```cpp
 Mat3 transform = Mat3::translation(screen_pos) *
@@ -244,29 +216,33 @@ Mat3 transform = Mat3::translation(screen_pos) *
 
 ### Inverse-Matrix Point Containment (`containsPoint`)
 
-To test if screen/mouse coordinates hit a transformed element, `containsPoint()` multiplies the point by the **inverse** transformation matrix ($M^{-1}$), transforming coordinates into local unrotated element space for exact bounding box evaluation.
+To test if screen or mouse coordinates hit a transformed element, `containsPoint()` multiplies the point by the inverse transformation matrix, bringing the point into local unrotated space for an exact bounding box check.
 
 ---
 
-## 7. Virtual Viewport Scaling & Logical Resolution
+## 7. Viewport Scaling & Logical Resolution
 
 To protect game logic and UI layouts from physical display resolution changes, window resizing, and aspect ratio variations, Lili2D provides a **Logical Resolution** subsystem (`Window::setLogicalResolution`).
 
-### Aspect-Ratio Aware Letterboxing
+### Aspect-Ratio Letterboxing
 
-The engine computes scale factors and centers the game viewport within physical window dimensions using dynamic pillarboxing or letterboxing:
+The engine computes scale factors and centers the game viewport within physical window dimensions using pillarboxing or letterboxing:
 
-$$\text{Scale} = \min\left(\frac{\text{PhysicalWidth}}{\text{LogicalWidth}}, \frac{\text{PhysicalHeight}}{\text{LogicalHeight}}\right)$$
+```cpp
+float scale = std::min(physical_width / logical_width, physical_height / logical_height);
+```
 
 ### Coordinate Space Mapping (`toLogicalCoords`)
 
-Input events (mouse cursor coordinates, touch points) recorded in physical screen pixels are transformed into logical game space automatically:
+Input events recorded in physical screen pixels are converted into logical game coordinates automatically:
 
-$$\text{LogicalPos} = \frac{\text{PhysicalPos} - \text{ViewportOffset}}{\text{Scale}}$$
+```cpp
+Vec2 logical_pos = (physical_pos - viewport_offset) / scale;
+```
 
 ---
 
-## 8. Spatial Physics & Collision Query Subsystem
+## 8. Physics & Collision
 
 Lili2D provides lightweight spatial primitive colliders for 2D gameplay physics, raycasting, and broad-phase/narrow-phase queries.
 
@@ -284,7 +260,7 @@ bool hit = (circle.center - closest).lengthSquared() <= (circle.radius * circle.
 
 ### Zero-Allocation Primitive & Debug Visualization
 
-Colliders do not render themselves directly. Instead, colliders expose a `.getShape()` method that returns lightweight geometric primitives (`RectShape`, `CircleShape`), which can be submitted directly to the `Renderer`'s cached shape drawing API (`drawRect`, `drawCircle`, `drawLine`):
+Colliders do not render themselves directly. Instead, colliders expose a `.getShape()` method that returns geometric primitives (`RectShape`, `CircleShape`), which can be submitted directly to the `Renderer`'s cached shape drawing API (`drawRect`, `drawCircle`, `drawLine`):
 
 ```cpp
 // Prototyping / debug visualization using cached shape rendering:
@@ -293,25 +269,25 @@ renderer->drawCircle(circle_collider.getShape(), debug_color, /*hollow=*/true);
 renderer->drawLine(start, end, debug_color, thickness);
 ```
 
-The `Renderer` uses an internal `ShapesCache` (PIMPL) retaining shared primitives and materials keyed by color and fill mode. This eliminates heap allocations during frame steps and allows rapid game prototyping without creating texture assets.
+The `Renderer` uses an internal `ShapesCache` (PIMPL) retaining shared primitives and materials keyed by color and fill mode. This avoids heap allocations during frame steps and allows rapid game prototyping without creating texture assets.
 
 ---
 
-## 9. Hardware Rendering & GPU Memory Optimizations
+## 9. Rendering & GPU Memory
 
-Lili2D relies on SDL3's `SDL_GPU` abstraction layer for direct modern graphics hardware execution (Vulkan, Direct3D 12, Metal).
+Lili2D relies on SDL3's `SDL_GPU` for direct modern graphics execution (Vulkan, Direct3D 12, Metal).
 
 ### Camera Viewport Frustum Culling
 
 Before submitting tilemap geometry to GPU command buffers, the `TileMap` culls all chunks lying outside the active `Camera` viewport bounds calculated via inverse camera zoom/translation matrices. Chunks outside camera AABB boundaries skip mesh updates and draw submissions entirely.
 
-### Automated Texture Batching (`SpriteBatch`)
+### Texture Batching (`SpriteBatch`)
 
-To prevent driver bottlenecks caused by repetitive GPU draw call submissions, Lili2D groups sprites sharing identical texture bindings and render passes into a unified `SpriteBatch`. Sprite vertices and indices are merged into single dynamic buffers and rendered in a single `SDL_DrawGPUIndexedPrimitives` draw call.
+To prevent bottlenecks caused by repetitive GPU draw calls, Lili2D groups sprites sharing identical texture bindings and render passes into a `SpriteBatch`. Sprite vertices and indices are merged into single dynamic buffers and rendered in a single draw call.
 
 ### Dynamic Rebuild Budgeting
 
-Rebuilding hundreds of chunks in a single frame during rapid camera motion would exhaust command queues and cause stutter. Lili2D enforces a strict chunk rebuild budget of **8 chunks per frame tick**:
+Rebuilding hundreds of chunks in a single frame during camera movement can saturate command buffers. Lili2D enforces a chunk rebuild budget of **8 chunks per frame tick**:
 
 ```cpp
 if (chunk.dirty && rebuilds_this_frame < 8) {
@@ -324,16 +300,15 @@ Excess dirty chunks are deferred and progressively updated across subsequent fra
 
 ### GPU Idle Synchronization & Deleter Protections
 
-To eliminate hardware race conditions and Vulkan descriptor validation errors (`VUID-VkWriteDescriptorSet-descriptorType-02997`) during resource reloads or scene teardowns:
-* **RAII GPU Deleters**: Device-dependent deleters (`SDLGPUTextureDeleter`, `SDLGPUBufferDeleter`, etc.) invoke `SDL_WaitForGPUIdle(device)` before releasing GPU memory.
-* **Renderer Shutdown Synchronization**: `Renderer::~Renderer()` idles the active GPU device prior to freeing pipelines, shaders, or mesh allocations.
+To eliminate hardware race conditions and Vulkan descriptor validation errors during resource reloads or scene teardowns:
+* **RAII GPU Deleters**: Device-dependent deleters (`SDLGPUTextureDeleter`, `SDLGPUBufferDeleter`, etc.) call `SDL_WaitForGPUIdle(device)` before releasing GPU memory.
 * **Defensive Render Pass Validation**: `MainRenderPass::render()` verifies vertex/index buffers and textures are non-null before binding, skipping incomplete assets gracefully during hot-reloads.
 
 ---
 
-## 10. Custom Shader Cross-Compilation & Dynamic Uniform Buffering
+## 10. Custom Shader & Uniform Buffer
 
-Lili2D unifies shader authoring around **HLSL** as the canonical shading language, transpiling and cross-compiling shaders dynamically to the active backend driver via `SDL_ShaderCross`.
+Lili2D unifies shaders around **HLSL** as the primary shading language, cross-compiling shaders dynamically to the active backend driver via `SDL_ShaderCross`.
 
 ```mermaid
 graph LR
@@ -346,7 +321,7 @@ graph LR
 
 ### Direct Uniform Push Architecture
 
-Lili2D leverages SDL3 GPU's immediate command buffer uniform push model rather than allocating persistent descriptor uniform buffers per draw call:
+Lili2D utilizes SDL3 GPU's uniform push model rather than allocating persistent descriptor uniform buffers per draw call:
 * **Vertex Slot 0 (Engine Uniforms)**: MVP matrix (3x4 columns), tint color (`Vec4`), UV bounds (`Vec4`), render layer, and elapsed engine time.
 * **Vertex Slot 1 & Fragment Slot 0 (Custom User Uniforms)**: Arbitrary user-defined structs pushed directly into the command buffer stream via `material.setVertexUniforms(data)` and `material.setFragmentUniforms(data)`.
 
@@ -357,25 +332,25 @@ rect.getMaterial()->setVertexUniforms(WaveUniforms{ clock.getTime(), 0.2f, 30.0f
 
 ---
 
-## 11. Input Action Mapping Subsystem (`ActionMap`)
+## 11. Input Action Mapping
 
-The centralized `lili::ActionMap` decouples game logic from physical hardware input devices using string-keyed logical actions:
+The centralized `lili::ActionMap` separates game logic from physical hardware input devices using string-keyed logical actions:
 
 ```cpp
 ActionMap::get().add("Jump", { Key::SPACE, Key::W });
 ActionMap::get().add("Shoot", {}, { MouseButton::LEFT });
 ```
 
-### Tri-State Frame Queries
+### Input State Queries
 
-The action map processes input transitions per frame, allowing systems to query discrete input states:
+The action map processes input transitions per frame, allowing systems to query:
 * `isHeld("MoveRight")`: Returns `true` continuously while any assigned physical key/button is depressed.
 * `isJustPressed("Jump")`: Returns `true` strictly on the exact frame the action was activated.
 * `isJustReleased("Shoot")`: Returns `true` strictly on the frame the action was released.
 
 ---
 
-## 12. Chunk-Based 3D Grid Tilemap & Asynchronous Meshing
+## 12. 3D Grid Tilemap & Meshing
 
 Lili2D's world tilemap system (`lili::TileMap`) is architected for expansive grid-based environments using 3D chunk spatial partitioning (`Point3(chunkX, chunkY, layerZ)`).
 
@@ -388,43 +363,44 @@ graph TD
     TP --> GPUMesh[Baked Dynamic GPUMesh Buffers]
 ```
 
-### Key Architectural Mechanisms:
-* **Spatial Chunk Indexing**: Coordinates are partitioned into fixed chunks (e.g. 16x16 tiles) indexed via `Point3Compare`.
-* **Asynchronous Geometry Baking**: When tiles mutate (`setTile`), dirty chunks dispatch geometry generation to `ThreadPool` workers, generating vertex and index lists in parallel without stalling the main thread.
-* **Layer Depth & Collision Sweep**: `checkCollision(AABB3)` queries solid tile IDs directly within relevant local chunk coordinates, testing bounding box overlaps without inspecting air tiles.
+### Chunk Features
+* **Spatial Partitioning**: Coordinates are mapped into fixed chunks (e.g. 16x16 tiles) indexed by `Point3`.
+* **Layer Depth & Collision**: `checkCollision(AABB3)` queries solid tile IDs directly within local chunk coordinates, testing bounding box overlaps without inspecting air tiles.
 
 ---
 
-## 13. Frame Animation Pipeline & Sprite Slicing (`AtlasMap`, `AnimationPlayer`)
+## 13. Animation & Sprite Slicing
 
-Lili2D handles 2D sprite animations through a decoupled animation model comprising `AtlasMap`, `AnimationRegistry`, and `AnimationPlayer`.
+Lili2D handles 2D sprite animations through an `AtlasMap`, an `AnimationRegistry`, and an `AnimationPlayer`.
 
 ### Sub-Texture UV Slicing (`AtlasMap`)
 
 Spritesheets are sliced into uniform grid cells (`slice(cols, rows)`). The engine computes normalized UV bounding coordinates for each frame:
 
-$$\text{UV}_{\min} = \left(\frac{\text{col}}{\text{Cols}}, \frac{\text{row}}{\text{Rows}}\right), \quad \text{UV}_{\max} = \left(\frac{\text{col} + 1}{\text{Cols}}, \frac{\text{row} + 1}{\text{Rows}}\right)$$
+```cpp
+// Normalized UV bounds for a tile cell (col, row):
+Vec2 uv_min = { static_cast<float>(col) / cols, static_cast<float>(row) / rows };
+Vec2 uv_max = { static_cast<float>(col + 1) / cols, static_cast<float>(row + 1) / rows };
+```
 
 ### Playback & Event Hooks (`AnimationPlayer`)
 
-* **Normalized Frame Accumulation**: `AnimationPlayer` accumulates delta time against `frame_duration`, advancing the active frame index and wrapping according to `LoopMode` (`Loop`, `Once`, `PingPong`).
+* **Normalized Frame Accumulation**: `AnimationPlayer` accumulates delta time against `frame_duration`, advancing the active frame index and wrapping with `LoopMode` (`Loop`, `Once`, `PingPong`).
 * **Frame Callbacks**: Custom events (footstep SFX, attack hitboxes, projectile spawning) can be hooked to specific animation frame indices via `onFrame(frame_idx, callback)`.
 
 ---
 
-## 14. Modern C++20 Standards & Low-Latency Guidelines
+## 14. Modern C++ & Guidelines
 
-Lili2D enforces strict C++20 design patterns across all engine subsystems to guarantee maximum instruction throughput, zero static initialization latency, and ABI-level hardware register utilization.
+Lili2D adheres to modern C++20 practices across all engine subsystems, focusing on zero static initialization overhead and cache-friendly data structures.
 
-### Architecture Guidelines Summary
+### Guidelines Overview
 
-| Guideline & Standard | Applied Engine Subsystems | Low-Latency / Architectural Rationale |
-| :--- | :--- | :--- |
-| **Pass-by-Value (<= 16B PODs)** | `Vec2`, `Vec3`, `Vec4`, `Point2/3`, `RectShape`, `CircleShape`, `Entity` | Passed directly in hardware vector/integer registers (`XMM0-XMM7` on System V x86-64, `v0-v7` on ARM64). Guarantees **zero pointer aliasing**, enabling aggressive instruction reordering and auto-vectorization. |
-| **Targeted Header Inlining** | `lili::geometry`, `lili::physics`, math operators, easing curves, fast property accessors | Inlines hot per-frame leaf functions into calling translation units for constant folding and dead-code elimination. Heavy object constructors and singletons (`TileRegistry`, `AssetManager`) remain source-separated (`.cpp`) to prevent compilation bloat. |
-| **`constexpr` Constructors** | Geometric primitives (`VecN`, `PointN`, `RectShape`, `CircleShape`), `CircleCollider`, `Clock` | Promotes types to **Literal Types**, allowing compile-time layout validation (`static_assert`) and baking static constants (`Vec2::ZERO`, `Mat3::IDENTITY`) directly into `.rodata`, completely eliminating the **Static Initialization Order Fiasco (SIOF)**. |
-| **`[[nodiscard]]` Safety Enforcement** | Pure input queries (`Keyboard::justPressed`), time stepping (`Clock::step()`), immutable math transforms (`operator+`, `getAABB`) | Emits compile-time diagnostics (`-Wunused-result`) when callers drop progress-tracking return values or calculate out-of-place transforms without assigning the result. |
-| **`noexcept` Move Invariants** | Move constructors / assignment operators on all RAII resources (`GPUMesh`, `Shader`, `Texture`, `Window`, `Pipeline`) | Satisfies `std::move_if_noexcept`, guaranteeing `std::vector` reallocations perform O(1) in-place pointer swaps rather than deep copies. Strips exception landing pads (`.eh_frame`) from leaf math binaries. |
+* **Pass-by-Value (<= 16B PODs)**: Small types (`Vec2`, `Vec3`, `Vec4`, `Point2/3`, `RectShape`, `CircleShape`, `Entity`) are passed by value to avoid pointer indirection and keep values in CPU registers.
+* **Targeted Header Inlining**: Hot per-frame math functions, geometry utilities, and fast property accessors are inlined in headers. Heavy subsystems remain separated in `.cpp` files to keep compile times fast.
+* **`constexpr` Constructors**: Primitives (`VecN`, `PointN`, `RectShape`, `CircleShape`, `CircleCollider`) and `Clock` use `constexpr` constructors for compile-time validation and static constant baking.
+* **`[[nodiscard]]` Safety Enforcement**: Input queries (`Keyboard::justPressed`), time stepping (`Clock::step()`), and math transforms use `[[nodiscard]]` to prevent ignored results.
+* **`noexcept` Move Semantics**: Resource holders (`GPUMesh`, `Shader`, `Texture`, `Window`, `Pipeline`) provide `noexcept` move operations, enabling efficient vector reallocations.
 
 ### Concrete Code Contracts
 

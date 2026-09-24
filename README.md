@@ -8,6 +8,16 @@ I created this project to learn modern engine architecture and have a fast, clea
 
 ![Lili2D Demo](assets/demo_ball.gif)
 
+## Table of Contents
+
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Building](#building)
+- [Quick Start](#quick-start)
+- [Examples](#examples)
+- [Documentation](#documentation)
+- [Community & Support](#community--support)
+
 ## Features
 
 - **SDL_GPU Renderer**: Hardware-accelerated 2D rendering with texture batching (`SpriteBatch`) and shape drawing (rectangles, circles, lines).
@@ -35,6 +45,7 @@ cmake --build build -j$(nproc)
 ```
 
 Run tests:
+
 ```bash
 ctest --test-dir build --output-on-failure
 ```
@@ -99,27 +110,14 @@ int main() {
 
 ## Examples
 
-Check out the [`examples/`](examples/) folder for standalone code samples:
-
-- **`hello_shapes`**: Basic 2D shapes (`Line`, `Rect`, `Circle`).
-- **`hello_sprite`**: Texture loading and 2D sprite transforms.
-- **`hello_text`**: Bitmap fonts and text alignment.
-- **`hello_camera`**: Camera viewports, zoom, and render layers (`WORLD2D` vs `UI`).
-- **`hello_layer`**: Render layer sorting and draw order.
-- **`hello_scenes`**: Scene stack management and transitions.
-- **`hello_animation`**: Sprite sheet animation (`AtlasMap`, `AnimationPlayer`).
-- **`hello_shader`**: Custom SPIR-V vertex and fragment shaders.
-- **`hello_collision`**: Collision checks (`AABB2`, `CircleCollider`).
-- **`hello_sprite_batch`**: Batch rendering sprites in a single draw call.
-- **`hello_tilemap`**: Tilemap chunks with frustum culling.
-- **`hello_ecs`**: Entity Component System queries.
-- **`hello_multithreading`**: Task scheduling via `ThreadPool`.
+Check out the [`examples/`](examples/) directory for standalone demo projects covering shapes, sprites, animations, custom shaders, ECS, and tilemaps.
 
 ## Documentation
 
 Full API documentation is available at: [https://linirby.github.io/Lili2D](https://linirby.github.io/Lili2D)
 
 Or generate it locally with Doxygen:
+
 ```bash
 cd docs
 doxygen Doxyfile

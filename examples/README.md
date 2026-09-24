@@ -1,68 +1,29 @@
 # Examples
 
-This directory contains example projects demonstrating how to use the **Lili2D**
-engine.
+- **`hello_shapes`**: Basic 2D shapes (`Line`, `Rect`, `Circle`).
+- **`hello_sprite`**: Texture loading and 2D sprite transforms.
+- **`hello_text`**: Bitmap fonts and text alignment.
+- **`hello_camera`**: Camera viewports, zoom, and render layers (`WORLD2D` vs `UI`).
+- **`hello_layer`**: Render layer sorting and draw order.
+- **`hello_scenes`**: Scene stack management and transitions.
+- **`hello_animation`**: Sprite sheet animation (`AtlasMap`, `AnimationPlayer`).
+- **`hello_shader`**: Custom SPIR-V vertex and fragment shaders.
+- **`hello_collision`**: Collision checks (`AABB2`, `CircleCollider`).
+- **`hello_sprite_batch`**: Batch rendering sprites in a single draw call.
+- **`hello_tilemap`**: Tilemap chunks with frustum culling.
+- **`hello_ecs`**: Entity Component System queries.
+- **`hello_multithreading`**: Task scheduling via `ThreadPool`.
 
-## Available Examples
+## Build and Run
 
-- **`hello_shapes`**: Demonstrates the basics of window creation and rendering
-  simples colored shapes.
-- **`hello_sprite`**: Shows how to load a texture and render a 2D sprite to the
-  screen.
-- **`hello_text`**: Explains how to load bitmap fonts and render dynamic text.
-- **`hello_camera`**: Show how to use camera and different render layer (WORLD2D
-  / UI).
-- **`hello_layer`**: Demonstrates the use of rendering layers to control the
-  drawing order of sprites and shapes.
-- **`hello_scenes`**: Demonstrates the use of scenes with its manager.
-- **`hello_animation`**: An example of how to load an AtlasMap and create
-  Animations from it.
-- **`hello_shader`**: Demonstrates how to write, compile, load and hot-reload
-  custom vertex and fragment shaders.
-- **`hello_collision`**: Demonstrates spatial collision queries (`AABB2`,
-  `CircleCollider`), shape extraction (`getShape()`), and cached primitive rendering.
-- **`hello_sprite_batch`**: An example of how to use SpriteBatch with a big map.
-- **`hello_tilemap`**: Demonstrates the TileMap and Chunk system for rendering
-  optimized grid worlds.
-- **`hello_ecs`**: Demonstrates the lightweight Entity Component System (ECS) and
-  multi-component `ECSView` queries by spawning and animating thousands of ball entities.
-- **`hello_multithreading`**: Demonstrates C++20 multithreaded systems, dynamic
-  thread allocation, and parallel ECS execution using the prioritized ThreadPool.
+From the root directory of any example:
 
-## Build and run examples
+```sh
+cmake -B build && cmake --build build
+```
 
-Each example folder has a `src/` folder containing the example code, and a
-`CMakeLists.txt` demonstrating how to link the Lili2D library to your own
-projects.
+Or using the helper scripts:
 
-To easily build and run the examples (on Linux), each folder contains three bash
-scripts:
-
-- `run.sh` to run the built example
-- `build.sh` to build the example
-- `build_and_run.sh` to do both
-
-These bash scripts need to be executed from the root of the specific example
-folder (where the scripts are located).
-
-## Memory Management Note
-
-These examples demonstrate a modern, safe C++ approach to memory management
-without manual `new`/`delete`:
-
-1. **Core Systems & Assets (`Window`, `Renderer`, `BitmapFont`, `Texture`)**:
-   These are "heavy" objects that manage external resources (like SDL windows or
-   GPU buffers). They are stored using `std::unique_ptr` in the `App` class. This
-   safely pins them in memory and ensures their resources are automatically freed
-   when the app closes.
-
-2. **Gameplay Objects (like `Rect`, `Line`, `Sprite`, `Text`)**:
-   These are stored directly on the stack as standard variables (e.g.,
-   `lili::Rect rect;`). This is fast, clean, and avoids unnecessary heap
-   allocations. Under the hood, these shapes manage their own meshes and materials
-   using `unique_ptr`s, so you never have to worry about memory leaks!
-
-If you are unfamiliar with `std::unique_ptr`, you can think of it as an
-automatic raw pointer (`*`). To access its methods, you use `->` (like
-`renderer->begin_frame()`), and you can retrieve the raw pointer using `.get()`
-if another function requires it (like `renderer.get()`).
+```sh
+sh build.sh && sh run.sh
+```

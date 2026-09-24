@@ -17,7 +17,8 @@
 namespace lili {
 
 /// @brief Type-erased base interface for resource managers.
-class IResourceManager {
+class IResourceManager
+{
 public:
     virtual ~IResourceManager() = default;
 
@@ -53,8 +54,9 @@ public:
 
 /// @brief Generic scoped resource manager with hot-reloading support.
 /// @tparam T Type of resource managed.
-template <typename T>
-class ResourceManager : public IResourceManager {
+template<typename T>
+class ResourceManager : public IResourceManager
+{
 public:
     /// @brief Function type for loading a resource from a file path.
     using LoaderFunc = std::function<std::unique_ptr<T>(const std::string&)>;
@@ -62,7 +64,8 @@ public:
     using ReloaderFunc = std::function<bool(T&, const std::string&)>;
 
     /// @brief Record tracking a watched file and its last write time.
-    struct WatchedFile {
+    struct WatchedFile
+    {
         /// @brief Path to the watched file on disk.
         std::string path;
         /// @brief Last write timestamp of the file.
@@ -74,9 +77,13 @@ public:
         /// @param path Path to the file.
         /// @param last_write_time Last write timestamp.
         WatchedFile(
-            std::string path, std::filesystem::file_time_type last_write_time
+            std::string path,
+            std::filesystem::file_time_type last_write_time
         )
-            : path(std::move(path)), last_write_time(last_write_time) {}
+          : path(std::move(path))
+          , last_write_time(last_write_time)
+        {
+        }
         /// @brief Default copy constructor.
         WatchedFile(const WatchedFile&) = default;
         /// @brief Default copy assignment operator.
@@ -90,7 +97,8 @@ public:
     };
 
     /// @brief Record tracking a managed resource and its metadata.
-    struct ResourceRecord {
+    struct ResourceRecord
+    {
         /// @brief Unique pointer to the managed resource instance.
         std::unique_ptr<T> resource;
         /// @brief Path to the primary resource file on disk.
@@ -132,8 +140,11 @@ public:
     /// @return Raw pointer to the loaded resource.
     T*
     load(
-        const std::string& key, const std::string& filepath, LoaderFunc loader,
-        const std::string& scope = "global", ReloaderFunc reloader = nullptr
+        const std::string& key,
+        const std::string& filepath,
+        LoaderFunc loader,
+        const std::string& scope = "global",
+        ReloaderFunc reloader = nullptr
     );
 
     /// @brief Loads or retrieves a cached resource watching multiple filepaths.
@@ -146,8 +157,10 @@ public:
     /// @return Raw pointer to the loaded resource.
     T*
     load(
-        const std::string& key, const std::vector<std::string>& filepaths,
-        LoaderFunc loader, const std::string& scope = "global",
+        const std::string& key,
+        const std::vector<std::string>& filepaths,
+        LoaderFunc loader,
+        const std::string& scope = "global",
         ReloaderFunc reloader = nullptr
     );
 
@@ -159,9 +172,12 @@ public:
     /// @return Raw pointer to the loaded resource.
     T*
     load(
-        const std::string& filepath, LoaderFunc loader,
-        const std::string& scope = "global", ReloaderFunc reloader = nullptr
-    ) {
+        const std::string& filepath,
+        LoaderFunc loader,
+        const std::string& scope = "global",
+        ReloaderFunc reloader = nullptr
+    )
+    {
         return load(
             filepath, filepath, std::move(loader), scope, std::move(reloader)
         );
@@ -174,7 +190,8 @@ public:
     /// @return Raw pointer to the emplaced resource.
     T*
     emplace(
-        const std::string& key, std::unique_ptr<T> resource,
+        const std::string& key,
+        std::unique_ptr<T> resource,
         const std::string& scope = "global"
     );
 
@@ -182,9 +199,11 @@ public:
     /// @param key Resource identifier.
     /// @return Raw pointer to resource, or nullptr if not found.
     [[nodiscard]] T*
-    get(std::string_view key) const noexcept {
+    get(std::string_view key) const noexcept
+    {
         auto it = resources.find(key);
-        if (it == resources.end()) return nullptr;
+        if (it == resources.end())
+            return nullptr;
         return it->second.resource.get();
     }
 
@@ -193,9 +212,11 @@ public:
     /// @return Reference to the resource. Throws std::runtime_error if not
     /// found.
     [[nodiscard]] T&
-    getRef(std::string_view key) const {
+    getRef(std::string_view key) const
+    {
         T* ptr = get(key);
-        if (ptr) return *ptr;
+        if (ptr)
+            return *ptr;
         throw std::runtime_error(
             std::format("ResourceManager::getRef asset not found: {}", key)
         );
@@ -205,7 +226,8 @@ public:
     /// @param key Resource identifier.
     /// @return True if resource exists in cache.
     [[nodiscard]] bool
-    has(std::string_view key) const noexcept {
+    has(std::string_view key) const noexcept
+    {
         return resources.find(key) != resources.end();
     }
 
@@ -213,9 +235,11 @@ public:
     /// @param key Resource identifier.
     /// @return True if resource was found and unloaded.
     bool
-    unload(std::string_view key) {
+    unload(std::string_view key)
+    {
         auto it = resources.find(key);
-        if (it == resources.end()) return false;
+        if (it == resources.end())
+            return false;
         resources.erase(it);
         return true;
     }
@@ -228,14 +252,16 @@ public:
 
     /// @brief Clears all cached resources.
     void
-    clear() noexcept override {
+    clear() noexcept override
+    {
         resources.clear();
     }
 
     /// @brief Gets total number of managed resources.
     /// @return Resource count.
     [[nodiscard]] size_t
-    count() const noexcept override {
+    count() const noexcept override
+    {
         return resources.size();
     }
 
@@ -247,14 +273,16 @@ public:
     /// @brief Enables or disables hot reloading file polling.
     /// @param enabled True to enable file watcher checks.
     void
-    setHotReloadEnabled(bool enabled) noexcept override {
+    setHotReloadEnabled(bool enabled) noexcept override
+    {
         hot_reload_enabled = enabled;
     }
 
     /// @brief Checks if hot reloading is enabled.
     /// @return True if enabled.
     [[nodiscard]] bool
-    isHotReloadEnabled() const noexcept override {
+    isHotReloadEnabled() const noexcept override
+    {
         return hot_reload_enabled;
     }
 
@@ -265,14 +293,19 @@ private:
 
 // --- Template Implementation ---
 
-template <typename T>
+template<typename T>
 T*
 ResourceManager<T>::load(
-    const std::string& key, const std::string& filepath, LoaderFunc loader,
-    const std::string& scope, ReloaderFunc reloader
-) {
+    const std::string& key,
+    const std::string& filepath,
+    LoaderFunc loader,
+    const std::string& scope,
+    ReloaderFunc reloader
+)
+{
     auto it = resources.find(key);
-    if (it != resources.end()) return it->second.resource.get();
+    if (it != resources.end())
+        return it->second.resource.get();
 
     if (!loader)
         throw std::runtime_error(
@@ -298,7 +331,7 @@ ResourceManager<T>::load(
         auto write_time = std::filesystem::last_write_time(filepath, ec);
         if (!ec) {
             record.last_write_time = write_time;
-            record.watched_files.push_back({filepath, write_time});
+            record.watched_files.push_back({ filepath, write_time });
         }
     }
 
@@ -307,14 +340,19 @@ ResourceManager<T>::load(
     return ptr;
 }
 
-template <typename T>
+template<typename T>
 T*
 ResourceManager<T>::load(
-    const std::string& key, const std::vector<std::string>& filepaths,
-    LoaderFunc loader, const std::string& scope, ReloaderFunc reloader
-) {
+    const std::string& key,
+    const std::vector<std::string>& filepaths,
+    LoaderFunc loader,
+    const std::string& scope,
+    ReloaderFunc reloader
+)
+{
     auto it = resources.find(key);
-    if (it != resources.end()) return it->second.resource.get();
+    if (it != resources.end())
+        return it->second.resource.get();
 
     if (!loader)
         throw std::runtime_error(
@@ -338,11 +376,12 @@ ResourceManager<T>::load(
     record.reloader = std::move(reloader);
 
     for (const auto& fp : filepaths) {
-        if (fp.empty()) continue;
+        if (fp.empty())
+            continue;
         std::error_code ec;
         auto write_time = std::filesystem::last_write_time(fp, ec);
         if (!ec) {
-            record.watched_files.push_back({fp, write_time});
+            record.watched_files.push_back({ fp, write_time });
             if (record.last_write_time == std::filesystem::file_time_type{})
                 record.last_write_time = write_time;
         }
@@ -353,13 +392,14 @@ ResourceManager<T>::load(
     return ptr;
 }
 
-
-template <typename T>
+template<typename T>
 T*
 ResourceManager<T>::emplace(
-    const std::string& key, std::unique_ptr<T> resource,
+    const std::string& key,
+    std::unique_ptr<T> resource,
     const std::string& scope
-) {
+)
+{
     if (!resource)
         throw std::runtime_error(
             "ResourceManager::emplace failed: resource is null for key: " + key
@@ -374,10 +414,10 @@ ResourceManager<T>::emplace(
     return ptr;
 }
 
-
-template <typename T>
+template<typename T>
 size_t
-ResourceManager<T>::unloadScope(std::string_view scope) {
+ResourceManager<T>::unloadScope(std::string_view scope)
+{
     size_t unloaded = 0;
     for (auto it = resources.begin(); it != resources.end();) {
         if (it->second.scope != scope)
@@ -390,13 +430,16 @@ ResourceManager<T>::unloadScope(std::string_view scope) {
     return unloaded;
 }
 
-template <typename T>
+template<typename T>
 void
-ResourceManager<T>::checkHotReload() {
-    if (!hot_reload_enabled) return;
+ResourceManager<T>::checkHotReload()
+{
+    if (!hot_reload_enabled)
+        return;
 
     for (auto& [key, record] : resources) {
-        if (record.watched_files.empty() && record.filepath.empty()) continue;
+        if (record.watched_files.empty() && record.filepath.empty())
+            continue;
 
         bool needs_reload = false;
         std::vector<std::filesystem::file_time_type> current_times;
@@ -430,7 +473,8 @@ ResourceManager<T>::checkHotReload() {
             }
         }
 
-        if (!needs_reload) continue;
+        if (!needs_reload)
+            continue;
 
         auto update_timestamps = [&]() {
             if (!record.watched_files.empty()) {
@@ -468,4 +512,4 @@ ResourceManager<T>::checkHotReload() {
     }
 }
 
-}  // namespace lili
+} // namespace lili

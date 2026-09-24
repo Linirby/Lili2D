@@ -5,25 +5,26 @@
 namespace lili {
 
 MeshData
-createUnitQuad() {
+createUnitQuad()
+{
     MeshData quad;
 
     // Vertex (x, y, z, u, v, material_id)
-    quad.vertices = {
-        Vertex(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f),
-        Vertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f),
-        Vertex(1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f),
-        Vertex(0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f)
-    };
-    quad.indices = {0, 1, 2, 2, 3, 0};
+    quad.vertices = { Vertex(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f),
+                      Vertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f),
+                      Vertex(1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f),
+                      Vertex(0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f) };
+    quad.indices = { 0, 1, 2, 2, 3, 0 };
     return quad;
 }
 
 MeshData
-createUnitCircle(int segments) {
+createUnitCircle(int segments)
+{
     MeshData circle;
 
-    if (segments < 3) segments = 3;
+    if (segments < 3)
+        segments = 3;
 
     const float PI = 3.14159265359f;
     float angle_step = (2.0f * PI) / segments;
@@ -55,4 +56,4 @@ createUnitCircle(int segments) {
     return circle;
 }
 
-}  // namespace lili
+} // namespace lili

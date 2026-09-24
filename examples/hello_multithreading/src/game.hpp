@@ -4,7 +4,8 @@
 #include <memory>
 #include <vector>
 
-class App : public lili::Game {
+class App : public lili::Game
+{
 public:
     App();
     ~App() override = default;

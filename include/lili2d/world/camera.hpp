@@ -8,7 +8,8 @@
 namespace lili {
 
 /// @brief Represents a 2D camera for scene viewing.
-class Camera {
+class Camera
+{
 public:
     /// @brief Default constructor.
     Camera() noexcept = default;
@@ -16,42 +17,48 @@ public:
     /// @brief Sets the camera's position.
     /// @param pos The new position.
     inline void
-    setPosition(Vec2 pos) noexcept {
+    setPosition(Vec2 pos) noexcept
+    {
         position = pos;
     }
 
     /// @brief Sets the camera's rotation.
     /// @param degree The rotation in degrees.
     inline void
-    setRotation(float degree) noexcept {
+    setRotation(float degree) noexcept
+    {
         rotation = degree;
     }
 
     /// @brief Sets the camera's zoom level.
     /// @param value The zoom level.
     inline void
-    setZoom(float value) noexcept {
+    setZoom(float value) noexcept
+    {
         zoom = value;
     }
 
     /// @brief Gets the camera's position.
     /// @return The current position.
     [[nodiscard]] inline Vec2
-    getPosition() const noexcept {
+    getPosition() const noexcept
+    {
         return position;
     }
 
     /// @brief Gets the camera's rotation.
     /// @return The rotation angle in degrees.
     [[nodiscard]] inline float
-    getRotation() const noexcept {
+    getRotation() const noexcept
+    {
         return rotation;
     }
 
     /// @brief Gets the camera's zoom level.
     /// @return The current zoom level.
     [[nodiscard]] inline float
-    getZoom() const noexcept {
+    getZoom() const noexcept
+    {
         return zoom;
     }
 
@@ -60,7 +67,8 @@ public:
     /// @param height The viewport height.
     /// @return The view transformation matrix.
     [[nodiscard]] inline Mat3
-    getViewMatrix(float width, float height) const noexcept {
+    getViewMatrix(float width, float height) const noexcept
+    {
         Vec2 center(width * 0.5f, height * 0.5f);
         return Mat3::translate(center) * Mat3::rotation(degToRad(-rotation)) *
                Mat3::scale(Vec2(zoom, zoom)) * Mat3::translate(-position);
@@ -71,7 +79,8 @@ public:
     /// @param height The viewport height.
     /// @return The projection matrix.
     [[nodiscard]] inline Mat3
-    getProjection(float width, float height) const noexcept {
+    getProjection(float width, float height) const noexcept
+    {
         return Mat3::orthographic(0.0f, width, 0.0f, height);
     }
 
@@ -88,4 +97,4 @@ private:
     float zoom = 1.0f;
 };
 
-}  // namespace lili
+} // namespace lili

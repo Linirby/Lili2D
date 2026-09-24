@@ -3,19 +3,22 @@
 #include <lili2d/lili2d.hpp>
 #include <memory>
 
-struct RectUB {
+struct RectUB
+{
     float time;
     float amplitude;
     float frequency;
     float speed;
 };
 
-struct TextUB {
+struct TextUB
+{
     float speed;
     float time;
 };
 
-class App : public lili::Game {
+class App : public lili::Game
+{
 public:
     App();
 

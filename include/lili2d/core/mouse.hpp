@@ -8,7 +8,8 @@
 namespace lili {
 
 /// @brief Manages mouse state and input tracking.
-class Mouse {
+class Mouse
+{
 public:
     /// @brief Updates the mouse state for the current frame.
     void
@@ -18,7 +19,8 @@ public:
     /// @param button The mouse button to check.
     /// @return True if the button is held, false otherwise.
     [[nodiscard]] inline bool
-    held(MouseButton button) const noexcept {
+    held(MouseButton button) const noexcept
+    {
         if (button == MouseButton::LEFT)
             return (current & SDL_BUTTON_LMASK) != 0;
         else if (button == MouseButton::MIDDLE)
@@ -32,7 +34,8 @@ public:
     /// @param button The mouse button to check.
     /// @return True if the button was just pressed, false otherwise.
     [[nodiscard]] inline bool
-    justPressed(MouseButton button) const noexcept {
+    justPressed(MouseButton button) const noexcept
+    {
         if (button == MouseButton::LEFT)
             return (current & SDL_BUTTON_LMASK) &&
                    !(previous & SDL_BUTTON_LMASK);
@@ -49,7 +52,8 @@ public:
     /// @param button The mouse button to check.
     /// @return True if the button was just released, false otherwise.
     [[nodiscard]] inline bool
-    justReleased(MouseButton button) const noexcept {
+    justReleased(MouseButton button) const noexcept
+    {
         if (button == MouseButton::LEFT)
             return !(current & SDL_BUTTON_LMASK) &&
                    (previous & SDL_BUTTON_LMASK);
@@ -65,35 +69,40 @@ public:
     /// @brief Gets the current X position of the mouse.
     /// @return The X position.
     [[nodiscard]] inline float
-    getX() const noexcept {
+    getX() const noexcept
+    {
         return current_x;
     }
 
     /// @brief Gets the current Y position of the mouse.
     /// @return The Y position.
     [[nodiscard]] inline float
-    getY() const noexcept {
+    getY() const noexcept
+    {
         return current_y;
     }
 
     /// @brief Gets the current X, Y position of the mouse.
     /// @return The 2D vector of X, Y position.
     [[nodiscard]] inline Vec2
-    getPos() const noexcept {
-        return {current_x, current_y};
+    getPos() const noexcept
+    {
+        return { current_x, current_y };
     }
 
     /// @brief Gets the change in X position since the last frame.
     /// @return The change in X.
     [[nodiscard]] inline float
-    getDx() const noexcept {
+    getDx() const noexcept
+    {
         return current_dx;
     }
 
     /// @brief Gets the change in Y position since the last frame.
     /// @return The change in Y.
     [[nodiscard]] inline float
-    getDy() const noexcept {
+    getDy() const noexcept
+    {
         return current_dy;
     }
 
@@ -106,4 +115,4 @@ private:
     float current_dy = 0.0f;
 };
 
-}  // namespace lili
+} // namespace lili

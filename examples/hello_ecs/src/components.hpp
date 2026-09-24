@@ -4,15 +4,18 @@
 #include <lili2d/geometry/vec4.hpp>
 #include <lili2d/render/scene/common/atlas_map.hpp>
 
-struct PositionComponent {
+struct PositionComponent
+{
     lili::Vec2 value;
 };
 
-struct VelocityComponent {
+struct VelocityComponent
+{
     lili::Vec2 value;
 };
 
-struct RenderComponent {
+struct RenderComponent
+{
     lili::SliceUV slice;
     lili::Vec4 color;
     float radius;

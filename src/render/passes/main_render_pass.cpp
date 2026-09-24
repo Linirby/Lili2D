@@ -13,14 +13,20 @@
 namespace lili {
 
 MainRenderPass::MainRenderPass(SDL_GPUGraphicsPipeline* pipeline)
-    : pipeline(pipeline) {}
+  : pipeline(pipeline)
+{
+}
 
 void
 MainRenderPass::render(
-    SDL_GPURenderPass* pass, SDL_GPUCommandBuffer* cmd, const Mat3& proj_view,
+    SDL_GPURenderPass* pass,
+    SDL_GPUCommandBuffer* cmd,
+    const Mat3& proj_view,
     const std::map<float, std::vector<DrawCommand>>& queue
-) {
-    if (queue.empty()) return;
+)
+{
+    if (queue.empty())
+        return;
 
     SDL_GPUGraphicsPipeline* current_pipeline = pipeline;
     SDL_BindGPUGraphicsPipeline(pass, current_pipeline);
@@ -37,18 +43,21 @@ MainRenderPass::render(
             SDL_GPUSampler* smp =
                 draw_cmd.model.material->albedoMap->getSampler();
 
-            if (!vertex_buf || !index_buf || !tex || !smp) continue;
+            if (!vertex_buf || !index_buf || !tex || !smp)
+                continue;
 
             SDL_GPUGraphicsPipeline* target_pipeline =
                 (draw_cmd.model.material->getPipeline());
-            if (!target_pipeline) target_pipeline = pipeline;
+            if (!target_pipeline)
+                target_pipeline = pipeline;
             if (target_pipeline != current_pipeline) {
                 SDL_BindGPUGraphicsPipeline(pass, target_pipeline);
                 current_pipeline = target_pipeline;
             }
 
             Mat3 mvp = proj_view * draw_cmd.transform;
-            struct Uniforms {
+            struct Uniforms
+            {
                 float matrix[12];
                 float color[4];
                 float uv_bounds[4];
@@ -92,14 +101,16 @@ MainRenderPass::render(
 
             if (!draw_cmd.model.material->custom_vertex_uniforms.empty()) {
                 SDL_PushGPUVertexUniformData(
-                    cmd, 1,
+                    cmd,
+                    1,
                     draw_cmd.model.material->custom_vertex_uniforms.data(),
                     draw_cmd.model.material->custom_vertex_uniforms.size()
                 );
             }
             if (!draw_cmd.model.material->custom_fragment_uniforms.empty()) {
                 SDL_PushGPUFragmentUniformData(
-                    cmd, 0,
+                    cmd,
+                    0,
                     draw_cmd.model.material->custom_fragment_uniforms.data(),
                     draw_cmd.model.material->custom_fragment_uniforms.size()
                 );
@@ -131,4 +142,4 @@ MainRenderPass::render(
         }
 }
 
-}  // namespace lili
+} // namespace lili

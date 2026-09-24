@@ -8,7 +8,8 @@
 namespace lili {
 
 static void
-ensureShaderCrossInit() {
+ensureShaderCrossInit()
+{
     static bool initialized = []() {
         if (!SDL_ShaderCross_Init())
             throw std::runtime_error(
@@ -20,7 +21,8 @@ ensureShaderCrossInit() {
 }
 
 std::string
-Shader::readFile(const std::string& file_path) {
+Shader::readFile(const std::string& file_path)
+{
     std::ifstream file(file_path);
     if (!file.is_open())
         throw std::runtime_error(
@@ -33,9 +35,12 @@ Shader::readFile(const std::string& file_path) {
 
 SDL_GPUShader*
 Shader::compileHLSL(
-    SDL_GPUDevice* device, const std::string& source,
-    const std::string& entrypoint, SDL_ShaderCross_ShaderStage stage
-) {
+    SDL_GPUDevice* device,
+    const std::string& source,
+    const std::string& entrypoint,
+    SDL_ShaderCross_ShaderStage stage
+)
+{
     if (!device)
         throw std::runtime_error(
             "Cannot compile shader: SDL_GPUDevice is null!"
@@ -72,7 +77,8 @@ Shader::compileHLSL(
         device, &spirv_info, metadata ? &metadata->resource_info : nullptr, 0
     );
 
-    if (metadata) SDL_free(metadata);
+    if (metadata)
+        SDL_free(metadata);
     SDL_free(spirv_data);
 
     if (!gpu_shader)
@@ -86,11 +92,14 @@ Shader::compileHLSL(
 }
 
 Shader::Shader(
-    SDL_GPUDevice* device, const std::string& vert_path,
-    const std::string& frag_path, const std::string& vert_entry,
+    SDL_GPUDevice* device,
+    const std::string& vert_path,
+    const std::string& frag_path,
+    const std::string& vert_entry,
     const std::string& frag_entry
 )
-    : device(device) {
+  : device(device)
+{
     std::string vert_source = readFile(vert_path);
     std::string frag_source = readFile(frag_path);
 
@@ -103,7 +112,9 @@ Shader::Shader(
 
     fragment_shader = std::unique_ptr<SDL_GPUShader, SDLGPUShaderDeleter>(
         compileHLSL(
-            device, frag_source, frag_entry,
+            device,
+            frag_source,
+            frag_entry,
             SDL_SHADERCROSS_SHADERSTAGE_FRAGMENT
         ),
         SDLGPUShaderDeleter(device)
@@ -112,22 +123,30 @@ Shader::Shader(
 
 std::unique_ptr<Shader>
 Shader::fromSource(
-    SDL_GPUDevice* device, std::string_view vert_source,
-    std::string_view frag_source, const std::string& vert_entry,
+    SDL_GPUDevice* device,
+    std::string_view vert_source,
+    std::string_view frag_source,
+    const std::string& vert_entry,
     const std::string& frag_entry
-) {
+)
+{
     SDL_GPUShader* vs = compileHLSL(
-        device, std::string(vert_source), vert_entry,
+        device,
+        std::string(vert_source),
+        vert_entry,
         SDL_SHADERCROSS_SHADERSTAGE_VERTEX
     );
     SDL_GPUShader* fs = nullptr;
     try {
         fs = compileHLSL(
-            device, std::string(frag_source), frag_entry,
+            device,
+            std::string(frag_source),
+            frag_entry,
             SDL_SHADERCROSS_SHADERSTAGE_FRAGMENT
         );
     } catch (...) {
-        if (vs) SDL_ReleaseGPUShader(device, vs);
+        if (vs)
+            SDL_ReleaseGPUShader(device, vs);
         throw;
     }
 
@@ -136,32 +155,42 @@ Shader::fromSource(
 
 std::unique_ptr<Shader>
 Shader::fromFiles(
-    SDL_GPUDevice* device, const std::string& vert_path,
-    const std::string& frag_path, const std::string& vert_entry,
+    SDL_GPUDevice* device,
+    const std::string& vert_path,
+    const std::string& frag_path,
+    const std::string& vert_entry,
     const std::string& frag_entry
-) {
+)
+{
     return std::make_unique<Shader>(
         device, vert_path, frag_path, vert_entry, frag_entry
     );
 }
 
 Shader::Shader(SDL_GPUDevice* device, SDL_GPUShader* vert, SDL_GPUShader* frag)
-    : device(device),
-      vertex_shader(vert, SDLGPUShaderDeleter(device)),
-      fragment_shader(frag, SDLGPUShaderDeleter(device)) {}
+  : device(device)
+  , vertex_shader(vert, SDLGPUShaderDeleter(device))
+  , fragment_shader(frag, SDLGPUShaderDeleter(device))
+{
+}
 
-Shader::~Shader() { reload_listeners.clear(); }
+Shader::~Shader()
+{
+    reload_listeners.clear();
+}
 
 Shader::Shader(Shader&& other) noexcept
-    : device(other.device),
-      vertex_shader(std::move(other.vertex_shader)),
-      fragment_shader(std::move(other.fragment_shader)),
-      reload_listeners(std::move(other.reload_listeners)) {
+  : device(other.device)
+  , vertex_shader(std::move(other.vertex_shader))
+  , fragment_shader(std::move(other.fragment_shader))
+  , reload_listeners(std::move(other.reload_listeners))
+{
     other.device = nullptr;
 }
 
 Shader&
-Shader::operator=(Shader&& other) noexcept {
+Shader::operator=(Shader&& other) noexcept
+{
     if (this != &other) {
         device = other.device;
         vertex_shader = std::move(other.vertex_shader);
@@ -173,20 +202,25 @@ Shader::operator=(Shader&& other) noexcept {
 }
 
 void
-Shader::addReloadListener(void* owner, ReloadCallback callback) {
-    if (owner && callback) reload_listeners[owner] = std::move(callback);
+Shader::addReloadListener(void* owner, ReloadCallback callback)
+{
+    if (owner && callback)
+        reload_listeners[owner] = std::move(callback);
 }
 
 void
-Shader::removeReloadListener(void* owner) {
+Shader::removeReloadListener(void* owner)
+{
     reload_listeners.erase(owner);
 }
 
 void
-Shader::notifyReloaded() {
+Shader::notifyReloaded()
+{
     std::unordered_map<void*, ReloadCallback> listeners = reload_listeners;
     for (const auto& [owner, callback] : listeners)
-        if (callback) callback();
+        if (callback)
+            callback();
 }
 
-}  // namespace lili
+} // namespace lili

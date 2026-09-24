@@ -7,21 +7,25 @@
 
 using namespace lili;
 
-struct Position {
+struct Position
+{
     float x = 0.0f;
     float y = 0.0f;
 };
 
-struct Velocity {
+struct Velocity
+{
     float vx = 0.0f;
     float vy = 0.0f;
 };
 
-struct Name {
+struct Name
+{
     std::string value;
 };
 
-TEST_CASE("ECS Registry - Entity Lifecycle", "[ecs][entity]") {
+TEST_CASE("ECS Registry - Entity Lifecycle", "[ecs][entity]")
+{
     ECSRegistry registry;
 
     Entity e1 = registry.createEntity();
@@ -45,11 +49,13 @@ TEST_CASE("ECS Registry - Entity Lifecycle", "[ecs][entity]") {
     CHECK_FALSE(registry.isValid(e1));
 }
 
-TEST_CASE("ECS Registry - Components", "[ecs][components]") {
+TEST_CASE("ECS Registry - Components", "[ecs][components]")
+{
     ECSRegistry registry;
     Entity e = registry.createEntity();
 
-    SECTION("Emplace and Query") {
+    SECTION("Emplace and Query")
+    {
         CHECK_FALSE(registry.hasComponent<Position>(e));
         CHECK_FALSE(registry.hasComponent<Velocity>(e));
 
@@ -65,7 +71,8 @@ TEST_CASE("ECS Registry - Components", "[ecs][components]") {
         CHECK(registry.getComponent<Position>(e).x == 42.0f);
     }
 
-    SECTION("Remove Component") {
+    SECTION("Remove Component")
+    {
         registry.emplaceComponent<Position>(e, 1.0f, 2.0f);
         registry.emplaceComponent<Velocity>(e, 3.0f, 4.0f);
 
@@ -77,7 +84,8 @@ TEST_CASE("ECS Registry - Components", "[ecs][components]") {
         CHECK(registry.hasComponent<Velocity>(e));
     }
 
-    SECTION("Destroy Entity Clears Components") {
+    SECTION("Destroy Entity Clears Components")
+    {
         registry.emplaceComponent<Position>(e, 5.0f, 5.0f);
         registry.destroyEntity(e);
 
@@ -86,7 +94,8 @@ TEST_CASE("ECS Registry - Components", "[ecs][components]") {
     }
 }
 
-TEST_CASE("ECS Component Pool - Contiguous Iteration", "[ecs][pool]") {
+TEST_CASE("ECS Component Pool - Contiguous Iteration", "[ecs][pool]")
+{
     ECSRegistry registry;
     Entity e1 = registry.createEntity();
     Entity e2 = registry.createEntity();
@@ -114,7 +123,8 @@ TEST_CASE("ECS Component Pool - Contiguous Iteration", "[ecs][pool]") {
     CHECK(registry.getComponent<Position>(e3).x == 3.0f);
 }
 
-TEST_CASE("ECS CommandBuffer - Deferred Operations", "[ecs][command_buffer]") {
+TEST_CASE("ECS CommandBuffer - Deferred Operations", "[ecs][command_buffer]")
+{
     ECSRegistry registry;
     Entity e = registry.createEntity();
 
@@ -139,7 +149,8 @@ TEST_CASE("ECS CommandBuffer - Deferred Operations", "[ecs][command_buffer]") {
     CHECK_FALSE(registry.isValid(e));
 }
 
-TEST_CASE("ECS View - Multi-Component Iteration", "[ecs][view]") {
+TEST_CASE("ECS View - Multi-Component Iteration", "[ecs][view]")
+{
     ECSRegistry registry;
 
     Entity e1 = registry.createEntity();
@@ -162,8 +173,10 @@ TEST_CASE("ECS View - Multi-Component Iteration", "[ecs][view]") {
     registry.emplaceComponent<Velocity>(e4, 50.0f, 60.0f);
     registry.emplaceComponent<Name>(e4, "Player");
 
-    SECTION("Empty View") {
-        struct UnregisteredComponent {
+    SECTION("Empty View")
+    {
+        struct UnregisteredComponent
+        {
             int dummy;
         };
         auto empty_view = registry.view<UnregisteredComponent>();
@@ -176,7 +189,8 @@ TEST_CASE("ECS View - Multi-Component Iteration", "[ecs][view]") {
         CHECK(mixed_empty_view.begin() == mixed_empty_view.end());
     }
 
-    SECTION("Single Component View") {
+    SECTION("Single Component View")
+    {
         auto pos_view = registry.view<Position>();
         CHECK_FALSE(pos_view.empty());
 
@@ -186,11 +200,12 @@ TEST_CASE("ECS View - Multi-Component Iteration", "[ecs][view]") {
             count++;
             total_x += pos.x;
         }
-        CHECK(count == 3);  // e1, e2, e4
+        CHECK(count == 3); // e1, e2, e4
         CHECK(total_x == 1.0f + 3.0f + 5.0f);
     }
 
-    SECTION("Multi-Component Filtering") {
+    SECTION("Multi-Component Filtering")
+    {
         auto pv_view = registry.view<Position, Velocity>();
         CHECK_FALSE(pv_view.empty());
 
@@ -203,28 +218,25 @@ TEST_CASE("ECS View - Multi-Component Iteration", "[ecs][view]") {
 
         CHECK(matched_entities.size() == 2);
         CHECK(
-            std::find(
-                matched_entities.begin(), matched_entities.end(), e1
-            ) != matched_entities.end()
+            std::find(matched_entities.begin(), matched_entities.end(), e1) !=
+            matched_entities.end()
         );
         CHECK(
-            std::find(
-                matched_entities.begin(), matched_entities.end(), e4
-            ) != matched_entities.end()
+            std::find(matched_entities.begin(), matched_entities.end(), e4) !=
+            matched_entities.end()
         );
         CHECK(
-            std::find(
-                matched_entities.begin(), matched_entities.end(), e2
-            ) == matched_entities.end()
+            std::find(matched_entities.begin(), matched_entities.end(), e2) ==
+            matched_entities.end()
         );
         CHECK(
-            std::find(
-                matched_entities.begin(), matched_entities.end(), e3
-            ) == matched_entities.end()
+            std::find(matched_entities.begin(), matched_entities.end(), e3) ==
+            matched_entities.end()
         );
     }
 
-    SECTION("Three Component View") {
+    SECTION("Three Component View")
+    {
         auto all_view = registry.view<Position, Velocity, Name>();
         int count = 0;
         for (auto [e, pos, vel, name] : all_view) {
@@ -235,7 +247,8 @@ TEST_CASE("ECS View - Multi-Component Iteration", "[ecs][view]") {
         CHECK(count == 1);
     }
 
-    SECTION("In-Place Mutation via View") {
+    SECTION("In-Place Mutation via View")
+    {
         for (auto [e, pos, vel] : registry.view<Position, Velocity>()) {
             pos.x += vel.vx;
             pos.y += vel.vy;
@@ -250,7 +263,8 @@ TEST_CASE("ECS View - Multi-Component Iteration", "[ecs][view]") {
         CHECK(registry.getComponent<Position>(e2).y == 4.0f);
     }
 
-    SECTION("View Reacts to Component Removal and Entity Destruction") {
+    SECTION("View Reacts to Component Removal and Entity Destruction")
+    {
         registry.removeComponent<Velocity>(e1);
 
         int count = 0;
@@ -264,7 +278,8 @@ TEST_CASE("ECS View - Multi-Component Iteration", "[ecs][view]") {
         CHECK(registry.view<Position, Velocity>().empty());
     }
 
-    SECTION("Const View Usage") {
+    SECTION("Const View Usage")
+    {
         const auto const_view = registry.view<Position, Velocity>();
         CHECK_FALSE(const_view.empty());
         int count = 0;
@@ -277,4 +292,3 @@ TEST_CASE("ECS View - Multi-Component Iteration", "[ecs][view]") {
         CHECK(count == 2);
     }
 }
-

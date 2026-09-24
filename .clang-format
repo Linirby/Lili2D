@@ -1,4 +1,4 @@
-BasedOnStyle: Google
+BasedOnStyle: Mozilla
 
 IndentWidth: 4
 AccessModifierOffset: -4

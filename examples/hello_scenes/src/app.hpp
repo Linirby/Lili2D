@@ -2,7 +2,8 @@
 
 #include <lili2d/lili2d.hpp>
 
-class App : public lili::Game {
+class App : public lili::Game
+{
 public:
     App();
 

@@ -95,4 +95,4 @@ inline constexpr unsigned char default_font_png[] = {
 
 inline constexpr size_t default_font_png_len = sizeof(default_font_png);
 
-}  // namespace lili
+} // namespace lili

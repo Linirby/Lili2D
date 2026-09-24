@@ -14,7 +14,8 @@
 namespace lili {
 
 /// @brief A renderable rectangle.
-class Rect : public IRenderable {
+class Rect : public IRenderable
+{
 public:
     /// @brief Default constructor.
     Rect() noexcept = default;
@@ -36,7 +37,8 @@ public:
     /// @brief Sets the rectangle's position.
     /// @param pos The new position.
     inline void
-    setPosition(Vec2 pos) noexcept override {
+    setPosition(Vec2 pos) noexcept override
+    {
         shape.pos = pos;
         ui_layout.offset = pos;
     }
@@ -44,7 +46,8 @@ public:
     /// @brief Sets the rectangle's size.
     /// @param size The new size.
     inline void
-    setSize(Vec2 size) noexcept override {
+    setSize(Vec2 size) noexcept override
+    {
         if (shape.size != size) {
             shape.size = size;
             hollow_dirty = true;
@@ -54,21 +57,24 @@ public:
     /// @brief Sets the rectangle's rotation.
     /// @param degree The rotation in degrees.
     inline void
-    setRotation(float degree) noexcept override {
+    setRotation(float degree) noexcept override
+    {
         rotation = lili::degToRad(degree);
     }
 
     /// @brief Sets scale factors.
     /// @param scale The new scale.
     inline void
-    setScale(Vec2 scale) noexcept override {
+    setScale(Vec2 scale) noexcept override
+    {
         this->scale = scale;
     }
 
     /// @brief Sets the rectangle's shape.
     /// @param shape The new shape.
     inline void
-    setShape(RectShape shape) noexcept {
+    setShape(RectShape shape) noexcept
+    {
         if (this->shape.size != shape.size)
             hollow_dirty = true;
         this->shape = shape;
@@ -78,7 +84,8 @@ public:
     /// @brief Sets the rectangle's color.
     /// @param color The new color.
     inline void
-    setColor(Vec4 color) noexcept override {
+    setColor(Vec4 color) noexcept override
+    {
         if (material) {
             material->properties.color_tint = color;
         }
@@ -87,21 +94,24 @@ public:
     /// @brief Sets the material.
     /// @param mat The new material.
     inline void
-    setMaterial(Material* mat) noexcept override {
+    setMaterial(Material* mat) noexcept override
+    {
         external_material = mat;
     }
 
     /// @brief Sets whether the rectangle is hollow.
     /// @param hollow The new hollow state.
     inline void
-    setHollow(bool hollow) noexcept {
+    setHollow(bool hollow) noexcept
+    {
         is_hollow = hollow;
     }
 
     /// @brief Sets the outline thickness when hollow.
     /// @param thickness The thickness of the outline.
     inline void
-    setHollowThickness(float thickness) noexcept {
+    setHollowThickness(float thickness) noexcept
+    {
         if (hollow_thickness != thickness) {
             hollow_thickness = thickness;
             hollow_dirty = true;
@@ -111,35 +121,40 @@ public:
     /// @brief Sets the depth value for Z-ordering.
     /// @param value The new layer depth.
     inline void
-    setLayer(float value) noexcept override {
+    setLayer(float value) noexcept override
+    {
         layer = value;
     }
 
     /// @brief Gets the position.
     /// @return The position.
     [[nodiscard]] inline Vec2
-    getPosition() const noexcept override {
+    getPosition() const noexcept override
+    {
         return shape.pos;
     }
 
     /// @brief Gets the size.
     /// @return The size.
     [[nodiscard]] inline Vec2
-    getSize() const noexcept override {
+    getSize() const noexcept override
+    {
         return shape.size;
     }
 
     /// @brief Gets rotation in degrees.
     /// @return Rotation in degrees.
     [[nodiscard]] inline float
-    getRotation() const noexcept override {
+    getRotation() const noexcept override
+    {
         return lili::radToDeg(rotation);
     }
 
     /// @brief Gets scale factors.
     /// @return The scale.
     [[nodiscard]] inline Vec2
-    getScale() const noexcept override {
+    getScale() const noexcept override
+    {
         return scale;
     }
 
@@ -151,21 +166,24 @@ public:
     /// @brief Gets the layer depth.
     /// @return The depth.
     [[nodiscard]] inline float
-    getLayer() const noexcept override {
+    getLayer() const noexcept override
+    {
         return layer;
     }
 
     /// @brief Gets the shape geometry.
     /// @return The shape.
     [[nodiscard]] inline RectShape
-    getShape() const noexcept {
+    getShape() const noexcept
+    {
         return shape;
     }
 
     /// @brief Gets the color.
     /// @return The color.
     [[nodiscard]] inline Vec4
-    getColor() const noexcept override {
+    getColor() const noexcept override
+    {
         Material* mat = getMaterial();
         return mat ? mat->properties.color_tint : Vec4(1.0f, 1.0f, 1.0f, 1.0f);
     }
@@ -173,21 +191,24 @@ public:
     /// @brief Gets the material.
     /// @return Pointer to the material.
     [[nodiscard]] inline Material*
-    getMaterial() const noexcept override {
+    getMaterial() const noexcept override
+    {
         return external_material ? external_material : material.get();
     }
 
     /// @brief Returns whether the rectangle is hollow.
     /// @return True if hollow, false otherwise.
     [[nodiscard]] inline bool
-    isHollow() const noexcept {
+    isHollow() const noexcept
+    {
         return is_hollow;
     }
 
     /// @brief Gets the hollow thickness.
     /// @return The hollow outline thickness.
     [[nodiscard]] inline float
-    getHollowThickness() const noexcept {
+    getHollowThickness() const noexcept
+    {
         return hollow_thickness;
     }
 
@@ -199,7 +220,7 @@ private:
     Renderer* renderer = nullptr;
     RectShape shape;
     float rotation = 0.0f;
-    Vec2 scale = {1.0f, 1.0f};
+    Vec2 scale = { 1.0f, 1.0f };
     bool is_hollow = false;
     float hollow_thickness = 1.0f;
 
@@ -211,4 +232,4 @@ private:
     bool hollow_dirty = true;
 };
 
-}  // namespace lili
+} // namespace lili

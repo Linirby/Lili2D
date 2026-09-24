@@ -15,7 +15,8 @@
 namespace lili {
 
 /// @brief A renderable line.
-class Line : public IRenderable {
+class Line : public IRenderable
+{
 public:
     /// @brief Default constructor.
     Line() noexcept = default;
@@ -37,7 +38,8 @@ public:
     /// @brief Sets start position.
     /// @param pos New start position.
     inline void
-    setPosition(Vec2 pos) noexcept override {
+    setPosition(Vec2 pos) noexcept override
+    {
         Vec2 delta = pos - shape.start;
         shape.start = pos;
         shape.end = shape.end + delta;
@@ -50,7 +52,8 @@ public:
     /// @brief Sets scale factors.
     /// @param scale The new scale.
     inline void
-    setScale(Vec2 scale) noexcept override {
+    setScale(Vec2 scale) noexcept override
+    {
         this->scale = scale;
     }
     /// @brief Sets size (length = size.x, thickness = size.y).
@@ -61,7 +64,8 @@ public:
     /// @brief Sets the start position.
     /// @param pos The new start position.
     inline void
-    setStart(Vec2 pos) noexcept {
+    setStart(Vec2 pos) noexcept
+    {
         shape.start = pos;
         ui_layout.offset = pos;
     }
@@ -69,21 +73,24 @@ public:
     /// @brief Sets the end position.
     /// @param pos The new end position.
     inline void
-    setEnd(Vec2 pos) noexcept {
+    setEnd(Vec2 pos) noexcept
+    {
         shape.end = pos;
     }
 
     /// @brief Sets the thickness.
     /// @param value The new thickness.
     inline void
-    setThickness(float value) noexcept {
+    setThickness(float value) noexcept
+    {
         shape.thickness = value;
     }
 
     /// @brief Sets the line shape.
     /// @param shape The new shape.
     inline void
-    setShape(LineShape shape) noexcept {
+    setShape(LineShape shape) noexcept
+    {
         this->shape = shape;
         ui_layout.offset = shape.start;
     }
@@ -91,7 +98,8 @@ public:
     /// @brief Sets the color.
     /// @param color The new color.
     inline void
-    setColor(Vec4 color) noexcept override {
+    setColor(Vec4 color) noexcept override
+    {
         if (material) {
             material->properties.color_tint = color;
         }
@@ -100,28 +108,32 @@ public:
     /// @brief Sets the material pointer.
     /// @param mat Material pointer.
     inline void
-    setMaterial(Material* mat) noexcept override {
+    setMaterial(Material* mat) noexcept override
+    {
         external_material = mat;
     }
 
     /// @brief Sets the depth value for Z-ordering.
     /// @param value The new layer depth.
     inline void
-    setLayer(float value) noexcept override {
+    setLayer(float value) noexcept override
+    {
         layer = value;
     }
 
     /// @brief Gets start position.
     /// @return Start position.
     [[nodiscard]] inline Vec2
-    getPosition() const noexcept override {
+    getPosition() const noexcept override
+    {
         return shape.start;
     }
 
     /// @brief Gets rotation angle in degrees.
     /// @return Rotation angle in degrees.
     [[nodiscard]] inline float
-    getRotation() const noexcept override {
+    getRotation() const noexcept override
+    {
         Vec2 diff = shape.end - shape.start;
         float angle = std::atan2(diff.y, diff.x);
         return lili::radToDeg(angle);
@@ -130,16 +142,18 @@ public:
     /// @brief Gets scale.
     /// @return Scale vector.
     [[nodiscard]] inline Vec2
-    getScale() const noexcept override {
+    getScale() const noexcept override
+    {
         return scale;
     }
 
     /// @brief Gets bounding size (length * scale.x, thickness * scale.y).
     /// @return Size vector.
     [[nodiscard]] inline Vec2
-    getSize() const noexcept override {
+    getSize() const noexcept override
+    {
         Vec2 diff = shape.end - shape.start;
-        return {diff.length() * scale.x, shape.thickness * scale.y};
+        return { diff.length() * scale.x, shape.thickness * scale.y };
     }
 
     /// @brief Gets the transformation matrix.
@@ -150,42 +164,48 @@ public:
     /// @brief Gets layer depth.
     /// @return The depth.
     [[nodiscard]] inline float
-    getLayer() const noexcept override {
+    getLayer() const noexcept override
+    {
         return layer;
     }
 
     /// @brief Gets start position.
     /// @return Start position.
     [[nodiscard]] inline Vec2
-    getStart() const noexcept {
+    getStart() const noexcept
+    {
         return shape.start;
     }
 
     /// @brief Gets end position.
     /// @return End position.
     [[nodiscard]] inline Vec2
-    getEnd() const noexcept {
+    getEnd() const noexcept
+    {
         return shape.end;
     }
 
     /// @brief Gets thickness.
     /// @return The thickness.
     [[nodiscard]] inline float
-    getThickness() const noexcept {
+    getThickness() const noexcept
+    {
         return shape.thickness;
     }
 
     /// @brief Gets line shape geometry.
     /// @return The shape.
     [[nodiscard]] inline LineShape
-    getShape() const noexcept {
+    getShape() const noexcept
+    {
         return shape;
     }
 
     /// @brief Gets the color.
     /// @return The color.
     [[nodiscard]] inline Vec4
-    getColor() const noexcept override {
+    getColor() const noexcept override
+    {
         Material* mat = getMaterial();
         return mat ? mat->properties.color_tint : Vec4(1.0f, 1.0f, 1.0f, 1.0f);
     }
@@ -193,7 +213,8 @@ public:
     /// @brief Gets the material.
     /// @return Pointer to the material.
     [[nodiscard]] inline Material*
-    getMaterial() const noexcept override {
+    getMaterial() const noexcept override
+    {
         return external_material ? external_material : material.get();
     }
 
@@ -204,7 +225,7 @@ public:
 private:
     Renderer* renderer = nullptr;
     LineShape shape;
-    Vec2 scale = {1.0f, 1.0f};
+    Vec2 scale = { 1.0f, 1.0f };
 
     float layer = 0.0f;
     GPUMesh* mesh = nullptr;
@@ -212,4 +233,4 @@ private:
     Material* external_material = nullptr;
 };
 
-}  // namespace lili
+} // namespace lili

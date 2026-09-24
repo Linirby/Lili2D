@@ -1,26 +1,33 @@
 #include "app.hpp"
 
-App::App() : lili::Game("hello_shader - Lili2D", 800, 800) {
+App::App()
+  : lili::Game("hello_shader - Lili2D", 800, 800)
+{
     lili::Assets::setHotReloadEnabled(true);
     lili::Renderer* renderer = getRenderer();
 
     lili::Shader* rect_shader = lili::Assets::loadShader(
-        "rect_shader", "src/rect.vert.hlsl", "src/default.frag.hlsl",
+        "rect_shader",
+        "src/rect.vert.hlsl",
+        "src/default.frag.hlsl",
         renderer->getDevice()
     );
     rect_pipeline.reset(renderer->createMainGraphicsPipeline(rect_shader));
     rect = lili::Rect(
-        renderer, lili::RectShape(0.0f, 0.0f, 400.0f, 400.0f),
+        renderer,
+        lili::RectShape(0.0f, 0.0f, 400.0f, 400.0f),
         lili::Vec4(1.0f, 1.0f, 1.0f, 1.0f)
     );
     rect.getMaterial()->pipeline = rect_pipeline.get();
     rect.setRender(lili::RenderLayer::UI);
     rect.setAnchor(lili::Anchor::CENTER);
     rect.setPivot(lili::Pivot::CENTER);
-    rect.setOffset({0.0f, 0.0f});
+    rect.setOffset({ 0.0f, 0.0f });
 
     lili::Shader* text_shader = lili::Assets::loadShader(
-        "text_shader", "src/text.vert.hlsl", "src/default.frag.hlsl",
+        "text_shader",
+        "src/text.vert.hlsl",
+        "src/default.frag.hlsl",
         renderer->getDevice()
     );
     text_pipeline.reset(renderer->createMainGraphicsPipeline(text_shader));
@@ -32,13 +39,13 @@ App::App() : lili::Game("hello_shader - Lili2D", 800, 800) {
     text.getMaterial()->pipeline = text_pipeline.get();
     text.setAnchor(lili::Anchor::TOP);
     text.setPivot(lili::Pivot::TOP);
-    text.setOffset({0.0f, 30.0f});
+    text.setOffset({ 0.0f, 30.0f });
     text.setRender(lili::RenderLayer::UI);
 
     text_info = lili::Text(renderer, font, "SPACE: toggle custom shaders");
     text_info.setAnchor(lili::Anchor::BOTTOM);
     text_info.setPivot(lili::Pivot::BOTTOM);
-    text_info.setOffset({0.0f, -30.0f});
+    text_info.setOffset({ 0.0f, -30.0f });
     text_info.setScale(3.0f);
     text_info.setRender(lili::RenderLayer::UI);
 
@@ -46,7 +53,8 @@ App::App() : lili::Game("hello_shader - Lili2D", 800, 800) {
 }
 
 void
-App::onEvent(const lili::Event& event) {
+App::onEvent(const lili::Event& event)
+{
     lili::Game::onEvent(event);
     if (event.type() == lili::EventType::KEYBOARD) {
         lili::KeyboardEvent kb = event.keyboard();
@@ -69,25 +77,25 @@ App::onEvent(const lili::Event& event) {
 }
 
 void
-App::onUpdate(float dt) {
+App::onUpdate(float dt)
+{
     (void)dt;
     clock.update();
 }
 
 void
-App::onRender(float alpha) {
+App::onRender(float alpha)
+{
     (void)alpha;
     if (toggle_custom_shaders) {
         text.getMaterial()->setVertexUniforms(
-            TextUB{.speed = 2.0f, .time = clock.getTime()}
+            TextUB{ .speed = 2.0f, .time = clock.getTime() }
         );
         rect.getMaterial()->setVertexUniforms(
-            RectUB{
-                .time = clock.getTime(),
-                .amplitude = 0.2f,
-                .frequency = 30.0f,
-                .speed = 5.0f
-            }
+            RectUB{ .time = clock.getTime(),
+                    .amplitude = 0.2f,
+                    .frequency = 30.0f,
+                    .speed = 5.0f }
         );
     }
 

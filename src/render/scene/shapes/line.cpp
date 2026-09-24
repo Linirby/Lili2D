@@ -8,7 +8,8 @@
 namespace lili {
 
 Line::Line(Renderer* renderer, LineShape shape, Vec4 color)
-    : renderer(renderer) {
+  : renderer(renderer)
+{
     mesh = renderer->getUnitQuad();
     material = std::make_unique<Material>(renderer->getTheWhitePixel());
     setShape(shape);
@@ -18,7 +19,8 @@ Line::Line(Renderer* renderer, LineShape shape, Vec4 color)
 }
 
 void
-Line::setRotation(float degree) noexcept {
+Line::setRotation(float degree) noexcept
+{
     Vec2 diff = shape.end - shape.start;
     float length = diff.length();
     float rad = lili::degToRad(degree);
@@ -27,7 +29,8 @@ Line::setRotation(float degree) noexcept {
 }
 
 void
-Line::setSize(Vec2 size) noexcept {
+Line::setSize(Vec2 size) noexcept
+{
     Vec2 diff = shape.end - shape.start;
     float current_len = diff.length();
     if (current_len > 0.0001f) {
@@ -39,7 +42,8 @@ Line::setSize(Vec2 size) noexcept {
 }
 
 Mat3
-Line::getTransformMatrix() const {
+Line::getTransformMatrix() const
+{
     Vec2 diff = shape.end - shape.start;
     float length = diff.length() * scale.x;
     float thick = shape.thickness * scale.y;
@@ -47,24 +51,26 @@ Line::getTransformMatrix() const {
 
     if (render_layer == RenderLayer::UI && renderer) {
         Vec2 viewport_size = renderer->getLogicalResolution();
-        Vec2 obj_size = {length, thick};
+        Vec2 obj_size = { length, thick };
         return ui_layout.getTransformationMatrix(
             viewport_size, obj_size, angle, scale
         );
     }
 
     return Mat3::translate(shape.start) * Mat3::rotation(angle) *
-           Mat3::translate({0.0f, -thick * 0.5f}) *
-           Mat3::scale({length, thick});
+           Mat3::translate({ 0.0f, -thick * 0.5f }) *
+           Mat3::scale({ length, thick });
 }
 
 void
-Line::draw() {
-    if (!is_visible) return;
+Line::draw()
+{
+    if (!is_visible)
+        return;
     Mat3 mat_transform = getTransformMatrix();
     renderer->submit(
-        Model({mesh, getMaterial()}), mat_transform, layer, render_layer
+        Model({ mesh, getMaterial() }), mat_transform, layer, render_layer
     );
 }
 
-}  // namespace lili
+} // namespace lili

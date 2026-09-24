@@ -3,13 +3,15 @@
 namespace lili {
 
 AnimationRegistry&
-AnimationRegistry::get() {
+AnimationRegistry::get()
+{
     static AnimationRegistry instance;
     return instance;
 }
 
-AnimationRegistry::AnimationRegistry() {
+AnimationRegistry::AnimationRegistry()
+{
     registerAnimation("core:none", Animation());
 }
 
-}  // namespace lili
+} // namespace lili

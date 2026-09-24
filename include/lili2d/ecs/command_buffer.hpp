@@ -11,7 +11,8 @@ namespace lili {
 /// @brief CommandBuffer defers structural ECS modifications (create/destroy,
 /// add/remove components) to be executed safely and sequentially on the main
 /// thread, avoiding concurrency issues.
-class CommandBuffer {
+class CommandBuffer
+{
 public:
     /// @brief Default constructor.
     CommandBuffer() = default;
@@ -44,9 +45,10 @@ public:
     /// @tparam Args The constructor arguments for the component.
     /// @param entity The entity.
     /// @param args The arguments to forward to the component constructor.
-    template <typename T, typename... Args>
+    template<typename T, typename... Args>
     void
-    emplaceComponent(Entity entity, Args&&... args) {
+    emplaceComponent(Entity entity, Args&&... args)
+    {
         commands.push_back([entity, ... fwd_args = std::forward<Args>(args)](
                                ECSRegistry& registry
                            ) mutable {
@@ -57,9 +59,10 @@ public:
     /// @brief Queue a component removal command.
     /// @tparam T The component type to remove.
     /// @param entity The entity.
-    template <typename T>
+    template<typename T>
     void
-    removeComponent(Entity entity) {
+    removeComponent(Entity entity)
+    {
         commands.push_back([entity](ECSRegistry& registry) {
             registry.removeComponent<T>(entity);
         });
@@ -78,14 +81,16 @@ public:
     /// @brief Checks if there are no queued commands.
     /// @return True if empty, false otherwise.
     [[nodiscard]] inline bool
-    empty() const noexcept {
+    empty() const noexcept
+    {
         return commands.empty();
     }
 
     /// @brief Gets the number of queued commands.
     /// @return Number of commands.
     [[nodiscard]] inline size_t
-    size() const noexcept {
+    size() const noexcept
+    {
         return commands.size();
     }
 
@@ -93,4 +98,4 @@ private:
     std::vector<std::function<void(ECSRegistry&)>> commands;
 };
 
-}  // namespace lili
+} // namespace lili

@@ -6,7 +6,8 @@ namespace lili {
 /// @param degrees The angle in degrees.
 /// @return The angle in radians.
 [[nodiscard]] constexpr inline float
-degToRad(float degrees) noexcept {
+degToRad(float degrees) noexcept
+{
     return degrees * 3.14159265358979323846f / 180.0f;
 }
 
@@ -14,8 +15,9 @@ degToRad(float degrees) noexcept {
 /// @param radians The angle in radians.
 /// @return The angle in degrees.
 [[nodiscard]] constexpr inline float
-radToDeg(float radians) noexcept {
+radToDeg(float radians) noexcept
+{
     return radians * 180.0f / 3.14159265358979323846f;
 }
 
-}  // namespace lili
+} // namespace lili

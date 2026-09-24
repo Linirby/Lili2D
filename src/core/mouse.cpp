@@ -5,7 +5,8 @@
 namespace lili {
 
 void
-Mouse::update() noexcept {
+Mouse::update() noexcept
+{
     previous = current;
     current_dx = 0.0f;
     current_dy = 0.0f;
@@ -13,4 +14,4 @@ Mouse::update() noexcept {
     SDL_GetRelativeMouseState(&current_dx, &current_dy);
 }
 
-}  // namespace lili
+} // namespace lili

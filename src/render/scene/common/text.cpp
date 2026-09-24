@@ -7,9 +7,14 @@
 namespace lili {
 
 BitmapFont::BitmapFont(
-    Renderer* renderer, const std::string& path, uint8_t cols, uint8_t rows
+    Renderer* renderer,
+    const std::string& path,
+    uint8_t cols,
+    uint8_t rows
 )
-    : cols(cols), rows(rows) {
+  : cols(cols)
+  , rows(rows)
+{
     texture = std::make_unique<Texture>(renderer->getDevice(), path);
     this->cols = cols;
     this->rows = rows;
@@ -18,10 +23,15 @@ BitmapFont::BitmapFont(
 }
 
 BitmapFont::BitmapFont(
-    Renderer* renderer, const unsigned char* data, unsigned int len,
-    uint8_t cols, uint8_t rows
+    Renderer* renderer,
+    const unsigned char* data,
+    unsigned int len,
+    uint8_t cols,
+    uint8_t rows
 )
-    : cols(cols), rows(rows) {
+  : cols(cols)
+  , rows(rows)
+{
     texture = std::make_unique<Texture>(renderer->getDevice(), data, len);
     this->cols = cols;
     this->rows = rows;
@@ -30,14 +40,17 @@ BitmapFont::BitmapFont(
 }
 
 BitmapFont::BitmapFont(BitmapFont&& other) noexcept
-    : texture(std::move(other.texture)),
-      cols(other.cols),
-      rows(other.rows),
-      glyph_w(other.glyph_w),
-      glyph_h(other.glyph_h) {}
+  : texture(std::move(other.texture))
+  , cols(other.cols)
+  , rows(other.rows)
+  , glyph_w(other.glyph_w)
+  , glyph_h(other.glyph_h)
+{
+}
 
 BitmapFont&
-BitmapFont::operator=(BitmapFont&& other) noexcept {
+BitmapFont::operator=(BitmapFont&& other) noexcept
+{
     if (this != &other) {
         if (texture && other.texture)
             *texture = std::move(*other.texture);
@@ -52,11 +65,13 @@ BitmapFont::operator=(BitmapFont&& other) noexcept {
 }
 
 GlyphUV
-BitmapFont::glyphUv(char c) const noexcept {
+BitmapFont::glyphUv(char c) const noexcept
+{
     const int ASCII = static_cast<unsigned char>(c);
     const int FIRST = static_cast<unsigned char>(' ');
     int idx = ASCII - FIRST;
-    if (ASCII < FIRST || ASCII > 126) idx = '?' - FIRST;
+    if (ASCII < FIRST || ASCII > 126)
+        idx = '?' - FIRST;
     const int CURRENT_X = idx % cols;
     const int CURRENT_Y = idx / cols;
     const float DELTA_U = 1.0f / static_cast<float>(cols);
@@ -76,7 +91,8 @@ BitmapFont::glyphUv(char c) const noexcept {
     return GlyphUV(u0, v0, u1, v1);
 }
 
-Text::Text(Renderer* renderer, BitmapFont* font, const std::string& text) {
+Text::Text(Renderer* renderer, BitmapFont* font, const std::string& text)
+{
     this->renderer = renderer;
     this->font = font;
     glyph_w = static_cast<float>(font->getGlyphW());
@@ -87,27 +103,31 @@ Text::Text(Renderer* renderer, BitmapFont* font, const std::string& text) {
     else
         this->text = "text";
     material = std::make_unique<Material>(font->getTexture());
-    material->properties.color_tint = {1.0f, 1.0f, 1.0f, 1.0f};
-    pos = {0.0f, 0.0f};
-    ui_layout.offset = {0.0f, 0.0f};
+    material->properties.color_tint = { 1.0f, 1.0f, 1.0f, 1.0f };
+    pos = { 0.0f, 0.0f };
+    ui_layout.offset = { 0.0f, 0.0f };
     rebuildMesh();
 }
 
 void
-Text::setText(const std::string& value) {
-    if (value == text) return;
+Text::setText(const std::string& value)
+{
+    if (value == text)
+        return;
     text = value;
     rebuildMesh();
 }
 
 void
-Text::setSpacing(float value) {
+Text::setSpacing(float value)
+{
     advance = glyph_w + value;
     rebuildMesh();
 }
 
 Mat3
-Text::getTransformMatrix() const {
+Text::getTransformMatrix() const
+{
     if (render_layer == RenderLayer::UI && renderer) {
         Vec2 viewport_size = renderer->getLogicalResolution();
         return ui_layout.getTransformationMatrix(
@@ -118,15 +138,18 @@ Text::getTransformMatrix() const {
 }
 
 void
-Text::draw() {
-    if (!mesh || !is_visible) return;
+Text::draw()
+{
+    if (!mesh || !is_visible)
+        return;
     Mat3 transform = getTransformMatrix();
     model.material = getMaterial();
     renderer->submit(model, transform, layer, render_layer);
 }
 
 void
-Text::rebuildMesh() {
+Text::rebuildMesh()
+{
     MeshData mesh_data;
     mesh_data.vertices.reserve(text.size() * 4);
     mesh_data.indices.reserve(text.size() * 6);
@@ -175,4 +198,4 @@ Text::rebuildMesh() {
     model = Model(mesh.get(), material.get());
 }
 
-}  // namespace lili
+} // namespace lili

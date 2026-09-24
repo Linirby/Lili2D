@@ -9,7 +9,8 @@
 namespace lili {
 
 SpriteBatch::SpriteBatch(Renderer* renderer, Texture* texture)
-    : renderer(renderer) {
+  : renderer(renderer)
+{
     material = std::make_unique<Material>(texture);
     material->properties.color_tint = Vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
@@ -21,7 +22,8 @@ SpriteBatch::SpriteBatch(Renderer* renderer, Texture* texture)
 }
 
 void
-SpriteBatch::clear() {
+SpriteBatch::clear()
+{
     mesh_data.vertices.clear();
     mesh_data.indices.clear();
     mesh->update(mesh_data);
@@ -29,9 +31,14 @@ SpriteBatch::clear() {
 
 void
 SpriteBatch::appendSpriteToMesh(
-    MeshData& mesh_data, const SliceUV& slice, Vec2 pos, Vec2 scale,
-    float rotation, Vec4 color
-) {
+    MeshData& mesh_data,
+    const SliceUV& slice,
+    Vec2 pos,
+    Vec2 scale,
+    float rotation,
+    Vec4 color
+)
+{
     uint32_t current_vertex_count =
         static_cast<uint32_t>(mesh_data.vertices.size());
 
@@ -47,10 +54,10 @@ SpriteBatch::appendSpriteToMesh(
     float half_w = (slice.width / 2.0f) * scale.x;
     float half_h = (slice.height / 2.0f) * scale.y;
 
-    Vec2 p0{-half_w, -half_h};
-    Vec2 p1{half_w, -half_h};
-    Vec2 p2{half_w, half_h};
-    Vec2 p3{-half_w, half_h};
+    Vec2 p0{ -half_w, -half_h };
+    Vec2 p1{ half_w, -half_h };
+    Vec2 p2{ half_w, half_h };
+    Vec2 p3{ -half_w, half_h };
 
     auto transform_point = [&](Vec2 p) -> Vec2 {
         return Vec2(
@@ -85,28 +92,37 @@ SpriteBatch::appendSpriteToMesh(
 }
 
 void
-SpriteBatch::setMeshData(MeshData&& data) {
+SpriteBatch::setMeshData(MeshData&& data)
+{
     mesh_data = std::move(data);
     mesh->update(mesh_data);
 }
 
 void
 SpriteBatch::draw(
-    const SliceUV& slice, Vec2 pos, Vec2 scale, float rotation, Vec4 color
-) {
+    const SliceUV& slice,
+    Vec2 pos,
+    Vec2 scale,
+    float rotation,
+    Vec4 color
+)
+{
     appendSpriteToMesh(mesh_data, slice, pos, scale, rotation, color);
 }
 
 void
-SpriteBatch::end() {
+SpriteBatch::end()
+{
     mesh->update(mesh_data);
 }
 
 Vec2
-SpriteBatch::getSize() const noexcept {
+SpriteBatch::getSize() const noexcept
+{
     if (custom_size.x > 0.0f || custom_size.y > 0.0f)
         return Vec2(custom_size.x * scale.x, custom_size.y * scale.y);
-    if (mesh_data.vertices.empty()) return Vec2(0.0f, 0.0f);
+    if (mesh_data.vertices.empty())
+        return Vec2(0.0f, 0.0f);
 
     float min_x = mesh_data.vertices[0].x;
     float max_x = mesh_data.vertices[0].x;
@@ -114,17 +130,22 @@ SpriteBatch::getSize() const noexcept {
     float max_y = mesh_data.vertices[0].y;
 
     for (const Vertex& v : mesh_data.vertices) {
-        if (v.x < min_x) min_x = v.x;
-        if (v.x > max_x) max_x = v.x;
-        if (v.y < min_y) min_y = v.y;
-        if (v.y > max_y) max_y = v.y;
+        if (v.x < min_x)
+            min_x = v.x;
+        if (v.x > max_x)
+            max_x = v.x;
+        if (v.y < min_y)
+            min_y = v.y;
+        if (v.y > max_y)
+            max_y = v.y;
     }
 
     return Vec2((max_x - min_x) * scale.x, (max_y - min_y) * scale.y);
 }
 
 Mat3
-SpriteBatch::getTransformMatrix() const {
+SpriteBatch::getTransformMatrix() const
+{
     if (render_layer == RenderLayer::UI && renderer) {
         Vec2 viewport_size = renderer->getLogicalResolution();
         Vec2 obj_size = getSize();
@@ -137,8 +158,10 @@ SpriteBatch::getTransformMatrix() const {
 }
 
 void
-SpriteBatch::draw() {
-    if (mesh_data.indices.empty() || !is_visible) return;
+SpriteBatch::draw()
+{
+    if (mesh_data.indices.empty() || !is_visible)
+        return;
 
     Mat3 mat_transform = getTransformMatrix();
 
@@ -147,4 +170,4 @@ SpriteBatch::draw() {
     );
 }
 
-}  // namespace lili
+} // namespace lili

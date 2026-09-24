@@ -10,7 +10,8 @@
 namespace lili {
 
 /// @brief Unified graphics pipeline.
-class MainGraphicsPipeline {
+class MainGraphicsPipeline
+{
 public:
     /// @brief Constructs the MainGraphicsPipeline.
     MainGraphicsPipeline() = default;
@@ -34,7 +35,9 @@ public:
     /// @param window The window to render to.
     /// @param shader The shader program.
     MainGraphicsPipeline(
-        SDL_GPUDevice* device, SDL_Window* window, Shader* shader
+        SDL_GPUDevice* device,
+        SDL_Window* window,
+        Shader* shader
     );
     /// @brief Destructor.
     ~MainGraphicsPipeline();
@@ -48,7 +51,8 @@ public:
     /// @brief Gets the underlying SDL GPU pipeline.
     /// @return Pointer to the SDL_GPUGraphicsPipeline.
     [[nodiscard]] inline SDL_GPUGraphicsPipeline*
-    getSdlPipeline() const noexcept {
+    getSdlPipeline() const noexcept
+    {
         return pipeline.get();
     }
 
@@ -64,4 +68,4 @@ private:
         pipeline;
 };
 
-}  // namespace lili
+} // namespace lili

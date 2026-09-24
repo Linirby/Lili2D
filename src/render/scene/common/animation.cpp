@@ -2,6 +2,9 @@
 
 namespace lili {
 
-Animation::Animation(const std::vector<SliceUV>& frames) : frames(frames) {}
+Animation::Animation(const std::vector<SliceUV>& frames)
+  : frames(frames)
+{
+}
 
-}  // namespace lili
+} // namespace lili

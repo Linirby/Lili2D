@@ -6,14 +6,17 @@
 
 namespace systems {
 
-class MovementSystem : public lili::System<PositionComponent> {
+class MovementSystem : public lili::System<PositionComponent>
+{
 public:
     MovementSystem(float window_w, float window_h);
 
     void
     updateEntity(
-        lili::ECSRegistry& registry, lili::Entity entity,
-        PositionComponent& pos, float dt
+        lili::ECSRegistry& registry,
+        lili::Entity entity,
+        PositionComponent& pos,
+        float dt
     ) override;
 
 private:
@@ -21,4 +24,4 @@ private:
     float window_h;
 };
 
-}  // namespace systems
+} // namespace systems

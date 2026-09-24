@@ -11,7 +11,8 @@
 
 using namespace lili;
 
-TEST_CASE("StringHash and StringMap", "[core][string_hash]") {
+TEST_CASE("StringHash and StringMap", "[core][string_hash]")
+{
     StringMap<int> map;
     map["player"] = 100;
     map["enemy"] = 50;
@@ -25,7 +26,8 @@ TEST_CASE("StringHash and StringMap", "[core][string_hash]") {
     CHECK_FALSE(map.contains("boss"));
 }
 
-TEST_CASE("Clock TPS and Accumulator", "[core][clock]") {
+TEST_CASE("Clock TPS and Accumulator", "[core][clock]")
+{
     Clock clock(60.0f);
     CHECK(clock.getTps() == 60.0f);
     CHECK(clock.getFixedDt() == 1.0f / 60.0f);
@@ -35,7 +37,8 @@ TEST_CASE("Clock TPS and Accumulator", "[core][clock]") {
     CHECK(clock.getFixedDt() == 1.0f / 30.0f);
 }
 
-TEST_CASE("Clock FPS Limiter", "[core][clock]") {
+TEST_CASE("Clock FPS Limiter", "[core][clock]")
+{
     Clock clock(60.0f);
     CHECK(clock.getMaxFps() == 0);
 
@@ -56,12 +59,14 @@ TEST_CASE("Clock FPS Limiter", "[core][clock]") {
     capped_clock.update();
     capped_clock.limitFps();
     auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
-        std::chrono::steady_clock::now() - start
-    ).count();
+                          std::chrono::steady_clock::now() - start
+    )
+                          .count();
     CHECK(elapsed_us >= 4000);
 }
 
-TEST_CASE("GameConfig Max FPS", "[core][config]") {
+TEST_CASE("GameConfig Max FPS", "[core][config]")
+{
     GameConfig& config = GameConfig::get();
     config.updateMaxFps(60);
     CHECK(config.getMaxFps() == 60);
@@ -69,15 +74,16 @@ TEST_CASE("GameConfig Max FPS", "[core][config]") {
     CHECK(config.getMaxFps() == 0);
 }
 
-TEST_CASE("ActionMap Key and Mouse Bindings", "[core][action_map]") {
+TEST_CASE("ActionMap Key and Mouse Bindings", "[core][action_map]")
+{
     ActionMap& action_map = ActionMap::get();
     action_map.clear();
 
-    action_map.add("Jump", {Key::SPACE, Key::W});
+    action_map.add("Jump", { Key::SPACE, Key::W });
     CHECK(action_map.has("Jump"));
     CHECK(action_map.getKeys("Jump").size() == 2);
 
-    action_map.add("Fire", {}, {MouseButton::LEFT});
+    action_map.add("Fire", {}, { MouseButton::LEFT });
     CHECK(action_map.has("Fire"));
     REQUIRE(action_map.getMouseButtons("Fire").size() == 1);
     CHECK(action_map.getMouseButtons("Fire")[0] == MouseButton::LEFT);
@@ -91,12 +97,13 @@ TEST_CASE("ActionMap Key and Mouse Bindings", "[core][action_map]") {
     action_map.clear();
 }
 
-TEST_CASE("ThreadPool Execution", "[core][thread_pool]") {
+TEST_CASE("ThreadPool Execution", "[core][thread_pool]")
+{
     EngineConfig config;
     config.thread_count_override = 4;
     ThreadPool pool(config);
 
-    std::atomic<int> counter{0};
+    std::atomic<int> counter{ 0 };
     constexpr int TASK_COUNT = 50;
 
     for (int i = 0; i < TASK_COUNT; ++i) {
@@ -119,11 +126,13 @@ TEST_CASE("ThreadPool Execution", "[core][thread_pool]") {
     CHECK(counter.load() == TASK_COUNT);
 }
 
-struct DummyResource {
+struct DummyResource
+{
     std::string tag;
 };
 
-TEST_CASE("ResourceManager Generic Cache", "[core][resource_manager]") {
+TEST_CASE("ResourceManager Generic Cache", "[core][resource_manager]")
+{
     ResourceManager<DummyResource> manager;
 
     auto dummy_loader = [](const std::string& path) {
@@ -144,7 +153,8 @@ TEST_CASE("ResourceManager Generic Cache", "[core][resource_manager]") {
     CHECK(r1 == r2);
 
     manager.emplace(
-        "custom", std::make_unique<DummyResource>(DummyResource{"custom_val"}),
+        "custom",
+        std::make_unique<DummyResource>(DummyResource{ "custom_val" }),
         "ui"
     );
     CHECK(manager.count() == 2);
@@ -163,7 +173,8 @@ TEST_CASE("ResourceManager Generic Cache", "[core][resource_manager]") {
 TEST_CASE(
     "ResourceManager Hot Reload Single Failure Notice",
     "[core][resource_manager]"
-) {
+)
+{
     std::filesystem::path temp_file =
         std::filesystem::temp_directory_path() / "lili2d_test_reload.txt";
     {
@@ -209,7 +220,8 @@ TEST_CASE(
     std::filesystem::remove(temp_file);
 }
 
-TEST_CASE("Easing Evaluation", "[core][easing]") {
+TEST_CASE("Easing Evaluation", "[core][easing]")
+{
     CHECK(Easing::evaluate(EaseType::LINEAR, 0.0f) == 0.0f);
     CHECK(Easing::evaluate(EaseType::LINEAR, 1.0f) == 1.0f);
     CHECK(Easing::evaluate(EaseType::LINEAR, 0.5f) == 0.5f);
@@ -252,8 +264,10 @@ TEST_CASE("Easing Evaluation", "[core][easing]") {
     CHECK(Easing::inBounce(1.0f) == 1.0f);
 }
 
-TEST_CASE("Timer and TimerManager", "[core][timer]") {
-    SECTION("Timer Progress and Expiration") {
+TEST_CASE("Timer and TimerManager", "[core][timer]")
+{
+    SECTION("Timer Progress and Expiration")
+    {
         Timer timer(1.0f, false, true);
         CHECK(timer.isRunning());
         CHECK_FALSE(timer.isFinished());
@@ -274,7 +288,8 @@ TEST_CASE("Timer and TimerManager", "[core][timer]") {
         CHECK_FALSE(timer.isRunning());
     }
 
-    SECTION("Repeating Timer") {
+    SECTION("Repeating Timer")
+    {
         Timer timer(1.0f, true, true);
         int completions = 0;
         timer.onComplete([&]() { completions++; });
@@ -288,7 +303,8 @@ TEST_CASE("Timer and TimerManager", "[core][timer]") {
         CHECK(completions == 2);
     }
 
-    SECTION("TimerManager Lifecycle") {
+    SECTION("TimerManager Lifecycle")
+    {
         TimerManager manager;
         bool t1_done = false;
         bool t2_done = false;
@@ -310,7 +326,8 @@ TEST_CASE("Timer and TimerManager", "[core][timer]") {
     }
 }
 
-TEST_CASE("Type Traits and Move Guarantees", "[core][traits]") {
+TEST_CASE("Type Traits and Move Guarantees", "[core][traits]")
+{
     static_assert(std::is_nothrow_move_constructible_v<Clock>);
     static_assert(std::is_nothrow_move_assignable_v<Clock>);
 
@@ -332,7 +349,8 @@ TEST_CASE("Type Traits and Move Guarantees", "[core][traits]") {
 #include "lili2d/render/default_font.hpp"
 #include "lili2d/render/scene/common/text.hpp"
 
-TEST_CASE("Default Font Asset Integrity", "[render][font]") {
+TEST_CASE("Default Font Asset Integrity", "[render][font]")
+{
     CHECK(default_font_cols == 16);
     CHECK(default_font_rows == 6);
     REQUIRE(default_font_png_len > 8);

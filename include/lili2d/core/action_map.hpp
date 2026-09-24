@@ -12,7 +12,8 @@
 namespace lili {
 
 /// @brief Bindings of an action.
-struct ActionBinding {
+struct ActionBinding
+{
     /// @brief Bound keys for the action.
     std::vector<Key> keys;
     /// @brief Bound mouse buttons for the action.
@@ -20,7 +21,8 @@ struct ActionBinding {
 };
 
 /// @brief Map action with custom set of keys
-class ActionMap {
+class ActionMap
+{
 public:
     /// @brief Delete copy constructor.
     ActionMap(const ActionMap&) = delete;
@@ -54,7 +56,8 @@ public:
     ///
     /// Keys and MouseButtons vectors will be move in to the action map.
     bool
-    add(const std::string& action, std::vector<Key> keys = {},
+    add(const std::string& action,
+        std::vector<Key> keys = {},
         std::vector<MouseButton> mouse_btn = {});
     /// @brief Remove an action from the ActionMap.
     /// @param action The name of the action.
@@ -114,7 +117,9 @@ public:
     /// mouse button doesn't exist
     bool
     replaceMouseButton(
-        std::string_view action, MouseButton old_btn, MouseButton new_btn
+        std::string_view action,
+        MouseButton old_btn,
+        MouseButton new_btn
     );
     /// @brief Get the set of mouse button for an existing action.
     /// @param action The name of the action.
@@ -150,4 +155,4 @@ private:
     ActionMap() = default;
 };
 
-}  // namespace lili
+} // namespace lili

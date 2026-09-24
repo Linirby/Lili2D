@@ -9,7 +9,8 @@
 namespace lili {
 
 /// @brief Interface for a type-erased component pool.
-class IComponentPool {
+class IComponentPool
+{
 public:
     /// @brief Default constructor.
     IComponentPool() = default;
@@ -61,17 +62,19 @@ public:
 
 /// @brief Contiguous component pool implementation for a specific type T.
 /// @tparam T The component type.
-template <typename T>
-class ComponentPool : public IComponentPool {
+template<typename T>
+class ComponentPool : public IComponentPool
+{
 public:
     /// @brief Emplaces a new component for the entity.
     /// @tparam Args The argument types for constructing the component.
     /// @param entity The entity.
     /// @param args The arguments to forward to the component constructor.
     /// @return Reference to the created component.
-    template <typename... Args>
+    template<typename... Args>
     T&
-    emplace(Entity entity, Args&&... args) {
+    emplace(Entity entity, Args&&... args)
+    {
         assert(!has(entity) && "Entity already has this component!");
 
         uint32_t entity_id = getEntityID(entity);
@@ -89,7 +92,8 @@ public:
     /// @param entity The entity.
     /// @return Reference to the component.
     [[nodiscard]] T&
-    get(Entity entity) noexcept {
+    get(Entity entity) noexcept
+    {
         assert(has(entity) && "Entity does not have this component!");
 
         uint32_t entity_id = getEntityID(entity);
@@ -100,7 +104,8 @@ public:
     /// @param entity The entity.
     /// @return Const reference to the component.
     [[nodiscard]] const T&
-    get(Entity entity) const noexcept {
+    get(Entity entity) const noexcept
+    {
         assert(has(entity) && "Entity does not have this component!");
 
         uint32_t entity_id = getEntityID(entity);
@@ -111,7 +116,8 @@ public:
     /// @param entity The entity to check.
     /// @return True if the component exists, false otherwise.
     [[nodiscard]] bool
-    has(Entity entity) const noexcept override {
+    has(Entity entity) const noexcept override
+    {
         uint32_t entity_id = getEntityID(entity);
         return (
             entity_id < sparse_entities.size() &&
@@ -122,7 +128,8 @@ public:
     /// @brief Removes the component for the entity from this pool.
     /// @param entity The entity.
     void
-    remove(Entity entity) override {
+    remove(Entity entity) override
+    {
         assert(
             has(entity) && "Cannot remove component: Entity does not have it!"
         );
@@ -147,7 +154,8 @@ public:
     /// @brief Gets the number of active components in this pool.
     /// @return The number of components.
     [[nodiscard]] size_t
-    size() const noexcept override {
+    size() const noexcept override
+    {
         return dense_components.size();
     }
 
@@ -155,35 +163,40 @@ public:
     /// @param index The index where the entity is located.
     /// @return The entity at the corresponding index.
     [[nodiscard]] virtual Entity
-    getEntity(size_t index) const override {
+    getEntity(size_t index) const override
+    {
         return dense_entities[index];
     }
 
     /// @brief Check if the pool is empty.
     /// @return True if empty, False if not.lead_pool->size()
     [[nodiscard]] virtual bool
-    empty() const noexcept override {
+    empty() const noexcept override
+    {
         return dense_components.empty();
     }
 
     /// @brief Gets a const reference to the vector of components.
     /// @return Const reference to the components vector.
     [[nodiscard]] const std::vector<T>&
-    getComponents() const noexcept {
+    getComponents() const noexcept
+    {
         return dense_components;
     }
 
     /// @brief Gets a mutable reference to the vector of components.
     /// @return Mutable reference to the components vector.
     [[nodiscard]] std::vector<T>&
-    getComponents() noexcept {
+    getComponents() noexcept
+    {
         return dense_components;
     }
 
     /// @brief Gets a const reference to the vector of entities in this pool.
     /// @return Const reference to the entities vector.
     [[nodiscard]] const std::vector<Entity>&
-    getEntities() const noexcept override {
+    getEntities() const noexcept override
+    {
         return dense_entities;
     }
 
@@ -194,4 +207,4 @@ private:
     static constexpr size_t EMPTY = static_cast<size_t>(-1);
 };
 
-}  // namespace lili
+} // namespace lili

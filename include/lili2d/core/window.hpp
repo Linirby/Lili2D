@@ -9,7 +9,8 @@ struct SDL_Window;
 namespace lili {
 
 /// @brief Represents an application window.
-class Window {
+class Window
+{
 public:
     /// @brief Constructs a window with the specified title and dimensions.
     /// @param title The window title.
@@ -82,19 +83,22 @@ public:
     /// @brief Checks if the window is resizable.
     /// @return True if resizable, false otherwise.
     [[nodiscard]] inline bool
-    isResizable() const noexcept {
+    isResizable() const noexcept
+    {
         return resizable;
     }
     /// @brief Checks if the window is borderless.
     /// @return True if borderless, false otherwise.
     [[nodiscard]] inline bool
-    isBorderless() const noexcept {
+    isBorderless() const noexcept
+    {
         return borderless;
     }
     /// @brief Checks if the window is in fullscreen mode.
     /// @return True if fullscreen, false otherwise.
     [[nodiscard]] inline bool
-    isFullscreen() const noexcept {
+    isFullscreen() const noexcept
+    {
         return fullscreen;
     }
     /// @brief Checks if relative mouse mode is enabled.
@@ -106,7 +110,8 @@ public:
     /// @param width Logical width in pixels (0 to disable).
     /// @param height Logical height in pixels (0 to disable).
     inline void
-    setLogicalResolution(int width, int height) noexcept {
+    setLogicalResolution(int width, int height) noexcept
+    {
         logical_width = width;
         logical_height = height;
         use_logical_resolution = (width > 0 && height > 0);
@@ -119,7 +124,8 @@ public:
     /// @brief Checks if a custom logical resolution is enabled.
     /// @return True if logical resolution is set.
     [[nodiscard]] inline bool
-    hasLogicalResolution() const noexcept {
+    hasLogicalResolution() const noexcept
+    {
         return use_logical_resolution;
     }
     /// @brief Translates physical screen coordinates to logical game
@@ -133,7 +139,8 @@ public:
     /// @brief Gets the underlying SDL_Window pointer.
     /// @return Pointer to the SDL_Window.
     [[nodiscard]] inline SDL_Window*
-    getSdlWindow() const noexcept {
+    getSdlWindow() const noexcept
+    {
         return window;
     }
 
@@ -147,4 +154,4 @@ private:
     SDL_Window* window = nullptr;
 };
 
-}  // namespace lili
+} // namespace lili

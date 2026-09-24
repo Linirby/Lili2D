@@ -11,7 +11,8 @@ typedef uint32_t Entity;
 /// @param entity The entity.
 /// @return The entity ID.
 [[nodiscard]] constexpr inline uint32_t
-getEntityID(Entity entity) noexcept {
+getEntityID(Entity entity) noexcept
+{
     return entity & 0x00FFFFFF;
 }
 
@@ -19,7 +20,8 @@ getEntityID(Entity entity) noexcept {
 /// @param entity The entity.
 /// @return The entity generation.
 [[nodiscard]] constexpr inline uint8_t
-getEntityGen(Entity entity) noexcept {
+getEntityGen(Entity entity) noexcept
+{
     return static_cast<uint8_t>(entity >> 24);
 }
 
@@ -28,8 +30,9 @@ getEntityGen(Entity entity) noexcept {
 /// @param gen The entity generation.
 /// @return The created entity.
 [[nodiscard]] constexpr inline Entity
-getEntity(uint32_t id, uint8_t gen) noexcept {
+getEntity(uint32_t id, uint8_t gen) noexcept
+{
     return (static_cast<uint32_t>(gen) << 24) | (id & 0x00FFFFFF);
 }
 
-}  // namespace lili
+} // namespace lili

@@ -2,7 +2,9 @@
 
 #include <SDL3/SDL_scancode.h>
 
-App::App() : lili::Game("hello_text - Lili2D", 625, 300) {
+App::App()
+  : lili::Game("hello_text - Lili2D", 625, 300)
+{
     getWindow()->setResizable(true);
     lili::Renderer* renderer = getRenderer();
 
@@ -20,21 +22,24 @@ App::App() : lili::Game("hello_text - Lili2D", 625, 300) {
         renderer, font_example, "<- & ->: change letter spacing | R: rotate"
     );
     info_text.setScale(3.0f);
-    info_text.setPosition({10.0f, 10.0f});
+    info_text.setPosition({ 10.0f, 10.0f });
 }
 
 void
-App::onEvent(const lili::Event& event) {
+App::onEvent(const lili::Event& event)
+{
     lili::Game::onEvent(event);
     if (event.type() == lili::EventType::KEYBOARD) {
         lili::KeyboardEvent kb = event.keyboard();
-        if (kb.action == lili::KeyAction::PRESSED && kb.key == lili::Key::ESCAPE)
+        if (kb.action == lili::KeyAction::PRESSED &&
+            kb.key == lili::Key::ESCAPE)
             shutdown();
     }
 }
 
 void
-App::onUpdate(float dt) {
+App::onUpdate(float dt)
+{
     keyboard.update();
     if (keyboard.held(SDL_SCANCODE_LEFT)) {
         letter_spacing -= speed_change * dt;
@@ -51,7 +56,8 @@ App::onUpdate(float dt) {
 }
 
 void
-App::onRender(float alpha) {
+App::onRender(float alpha)
+{
     (void)alpha;
     welcome_text.draw();
     info_text.draw();

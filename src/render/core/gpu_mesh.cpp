@@ -5,7 +5,9 @@
 
 namespace lili {
 
-GPUMesh::GPUMesh(SDL_GPUDevice* device, const MeshData& mesh) : device(device) {
+GPUMesh::GPUMesh(SDL_GPUDevice* device, const MeshData& mesh)
+  : device(device)
+{
     index_count = static_cast<uint32_t>(mesh.indices.size());
 
     uint32_t vertices_buffer_size =
@@ -61,7 +63,8 @@ GPUMesh::GPUMesh(SDL_GPUDevice* device, const MeshData& mesh) : device(device) {
 }
 
 void
-GPUMesh::update(const MeshData& mesh) {
+GPUMesh::update(const MeshData& mesh)
+{
     index_count = static_cast<uint32_t>(mesh.indices.size());
 
     uint32_t vertices_buffer_size = mesh.vertices.size() * sizeof(lili::Vertex);
@@ -110,7 +113,8 @@ GPUMesh::update(const MeshData& mesh) {
 }
 
 void
-GPUMesh::transferToGpu(const void* data, SDL_GPUBuffer* buffer, uint32_t size) {
+GPUMesh::transferToGpu(const void* data, SDL_GPUBuffer* buffer, uint32_t size)
+{
     SDL_GPUTransferBufferCreateInfo transfer_bi{};
     transfer_bi.usage = SDL_GPU_TRANSFERBUFFERUSAGE_UPLOAD;
     transfer_bi.size = size;
@@ -143,4 +147,4 @@ GPUMesh::transferToGpu(const void* data, SDL_GPUBuffer* buffer, uint32_t size) {
     SDL_ReleaseGPUTransferBuffer(device, transfer_buffer);
 }
 
-}  // namespace lili
+} // namespace lili

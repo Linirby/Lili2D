@@ -10,7 +10,8 @@
 namespace lili {
 
 /// @brief Unified rendering pass for drawing layers.
-class MainRenderPass {
+class MainRenderPass
+{
 public:
     /// @brief Constructs a render pass.
     /// @param pipeline The graphics pipeline to use.
@@ -25,7 +26,8 @@ public:
     /// @param queue The list of draw commands.
     void
     render(
-        SDL_GPURenderPass* pass, SDL_GPUCommandBuffer* cmd,
+        SDL_GPURenderPass* pass,
+        SDL_GPUCommandBuffer* cmd,
         const Mat3& proj_view,
         const std::map<float, std::vector<DrawCommand>>& queue
     );
@@ -34,4 +36,4 @@ private:
     SDL_GPUGraphicsPipeline* pipeline = nullptr;
 };
 
-}  // namespace lili
+} // namespace lili

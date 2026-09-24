@@ -11,7 +11,8 @@ namespace lili {
 class SceneManager;
 
 /// @brief Represents a single game state or screen.
-class Scene {
+class Scene
+{
 public:
     /// @brief Constructs a Scene with a name and renderer pointer.
     /// @param name Name of the scene.
@@ -32,57 +33,77 @@ public:
 
     /// @brief Called when the scene becomes active.
     virtual void
-    onEnter() {}
+    onEnter()
+    {
+    }
     /// @brief Called when the scene becomes inactive.
     virtual void
-    onExit() {}
+    onExit()
+    {
+    }
     /// @brief Called when another scene is pushed on top of this one.
     virtual void
-    onPause() {}
+    onPause()
+    {
+    }
     /// @brief Called when a scene on top of this one is popped.
     virtual void
-    onResume() {}
+    onResume()
+    {
+    }
 
     /// @brief Handles an incoming event.
     /// @param event The event.
     virtual void
-    handleEvents([[maybe_unused]] const Event& event) {}
+    handleEvents([[maybe_unused]] const Event& event)
+    {
+    }
     /// @brief Updates the scene logic.
     /// @param dt Delta time in seconds used for frame time.
     virtual void
-    update([[maybe_unused]] float dt) {}
+    update([[maybe_unused]] float dt)
+    {
+    }
     /// @brief Updates the scene physics logic.
     /// @param dt Delta time in seconds used for physics tick.
     virtual void
-    fixedUpdate([[maybe_unused]] float dt) {}
+    fixedUpdate([[maybe_unused]] float dt)
+    {
+    }
     /// @brief Renders the scene.
     /// @param alpha Interpolation factor (between 0.0 and 1.0).
     virtual void
-    render([[maybe_unused]] float alpha) {}
+    render([[maybe_unused]] float alpha)
+    {
+    }
 
     /// @brief Sets the parent scene manager.
     /// @param manager The manager.
     inline void
-    setManager(SceneManager* manager) noexcept {
+    setManager(SceneManager* manager) noexcept
+    {
         this->manager = manager;
     }
 
     /// @brief Gets the scene name.
     /// @return The name.
     [[nodiscard]] inline const std::string&
-    getName() const noexcept {
+    getName() const noexcept
+    {
         return name;
     }
     /// @brief Gets the parent scene manager.
     /// @return The manager.
     [[nodiscard]] inline SceneManager*
-    getManager() const noexcept {
+    getManager() const noexcept
+    {
         return manager;
     }
     /// @brief Gets the renderer.
     /// @return Pointer to Renderer.
     [[nodiscard]] inline Renderer*
-    getRenderer() const noexcept {
+    getRenderer() const noexcept
+    {
         return renderer;
     }
 
@@ -95,4 +116,4 @@ protected:
     SceneManager* manager = nullptr;
 };
 
-}  // namespace lili
+} // namespace lili

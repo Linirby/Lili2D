@@ -8,7 +8,8 @@
 namespace lili {
 
 void
-TileMap::setTile(std::string_view name, lili::Point3 pos) {
+TileMap::setTile(std::string_view name, lili::Point3 pos)
+{
     TileRegistry& registry = TileRegistry::get();
     lili::Point3 chunk_pos = getChunkCoord(pos);
     lili::Point3 local_pos = getLocalCoord(pos);
@@ -19,28 +20,32 @@ TileMap::setTile(std::string_view name, lili::Point3 pos) {
 }
 
 bool
-TileMap::checkCollision(lili::AABB3 target_aabb) const noexcept {
+TileMap::checkCollision(lili::AABB3 target_aabb) const noexcept
+{
     TileRegistry& registry = TileRegistry::get();
 
     for (int z = target_aabb.min.z; z <= target_aabb.max.z; ++z)
         for (int y = target_aabb.min.y; y <= target_aabb.max.y; ++y)
             for (int x = target_aabb.min.x; x <= target_aabb.max.x; ++x) {
-                uint16_t tile_id = getTile({x, y, z});
-                if (tile_id == 0) continue;
+                uint16_t tile_id = getTile({ x, y, z });
+                if (tile_id == 0)
+                    continue;
 
                 const Tile& tile = registry.getTile(tile_id);
                 if (tile.is_solid) {
                     lili::AABB3 tile_aabb(
                         lili::Vec3(x, y, z), lili::Vec3(1.0f, 1.0f, 1.0f)
                     );
-                    if (target_aabb.intersect(tile_aabb)) return true;
+                    if (target_aabb.intersect(tile_aabb))
+                        return true;
                 }
             }
     return false;
 }
 
 void
-TileMap::draw(Renderer* renderer, ThreadPool* thread_pool) {
+TileMap::draw(Renderer* renderer, ThreadPool* thread_pool)
+{
     Camera* camera = renderer->getCamera();
     bool use_culling = (camera != nullptr);
 
@@ -69,18 +74,21 @@ TileMap::draw(Renderer* renderer, ThreadPool* thread_pool) {
             );
             AABB2 chunk_aabb(chunk_pos_w, Vec2(chunk_sz_x, chunk_sz_y));
 
-            if (!bounds.intersect(chunk_aabb)) continue;
+            if (!bounds.intersect(chunk_aabb))
+                continue;
         }
 
         if (chunk.dirty || chunk.rebuilding) {
             if (chunk.dirty) {
-                if (rebuilds_this_frame >= 8) continue;
+                if (rebuilds_this_frame >= 8)
+                    continue;
                 rebuilds_this_frame++;
             }
             chunk.rebuildBatches(renderer, thread_pool, chunk_pos, tile_size);
         }
-        for (auto& batch_pair : chunk.batches) batch_pair.second->draw();
+        for (auto& batch_pair : chunk.batches)
+            batch_pair.second->draw();
     }
 }
 
-}  // namespace lili
+} // namespace lili

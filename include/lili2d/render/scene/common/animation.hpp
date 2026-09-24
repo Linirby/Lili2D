@@ -11,7 +11,8 @@ namespace lili {
 /// An Animation is a simple container for a list of AnimationFrame objects.
 /// Use AtlasMap to load and slice a spritesheet, then extract Animation
 /// objects from it.
-class Animation {
+class Animation
+{
 public:
     /// @brief Default constructor (empty animation).
     Animation() noexcept = default;
@@ -33,7 +34,8 @@ public:
     /// @brief Gets the number of frames.
     /// @return The frame count.
     [[nodiscard]] inline size_t
-    frameCount() const noexcept {
+    frameCount() const noexcept
+    {
         return frames.size();
     }
 
@@ -41,7 +43,8 @@ public:
     /// @param index The frame index.
     /// @return Reference to the SliceUV.
     [[nodiscard]] inline const SliceUV&
-    getFrame(size_t index) const noexcept {
+    getFrame(size_t index) const noexcept
+    {
         return frames[index];
     }
 
@@ -49,4 +52,4 @@ private:
     std::vector<SliceUV> frames;
 };
 
-}  // namespace lili
+} // namespace lili

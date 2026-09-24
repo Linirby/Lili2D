@@ -5,15 +5,20 @@
 namespace systems {
 
 MovementSystem::MovementSystem(float window_w, float window_h)
-    : window_w(window_w), window_h(window_h) {
+  : window_w(window_w)
+  , window_h(window_h)
+{
     parallel_threshold = 500;
 }
 
 void
 MovementSystem::updateEntity(
-    lili::ECSRegistry& registry, lili::Entity entity, PositionComponent& pos,
+    lili::ECSRegistry& registry,
+    lili::Entity entity,
+    PositionComponent& pos,
     float dt
-) {
+)
+{
     if (registry.hasComponent<VelocityComponent>(entity)) {
         auto& vel = registry.getComponent<VelocityComponent>(entity);
 
@@ -41,4 +46,4 @@ MovementSystem::updateEntity(
     }
 }
 
-}  // namespace systems
+} // namespace systems

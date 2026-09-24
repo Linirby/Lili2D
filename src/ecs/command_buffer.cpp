@@ -3,28 +3,33 @@
 namespace lili {
 
 void
-CommandBuffer::createEntity() {
+CommandBuffer::createEntity()
+{
     commands.push_back([](ECSRegistry& registry) {
         (void)registry.createEntity();
     });
 }
 
 void
-CommandBuffer::destroyEntity(Entity entity) {
+CommandBuffer::destroyEntity(Entity entity)
+{
     commands.push_back([entity](ECSRegistry& registry) {
         registry.destroyEntity(entity);
     });
 }
 
 void
-CommandBuffer::play(ECSRegistry& registry) {
-    for (auto& command : commands) command(registry);
+CommandBuffer::play(ECSRegistry& registry)
+{
+    for (auto& command : commands)
+        command(registry);
     commands.clear();
 }
 
 void
-CommandBuffer::clear() noexcept {
+CommandBuffer::clear() noexcept
+{
     commands.clear();
 }
 
-}  // namespace lili
+} // namespace lili

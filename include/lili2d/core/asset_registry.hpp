@@ -16,8 +16,9 @@ namespace lili {
 /// @brief Generic registry for loading, storing, and referencing game assets.
 /// @tparam T The type of the asset.
 /// @tparam IdType The type of the ID used to reference the asset.
-template <typename T, typename IdType = uint32_t>
-class AssetRegistry {
+template<typename T, typename IdType = uint32_t>
+class AssetRegistry
+{
 protected:
     /// @brief Map associating string keys to asset IDs.
     StringMap<IdType> ids;
@@ -45,7 +46,8 @@ public:
     /// @param asset The asset to register.
     /// @return The registered asset's ID.
     virtual IdType
-    registerAsset(const std::string& key, T&& asset) {
+    registerAsset(const std::string& key, T&& asset)
+    {
         auto it = ids.find(key);
         if (it != ids.end()) {
             id_to_asset[it->second] = std::move(asset);
@@ -68,7 +70,8 @@ public:
     /// @param asset The asset to register.
     /// @return The registered asset's ID.
     virtual IdType
-    registerAsset(const std::string& key, const T& asset) {
+    registerAsset(const std::string& key, const T& asset)
+    {
         auto it = ids.find(key);
         if (it != ids.end()) {
             id_to_asset[it->second] = asset;
@@ -90,7 +93,8 @@ public:
     /// @param key The key to check.
     /// @return True if the asset exists, false otherwise.
     [[nodiscard]] bool
-    hasAsset(std::string_view key) const noexcept {
+    hasAsset(std::string_view key) const noexcept
+    {
         return ids.find(key) != ids.end();
     }
 
@@ -98,7 +102,8 @@ public:
     /// @param key The key of the asset.
     /// @return The asset's ID.
     [[nodiscard]] IdType
-    getAssetID(std::string_view key) const {
+    getAssetID(std::string_view key) const
+    {
         auto it = ids.find(key);
         if (it == ids.end())
             throw std::runtime_error(
@@ -111,7 +116,8 @@ public:
     /// @param key The key of the asset.
     /// @return Const reference to the asset.
     [[nodiscard]] const T&
-    getAsset(std::string_view key) const {
+    getAsset(std::string_view key) const
+    {
         return this->getAsset(getAssetID(key));
     }
 
@@ -119,7 +125,8 @@ public:
     /// @param key The ID of the asset.
     /// @return Mutable reference to the asset.
     [[nodiscard]] T&
-    getAsset(IdType key) {
+    getAsset(IdType key)
+    {
         if (key >= id_to_asset.size())
             throw std::runtime_error("Asset ID out of range");
         return id_to_asset[key];
@@ -129,7 +136,8 @@ public:
     /// @param key The ID of the asset.
     /// @return Const reference to the asset.
     [[nodiscard]] const T&
-    getAsset(IdType key) const {
+    getAsset(IdType key) const
+    {
         if (key >= id_to_asset.size())
             throw std::runtime_error("Asset ID out of range");
         return id_to_asset[key];
@@ -138,23 +146,26 @@ public:
     /// @brief Gets the total number of registered assets.
     /// @return The asset count.
     [[nodiscard]] size_t
-    assetCount() const noexcept {
+    assetCount() const noexcept
+    {
         return id_to_asset.size();
     }
 
     /// @brief Gets a pointer to the raw array of registered assets.
     /// @return Pointer to the asset data.
     [[nodiscard]] const T*
-    assetData() const noexcept {
+    assetData() const noexcept
+    {
         return id_to_asset.data();
     }
 
     /// @brief Clears all registered assets from the registry.
     void
-    clear() noexcept {
+    clear() noexcept
+    {
         id_to_asset.clear();
         ids.clear();
     }
 };
 
-}  // namespace lili
+} // namespace lili

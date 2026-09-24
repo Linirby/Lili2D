@@ -11,18 +11,20 @@
 namespace lili {
 
 /// @brief Represents a slice of a texture with UV coordinates.
-struct SliceUV {
-    Texture* texture = nullptr;  ///< The texture.
-    float u_min = 0.0f;          ///< Minimum U coordinate.
-    float v_min = 0.0f;          ///< Minimum V coordinate.
-    float u_max = 1.0f;          ///< Maximum U coordinate.
-    float v_max = 1.0f;          ///< Maximum V coordinate.
-    float width = 0.0f;          ///< Frame width.
-    float height = 0.0f;         ///< Frame height.
+struct SliceUV
+{
+    Texture* texture = nullptr; ///< The texture.
+    float u_min = 0.0f;         ///< Minimum U coordinate.
+    float v_min = 0.0f;         ///< Minimum V coordinate.
+    float u_max = 1.0f;         ///< Maximum U coordinate.
+    float v_max = 1.0f;         ///< Maximum V coordinate.
+    float width = 0.0f;         ///< Frame width.
+    float height = 0.0f;        ///< Frame height.
 };
 
 /// @brief Represents an atlas texture map that can be sliced into frames.
-class AtlasMap {
+class AtlasMap
+{
 public:
     /// @brief Default constructor.
     AtlasMap() = default;
@@ -47,7 +49,8 @@ public:
     /// @param at_pos The 2D position (col, row) of the frame.
     /// @return The SliceUV at the specified position.
     [[nodiscard]] inline SliceUV
-    getSliceUV(Point2 at_pos) const noexcept {
+    getSliceUV(Point2 at_pos) const noexcept
+    {
         int col = static_cast<int>(at_pos.x);
         int row = static_cast<int>(at_pos.y);
         if (col >= 0 && col < n_cols && row >= 0 && row < n_rows)
@@ -59,7 +62,8 @@ public:
     /// @param index The 0-based linear index of the frame.
     /// @return The SliceUV at the specified index.
     [[nodiscard]] inline SliceUV
-    getSliceUV(int index) const noexcept {
+    getSliceUV(int index) const noexcept
+    {
         if (index >= 0 && static_cast<size_t>(index) < slices.size())
             return slices[index];
         return SliceUV();
@@ -81,7 +85,8 @@ public:
     /// @brief Gets the underlying Texture object.
     /// @return Pointer to the Texture.
     [[nodiscard]] inline Texture*
-    getTexture() const noexcept {
+    getTexture() const noexcept
+    {
         return full_texture.get();
     }
 
@@ -93,4 +98,4 @@ private:
     Point2 unit_size;
 };
 
-}  // namespace lili
+} // namespace lili

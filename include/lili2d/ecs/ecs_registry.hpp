@@ -10,17 +10,19 @@
 
 namespace lili {
 
-template <typename... Components>
+template<typename... Components>
 class ECSView;
 
 /// @brief Central registry that manages entities and their components.
-class ECSRegistry {
+class ECSRegistry
+{
 public:
     /// @brief Checks if the given entity is valid and active.
     /// @param entity The entity to check.
     /// @return True if the entity is valid, false otherwise.
     [[nodiscard]] bool
-    isValid(Entity entity) const noexcept {
+    isValid(Entity entity) const noexcept
+    {
         uint32_t idx = getEntityID(entity);
         return idx < entities.size() && entities[idx] == entity;
     }
@@ -38,16 +40,18 @@ public:
     /// @brief Gets the vector of all registered entities.
     /// @return Const reference to the vector of all entities.
     [[nodiscard]] const std::vector<Entity>&
-    getEntities() const noexcept {
+    getEntities() const noexcept
+    {
         return entities;
     }
 
     /// @brief Gets the component pool for the specified component type.
     /// @tparam T The component type.
     /// @return Reference to the component pool.
-    template <typename T>
+    template<typename T>
     [[nodiscard]] ComponentPool<T>&
-    getPool() {
+    getPool()
+    {
         uint32_t type_id = getComponentTypeID<T>();
 
         if (type_id >= component_pools.size())
@@ -64,9 +68,10 @@ public:
     /// @param entity The entity to add the component to.
     /// @param args The arguments to forward to the component constructor.
     /// @return Reference to the created component.
-    template <typename T, typename... Args>
+    template<typename T, typename... Args>
     T&
-    emplaceComponent(Entity entity, Args&&... args) {
+    emplaceComponent(Entity entity, Args&&... args)
+    {
         assert(isValid(entity) && "Cannot add a component from invalid entity");
         return getPool<T>().emplace(entity, std::forward<Args>(args)...);
     }
@@ -74,9 +79,10 @@ public:
     /// @brief Removes a component from the specified entity.
     /// @tparam T The component type to remove.
     /// @param entity The entity.
-    template <typename T>
+    template<typename T>
     void
-    removeComponent(Entity entity) {
+    removeComponent(Entity entity)
+    {
         assert(
             isValid(entity) && "Cannot remove a component from invalid entity"
         );
@@ -87,9 +93,10 @@ public:
     /// @tparam T The component type to retrieve.
     /// @param entity The entity.
     /// @return Reference to the component.
-    template <typename T>
+    template<typename T>
     [[nodiscard]] T&
-    getComponent(Entity entity) {
+    getComponent(Entity entity)
+    {
         assert(isValid(entity) && "Cannot get a component from invalid entity");
         return getPool<T>().get(entity);
     }
@@ -98,9 +105,10 @@ public:
     /// @tparam T The component type to query.
     /// @param entity The entity.
     /// @return True if the component exists, false otherwise.
-    template <typename T>
+    template<typename T>
     [[nodiscard]] bool
-    hasComponent(Entity entity) const {
+    hasComponent(Entity entity) const
+    {
         assert(isValid(entity) && "Cannot query component from invalid entity");
         return const_cast<ECSRegistry*>(this)->getPool<T>().has(entity);
     }
@@ -108,9 +116,10 @@ public:
     /// @brief Get the view of entities with their gived components.
     /// @tparam Components The components you wanna view.
     /// @return An ECSView with entities and their respective components.
-    template <typename... Components>
+    template<typename... Components>
     [[nodiscard]] ECSView<Components...>
-    view() {
+    view()
+    {
         return ECSView<Components...>(*this);
     }
 
@@ -120,12 +129,13 @@ private:
     std::vector<uint32_t> free_ids;
     static inline uint32_t next_component_type_id = 0;
 
-    template <typename T>
+    template<typename T>
     [[nodiscard]] static uint32_t
-    getComponentTypeID() noexcept {
+    getComponentTypeID() noexcept
+    {
         static uint32_t type_id = next_component_type_id++;
         return type_id;
     }
 };
 
-}  // namespace lili
+} // namespace lili

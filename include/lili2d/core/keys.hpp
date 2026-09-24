@@ -5,7 +5,8 @@
 namespace lili {
 
 /// @brief Keyboard scancode enumeration mapping to SDL scancodes.
-enum class Key {
+enum class Key
+{
     UNKNOWN = SDL_SCANCODE_UNKNOWN,
     A = SDL_SCANCODE_A,
     B = SDL_SCANCODE_B,
@@ -257,4 +258,4 @@ enum class Key {
     COUNT = SDL_SCANCODE_COUNT,
 };
 
-}  // namespace lili
+} // namespace lili

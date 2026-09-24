@@ -7,54 +7,62 @@ namespace lili {
 class Game;
 
 /// @brief Global runtime configuration and window state manager.
-class GameConfig {
+class GameConfig
+{
 public:
     /// @brief Gets the configured window width.
     /// @return Width in pixels.
     [[nodiscard]] inline int
-    getWindowWidth() const noexcept {
+    getWindowWidth() const noexcept
+    {
         return window_w;
     }
 
     /// @brief Gets the configured window height.
     /// @return Height in pixels.
     [[nodiscard]] inline int
-    getWindowHeight() const noexcept {
+    getWindowHeight() const noexcept
+    {
         return window_h;
     }
 
     /// @brief Checks if fullscreen mode is enabled.
     /// @return True if fullscreen is active.
     [[nodiscard]] inline bool
-    isWindowFullscreen() const noexcept {
+    isWindowFullscreen() const noexcept
+    {
         return window_fullscreen;
     }
 
     /// @brief Checks if window resizability is enabled.
     /// @return True if resizable.
     [[nodiscard]] inline bool
-    isWindowResizable() const noexcept {
+    isWindowResizable() const noexcept
+    {
         return window_resizable;
     }
 
     /// @brief Checks if borderless mode is enabled.
     /// @return True if borderless.
     [[nodiscard]] inline bool
-    isWindowBorderless() const noexcept {
+    isWindowBorderless() const noexcept
+    {
         return window_borderless;
     }
 
     /// @brief Checks if relative mouse mode is enabled.
     /// @return True if relative mouse mode is active.
     [[nodiscard]] inline bool
-    isRelativeMouseMode() const noexcept {
+    isRelativeMouseMode() const noexcept
+    {
         return relative_mouse_mode;
     }
 
     /// @brief Gets the configured maximum frames per second cap.
     /// @return Target maximum FPS (0 = uncapped).
     [[nodiscard]] inline uint32_t
-    getMaxFps() const noexcept {
+    getMaxFps() const noexcept
+    {
         return max_fps;
     }
 
@@ -69,7 +77,8 @@ public:
     /// @param width Width in pixels.
     /// @param height Height in pixels.
     inline void
-    updateWindowSize(int width, int height) noexcept {
+    updateWindowSize(int width, int height) noexcept
+    {
         if (width > 0 && height > 0) {
             window_w = width;
             window_h = height;
@@ -85,7 +94,8 @@ public:
     /// @brief Updates internal fullscreen state without applying to window.
     /// @param set_fullscreen True for fullscreen.
     inline void
-    updateWindowFullscreen(bool set_fullscreen) noexcept {
+    updateWindowFullscreen(bool set_fullscreen) noexcept
+    {
         window_fullscreen = set_fullscreen;
     }
 
@@ -98,7 +108,8 @@ public:
     /// @brief Updates internal resizable state without applying to window.
     /// @param resizable True for resizable.
     inline void
-    updateWindowResizable(bool resizable) noexcept {
+    updateWindowResizable(bool resizable) noexcept
+    {
         window_resizable = resizable;
     }
 
@@ -111,7 +122,8 @@ public:
     /// @brief Updates internal borderless state without applying to window.
     /// @param borderless True for borderless.
     inline void
-    updateWindowBorderless(bool borderless) noexcept {
+    updateWindowBorderless(bool borderless) noexcept
+    {
         window_borderless = borderless;
     }
 
@@ -125,11 +137,13 @@ public:
     /// window.
     /// @param relative_mouse True for relative mouse mode.
     inline void
-    updateRelativeMouseMode(bool relative_mouse) noexcept {
+    updateRelativeMouseMode(bool relative_mouse) noexcept
+    {
         relative_mouse_mode = relative_mouse;
     }
 
-    /// @brief Sets the maximum frames per second cap and updates the target Game.
+    /// @brief Sets the maximum frames per second cap and updates the target
+    /// Game.
     /// @param game Pointer to Game instance.
     /// @param fps Target maximum FPS (0 = uncapped).
     void
@@ -138,7 +152,8 @@ public:
     /// @brief Updates internal maximum FPS state without applying to Game.
     /// @param fps Target maximum FPS (0 = uncapped).
     inline void
-    updateMaxFps(uint32_t fps) noexcept {
+    updateMaxFps(uint32_t fps) noexcept
+    {
         max_fps = fps;
     }
 
@@ -157,4 +172,4 @@ private:
     uint32_t max_fps = 0;
 };
 
-}  // namespace lili
+} // namespace lili

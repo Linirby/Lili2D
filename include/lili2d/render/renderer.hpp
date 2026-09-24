@@ -27,7 +27,8 @@ class BitmapFont;
 struct ShapesCache;
 
 /// @brief Main renderer class responsible for handling drawing operations.
-class Renderer {
+class Renderer
+{
 public:
     /// @brief Constructor for the renderer.
     /// @param window The window to render to.
@@ -56,7 +57,8 @@ public:
     /// @brief Gets the SDL GPU device.
     /// @return Pointer to the SDL_GPUDevice.
     [[nodiscard]] inline SDL_GPUDevice*
-    getDevice() const noexcept {
+    getDevice() const noexcept
+    {
         return device.get();
     }
 
@@ -71,7 +73,10 @@ public:
     /// @param layer_type The type of the rendering layer.
     void
     submit(
-        Model model, const Mat3& transform, float layer, RenderLayer layer_type
+        Model model,
+        const Mat3& transform,
+        float layer,
+        RenderLayer layer_type
     );
     /// @brief Ends the rendering frame.
     void
@@ -80,26 +85,30 @@ public:
     /// @brief Sets the active camera.
     /// @param camera Pointer to the camera.
     inline void
-    setCamera(Camera* camera) noexcept {
+    setCamera(Camera* camera) noexcept
+    {
         this->camera = camera;
     }
     /// @brief Gets the active camera.
     /// @return Pointer to the active camera.
     [[nodiscard]] inline Camera*
-    getCamera() const noexcept {
+    getCamera() const noexcept
+    {
         return camera;
     }
 
     /// @brief Gets the swapchain width.
     /// @return The width in pixels.
     [[nodiscard]] inline uint32_t
-    getSwapchainWidth() const noexcept {
+    getSwapchainWidth() const noexcept
+    {
         return swapchain_width;
     }
     /// @brief Gets the swapchain height.
     /// @return The height in pixels.
     [[nodiscard]] inline uint32_t
-    getSwapchainHeight() const noexcept {
+    getSwapchainHeight() const noexcept
+    {
         return swapchain_height;
     }
 
@@ -114,7 +123,8 @@ public:
     /// @param height Logical height in pixels (0 to use window logical/physical
     /// size).
     inline void
-    setLogicalResolution(int width, int height) noexcept {
+    setLogicalResolution(int width, int height) noexcept
+    {
         logical_width = width;
         logical_height = height;
     }
@@ -131,7 +141,8 @@ public:
     /// @return A new Shader instance.
     Shader*
     createShader(
-        const std::string& vert_path, const std::string& frag_path,
+        const std::string& vert_path,
+        const std::string& frag_path,
         const std::string& vert_entry = "main",
         const std::string& frag_entry = "main"
     );
@@ -143,7 +154,8 @@ public:
     /// @return A new Shader instance.
     Shader*
     createShader(
-        std::string_view vert_source, std::string_view frag_source,
+        std::string_view vert_source,
+        std::string_view frag_source,
         const std::string& vert_entry = "main",
         const std::string& frag_entry = "main"
     );
@@ -157,7 +169,8 @@ public:
     /// @brief Gets the default white pixel texture.
     /// @return Pointer to the white pixel texture.
     [[nodiscard]] inline Texture*
-    getTheWhitePixel() const noexcept {
+    getTheWhitePixel() const noexcept
+    {
         return the_white_pixel.get();
     }
     /// @brief Gets the shared unit quad mesh.
@@ -180,7 +193,12 @@ public:
     /// false.
     void
     drawRect(
-        float x, float y, float w, float h, Vec4 color, bool hollow = false,
+        float x,
+        float y,
+        float w,
+        float h,
+        Vec4 color,
+        bool hollow = false,
         RenderLayer render_layer = RenderLayer::WORLD2D
     );
     /// @brief Draws a cached rectangle from a RectShape.
@@ -190,7 +208,9 @@ public:
     /// false.
     void
     drawRect(
-        RectShape rect, Vec4 color, bool hollow = false,
+        RectShape rect,
+        Vec4 color,
+        bool hollow = false,
         RenderLayer render_layer = RenderLayer::WORLD2D
     );
     /// @brief Draws a cached circle.
@@ -202,8 +222,12 @@ public:
     /// false.
     void
     drawCircle(
-        float center_x, float center_y, float radius, Vec4 color,
-        bool hollow = false, RenderLayer render_layer = RenderLayer::WORLD2D
+        float center_x,
+        float center_y,
+        float radius,
+        Vec4 color,
+        bool hollow = false,
+        RenderLayer render_layer = RenderLayer::WORLD2D
     );
     /// @brief Draws a cached circle from a CircleShape.
     /// @param circle The circle geometry.
@@ -212,7 +236,9 @@ public:
     /// false.
     void
     drawCircle(
-        CircleShape circle, Vec4 color, bool hollow = false,
+        CircleShape circle,
+        Vec4 color,
+        bool hollow = false,
         RenderLayer render_layer = RenderLayer::WORLD2D
     );
     /// @brief Draws a cached line between two points.
@@ -224,15 +250,21 @@ public:
     /// @param thickness The thickness of the line. Default is 1.0f.
     void
     drawLine(
-        float start_x, float start_y, float end_x, float end_y, Vec4 color,
-        float thickness = 1.0f, RenderLayer render_layer = RenderLayer::WORLD2D
+        float start_x,
+        float start_y,
+        float end_x,
+        float end_y,
+        Vec4 color,
+        float thickness = 1.0f,
+        RenderLayer render_layer = RenderLayer::WORLD2D
     );
     /// @brief Draws a cached line from a LineShape.
     /// @param line The line geometry.
     /// @param color The color.
     void
     drawLine(
-        LineShape line, Vec4 color,
+        LineShape line,
+        Vec4 color,
         RenderLayer render_layer = RenderLayer::WORLD2D
     );
     /// @brief Draws cached text from a string and position using the default
@@ -244,8 +276,10 @@ public:
     /// @param render_layer The render layer. Default is RenderLayer::WORLD2D.
     void
     drawText(
-        const std::string& text, Vec2 pos,
-        Vec4 color = Vec4(1.0f, 1.0f, 1.0f, 1.0f), float scale = 1.0f,
+        const std::string& text,
+        Vec2 pos,
+        Vec4 color = Vec4(1.0f, 1.0f, 1.0f, 1.0f),
+        float scale = 1.0f,
         RenderLayer render_layer = RenderLayer::WORLD2D
     );
     /// @brief Draws cached text from a string, position, and specific font.
@@ -257,8 +291,11 @@ public:
     /// @param render_layer The render layer. Default is RenderLayer::WORLD2D.
     void
     drawText(
-        const std::string& text, Vec2 pos, BitmapFont* font,
-        Vec4 color = Vec4(1.0f, 1.0f, 1.0f, 1.0f), float scale = 1.0f,
+        const std::string& text,
+        Vec2 pos,
+        BitmapFont* font,
+        Vec4 color = Vec4(1.0f, 1.0f, 1.0f, 1.0f),
+        float scale = 1.0f,
         RenderLayer render_layer = RenderLayer::WORLD2D
     );
 
@@ -278,9 +315,12 @@ public:
     /// @param scale The uniform scale of the text. Default is 1.0f.
     inline void
     drawDebugText(
-        const std::string& text, Vec2 pos,
-        Vec4 color = Vec4(1.0f, 1.0f, 1.0f, 1.0f), float scale = 1.0f
-    ) {
+        const std::string& text,
+        Vec2 pos,
+        Vec4 color = Vec4(1.0f, 1.0f, 1.0f, 1.0f),
+        float scale = 1.0f
+    )
+    {
         drawText(text, pos, color, scale, RenderLayer::UI);
     }
 
@@ -296,8 +336,11 @@ public:
     /// @param render_layer The render layer. Default is RenderLayer::WORLD2D.
     void
     drawTextId(
-        std::string_view id, const std::string& text, Vec2 pos,
-        Vec4 color = Vec4(1.0f, 1.0f, 1.0f, 1.0f), float scale = 1.0f,
+        std::string_view id,
+        const std::string& text,
+        Vec2 pos,
+        Vec4 color = Vec4(1.0f, 1.0f, 1.0f, 1.0f),
+        float scale = 1.0f,
         RenderLayer render_layer = RenderLayer::WORLD2D
     );
     /// @brief Draws cached text with an explicit slot ID and specific font.
@@ -310,9 +353,13 @@ public:
     /// @param render_layer The render layer. Default is RenderLayer::WORLD2D.
     void
     drawTextId(
-        std::string_view id, const std::string& text, Vec2 pos,
-        BitmapFont* font, Vec4 color = Vec4(1.0f, 1.0f, 1.0f, 1.0f),
-        float scale = 1.0f, RenderLayer render_layer = RenderLayer::WORLD2D
+        std::string_view id,
+        const std::string& text,
+        Vec2 pos,
+        BitmapFont* font,
+        Vec4 color = Vec4(1.0f, 1.0f, 1.0f, 1.0f),
+        float scale = 1.0f,
+        RenderLayer render_layer = RenderLayer::WORLD2D
     );
 
     /// @brief Draws cached debug text with an explicit slot ID on the UI layer.
@@ -323,9 +370,13 @@ public:
     /// @param scale The uniform scale of the text. Default is 1.0f.
     inline void
     drawDebugTextId(
-        std::string_view id, const std::string& text, Vec2 pos,
-        Vec4 color = Vec4(1.0f, 1.0f, 1.0f, 1.0f), float scale = 1.0f
-    ) {
+        std::string_view id,
+        const std::string& text,
+        Vec2 pos,
+        Vec4 color = Vec4(1.0f, 1.0f, 1.0f, 1.0f),
+        float scale = 1.0f
+    )
+    {
         drawTextId(id, text, pos, color, scale, RenderLayer::UI);
     }
 
@@ -336,14 +387,16 @@ public:
     /// @param h Height.
     /// @param color The color.
     inline void
-    drawDebugRect(float x, float y, float w, float h, Vec4 color) {
+    drawDebugRect(float x, float y, float w, float h, Vec4 color)
+    {
         drawRect(x, y, w, h, color, true);
     }
     /// @brief Draws a cached hollow debug rectangle from a RectShape.
     /// @param rect The rectangle geometry.
     /// @param color The color.
     inline void
-    drawDebugRect(RectShape rect, Vec4 color) {
+    drawDebugRect(RectShape rect, Vec4 color)
+    {
         drawRect(rect, color, true);
     }
     /// @brief Draws a cached hollow debug circle.
@@ -352,14 +405,16 @@ public:
     /// @param radius The radius.
     /// @param color The color.
     inline void
-    drawDebugCircle(float center_x, float center_y, float radius, Vec4 color) {
+    drawDebugCircle(float center_x, float center_y, float radius, Vec4 color)
+    {
         drawCircle(center_x, center_y, radius, color, true);
     }
     /// @brief Draws a cached hollow debug circle from a CircleShape.
     /// @param circle The circle geometry.
     /// @param color The color.
     inline void
-    drawDebugCircle(CircleShape circle, Vec4 color) {
+    drawDebugCircle(CircleShape circle, Vec4 color)
+    {
         drawCircle(circle, color, true);
     }
 
@@ -421,4 +476,4 @@ private:
     swapchainRender();
 };
 
-}  // namespace lili
+} // namespace lili

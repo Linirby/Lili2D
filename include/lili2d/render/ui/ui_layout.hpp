@@ -6,32 +6,34 @@
 namespace lili {
 
 /// @brief Defines UI anchor alignment points relative to the viewport.
-enum class Anchor {
-    TOP_LEFT,      ///< Top-left corner of the viewport.
-    TOP,           ///< Top-center of the viewport.
-    TOP_RIGHT,     ///< Top-right corner of the viewport.
-    LEFT,          ///< Middle-left of the viewport.
-    CENTER,        ///< Center of the viewport.
-    RIGHT,         ///< Middle-right of the viewport.
-    BOTTOM_LEFT,   ///< Bottom-left corner of the viewport.
-    BOTTOM,        ///< Bottom-center of the viewport.
-    BOTTOM_RIGHT,  ///< Bottom-right corner of the viewport.
-    CUSTOM         ///< Custom normalized anchor coordinates [0, 1].
+enum class Anchor
+{
+    TOP_LEFT,     ///< Top-left corner of the viewport.
+    TOP,          ///< Top-center of the viewport.
+    TOP_RIGHT,    ///< Top-right corner of the viewport.
+    LEFT,         ///< Middle-left of the viewport.
+    CENTER,       ///< Center of the viewport.
+    RIGHT,        ///< Middle-right of the viewport.
+    BOTTOM_LEFT,  ///< Bottom-left corner of the viewport.
+    BOTTOM,       ///< Bottom-center of the viewport.
+    BOTTOM_RIGHT, ///< Bottom-right corner of the viewport.
+    CUSTOM        ///< Custom normalized anchor coordinates [0, 1].
 };
 
 /// @brief Defines UI pivot alignment points relative to the element's bounding
 /// box.
-enum class Pivot {
-    TOP_LEFT,      ///< Top-left corner of the element.
-    TOP,           ///< Top-center of the element.
-    TOP_RIGHT,     ///< Top-right corner of the element.
-    LEFT,          ///< Middle-left of the element.
-    CENTER,        ///< Center of the element.
-    RIGHT,         ///< Middle-right of the element.
-    BOTTOM_LEFT,   ///< Bottom-left corner of the element.
-    BOTTOM,        ///< Bottom-center of the element.
-    BOTTOM_RIGHT,  ///< Bottom-right corner of the element.
-    CUSTOM         ///< Custom normalized pivot coordinates [0, 1].
+enum class Pivot
+{
+    TOP_LEFT,     ///< Top-left corner of the element.
+    TOP,          ///< Top-center of the element.
+    TOP_RIGHT,    ///< Top-right corner of the element.
+    LEFT,         ///< Middle-left of the element.
+    CENTER,       ///< Center of the element.
+    RIGHT,        ///< Middle-right of the element.
+    BOTTOM_LEFT,  ///< Bottom-left corner of the element.
+    BOTTOM,       ///< Bottom-center of the element.
+    BOTTOM_RIGHT, ///< Bottom-right corner of the element.
+    CUSTOM        ///< Custom normalized pivot coordinates [0, 1].
 };
 
 /// @brief Converts an Anchor enum value to a normalized 2D vector coordinate.
@@ -39,7 +41,8 @@ enum class Pivot {
 /// @param custom Custom anchor vector used when anchor is Anchor::CUSTOM.
 /// @return Normalized 2D vector [0, 1].
 [[nodiscard]] constexpr inline Vec2
-anchorToVector(Anchor anchor, Vec2 custom = {}) noexcept {
+anchorToVector(Anchor anchor, Vec2 custom = {}) noexcept
+{
     switch (anchor) {
         case Anchor::TOP_LEFT:
             return Vec2(0.0f, 0.0f);
@@ -70,17 +73,19 @@ anchorToVector(Anchor anchor, Vec2 custom = {}) noexcept {
 /// @param custom Custom pivot vector used when pivot is Pivot::CUSTOM.
 /// @return Normalized 2D vector [0, 1].
 [[nodiscard]] constexpr inline Vec2
-pivotToVector(Pivot pivot, Vec2 custom = {}) noexcept {
+pivotToVector(Pivot pivot, Vec2 custom = {}) noexcept
+{
     return anchorToVector(static_cast<Anchor>(pivot), custom);
 }
 
 /// @brief Layout configuration for anchoring and positioning UI elements.
-struct UILayout {
-    Anchor anchor = Anchor::TOP_LEFT;  ///< Anchor alignment point.
-    Pivot pivot = Pivot::TOP_LEFT;     ///< Pivot alignment point.
-    Vec2 offset = {};                  ///< Pixel offset from anchor.
-    Vec2 custom_anchor = {};  ///< Custom anchor vector (when Anchor::CUSTOM).
-    Vec2 custom_pivot = {};   ///< Custom pivot vector (when Pivot::CUSTOM).
+struct UILayout
+{
+    Anchor anchor = Anchor::TOP_LEFT; ///< Anchor alignment point.
+    Pivot pivot = Pivot::TOP_LEFT;    ///< Pivot alignment point.
+    Vec2 offset = {};                 ///< Pixel offset from anchor.
+    Vec2 custom_anchor = {}; ///< Custom anchor vector (when Anchor::CUSTOM).
+    Vec2 custom_pivot = {};  ///< Custom pivot vector (when Pivot::CUSTOM).
 
     constexpr UILayout() noexcept = default;
 
@@ -100,9 +105,11 @@ struct UILayout {
     /// @return 3x3 transformation matrix.
     [[nodiscard]] Mat3
     getTransformationMatrix(
-        Vec2 viewport_size, Vec2 obj_size, float rotation_rad = 0.0f,
-        Vec2 scale = {1.0f, 1.0f}
+        Vec2 viewport_size,
+        Vec2 obj_size,
+        float rotation_rad = 0.0f,
+        Vec2 scale = { 1.0f, 1.0f }
     ) const noexcept;
 };
 
-}  // namespace lili
+} // namespace lili

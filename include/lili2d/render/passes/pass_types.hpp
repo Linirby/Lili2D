@@ -6,23 +6,26 @@
 namespace lili {
 
 /// @brief Enum defining different rendering layers/passes.
-enum class RenderLayer : uint8_t {
-    WORLD2D,        ///< The 2D world layer.
-    UI,             ///< The UI world layer.
-    PIXEL_WORLD2D,  ///< The pixelated 2D world layer.
-    PIXEL_UI,       ///< The pixelated UI world layer.
+enum class RenderLayer : uint8_t
+{
+    WORLD2D,       ///< The 2D world layer.
+    UI,            ///< The UI world layer.
+    PIXEL_WORLD2D, ///< The pixelated 2D world layer.
+    PIXEL_UI,      ///< The pixelated UI world layer.
 };
 
 /// @brief A command to draw a model.
-struct DrawCommand {
-    Model model;     ///< The model to draw.
-    Mat3 transform;  ///< The transformation matrix.
-    float layer;     ///< The layer depth.
+struct DrawCommand
+{
+    Model model;    ///< The model to draw.
+    Mat3 transform; ///< The transformation matrix.
+    float layer;    ///< The layer depth.
 };
 
 /// @brief GPU representation of material properties.
-struct MaterialGPU {
-    float color_tint[4];  ///< The color tint.
+struct MaterialGPU
+{
+    float color_tint[4]; ///< The color tint.
 };
 
-}  // namespace lili
+} // namespace lili

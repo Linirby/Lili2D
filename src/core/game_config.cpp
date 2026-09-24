@@ -6,7 +6,8 @@
 namespace lili {
 
 void
-GameConfig::setWindowSize(lili::Game* game, int width, int height) {
+GameConfig::setWindowSize(lili::Game* game, int width, int height)
+{
     if (width > 0 && height > 0) {
         window_w = width;
         window_h = height;
@@ -16,7 +17,8 @@ GameConfig::setWindowSize(lili::Game* game, int width, int height) {
 }
 
 void
-GameConfig::setWindowFullscreen(lili::Game* game, bool set_fullscreen) {
+GameConfig::setWindowFullscreen(lili::Game* game, bool set_fullscreen)
+{
     window_fullscreen = set_fullscreen;
     if (game && game->getWindow()) {
         lili::Window* win = game->getWindow();
@@ -27,26 +29,32 @@ GameConfig::setWindowFullscreen(lili::Game* game, bool set_fullscreen) {
 }
 
 void
-GameConfig::setWindowResizable(lili::Game* game, bool resizable) {
+GameConfig::setWindowResizable(lili::Game* game, bool resizable)
+{
     window_resizable = resizable;
-    if (game && game->getWindow()) game->getWindow()->setResizable(resizable);
+    if (game && game->getWindow())
+        game->getWindow()->setResizable(resizable);
 }
 
 void
-GameConfig::setWindowBorderless(lili::Game* game, bool borderless) {
+GameConfig::setWindowBorderless(lili::Game* game, bool borderless)
+{
     window_borderless = borderless;
-    if (game && game->getWindow()) game->getWindow()->setBorderless(borderless);
+    if (game && game->getWindow())
+        game->getWindow()->setBorderless(borderless);
 }
 
 void
-GameConfig::setRelativeMouseMode(lili::Game* game, bool relative_mouse) {
+GameConfig::setRelativeMouseMode(lili::Game* game, bool relative_mouse)
+{
     relative_mouse_mode = relative_mouse;
     if (game && game->getWindow())
         game->getWindow()->setRelativeMouseMode(relative_mouse);
 }
 
 void
-GameConfig::setMaxFps(lili::Game* game, uint32_t fps) {
+GameConfig::setMaxFps(lili::Game* game, uint32_t fps)
+{
     max_fps = fps;
     if (game) {
         game->setMaxFps(fps);
@@ -54,9 +62,10 @@ GameConfig::setMaxFps(lili::Game* game, uint32_t fps) {
 }
 
 GameConfig&
-GameConfig::get() {
+GameConfig::get()
+{
     static GameConfig instance;
     return instance;
 }
 
-}  // namespace lili
+} // namespace lili

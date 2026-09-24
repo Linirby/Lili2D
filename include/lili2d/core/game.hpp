@@ -13,7 +13,8 @@
 namespace lili {
 
 /// @brief Base class for managing the game lifecycle and main loop.
-class Game {
+class Game
+{
 public:
     /// @brief Constructs the Game application.
     /// @param title The window title.
@@ -21,7 +22,9 @@ public:
     /// @param height The window height.
     /// @param config The engine configuration settings.
     explicit Game(
-        const std::string& title, int width, int height,
+        const std::string& title,
+        int width,
+        int height,
         const EngineConfig& config = {}
     );
 
@@ -47,14 +50,16 @@ public:
     /// @brief Sets the fixed ticks per second.
     /// @param value Ticks per second rate.
     inline void
-    setTps(float value) noexcept {
+    setTps(float value) noexcept
+    {
         clock.setTps(value);
     }
 
     /// @brief Sets the maximum frames per second cap.
     /// @param value Target maximum FPS (0 = uncapped).
     inline void
-    setMaxFps(uint32_t value) noexcept {
+    setMaxFps(uint32_t value) noexcept
+    {
         clock.setMaxFps(value);
     }
 
@@ -67,55 +72,64 @@ public:
     /// @brief Gets the game's window.
     /// @return Pointer to the game's window.
     [[nodiscard]] inline Window*
-    getWindow() const noexcept {
+    getWindow() const noexcept
+    {
         return window.get();
     }
 
     /// @brief Gets the renderer link to the game's window.
     /// @return Pointer to the used renderer.
     [[nodiscard]] inline Renderer*
-    getRenderer() const noexcept {
+    getRenderer() const noexcept
+    {
         return renderer.get();
     }
 
     /// @brief Gets the thread pool.
     /// @return Pointer to the thread pool.
     [[nodiscard]] inline ThreadPool*
-    getThreadPool() const noexcept {
+    getThreadPool() const noexcept
+    {
         return thread_pool.get();
     }
 
     /// @brief Gets the active engine configuration.
     /// @return Reference to the active configuration.
     [[nodiscard]] inline const EngineConfig&
-    getConfig() const noexcept {
+    getConfig() const noexcept
+    {
         return engine_config;
     }
 
     /// @brief Gets the clock used in gameloop.
     /// @return Reference to the used clock.
     [[nodiscard]] inline const Clock&
-    getClock() const noexcept {
+    getClock() const noexcept
+    {
         return clock;
     }
 
     /// @brief Gets the TPS used in the game clock.
     /// @return A float of the used TPS.
     [[nodiscard]] inline float
-    getTps() const noexcept {
+    getTps() const noexcept
+    {
         return clock.getTps();
     }
 
     /// @brief Gets the maximum frames per second cap.
     /// @return Target maximum FPS (0 = uncapped).
     [[nodiscard]] inline uint32_t
-    getMaxFps() const noexcept {
+    getMaxFps() const noexcept
+    {
         return clock.getMaxFps();
     }
 
     /// @brief Called once when the game initializes.
     virtual void
-    onInit() {}
+    onInit()
+    {
+    }
 
     /// @brief Called when an SDL event is polled.
     /// @param event The polled event.
@@ -125,25 +139,34 @@ public:
     /// @brief Called once per frame for game logic updates.
     /// @param dt Delta time since the last frame.
     virtual void
-    onUpdate([[maybe_unused]] float dt) {}
+    onUpdate([[maybe_unused]] float dt)
+    {
+    }
 
     /// @brief Called at a fixed rate for physics updates.
     /// @param dt Fixed delta time.
     virtual void
-    onFixedUpdate([[maybe_unused]] float dt) {}
+    onFixedUpdate([[maybe_unused]] float dt)
+    {
+    }
 
     /// @brief Called once per frame to render the game.
     /// @param alpha Interpolation factor between fixed updates.
     virtual void
-    onRender([[maybe_unused]] float alpha) {}
+    onRender([[maybe_unused]] float alpha)
+    {
+    }
 
     /// @brief Called once when the game loop exits.
     virtual void
-    onExit() {}
+    onExit()
+    {
+    }
 
     /// @brief Stop the main gameloop
     inline void
-    shutdown() noexcept {
+    shutdown() noexcept
+    {
         running = false;
     }
 
@@ -156,4 +179,4 @@ private:
     bool running = false;
 };
 
-}  // namespace lili
+} // namespace lili

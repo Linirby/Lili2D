@@ -5,9 +5,10 @@
 namespace lili {
 
 /// @brief Represents a single tile in the world.
-struct Tile {
-    SliceUV slice;          ///< Texture slice for rendering.
-    bool is_solid = false;  ///< Flag indicating if tile is solid/collidable.
+struct Tile
+{
+    SliceUV slice;         ///< Texture slice for rendering.
+    bool is_solid = false; ///< Flag indicating if tile is solid/collidable.
 
     /// @brief Default constructor.
     constexpr Tile() noexcept = default;
@@ -16,9 +17,13 @@ struct Tile {
     /// @param slice Texture UV slice.
     /// @param is_solid True if tile is solid/collidable.
     constexpr explicit Tile(
-        const SliceUV& slice, bool is_solid = false
+        const SliceUV& slice,
+        bool is_solid = false
     ) noexcept
-        : slice(slice), is_solid(is_solid) {}
+      : slice(slice)
+      , is_solid(is_solid)
+    {
+    }
 };
 
-}  // namespace lili
+} // namespace lili

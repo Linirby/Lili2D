@@ -3,15 +3,17 @@
 #include <algorithm>
 #include <cmath>
 
-App::App() : lili::Game("hello_tilemap - Lili2D", 768, 640) {
+App::App()
+  : lili::Game("hello_tilemap - Lili2D", 768, 640)
+{
     setTps(20.0f);
     lili::Window* window = getWindow();
     lili::Renderer* renderer = getRenderer();
 
     camera.setZoom(4.0f);
     camera.setPosition(
-        {static_cast<float>(window->getWidth()),
-         static_cast<float>(window->getHeight())}
+        { static_cast<float>(window->getWidth()),
+          static_cast<float>(window->getHeight()) }
     );
     renderer->setCamera(&camera);
 
@@ -42,8 +44,10 @@ App::App() : lili::Game("hello_tilemap - Lili2D", 768, 640) {
                  std::cos(y * 0.05f + 10.0f) * 2.0f);
 
             int elevation = static_cast<int>(noise + 3.0f);
-            if (elevation < 0) elevation = 0;
-            if (elevation > 5) elevation = 5;
+            if (elevation < 0)
+                elevation = 0;
+            if (elevation > 5)
+                elevation = 5;
 
             for (int z = 0; z < elevation; ++z)
                 tilemap->setTile("solid_invisible", lili::Point3(x, y, z));
@@ -65,40 +69,49 @@ App::App() : lili::Game("hello_tilemap - Lili2D", 768, 640) {
     );
     text_infos = lili::Text(renderer, font, "WASD: move | IK: zoom/dezoom");
     text_infos.setRender(lili::RenderLayer::UI);
-    text_infos.setPosition({10.0f, 10.0f});
+    text_infos.setPosition({ 10.0f, 10.0f });
     text_infos.setScale(3.0f);
 }
 
 void
-App::onEvent(const lili::Event& event) {
+App::onEvent(const lili::Event& event)
+{
     lili::Game::onEvent(event);
     if (event.type() == lili::EventType::KEYBOARD) {
         lili::KeyboardEvent kb = event.keyboard();
-        if (kb.action == lili::KeyAction::PRESSED && kb.key == lili::Key::ESCAPE)
+        if (kb.action == lili::KeyAction::PRESSED &&
+            kb.key == lili::Key::ESCAPE)
             shutdown();
     }
 }
 
 void
-App::onUpdate(float dt) {
+App::onUpdate(float dt)
+{
     keyboard.update();
     lili::Vec2 vel(0.0f, 0.0f);
 
-    if (keyboard.held(SDL_SCANCODE_W)) vel.y = -1.0f;
-    if (keyboard.held(SDL_SCANCODE_S)) vel.y = 1.0f;
-    if (keyboard.held(SDL_SCANCODE_A)) vel.x = -1.0f;
-    if (keyboard.held(SDL_SCANCODE_D)) vel.x = 1.0f;
+    if (keyboard.held(SDL_SCANCODE_W))
+        vel.y = -1.0f;
+    if (keyboard.held(SDL_SCANCODE_S))
+        vel.y = 1.0f;
+    if (keyboard.held(SDL_SCANCODE_A))
+        vel.x = -1.0f;
+    if (keyboard.held(SDL_SCANCODE_D))
+        vel.x = 1.0f;
 
     lili::Vec2 camera_pos = camera.getPosition();
     camera.setPosition(camera_pos + (vel * 100.0f * dt));
 
-    if (keyboard.held(SDL_SCANCODE_I)) camera.setZoom(camera.getZoom() + dt);
+    if (keyboard.held(SDL_SCANCODE_I))
+        camera.setZoom(camera.getZoom() + dt);
     if (keyboard.held(SDL_SCANCODE_K))
         camera.setZoom(std::max(0.01f, camera.getZoom() - dt));
 }
 
 void
-App::onRender(float alpha) {
+App::onRender(float alpha)
+{
     (void)alpha;
     text_infos.draw();
     tilemap->draw(getRenderer(), getThreadPool());

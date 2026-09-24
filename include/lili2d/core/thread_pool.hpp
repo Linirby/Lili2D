@@ -13,21 +13,24 @@ namespace lili {
 
 /// @brief Performance profile options to scale threading and rendering
 /// strategies.
-enum class PerformanceProfile {
-    YES,      ///< Standard performance profile.
-    CORRECT,  ///< Balanced performance and resource efficiency profile.
-    INSANE    ///< Maximum throughput high-performance profile.
+enum class PerformanceProfile
+{
+    YES,     ///< Standard performance profile.
+    CORRECT, ///< Balanced performance and resource efficiency profile.
+    INSANE   ///< Maximum throughput high-performance profile.
 };
 
 /// @brief Task priority options for tasks in a thread pool
-enum class TaskPriority {
-    HIGH,    ///< High priority task executed first.
-    NORMAL,  ///< Normal priority task.
-    LOW      ///< Low priority background task.
+enum class TaskPriority
+{
+    HIGH,   ///< High priority task executed first.
+    NORMAL, ///< Normal priority task.
+    LOW     ///< Low priority background task.
 };
 
 /// @brief Settings for thread pool and rendering modes.
-struct EngineConfig {
+struct EngineConfig
+{
     /// @brief Target performance profile.
     PerformanceProfile profile = PerformanceProfile::CORRECT;
 
@@ -49,7 +52,8 @@ struct EngineConfig {
 
 /// @brief A simple, lightweight C++20 Thread Pool using jthread and
 /// stop_token.
-class ThreadPool {
+class ThreadPool
+{
 public:
     /// @brief Constructs a ThreadPool with specified engine configuration.
     /// @param config Engine configuration settings.
@@ -72,13 +76,15 @@ public:
     /// TaskPriority::NORMAL).
     void
     enqueue(
-        std::function<void()> task, TaskPriority priority = TaskPriority::NORMAL
+        std::function<void()> task,
+        TaskPriority priority = TaskPriority::NORMAL
     );
 
     /// @brief Returns the active performance profile.
     /// @return Active PerformanceProfile.
     [[nodiscard]] inline PerformanceProfile
-    getProfile() const noexcept {
+    getProfile() const noexcept
+    {
         return profile;
     }
 
@@ -97,4 +103,4 @@ private:
     PerformanceProfile profile;
 };
 
-}  // namespace lili
+} // namespace lili

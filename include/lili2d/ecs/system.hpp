@@ -13,7 +13,8 @@ namespace lili {
 
 /// @brief Non-templated base class for all ECS systems, enabling polymorphic
 /// storage.
-class SystemBase {
+class SystemBase
+{
 public:
     /// @brief Default virtual destructor.
     virtual ~SystemBase() = default;
@@ -31,8 +32,9 @@ public:
 /// @brief Templated base class for all ECS systems operating on a specific
 /// TargetComponent type.
 /// @tparam TargetComponent The component type this system iterates over.
-template <typename TargetComponent>
-class System : public SystemBase {
+template<typename TargetComponent>
+class System : public SystemBase
+{
 public:
     /// @brief Virtual destructor.
     virtual ~System() = default;
@@ -50,21 +52,26 @@ public:
     /// @param dt Delta time.
     virtual void
     updateEntity(
-        ECSRegistry& registry, Entity entity, TargetComponent& component,
+        ECSRegistry& registry,
+        Entity entity,
+        TargetComponent& component,
         float dt
     ) = 0;
 
     /// @brief Overridden runner that manages execution strategies.
     void
-    run(ECSRegistry& registry, float dt, ThreadPool* thread_pool) override {
+    run(ECSRegistry& registry, float dt, ThreadPool* thread_pool) override
+    {
         auto& pool = registry.getPool<TargetComponent>();
         const auto& entities = pool.getEntities();
         auto& components = pool.getComponents();
         size_t total = entities.size();
 
-        if (total == 0) return;
+        if (total == 0)
+            return;
 
-        if (!thread_pool || thread_pool->getProfile() == PerformanceProfile::YES ||
+        if (!thread_pool ||
+            thread_pool->getProfile() == PerformanceProfile::YES ||
             total < parallel_threshold)
             runSequentially(registry, entities, components, dt);
         else
@@ -74,21 +81,29 @@ public:
 private:
     void
     runSequentially(
-        ECSRegistry& registry, const std::vector<Entity>& entities,
-        std::vector<TargetComponent>& components, float dt
-    ) {
+        ECSRegistry& registry,
+        const std::vector<Entity>& entities,
+        std::vector<TargetComponent>& components,
+        float dt
+    )
+    {
         for (size_t i = 0; i < entities.size(); ++i)
             updateEntity(registry, entities[i], components[i], dt);
     }
 
     void
     runInParallel(
-        ECSRegistry& registry, const std::vector<Entity>& entities,
-        std::vector<TargetComponent>& components, float dt, ThreadPool& pool
-    ) {
+        ECSRegistry& registry,
+        const std::vector<Entity>& entities,
+        std::vector<TargetComponent>& components,
+        float dt,
+        ThreadPool& pool
+    )
+    {
         size_t num_workers = std::thread::hardware_concurrency();
         size_t chunk_size = entities.size() / num_workers;
-        if (chunk_size == 0) chunk_size = entities.size();
+        if (chunk_size == 0)
+            chunk_size = entities.size();
 
         std::vector<std::future<void>> futures;
 
@@ -99,7 +114,13 @@ private:
             futures.push_back(promise->get_future());
 
             pool.enqueue(
-                [this, &registry, &entities, &components, start, end, dt,
+                [this,
+                 &registry,
+                 &entities,
+                 &components,
+                 start,
+                 end,
+                 dt,
                  promise]() {
                     for (size_t i = start; i < end; ++i)
                         updateEntity(registry, entities[i], components[i], dt);
@@ -109,8 +130,9 @@ private:
             );
         }
 
-        for (auto& f : futures) f.wait();
+        for (auto& f : futures)
+            f.wait();
     }
 };
 
-}  // namespace lili
+} // namespace lili

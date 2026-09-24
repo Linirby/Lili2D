@@ -2,12 +2,18 @@
 
 #include <lili2d/lili2d.hpp>
 
-class App : public lili::Game {
+class App : public lili::Game
+{
 public:
     App();
 
 private:
-    enum class ShapeMode { Rect, Circle, Line };
+    enum class ShapeMode
+    {
+        Rect,
+        Circle,
+        Line
+    };
     ShapeMode active_shape = ShapeMode::Rect;
 
     lili::Rect cursor_rect;

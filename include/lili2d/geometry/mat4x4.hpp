@@ -7,14 +7,16 @@
 namespace lili {
 
 /// @brief Represents a 4x4 matrix for 3D transformations.
-struct Mat4 {
-    float m[16] = {};  ///< The matrix elements in column-major order.
+struct Mat4
+{
+    float m[16] = {}; ///< The matrix elements in column-major order.
 
     /// @brief Multiplies this matrix by another.
     /// @param other The matrix to multiply by.
     /// @return The resulting matrix.
     [[nodiscard]] constexpr Mat4
-    operator*(const Mat4& other) const noexcept {
+    operator*(const Mat4& other) const noexcept
+    {
         Mat4 result{};
 
         for (int col = 0; col < 4; ++col)
@@ -31,7 +33,8 @@ struct Mat4 {
     /// @param point The 3D point to transform.
     /// @return The transformed point.
     [[nodiscard]] inline Vec3
-    transformPoint(Vec3 point) const noexcept {
+    transformPoint(Vec3 point) const noexcept
+    {
         float x = m[0] * point.x + m[4] * point.y + m[8] * point.z + m[12];
         float y = m[1] * point.x + m[5] * point.y + m[9] * point.z + m[13];
         float z = m[2] * point.x + m[6] * point.y + m[10] * point.z + m[14];
@@ -39,26 +42,28 @@ struct Mat4 {
 
         if (std::abs(w) > 1e-6f && std::abs(w - 1.0f) > 1e-6f) {
             float inv_w = 1.0f / w;
-            return {x * inv_w, y * inv_w, z * inv_w};
+            return { x * inv_w, y * inv_w, z * inv_w };
         }
-        return {x, y, z};
+        return { x, y, z };
     }
 
     /// @brief Transforms a 3D direction vector (x, y, z, 0) by this matrix.
     /// @param vector The 3D direction vector to transform.
     /// @return The transformed vector.
     [[nodiscard]] constexpr Vec3
-    transformVector(Vec3 vector) const noexcept {
+    transformVector(Vec3 vector) const noexcept
+    {
         float x = m[0] * vector.x + m[4] * vector.y + m[8] * vector.z;
         float y = m[1] * vector.x + m[5] * vector.y + m[9] * vector.z;
         float z = m[2] * vector.x + m[6] * vector.y + m[10] * vector.z;
-        return {x, y, z};
+        return { x, y, z };
     }
 
     /// @brief Calculates the determinant of the matrix.
     /// @return The determinant value.
     [[nodiscard]] constexpr float
-    determinant() const noexcept {
+    determinant() const noexcept
+    {
         float s0 = m[0] * m[5] - m[4] * m[1];
         float s1 = m[0] * m[9] - m[8] * m[1];
         float s2 = m[0] * m[13] - m[12] * m[1];
@@ -79,7 +84,8 @@ struct Mat4 {
     /// @brief Creates an identity matrix.
     /// @return The identity matrix.
     [[nodiscard]] static constexpr Mat4
-    identity() noexcept {
+    identity() noexcept
+    {
         Mat4 result{};
         result.m[0] = 1.0f;
         result.m[5] = 1.0f;
@@ -91,7 +97,8 @@ struct Mat4 {
     /// @brief Calculates the inverse of the matrix.
     /// @return The inverse matrix. If not invertible, returns identity matrix.
     [[nodiscard]] inline Mat4
-    inverse() const noexcept {
+    inverse() const noexcept
+    {
         float s0 = m[0] * m[5] - m[4] * m[1];
         float s1 = m[0] * m[9] - m[8] * m[1];
         float s2 = m[0] * m[13] - m[12] * m[1];
@@ -107,7 +114,8 @@ struct Mat4 {
         float c0 = m[2] * m[7] - m[6] * m[3];
 
         float det = s0 * c5 - s1 * c4 + s2 * c3 + s3 * c2 - s4 * c1 + s5 * c0;
-        if (std::abs(det) < 1e-8f) return identity();
+        if (std::abs(det) < 1e-8f)
+            return identity();
 
         float inv_det = 1.0f / det;
 
@@ -138,7 +146,8 @@ struct Mat4 {
     /// @brief Calculates the transpose of the matrix.
     /// @return The transposed matrix.
     [[nodiscard]] constexpr Mat4
-    transpose() const noexcept {
+    transpose() const noexcept
+    {
         Mat4 result{};
         for (int col = 0; col < 4; ++col)
             for (int row = 0; row < 4; ++row)
@@ -152,7 +161,8 @@ struct Mat4 {
     /// @param up The up vector.
     /// @return The view matrix.
     [[nodiscard]] static inline Mat4
-    lookAt(Vec3 eye, Vec3 center, Vec3 up) noexcept {
+    lookAt(Vec3 eye, Vec3 center, Vec3 up) noexcept
+    {
         Vec3 f = (center - eye).normalized();
         Vec3 s = f.cross(up).normalized();
         Vec3 u = s.cross(f);
@@ -185,7 +195,8 @@ struct Mat4 {
     /// @param far The far clipping plane.
     /// @return The perspective projection matrix.
     [[nodiscard]] static inline Mat4
-    perspective(float fovy_rad, float aspect, float near, float far) noexcept {
+    perspective(float fovy_rad, float aspect, float near, float far) noexcept
+    {
         Mat4 result{};
         float tan_half_fovy = std::tan(fovy_rad * 0.5f);
         result.m[0] = 1.0f / (aspect * tan_half_fovy);
@@ -206,8 +217,14 @@ struct Mat4 {
     /// @return The orthographic projection matrix.
     [[nodiscard]] static constexpr Mat4
     orthographic(
-        float left, float right, float bottom, float top, float near, float far
-    ) noexcept {
+        float left,
+        float right,
+        float bottom,
+        float top,
+        float near,
+        float far
+    ) noexcept
+    {
         Mat4 result{};
         result.m[0] = 2.0f / (right - left);
         result.m[5] = 2.0f / (bottom - top);
@@ -223,7 +240,8 @@ struct Mat4 {
     /// @param pos The translation vector.
     /// @return The translation matrix.
     [[nodiscard]] static constexpr Mat4
-    translate(Vec3 pos) noexcept {
+    translate(Vec3 pos) noexcept
+    {
         Mat4 result = identity();
         result.m[12] = pos.x;
         result.m[13] = pos.y;
@@ -235,7 +253,8 @@ struct Mat4 {
     /// @param radian The rotation angle in radians.
     /// @return The rotation matrix.
     [[nodiscard]] static inline Mat4
-    rotationX(float radian) noexcept {
+    rotationX(float radian) noexcept
+    {
         Mat4 result = identity();
         float c = std::cos(radian);
         float s = std::sin(radian);
@@ -251,7 +270,8 @@ struct Mat4 {
     /// @param radian The rotation angle in radians.
     /// @return The rotation matrix.
     [[nodiscard]] static inline Mat4
-    rotationY(float radian) noexcept {
+    rotationY(float radian) noexcept
+    {
         Mat4 result = identity();
         float c = std::cos(radian);
         float s = std::sin(radian);
@@ -267,7 +287,8 @@ struct Mat4 {
     /// @param radian The rotation angle in radians.
     /// @return The rotation matrix.
     [[nodiscard]] static inline Mat4
-    rotationZ(float radian) noexcept {
+    rotationZ(float radian) noexcept
+    {
         Mat4 result = identity();
         float c = std::cos(radian);
         float s = std::sin(radian);
@@ -283,7 +304,8 @@ struct Mat4 {
     /// @param radians The rotation angles (X, Y, Z) in radians.
     /// @return The rotation matrix.
     [[nodiscard]] static inline Mat4
-    rotationXyz(Vec3 radians) noexcept {
+    rotationXyz(Vec3 radians) noexcept
+    {
         return (
             rotationX(radians.x) * rotationY(radians.y) * rotationZ(radians.z)
         );
@@ -293,7 +315,8 @@ struct Mat4 {
     /// @param v The scaling vector.
     /// @return The scaling matrix.
     [[nodiscard]] static constexpr Mat4
-    scale(Vec3 v) noexcept {
+    scale(Vec3 v) noexcept
+    {
         Mat4 result = identity();
         result.m[0] = v.x;
         result.m[5] = v.y;
@@ -302,4 +325,4 @@ struct Mat4 {
     }
 };
 
-}  // namespace lili
+} // namespace lili

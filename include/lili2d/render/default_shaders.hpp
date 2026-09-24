@@ -58,4 +58,4 @@ float4 main(PSInput input) : SV_Target0 {
 }
 )hlsl";
 
-}  // namespace lili::shaders
+} // namespace lili::shaders

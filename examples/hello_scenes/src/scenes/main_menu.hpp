@@ -2,7 +2,8 @@
 
 #include <lili2d/lili2d.hpp>
 
-class MainScene : public lili::Scene {
+class MainScene : public lili::Scene
+{
 public:
     explicit MainScene(lili::Renderer* renderer);
 

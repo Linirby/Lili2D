@@ -3,7 +3,8 @@
 #include <lili2d/lili2d.hpp>
 #include <memory>
 
-class App : public lili::Game {
+class App : public lili::Game
+{
 public:
     App();
 

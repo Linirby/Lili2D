@@ -13,7 +13,8 @@ struct Material;
 class Renderer;
 
 /// @brief Abstract base interface for all renderable 2D objects.
-class IRenderable {
+class IRenderable
+{
 public:
     /// @brief Virtual destructor.
     virtual ~IRenderable() = default;
@@ -25,13 +26,15 @@ public:
     /// @brief Sets the visibility of the renderable object.
     /// @param visible True to show, false to hide.
     virtual void
-    setVisible(bool visible) noexcept {
+    setVisible(bool visible) noexcept
+    {
         is_visible = visible;
     }
     /// @brief Gets the visibility status.
     /// @return True if visible, false otherwise.
     [[nodiscard]] virtual bool
-    isVisible() const noexcept {
+    isVisible() const noexcept
+    {
         return is_visible;
     }
 
@@ -106,66 +109,76 @@ public:
     /// @brief Sets the render pass layer (e.g. WORLD2D, UI).
     /// @param render_layer Render pass layer enum.
     virtual void
-    setRender(RenderLayer render_layer) noexcept {
+    setRender(RenderLayer render_layer) noexcept
+    {
         this->render_layer = render_layer;
     }
     /// @brief Gets the render pass layer.
     /// @return Render pass layer enum.
     [[nodiscard]] virtual RenderLayer
-    getRender() const noexcept {
+    getRender() const noexcept
+    {
         return render_layer;
     }
 
     /// @brief Sets the UI layout properties.
     /// @param layout UI layout configuration.
     virtual void
-    setUILayout(const UILayout& layout) noexcept {
+    setUILayout(const UILayout& layout) noexcept
+    {
         ui_layout = layout;
     }
     /// @brief Gets the UI layout properties.
     /// @return UI layout configuration.
     [[nodiscard]] virtual UILayout
-    getUILayout() const noexcept {
+    getUILayout() const noexcept
+    {
         return ui_layout;
     }
 
     /// @brief Convenience setter for UI anchor.
     /// @param anchor UI anchor point.
     virtual void
-    setAnchor(Anchor anchor) noexcept {
+    setAnchor(Anchor anchor) noexcept
+    {
         ui_layout.anchor = anchor;
     }
     /// @brief Convenience getter for UI anchor.
     /// @return UI anchor point.
     [[nodiscard]] virtual Anchor
-    getAnchor() const noexcept {
+    getAnchor() const noexcept
+    {
         return ui_layout.anchor;
     }
 
     /// @brief Convenience setter for UI pivot.
     /// @param pivot UI pivot point.
     virtual void
-    setPivot(Pivot pivot) noexcept {
+    setPivot(Pivot pivot) noexcept
+    {
         ui_layout.pivot = pivot;
     }
     /// @brief Convenience getter for UI pivot.
     /// @return UI pivot point.
     [[nodiscard]] virtual Pivot
-    getPivot() const noexcept {
+    getPivot() const noexcept
+    {
         return ui_layout.pivot;
     }
 
     /// @brief Convenience setter for UI layout offset.
     /// @param offset UI offset vector.
     virtual void
-    setOffset(Vec2 offset) noexcept {
+    setOffset(Vec2 offset) noexcept
+    {
         ui_layout.offset = offset;
         setPosition(offset);
     }
     /// @brief Convenience getter for UI layout offset.
     /// @return UI offset vector.
     [[nodiscard]] virtual Vec2
-    getOffset() const noexcept {
+    getOffset() const noexcept
+    {
         return ui_layout.offset;
     }
 
@@ -189,7 +202,8 @@ public:
     /// @return True if point is inside object bounds.
     [[nodiscard]] virtual bool
     containsPoint(
-        Vec2 point, [[maybe_unused]] const Renderer* renderer = nullptr
+        Vec2 point,
+        [[maybe_unused]] const Renderer* renderer = nullptr
     ) const;
 
 protected:
@@ -201,4 +215,4 @@ protected:
     RenderLayer render_layer = RenderLayer::WORLD2D;
 };
 
-}  // namespace lili
+} // namespace lili

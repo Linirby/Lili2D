@@ -4,26 +4,30 @@
 
 using namespace lili;
 
-TEST_CASE("AABB2 Intersection and Containment", "[physics][aabb]") {
+TEST_CASE("AABB2 Intersection and Containment", "[physics][aabb]")
+{
     AABB2 box1(Vec2(0.0f, 0.0f), Vec2(10.0f, 10.0f));
     AABB2 box2(Vec2(5.0f, 5.0f), Vec2(10.0f, 10.0f));
     AABB2 box3(Vec2(20.0f, 20.0f), Vec2(10.0f, 10.0f));
     AABB2 inner(Vec2(2.0f, 2.0f), Vec2(4.0f, 4.0f));
 
-    SECTION("Intersect") {
+    SECTION("Intersect")
+    {
         CHECK(box1.intersect(box2));
         CHECK(box2.intersect(box1));
         CHECK_FALSE(box1.intersect(box3));
         CHECK_FALSE(box3.intersect(box1));
     }
 
-    SECTION("Contains") {
+    SECTION("Contains")
+    {
         CHECK(box1.contains(inner));
         CHECK_FALSE(inner.contains(box1));
         CHECK_FALSE(box1.contains(box2));
     }
 
-    SECTION("GetShape") {
+    SECTION("GetShape")
+    {
         RectShape shape = box1.getShape();
         CHECK(shape.pos == Vec2(0.0f, 0.0f));
         CHECK(shape.size == Vec2(10.0f, 10.0f));
@@ -33,7 +37,8 @@ TEST_CASE("AABB2 Intersection and Containment", "[physics][aabb]") {
         CHECK(from_shape.max == box1.max);
     }
 
-    SECTION("RectShape Interoperability") {
+    SECTION("RectShape Interoperability")
+    {
         RectShape rect_intersect(Vec2(5.0f, 5.0f), Vec2(10.0f, 10.0f));
         RectShape rect_miss(Vec2(20.0f, 20.0f), Vec2(10.0f, 10.0f));
         RectShape rect_contained(Vec2(2.0f, 2.0f), Vec2(4.0f, 4.0f));
@@ -44,7 +49,8 @@ TEST_CASE("AABB2 Intersection and Containment", "[physics][aabb]") {
         CHECK_FALSE(box1.contains(rect_intersect));
     }
 
-    SECTION("Overlaps (Non-Inclusive)") {
+    SECTION("Overlaps (Non-Inclusive)")
+    {
         AABB2 touching_edge(Vec2(10.0f, 0.0f), Vec2(10.0f, 10.0f));
         AABB2 touching_corner(Vec2(10.0f, 10.0f), Vec2(10.0f, 10.0f));
 
@@ -67,7 +73,8 @@ TEST_CASE("AABB2 Intersection and Containment", "[physics][aabb]") {
         CHECK(box1.overlaps(rect_overlapping));
     }
 
-    SECTION("LineShape Intersection and Overlaps") {
+    SECTION("LineShape Intersection and Overlaps")
+    {
         LineShape line_thru(Vec2(-5.0f, 5.0f), Vec2(15.0f, 5.0f));
         LineShape line_inside(Vec2(2.0f, 2.0f), Vec2(8.0f, 8.0f));
         LineShape line_touching(Vec2(10.0f, -5.0f), Vec2(10.0f, 15.0f));
@@ -98,7 +105,8 @@ TEST_CASE("AABB2 Intersection and Containment", "[physics][aabb]") {
         CHECK(box1.overlaps(point_inside));
     }
 
-    SECTION("Point Containment, Intersection and Overlaps") {
+    SECTION("Point Containment, Intersection and Overlaps")
+    {
         CHECK(box1.contains(Vec2(5.0f, 5.0f)));
         CHECK(box1.intersect(Vec2(5.0f, 5.0f)));
         CHECK(box1.overlaps(Vec2(5.0f, 5.0f)));
@@ -113,13 +121,15 @@ TEST_CASE("AABB2 Intersection and Containment", "[physics][aabb]") {
     }
 }
 
-TEST_CASE("CircleCollider Intersection and Containment", "[physics][circle]") {
+TEST_CASE("CircleCollider Intersection and Containment", "[physics][circle]")
+{
     CircleCollider c1(Vec2(0.0f, 0.0f), 5.0f);
     CircleCollider c2(Vec2(6.0f, 0.0f), 3.0f);
     CircleCollider c3(Vec2(20.0f, 0.0f), 2.0f);
     CircleCollider inner(Vec2(1.0f, 0.0f), 2.0f);
 
-    SECTION("Circle vs Circle Intersection and Overlaps") {
+    SECTION("Circle vs Circle Intersection and Overlaps")
+    {
         CHECK(c1.intersect(c2));
         CHECK(c2.intersect(c1));
         CHECK(c1.overlaps(c2));
@@ -138,7 +148,8 @@ TEST_CASE("CircleCollider Intersection and Containment", "[physics][circle]") {
         CHECK_FALSE(c_tangent.overlaps(c1));
     }
 
-    SECTION("Point Containment, Intersection and Overlaps") {
+    SECTION("Point Containment, Intersection and Overlaps")
+    {
         CHECK(c1.contains(Vec2(0.0f, 0.0f)));
         CHECK(c1.intersect(Vec2(0.0f, 0.0f)));
         CHECK(c1.overlaps(Vec2(0.0f, 0.0f)));
@@ -158,7 +169,8 @@ TEST_CASE("CircleCollider Intersection and Containment", "[physics][circle]") {
         CHECK_FALSE(c1.overlaps(Vec2(5.1f, 0.0f)));
     }
 
-    SECTION("Circle vs Circle Containment") {
+    SECTION("Circle vs Circle Containment")
+    {
         CHECK(c1.contains(inner));
         CHECK_FALSE(inner.contains(c1));
         CHECK_FALSE(c1.contains(c2));
@@ -167,7 +179,8 @@ TEST_CASE("CircleCollider Intersection and Containment", "[physics][circle]") {
         CHECK(c1.contains(inner_shape));
     }
 
-    SECTION("Circle vs AABB2 Intersection and Overlaps") {
+    SECTION("Circle vs AABB2 Intersection and Overlaps")
+    {
         AABB2 box(Vec2(3.0f, -2.0f), Vec2(4.0f, 4.0f));
         CHECK(c1.intersect(box));
         CHECK(c1.overlaps(box));
@@ -188,7 +201,8 @@ TEST_CASE("CircleCollider Intersection and Containment", "[physics][circle]") {
         CHECK_FALSE(tangent_box.overlaps(c1));
     }
 
-    SECTION("Circle vs LineShape Intersection and Overlaps") {
+    SECTION("Circle vs LineShape Intersection and Overlaps")
+    {
         LineShape line_thru(Vec2(-10.0f, 0.0f), Vec2(10.0f, 0.0f));
         LineShape line_tangent(Vec2(-10.0f, 5.0f), Vec2(10.0f, 5.0f));
         LineShape line_miss(Vec2(-10.0f, 6.0f), Vec2(10.0f, 6.0f));
@@ -211,7 +225,8 @@ TEST_CASE("CircleCollider Intersection and Containment", "[physics][circle]") {
         CHECK(c1.overlaps(point_inside));
     }
 
-    SECTION("GetShape") {
+    SECTION("GetShape")
+    {
         CircleShape shape = c1.getShape();
         CHECK(shape.center == Vec2(0.0f, 0.0f));
         CHECK(shape.radius == 5.0f);
@@ -225,7 +240,8 @@ TEST_CASE("CircleCollider Intersection and Containment", "[physics][circle]") {
         CHECK(from_shape.radius == c1.radius);
     }
 
-    SECTION("RectShape Interoperability") {
+    SECTION("RectShape Interoperability")
+    {
         RectShape rect_hit(Vec2(3.0f, -2.0f), Vec2(4.0f, 4.0f));
         RectShape rect_miss(Vec2(10.0f, 10.0f), Vec2(2.0f, 2.0f));
         RectShape rect_tangent(Vec2(5.0f, -2.0f), Vec2(4.0f, 4.0f));
@@ -238,12 +254,15 @@ TEST_CASE("CircleCollider Intersection and Containment", "[physics][circle]") {
         CHECK(c1.intersect(rect_tangent));
         CHECK_FALSE(c1.overlaps(rect_tangent));
 
-        CircleCollider from_rect(RectShape(Vec2(0.0f, 0.0f), Vec2(10.0f, 10.0f)));
+        CircleCollider from_rect(
+            RectShape(Vec2(0.0f, 0.0f), Vec2(10.0f, 10.0f))
+        );
         CHECK(from_rect.center == Vec2(5.0f, 5.0f));
         CHECK(from_rect.radius == 5.0f);
     }
 
-    SECTION("CircleShape Interoperability") {
+    SECTION("CircleShape Interoperability")
+    {
         CircleShape cs_overlap(Vec2(6.0f, 0.0f), 3.0f);
         CircleShape cs_tangent(Vec2(8.0f, 0.0f), 3.0f);
         CircleShape cs_miss(Vec2(20.0f, 0.0f), 2.0f);
@@ -259,13 +278,15 @@ TEST_CASE("CircleCollider Intersection and Containment", "[physics][circle]") {
     }
 }
 
-TEST_CASE("AABB3 Intersection, Overlaps, and Containment", "[physics][aabb3]") {
+TEST_CASE("AABB3 Intersection, Overlaps, and Containment", "[physics][aabb3]")
+{
     AABB3 box1(Vec3(0.0f, 0.0f, 0.0f), Vec3(10.0f, 10.0f, 10.0f));
     AABB3 box2(Vec3(5.0f, 5.0f, 5.0f), Vec3(10.0f, 10.0f, 10.0f));
     AABB3 touching(Vec3(10.0f, 0.0f, 0.0f), Vec3(10.0f, 10.0f, 10.0f));
     AABB3 miss(Vec3(20.0f, 20.0f, 20.0f), Vec3(10.0f, 10.0f, 10.0f));
 
-    SECTION("AABB3 vs AABB3") {
+    SECTION("AABB3 vs AABB3")
+    {
         CHECK(box1.intersect(box2));
         CHECK(box1.overlaps(box2));
 
@@ -276,7 +297,8 @@ TEST_CASE("AABB3 Intersection, Overlaps, and Containment", "[physics][aabb3]") {
         CHECK_FALSE(box1.overlaps(miss));
     }
 
-    SECTION("AABB3 Point Tests") {
+    SECTION("AABB3 Point Tests")
+    {
         Vec3 inside(5.0f, 5.0f, 5.0f);
         Vec3 on_face(10.0f, 5.0f, 5.0f);
         Vec3 outside(15.0f, 5.0f, 5.0f);

@@ -6,7 +6,8 @@
 namespace lili {
 
 Vec2
-UILayout::getScreenPosition(Vec2 viewport_size, Vec2 obj_size) const noexcept {
+UILayout::getScreenPosition(Vec2 viewport_size, Vec2 obj_size) const noexcept
+{
     Vec2 anchor_vec = anchorToVector(anchor, custom_anchor);
     Vec2 pivot_vec = pivotToVector(pivot, custom_pivot);
 
@@ -19,8 +20,12 @@ UILayout::getScreenPosition(Vec2 viewport_size, Vec2 obj_size) const noexcept {
 
 Mat3
 UILayout::getTransformationMatrix(
-    Vec2 viewport_size, Vec2 obj_size, float rotation_rad, Vec2 scale
-) const noexcept {
+    Vec2 viewport_size,
+    Vec2 obj_size,
+    float rotation_rad,
+    Vec2 scale
+) const noexcept
+{
     Vec2 anchor_vec = anchorToVector(anchor, custom_anchor);
     Vec2 pivot_vec = pivotToVector(pivot, custom_pivot);
 
@@ -30,8 +35,8 @@ UILayout::getTransformationMatrix(
     Vec2 pivot_screen = anchor_point + offset;
 
     return Mat3::translate(pivot_screen) * Mat3::rotation(rotation_rad) *
-           Mat3::translate({-pivot_point.x, -pivot_point.y}) *
+           Mat3::translate({ -pivot_point.x, -pivot_point.y }) *
            Mat3::scale(scale);
 }
 
-}  // namespace lili
+} // namespace lili

@@ -5,7 +5,8 @@
 namespace lili {
 
 /// @brief Manages time and framerate calculations.
-class Clock {
+class Clock
+{
 public:
     /// @brief Constructs the Clock.
     Clock() noexcept;
@@ -18,7 +19,8 @@ public:
     /// @brief Sets the fixed delta time for physics or fixed updates.
     /// @param value The fixed delta time in seconds.
     inline void
-    setTps(float value) noexcept {
+    setTps(float value) noexcept
+    {
         fixed_dt = 1.0f / value;
         tps = value;
     }
@@ -26,14 +28,16 @@ public:
     /// @brief Sets the maximum frames per second cap.
     /// @param value Target maximum FPS (0 = uncapped).
     inline void
-    setMaxFps(uint32_t value) noexcept {
+    setMaxFps(uint32_t value) noexcept
+    {
         max_fps = value;
     }
 
     /// @brief Gets the maximum frames per second cap.
     /// @return Target maximum FPS (0 = uncapped).
     [[nodiscard]] constexpr uint32_t
-    getMaxFps() const noexcept {
+    getMaxFps() const noexcept
+    {
         return max_fps;
     }
 
@@ -41,7 +45,8 @@ public:
     void
     limitFps() noexcept;
 
-    /// @brief Resets the frame timer (useful right before entering the game loop).
+    /// @brief Resets the frame timer (useful right before entering the game
+    /// loop).
     void
     reset() noexcept;
 
@@ -52,7 +57,8 @@ public:
     /// @brief Steps the fixed accumulator.
     /// @return True if a fixed step should be executed, false otherwise.
     [[nodiscard]] inline bool
-    step() noexcept {
+    step() noexcept
+    {
         if (accumulator >= fixed_dt) {
             accumulator -= fixed_dt;
             return true;
@@ -63,28 +69,32 @@ public:
     /// @brief Gets the fixed delta time.
     /// @return The fixed delta time in seconds.
     [[nodiscard]] constexpr float
-    getFixedDt() const noexcept {
+    getFixedDt() const noexcept
+    {
         return fixed_dt;
     }
 
     /// @brief Gets the delta time since the last frame.
     /// @return The delta time in seconds.
     [[nodiscard]] constexpr float
-    getDt() const noexcept {
+    getDt() const noexcept
+    {
         return dt;
     }
 
     /// @brief Gets the interpolation alpha for rendering between fixed steps.
     /// @return The alpha value [0.0, 1.0].
     [[nodiscard]] inline float
-    getAlpha() const noexcept {
+    getAlpha() const noexcept
+    {
         return accumulator / fixed_dt;
     }
 
     /// @brief Gets the current frames per second.
     /// @return The frames per second.
     [[nodiscard]] constexpr int
-    getFps() const noexcept {
+    getFps() const noexcept
+    {
         return fps;
     }
 
@@ -96,7 +106,8 @@ public:
     /// @brief Gets the current tps.
     /// @return The tps (float).
     [[nodiscard]] constexpr float
-    getTps() const noexcept {
+    getTps() const noexcept
+    {
         return tps;
     }
 
@@ -115,4 +126,4 @@ private:
     int temp_fps = 0;
 };
 
-}  // namespace lili
+} // namespace lili

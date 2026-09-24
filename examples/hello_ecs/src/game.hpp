@@ -6,7 +6,8 @@
 #include <lili2d/render/scene/core2d/sprite_batch.hpp>
 #include <lili2d/world/camera.hpp>
 
-class App : public lili::Game {
+class App : public lili::Game
+{
 public:
     App();
 

@@ -9,7 +9,8 @@
 namespace lili {
 
 Rect::Rect(Renderer* renderer, RectShape shape, Vec4 color)
-    : renderer(renderer) {
+  : renderer(renderer)
+{
     mesh = renderer->getUnitQuad();
     material = std::make_unique<Material>(renderer->getTheWhitePixel());
     setShape(shape);
@@ -20,8 +21,9 @@ Rect::Rect(Renderer* renderer, RectShape shape, Vec4 color)
 }
 
 Mat3
-Rect::getTransformMatrix() const {
-    Vec2 obj_size = {shape.size.x * scale.x, shape.size.y * scale.y};
+Rect::getTransformMatrix() const
+{
+    Vec2 obj_size = { shape.size.x * scale.x, shape.size.y * scale.y };
     if (render_layer == RenderLayer::UI && renderer) {
         Vec2 viewport_size = renderer->getLogicalResolution();
         return ui_layout.getTransformationMatrix(
@@ -33,8 +35,10 @@ Rect::getTransformMatrix() const {
 }
 
 void
-Rect::draw() {
-    if (!is_visible) return;
+Rect::draw()
+{
+    if (!is_visible)
+        return;
 
     Mat3 mat_transform = getTransformMatrix();
 
@@ -91,13 +95,15 @@ Rect::draw() {
         }
 
         renderer->submit(
-            Model({hollow_mesh.get(), getMaterial()}), mat_transform, layer,
+            Model({ hollow_mesh.get(), getMaterial() }),
+            mat_transform,
+            layer,
             render_layer
         );
     } else
         renderer->submit(
-            Model({mesh, getMaterial()}), mat_transform, layer, render_layer
+            Model({ mesh, getMaterial() }), mat_transform, layer, render_layer
         );
 }
 
-}  // namespace lili
+} // namespace lili

@@ -8,7 +8,8 @@
 namespace lili {
 
 Sprite::Sprite(Renderer* renderer, const std::string& path)
-    : renderer(renderer) {
+  : renderer(renderer)
+{
     texture = std::make_unique<Texture>(renderer->getDevice(), path);
     mesh = renderer->getUnitQuad();
 
@@ -22,7 +23,9 @@ Sprite::Sprite(Renderer* renderer, const std::string& path)
     layer = 0.0f;
 }
 
-Sprite::Sprite(Renderer* renderer, const SliceUV& slice) : renderer(renderer) {
+Sprite::Sprite(Renderer* renderer, const SliceUV& slice)
+  : renderer(renderer)
+{
     mesh = renderer->getUnitQuad();
 
     material = std::make_unique<Material>(slice.texture);
@@ -36,7 +39,9 @@ Sprite::Sprite(Renderer* renderer, const SliceUV& slice) : renderer(renderer) {
     setSlice(slice);
 }
 
-Sprite::Sprite(Renderer* renderer, Texture* texture) : renderer(renderer) {
+Sprite::Sprite(Renderer* renderer, Texture* texture)
+  : renderer(renderer)
+{
     mesh = renderer->getUnitQuad();
 
     material = std::make_unique<Material>(texture);
@@ -44,13 +49,15 @@ Sprite::Sprite(Renderer* renderer, Texture* texture) : renderer(renderer) {
 
     position = Vec2(0.0f, 0.0f);
     scale = Vec2(1.0f, 1.0f);
-    if (texture) size = Vec2(texture->getWidth(), texture->getHeight());
+    if (texture)
+        size = Vec2(texture->getWidth(), texture->getHeight());
     rotation = 0.0f;
     layer = 0.0f;
 }
 
 void
-Sprite::setImage(const std::string& path) {
+Sprite::setImage(const std::string& path)
+{
     texture = std::make_unique<Texture>(renderer->getDevice(), path);
     material = std::make_unique<Material>(texture.get());
     material->properties.color_tint = Vec4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -58,7 +65,8 @@ Sprite::setImage(const std::string& path) {
 }
 
 Mat3
-Sprite::getTransformMatrix() const {
+Sprite::getTransformMatrix() const
+{
     if (render_layer == RenderLayer::UI && renderer) {
         Vec2 viewport_size = renderer->getLogicalResolution();
         Vec2 obj_size = getSize();
@@ -71,12 +79,14 @@ Sprite::getTransformMatrix() const {
 }
 
 void
-Sprite::draw() {
-    if (!is_visible) return;
+Sprite::draw()
+{
+    if (!is_visible)
+        return;
     Mat3 mat_transform = getTransformMatrix();
     renderer->submit(
-        Model({mesh, getMaterial()}), mat_transform, layer, render_layer
+        Model({ mesh, getMaterial() }), mat_transform, layer, render_layer
     );
 }
 
-}  // namespace lili
+} // namespace lili

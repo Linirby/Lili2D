@@ -10,7 +10,8 @@
 namespace lili {
 
 /// @brief Represents a 2D texture on the GPU.
-class Texture {
+class Texture
+{
 public:
     /// @brief Constructs a texture from an image file.
     /// @param device The SDL GPU device.
@@ -21,7 +22,9 @@ public:
     /// @param data Pointer to the image data.
     /// @param len Length of the image data.
     explicit Texture(
-        SDL_GPUDevice* device, const unsigned char* data, unsigned int len
+        SDL_GPUDevice* device,
+        const unsigned char* data,
+        unsigned int len
     );
     /// @brief Destructor.
     ~Texture() = default;
@@ -50,25 +53,29 @@ public:
     /// @brief Gets the width of the texture.
     /// @return The width in pixels.
     [[nodiscard]] inline int
-    getWidth() const noexcept {
+    getWidth() const noexcept
+    {
         return width;
     }
     /// @brief Gets the height of the texture.
     /// @return The height in pixels.
     [[nodiscard]] inline int
-    getHeight() const noexcept {
+    getHeight() const noexcept
+    {
         return height;
     }
     /// @brief Gets the underlying SDL GPU texture.
     /// @return Pointer to the SDL_GPUTexture.
     [[nodiscard]] inline SDL_GPUTexture*
-    getTexture() const noexcept {
+    getTexture() const noexcept
+    {
         return texture.get();
     }
     /// @brief Gets the underlying SDL GPU sampler.
     /// @return Pointer to the SDL_GPUSampler.
     [[nodiscard]] inline SDL_GPUSampler*
-    getSampler() const noexcept {
+    getSampler() const noexcept
+    {
         return sampler.get();
     }
 
@@ -87,4 +94,4 @@ private:
     transferToGpu(SDL_Surface* surface);
 };
 
-}  // namespace lili
+} // namespace lili

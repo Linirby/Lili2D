@@ -15,7 +15,8 @@
 namespace lili {
 
 /// @brief A renderable circle.
-class Circle : public IRenderable {
+class Circle : public IRenderable
+{
 public:
     /// @brief Default constructor.
     Circle() noexcept = default;
@@ -37,7 +38,8 @@ public:
     /// @brief Sets the center position.
     /// @param pos The new center.
     inline void
-    setPosition(Vec2 pos) noexcept override {
+    setPosition(Vec2 pos) noexcept override
+    {
         shape.center = pos;
         ui_layout.offset = pos;
     }
@@ -45,21 +47,24 @@ public:
     /// @brief Sets rotation in degrees.
     /// @param degree Rotation in degrees.
     inline void
-    setRotation(float degree) noexcept override {
+    setRotation(float degree) noexcept override
+    {
         rotation = lili::degToRad(degree);
     }
 
     /// @brief Sets scale factors.
     /// @param scale The new scale.
     inline void
-    setScale(Vec2 scale) noexcept override {
+    setScale(Vec2 scale) noexcept override
+    {
         this->scale = scale;
     }
 
     /// @brief Sets size (width, height) by setting radius = max(w,h)/2.
     /// @param size The new size.
     inline void
-    setSize(Vec2 size) noexcept override {
+    setSize(Vec2 size) noexcept override
+    {
         float max_dim = std::max(size.x, size.y);
         setRadius(max_dim * 0.5f);
     }
@@ -67,7 +72,8 @@ public:
     /// @brief Sets the center position.
     /// @param pos The new center.
     inline void
-    setCenter(Vec2 pos) noexcept {
+    setCenter(Vec2 pos) noexcept
+    {
         shape.center = pos;
         ui_layout.offset = pos;
     }
@@ -75,7 +81,8 @@ public:
     /// @brief Sets the radius.
     /// @param r The new radius.
     inline void
-    setRadius(float r) noexcept {
+    setRadius(float r) noexcept
+    {
         if (shape.radius != r) {
             shape.radius = r;
             hollow_dirty = true;
@@ -95,28 +102,33 @@ public:
     /// @brief Sets the color.
     /// @param color The new color.
     inline void
-    setColor(Vec4 color) noexcept override {
-        if (material) material->properties.color_tint = color;
+    setColor(Vec4 color) noexcept override
+    {
+        if (material)
+            material->properties.color_tint = color;
     }
 
     /// @brief Sets the material.
     /// @param mat The new material.
     inline void
-    setMaterial(Material* mat) noexcept override {
+    setMaterial(Material* mat) noexcept override
+    {
         external_material = mat;
     }
 
     /// @brief Sets whether the circle is hollow.
     /// @param hollow The new hollow state.
     inline void
-    setHollow(bool hollow) noexcept {
+    setHollow(bool hollow) noexcept
+    {
         is_hollow = hollow;
     }
 
     /// @brief Sets the outline thickness when hollow.
     /// @param thickness The thickness of the outline.
     inline void
-    setHollowThickness(float thickness) noexcept {
+    setHollowThickness(float thickness) noexcept
+    {
         if (hollow_thickness != thickness) {
             hollow_thickness = thickness;
             hollow_dirty = true;
@@ -126,37 +138,42 @@ public:
     /// @brief Sets the depth value for Z-ordering.
     /// @param value The new layer depth.
     inline void
-    setLayer(float value) noexcept override {
+    setLayer(float value) noexcept override
+    {
         layer = value;
     }
 
     /// @brief Gets position (center).
     /// @return The center position.
     [[nodiscard]] inline Vec2
-    getPosition() const noexcept override {
+    getPosition() const noexcept override
+    {
         return shape.center;
     }
 
     /// @brief Gets rotation in degrees.
     /// @return Rotation in degrees.
     [[nodiscard]] inline float
-    getRotation() const noexcept override {
+    getRotation() const noexcept override
+    {
         return lili::radToDeg(rotation);
     }
 
     /// @brief Gets scale.
     /// @return The scale.
     [[nodiscard]] inline Vec2
-    getScale() const noexcept override {
+    getScale() const noexcept override
+    {
         return scale;
     }
 
     /// @brief Gets size (diameter, diameter).
     /// @return The size.
     [[nodiscard]] inline Vec2
-    getSize() const noexcept override {
+    getSize() const noexcept override
+    {
         float d = getDiameter();
-        return {d, d};
+        return { d, d };
     }
 
     /// @brief Gets the transformation matrix.
@@ -167,7 +184,8 @@ public:
     /// @brief Gets layer depth.
     /// @return The depth.
     [[nodiscard]] inline float
-    getLayer() const noexcept override {
+    getLayer() const noexcept override
+    {
         return layer;
     }
 
@@ -177,48 +195,55 @@ public:
     /// @return True if point is inside circle radius.
     [[nodiscard]] bool
     containsPoint(
-        Vec2 point, const Renderer* renderer = nullptr
+        Vec2 point,
+        const Renderer* renderer = nullptr
     ) const override;
 
     /// @brief Gets the center position.
     /// @return The center position.
     [[nodiscard]] inline Vec2
-    getCenter() const noexcept {
+    getCenter() const noexcept
+    {
         return shape.center;
     }
 
     /// @brief Gets the top-left position (center - radius).
     /// @return The top-left position.
     [[nodiscard]] inline Vec2
-    getTopLeft() const noexcept {
+    getTopLeft() const noexcept
+    {
         return shape.center - Vec2(shape.radius, shape.radius);
     }
 
     /// @brief Gets the radius.
     /// @return The radius.
     [[nodiscard]] inline float
-    getRadius() const noexcept {
+    getRadius() const noexcept
+    {
         return shape.radius;
     }
 
     /// @brief Gets the diameter.
     /// @return The diameter.
     [[nodiscard]] inline float
-    getDiameter() const noexcept {
+    getDiameter() const noexcept
+    {
         return shape.radius * 2.0f;
     }
 
     /// @brief Gets the shape geometry.
     /// @return The shape.
     [[nodiscard]] inline CircleShape
-    getShape() const noexcept {
+    getShape() const noexcept
+    {
         return shape;
     }
 
     /// @brief Gets the color.
     /// @return The color.
     [[nodiscard]] inline Vec4
-    getColor() const noexcept override {
+    getColor() const noexcept override
+    {
         Material* mat = getMaterial();
         return mat ? mat->properties.color_tint : Vec4(1.0f, 1.0f, 1.0f, 1.0f);
     }
@@ -226,21 +251,24 @@ public:
     /// @brief Gets the material.
     /// @return Pointer to the material.
     [[nodiscard]] inline Material*
-    getMaterial() const noexcept override {
+    getMaterial() const noexcept override
+    {
         return external_material ? external_material : material.get();
     }
 
     /// @brief Returns whether the circle is hollow.
     /// @return True if hollow, false otherwise.
     [[nodiscard]] inline bool
-    isHollow() const noexcept {
+    isHollow() const noexcept
+    {
         return is_hollow;
     }
 
     /// @brief Gets the hollow thickness.
     /// @return The hollow outline thickness.
     [[nodiscard]] inline float
-    getHollowThickness() const noexcept {
+    getHollowThickness() const noexcept
+    {
         return hollow_thickness;
     }
 
@@ -252,7 +280,7 @@ private:
     Renderer* renderer = nullptr;
     CircleShape shape;
     float rotation = 0.0f;
-    Vec2 scale = {1.0f, 1.0f};
+    Vec2 scale = { 1.0f, 1.0f };
     bool is_hollow = false;
     float hollow_thickness = 1.0f;
 
@@ -264,4 +292,4 @@ private:
     bool hollow_dirty = true;
 };
 
-}  // namespace lili
+} // namespace lili

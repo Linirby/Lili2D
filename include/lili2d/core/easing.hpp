@@ -5,7 +5,8 @@
 namespace lili {
 
 /// @brief Easing function types for interpolation curves.
-enum class EaseType {
+enum class EaseType
+{
     LINEAR,
 
     IN_QUAD,
@@ -42,94 +43,109 @@ constexpr float PI = 3.14159265358979323846f;
 }
 
 /// @brief Provides mathematical interpolation and easing functions.
-class Easing {
+class Easing
+{
 public:
     /// @brief Linear interpolation (constant speed).
     [[nodiscard]] static constexpr float
-    linear(float t) noexcept {
+    linear(float t) noexcept
+    {
         return t;
     }
 
     /// @brief Quadratic ease-in (accelerating).
     [[nodiscard]] static constexpr float
-    inQuad(float t) noexcept {
+    inQuad(float t) noexcept
+    {
         return t * t;
     }
 
     /// @brief Quadratic ease-out (decelerating).
     [[nodiscard]] static constexpr float
-    outQuad(float t) noexcept {
+    outQuad(float t) noexcept
+    {
         float inv = 1.0f - t;
         return 1.0f - inv * inv;
     }
 
     /// @brief Quadratic ease-in-out (acceleration then deceleration).
     [[nodiscard]] static constexpr float
-    inOutQuad(float t) noexcept {
+    inOutQuad(float t) noexcept
+    {
         float inv = 1.0f - t;
         return t < 0.5f ? 2.0f * t * t : 1.0f - 2.0f * inv * inv;
     }
 
     /// @brief Cubic ease-in.
     [[nodiscard]] static constexpr float
-    inCubic(float t) noexcept {
+    inCubic(float t) noexcept
+    {
         return t * t * t;
     }
 
     /// @brief Cubic ease-out.
     [[nodiscard]] static constexpr float
-    outCubic(float t) noexcept {
+    outCubic(float t) noexcept
+    {
         float inv = 1.0f - t;
         return 1.0f - inv * inv * inv;
     }
 
     /// @brief Cubic ease-in-out.
     [[nodiscard]] static constexpr float
-    inOutCubic(float t) noexcept {
+    inOutCubic(float t) noexcept
+    {
         float inv = 1.0f - t;
         return t < 0.5f ? 4.0f * t * t * t : 1.0f - 4.0f * inv * inv * inv;
     }
 
     /// @brief Sinusoidal ease-in.
     [[nodiscard]] static inline float
-    inSine(float t) noexcept {
+    inSine(float t) noexcept
+    {
         return 1.0f - std::cos(t * (detail::PI * 0.5f));
     }
 
     /// @brief Sinusoidal ease-out.
     [[nodiscard]] static inline float
-    outSine(float t) noexcept {
+    outSine(float t) noexcept
+    {
         return std::sin(t * (detail::PI * 0.5f));
     }
 
     /// @brief Sinusoidal ease-in-out.
     [[nodiscard]] static inline float
-    inOutSine(float t) noexcept {
+    inOutSine(float t) noexcept
+    {
         return 0.5f * (1.0f - std::cos(detail::PI * t));
     }
 
     /// @brief Exponential ease-in.
     [[nodiscard]] static inline float
-    inExpo(float t) noexcept {
+    inExpo(float t) noexcept
+    {
         return std::exp2(10.0f * (t - 1.0f));
     }
 
     /// @brief Exponential ease-out.
     [[nodiscard]] static inline float
-    outExpo(float t) noexcept {
+    outExpo(float t) noexcept
+    {
         return 1.0f - std::exp2(-10.0f * t);
     }
 
     /// @brief Exponential ease-in-out.
     [[nodiscard]] static inline float
-    inOutExpo(float t) noexcept {
+    inOutExpo(float t) noexcept
+    {
         return t < 0.5f ? 0.5f * std::exp2(20.0f * t - 10.0f)
                         : 1.0f - 0.5f * std::exp2(-20.0f * t + 10.0f);
     }
 
     /// @brief Back ease-in (overshoots behind before moving forward).
     [[nodiscard]] static constexpr float
-    inBack(float t) noexcept {
+    inBack(float t) noexcept
+    {
         constexpr float c1 = 1.70158f;
         constexpr float c3 = c1 + 1.0f;
         return t * t * (c3 * t - c1);
@@ -137,7 +153,8 @@ public:
 
     /// @brief Back ease-out (overshoots past destination then settles).
     [[nodiscard]] static constexpr float
-    outBack(float t) noexcept {
+    outBack(float t) noexcept
+    {
         constexpr float c1 = 1.70158f;
         constexpr float c3 = c1 + 1.0f;
         float inv = t - 1.0f;
@@ -146,17 +163,20 @@ public:
 
     /// @brief Back ease-in-out.
     [[nodiscard]] static constexpr float
-    inOutBack(float t) noexcept {
+    inOutBack(float t) noexcept
+    {
         constexpr float c1 = 1.70158f;
         constexpr float c2 = c1 * 1.525f;
-        if (t < 0.5f) return 2.0f * t * t * ((c2 + 1.0f) * 2.0f * t - c2);
+        if (t < 0.5f)
+            return 2.0f * t * t * ((c2 + 1.0f) * 2.0f * t - c2);
         float inv = 2.0f * t - 2.0f;
         return 0.5f * (inv * inv * ((c2 + 1.0f) * inv + c2) + 2.0f);
     }
 
     /// @brief Elastic ease-in (oscillating acceleration).
     [[nodiscard]] static inline float
-    inElastic(float t) noexcept {
+    inElastic(float t) noexcept
+    {
         constexpr float c4 = (2.0f * detail::PI) / 3.0f;
         return -std::exp2(10.0f * (t - 1.0f)) *
                std::sin((10.0f * t - 10.75f) * c4);
@@ -164,7 +184,8 @@ public:
 
     /// @brief Elastic ease-out (oscillating deceleration).
     [[nodiscard]] static inline float
-    outElastic(float t) noexcept {
+    outElastic(float t) noexcept
+    {
         constexpr float c4 = (2.0f * detail::PI) / 3.0f;
         return std::exp2(-10.0f * t) * std::sin((10.0f * t - 0.75f) * c4) +
                1.0f;
@@ -172,7 +193,8 @@ public:
 
     /// @brief Elastic ease-in-out.
     [[nodiscard]] static inline float
-    inOutElastic(float t) noexcept {
+    inOutElastic(float t) noexcept
+    {
         constexpr float c5 = (2.0f * detail::PI) / 4.5f;
         float s = std::sin((20.0f * t - 11.125f) * c5);
         return t < 0.5f ? -0.5f * std::exp2(20.0f * t - 10.0f) * s
@@ -181,10 +203,12 @@ public:
 
     /// @brief Bounce ease-out (bouncing ball deceleration).
     [[nodiscard]] static constexpr float
-    outBounce(float t) noexcept {
+    outBounce(float t) noexcept
+    {
         constexpr float n1 = 7.5625f;
         constexpr float d1 = 2.75f;
-        if (t < 1.0f / d1) return n1 * t * t;
+        if (t < 1.0f / d1)
+            return n1 * t * t;
         if (t < 2.0f / d1) {
             float sub_t = t - 1.5f / d1;
             return n1 * sub_t * sub_t + 0.75f;
@@ -199,13 +223,15 @@ public:
 
     /// @brief Bounce ease-in (bouncing ball acceleration).
     [[nodiscard]] static constexpr float
-    inBounce(float t) noexcept {
+    inBounce(float t) noexcept
+    {
         return 1.0f - outBounce(1.0f - t);
     }
 
     /// @brief Bounce ease-in-out.
     [[nodiscard]] static constexpr float
-    inOutBounce(float t) noexcept {
+    inOutBounce(float t) noexcept
+    {
         return t < 0.5f ? 0.5f * (1.0f - outBounce(1.0f - 2.0f * t))
                         : 0.5f * (1.0f + outBounce(2.0f * t - 1.0f));
     }
@@ -215,9 +241,12 @@ public:
     /// @param t Normalized time progress in range [0, 1].
     /// @return Interpolated progress value.
     [[nodiscard]] static inline float
-    evaluate(EaseType type, float t) noexcept {
-        if (t <= 0.0f) return 0.0f;
-        if (t >= 1.0f) return 1.0f;
+    evaluate(EaseType type, float t) noexcept
+    {
+        if (t <= 0.0f)
+            return 0.0f;
+        if (t >= 1.0f)
+            return 1.0f;
 
         switch (type) {
             case EaseType::LINEAR:
@@ -278,4 +307,4 @@ public:
     }
 };
 
-}  // namespace lili
+} // namespace lili

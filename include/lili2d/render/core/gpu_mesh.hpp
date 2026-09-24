@@ -13,17 +13,18 @@
 namespace lili {
 
 /// @brief Represents a single vertex in a mesh.
-struct Vertex {
-    float x = 0.0f;            ///< X position.
-    float y = 0.0f;            ///< Y position.
-    float z = 0.0f;            ///< Z position.
-    float u = 0.0f;            ///< U texture coordinate.
-    float v = 0.0f;            ///< V texture coordinate.
-    float material_id = 0.0f;  ///< Material ID.
-    float r = 1.0f;            ///< Red color.
-    float g = 1.0f;            ///< Green color.
-    float b = 1.0f;            ///< Blue color.
-    float a = 1.0f;            ///< Alpha color.
+struct Vertex
+{
+    float x = 0.0f;           ///< X position.
+    float y = 0.0f;           ///< Y position.
+    float z = 0.0f;           ///< Z position.
+    float u = 0.0f;           ///< U texture coordinate.
+    float v = 0.0f;           ///< V texture coordinate.
+    float material_id = 0.0f; ///< Material ID.
+    float r = 1.0f;           ///< Red color.
+    float g = 1.0f;           ///< Green color.
+    float b = 1.0f;           ///< Blue color.
+    float a = 1.0f;           ///< Alpha color.
 
     /// @brief Default constructor.
     constexpr Vertex() noexcept = default;
@@ -40,20 +41,29 @@ struct Vertex {
     /// @param b Blue color component.
     /// @param a Alpha color component.
     constexpr Vertex(
-        float x, float y, float z, float u = 0.0f, float v = 0.0f,
-        float material_id = 0.0f, float r = 1.0f, float g = 1.0f,
-        float b = 1.0f, float a = 1.0f
+        float x,
+        float y,
+        float z,
+        float u = 0.0f,
+        float v = 0.0f,
+        float material_id = 0.0f,
+        float r = 1.0f,
+        float g = 1.0f,
+        float b = 1.0f,
+        float a = 1.0f
     ) noexcept
-        : x(x),
-          y(y),
-          z(z),
-          u(u),
-          v(v),
-          material_id(material_id),
-          r(r),
-          g(g),
-          b(b),
-          a(a) {}
+      : x(x)
+      , y(y)
+      , z(z)
+      , u(u)
+      , v(v)
+      , material_id(material_id)
+      , r(r)
+      , g(g)
+      , b(b)
+      , a(a)
+    {
+    }
 
     /// @brief Constructs a Vertex with position, UV, material ID, and RGBA
     /// color vectors.
@@ -62,29 +72,35 @@ struct Vertex {
     /// @param material_id Material ID.
     /// @param rgba 4D RGBA color tint vector.
     constexpr Vertex(
-        Vec3 xyz, Vec2 uv = {}, float material_id = 0.0f,
-        Vec4 rgba = {1.0f, 1.0f, 1.0f, 1.0f}
+        Vec3 xyz,
+        Vec2 uv = {},
+        float material_id = 0.0f,
+        Vec4 rgba = { 1.0f, 1.0f, 1.0f, 1.0f }
     ) noexcept
-        : x(xyz.x),
-          y(xyz.y),
-          z(xyz.z),
-          u(uv.x),
-          v(uv.y),
-          material_id(material_id),
-          r(rgba.x),
-          g(rgba.y),
-          b(rgba.z),
-          a(rgba.w) {}
+      : x(xyz.x)
+      , y(xyz.y)
+      , z(xyz.z)
+      , u(uv.x)
+      , v(uv.y)
+      , material_id(material_id)
+      , r(rgba.x)
+      , g(rgba.y)
+      , b(rgba.z)
+      , a(rgba.w)
+    {
+    }
 };
 
 /// @brief Contains the CPU-side data for a mesh.
-struct MeshData {
-    std::vector<Vertex> vertices;   ///< List of vertices.
-    std::vector<uint32_t> indices;  ///< List of indices.
+struct MeshData
+{
+    std::vector<Vertex> vertices;  ///< List of vertices.
+    std::vector<uint32_t> indices; ///< List of indices.
 };
 
 /// @brief Represents a mesh stored on the GPU.
-class GPUMesh {
+class GPUMesh
+{
 public:
     /// @brief Constructs a GPU mesh from CPU data.
     /// @param device The SDL GPU device.
@@ -111,19 +127,22 @@ public:
     /// @brief Gets the vertex buffer.
     /// @return Pointer to the vertex SDL_GPUBuffer.
     [[nodiscard]] inline SDL_GPUBuffer*
-    getVertex() const noexcept {
+    getVertex() const noexcept
+    {
         return vertex_buffer.get();
     }
     /// @brief Gets the index buffer.
     /// @return Pointer to the index SDL_GPUBuffer.
     [[nodiscard]] inline SDL_GPUBuffer*
-    getIndex() const noexcept {
+    getIndex() const noexcept
+    {
         return index_buffer.get();
     }
     /// @brief Gets the number of indices in the mesh.
     /// @return The index count.
     [[nodiscard]] inline uint32_t
-    getIndexCount() const noexcept {
+    getIndexCount() const noexcept
+    {
         return index_count;
     }
 
@@ -144,4 +163,4 @@ private:
     transferToGpu(const void* data, SDL_GPUBuffer* buffer, uint32_t size);
 };
 
-}  // namespace lili
+} // namespace lili

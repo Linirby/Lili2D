@@ -14,4 +14,4 @@ createUnitQuad();
 MeshData
 createUnitCircle(int segments);
 
-}  // namespace lili
+} // namespace lili

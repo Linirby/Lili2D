@@ -16,15 +16,17 @@ namespace lili {
 
 /// @brief Information about shader bindings (optional for HLSL, auto-reflected
 /// by SDL_ShaderCross).
-struct ShaderInfo {
-    uint32_t num_samplers = 0;          ///< Number of samplers.
-    uint32_t num_storage_textures = 0;  ///< Number of storage textures.
-    uint32_t num_storage_buffers = 0;   ///< Number of storage buffers.
-    uint32_t num_uniform_buffers = 0;   ///< Number of uniform buffers.
+struct ShaderInfo
+{
+    uint32_t num_samplers = 0;         ///< Number of samplers.
+    uint32_t num_storage_textures = 0; ///< Number of storage textures.
+    uint32_t num_storage_buffers = 0;  ///< Number of storage buffers.
+    uint32_t num_uniform_buffers = 0;  ///< Number of uniform buffers.
 };
 
 /// @brief Represents a compiled shader program using HLSL sources.
-class Shader {
+class Shader
+{
 public:
     /// @brief Reload listener callback type alias.
     using ReloadCallback = std::function<void()>;
@@ -36,8 +38,10 @@ public:
     /// @param vert_entry Entry point for the vertex shader (default: "main").
     /// @param frag_entry Entry point for the fragment shader (default: "main").
     explicit Shader(
-        SDL_GPUDevice* device, const std::string& vert_path,
-        const std::string& frag_path, const std::string& vert_entry = "main",
+        SDL_GPUDevice* device,
+        const std::string& vert_path,
+        const std::string& frag_path,
+        const std::string& vert_entry = "main",
         const std::string& frag_entry = "main"
     );
 
@@ -50,8 +54,10 @@ public:
     /// @return Unique pointer to the created Shader.
     static std::unique_ptr<Shader>
     fromSource(
-        SDL_GPUDevice* device, std::string_view vert_source,
-        std::string_view frag_source, const std::string& vert_entry = "main",
+        SDL_GPUDevice* device,
+        std::string_view vert_source,
+        std::string_view frag_source,
+        const std::string& vert_entry = "main",
         const std::string& frag_entry = "main"
     );
 
@@ -64,8 +70,10 @@ public:
     /// @return Unique pointer to the created Shader.
     static std::unique_ptr<Shader>
     fromFiles(
-        SDL_GPUDevice* device, const std::string& vert_path,
-        const std::string& frag_path, const std::string& vert_entry = "main",
+        SDL_GPUDevice* device,
+        const std::string& vert_path,
+        const std::string& frag_path,
+        const std::string& vert_entry = "main",
         const std::string& frag_entry = "main"
     );
 
@@ -74,7 +82,9 @@ public:
     /// @param vert Pointer to vertex SDL_GPUShader.
     /// @param frag Pointer to fragment SDL_GPUShader.
     explicit Shader(
-        SDL_GPUDevice* device, SDL_GPUShader* vert, SDL_GPUShader* frag
+        SDL_GPUDevice* device,
+        SDL_GPUShader* vert,
+        SDL_GPUShader* frag
     );
 
     /// @brief Destructor.
@@ -112,13 +122,15 @@ public:
     /// @brief Gets the underlying SDL GPU vertex shader.
     /// @return Pointer to the vertex shader.
     [[nodiscard]] inline SDL_GPUShader*
-    getVertex() const noexcept {
+    getVertex() const noexcept
+    {
         return vertex_shader.get();
     }
     /// @brief Gets the underlying SDL GPU fragment shader.
     /// @return Pointer to the fragment shader.
     [[nodiscard]] inline SDL_GPUShader*
-    getFragment() const noexcept {
+    getFragment() const noexcept
+    {
         return fragment_shader.get();
     }
 
@@ -130,8 +142,10 @@ public:
     /// @return Compiled SDL_GPUShader pointer.
     static SDL_GPUShader*
     compileHLSL(
-        SDL_GPUDevice* device, const std::string& source,
-        const std::string& entrypoint, SDL_ShaderCross_ShaderStage stage
+        SDL_GPUDevice* device,
+        const std::string& source,
+        const std::string& entrypoint,
+        SDL_ShaderCross_ShaderStage stage
     );
 
 private:
@@ -144,4 +158,4 @@ private:
     readFile(const std::string& file_path);
 };
 
-}  // namespace lili
+} // namespace lili

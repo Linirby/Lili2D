@@ -10,7 +10,8 @@ namespace lili {
 
 /// @brief Manages a collection of active timers with automatic lifecycle
 /// cleanup.
-class TimerManager {
+class TimerManager
+{
 public:
     /// @brief Default constructor.
     TimerManager() = default;
@@ -39,11 +40,14 @@ public:
     /// @return Raw pointer to the created timer.
     inline Timer*
     create(
-        float duration, Timer::CompleteCallback on_complete = nullptr,
+        float duration,
+        Timer::CompleteCallback on_complete = nullptr,
         bool repeating = false
-    ) {
+    )
+    {
         auto timer = std::make_unique<Timer>(duration, repeating, true);
-        if (on_complete) timer->onComplete(std::move(on_complete));
+        if (on_complete)
+            timer->onComplete(std::move(on_complete));
         Timer* ptr = timer.get();
         timers.push_back(std::move(timer));
         return ptr;
@@ -53,7 +57,8 @@ public:
     /// timers.
     /// @param dt Delta time in seconds.
     inline void
-    update(float dt) {
+    update(float dt)
+    {
         for (auto it = timers.begin(); it != timers.end();) {
             (*it)->update(dt);
             if ((*it)->isFinished())
@@ -65,19 +70,22 @@ public:
 
     /// @brief Clears all managed timers.
     inline void
-    clear() noexcept {
+    clear() noexcept
+    {
         timers.clear();
     }
 
     /// @brief Gets the number of currently active timers.
     [[nodiscard]] inline size_t
-    count() const noexcept {
+    count() const noexcept
+    {
         return timers.size();
     }
 
     /// @brief Checks if there are no active timers.
     [[nodiscard]] inline bool
-    empty() const noexcept {
+    empty() const noexcept
+    {
         return timers.empty();
     }
 
@@ -85,4 +93,4 @@ private:
     std::vector<std::unique_ptr<Timer>> timers;
 };
 
-}  // namespace lili
+} // namespace lili

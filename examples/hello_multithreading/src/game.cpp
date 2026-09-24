@@ -10,24 +10,30 @@
 
 namespace {
 std::mt19937&
-getRng() {
+getRng()
+{
     static std::random_device rd;
     static std::mt19937 gen(rd());
     return gen;
 }
-}  // namespace
+} // namespace
 
-App::App() : lili::Game("hello_multithreading - Lili2D", 800, 600) {
+App::App()
+  : lili::Game("hello_multithreading - Lili2D", 800, 600)
+{
     setTps(60.0f);
 }
 
 void
-App::onInit() {
+App::onInit()
+{
     lili::Window* window = getWindow();
     lili::Renderer* renderer = getRenderer();
 
     camera = lili::Camera();
-    camera.setPosition({window->getWidth() / 2.0f, window->getHeight() / 2.0f});
+    camera.setPosition(
+        { window->getWidth() / 2.0f, window->getHeight() / 2.0f }
+    );
     renderer->setCamera(&camera);
 
     circle_texture = lili::Assets::loadTexture(
@@ -41,7 +47,8 @@ App::onInit() {
         static_cast<float>(window->getHeight())
     );
 
-    for (int i = 0; i < N_ENTITIES; ++i) spawnRandomBall();
+    for (int i = 0; i < N_ENTITIES; ++i)
+        spawnRandomBall();
 
     std::cout
         << "=== Lili2D Multithreading Demo Instructions ===\n"
@@ -53,7 +60,8 @@ App::onInit() {
 }
 
 void
-App::onEvent(const lili::Event& event) {
+App::onEvent(const lili::Event& event)
+{
     lili::Game::onEvent(event);
     if (event.type() == lili::EventType::KEYBOARD) {
         lili::KeyboardEvent kb = event.keyboard();
@@ -72,12 +80,14 @@ App::onEvent(const lili::Event& event) {
 }
 
 void
-App::onUpdate(float dt) {
+App::onUpdate(float dt)
+{
     movement_system->run(ecs_registry, dt, getThreadPool());
 }
 
 void
-App::onRender(float alpha) {
+App::onRender(float alpha)
+{
     (void)alpha;
 
     sprite_batch->begin();
@@ -93,8 +103,11 @@ App::onRender(float alpha) {
             auto& render = ecs_registry.getComponent<RenderComponent>(entity);
 
             sprite_batch->draw(
-                render.slice, pos.value,
-                {render.radius * 2.0f, render.radius * 2.0f}, 0.0f, render.color
+                render.slice,
+                pos.value,
+                { render.radius * 2.0f, render.radius * 2.0f },
+                0.0f,
+                render.color
             );
         }
     }
@@ -104,7 +117,8 @@ App::onRender(float alpha) {
 }
 
 void
-App::spawnRandomBall() {
+App::spawnRandomBall()
+{
     auto& gen = getRng();
     lili::Window* window = getWindow();
     std::uniform_real_distribution<float> disX(
@@ -126,15 +140,19 @@ App::spawnRandomBall() {
     ecs_registry.emplaceComponent<PositionComponent>(ent, pos);
     ecs_registry.emplaceComponent<VelocityComponent>(ent, vel);
     ecs_registry.emplaceComponent<RenderComponent>(
-        ent, lili::SliceUV(circle_texture, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f),
-        color, radius
+        ent,
+        lili::SliceUV(circle_texture, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f),
+        color,
+        radius
     );
     spawned_entities.push_back(ent);
 }
 
 void
-App::destroyRandomBall() {
-    if (spawned_entities.empty()) return;
+App::destroyRandomBall()
+{
+    if (spawned_entities.empty())
+        return;
 
     auto& gen = getRng();
     std::uniform_int_distribution<size_t> dis(0, spawned_entities.size() - 1);
@@ -146,7 +164,8 @@ App::destroyRandomBall() {
 }
 
 void
-App::toggleMultithreading() {
+App::toggleMultithreading()
+{
     lili::EngineConfig current = getConfig();
     if (current.profile == lili::PerformanceProfile::YES) {
         current.profile = lili::PerformanceProfile::CORRECT;

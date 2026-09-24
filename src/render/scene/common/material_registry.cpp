@@ -3,13 +3,15 @@
 namespace lili {
 
 MaterialRegistry&
-MaterialRegistry::get() {
+MaterialRegistry::get()
+{
     static MaterialRegistry instance;
     return instance;
 }
 
-MaterialRegistry::MaterialRegistry() {
+MaterialRegistry::MaterialRegistry()
+{
     registerMaterial("core:none", Material());
 }
 
-}  // namespace lili
+} // namespace lili

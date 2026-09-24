@@ -6,27 +6,34 @@
 namespace lili {
 
 /// @brief Deleter for SDL_Surface
-struct SDLSurfaceDeleter {
+struct SDLSurfaceDeleter
+{
     /// @brief Releases the SDL_Surface pointer.
     /// @param surf Pointer to the SDL_Surface to destroy.
     inline void
-    operator()(SDL_Surface* surf) const noexcept {
-        if (surf) SDL_DestroySurface(surf);
+    operator()(SDL_Surface* surf) const noexcept
+    {
+        if (surf)
+            SDL_DestroySurface(surf);
     }
 };
 
 /// @brief Deleter for SDL_GPUDevice
-struct SDLGPUDeviceDeleter {
+struct SDLGPUDeviceDeleter
+{
     /// @brief Releases the SDL_GPUDevice resource.
     /// @param dev Pointer to the SDL_GPUDevice to destroy.
     inline void
-    operator()(SDL_GPUDevice* dev) const noexcept {
-        if (dev) SDL_DestroyGPUDevice(dev);
+    operator()(SDL_GPUDevice* dev) const noexcept
+    {
+        if (dev)
+            SDL_DestroyGPUDevice(dev);
     }
 };
 
 /// @brief Base class for deleters that require an SDL_GPUDevice pointer
-struct SDLGPUDeviceDependentDeleter {
+struct SDLGPUDeviceDependentDeleter
+{
     /// @brief Pointer to the parent SDL_GPUDevice.
     SDL_GPUDevice* device = nullptr;
     /// @brief Default constructor.
@@ -34,16 +41,20 @@ struct SDLGPUDeviceDependentDeleter {
     /// @brief Constructs a deleter bound to an SDL_GPUDevice.
     /// @param dev Pointer to the target SDL_GPUDevice.
     constexpr explicit SDLGPUDeviceDependentDeleter(SDL_GPUDevice* dev) noexcept
-        : device(dev) {}
+      : device(dev)
+    {
+    }
 };
 
 /// @brief Deleter for SDL_GPUTexture
-struct SDLGPUTextureDeleter : SDLGPUDeviceDependentDeleter {
+struct SDLGPUTextureDeleter : SDLGPUDeviceDependentDeleter
+{
     using SDLGPUDeviceDependentDeleter::SDLGPUDeviceDependentDeleter;
     /// @brief Releases the SDL_GPUTexture resource.
     /// @param tex Pointer to the SDL_GPUTexture to release.
     inline void
-    operator()(SDL_GPUTexture* tex) const noexcept {
+    operator()(SDL_GPUTexture* tex) const noexcept
+    {
         if (tex && device) {
             SDL_WaitForGPUIdle(device);
             SDL_ReleaseGPUTexture(device, tex);
@@ -52,12 +63,14 @@ struct SDLGPUTextureDeleter : SDLGPUDeviceDependentDeleter {
 };
 
 /// @brief Deleter for SDL_GPUSampler
-struct SDLGPUSamplerDeleter : SDLGPUDeviceDependentDeleter {
+struct SDLGPUSamplerDeleter : SDLGPUDeviceDependentDeleter
+{
     using SDLGPUDeviceDependentDeleter::SDLGPUDeviceDependentDeleter;
     /// @brief Releases the SDL_GPUSampler resource.
     /// @param sampler Pointer to the SDL_GPUSampler to release.
     inline void
-    operator()(SDL_GPUSampler* sampler) const noexcept {
+    operator()(SDL_GPUSampler* sampler) const noexcept
+    {
         if (sampler && device) {
             SDL_WaitForGPUIdle(device);
             SDL_ReleaseGPUSampler(device, sampler);
@@ -66,12 +79,14 @@ struct SDLGPUSamplerDeleter : SDLGPUDeviceDependentDeleter {
 };
 
 /// @brief Deleter for SDL_GPUBuffer
-struct SDLGPUBufferDeleter : SDLGPUDeviceDependentDeleter {
+struct SDLGPUBufferDeleter : SDLGPUDeviceDependentDeleter
+{
     using SDLGPUDeviceDependentDeleter::SDLGPUDeviceDependentDeleter;
     /// @brief Releases the SDL_GPUBuffer resource.
     /// @param buffer Pointer to the SDL_GPUBuffer to release.
     inline void
-    operator()(SDL_GPUBuffer* buffer) const noexcept {
+    operator()(SDL_GPUBuffer* buffer) const noexcept
+    {
         if (buffer && device) {
             SDL_WaitForGPUIdle(device);
             SDL_ReleaseGPUBuffer(device, buffer);
@@ -80,12 +95,14 @@ struct SDLGPUBufferDeleter : SDLGPUDeviceDependentDeleter {
 };
 
 /// @brief Deleter for SDL_GPUShader
-struct SDLGPUShaderDeleter : SDLGPUDeviceDependentDeleter {
+struct SDLGPUShaderDeleter : SDLGPUDeviceDependentDeleter
+{
     using SDLGPUDeviceDependentDeleter::SDLGPUDeviceDependentDeleter;
     /// @brief Releases the SDL_GPUShader resource.
     /// @param shader Pointer to the SDL_GPUShader to release.
     inline void
-    operator()(SDL_GPUShader* shader) const noexcept {
+    operator()(SDL_GPUShader* shader) const noexcept
+    {
         if (shader && device) {
             SDL_WaitForGPUIdle(device);
             SDL_ReleaseGPUShader(device, shader);
@@ -94,12 +111,14 @@ struct SDLGPUShaderDeleter : SDLGPUDeviceDependentDeleter {
 };
 
 /// @brief Deleter for SDL_GPUGraphicsPipeline
-struct SDLGPUGraphicsPipelineDeleter : SDLGPUDeviceDependentDeleter {
+struct SDLGPUGraphicsPipelineDeleter : SDLGPUDeviceDependentDeleter
+{
     using SDLGPUDeviceDependentDeleter::SDLGPUDeviceDependentDeleter;
     /// @brief Releases the SDL_GPUGraphicsPipeline resource.
     /// @param pipeline Pointer to the SDL_GPUGraphicsPipeline to release.
     inline void
-    operator()(SDL_GPUGraphicsPipeline* pipeline) const noexcept {
+    operator()(SDL_GPUGraphicsPipeline* pipeline) const noexcept
+    {
         if (pipeline && device) {
             SDL_WaitForGPUIdle(device);
             SDL_ReleaseGPUGraphicsPipeline(device, pipeline);
@@ -107,4 +126,4 @@ struct SDLGPUGraphicsPipelineDeleter : SDLGPUDeviceDependentDeleter {
     }
 };
 
-}  // namespace lili
+} // namespace lili

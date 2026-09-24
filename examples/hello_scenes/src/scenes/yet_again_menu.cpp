@@ -4,7 +4,8 @@
 #include "main_menu.hpp"
 
 YetAgainScene::YetAgainScene(lili::Renderer* renderer)
-    : lili::Scene("YetAgainMenu", renderer) {
+  : lili::Scene("YetAgainMenu", renderer)
+{
     lili::BitmapFont* font =
         lili::Assets::loadFont("lili_font", renderer, "lili_font.png", 16, 6);
 
@@ -22,7 +23,8 @@ YetAgainScene::YetAgainScene(lili::Renderer* renderer)
 }
 
 void
-YetAgainScene::handleEvents(const lili::Event& event) {
+YetAgainScene::handleEvents(const lili::Event& event)
+{
     if (event.type() == lili::EventType::KEYBOARD) {
         lili::KeyboardEvent kb = event.keyboard();
         if (kb.action == lili::KeyAction::PRESSED && !kb.repeat) {
@@ -37,7 +39,8 @@ YetAgainScene::handleEvents(const lili::Event& event) {
 }
 
 void
-YetAgainScene::render(float alpha) {
+YetAgainScene::render(float alpha)
+{
     (void)alpha;
     text.draw();
     info_text.draw();

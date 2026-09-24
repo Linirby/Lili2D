@@ -5,7 +5,8 @@
 namespace lili {
 
 Vec2
-IRenderable::getGlobalPosition(const Renderer* renderer) const {
+IRenderable::getGlobalPosition(const Renderer* renderer) const
+{
     bool is_ui = render_layer == RenderLayer::UI ||
                  render_layer == RenderLayer::PIXEL_UI;
     if (is_ui && renderer) {
@@ -16,7 +17,8 @@ IRenderable::getGlobalPosition(const Renderer* renderer) const {
 }
 
 RectShape
-IRenderable::getGlobalBounds(const Renderer* renderer) const {
+IRenderable::getGlobalBounds(const Renderer* renderer) const
+{
     Vec2 pos = getGlobalPosition(renderer);
     Vec2 size = getSize();
     return RectShape(pos, size);
@@ -24,9 +26,12 @@ IRenderable::getGlobalBounds(const Renderer* renderer) const {
 
 bool
 IRenderable::containsPoint(
-    Vec2 point, [[maybe_unused]] const Renderer* renderer
-) const {
-    if (!is_visible) return false;
+    Vec2 point,
+    [[maybe_unused]] const Renderer* renderer
+) const
+{
+    if (!is_visible)
+        return false;
 
     Mat3 inv_mat = getTransformMatrix().inverse();
     Vec2 local_pt = inv_mat.transformPoint(point);
@@ -36,4 +41,4 @@ IRenderable::containsPoint(
            local_pt.y <= size.y;
 }
 
-}  // namespace lili
+} // namespace lili

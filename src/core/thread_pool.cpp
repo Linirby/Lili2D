@@ -6,7 +6,9 @@
 
 namespace lili {
 
-ThreadPool::ThreadPool(const EngineConfig& config) : profile(config.profile) {
+ThreadPool::ThreadPool(const EngineConfig& config)
+  : profile(config.profile)
+{
     size_t num_threads = calculateThreadCount(config);
     threads.reserve(num_threads);
     for (size_t i = 0; i < num_threads; ++i)
@@ -16,7 +18,8 @@ ThreadPool::ThreadPool(const EngineConfig& config) : profile(config.profile) {
 }
 
 void
-ThreadPool::enqueue(std::function<void()> task, TaskPriority priority) {
+ThreadPool::enqueue(std::function<void()> task, TaskPriority priority)
+{
     {
         std::lock_guard<std::mutex> lock(queue_mutex);
         if (priority == TaskPriority::HIGH)
@@ -30,13 +33,17 @@ ThreadPool::enqueue(std::function<void()> task, TaskPriority priority) {
 }
 
 size_t
-ThreadPool::calculateThreadCount(const EngineConfig& config) {
-    if (config.thread_count_override > 0) return config.thread_count_override;
+ThreadPool::calculateThreadCount(const EngineConfig& config)
+{
+    if (config.thread_count_override > 0)
+        return config.thread_count_override;
 
     size_t hw = std::thread::hardware_concurrency();
-    if (hw == 0) hw = 1;
+    if (hw == 0)
+        hw = 1;
 
-    if (config.profile == PerformanceProfile::YES) return 1;
+    if (config.profile == PerformanceProfile::YES)
+        return 1;
 
     size_t count = hw;
     if (count > config.threads_to_leave_free)
@@ -49,12 +56,14 @@ ThreadPool::calculateThreadCount(const EngineConfig& config) {
     else if (config.profile == PerformanceProfile::INSANE)
         count = std::min(count, static_cast<size_t>(16));
 
-    if (count == 0) count = 1;
+    if (count == 0)
+        count = 1;
     return count;
 }
 
 void
-ThreadPool::worker_loop(std::stop_token stop_tok) {
+ThreadPool::worker_loop(std::stop_token stop_tok)
+{
     while (true) {
         std::function<void()> task;
         {
@@ -87,4 +96,4 @@ ThreadPool::worker_loop(std::stop_token stop_tok) {
     }
 }
 
-}  // namespace lili
+} // namespace lili

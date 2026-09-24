@@ -2,7 +2,8 @@
 
 #include <lili2d/lili2d.hpp>
 
-class YetAgainScene : public lili::Scene {
+class YetAgainScene : public lili::Scene
+{
 public:
     explicit YetAgainScene(lili::Renderer* renderer);
 

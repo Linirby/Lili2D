@@ -3,7 +3,8 @@
 #include "app.hpp"
 
 int
-main() {
+main()
+{
     App app;
 
     try {

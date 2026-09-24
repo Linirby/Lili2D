@@ -3,12 +3,14 @@
 #include <lili2d/lili2d.hpp>
 #include <memory>
 
-struct Character {
+struct Character
+{
     lili::Vec2 position;
     lili::AnimationPlayer anim_player;
 };
 
-class App : public lili::Game {
+class App : public lili::Game
+{
 public:
     App();
 

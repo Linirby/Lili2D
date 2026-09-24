@@ -26,20 +26,24 @@
 
 namespace lili {
 
-struct TextKey {
+struct TextKey
+{
     std::string text;
     uint32_t color = 0;
     const BitmapFont* font = nullptr;
 
     bool
-    operator==(const TextKey& other) const noexcept {
+    operator==(const TextKey& other) const noexcept
+    {
         return color == other.color && font == other.font && text == other.text;
     }
 };
 
-struct TextKeyHash {
+struct TextKeyHash
+{
     std::size_t
-    operator()(const TextKey& k) const noexcept {
+    operator()(const TextKey& k) const noexcept
+    {
         std::size_t h1 = std::hash<std::string>{}(k.text);
         std::size_t h2 = std::hash<uint32_t>{}(k.color);
         std::size_t h3 =
@@ -48,14 +52,16 @@ struct TextKeyHash {
     }
 };
 
-struct CachedTextEntry {
+struct CachedTextEntry
+{
     TextKey key;
     std::unique_ptr<Text> text_obj;
     uint64_t last_frame_used = 0;
     uint64_t last_used_counter = 0;
 };
 
-struct ShapesCache {
+struct ShapesCache
+{
     std::map<uint64_t, std::unique_ptr<Rect>> rects;
     std::map<uint64_t, std::unique_ptr<Circle>> circles;
     std::map<uint32_t, std::unique_ptr<Line>> lines;
@@ -73,7 +79,9 @@ struct ShapesCache {
 };
 
 Renderer::Renderer(Window* window, SDL_GPUPresentMode preferred_mode)
-    : window(window), shapes_cache(std::make_unique<ShapesCache>()) {
+  : window(window)
+  , shapes_cache(std::make_unique<ShapesCache>())
+{
     initDevice(preferred_mode);
     initShaders();
     initPipelines();
@@ -86,9 +94,11 @@ Renderer::Renderer(Window* window, SDL_GPUPresentMode preferred_mode)
     the_white_pixel = std::make_unique<Texture>(device.get(), temp_surf.get());
 }
 
-Renderer::~Renderer() {
+Renderer::~Renderer()
+{
     shapes_cache.reset();
-    if (device) SDL_WaitForGPUIdle(device.get());
+    if (device)
+        SDL_WaitForGPUIdle(device.get());
 }
 
 Renderer::Renderer(Renderer&& other) noexcept = default;
@@ -96,8 +106,10 @@ Renderer&
 Renderer::operator=(Renderer&& other) noexcept = default;
 
 bool
-Renderer::beginFrame() {
-    if (shapes_cache) shapes_cache->current_frame++;
+Renderer::beginFrame()
+{
+    if (shapes_cache)
+        shapes_cache->current_frame++;
     current_cmd_buffer = SDL_AcquireGPUCommandBuffer(device.get());
     if (!current_cmd_buffer)
         throw std::runtime_error("Failed to acquire command buffer!");
@@ -105,8 +117,11 @@ Renderer::beginFrame() {
     uint32_t width = 0;
     uint32_t height = 0;
     bool success = SDL_WaitAndAcquireGPUSwapchainTexture(
-        current_cmd_buffer, window->getSdlWindow(), &current_swapchain_texture,
-        &width, &height
+        current_cmd_buffer,
+        window->getSdlWindow(),
+        &current_swapchain_texture,
+        &width,
+        &height
     );
     if (!success)
         throw std::runtime_error("Failed to acquire swapchain texture!");
@@ -133,9 +148,9 @@ Renderer::beginFrame() {
     }
     proj_view_world2d = projection * view;
 
-    Mat3 ui_translation = Mat3::translate({0.0f, 0.0f});
+    Mat3 ui_translation = Mat3::translate({ 0.0f, 0.0f });
     Mat3 ui_rotation = Mat3::rotation(0.0f);
-    Mat3 ui_scale = Mat3::scale({1.0f, 1.0f});
+    Mat3 ui_scale = Mat3::scale({ 1.0f, 1.0f });
     Mat3 ui_view = ui_scale * ui_rotation * ui_translation;
     proj_view_ui = ui_projection * ui_view;
     return true;
@@ -143,19 +158,25 @@ Renderer::beginFrame() {
 
 void
 Renderer::submit(
-    Model model, const Mat3& transform, float layer, RenderLayer layer_type
-) {
+    Model model,
+    const Mat3& transform,
+    float layer,
+    RenderLayer layer_type
+)
+{
     if (layer_type == RenderLayer::WORLD2D)
-        world_2d_queue[layer].push_back({model, transform, layer});
+        world_2d_queue[layer].push_back({ model, transform, layer });
     if (layer_type == RenderLayer::UI)
-        ui_queue[layer].push_back({model, transform, layer});
+        ui_queue[layer].push_back({ model, transform, layer });
     if (layer_type == RenderLayer::PIXEL_WORLD2D)
-        pixel_world_2d_queue[layer].push_back({model, transform, layer});
+        pixel_world_2d_queue[layer].push_back({ model, transform, layer });
 }
 
 void
-Renderer::endFrame() {
-    if (!current_cmd_buffer || !current_swapchain_texture) return;
+Renderer::endFrame()
+{
+    if (!current_cmd_buffer || !current_swapchain_texture)
+        return;
 
     Vec2 logical_res = getLogicalResolution();
     if (logical_res.x > 0.0f && logical_res.y > 0.0f) {
@@ -219,63 +240,75 @@ Renderer::endFrame() {
 }
 
 void
-Renderer::setPresentMode(SDL_GPUPresentMode mode) {
+Renderer::setPresentMode(SDL_GPUPresentMode mode)
+{
     if (mode == SDL_GPU_PRESENTMODE_MAILBOX) {
         if (!SDL_SetGPUSwapchainParameters(
-                device.get(), window->getSdlWindow(),
-                SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_MAILBOX
+                device.get(),
+                window->getSdlWindow(),
+                SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
+                SDL_GPU_PRESENTMODE_MAILBOX
             )) {
             std::cout << "Mailbox unavailable, trying Immediate\n";
             if (!SDL_SetGPUSwapchainParameters(
-                    device.get(), window->getSdlWindow(),
+                    device.get(),
+                    window->getSdlWindow(),
                     SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
                     SDL_GPU_PRESENTMODE_IMMEDIATE
                 )) {
                 std::cout << "Immediate unavailable, trying VSync\n";
                 SDL_SetGPUSwapchainParameters(
-                    device.get(), window->getSdlWindow(),
-                    SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_VSYNC
+                    device.get(),
+                    window->getSdlWindow(),
+                    SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
+                    SDL_GPU_PRESENTMODE_VSYNC
                 );
             }
         }
     } else if (mode == SDL_GPU_PRESENTMODE_IMMEDIATE) {
         if (!SDL_SetGPUSwapchainParameters(
-                device.get(), window->getSdlWindow(),
-                SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_IMMEDIATE
+                device.get(),
+                window->getSdlWindow(),
+                SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
+                SDL_GPU_PRESENTMODE_IMMEDIATE
             )) {
             std::cout << "Immediate unavailable, trying VSync\n";
             SDL_SetGPUSwapchainParameters(
-                device.get(), window->getSdlWindow(),
-                SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_VSYNC
+                device.get(),
+                window->getSdlWindow(),
+                SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
+                SDL_GPU_PRESENTMODE_VSYNC
             );
         }
     } else
         SDL_SetGPUSwapchainParameters(
-            device.get(), window->getSdlWindow(),
-            SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_VSYNC
+            device.get(),
+            window->getSdlWindow(),
+            SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
+            SDL_GPU_PRESENTMODE_VSYNC
         );
 }
 
 Vec2
-Renderer::getLogicalResolution() const {
+Renderer::getLogicalResolution() const
+{
     if (logical_width > 0 && logical_height > 0)
-        return {
-            static_cast<float>(logical_width),
-            static_cast<float>(logical_height)
-        };
+        return { static_cast<float>(logical_width),
+                 static_cast<float>(logical_height) };
     if (window && window->hasLogicalResolution())
         return window->getLogicalResolution();
-    return {
-        static_cast<float>(swapchain_width),
-        static_cast<float>(swapchain_height)
-    };
+    return { static_cast<float>(swapchain_width),
+             static_cast<float>(swapchain_height) };
 }
 
 Shader*
 Renderer::createShader(
-    const std::string& vert_path, const std::string& frag_path,
-    const std::string& vert_entry, const std::string& frag_entry
-) {
+    const std::string& vert_path,
+    const std::string& frag_path,
+    const std::string& vert_entry,
+    const std::string& frag_entry
+)
+{
     return new Shader(
         device.get(), vert_path, frag_path, vert_entry, frag_entry
     );
@@ -283,9 +316,12 @@ Renderer::createShader(
 
 Shader*
 Renderer::createShader(
-    std::string_view vert_source, std::string_view frag_source,
-    const std::string& vert_entry, const std::string& frag_entry
-) {
+    std::string_view vert_source,
+    std::string_view frag_source,
+    const std::string& vert_entry,
+    const std::string& frag_entry
+)
+{
     std::unique_ptr<Shader> unique_shader = Shader::fromSource(
         device.get(), vert_source, frag_source, vert_entry, frag_entry
     );
@@ -293,21 +329,24 @@ Renderer::createShader(
 }
 
 MainGraphicsPipeline*
-Renderer::createMainGraphicsPipeline(Shader* shader) {
+Renderer::createMainGraphicsPipeline(Shader* shader)
+{
     return new MainGraphicsPipeline(
         device.get(), window->getSdlWindow(), shader
     );
 }
 
 GPUMesh*
-Renderer::getUnitQuad() {
+Renderer::getUnitQuad()
+{
     if (!unit_quad)
         unit_quad = std::make_unique<GPUMesh>(device.get(), createUnitQuad());
     return unit_quad.get();
 }
 
 GPUMesh*
-Renderer::getUnitCircle(int segments) {
+Renderer::getUnitCircle(int segments)
+{
     if (unit_circles.find(segments) == unit_circles.end())
         unit_circles[segments] =
             std::make_unique<GPUMesh>(device.get(), createUnitCircle(segments));
@@ -317,7 +356,8 @@ Renderer::getUnitCircle(int segments) {
 namespace {
 
 inline uint32_t
-colorToKey(const Vec4& color) noexcept {
+colorToKey(const Vec4& color) noexcept
+{
     uint32_t r = static_cast<uint32_t>(color.x * 255.0f);
     uint32_t g = static_cast<uint32_t>(color.y * 255.0f);
     uint32_t b = static_cast<uint32_t>(color.z * 255.0f);
@@ -326,25 +366,36 @@ colorToKey(const Vec4& color) noexcept {
 }
 
 inline uint64_t
-shapeKey(const Vec4& color, bool hollow) noexcept {
+shapeKey(const Vec4& color, bool hollow) noexcept
+{
     return (static_cast<uint64_t>(hollow ? 1 : 0) << 32) |
            static_cast<uint64_t>(colorToKey(color));
 }
 
-}  // namespace
+} // namespace
 
 void
 Renderer::drawRect(
-    float x, float y, float w, float h, Vec4 color, bool hollow,
+    float x,
+    float y,
+    float w,
+    float h,
+    Vec4 color,
+    bool hollow,
     RenderLayer render_layer
-) {
+)
+{
     drawRect(RectShape(x, y, w, h), color, hollow, render_layer);
 }
 
 void
 Renderer::drawRect(
-    RectShape rect, Vec4 color, bool hollow, RenderLayer render_layer
-) {
+    RectShape rect,
+    Vec4 color,
+    bool hollow,
+    RenderLayer render_layer
+)
+{
     uint64_t key = shapeKey(color, hollow);
 
     if (shapes_cache->rects.find(key) == shapes_cache->rects.end()) {
@@ -360,19 +411,30 @@ Renderer::drawRect(
 
 void
 Renderer::drawCircle(
-    float center_x, float center_y, float radius, Vec4 color, bool hollow,
+    float center_x,
+    float center_y,
+    float radius,
+    Vec4 color,
+    bool hollow,
     RenderLayer render_layer
-) {
+)
+{
     drawCircle(
-        CircleShape({center_x, center_y}, radius, 16), color, hollow,
+        CircleShape({ center_x, center_y }, radius, 16),
+        color,
+        hollow,
         render_layer
     );
 }
 
 void
 Renderer::drawCircle(
-    CircleShape circle, Vec4 color, bool hollow, RenderLayer render_layer
-) {
+    CircleShape circle,
+    Vec4 color,
+    bool hollow,
+    RenderLayer render_layer
+)
+{
     uint64_t key = shapeKey(color, hollow);
 
     if (shapes_cache->circles.find(key) == shapes_cache->circles.end()) {
@@ -388,17 +450,25 @@ Renderer::drawCircle(
 
 void
 Renderer::drawLine(
-    float start_x, float start_y, float end_x, float end_y, Vec4 color,
-    float thickness, RenderLayer render_layer
-) {
+    float start_x,
+    float start_y,
+    float end_x,
+    float end_y,
+    Vec4 color,
+    float thickness,
+    RenderLayer render_layer
+)
+{
     drawLine(
-        LineShape({start_x, start_y}, {end_x, end_y}, thickness), color,
+        LineShape({ start_x, start_y }, { end_x, end_y }, thickness),
+        color,
         render_layer
     );
 }
 
 void
-Renderer::drawLine(LineShape line, Vec4 color, RenderLayer render_layer) {
+Renderer::drawLine(LineShape line, Vec4 color, RenderLayer render_layer)
+{
     uint32_t key = colorToKey(color);
 
     if (shapes_cache->lines.find(key) == shapes_cache->lines.end()) {
@@ -412,18 +482,23 @@ Renderer::drawLine(LineShape line, Vec4 color, RenderLayer render_layer) {
 }
 
 void
-Renderer::setDefaultFont(BitmapFont* font) noexcept {
+Renderer::setDefaultFont(BitmapFont* font) noexcept
+{
     shapes_cache->custom_default_font = font;
 }
 
 BitmapFont*
-Renderer::getDefaultFont() {
+Renderer::getDefaultFont()
+{
     if (shapes_cache->custom_default_font) {
         return shapes_cache->custom_default_font;
     }
     if (!shapes_cache->default_font) {
         shapes_cache->default_font = std::make_unique<BitmapFont>(
-            this, default_font_png, default_font_png_len, default_font_cols,
+            this,
+            default_font_png,
+            default_font_png_len,
+            default_font_cols,
             default_font_rows
         );
     }
@@ -432,25 +507,36 @@ Renderer::getDefaultFont() {
 
 void
 Renderer::drawText(
-    const std::string& text, Vec2 pos, Vec4 color, float scale,
+    const std::string& text,
+    Vec2 pos,
+    Vec4 color,
+    float scale,
     RenderLayer render_layer
-) {
+)
+{
     drawText(text, pos, getDefaultFont(), color, scale, render_layer);
 }
 
 void
 Renderer::drawText(
-    const std::string& text, Vec2 pos, BitmapFont* font, Vec4 color,
-    float scale, RenderLayer render_layer
-) {
-    if (text.empty()) return;
+    const std::string& text,
+    Vec2 pos,
+    BitmapFont* font,
+    Vec4 color,
+    float scale,
+    RenderLayer render_layer
+)
+{
+    if (text.empty())
+        return;
     if (!font) {
         font = getDefaultFont();
     }
-    if (!font) return;
+    if (!font)
+        return;
 
     uint32_t color_key = colorToKey(color);
-    TextKey key{text, color_key, font};
+    TextKey key{ text, color_key, font };
 
     shapes_cache->usage_counter++;
     uint64_t current_frame = shapes_cache->current_frame;
@@ -511,7 +597,7 @@ Renderer::drawText(
     text_obj->setColor(color);
     size_t idx = shapes_cache->text_entries.size();
     shapes_cache->text_entries.push_back(
-        {key, std::move(text_obj), current_frame, shapes_cache->usage_counter}
+        { key, std::move(text_obj), current_frame, shapes_cache->usage_counter }
     );
     shapes_cache->text_map[key] = idx;
 
@@ -524,20 +610,34 @@ Renderer::drawText(
 
 void
 Renderer::drawTextId(
-    std::string_view id, const std::string& text, Vec2 pos, Vec4 color,
-    float scale, RenderLayer render_layer
-) {
+    std::string_view id,
+    const std::string& text,
+    Vec2 pos,
+    Vec4 color,
+    float scale,
+    RenderLayer render_layer
+)
+{
     drawTextId(id, text, pos, getDefaultFont(), color, scale, render_layer);
 }
 
 void
 Renderer::drawTextId(
-    std::string_view id, const std::string& text, Vec2 pos, BitmapFont* font,
-    Vec4 color, float scale, RenderLayer render_layer
-) {
-    if (text.empty() || id.empty()) return;
-    if (!font) font = getDefaultFont();
-    if (!font) return;
+    std::string_view id,
+    const std::string& text,
+    Vec2 pos,
+    BitmapFont* font,
+    Vec4 color,
+    float scale,
+    RenderLayer render_layer
+)
+{
+    if (text.empty() || id.empty())
+        return;
+    if (!font)
+        font = getDefaultFont();
+    if (!font)
+        return;
 
     std::string id_str(id);
     auto it = shapes_cache->id_texts.find(id_str);
@@ -561,7 +661,8 @@ Renderer::drawTextId(
 }
 
 void
-Renderer::initDevice(SDL_GPUPresentMode preferred_mode) {
+Renderer::initDevice(SDL_GPUPresentMode preferred_mode)
+{
     if (!SDL_ShaderCross_Init())
         throw std::runtime_error(
             "SDL_ShaderCross_Init failed!\n-> " + std::string(SDL_GetError())
@@ -583,27 +684,31 @@ Renderer::initDevice(SDL_GPUPresentMode preferred_mode) {
 }
 
 void
-Renderer::initShaders() {
+Renderer::initShaders()
+{
     main_shader = Shader::fromSource(
         device.get(), shaders::world_2d_vert_hlsl, shaders::world_2d_frag_hlsl
     );
 }
 
 void
-Renderer::initPipelines() {
+Renderer::initPipelines()
+{
     main_pipeline = std::make_unique<MainGraphicsPipeline>(
         device.get(), window->getSdlWindow(), main_shader.get()
     );
 }
 
 void
-Renderer::initPasses() {
+Renderer::initPasses()
+{
     render_pass =
         std::make_unique<MainRenderPass>(main_pipeline->getSdlPipeline());
 }
 
 void
-Renderer::offscreenRender() {
+Renderer::offscreenRender()
+{
     Vec2 logical_res = getLogicalResolution();
     uint32_t target_w = static_cast<uint32_t>(logical_res.x);
     uint32_t target_h = static_cast<uint32_t>(logical_res.y);
@@ -611,7 +716,8 @@ Renderer::offscreenRender() {
     bool not_same_size =
         target_w != offscreen_width || target_h != offscreen_height;
     if (!current_offscreen_texture || not_same_size) {
-        if (current_offscreen_texture) current_offscreen_texture.reset(nullptr);
+        if (current_offscreen_texture)
+            current_offscreen_texture.reset(nullptr);
 
         SDL_GPUTextureCreateInfo ci{};
         ci.type = SDL_GPU_TEXTURETYPE_2D;
@@ -644,8 +750,12 @@ Renderer::offscreenRender() {
         SDL_BeginGPURenderPass(current_cmd_buffer, &color_ti, 1, nullptr);
 
     SDL_GPUViewport vp(
-        0.0f, 0.0f, static_cast<float>(target_w), static_cast<float>(target_h),
-        0.0f, 1.0f
+        0.0f,
+        0.0f,
+        static_cast<float>(target_w),
+        static_cast<float>(target_h),
+        0.0f,
+        1.0f
     );
     SDL_SetGPUViewport(pass, &vp);
 
@@ -657,7 +767,8 @@ Renderer::offscreenRender() {
 }
 
 void
-Renderer::swapchainRender() {
+Renderer::swapchainRender()
+{
     SDL_GPUColorTargetInfo color_ti{};
     color_ti.texture = current_swapchain_texture;
     color_ti.load_op = SDL_GPU_LOADOP_LOAD;
@@ -679,4 +790,4 @@ Renderer::swapchainRender() {
     SDL_EndGPURenderPass(pass);
 }
 
-}  // namespace lili
+} // namespace lili

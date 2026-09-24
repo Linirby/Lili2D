@@ -3,21 +3,25 @@
 
 namespace lili {
 
-AtlasMap::AtlasMap(Renderer* renderer, const std::string& filename) {
+AtlasMap::AtlasMap(Renderer* renderer, const std::string& filename)
+{
     full_texture = std::make_unique<Texture>(renderer->getDevice(), filename);
 }
 
 AtlasMap::AtlasMap(AtlasMap&& other) noexcept
-    : full_texture(std::move(other.full_texture)),
-      slices(std::move(other.slices)),
-      n_cols(other.n_cols),
-      n_rows(other.n_rows),
-      unit_size(other.unit_size) {
-    for (auto& slice : slices) slice.texture = full_texture.get();
+  : full_texture(std::move(other.full_texture))
+  , slices(std::move(other.slices))
+  , n_cols(other.n_cols)
+  , n_rows(other.n_rows)
+  , unit_size(other.unit_size)
+{
+    for (auto& slice : slices)
+        slice.texture = full_texture.get();
 }
 
 AtlasMap&
-AtlasMap::operator=(AtlasMap&& other) noexcept {
+AtlasMap::operator=(AtlasMap&& other) noexcept
+{
     if (this != &other) {
         if (full_texture && other.full_texture)
             *full_texture = std::move(*other.full_texture);
@@ -28,19 +32,19 @@ AtlasMap::operator=(AtlasMap&& other) noexcept {
         n_rows = other.n_rows;
         unit_size = other.unit_size;
 
-        for (auto& slice : slices) slice.texture = full_texture.get();
+        for (auto& slice : slices)
+            slice.texture = full_texture.get();
     }
     return *this;
 }
 
 void
-AtlasMap::slice(int num_columns, int num_rows) {
+AtlasMap::slice(int num_columns, int num_rows)
+{
     n_cols = num_columns;
     n_rows = num_rows;
-    unit_size = {
-        (int)((float)full_texture->getWidth() / n_cols),
-        (int)((float)full_texture->getHeight() / n_rows)
-    };
+    unit_size = { (int)((float)full_texture->getWidth() / n_cols),
+                  (int)((float)full_texture->getHeight() / n_rows) };
 
     slices.clear();
     slices.reserve(num_columns * num_rows);
@@ -66,7 +70,8 @@ AtlasMap::slice(int num_columns, int num_rows) {
 }
 
 std::vector<SliceUV>
-AtlasMap::getSliceUVs(int start_index, int count) const {
+AtlasMap::getSliceUVs(int start_index, int count) const
+{
     std::vector<SliceUV> result;
     result.reserve(count);
     for (int i = 0; i < count; ++i)
@@ -75,7 +80,8 @@ AtlasMap::getSliceUVs(int start_index, int count) const {
 }
 
 std::vector<SliceUV>
-AtlasMap::getSliceUVs(Point2 start, Point2 end) const {
+AtlasMap::getSliceUVs(Point2 start, Point2 end) const
+{
     int start_col = static_cast<int>(start.x);
     int start_row = static_cast<int>(start.y);
     int end_col = static_cast<int>(end.x);
@@ -108,4 +114,4 @@ AtlasMap::getSliceUVs(Point2 start, Point2 end) const {
     return result;
 }
 
-}  // namespace lili
+} // namespace lili

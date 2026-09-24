@@ -3,16 +3,21 @@
 namespace lili {
 
 TileRegistry&
-TileRegistry::get() {
+TileRegistry::get()
+{
     static TileRegistry instance;
     return instance;
 }
 
-TileRegistry::TileRegistry() { registerTile("core:none", Tile()); }
+TileRegistry::TileRegistry()
+{
+    registerTile("core:none", Tile());
+}
 
 uint16_t
-TileRegistry::registerTile(const std::string& key, Tile&& tile) {
+TileRegistry::registerTile(const std::string& key, Tile&& tile)
+{
     return registerAsset(key, std::move(tile));
 }
 
-}  // namespace lili
+} // namespace lili

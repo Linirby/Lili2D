@@ -18,7 +18,8 @@
 namespace lili {
 
 /// @brief Centralized facade for engine asset management.
-class AssetManager {
+class AssetManager
+{
 public:
     /// @brief Gets the singleton instance.
     /// @return Reference to AssetManager.
@@ -39,28 +40,32 @@ public:
     /// @brief Gets the texture resource manager.
     /// @return Reference to ResourceManager<Texture>.
     inline ResourceManager<Texture>&
-    textures() noexcept {
+    textures() noexcept
+    {
         return texture_manager;
     }
 
     /// @brief Gets the shader resource manager.
     /// @return Reference to ResourceManager<Shader>.
     inline ResourceManager<Shader>&
-    shaders() noexcept {
+    shaders() noexcept
+    {
         return shader_manager;
     }
 
     /// @brief Gets the bitmap font resource manager.
     /// @return Reference to ResourceManager<BitmapFont>.
     inline ResourceManager<BitmapFont>&
-    fonts() noexcept {
+    fonts() noexcept
+    {
         return font_manager;
     }
 
     /// @brief Gets the atlas map (sprite sheet) resource manager.
     /// @return Reference to ResourceManager<AtlasMap>.
     inline ResourceManager<AtlasMap>&
-    atlases() noexcept {
+    atlases() noexcept
+    {
         return atlas_manager;
     }
 
@@ -68,9 +73,10 @@ public:
     /// T.
     /// @tparam T The resource type.
     /// @return Reference to ResourceManager<T>.
-    template <typename T>
+    template<typename T>
     static ResourceManager<T>&
-    getManager() {
+    getManager()
+    {
         std::type_index type_idx(typeid(T));
         auto& custom_managers = get().custom_managers;
         auto it = custom_managers.find(type_idx);
@@ -92,7 +98,9 @@ public:
     /// @return Raw pointer to Texture.
     static Texture*
     loadTexture(
-        const std::string& key, const std::string& path, SDL_GPUDevice* device,
+        const std::string& key,
+        const std::string& path,
+        SDL_GPUDevice* device,
         const std::string& scope = "global"
     );
 
@@ -103,7 +111,8 @@ public:
     /// @return Raw pointer to Texture.
     static Texture*
     loadTexture(
-        const std::string& path, SDL_GPUDevice* device,
+        const std::string& path,
+        SDL_GPUDevice* device,
         const std::string& scope = "global"
     );
 
@@ -124,8 +133,10 @@ public:
     /// @return Raw pointer to Shader.
     static Shader*
     loadShader(
-        const std::string& key, const std::string& vertPath,
-        const std::string& fragPath, SDL_GPUDevice* device,
+        const std::string& key,
+        const std::string& vertPath,
+        const std::string& fragPath,
+        SDL_GPUDevice* device,
         const std::string& vert_entry = "main",
         const std::string& frag_entry = "main",
         const std::string& scope = "global"
@@ -147,8 +158,12 @@ public:
     /// @return Raw pointer to BitmapFont.
     static BitmapFont*
     loadFont(
-        const std::string& key, Renderer* renderer, const std::string& path,
-        uint8_t cols, uint8_t rows, const std::string& scope = "global"
+        const std::string& key,
+        Renderer* renderer,
+        const std::string& path,
+        uint8_t cols,
+        uint8_t rows,
+        const std::string& scope = "global"
     );
 
     /// @brief Gets a cached bitmap font by key.
@@ -167,8 +182,12 @@ public:
     /// @return Raw pointer to AtlasMap.
     static AtlasMap*
     loadAtlas(
-        const std::string& key, Renderer* renderer, const std::string& path,
-        int cols, int rows, const std::string& scope = "global"
+        const std::string& key,
+        Renderer* renderer,
+        const std::string& path,
+        int cols,
+        int rows,
+        const std::string& scope = "global"
     );
 
     /// @brief Gets a cached AtlasMap by key.
@@ -214,4 +233,4 @@ private:
 
 using Assets = AssetManager;
 
-}  // namespace lili
+} // namespace lili

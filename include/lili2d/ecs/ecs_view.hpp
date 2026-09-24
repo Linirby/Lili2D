@@ -10,10 +10,12 @@
 
 namespace lili {
 
-template <typename... Components>
-class ECSView {
+template<typename... Components>
+class ECSView
+{
 public:
-    class Iterator {
+    class Iterator
+    {
     public:
         using iterator_category = std::forward_iterator_tag;
         using difference_type = std::ptrdiff_t;
@@ -23,20 +25,22 @@ public:
 
         Iterator(
             std::tuple<ComponentPool<Components>*...> pool_ptrs,
-            const IComponentPool* lead_pool, size_t index, size_t max_size
+            const IComponentPool* lead_pool,
+            size_t index,
+            size_t max_size
         )
-            : pool_ptrs(pool_ptrs),
-              lead_pool(lead_pool),
-              lead_entities(
-                  lead_pool ? lead_pool->getEntities().data() : nullptr
-              ),
-              index(index),
-              max_size(max_size) {
+          : pool_ptrs(pool_ptrs)
+          , lead_pool(lead_pool)
+          , lead_entities(lead_pool ? lead_pool->getEntities().data() : nullptr)
+          , index(index)
+          , max_size(max_size)
+        {
             find_valid();
         }
 
         [[nodiscard]] reference
-        operator*() const {
+        operator*() const
+        {
             return std::apply(
                 [this](ComponentPool<Components>*... pools) {
                     auto get_comp = [this](auto* pool) -> decltype(auto) {
@@ -54,26 +58,30 @@ public:
         }
 
         Iterator&
-        operator++() {
+        operator++()
+        {
             ++index;
             find_valid();
             return *this;
         }
 
         Iterator
-        operator++(int) {
+        operator++(int)
+        {
             Iterator tmp = *this;
             ++(*this);
             return tmp;
         }
 
         [[nodiscard]] bool
-        operator==(const Iterator& other) const noexcept {
+        operator==(const Iterator& other) const noexcept
+        {
             return index == other.index;
         }
 
         [[nodiscard]] bool
-        operator!=(const Iterator& other) const noexcept {
+        operator!=(const Iterator& other) const noexcept
+        {
             return !(*this == other);
         }
 
@@ -86,7 +94,8 @@ public:
         Entity current_entity = 0;
 
         void
-        find_valid() {
+        find_valid()
+        {
             while (index < max_size) {
                 current_entity = lead_entities[index];
                 bool valid = std::apply(
@@ -99,14 +108,16 @@ public:
                     },
                     pool_ptrs
                 );
-                if (valid) return;
+                if (valid)
+                    return;
                 ++index;
             }
         }
     };
 
     explicit ECSView(ECSRegistry& registry)
-        : pool_ptrs(&registry.getPool<Components>()...) {
+      : pool_ptrs(&registry.getPool<Components>()...)
+    {
         std::apply(
             [this](ComponentPool<Components>*... pools) {
                 auto inspect = [this](const IComponentPool* pool) {
@@ -120,19 +131,23 @@ public:
     }
 
     [[nodiscard]] Iterator
-    begin() const {
-        if (!lead_pool || lead_pool->empty()) return end();
+    begin() const
+    {
+        if (!lead_pool || lead_pool->empty())
+            return end();
         return Iterator(pool_ptrs, lead_pool, 0, lead_pool->size());
     }
 
     [[nodiscard]] Iterator
-    end() const {
+    end() const
+    {
         size_t end_idx = lead_pool ? lead_pool->size() : 0;
         return Iterator(pool_ptrs, lead_pool, end_idx, end_idx);
     }
 
     [[nodiscard]] bool
-    empty() const noexcept {
+    empty() const noexcept
+    {
         return begin() == end();
     }
 
@@ -141,4 +156,4 @@ private:
     const IComponentPool* lead_pool = nullptr;
 };
 
-}  // namespace lili
+} // namespace lili

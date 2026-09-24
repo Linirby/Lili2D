@@ -6,9 +6,10 @@
 namespace lili {
 
 /// @brief Associates a GPU mesh with a material for rendering.
-struct Model {
-    GPUMesh* mesh = nullptr;       ///< Pointer to the GPU mesh.
-    Material* material = nullptr;  ///< Pointer to the material.
+struct Model
+{
+    GPUMesh* mesh = nullptr;      ///< Pointer to the GPU mesh.
+    Material* material = nullptr; ///< Pointer to the material.
 
     /// @brief Default constructor.
     constexpr Model() noexcept = default;
@@ -16,7 +17,10 @@ struct Model {
     /// @param mesh Pointer to the GPU mesh.
     /// @param material Pointer to the material.
     constexpr Model(GPUMesh* mesh, Material* material) noexcept
-        : mesh(mesh), material(material) {}
+      : mesh(mesh)
+      , material(material)
+    {
+    }
 };
 
-}  // namespace lili
+} // namespace lili

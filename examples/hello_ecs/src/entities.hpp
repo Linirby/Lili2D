@@ -10,8 +10,12 @@ namespace entities {
 
 lili::Entity
 spawnBall(
-    lili::ECSRegistry& registry, lili::Vec2 pos, lili::Vec2 vel,
-    const lili::SliceUV& slice, lili::Vec4 color, float radius
+    lili::ECSRegistry& registry,
+    lili::Vec2 pos,
+    lili::Vec2 vel,
+    const lili::SliceUV& slice,
+    lili::Vec4 color,
+    float radius
 );
 
-}  // namespace entities
+} // namespace entities

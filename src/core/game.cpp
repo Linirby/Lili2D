@@ -11,9 +11,12 @@
 namespace lili {
 
 Game::Game(
-    const std::string& title, int width, int height,
+    const std::string& title,
+    int width,
+    int height,
     const EngineConfig& engine_config
-) {
+)
+{
     window = std::make_unique<Window>(title, width, height);
 
     GameConfig& config = GameConfig::get();
@@ -34,10 +37,14 @@ Game::Game(
     thread_pool = std::make_unique<ThreadPool>(engine_config);
 }
 
-Game::~Game() { AssetManager::clear(); }
+Game::~Game()
+{
+    AssetManager::clear();
+}
 
 void
-Game::run() {
+Game::run()
+{
     onInit();
     running = true;
     clock.reset();
@@ -47,12 +54,14 @@ Game::run() {
 
         Event event;
         while (event.poll()) {
-            if (event.type() == EventType::QUIT) running = false;
+            if (event.type() == EventType::QUIT)
+                running = false;
             onEvent(event);
         }
         onUpdate(clock.getDt());
         AssetManager::checkHotReload();
-        while (clock.step()) onFixedUpdate(clock.getFixedDt());
+        while (clock.step())
+            onFixedUpdate(clock.getFixedDt());
         if (renderer->beginFrame()) {
             onRender(clock.getAlpha());
             renderer->endFrame();
@@ -63,7 +72,8 @@ Game::run() {
 }
 
 void
-Game::configure(const EngineConfig& new_config) {
+Game::configure(const EngineConfig& new_config)
+{
     this->engine_config = new_config;
     clock.setMaxFps(engine_config.max_fps);
     GameConfig::get().updateMaxFps(engine_config.max_fps);
@@ -71,13 +81,15 @@ Game::configure(const EngineConfig& new_config) {
     SDL_GPUPresentMode present_mode = SDL_GPU_PRESENTMODE_MAILBOX;
     if (engine_config.profile == PerformanceProfile::YES)
         present_mode = engine_config.potato_present_mode;
-    if (renderer) renderer->setPresentMode(present_mode);
+    if (renderer)
+        renderer->setPresentMode(present_mode);
 
     thread_pool = std::make_unique<ThreadPool>(engine_config);
 }
 
 void
-Game::onEvent(const Event& event) {
+Game::onEvent(const Event& event)
+{
     if (event.type() == lili::EventType::WINDOW) {
         lili::GameConfig& conf = lili::GameConfig::get();
         lili::WindowEvent win_event = event.window();
@@ -104,4 +116,4 @@ Game::onEvent(const Event& event) {
     }
 }
 
-}  // namespace lili
+} // namespace lili

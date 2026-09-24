@@ -15,44 +15,51 @@
 namespace lili {
 
 /// @brief Key used to group tiles by texture and depth for batching.
-struct BatchKey {
-    Texture* texture = nullptr;  ///< Pointer to texture.
-    int z = 0;                   ///< Z layer depth.
+struct BatchKey
+{
+    Texture* texture = nullptr; ///< Pointer to texture.
+    int z = 0;                  ///< Z layer depth.
 
     /// @brief Equality comparison operator for BatchKey.
     /// @param other Key to compare against.
     /// @return True if equal, false otherwise.
     [[nodiscard]] constexpr bool
-    operator==(BatchKey other) const noexcept {
+    operator==(BatchKey other) const noexcept
+    {
         return texture == other.texture && z == other.z;
     }
 };
 
 /// @brief Hash function for BatchKey.
-struct BatchKeyHash {
+struct BatchKeyHash
+{
     /// @brief Calculates the hash for a BatchKey.
     /// @param k The BatchKey.
     /// @return The hash value.
     [[nodiscard]] inline std::size_t
-    operator()(BatchKey k) const noexcept {
+    operator()(BatchKey k) const noexcept
+    {
         return std::hash<void*>{}(k.texture) ^ (std::hash<int>{}(k.z) << 1);
     }
 };
 
 /// @brief Struct to hold pre-calculated CPU mesh data for all batches of a
 /// chunk.
-struct ChunkMeshData {
+struct ChunkMeshData
+{
     /// @brief Struct holding the batch key and corresponding raw CPU mesh
     /// data.
-    struct BatchMeshData {
-        BatchKey key;        ///< The batch key.
-        MeshData mesh_data;  ///< The CPU-side mesh data.
+    struct BatchMeshData
+    {
+        BatchKey key;       ///< The batch key.
+        MeshData mesh_data; ///< The CPU-side mesh data.
     };
-    std::vector<BatchMeshData> batches;  ///< List of batch mesh data.
+    std::vector<BatchMeshData> batches; ///< List of batch mesh data.
 };
 
 /// @brief Represents a block of tiles in the world.
-struct Chunk {
+struct Chunk
+{
     /// @brief Chunk edge size in tile count (32x32).
     static constexpr int SIZE = 32;
     /// @brief Vector of tile IDs in the chunk.
@@ -64,9 +71,9 @@ struct Chunk {
     /// @brief Future tracking async mesh generation task.
     mutable std::future<ChunkMeshData> rebuild_future;
     /// @brief Map of batch keys to sprite batch rendering objects.
-    mutable std::unordered_map<
-        BatchKey, std::unique_ptr<SpriteBatch>, BatchKeyHash>
-        batches;
+    mutable std::
+        unordered_map<BatchKey, std::unique_ptr<SpriteBatch>, BatchKeyHash>
+            batches;
 
     /// @brief Default constructor.
     Chunk();
@@ -87,7 +94,8 @@ struct Chunk {
     /// @param local_pos The local 3D position within the chunk.
     /// @return The 1D index.
     [[nodiscard]] static constexpr inline size_t
-    flattenIndex(lili::Point3 local_pos) noexcept {
+    flattenIndex(lili::Point3 local_pos) noexcept
+    {
         return static_cast<size_t>(
             local_pos.x + local_pos.y * SIZE + local_pos.z * SIZE * SIZE
         );
@@ -101,7 +109,8 @@ struct Chunk {
     /// @return The generated CPU-side mesh data.
     ChunkMeshData
     generateMeshData(
-        Point3 chunk_pos, Vec2 tile_size,
+        Point3 chunk_pos,
+        Vec2 tile_size,
         const std::vector<uint16_t>& chunk_tiles
     ) const;
 
@@ -118,9 +127,11 @@ struct Chunk {
     /// @param tile_size The size of a single tile.
     void
     rebuildBatches(
-        Renderer* renderer, ThreadPool* thread_pool, Point3 chunk_pos,
+        Renderer* renderer,
+        ThreadPool* thread_pool,
+        Point3 chunk_pos,
         Vec2 tile_size
     ) const;
 };
 
-}  // namespace lili
+} // namespace lili

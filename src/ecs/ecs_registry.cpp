@@ -3,7 +3,8 @@
 namespace lili {
 
 Entity
-ECSRegistry::createEntity() {
+ECSRegistry::createEntity()
+{
     if (!free_ids.empty()) {
         uint32_t new_id = free_ids.back();
         free_ids.pop_back();
@@ -16,11 +17,14 @@ ECSRegistry::createEntity() {
 }
 
 void
-ECSRegistry::destroyEntity(Entity entity) {
-    if (!isValid(entity)) return;
+ECSRegistry::destroyEntity(Entity entity)
+{
+    if (!isValid(entity))
+        return;
 
     for (auto& pool : component_pools)
-        if (pool && pool->has(entity)) pool->remove(entity);
+        if (pool && pool->has(entity))
+            pool->remove(entity);
 
     uint32_t id = getEntityID(entity);
     uint8_t next_gen = getEntityGen(entity) + 1;
@@ -29,4 +33,4 @@ ECSRegistry::destroyEntity(Entity entity) {
     free_ids.push_back(id);
 }
 
-}  // namespace lili
+} // namespace lili

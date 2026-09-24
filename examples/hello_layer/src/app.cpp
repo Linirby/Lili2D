@@ -2,7 +2,9 @@
 
 #include <string>
 
-App::App() : lili::Game("hello_layer - Lili2D", 1024, 576) {
+App::App()
+  : lili::Game("hello_layer - Lili2D", 1024, 576)
+{
     lili::Renderer* renderer = getRenderer();
     lili::Window* window = getWindow();
 
@@ -29,7 +31,8 @@ App::App() : lili::Game("hello_layer - Lili2D", 1024, 576) {
     layer_3.setSize(window->getSize());
 
     red_square = lili::Rect(
-        renderer, lili::RectShape(100.0f, 350.0f, 64.0f, 96.0f),
+        renderer,
+        lili::RectShape(100.0f, 350.0f, 64.0f, 96.0f),
         lili::Vec4(1.0f, 0.0f, 0.0f, 1.0f)
     );
     red_square_layer = 1;
@@ -42,7 +45,7 @@ App::App() : lili::Game("hello_layer - Lili2D", 1024, 576) {
     text_current_layer.setRender(lili::RenderLayer::UI);
     text_current_layer.setAnchor(lili::Anchor::BOTTOM_LEFT);
     text_current_layer.setPivot(lili::Pivot::BOTTOM_LEFT);
-    text_current_layer.setOffset({10.0f, -32.0f});
+    text_current_layer.setOffset({ 10.0f, -32.0f });
 
     text_control_info =
         lili::Text(renderer, font, "I/K: Increase/decrease red rect layer");
@@ -50,11 +53,12 @@ App::App() : lili::Game("hello_layer - Lili2D", 1024, 576) {
     text_control_info.setRender(lili::RenderLayer::UI);
     text_control_info.setAnchor(lili::Anchor::BOTTOM_LEFT);
     text_control_info.setPivot(lili::Pivot::BOTTOM_LEFT);
-    text_control_info.setOffset({10.0f, -10.0f});
+    text_control_info.setOffset({ 10.0f, -10.0f });
 }
 
 void
-App::onEvent(const lili::Event& event) {
+App::onEvent(const lili::Event& event)
+{
     lili::Game::onEvent(event);
     if (event.type() == lili::EventType::KEYBOARD) {
         lili::KeyboardEvent kb = event.keyboard();
@@ -79,7 +83,8 @@ App::onEvent(const lili::Event& event) {
 }
 
 void
-App::onRender(float alpha) {
+App::onRender(float alpha)
+{
     (void)alpha;
     red_square.draw();
 

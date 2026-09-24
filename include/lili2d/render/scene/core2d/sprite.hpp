@@ -14,7 +14,8 @@
 namespace lili {
 
 /// @brief Represents a renderable 2D sprite.
-class Sprite : public IRenderable {
+class Sprite : public IRenderable
+{
 public:
     /// @brief Default constructor.
     Sprite() noexcept = default;
@@ -47,7 +48,8 @@ public:
     /// @brief Sets the sprite's slice from an atlas map.
     /// @param slice The new UV slice.
     inline void
-    setSlice(const SliceUV& slice) noexcept {
+    setSlice(const SliceUV& slice) noexcept
+    {
         current_slice = slice;
         Material* mat = getMaterial();
         if (mat) {
@@ -60,28 +62,33 @@ public:
     /// @brief Sets the sprite's color tint.
     /// @param color The new color tint.
     inline void
-    setColorTint(Vec4 color) noexcept {
-        if (material) material->properties.color_tint = color;
+    setColorTint(Vec4 color) noexcept
+    {
+        if (material)
+            material->properties.color_tint = color;
     }
 
     /// @brief Sets the sprite's color tint.
     /// @param color The new color tint.
     inline void
-    setColor(Vec4 color) noexcept override {
+    setColor(Vec4 color) noexcept override
+    {
         setColorTint(color);
     }
 
     /// @brief Sets the material pointer.
     /// @param mat Material pointer.
     inline void
-    setMaterial(Material* mat) noexcept override {
+    setMaterial(Material* mat) noexcept override
+    {
         external_material = mat;
     }
 
     /// @brief Sets the sprite's position.
     /// @param pos The new position.
     inline void
-    setPosition(Vec2 pos) noexcept override {
+    setPosition(Vec2 pos) noexcept override
+    {
         this->position = pos;
         ui_layout.offset = pos;
     }
@@ -89,70 +96,80 @@ public:
     /// @brief Sets the sprite's scale.
     /// @param s The new scale.
     inline void
-    setScale(Vec2 s) noexcept override {
+    setScale(Vec2 s) noexcept override
+    {
         this->scale = s;
     }
 
     /// @brief Sets the sprite's size (in px).
     /// @param s The new size.
     inline void
-    setSize(Vec2 s) noexcept override {
+    setSize(Vec2 s) noexcept override
+    {
         this->size = s;
     }
 
     /// @brief Sets the sprite's rotation.
     /// @param degree The rotation in degrees.
     inline void
-    setRotation(float degree) noexcept override {
+    setRotation(float degree) noexcept override
+    {
         rotation = lili::degToRad(degree);
     }
 
     /// @brief Sets the sprite's rendering layer depth.
     /// @param l The new layer depth.
     inline void
-    setLayer(float l) noexcept override {
+    setLayer(float l) noexcept override
+    {
         this->layer = l;
     }
 
     /// @brief Get the position of the sprite.
     /// @return The position.
     [[nodiscard]] inline Vec2
-    getPosition() const noexcept override {
+    getPosition() const noexcept override
+    {
         return position;
     }
 
     /// @brief Get rotation in degrees.
     /// @return Rotation in degrees.
     [[nodiscard]] inline float
-    getRotation() const noexcept override {
+    getRotation() const noexcept override
+    {
         return lili::radToDeg(rotation);
     }
 
     /// @brief Get scale factors.
     /// @return Scale vector.
     [[nodiscard]] inline Vec2
-    getScale() const noexcept override {
+    getScale() const noexcept override
+    {
         return scale;
     }
 
     /// @brief Get the render width of the sprite.
     /// @return The width.
     [[nodiscard]] inline float
-    getWidth() const noexcept {
+    getWidth() const noexcept
+    {
         return size.x * scale.x;
     }
 
     /// @brief Get the render height of the sprite.
     /// @return The height.
     [[nodiscard]] inline float
-    getHeight() const noexcept {
+    getHeight() const noexcept
+    {
         return size.y * scale.y;
     }
 
     /// @brief Get the render size of the sprite.
     /// @return A 2D vector of the width and height.
     [[nodiscard]] inline Vec2
-    getSize() const noexcept override {
+    getSize() const noexcept override
+    {
         return Vec2(size.x * scale.x, size.y * scale.y);
     }
 
@@ -164,14 +181,16 @@ public:
     /// @brief Gets layer depth.
     /// @return Depth layer.
     [[nodiscard]] inline float
-    getLayer() const noexcept override {
+    getLayer() const noexcept override
+    {
         return layer;
     }
 
     /// @brief Gets color tint.
     /// @return Color tint.
     [[nodiscard]] inline Vec4
-    getColor() const noexcept override {
+    getColor() const noexcept override
+    {
         Material* mat = getMaterial();
         return mat ? mat->properties.color_tint : Vec4(1.0f, 1.0f, 1.0f, 1.0f);
     }
@@ -179,7 +198,8 @@ public:
     /// @brief Gets the material.
     /// @return Pointer to the material.
     [[nodiscard]] inline Material*
-    getMaterial() const noexcept override {
+    getMaterial() const noexcept override
+    {
         return external_material ? external_material : material.get();
     }
 
@@ -203,4 +223,4 @@ private:
     float layer = 0.0f;
 };
 
-}  // namespace lili
+} // namespace lili

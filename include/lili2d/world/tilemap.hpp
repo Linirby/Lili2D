@@ -14,25 +14,33 @@
 namespace lili {
 
 /// @brief Comparison functor for Point3, used in std::map.
-struct Point3Compare {
+struct Point3Compare
+{
     /// @brief Compares two Point3 objects.
     /// @param lhs The left-hand side point.
     /// @param rhs The right-hand side point.
     /// @return True if lhs < rhs.
     [[nodiscard]] constexpr bool
-    operator()(lili::Point3 lhs, lili::Point3 rhs) const noexcept {
-        if (lhs.z != rhs.z) return lhs.z < rhs.z;
-        if (lhs.y != rhs.y) return lhs.y < rhs.y;
+    operator()(lili::Point3 lhs, lili::Point3 rhs) const noexcept
+    {
+        if (lhs.z != rhs.z)
+            return lhs.z < rhs.z;
+        if (lhs.y != rhs.y)
+            return lhs.y < rhs.y;
         return lhs.x < rhs.x;
     }
 };
 
 /// @brief Manages a grid-based world of chunks and tiles.
-class TileMap {
+class TileMap
+{
 public:
     /// @brief Constructs a tilemap.
     /// @param tile_size_px The size of each tile in pixels.
-    explicit TileMap(lili::Vec2 tile_size_px) noexcept : tile_size(tile_size_px) {}
+    explicit TileMap(lili::Vec2 tile_size_px) noexcept
+      : tile_size(tile_size_px)
+    {
+    }
 
     /// @brief Move constructor.
     TileMap(TileMap&&) noexcept = default;
@@ -55,7 +63,8 @@ public:
     /// @param pos The 3D grid position.
     /// @return The tile ID, or 0 if empty.
     [[nodiscard]] inline uint16_t
-    getTile(lili::Point3 pos) const noexcept {
+    getTile(lili::Point3 pos) const noexcept
+    {
         lili::Point3 chunk_pos = getChunkCoord(pos);
         auto it = chunks.find(chunk_pos);
         if (it != chunks.end()) {
@@ -79,7 +88,8 @@ public:
     /// @brief Gets the size of each tile in pixels.
     /// @return The tile size.
     [[nodiscard]] inline lili::Vec2
-    getTileSize() const noexcept {
+    getTileSize() const noexcept
+    {
         return tile_size;
     }
 
@@ -87,17 +97,18 @@ public:
     /// @param pos The 3D grid position.
     /// @return The chunk coordinate.
     [[nodiscard]] static constexpr inline lili::Point3
-    getChunkCoord(lili::Point3 pos) noexcept {
+    getChunkCoord(lili::Point3 pos) noexcept
+    {
         auto floor_div = [](int a, int b) {
             int res = a / b;
             int rem = a % b;
-            if (rem != 0 && ((a < 0) ^ (b < 0))) res--;
+            if (rem != 0 && ((a < 0) ^ (b < 0)))
+                res--;
             return res;
         };
-        return {
-            floor_div(pos.x, Chunk::SIZE), floor_div(pos.y, Chunk::SIZE),
-            floor_div(pos.z, Chunk::SIZE)
-        };
+        return { floor_div(pos.x, Chunk::SIZE),
+                 floor_div(pos.y, Chunk::SIZE),
+                 floor_div(pos.z, Chunk::SIZE) };
     }
 
     /// @brief Computes local coordinate within chunk from a world grid
@@ -105,16 +116,17 @@ public:
     /// @param pos The 3D grid position.
     /// @return The local chunk coordinate.
     [[nodiscard]] static constexpr inline lili::Point3
-    getLocalCoord(lili::Point3 pos) noexcept {
+    getLocalCoord(lili::Point3 pos) noexcept
+    {
         auto floor_mod = [](int a, int b) {
             int res = a % b;
-            if (res != 0 && ((a < 0) ^ (b < 0))) res += b;
+            if (res != 0 && ((a < 0) ^ (b < 0)))
+                res += b;
             return res;
         };
-        return {
-            floor_mod(pos.x, Chunk::SIZE), floor_mod(pos.y, Chunk::SIZE),
-            floor_mod(pos.z, Chunk::SIZE)
-        };
+        return { floor_mod(pos.x, Chunk::SIZE),
+                 floor_mod(pos.y, Chunk::SIZE),
+                 floor_mod(pos.z, Chunk::SIZE) };
     }
 
 private:
@@ -122,4 +134,4 @@ private:
     std::map<lili::Point3, Chunk, Point3Compare> chunks;
 };
 
-}  // namespace lili
+} // namespace lili

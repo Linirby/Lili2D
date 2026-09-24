@@ -7,7 +7,8 @@ using Scancode = SDL_Scancode;
 namespace lili {
 
 /// @brief Manages keyboard state and input tracking.
-class Keyboard {
+class Keyboard
+{
 public:
     /// @brief Updates the keyboard state for the current frame.
     void
@@ -17,7 +18,8 @@ public:
     /// @param key The scancode of the key to check.
     /// @return True if the key is held, false otherwise.
     [[nodiscard]] inline bool
-    held(Scancode key) const noexcept {
+    held(Scancode key) const noexcept
+    {
         return key < SDL_SCANCODE_COUNT && current[key];
     }
 
@@ -25,7 +27,8 @@ public:
     /// @param key The scancode of the key to check.
     /// @return True if the key was just pressed, false otherwise.
     [[nodiscard]] inline bool
-    justPressed(Scancode key) const noexcept {
+    justPressed(Scancode key) const noexcept
+    {
         return key < SDL_SCANCODE_COUNT && current[key] && !previous[key];
     }
 
@@ -33,7 +36,8 @@ public:
     /// @param key The scancode of the key to check.
     /// @return True if the key was just released, false otherwise.
     [[nodiscard]] inline bool
-    justReleased(Scancode key) const noexcept {
+    justReleased(Scancode key) const noexcept
+    {
         return key < SDL_SCANCODE_COUNT && !current[key] && previous[key];
     }
 
@@ -43,4 +47,4 @@ private:
     int key_count = 0;
 };
 
-}  // namespace lili
+} // namespace lili

@@ -12,8 +12,12 @@ namespace systems {
 
 void
 updateMovement(
-    lili::ECSRegistry& registry, float dt, float window_w, float window_h
-) {
+    lili::ECSRegistry& registry,
+    float dt,
+    float window_w,
+    float window_h
+)
+{
     auto view =
         registry.view<PositionComponent, VelocityComponent, RenderComponent>();
     for (auto [entity, pos, vel, render] : view) {
@@ -38,19 +42,23 @@ updateMovement(
 }
 
 void
-renderEntities(lili::ECSRegistry& registry, lili::SpriteBatch& batch) {
+renderEntities(lili::ECSRegistry& registry, lili::SpriteBatch& batch)
+{
     batch.begin();
 
     auto view = registry.view<PositionComponent, RenderComponent>();
 
     for (auto [entity, pos, render] : view)
         batch.draw(
-            render.slice, pos.value,
-            {render.radius * 2.0f, render.radius * 2.0f}, 0.0f, render.color
+            render.slice,
+            pos.value,
+            { render.radius * 2.0f, render.radius * 2.0f },
+            0.0f,
+            render.color
         );
 
     batch.end();
     batch.draw();
 }
 
-}  // namespace systems
+} // namespace systems

@@ -1,6 +1,8 @@
 #include "app.hpp"
 
-App::App() : lili::Game("hello_sprite_batch - Lili2D", 768, 640) {
+App::App()
+  : lili::Game("hello_sprite_batch - Lili2D", 768, 640)
+{
     const float TILE_SIZE = 16.0f;
     lili::Renderer* renderer = getRenderer();
 
@@ -56,10 +58,11 @@ App::App() : lili::Game("hello_sprite_batch - Lili2D", 768, 640) {
                 slice = ((x + y) % 2 == 0) ? slice_dark_floor : slice_floor;
 
             env_batch->draw(
-                slice, lili::Vec2(
-                           (x + 1.5f - 50.0f) * (TILE_SIZE - 0.1f),
-                           (y + 1.5f - 40.0f) * (TILE_SIZE - 0.1f)
-                       )
+                slice,
+                lili::Vec2(
+                    (x + 1.5f - 50.0f) * (TILE_SIZE - 0.1f),
+                    (y + 1.5f - 40.0f) * (TILE_SIZE - 0.1f)
+                )
             );
         }
     }
@@ -76,32 +79,41 @@ App::App() : lili::Game("hello_sprite_batch - Lili2D", 768, 640) {
     );
     text_infos = lili::Text(renderer, font, "WASD: move | IK: zoom/dezoom");
     text_infos.setRender(lili::RenderLayer::UI);
-    text_infos.setPosition({10.0f, 10.0f});
+    text_infos.setPosition({ 10.0f, 10.0f });
     text_infos.setScale(3.0f);
 }
 
 void
-App::onEvent(const lili::Event& event) {
+App::onEvent(const lili::Event& event)
+{
     lili::Game::onEvent(event);
     if (event.type() == lili::EventType::KEYBOARD) {
         lili::KeyboardEvent kb = event.keyboard();
-        if (kb.action == lili::KeyAction::PRESSED && kb.key == lili::Key::ESCAPE)
+        if (kb.action == lili::KeyAction::PRESSED &&
+            kb.key == lili::Key::ESCAPE)
             shutdown();
     }
 }
 
 void
-App::onUpdate(float dt) {
+App::onUpdate(float dt)
+{
     keyboard.update();
     lili::Vec2 velocity(0.0f, 0.0f);
 
-    if (keyboard.held(SDL_SCANCODE_W)) velocity.y -= 1.0f;
-    if (keyboard.held(SDL_SCANCODE_S)) velocity.y += 1.0f;
-    if (keyboard.held(SDL_SCANCODE_A)) velocity.x -= 1.0f;
-    if (keyboard.held(SDL_SCANCODE_D)) velocity.x += 1.0f;
+    if (keyboard.held(SDL_SCANCODE_W))
+        velocity.y -= 1.0f;
+    if (keyboard.held(SDL_SCANCODE_S))
+        velocity.y += 1.0f;
+    if (keyboard.held(SDL_SCANCODE_A))
+        velocity.x -= 1.0f;
+    if (keyboard.held(SDL_SCANCODE_D))
+        velocity.x += 1.0f;
 
-    if (keyboard.held(SDL_SCANCODE_I)) camera.setZoom(camera.getZoom() + dt);
-    if (keyboard.held(SDL_SCANCODE_K)) camera.setZoom(camera.getZoom() - dt);
+    if (keyboard.held(SDL_SCANCODE_I))
+        camera.setZoom(camera.getZoom() + dt);
+    if (keyboard.held(SDL_SCANCODE_K))
+        camera.setZoom(camera.getZoom() - dt);
 
     lili::Animation* target_anim = current_anim;
 
@@ -131,7 +143,8 @@ App::onUpdate(float dt) {
 }
 
 void
-App::onRender(float alpha) {
+App::onRender(float alpha)
+{
     (void)alpha;
     env_batch->draw();
 

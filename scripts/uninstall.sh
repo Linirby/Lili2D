@@ -5,7 +5,7 @@ echo "Uninstalling Lili2D..."
 
 if [ -f build/install_manifest.txt ]; then
     echo "Found install_manifest.txt, removing installed files..."
-    sudo xargs rm -f < build/install_manifest.txt
+    sudo xargs rm -f <build/install_manifest.txt
     sudo rmdir /usr/local/include/lili2d 2>/dev/null || true
     sudo rmdir /usr/local/lib/cmake/Lili2D 2>/dev/null || true
 else

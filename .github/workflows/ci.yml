@@ -5,6 +5,7 @@ on:
     branches: [ main, dev ]
   pull_request:
     branches: [ main, dev ]
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -138,3 +139,19 @@ jobs:
               cmake --build "$example/build" -j$(nproc)
             fi
           done
+
+      - name: Package Lili2D Build Artifact
+        run: |
+          cmake --install build --prefix package_dist
+          if [ -d "assets" ]; then
+            cp -r assets package_dist/
+          fi
+          tar -czvf Lili2D-linux-${{ matrix.compiler }}-x86_64.tar.gz -C package_dist .
+
+      - name: Upload Build Artifact for School / Testing
+        uses: actions/upload-artifact@v4
+        with:
+          name: Lili2D-linux-${{ matrix.compiler }}
+          path: Lili2D-linux-${{ matrix.compiler }}-x86_64.tar.gz
+          retention-days: 7
+

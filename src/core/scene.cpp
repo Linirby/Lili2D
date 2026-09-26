@@ -1,6 +1,5 @@
-#include "lili2d/scene/scene.hpp"
+#include "lili2d/core/scene.hpp"
 
-#include "lili2d/core/event.hpp"
 #include "lili2d/render/renderer.hpp"
 
 namespace lili {

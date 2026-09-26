@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 
-#include "lili2d/scene/scene.hpp"
+#include "lili2d/core/scene.hpp"
 
 namespace lili {
 

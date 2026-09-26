@@ -16,6 +16,8 @@
 #include "lili2d/core/keys.hpp"
 #include "lili2d/core/mouse.hpp"
 #include "lili2d/core/resource_manager.hpp"
+#include "lili2d/core/scene.hpp"
+#include "lili2d/core/scene_manager.hpp"
 #include "lili2d/core/sdl_deleters.hpp"
 #include "lili2d/core/thread_pool.hpp"
 #include "lili2d/core/timer.hpp"

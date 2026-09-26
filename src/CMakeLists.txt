@@ -2,7 +2,6 @@ add_subdirectory(ecs)
 add_subdirectory(core)
 add_subdirectory(render)
 add_subdirectory(world)
-add_subdirectory(scene)
 
 add_library(Lili2D SHARED)
 add_library(lili::Lili2D ALIAS Lili2D)
@@ -14,7 +13,6 @@ target_link_libraries(Lili2D
         lili_core
         lili_render
         lili_world
-        lili_scene
     PUBLIC
         SDL3::SDL3
         SDL3_image::SDL3_image

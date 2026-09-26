@@ -1,4 +1,4 @@
-#include "lili2d/scene/scene_manager.hpp"
+#include "lili2d/core/scene_manager.hpp"
 
 namespace lili {
 

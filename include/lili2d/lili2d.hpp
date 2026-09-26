@@ -9,5 +9,4 @@
 #include "lili2d/geometry.hpp"
 #include "lili2d/physics.hpp"
 #include "lili2d/render.hpp"
-#include "lili2d/scene.hpp"
 #include "lili2d/world.hpp"

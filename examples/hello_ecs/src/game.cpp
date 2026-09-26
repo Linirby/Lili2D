@@ -5,7 +5,7 @@
 #include <lili2d/core/event.hpp>
 #include <lili2d/core/window.hpp>
 #include <lili2d/render/renderer.hpp>
-#include <lili2d/render/scene/core2d/sprite_batch.hpp>
+#include <lili2d/render/2d/sprite_batch.hpp>
 #include <memory>
 #include <random>
 

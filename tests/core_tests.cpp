@@ -346,8 +346,8 @@ TEST_CASE("Type Traits and Move Guarantees", "[core][traits]")
     CHECK(true);
 }
 
+#include "lili2d/render/2d/text.hpp"
 #include "lili2d/render/default_font.hpp"
-#include "lili2d/render/scene/common/text.hpp"
 
 TEST_CASE("Default Font Asset Integrity", "[render][font]")
 {

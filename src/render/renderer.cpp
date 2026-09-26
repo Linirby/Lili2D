@@ -14,15 +14,15 @@
 
 #include "lili2d/geometry/mat3x3.hpp"
 #include "lili2d/geometry/vec2.hpp"
+#include "lili2d/render/2d/circle.hpp"
+#include "lili2d/render/2d/line.hpp"
+#include "lili2d/render/2d/rect.hpp"
+#include "lili2d/render/2d/text.hpp"
+#include "lili2d/render/common/model.hpp"
+#include "lili2d/render/common/unit_mesh.hpp"
 #include "lili2d/render/default_font.hpp"
 #include "lili2d/render/default_shaders.hpp"
-#include "lili2d/render/passes/pass_types.hpp"
-#include "lili2d/render/scene/common/model.hpp"
-#include "lili2d/render/scene/common/text.hpp"
-#include "lili2d/render/scene/common/utils.hpp"
-#include "lili2d/render/scene/shapes/circle.hpp"
-#include "lili2d/render/scene/shapes/line.hpp"
-#include "lili2d/render/scene/shapes/rect.hpp"
+#include "lili2d/render/gpu/pass_types.hpp"
 
 namespace lili {
 

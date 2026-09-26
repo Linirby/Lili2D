@@ -1,5 +1,4 @@
 add_library(lili_world OBJECT
-    camera.cpp
     chunk.cpp
     tile_registry.cpp
     tilemap.cpp

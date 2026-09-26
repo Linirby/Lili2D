@@ -1,9 +1,8 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
-#include <cmath>
 
 #include "lili2d/geometry.hpp"
-#include "lili2d/world/camera.hpp"
+#include "lili2d/render/common/camera.hpp"
 
 using namespace lili;
 using Catch::Matchers::WithinAbs;

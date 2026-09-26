@@ -3,7 +3,7 @@
 #include <lili2d/ecs/ecs_registry.hpp>
 #include <lili2d/ecs/ecs_view.hpp>
 #include <lili2d/ecs/entity.hpp>
-#include <lili2d/render/scene/core2d/sprite_batch.hpp>
+#include <lili2d/render/2d/sprite_batch.hpp>
 #include <tuple>
 
 #include "components.hpp"

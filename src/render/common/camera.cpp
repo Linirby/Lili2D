@@ -1,8 +1,7 @@
-#include "lili2d/world/camera.hpp"
+#include "lili2d/render/common/camera.hpp"
 
 #include <algorithm>
 
-#include "lili2d/geometry/utils.hpp"
 #include "lili2d/physics/aabb_collider.hpp"
 
 namespace lili {

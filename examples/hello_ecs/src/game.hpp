@@ -2,9 +2,9 @@
 
 #include <lili2d/core/game.hpp>
 #include <lili2d/ecs/ecs_registry.hpp>
-#include <lili2d/render/core/texture.hpp>
-#include <lili2d/render/scene/core2d/sprite_batch.hpp>
-#include <lili2d/world/camera.hpp>
+#include <lili2d/render/2d/sprite_batch.hpp>
+#include <lili2d/render/common/camera.hpp>
+#include <lili2d/render/gpu/texture.hpp>
 
 class App : public lili::Game
 {

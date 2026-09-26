@@ -16,6 +16,7 @@
 #include "lili2d/render/common/animation_player.hpp"
 #include "lili2d/render/common/animation_registry.hpp"
 #include "lili2d/render/common/atlas_map.hpp"
+#include "lili2d/render/common/camera.hpp"
 #include "lili2d/render/common/material.hpp"
 #include "lili2d/render/common/material_registry.hpp"
 #include "lili2d/render/common/model.hpp"

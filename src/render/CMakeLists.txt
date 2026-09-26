@@ -11,6 +11,7 @@ add_library(lili_render OBJECT
     common/animation_player.cpp
     common/animation_registry.cpp
     common/atlas_map.cpp
+    common/camera.cpp
     common/material.cpp
     common/material_registry.cpp
     common/renderable.cpp

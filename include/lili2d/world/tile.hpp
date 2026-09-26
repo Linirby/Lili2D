@@ -1,6 +1,6 @@
 #pragma once
 
-#include "lili2d/render/scene/common/atlas_map.hpp"
+#include "lili2d/render/common/atlas_map.hpp"
 
 namespace lili {
 

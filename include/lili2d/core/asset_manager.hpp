@@ -9,11 +9,11 @@
 #include <unordered_map>
 
 #include "lili2d/core/resource_manager.hpp"
-#include "lili2d/render/core/shader.hpp"
-#include "lili2d/render/core/texture.hpp"
+#include "lili2d/render/2d/text.hpp"
+#include "lili2d/render/common/atlas_map.hpp"
+#include "lili2d/render/gpu/shader.hpp"
+#include "lili2d/render/gpu/texture.hpp"
 #include "lili2d/render/renderer.hpp"
-#include "lili2d/render/scene/common/atlas_map.hpp"
-#include "lili2d/render/scene/common/text.hpp"
 
 namespace lili {
 

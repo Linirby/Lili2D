@@ -11,13 +11,13 @@
 #include "lili2d/core/window.hpp"
 #include "lili2d/geometry/shapes2d.hpp"
 #include "lili2d/geometry/vec4.hpp"
-#include "lili2d/render/core/gpu_mesh.hpp"
-#include "lili2d/render/core/shader.hpp"
-#include "lili2d/render/core/texture.hpp"
-#include "lili2d/render/passes/main_render_pass.hpp"
-#include "lili2d/render/passes/pass_types.hpp"
-#include "lili2d/render/pipelines/main_graphics_pipeline.hpp"
-#include "lili2d/world/camera.hpp"
+#include "lili2d/render/common/camera.hpp"
+#include "lili2d/render/gpu/gpu_mesh.hpp"
+#include "lili2d/render/gpu/main_graphics_pipeline.hpp"
+#include "lili2d/render/gpu/main_render_pass.hpp"
+#include "lili2d/render/gpu/pass_types.hpp"
+#include "lili2d/render/gpu/shader.hpp"
+#include "lili2d/render/gpu/texture.hpp"
 
 namespace lili {
 

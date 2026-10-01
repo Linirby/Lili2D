@@ -2,12 +2,15 @@
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
 #include <chrono>
+#include <cstddef>
 #include <filesystem>
 #include <fstream>
 #include <string>
 #include <thread>
+#include <type_traits>
 
 #include "lili2d/core.hpp"
+#include "lili2d/ecs.hpp"
 
 using namespace lili;
 
@@ -343,7 +346,164 @@ TEST_CASE("Type Traits and Move Guarantees", "[core][traits]")
     static_assert(std::is_nothrow_move_constructible_v<Window>);
     static_assert(std::is_nothrow_move_assignable_v<Window>);
 
+    static_assert(std::is_standard_layout_v<TransformComponent>);
+    static_assert(std::is_trivially_copyable_v<TransformComponent>);
+    static_assert(std::is_nothrow_move_constructible_v<TransformComponent>);
+    static_assert(std::is_nothrow_move_assignable_v<TransformComponent>);
+
     CHECK(true);
+}
+
+TEST_CASE("TransformComponent - Default Values", "[core][transform]")
+{
+    TransformComponent transform;
+
+    CHECK(transform.pos == Vec2(0.0f, 0.0f));
+    CHECK(transform.prev_pos == Vec2(0.0f, 0.0f));
+    CHECK(transform.prev_pos == transform.pos);
+    CHECK(transform.scale == Vec2(1.0f, 1.0f));
+    CHECK(transform.rotation == 0.0f);
+}
+
+TEST_CASE("TransformComponent - Custom Initialization", "[core][transform]")
+{
+    SECTION("Aggregate initialization with all fields")
+    {
+        TransformComponent transform{ .pos = { 10.0f, 20.0f },
+                                      .prev_pos = { 5.0f, 15.0f },
+                                      .scale = { 2.0f, 0.5f },
+                                      .rotation = 1.57f };
+
+        CHECK(transform.pos == Vec2(10.0f, 20.0f));
+        CHECK(transform.prev_pos == Vec2(5.0f, 15.0f));
+        CHECK(transform.scale == Vec2(2.0f, 0.5f));
+        CHECK(transform.rotation == Catch::Approx(1.57f));
+    }
+
+    SECTION("Partial designated initialization with pos")
+    {
+        TransformComponent transform{ .pos = { 42.0f, 84.0f } };
+
+        CHECK(transform.pos == Vec2(42.0f, 84.0f));
+        CHECK(transform.prev_pos == Vec2(42.0f, 84.0f));
+        CHECK(transform.scale == Vec2(1.0f, 1.0f));
+        CHECK(transform.rotation == 0.0f);
+    }
+}
+
+TEST_CASE(
+    "TransformComponent - Position and Interpolation",
+    "[core][transform]"
+)
+{
+    TransformComponent transform;
+    transform.pos = { 10.0f, 20.0f };
+    transform.prev_pos = { 0.0f, 0.0f };
+
+    SECTION("Independence of pos and prev_pos")
+    {
+        transform.pos += Vec2(5.0f, 5.0f);
+        CHECK(transform.pos == Vec2(15.0f, 25.0f));
+        CHECK(transform.prev_pos == Vec2(0.0f, 0.0f));
+    }
+
+    SECTION("Simulation tick update pattern")
+    {
+        transform.prev_pos = transform.pos;
+        transform.pos += Vec2(10.0f, -5.0f);
+
+        CHECK(transform.prev_pos == Vec2(10.0f, 20.0f));
+        CHECK(transform.pos == Vec2(20.0f, 15.0f));
+    }
+
+    SECTION("Linear interpolation between prev_pos and pos")
+    {
+        Vec2 midpoint = transform.prev_pos.lerp(transform.pos, 0.5f);
+        CHECK(midpoint.x == Catch::Approx(5.0f));
+        CHECK(midpoint.y == Catch::Approx(10.0f));
+
+        Vec2 start = transform.prev_pos.lerp(transform.pos, 0.0f);
+        CHECK(start == transform.prev_pos);
+
+        Vec2 end = transform.prev_pos.lerp(transform.pos, 1.0f);
+        CHECK(end == transform.pos);
+    }
+}
+
+TEST_CASE(
+    "TransformComponent - Memory Layout and Type Traits",
+    "[core][transform]"
+)
+{
+    static_assert(sizeof(TransformComponent) == 28);
+    static_assert(alignof(TransformComponent) == 4);
+
+    static_assert(std::is_standard_layout_v<TransformComponent>);
+    static_assert(std::is_trivially_copyable_v<TransformComponent>);
+    static_assert(std::is_default_constructible_v<TransformComponent>);
+    static_assert(std::is_nothrow_copy_constructible_v<TransformComponent>);
+    static_assert(std::is_nothrow_move_constructible_v<TransformComponent>);
+    static_assert(std::is_nothrow_copy_assignable_v<TransformComponent>);
+    static_assert(std::is_nothrow_move_assignable_v<TransformComponent>);
+
+    CHECK(offsetof(TransformComponent, pos) == 0);
+    CHECK(offsetof(TransformComponent, prev_pos) == 8);
+    CHECK(offsetof(TransformComponent, scale) == 16);
+    CHECK(offsetof(TransformComponent, rotation) == 24);
+}
+
+TEST_CASE("TransformComponent - ECS Integration", "[core][transform][ecs]")
+{
+    ECSRegistry registry;
+    Entity entity = registry.createEntity();
+
+    SECTION("Emplace and retrieve")
+    {
+        registry.emplaceComponent<TransformComponent>(
+            entity,
+            TransformComponent{ .pos = { 100.0f, 50.0f },
+                                .prev_pos = { 100.0f, 50.0f },
+                                .scale = { 2.0f, 2.0f },
+                                .rotation = 0.785f }
+        );
+
+        REQUIRE(registry.hasComponent<TransformComponent>(entity));
+        auto& t = registry.getComponent<TransformComponent>(entity);
+        CHECK(t.pos == Vec2(100.0f, 50.0f));
+        CHECK(t.prev_pos == Vec2(100.0f, 50.0f));
+        CHECK(t.scale == Vec2(2.0f, 2.0f));
+        CHECK(t.rotation == Catch::Approx(0.785f));
+    }
+
+    SECTION("ECS View iteration")
+    {
+        Entity e1 = registry.createEntity();
+        Entity e2 = registry.createEntity();
+
+        registry.emplaceComponent<TransformComponent>(
+            e1, TransformComponent{ .pos = { 1.0f, 2.0f } }
+        );
+        registry.emplaceComponent<TransformComponent>(
+            e2, TransformComponent{ .pos = { 3.0f, 4.0f } }
+        );
+
+        int count = 0;
+        for (auto [e, transform] : registry.view<TransformComponent>()) {
+            (void)e;
+            transform.pos *= 2.0f;
+            ++count;
+        }
+
+        CHECK(count == 2);
+        CHECK(
+            registry.getComponent<TransformComponent>(e1).pos ==
+            Vec2(2.0f, 4.0f)
+        );
+        CHECK(
+            registry.getComponent<TransformComponent>(e2).pos ==
+            Vec2(6.0f, 8.0f)
+        );
+    }
 }
 
 #include "lili2d/render/2d/text.hpp"

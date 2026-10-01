@@ -22,4 +22,5 @@
 #include "lili2d/core/thread_pool.hpp"
 #include "lili2d/core/timer.hpp"
 #include "lili2d/core/timer_manager.hpp"
+#include "lili2d/core/transform.hpp"
 #include "lili2d/core/window.hpp"

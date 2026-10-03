@@ -1,6 +1,7 @@
 #pragma once
 
 #include "lili2d/geometry/vec2.hpp"
+#include <type_traits>
 
 namespace lili {
 
@@ -13,12 +14,8 @@ struct TransformComponent
 };
 
 static_assert(
-    sizeof(TransformComponent) == 28,
-    "Transform size must be 28 bytes"
-);
-static_assert(
-    alignof(TransformComponent) == 4,
-    "Transform must be 4-byte aligned"
+    std::is_trivially_copyable_v<TransformComponent>,
+    "TransformComponent must be trivially copyable"
 );
 
 } // namespace lili

@@ -5,14 +5,14 @@ namespace lili {
 class Render2DSystem
 {
 public:
-    void
+    static void
     render()
     {
         renderSprites();
     }
 
 private:
-    void
+    static void
     renderSprites();
 };
 

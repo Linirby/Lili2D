@@ -8,6 +8,7 @@
 #include "lili2d/core/event.hpp"
 #include "lili2d/core/thread_pool.hpp"
 #include "lili2d/core/window.hpp"
+#include "lili2d/ecs/ecs_registry.hpp"
 #include "lili2d/render/renderer.hpp"
 
 namespace lili {
@@ -109,6 +110,18 @@ public:
         return clock;
     }
 
+    [[nodiscard]] inline ECSRegistry&
+    getECSRegistry() noexcept
+    {
+        return ecs_registry;
+    }
+
+    [[nodiscard]] inline const ECSRegistry&
+    getECSRegistry() const noexcept
+    {
+        return ecs_registry;
+    }
+
     /// @brief Gets the TPS used in the game clock.
     /// @return A float of the used TPS.
     [[nodiscard]] inline float
@@ -176,6 +189,7 @@ private:
     std::unique_ptr<ThreadPool> thread_pool;
     EngineConfig engine_config;
     Clock clock;
+    ECSRegistry ecs_registry;
     bool running = false;
 };
 

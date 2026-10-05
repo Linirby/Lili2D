@@ -3,6 +3,7 @@ add_library(lili_render OBJECT
     2d/circle.cpp
     2d/line.cpp
     2d/rect.cpp
+    2d/render2d_system.cpp
     2d/sprite.cpp
     2d/sprite_batch.cpp
     2d/text.cpp

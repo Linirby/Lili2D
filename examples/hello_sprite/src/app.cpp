@@ -13,9 +13,9 @@ App::App()
     lili::ECSRegistry& ecs_registry = getECSRegistry();
     lili::Renderer* renderer = getRenderer();
 
-    lili::Vec2 pos = { 400.0f, 50.0f };
+    lili::Vec2 pos = { 400.0f, 400.0f };
     lili::Vec2 scale = { 0.5f, 0.5f };
-    float rotation = 0.0f;
+    float rotation = 45.0f;
     cat_img = lili::createSprite(
         ecs_registry, renderer, "cat.png", pos, scale, rotation
     );
@@ -23,6 +23,7 @@ App::App()
     lili::SpriteComponent& sprite =
         ecs_registry.getComponent<lili::SpriteComponent>(cat_img);
     batch = std::make_unique<lili::SpriteBatch>(renderer, sprite.slice.texture);
+
     // lili::Texture* cat_tex = lili::Assets::loadTexture(
     //     "cat_texture", "cat.png", getRenderer()->getDevice()
     // );

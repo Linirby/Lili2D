@@ -1,24 +1,22 @@
 #pragma once
 
+#include "lili2d/ecs/ecs_registry.hpp"
+#include "lili2d/render/2d/sprite_batch.hpp"
+
 namespace lili {
 
 class Render2DSystem
 {
 public:
     static void
-    render()
+    render(ECSRegistry& registry, SpriteBatch& batch)
     {
-        renderSprites();
+        renderSprites(registry, batch);
     }
 
 private:
     static void
-    renderSprites();
+    renderSprites(ECSRegistry& registry, SpriteBatch& batch);
 };
-
-void
-Render2DSystem::renderSprites()
-{
-}
 
 } // namespace lili

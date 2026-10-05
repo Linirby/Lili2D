@@ -1,9 +1,27 @@
 #pragma once
 
 #include "lili2d/ecs/ecs_registry.hpp"
+#include "lili2d/geometry/vec2.hpp"
+#include "lili2d/geometry/vec4.hpp"
 #include "lili2d/render/2d/sprite_batch.hpp"
+#include "lili2d/render/common/atlas_map.hpp"
+#include "lili2d/render/gpu/pass_types.hpp"
+#include <cstdint>
+#include <vector>
 
 namespace lili {
+
+struct SpriteDrawItem
+{
+    RenderLayer render_pass;
+    float layer;
+    uint16_t material_id;
+    SliceUV slice;
+    Vec2 pos;
+    Vec2 scale;
+    float rotation;
+    Vec4 tint;
+};
 
 class Render2DSystem
 {
@@ -15,6 +33,8 @@ public:
     }
 
 private:
+    inline static std::vector<SpriteDrawItem> sprite_items;
+
     static void
     renderSprites(ECSRegistry& registry, SpriteBatch& batch);
 };

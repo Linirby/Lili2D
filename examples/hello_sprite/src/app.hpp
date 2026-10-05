@@ -1,6 +1,7 @@
 #pragma once
 
 #include "lili2d/ecs/entity.hpp"
+// #include "lili2d/render/2d/sprite.hpp"
 #include "lili2d/render/2d/sprite_batch.hpp"
 #include <lili2d/lili2d.hpp>
 #include <memory>
@@ -13,6 +14,7 @@ public:
 private:
     lili::Entity cat_img;
     std::unique_ptr<lili::SpriteBatch> batch;
+    // lili::Sprite cat_sprite;
 
     void
     onEvent(const lili::Event& event) override;

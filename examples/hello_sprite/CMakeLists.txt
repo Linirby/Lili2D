@@ -4,7 +4,7 @@ project(Lili2DExamples)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_compile_options(-Wall -Wextra)
+add_compile_options(-Wall -Wextra -O3)
 
 find_package(Lili2D REQUIRED)
 

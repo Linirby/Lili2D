@@ -1,9 +1,14 @@
 #include "lili2d/render/2d/sprite_batch.hpp"
 
 #include <cmath>
+#include <memory>
 
 #include "lili2d/geometry/mat3x3.hpp"
 #include "lili2d/geometry/utils.hpp"
+#include "lili2d/render/common/material.hpp"
+#include "lili2d/render/common/model.hpp"
+#include "lili2d/render/gpu/gpu_mesh.hpp"
+#include "lili2d/render/gpu/pass_types.hpp"
 #include "lili2d/render/renderer.hpp"
 
 namespace lili {
@@ -11,26 +16,29 @@ namespace lili {
 SpriteBatch::SpriteBatch(Renderer* renderer, Texture* texture)
   : renderer(renderer)
 {
-    material = std::make_unique<Material>(texture);
-    material->properties.color_tint = Vec4(1.0f, 1.0f, 1.0f, 1.0f);
-
-    mesh = std::make_unique<GPUMesh>(renderer->getDevice(), mesh_data);
-
-    position = Vec2(0.0f, 0.0f);
-    scale = Vec2(1.0f, 1.0f);
-    layer = 0.0f;
+    batch_pool.push_back(
+        { .mesh = std::make_unique<GPUMesh>(renderer->getDevice(), mesh_data),
+          .material = Material(texture) }
+    );
+    active_texture = texture;
 }
 
 void
-SpriteBatch::clear()
+SpriteBatch::draw(
+    const SliceUV& slice,
+    Vec2 pos,
+    Vec2 scale,
+    float rotation,
+    Vec4 color
+)
 {
-    mesh_data.vertices.clear();
-    mesh_data.indices.clear();
-    mesh->update(mesh_data);
+    appendToMesh(mesh_data, slice, pos, scale, rotation, color);
+    if (active_texture != slice.texture)
+        active_texture = slice.texture;
 }
 
 void
-SpriteBatch::appendSpriteToMesh(
+SpriteBatch::appendToMesh(
     MeshData& mesh_data,
     const SliceUV& slice,
     Vec2 pos,
@@ -92,82 +100,52 @@ SpriteBatch::appendSpriteToMesh(
 }
 
 void
-SpriteBatch::setMeshData(MeshData&& data)
+SpriteBatch::flush(float layer, RenderLayer render_pass)
 {
-    mesh_data = std::move(data);
-    mesh->update(mesh_data);
-}
-
-void
-SpriteBatch::draw(
-    const SliceUV& slice,
-    Vec2 pos,
-    Vec2 scale,
-    float rotation,
-    Vec4 color
-)
-{
-    appendSpriteToMesh(mesh_data, slice, pos, scale, rotation, color);
-}
-
-void
-SpriteBatch::end()
-{
-    mesh->update(mesh_data);
-}
-
-Vec2
-SpriteBatch::getSize() const noexcept
-{
-    if (custom_size.x > 0.0f || custom_size.y > 0.0f)
-        return Vec2(custom_size.x * scale.x, custom_size.y * scale.y);
     if (mesh_data.vertices.empty())
-        return Vec2(0.0f, 0.0f);
+        return;
 
-    float min_x = mesh_data.vertices[0].x;
-    float max_x = mesh_data.vertices[0].x;
-    float min_y = mesh_data.vertices[0].y;
-    float max_y = mesh_data.vertices[0].y;
-
-    for (const Vertex& v : mesh_data.vertices) {
-        if (v.x < min_x)
-            min_x = v.x;
-        if (v.x > max_x)
-            max_x = v.x;
-        if (v.y < min_y)
-            min_y = v.y;
-        if (v.y > max_y)
-            max_y = v.y;
-    }
-
-    return Vec2((max_x - min_x) * scale.x, (max_y - min_y) * scale.y);
-}
-
-Mat3
-SpriteBatch::getTransformMatrix() const
-{
-    if (render_layer == RenderLayer::UI && renderer) {
-        Vec2 viewport_size = renderer->getLogicalResolution();
-        Vec2 obj_size = getSize();
-        return ui_layout.getTransformationMatrix(
-            viewport_size, obj_size, rotation, scale
+    if (pool_idx >= batch_pool.size())
+        batch_pool.push_back(
+            BatchItem{
+                .mesh =
+                    std::make_unique<GPUMesh>(renderer->getDevice(), mesh_data),
+                .material = Material(active_texture) }
         );
-    }
-    return Mat3::translate(position) * Mat3::rotation(rotation) *
-           Mat3::scale(scale);
+    BatchItem& current_item = batch_pool[pool_idx++];
+    current_item.mesh->update(mesh_data);
+    current_item.material.albedoMap = active_texture;
+
+    renderer->submit(
+        Model(current_item.mesh.get(), &current_item.material),
+        Mat3::identity(),
+        layer,
+        render_pass
+    );
+
+    mesh_data.vertices.clear();
+    mesh_data.indices.clear();
 }
 
 void
 SpriteBatch::draw()
 {
-    if (mesh_data.indices.empty() || !is_visible)
-        return;
+    flush(layer, RenderLayer::WORLD2D);
+}
 
-    Mat3 mat_transform = getTransformMatrix();
-
-    renderer->submit(
-        Model(mesh.get(), getMaterial()), mat_transform, layer, render_layer
-    );
+void
+SpriteBatch::setMeshData(MeshData&& data)
+{
+    mesh_data = std::move(data);
+    if (batch_pool.empty())
+        batch_pool.push_back(
+            BatchItem{
+                .mesh =
+                    std::make_unique<GPUMesh>(renderer->getDevice(), mesh_data),
+                .material = Material(active_texture) }
+        );
+    else
+        batch_pool[0].mesh->update(mesh_data);
 }
 
 } // namespace lili

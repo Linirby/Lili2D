@@ -1,4 +1,6 @@
 #include "app.hpp"
+#include "lili2d/render/2d/sprite_batch.hpp"
+#include <memory>
 
 App::App()
   : lili::Game("hello_sprite_batch - Lili2D", 768, 640)
@@ -11,14 +13,15 @@ App::App()
     renderer->setCamera(&camera);
 
     env_atlas = lili::Assets::loadAtlas(
-        "env_atlas", renderer, "assets/environment.png", 4, 2
+        "assets/environment.png", renderer, "assets/environment.png", 4, 2
     );
-    env_batch =
-        std::make_unique<lili::SpriteBatch>(renderer, env_atlas->getTexture());
     char_atlas = lili::Assets::loadAtlas(
-        "char_atlas", renderer, "assets/player.png", 4, 5
+        "assets/player.png", renderer, "assets/player.png", 4, 5
     );
-    char_batch =
+
+    static_batch =
+        std::make_unique<lili::SpriteBatch>(renderer, env_atlas->getTexture());
+    dynamic_batch =
         std::make_unique<lili::SpriteBatch>(renderer, char_atlas->getTexture());
 
     anim_idle = lili::Animation(char_atlas->getSliceUVs(0, 4));
@@ -38,7 +41,6 @@ App::App()
     int map_width = 100;
     int map_height = 80;
 
-    env_batch->begin();
     for (int y = 0; y < map_height; ++y) {
         for (int x = 0; x < map_width; ++x) {
             lili::SliceUV slice;
@@ -57,19 +59,18 @@ App::App()
             else
                 slice = ((x + y) % 2 == 0) ? slice_dark_floor : slice_floor;
 
-            env_batch->draw(
-                slice,
-                lili::Vec2(
-                    (x + 1.5f - 50.0f) * (TILE_SIZE - 0.1f),
-                    (y + 1.5f - 40.0f) * (TILE_SIZE - 0.1f)
-                )
+            tiles_draw_data.push_back(
+                TileDrawItem{ slice,
+                              { (x + 1.5f - 50.0f) * (TILE_SIZE - 0.1f),
+                                (y + 1.5f - 40.0f) * (TILE_SIZE - 0.1f) } }
             );
         }
     }
-    env_batch->end();
-
-    env_batch->setLayer(0.5f);
-    char_batch->setLayer(1.0f);
+    static_batch->begin();
+    for (auto item : tiles_draw_data)
+        static_batch->draw(item.slice, item.pos);
+    static_batch->end();
+    static_batch->setLayer(0.5f);
 
     current_anim = &anim_idle;
     player.anim_player = lili::AnimationPlayer(current_anim);
@@ -143,15 +144,13 @@ App::onUpdate(float dt)
 }
 
 void
-App::onRender(float alpha)
+App::onRender([[maybe_unused]] float alpha)
 {
-    (void)alpha;
-    env_batch->draw();
+    static_batch->draw();
 
-    char_batch->begin();
-    char_batch->draw(player.anim_player.getCurrentFrame(), player.position);
-    char_batch->end();
-    char_batch->draw();
+    dynamic_batch->begin();
+    dynamic_batch->draw(player.anim_player.getCurrentFrame(), player.position);
+    dynamic_batch->flush(1.0f);
 
     text_infos.draw();
 }

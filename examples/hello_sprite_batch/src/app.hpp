@@ -1,12 +1,21 @@
 #pragma once
 
+#include "lili2d/geometry/vec2.hpp"
+#include "lili2d/render/common/atlas_map.hpp"
 #include <lili2d/lili2d.hpp>
 #include <memory>
+#include <vector>
 
 struct Character
 {
     lili::Vec2 position;
     lili::AnimationPlayer anim_player;
+};
+
+struct TileDrawItem
+{
+    lili::SliceUV slice;
+    lili::Vec2 pos;
 };
 
 class App : public lili::Game
@@ -19,10 +28,12 @@ private:
     lili::Keyboard keyboard;
 
     lili::AtlasMap* env_atlas = nullptr;
-    std::unique_ptr<lili::SpriteBatch> env_batch;
     lili::AtlasMap* char_atlas = nullptr;
-    std::unique_ptr<lili::SpriteBatch> char_batch;
 
+    std::unique_ptr<lili::SpriteBatch> static_batch;
+    std::unique_ptr<lili::SpriteBatch> dynamic_batch;
+
+    std::vector<TileDrawItem> tiles_draw_data;
     Character player;
 
     lili::Animation anim_idle;

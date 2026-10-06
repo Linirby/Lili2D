@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <deque>
 #include <memory>
 #include <vector>
 
@@ -67,17 +68,14 @@ public:
         Vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f }
     );
 
-    /// @brief Ends the batch (kept for backwards compatibility).
-    inline void
-    end() noexcept
-    {
-    }
-
     /// @brief Submits to the renderer and flushes the batch.
     void
     flush(float layer, RenderLayer render_pass = RenderLayer::WORLD2D);
 
     // Temporary: Only for Tilemap that needs a rework
+    /// @brief Ends the batch (kept for backwards compatibility).
+    void
+    end();
     void
     draw();
     inline void
@@ -93,6 +91,8 @@ public:
         mesh_data.vertices.clear();
         mesh_data.indices.clear();
         pool_idx = 0;
+        if (!batch_pool.empty() && batch_pool[0].mesh)
+            batch_pool[0].mesh->update(mesh_data);
     }
     static void
     appendToMesh(
@@ -121,7 +121,7 @@ private:
     Material* external_material = nullptr;
     Texture* active_texture = nullptr;
 
-    std::vector<BatchItem> batch_pool;
+    std::deque<BatchItem> batch_pool;
     size_t pool_idx = 0;
 
     MeshData mesh_data;

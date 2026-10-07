@@ -2,6 +2,7 @@
 
 #include <SDL3/SDL_gpu.h>
 
+#include <cstdint>
 #include <memory>
 #include <vector>
 
@@ -98,6 +99,14 @@ struct MeshData
     std::vector<uint32_t> indices; ///< List of indices.
 };
 
+struct TransferData
+{
+    const void* v_data = nullptr;
+    const void* i_data = nullptr;
+    uint32_t v_size = 0; ///< Size of vertices.
+    uint32_t i_size = 0; ///< Size of indices.
+};
+
 /// @brief Represents a mesh stored on the GPU.
 class GPUMesh
 {
@@ -105,7 +114,11 @@ public:
     /// @brief Constructs a GPU mesh from CPU data.
     /// @param device The SDL GPU device.
     /// @param mesh The CPU mesh data.
-    explicit GPUMesh(SDL_GPUDevice* device, const MeshData& mesh);
+    explicit GPUMesh(
+        SDL_GPUDevice* device,
+        const MeshData& mesh,
+        SDL_GPUCommandBuffer* cmd = nullptr
+    );
     /// @brief Destructor.
     ~GPUMesh() = default;
 
@@ -149,7 +162,7 @@ public:
     /// @brief Updates the mesh data.
     /// @param mesh The new CPU mesh data.
     void
-    update(const MeshData& mesh);
+    update(const MeshData& mesh, SDL_GPUCommandBuffer* cmd = nullptr);
 
 private:
     SDL_GPUDevice* device;
@@ -160,7 +173,12 @@ private:
     uint32_t index_count = 0;
 
     void
-    transferToGpu(const void* data, SDL_GPUBuffer* buffer, uint32_t size);
+    transferToGpu(
+        TransferData data,
+        SDL_GPUBuffer* vertex_buffer,
+        SDL_GPUBuffer* index_buffer,
+        SDL_GPUCommandBuffer* cmd
+    );
 };
 
 } // namespace lili

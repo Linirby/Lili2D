@@ -114,7 +114,7 @@ SpriteBatch::flush(float layer, RenderLayer render_pass)
                 .material = Material(active_texture) }
         );
     BatchItem& current_item = batch_pool[pool_idx++];
-    current_item.mesh->update(mesh_data);
+    current_item.mesh->update(mesh_data, renderer->getCurrentCommandBuffer());
     current_item.material.albedoMap = active_texture;
 
     renderer->submit(

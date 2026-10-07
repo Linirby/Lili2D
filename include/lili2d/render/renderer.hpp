@@ -62,6 +62,14 @@ public:
         return device.get();
     }
 
+    /// @brief Gets the current SDL GPU CommandBuffer.
+    /// @return Pointer to the SDL_GPUCommandBuffer.
+    [[nodiscard]] inline SDL_GPUCommandBuffer*
+    getCurrentCommandBuffer() const noexcept
+    {
+        return current_cmd_buffer;
+    }
+
     /// @brief Begins the rendering frame.
     /// @return True if the frame was successfully started, false otherwise.
     bool

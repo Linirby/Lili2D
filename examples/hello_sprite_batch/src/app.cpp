@@ -68,7 +68,7 @@ App::App()
     }
     static_batch->begin();
     for (auto item : tiles_draw_data)
-        static_batch->draw(item.slice, item.pos);
+        static_batch->add(item.slice, item.pos);
     static_batch->end();
     static_batch->setLayer(0.5f);
 
@@ -149,7 +149,7 @@ App::onRender([[maybe_unused]] float alpha)
     static_batch->draw();
 
     dynamic_batch->begin();
-    dynamic_batch->draw(player.anim_player.getCurrentFrame(), player.position);
+    dynamic_batch->add(player.anim_player.getCurrentFrame(), player.position);
     dynamic_batch->flush(1.0f);
 
     text_infos.draw();

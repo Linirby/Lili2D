@@ -13,3 +13,7 @@ add_executable(hello_animation
     src/app.cpp
 )
 target_link_libraries(hello_animation PRIVATE lili::Lili2D)
+
+include("${CMAKE_CURRENT_LIST_DIR}/../cmake/EmbarkAssets.cmake")
+embark_target_assets(hello_animation)
+

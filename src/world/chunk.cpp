@@ -4,6 +4,7 @@
 
 #include "lili2d/core/thread_pool.hpp"
 #include "lili2d/render/renderer.hpp"
+#include "lili2d/world/chunk_batch.hpp"
 #include "lili2d/world/tile_registry.hpp"
 
 namespace lili {
@@ -39,7 +40,7 @@ Chunk::generateMeshData(
                 int world_y = chunk_pos.y * SIZE + y;
                 Vec2 pos(world_x * tile_size.x, world_y * tile_size.y);
 
-                SpriteBatch::draw(temp_meshes[key], tile.slice, pos);
+                ChunkBatch::appendToMesh(temp_meshes[key], tile.slice, pos);
             }
         }
     }
@@ -60,7 +61,7 @@ Chunk::uploadMeshData(Renderer* renderer, ChunkMeshData&& mesh_data) const
     for (auto& batch_data : mesh_data.batches) {
         const BatchKey& key = batch_data.key;
         if (!batches.contains(key)) {
-            batches[key] = std::make_unique<SpriteBatch>(renderer, key.texture);
+            batches[key] = std::make_unique<ChunkBatch>(renderer, key.texture);
             batches[key]->setLayer(static_cast<float>(key.z));
         }
         batches[key]->setMeshData(std::move(batch_data.mesh_data));

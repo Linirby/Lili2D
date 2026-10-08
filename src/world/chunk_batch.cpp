@@ -1,4 +1,4 @@
-#include "lili2d/render/2d/sprite_batch.hpp"
+#include "lili2d/world/chunk_batch.hpp"
 
 #include <cmath>
 #include <memory>
@@ -13,7 +13,7 @@
 
 namespace lili {
 
-SpriteBatch::SpriteBatch(Renderer* renderer, Texture* texture)
+ChunkBatch::ChunkBatch(Renderer* renderer, Texture* texture)
   : renderer(renderer)
 {
     batch_pool.push_back(
@@ -25,7 +25,7 @@ SpriteBatch::SpriteBatch(Renderer* renderer, Texture* texture)
 }
 
 void
-SpriteBatch::add(
+ChunkBatch::add(
     const SliceUV& slice,
     Vec2 pos,
     Vec2 scale,
@@ -39,7 +39,7 @@ SpriteBatch::add(
 }
 
 void
-SpriteBatch::appendToMesh(
+ChunkBatch::appendToMesh(
     MeshData& mesh_data,
     const SliceUV& slice,
     Vec2 pos,
@@ -101,35 +101,7 @@ SpriteBatch::appendToMesh(
 }
 
 void
-SpriteBatch::flush(float layer, RenderLayer render_pass)
-{
-    if (mesh_data.vertices.empty())
-        return;
-
-    if (pool_idx >= batch_pool.size())
-        batch_pool.push_back(
-            BatchItem{
-                .mesh =
-                    std::make_unique<GPUMesh>(renderer->getDevice(), mesh_data),
-                .material = Material(active_texture) }
-        );
-    BatchItem& current_item = batch_pool[pool_idx++];
-    current_item.mesh->update(mesh_data, renderer->getCurrentCommandBuffer());
-    current_item.material.albedoMap = active_texture;
-
-    renderer->submit(
-        Model(current_item.mesh.get(), &current_item.material),
-        Mat3::identity(),
-        layer,
-        render_pass
-    );
-
-    mesh_data.vertices.clear();
-    mesh_data.indices.clear();
-}
-
-void
-SpriteBatch::end()
+ChunkBatch::end()
 {
     if (!mesh_data.vertices.empty()) {
         if (batch_pool.empty()) {
@@ -149,7 +121,7 @@ SpriteBatch::end()
 }
 
 void
-SpriteBatch::draw()
+ChunkBatch::draw()
 {
     if (!mesh_data.vertices.empty()) {
         if (batch_pool.empty()) {
@@ -180,7 +152,7 @@ SpriteBatch::draw()
 }
 
 void
-SpriteBatch::setMeshData(MeshData&& data)
+ChunkBatch::setMeshData(MeshData&& data)
 {
     mesh_data = std::move(data);
     if (batch_pool.empty()) {

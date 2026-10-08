@@ -4,7 +4,6 @@
 #include <lili2d/ecs/ecs_view.hpp>
 #include <lili2d/ecs/entity.hpp>
 #include <lili2d/render/2d/sprite_batch.hpp>
-#include <tuple>
 
 #include "components.hpp"
 
@@ -49,7 +48,7 @@ renderEntities(lili::ECSRegistry& registry, lili::SpriteBatch& batch)
     auto view = registry.view<PositionComponent, RenderComponent>();
 
     for (auto [entity, pos, render] : view)
-        batch.draw(
+        batch.add(
             render.slice,
             pos.value,
             { render.radius * 2.0f, render.radius * 2.0f },
@@ -57,8 +56,7 @@ renderEntities(lili::ECSRegistry& registry, lili::SpriteBatch& batch)
             render.color
         );
 
-    batch.end();
-    batch.draw();
+    batch.flush(0.0f);
 }
 
 } // namespace systems

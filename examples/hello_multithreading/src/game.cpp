@@ -102,7 +102,7 @@ App::onRender(float alpha)
             const auto& pos = positions[i];
             auto& render = ecs_registry.getComponent<RenderComponent>(entity);
 
-            sprite_batch->draw(
+            sprite_batch->add(
                 render.slice,
                 pos.value,
                 { render.radius * 2.0f, render.radius * 2.0f },

@@ -67,7 +67,7 @@ Render2DSystem::renderSprites(ECSRegistry& registry, SpriteBatch& batch)
             current_material_id = item.material_id;
             current_texture = item.slice.texture;
         }
-        batch.draw(item.slice, item.pos, item.scale, item.rotation, item.tint);
+        batch.add(item.slice, item.pos, item.scale, item.rotation, item.tint);
     }
     batch.flush(current_layer, current_render_pass);
 }

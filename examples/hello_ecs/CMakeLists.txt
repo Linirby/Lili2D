@@ -15,3 +15,7 @@ add_executable(hello_ecs
     src/systems.cpp
 )
 target_link_libraries(hello_ecs PRIVATE lili::Lili2D)
+
+include("${CMAKE_CURRENT_LIST_DIR}/../cmake/EmbarkAssets.cmake")
+embark_target_assets(hello_ecs)
+

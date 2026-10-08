@@ -7,6 +7,7 @@
 #include "lili2d/core/action_map.hpp"
 #include "lili2d/core/asset_manager.hpp"
 #include "lili2d/core/asset_registry.hpp"
+#include "lili2d/core/batch_item.hpp"
 #include "lili2d/core/clock.hpp"
 #include "lili2d/core/easing.hpp"
 #include "lili2d/core/event.hpp"

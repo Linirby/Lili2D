@@ -8,6 +8,7 @@ smth else.
 ### TODO
 
 - Separate SpriteBatch into StaticTextureBatch, DynamicTextureBatch and ChunkBatch.
+- ShapeComponent and add a private renderShape inside Render2DSystem.
 
 ### DONE
 

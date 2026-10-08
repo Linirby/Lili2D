@@ -22,8 +22,15 @@ From the root directory of any example:
 cmake -B build && cmake --build build
 ```
 
-Or using the helper scripts:
+Or using the helper script (automatically builds and runs):
 
 ```sh
-sh build.sh && sh run.sh
+./run.sh
 ```
+
+Or build all examples at once from this folder:
+
+```sh
+./build_all.sh
+```
+

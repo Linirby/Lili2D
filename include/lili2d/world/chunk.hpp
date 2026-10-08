@@ -8,9 +8,9 @@
 #include "lili2d/core/thread_pool.hpp"
 #include "lili2d/geometry/point3.hpp"
 #include "lili2d/geometry/vec2.hpp"
-#include "lili2d/render/2d/sprite_batch.hpp"
 #include "lili2d/render/gpu/texture.hpp"
 #include "lili2d/render/renderer.hpp"
+#include "lili2d/world/chunk_batch.hpp"
 
 namespace lili {
 
@@ -72,7 +72,7 @@ struct Chunk
     mutable std::future<ChunkMeshData> rebuild_future;
     /// @brief Map of batch keys to sprite batch rendering objects.
     mutable std::
-        unordered_map<BatchKey, std::unique_ptr<SpriteBatch>, BatchKeyHash>
+        unordered_map<BatchKey, std::unique_ptr<ChunkBatch>, BatchKeyHash>
             batches;
 
     /// @brief Default constructor.

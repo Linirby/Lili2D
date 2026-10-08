@@ -4,8 +4,8 @@
 #include <lili2d/core/asset_manager.hpp>
 #include <lili2d/core/event.hpp>
 #include <lili2d/core/window.hpp>
-#include <lili2d/render/renderer.hpp>
 #include <lili2d/render/2d/sprite_batch.hpp>
+#include <lili2d/render/renderer.hpp>
 #include <memory>
 #include <random>
 

@@ -1,5 +1,6 @@
 add_library(lili_world OBJECT
     chunk.cpp
+    chunk_batch.cpp
     tile_registry.cpp
     tilemap.cpp
 )

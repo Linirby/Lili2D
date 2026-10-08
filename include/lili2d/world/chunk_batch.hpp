@@ -1,42 +1,33 @@
 #pragma once
 
-#include <cstddef>
-#include <deque>
-#include <memory>
-#include <vector>
-
 #include "lili2d/core/batch_item.hpp"
-#include "lili2d/geometry/vec2.hpp"
 #include "lili2d/render/common/atlas_map.hpp"
-#include "lili2d/render/common/renderable.hpp"
 #include "lili2d/render/gpu/gpu_mesh.hpp"
-#include "lili2d/render/gpu/texture.hpp"
-#include "lili2d/render/renderer.hpp"
+#include <deque>
 
 namespace lili {
 
-/// @brief Batches multiple sprites into a single draw call.
-class SpriteBatch
+class ChunkBatch
 {
 public:
     /// @brief Constructor.
     /// @param renderer The renderer.
     /// @param texture The texture to use for the batch.
-    explicit SpriteBatch(Renderer* renderer, Texture* texture);
+    explicit ChunkBatch(Renderer* renderer, Texture* texture);
     /// @brief Destructor.
-    ~SpriteBatch() = default;
+    ~ChunkBatch() = default;
 
     /// @brief Move constructor.
-    SpriteBatch(SpriteBatch&&) noexcept = default;
+    ChunkBatch(ChunkBatch&&) noexcept = default;
     /// @brief Move assignment operator.
-    SpriteBatch&
-    operator=(SpriteBatch&&) noexcept = default;
+    ChunkBatch&
+    operator=(ChunkBatch&&) noexcept = default;
 
     /// @brief Deleted copy constructor.
-    SpriteBatch(const SpriteBatch&) = delete;
+    ChunkBatch(const ChunkBatch&) = delete;
     /// @brief Deleted copy assignment operator.
-    SpriteBatch&
-    operator=(const SpriteBatch&) = delete;
+    ChunkBatch&
+    operator=(const ChunkBatch&) = delete;
 
     /// @brief Begins a new batch, clearing previous data.
     inline void
@@ -60,12 +51,6 @@ public:
         float rotation = 0.0f,
         Vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f });
 
-    /// @brief Submits to the renderer and flushes the batch.
-    void
-    flush(float layer, RenderLayer render_pass = RenderLayer::WORLD2D);
-
-    // Temporary: Only for Tilemap that needs a rework
-    /// @brief Ends the batch (kept for backwards compatibility).
     void
     end();
     void
@@ -102,8 +87,6 @@ private:
     std::deque<BatchItem> batch_pool;
     size_t pool_idx = 0;
     MeshData mesh_data;
-
-    // Temporary: Only for Tilemap that needs a rework
     float layer = 0.0f;
 };
 

@@ -14,3 +14,7 @@ add_executable(hello_multithreading
     src/systems.cpp
 )
 target_link_libraries(hello_multithreading PRIVATE lili::Lili2D)
+
+include("${CMAKE_CURRENT_LIST_DIR}/../cmake/EmbarkAssets.cmake")
+embark_target_assets(hello_multithreading)
+

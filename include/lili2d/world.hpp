@@ -5,6 +5,7 @@
 /// camera, chunk, tile, tile registry, tilemap.
 
 #include "lili2d/world/chunk.hpp"
+#include "lili2d/world/chunk_batch.hpp"
 #include "lili2d/world/tile.hpp"
 #include "lili2d/world/tile_registry.hpp"
 #include "lili2d/world/tilemap.hpp"

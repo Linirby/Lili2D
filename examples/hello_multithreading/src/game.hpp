@@ -34,6 +34,6 @@ private:
     lili::Camera camera;
 
     lili::Texture* circle_texture = nullptr;
-    std::unique_ptr<lili::SpriteBatch> sprite_batch;
+    std::unique_ptr<lili::DynamicBatch> dynamic_batch;
     std::unique_ptr<lili::SystemBase> movement_system;
 };

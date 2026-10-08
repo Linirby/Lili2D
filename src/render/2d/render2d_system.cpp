@@ -2,9 +2,9 @@
 
 #include "lili2d/core/transform.hpp"
 #include "lili2d/ecs/ecs_view.hpp"
+#include "lili2d/render/2d/dynamic_batch.hpp"
 #include "lili2d/render/2d/render2d_component.hpp"
 #include "lili2d/render/2d/sprite.hpp"
-#include "lili2d/render/2d/sprite_batch.hpp"
 #include "lili2d/render/gpu/pass_types.hpp"
 #include "lili2d/render/gpu/texture.hpp"
 #include <algorithm>
@@ -14,7 +14,7 @@
 namespace lili {
 
 void
-Render2DSystem::renderSprites(ECSRegistry& registry, SpriteBatch& batch)
+Render2DSystem::renderSprites(ECSRegistry& registry, DynamicBatch& batch)
 {
     auto view =
         registry.view<Render2DComponent, TransformComponent, SpriteComponent>();

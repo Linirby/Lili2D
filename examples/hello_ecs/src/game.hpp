@@ -2,7 +2,7 @@
 
 #include <lili2d/core/game.hpp>
 #include <lili2d/ecs/ecs_registry.hpp>
-#include <lili2d/render/2d/sprite_batch.hpp>
+#include <lili2d/render/2d/dynamic_batch.hpp>
 #include <lili2d/render/common/camera.hpp>
 #include <lili2d/render/gpu/texture.hpp>
 
@@ -16,7 +16,7 @@ private:
     lili::ECSRegistry ecs_registry;
 
     lili::Texture* circle_texture = nullptr;
-    std::unique_ptr<lili::SpriteBatch> sprite_batch;
+    std::unique_ptr<lili::DynamicBatch> dynamic_batch;
     std::vector<lili::Entity> spawned_entities;
 
     static constexpr int N_ENTITIES = 1000;

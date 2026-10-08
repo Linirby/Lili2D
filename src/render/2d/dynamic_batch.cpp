@@ -1,4 +1,4 @@
-#include "lili2d/render/2d/sprite_batch.hpp"
+#include "lili2d/render/2d/dynamic_batch.hpp"
 
 #include <cmath>
 #include <memory>
@@ -13,7 +13,7 @@
 
 namespace lili {
 
-SpriteBatch::SpriteBatch(Renderer* renderer, Texture* texture)
+DynamicBatch::DynamicBatch(Renderer* renderer, Texture* texture)
   : renderer(renderer)
 {
     batch_pool.push_back(
@@ -25,7 +25,7 @@ SpriteBatch::SpriteBatch(Renderer* renderer, Texture* texture)
 }
 
 void
-SpriteBatch::add(
+DynamicBatch::add(
     const SliceUV& slice,
     Vec2 pos,
     Vec2 scale,
@@ -39,7 +39,7 @@ SpriteBatch::add(
 }
 
 void
-SpriteBatch::appendToMesh(
+DynamicBatch::appendToMesh(
     MeshData& mesh_data,
     const SliceUV& slice,
     Vec2 pos,
@@ -101,7 +101,7 @@ SpriteBatch::appendToMesh(
 }
 
 void
-SpriteBatch::flush(float layer, RenderLayer render_pass)
+DynamicBatch::flush(float layer, RenderLayer render_pass)
 {
     if (mesh_data.vertices.empty())
         return;
@@ -124,76 +124,6 @@ SpriteBatch::flush(float layer, RenderLayer render_pass)
         render_pass
     );
 
-    mesh_data.vertices.clear();
-    mesh_data.indices.clear();
-}
-
-void
-SpriteBatch::end()
-{
-    if (!mesh_data.vertices.empty()) {
-        if (batch_pool.empty()) {
-            batch_pool.push_back(
-                BatchItem{ .mesh = std::make_unique<GPUMesh>(
-                               renderer->getDevice(), mesh_data
-                           ),
-                           .material = Material(active_texture) }
-            );
-        } else {
-            batch_pool[0].mesh->update(mesh_data);
-            batch_pool[0].material.albedoMap = active_texture;
-        }
-        mesh_data.vertices.clear();
-        mesh_data.indices.clear();
-    }
-}
-
-void
-SpriteBatch::draw()
-{
-    if (!mesh_data.vertices.empty()) {
-        if (batch_pool.empty()) {
-            batch_pool.push_back(
-                BatchItem{ .mesh = std::make_unique<GPUMesh>(
-                               renderer->getDevice(), mesh_data
-                           ),
-                           .material = Material(active_texture) }
-            );
-        } else {
-            batch_pool[0].mesh->update(mesh_data);
-            batch_pool[0].material.albedoMap = active_texture;
-        }
-        mesh_data.vertices.clear();
-        mesh_data.indices.clear();
-    }
-
-    if (batch_pool.empty() || !batch_pool[0].mesh ||
-        batch_pool[0].mesh->getIndexCount() == 0)
-        return;
-
-    renderer->submit(
-        Model(batch_pool[0].mesh.get(), &batch_pool[0].material),
-        Mat3::identity(),
-        layer,
-        RenderLayer::WORLD2D
-    );
-}
-
-void
-SpriteBatch::setMeshData(MeshData&& data)
-{
-    mesh_data = std::move(data);
-    if (batch_pool.empty()) {
-        batch_pool.push_back(
-            BatchItem{
-                .mesh =
-                    std::make_unique<GPUMesh>(renderer->getDevice(), mesh_data),
-                .material = Material(active_texture) }
-        );
-    } else {
-        batch_pool[0].mesh->update(mesh_data);
-        batch_pool[0].material.albedoMap = active_texture;
-    }
     mesh_data.vertices.clear();
     mesh_data.indices.clear();
 }

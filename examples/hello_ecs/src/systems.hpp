@@ -1,7 +1,7 @@
 #pragma once
 
 #include <lili2d/ecs/ecs_registry.hpp>
-#include <lili2d/render/2d/sprite_batch.hpp>
+#include <lili2d/render/2d/dynamic_batch.hpp>
 
 namespace systems {
 
@@ -13,6 +13,6 @@ updateMovement(
     float window_h
 );
 void
-renderEntities(lili::ECSRegistry& registry, lili::SpriteBatch& batch);
+renderEntities(lili::ECSRegistry& registry, lili::DynamicBatch& batch);
 
 } // namespace systems

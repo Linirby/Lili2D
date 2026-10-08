@@ -43,7 +43,7 @@ for dir in "$EXAMPLES_DIR"/*/; do
 
     mkdir -p "$dir/build"
 
-    if cmake -B "$dir/build" -S "$dir" -DCMAKE_PREFIX_PATH="$REPO_ROOT/build" >"$dir/build/cmake_build.log" 2>&1 &&
+    if cmake -B "$dir/build" -S "$dir" -DCMAKE_PREFIX_PATH="$REPO_ROOT/build" -DLili2D_DIR="$REPO_ROOT/build" >"$dir/build/cmake_build.log" 2>&1 &&
         cmake --build "$dir/build" -j"$BUILD_JOBS" >>"$dir/build/cmake_build.log" 2>&1; then
         echo -e "${GREEN}[OK]${NC}"
         PASSED_COUNT=$((PASSED_COUNT + 1))

@@ -41,8 +41,8 @@ App::App()
     circle_texture = lili::Assets::loadTexture(
         "circle_tex", "circle.png", renderer->getDevice()
     );
-    sprite_batch =
-        std::make_unique<lili::SpriteBatch>(renderer, circle_texture);
+    dynamic_batch =
+        std::make_unique<lili::DynamicBatch>(renderer, circle_texture);
     for (int i = 0; i < N_ENTITIES; ++i)
         spawnRandomBall();
 
@@ -68,6 +68,7 @@ App::onEvent(const lili::Event& event)
                 destroyRandomBall();
             else if (kb.key == lili::Key::T)
                 toggleRandomBallVelocity();
+            std::cout << "Total entities: " << spawned_entities.size() << "\n";
         }
     }
 }
@@ -91,7 +92,7 @@ void
 App::onRender(float alpha)
 {
     (void)alpha;
-    systems::renderEntities(ecs_registry, *sprite_batch);
+    systems::renderEntities(ecs_registry, *dynamic_batch);
 }
 
 void

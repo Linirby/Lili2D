@@ -41,7 +41,7 @@ updateMovement(
 }
 
 void
-renderEntities(lili::ECSRegistry& registry, lili::SpriteBatch& batch)
+renderEntities(lili::ECSRegistry& registry, lili::DynamicBatch& batch)
 {
     batch.begin();
 

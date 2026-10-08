@@ -39,8 +39,8 @@ App::onInit()
     circle_texture = lili::Assets::loadTexture(
         "circle_tex", "circle.png", renderer->getDevice()
     );
-    sprite_batch =
-        std::make_unique<lili::SpriteBatch>(renderer, circle_texture);
+    dynamic_batch =
+        std::make_unique<lili::DynamicBatch>(renderer, circle_texture);
 
     movement_system = std::make_unique<systems::MovementSystem>(
         static_cast<float>(window->getWidth()),
@@ -90,7 +90,7 @@ App::onRender(float alpha)
 {
     (void)alpha;
 
-    sprite_batch->begin();
+    dynamic_batch->begin();
 
     auto& pos_pool = ecs_registry.getPool<PositionComponent>();
     const auto& entities = pos_pool.getEntities();
@@ -102,7 +102,7 @@ App::onRender(float alpha)
             const auto& pos = positions[i];
             auto& render = ecs_registry.getComponent<RenderComponent>(entity);
 
-            sprite_batch->add(
+            dynamic_batch->add(
                 render.slice,
                 pos.value,
                 { render.radius * 2.0f, render.radius * 2.0f },
@@ -112,8 +112,7 @@ App::onRender(float alpha)
         }
     }
 
-    sprite_batch->end();
-    sprite_batch->draw();
+    dynamic_batch->flush(0.0f);
 }
 
 void

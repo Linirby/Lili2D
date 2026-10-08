@@ -3,7 +3,7 @@
 #include "lili2d/ecs/ecs_registry.hpp"
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/geometry/vec4.hpp"
-#include "lili2d/render/2d/sprite_batch.hpp"
+#include "lili2d/render/2d/dynamic_batch.hpp"
 #include "lili2d/render/common/atlas_map.hpp"
 #include "lili2d/render/gpu/pass_types.hpp"
 #include <cstdint>
@@ -27,7 +27,7 @@ class Render2DSystem
 {
 public:
     static void
-    render(ECSRegistry& registry, SpriteBatch& batch)
+    render(ECSRegistry& registry, DynamicBatch& batch)
     {
         renderSprites(registry, batch);
     }
@@ -36,7 +36,7 @@ private:
     inline static std::vector<SpriteDrawItem> sprite_items;
 
     static void
-    renderSprites(ECSRegistry& registry, SpriteBatch& batch);
+    renderSprites(ECSRegistry& registry, DynamicBatch& batch);
 };
 
 } // namespace lili

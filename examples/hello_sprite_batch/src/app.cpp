@@ -20,9 +20,9 @@ App::App()
     );
 
     static_batch =
-        std::make_unique<lili::SpriteBatch>(renderer, env_atlas->getTexture());
+        std::make_unique<lili::StaticBatch>(renderer, env_atlas->getTexture());
     dynamic_batch =
-        std::make_unique<lili::SpriteBatch>(renderer, char_atlas->getTexture());
+        std::make_unique<lili::DynamicBatch>(renderer, char_atlas->getTexture());
 
     anim_idle = lili::Animation(char_atlas->getSliceUVs(0, 4));
     anim_run_right = lili::Animation(char_atlas->getSliceUVs(4, 4));
@@ -69,8 +69,7 @@ App::App()
     static_batch->begin();
     for (auto item : tiles_draw_data)
         static_batch->add(item.slice, item.pos);
-    static_batch->end();
-    static_batch->setLayer(0.5f);
+    static_batch->bake();
 
     current_anim = &anim_idle;
     player.anim_player = lili::AnimationPlayer(current_anim);
@@ -146,7 +145,7 @@ App::onUpdate(float dt)
 void
 App::onRender([[maybe_unused]] float alpha)
 {
-    static_batch->draw();
+    static_batch->draw(0.0f);
 
     dynamic_batch->begin();
     dynamic_batch->add(player.anim_player.getCurrentFrame(), player.position);

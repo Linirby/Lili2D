@@ -4,8 +4,9 @@ add_library(lili_render OBJECT
     2d/line.cpp
     2d/rect.cpp
     2d/render2d_system.cpp
+    2d/dynamic_batch.cpp
     2d/sprite.cpp
-    2d/sprite_batch.cpp
+    2d/static_batch.cpp
     2d/text.cpp
     2d/ui_layout.cpp
     common/animation.cpp

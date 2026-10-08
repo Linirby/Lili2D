@@ -6,10 +6,11 @@
 
 #include "lili2d/render/2d/animated_sprite.hpp"
 #include "lili2d/render/2d/circle.hpp"
+#include "lili2d/render/2d/dynamic_batch.hpp"
 #include "lili2d/render/2d/line.hpp"
 #include "lili2d/render/2d/rect.hpp"
 #include "lili2d/render/2d/sprite.hpp"
-#include "lili2d/render/2d/sprite_batch.hpp"
+#include "lili2d/render/2d/static_batch.hpp"
 #include "lili2d/render/2d/text.hpp"
 #include "lili2d/render/2d/ui_layout.hpp"
 #include "lili2d/render/common/animation.hpp"

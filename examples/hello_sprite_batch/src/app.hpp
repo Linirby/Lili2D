@@ -30,8 +30,8 @@ private:
     lili::AtlasMap* env_atlas = nullptr;
     lili::AtlasMap* char_atlas = nullptr;
 
-    std::unique_ptr<lili::SpriteBatch> static_batch;
-    std::unique_ptr<lili::SpriteBatch> dynamic_batch;
+    std::unique_ptr<lili::StaticBatch> static_batch;
+    std::unique_ptr<lili::DynamicBatch> dynamic_batch;
 
     std::vector<TileDrawItem> tiles_draw_data;
     Character player;

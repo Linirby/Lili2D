@@ -2,7 +2,6 @@
 
 #include <cstddef>
 #include <deque>
-#include <memory>
 #include <vector>
 
 #include "lili2d/core/batch_item.hpp"
@@ -15,28 +14,29 @@
 
 namespace lili {
 
-/// @brief Batches multiple sprites into a single draw call.
-class SpriteBatch
+/// @brief Batches multiple 2D textured slices into dynamic draw calls per
+/// frame.
+class DynamicBatch
 {
 public:
     /// @brief Constructor.
     /// @param renderer The renderer.
     /// @param texture The texture to use for the batch.
-    explicit SpriteBatch(Renderer* renderer, Texture* texture);
+    explicit DynamicBatch(Renderer* renderer, Texture* texture);
     /// @brief Destructor.
-    ~SpriteBatch() = default;
+    ~DynamicBatch() = default;
 
     /// @brief Move constructor.
-    SpriteBatch(SpriteBatch&&) noexcept = default;
+    DynamicBatch(DynamicBatch&&) noexcept = default;
     /// @brief Move assignment operator.
-    SpriteBatch&
-    operator=(SpriteBatch&&) noexcept = default;
+    DynamicBatch&
+    operator=(DynamicBatch&&) noexcept = default;
 
     /// @brief Deleted copy constructor.
-    SpriteBatch(const SpriteBatch&) = delete;
+    DynamicBatch(const DynamicBatch&) = delete;
     /// @brief Deleted copy assignment operator.
-    SpriteBatch&
-    operator=(const SpriteBatch&) = delete;
+    DynamicBatch&
+    operator=(const DynamicBatch&) = delete;
 
     /// @brief Begins a new batch, clearing previous data.
     inline void
@@ -64,28 +64,13 @@ public:
     void
     flush(float layer, RenderLayer render_pass = RenderLayer::WORLD2D);
 
-    // Temporary: Only for Tilemap that needs a rework
-    /// @brief Ends the batch (kept for backwards compatibility).
-    void
-    end();
-    void
-    draw();
-    inline void
-    setLayer(float layer) noexcept
-    {
-        this->layer = layer;
-    }
-    void
-    setMeshData(MeshData&& data);
-    void
-    clear()
-    {
-        mesh_data.vertices.clear();
-        mesh_data.indices.clear();
-        pool_idx = 0;
-        if (!batch_pool.empty() && batch_pool[0].mesh)
-            batch_pool[0].mesh->update(mesh_data);
-    }
+private:
+    Renderer* renderer = nullptr;
+    Texture* active_texture = nullptr;
+    std::deque<BatchItem> batch_pool;
+    size_t pool_idx = 0;
+    MeshData mesh_data;
+
     static void
     appendToMesh(
         MeshData& mesh_data,
@@ -95,16 +80,6 @@ public:
         float rotation = 0.0f,
         Vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f }
     );
-
-private:
-    Renderer* renderer = nullptr;
-    Texture* active_texture = nullptr;
-    std::deque<BatchItem> batch_pool;
-    size_t pool_idx = 0;
-    MeshData mesh_data;
-
-    // Temporary: Only for Tilemap that needs a rework
-    float layer = 0.0f;
 };
 
 } // namespace lili

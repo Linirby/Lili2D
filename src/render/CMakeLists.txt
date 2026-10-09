@@ -1,5 +1,6 @@
 add_library(lili_render OBJECT
     2d/animated_sprite.cpp
+    2d/batch_helper.cpp
     2d/circle.cpp
     2d/line.cpp
     2d/rect.cpp

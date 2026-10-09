@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <memory>
+#include <type_traits>
 
 #include "lili2d/geometry/shapes2d.hpp"
 #include "lili2d/geometry/utils.hpp"
@@ -14,8 +15,24 @@
 
 namespace lili {
 
+struct LineComponent
+{
+    Vec4 tint = { 1.0f,
+                  1.0f,
+                  1.0f,
+                  1.0f };      ///< The color tint going over the material.
+    Vec2 dxy = { 0.0f, 0.0f }; ///< The distance between start and end pos.
+    float thickness = 1.0f;    ///< The default size in pixel of the Rect.
+    uint16_t material_id = 0;  ///< The ID of the linked material.
+};
+
+static_assert(
+    std::is_trivially_copyable_v<LineComponent>,
+    "LineComponent must be trivially copyable"
+);
+
 /// @brief A renderable line.
-class Line : public IRenderable
+class [[deprecated("Use LineComponent with ECS")]] Line : public IRenderable
 {
 public:
     /// @brief Default constructor.

@@ -5,6 +5,7 @@
 
 #include "lili2d/geometry/mat3x3.hpp"
 #include "lili2d/geometry/utils.hpp"
+#include "lili2d/render/2d/batch_helper.hpp"
 #include "lili2d/render/common/material.hpp"
 #include "lili2d/render/common/model.hpp"
 #include "lili2d/render/gpu/gpu_mesh.hpp"
@@ -25,7 +26,7 @@ DynamicBatch::DynamicBatch(Renderer* renderer, Texture* texture)
 }
 
 void
-DynamicBatch::add(
+DynamicBatch::addSprite(
     const SliceUV& slice,
     Vec2 pos,
     Vec2 scale,
@@ -33,7 +34,7 @@ DynamicBatch::add(
     Vec4 color
 )
 {
-    appendToMesh(mesh_data, slice, pos, scale, rotation, color);
+    BatchHelper::appendSprite(mesh_data, slice, pos, scale, rotation, color);
     if (active_texture != slice.texture)
         active_texture = slice.texture;
 }

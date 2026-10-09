@@ -22,7 +22,8 @@ App::App()
 
     lili::SpriteComponent& sprite =
         ecs_registry.getComponent<lili::SpriteComponent>(cat_img);
-    batch = std::make_unique<lili::DynamicBatch>(renderer, sprite.slice.texture);
+    batch =
+        std::make_unique<lili::DynamicBatch>(renderer, sprite.slice.texture);
 
     // lili::Texture* cat_tex = lili::Assets::loadTexture(
     //     "cat_texture", "cat.png", getRenderer()->getDevice()

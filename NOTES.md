@@ -7,10 +7,10 @@ smth else.
 
 ### TODO
 
-- Separate SpriteBatch into StaticTextureBatch, DynamicTextureBatch and ChunkBatch.
 - ShapeComponent and add a private renderShape inside Render2DSystem.
 
 ### DONE
 
 - Fix FPS loss with Nvidia on Linux when SpriteBatch::flush() is called in gameloop.
 (check dynamic_batch in examples/hello_sprite_batch)
+- Separate SpriteBatch into StaticTextureBatch, DynamicTextureBatch and ChunkBatch.

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cmath>
-
 #include "lili2d/geometry/vec2.hpp"
 
 namespace lili {

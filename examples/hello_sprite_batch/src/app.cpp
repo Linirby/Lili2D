@@ -1,5 +1,4 @@
 #include "app.hpp"
-#include "lili2d/render/2d/sprite_batch.hpp"
 #include <memory>
 
 App::App()
@@ -21,8 +20,9 @@ App::App()
 
     static_batch =
         std::make_unique<lili::StaticBatch>(renderer, env_atlas->getTexture());
-    dynamic_batch =
-        std::make_unique<lili::DynamicBatch>(renderer, char_atlas->getTexture());
+    dynamic_batch = std::make_unique<lili::DynamicBatch>(
+        renderer, char_atlas->getTexture()
+    );
 
     anim_idle = lili::Animation(char_atlas->getSliceUVs(0, 4));
     anim_run_right = lili::Animation(char_atlas->getSliceUVs(4, 4));
@@ -68,7 +68,7 @@ App::App()
     }
     static_batch->begin();
     for (auto item : tiles_draw_data)
-        static_batch->add(item.slice, item.pos);
+        static_batch->addSprite(item.slice, item.pos);
     static_batch->bake();
 
     current_anim = &anim_idle;
@@ -148,7 +148,9 @@ App::onRender([[maybe_unused]] float alpha)
     static_batch->draw(0.0f);
 
     dynamic_batch->begin();
-    dynamic_batch->add(player.anim_player.getCurrentFrame(), player.position);
+    dynamic_batch->addSprite(
+        player.anim_player.getCurrentFrame(), player.position
+    );
     dynamic_batch->flush(1.0f);
 
     text_infos.draw();

@@ -11,7 +11,7 @@
 
 namespace lili {
 
-struct SpriteDrawItem
+struct DrawItem
 {
     RenderLayer render_pass;
     float layer;
@@ -33,10 +33,12 @@ public:
     }
 
 private:
-    inline static std::vector<SpriteDrawItem> sprite_items;
+    inline static std::vector<DrawItem> items;
 
     static void
     renderSprites(ECSRegistry& registry, DynamicBatch& batch);
+    static void
+    renderShapes(ECSRegistry& registry, DynamicBatch& batch);
 };
 
 } // namespace lili

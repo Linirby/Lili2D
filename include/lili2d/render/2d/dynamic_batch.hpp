@@ -52,13 +52,15 @@ public:
     /// @param position The local position.
     /// @param scale The local scale.
     /// @param rotation The local rotation in degrees.
-    /// @param color The color tint for the vertices.
+    /// @param tint The color tint for the vertices.
     void
-    add(const SliceUV& slice,
+    addSprite(
+        const SliceUV& slice,
         Vec2 position,
         Vec2 scale = { 1.0f, 1.0f },
         float rotation = 0.0f,
-        Vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f });
+        Vec4 tint = { 1.0f, 1.0f, 1.0f, 1.0f }
+    );
 
     /// @brief Submits to the renderer and flushes the batch.
     void

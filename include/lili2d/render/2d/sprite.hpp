@@ -19,9 +19,12 @@ namespace lili {
 // @brief Component to represents a Sprite.
 struct SpriteComponent
 {
-    SliceUV slice;                ///< The SliceUV containing the texture.
-    uint16_t material_id = 0;     ///< The ID of the linked material.
-    Vec4 tint = Vec4(1, 1, 1, 1); ///< The color tint going over the material.
+    SliceUV slice;            ///< The SliceUV containing the texture.
+    uint16_t material_id = 0; ///< The ID of the linked material.
+    Vec4 tint = { 1.0f,
+                  1.0f,
+                  1.0f,
+                  1.0f }; ///< The color tint going over the material.
 };
 
 static_assert(

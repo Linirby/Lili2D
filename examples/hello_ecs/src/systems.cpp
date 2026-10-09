@@ -48,7 +48,7 @@ renderEntities(lili::ECSRegistry& registry, lili::DynamicBatch& batch)
     auto view = registry.view<PositionComponent, RenderComponent>();
 
     for (auto [entity, pos, render] : view)
-        batch.add(
+        batch.addSprite(
             render.slice,
             pos.value,
             { render.radius * 2.0f, render.radius * 2.0f },

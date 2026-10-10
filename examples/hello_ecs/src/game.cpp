@@ -46,11 +46,10 @@ App::App()
     for (int i = 0; i < N_ENTITIES; ++i)
         spawnRandomBall();
 
-    std::cout << "=== Lili2D ECS Demo Instructions ===\n"
-              << "  [SPACE]     : Spawn a new random ball entity\n"
-              << "  [BACKSPACE] : Destroy a random ball entity\n"
-              << "  [T]         : Toggle velocity component of a random ball\n"
-              << "====================================\n";
+    std::cout << "Instructions\n"
+              << "SPACE: Spawn a new random ball entity\n"
+              << "BACKSPACE: Destroy a random ball entity\n"
+              << "T: Toggle velocity component of a random ball\n";
 }
 
 void

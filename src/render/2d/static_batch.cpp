@@ -27,6 +27,23 @@ StaticBatch::addSprite(
 }
 
 void
+StaticBatch::addRect(
+    Vec2 position,
+    Vec2 size,
+    Vec2 scale,
+    float rotation,
+    Vec4 color
+)
+{
+    BatchHelper::appendRect(mesh_data, position, size, scale, rotation, color);
+    Texture* the_white_pixel = renderer->getTheWhitePixel();
+    if (active_texture != the_white_pixel) {
+        active_texture = the_white_pixel;
+        material.albedoMap = active_texture;
+    }
+}
+
+void
 StaticBatch::bake()
 {
     if (mesh_data.vertices.empty())

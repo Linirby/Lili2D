@@ -15,14 +15,14 @@ namespace lili {
 
 struct RectComponent
 {
-    Vec4 tint = { 1.0f,
-                  1.0f,
-                  1.0f,
-                  1.0f };          ///< The color tint going over the material.
-    Vec2 size = { 1.0f, 1.0f };    ///< The default size in pixel of the Rect.
-    float hollow_thickness = 1.0f; ///< The thickness of the border when hollow.
-    uint16_t material_id = 0;      ///< The ID of the linked material.
-    bool hollow = false;           ///< Is the shape hollow?
+    Vec4 color = { 1.0f,
+                   1.0f,
+                   1.0f,
+                   1.0f };      ///< The color tint going over the material.
+    Vec2 size = { 1.0f, 1.0f }; ///< The default size in pixel of the Rect.
+    float thickness = 1.0f;     ///< The thickness of the border when hollow.
+    uint16_t material_id = 0;   ///< The ID of the linked material.
+    bool hollow = false;        ///< Is the shape hollow?
 };
 
 static_assert(

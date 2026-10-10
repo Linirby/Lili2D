@@ -6,6 +6,7 @@
 #include <random>
 
 #include "components.hpp"
+#include "lili2d/render/gpu/pass_types.hpp"
 #include "systems.hpp"
 
 namespace {
@@ -50,13 +51,10 @@ App::onInit()
     for (int i = 0; i < N_ENTITIES; ++i)
         spawnRandomBall();
 
-    std::cout
-        << "=== Lili2D Multithreading Demo Instructions ===\n"
-        << "  [SPACE]     : Spawn a new random ball entity\n"
-        << "  [BACKSPACE] : Destroy a random ball entity\n"
-        << "  [M]         : Toggle C++20 Multithreading (Auto Threshold vs "
-           "Single-Thread)\n"
-        << "================================================\n";
+    std::cout << "Instructions\n"
+              << "SPACE: Spawn a new random ball entity\n"
+              << "BACKSPACE: Destroy a random ball entity\n"
+              << "M: Toggle Multithreading\n";
 }
 
 void
@@ -112,7 +110,7 @@ App::onRender(float alpha)
         }
     }
 
-    dynamic_batch->flush(0.0f);
+    dynamic_batch->flush(0.0f, lili::RenderLayer::WORLD2D);
 }
 
 void

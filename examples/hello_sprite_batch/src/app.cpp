@@ -1,4 +1,5 @@
 #include "app.hpp"
+#include "lili2d/render/gpu/pass_types.hpp"
 #include <memory>
 
 App::App()
@@ -67,8 +68,11 @@ App::App()
         }
     }
     static_batch->begin();
+    lili::Vec2 scale = { 1.0f, 1.0f };
+    float rotation = 0.0f;
+    lili::Vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
     for (auto item : tiles_draw_data)
-        static_batch->addSprite(item.slice, item.pos);
+        static_batch->addSprite(item.slice, item.pos, scale, rotation, color);
     static_batch->bake();
 
     current_anim = &anim_idle;
@@ -145,13 +149,17 @@ App::onUpdate(float dt)
 void
 App::onRender([[maybe_unused]] float alpha)
 {
-    static_batch->draw(0.0f);
+    static_batch->draw(0.0f, lili::RenderLayer::WORLD2D);
 
     dynamic_batch->begin();
     dynamic_batch->addSprite(
-        player.anim_player.getCurrentFrame(), player.position
+        player.anim_player.getCurrentFrame(),
+        player.position,
+        { 1.0f, 1.0f },
+        0.0f,
+        { 1.0f, 1.0f, 1.0f, 1.0f }
     );
-    dynamic_batch->flush(1.0f);
+    dynamic_batch->flush(1.0f, lili::RenderLayer::WORLD2D);
 
     text_infos.draw();
 }

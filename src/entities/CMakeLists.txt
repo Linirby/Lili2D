@@ -1,4 +1,5 @@
 add_library(lili_entities OBJECT
+    rect.cpp
     sprite.cpp
 )
 add_library(lili::entities ALIAS lili_entities)

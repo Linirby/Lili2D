@@ -50,6 +50,8 @@ void
 App::onRender(float alpha)
 {
     (void)alpha;
-    lili::Render2DSystem::render(getECSRegistry(), *batch);
+    lili::Render2DSystem::render(
+        getECSRegistry(), *batch, getRenderer()->getTheWhitePixel()
+    );
     // cat_sprite.draw();
 }

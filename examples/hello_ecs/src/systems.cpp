@@ -4,6 +4,7 @@
 #include <lili2d/ecs/entity.hpp>
 
 #include "components.hpp"
+#include "lili2d/render/gpu/pass_types.hpp"
 
 namespace systems {
 
@@ -54,7 +55,7 @@ renderEntities(lili::ECSRegistry& registry, lili::DynamicBatch& batch)
             render.color
         );
 
-    batch.flush(0.0f);
+    batch.flush(0.0f, lili::RenderLayer::WORLD2D);
 }
 
 } // namespace systems

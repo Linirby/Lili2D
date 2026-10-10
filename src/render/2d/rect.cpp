@@ -41,8 +41,8 @@ Rect::draw()
 
     if (is_hollow) {
         if (hollow_dirty) {
-            float w = (shape.size.x > 0.0001f) ? shape.size.x : 1.0f;
-            float h = (shape.size.y > 0.0001f) ? shape.size.y : 1.0f;
+            float w = (shape.size.x >= 1.0f) ? shape.size.x : 1.0f;
+            float h = (shape.size.y >= 1.0f) ? shape.size.y : 1.0f;
             float tx = std::min(0.5f, hollow_thickness / w);
             float ty = std::min(0.5f, hollow_thickness / h);
 

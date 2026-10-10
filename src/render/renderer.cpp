@@ -1,7 +1,5 @@
 #include "lili2d/render/renderer.hpp"
 
-#include <SDL3/SDL_pixels.h>
-
 #include <algorithm>
 #include <cstdint>
 #include <iostream>

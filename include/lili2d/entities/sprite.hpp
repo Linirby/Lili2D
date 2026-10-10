@@ -17,7 +17,7 @@ createSprite(
     ECSRegistry& registry,
     Renderer* renderer,
     const std::string& img_path,
-    Vec2 pos = { 0.0f, 0.0f },
+    Vec2 pos,
     Vec2 scale = { 1.0f, 1.0f },
     float rotation = 0.0f,
     Vec4 color_tint = { 1.0f, 1.0f, 1.0f, 1.0f },
@@ -31,7 +31,7 @@ createSprite(
 createSprite(
     ECSRegistry& registry,
     const SliceUV& sliceUV,
-    Vec2 pos = { 0.0f, 0.0f },
+    Vec2 pos,
     Vec2 scale = { 1.0f, 1.0f },
     float rotation = 0.0f,
     Vec4 color_tint = { 1.0f, 1.0f, 1.0f, 1.0f },

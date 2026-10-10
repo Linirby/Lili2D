@@ -46,7 +46,7 @@ public:
         mesh_data.indices.clear();
     }
 
-    /// @brief Adds a slice to the static mesh staging data.
+    /// @brief Adds a sprite slice to the batch mesh.
     /// @param slice The texture slice (UVs) to use.
     /// @param position The local position.
     /// @param scale The local scale.
@@ -56,10 +56,19 @@ public:
     addSprite(
         const SliceUV& slice,
         Vec2 position,
-        Vec2 scale = { 1.0f, 1.0f },
-        float rotation = 0.0f,
-        Vec4 tint = { 1.0f, 1.0f, 1.0f, 1.0f }
+        Vec2 scale,
+        float rotation,
+        Vec4 tint
     );
+
+    /// @brief Adds a rect to the batch mesh.
+    /// @param position The local position.
+    /// @param size The size of the rect.
+    /// @param scale The local scale.
+    /// @param rotation The local rotation in degrees.
+    /// @param tint The color for the rect vertices.
+    void
+    addRect(Vec2 position, Vec2 size, Vec2 scale, float rotation, Vec4 color);
 
     /// @brief Bakes all added sprites into a GPUMesh in VRAM and clears CPU
     /// staging memory.
@@ -70,7 +79,7 @@ public:
     /// @param layer Draw layer depth for sorting.
     /// @param render_pass Render pass target (WORLD2D or UI).
     void
-    draw(float layer = 0.0f, RenderLayer render_pass = RenderLayer::WORLD2D);
+    draw(float layer, RenderLayer render_pass);
 
     /// @brief Clears both GPU mesh and CPU staging data.
     void

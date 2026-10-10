@@ -6,6 +6,7 @@
 
 #include "lili2d/core/batch_item.hpp"
 #include "lili2d/geometry/vec2.hpp"
+#include "lili2d/geometry/vec4.hpp"
 #include "lili2d/render/common/atlas_map.hpp"
 #include "lili2d/render/common/renderable.hpp"
 #include "lili2d/render/gpu/gpu_mesh.hpp"
@@ -47,7 +48,7 @@ public:
         pool_idx = 0;
     }
 
-    /// @brief Adds a slice to the batch mesh.
+    /// @brief Adds a sprite slice to the batch mesh.
     /// @param slice The texture slice (UVs) to use.
     /// @param position The local position.
     /// @param scale The local scale.
@@ -57,14 +58,31 @@ public:
     addSprite(
         const SliceUV& slice,
         Vec2 position,
-        Vec2 scale = { 1.0f, 1.0f },
-        float rotation = 0.0f,
-        Vec4 tint = { 1.0f, 1.0f, 1.0f, 1.0f }
+        Vec2 scale,
+        float rotation,
+        Vec4 tint
+    );
+
+    /// @brief Adds a rect to the batch mesh.
+    /// @param position The local position.
+    /// @param size The size of the rect.
+    /// @param scale The local scale.
+    /// @param rotation The local rotation in degrees.
+    /// @param tint The color for the rect vertices.
+    void
+    addRect(
+        Vec2 position,
+        Vec2 size,
+        Vec2 scale,
+        float rotation,
+        Vec4 color,
+        bool hollow,
+        float thickness
     );
 
     /// @brief Submits to the renderer and flushes the batch.
     void
-    flush(float layer, RenderLayer render_pass = RenderLayer::WORLD2D);
+    flush(float layer, RenderLayer render_pass);
 
 private:
     Renderer* renderer = nullptr;
@@ -72,16 +90,6 @@ private:
     std::deque<BatchItem> batch_pool;
     size_t pool_idx = 0;
     MeshData mesh_data;
-
-    static void
-    appendToMesh(
-        MeshData& mesh_data,
-        const SliceUV& slice,
-        Vec2 position,
-        Vec2 scale = { 1.0f, 1.0f },
-        float rotation = 0.0f,
-        Vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f }
-    );
 };
 
 } // namespace lili

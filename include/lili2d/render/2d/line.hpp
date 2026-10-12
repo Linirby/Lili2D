@@ -17,10 +17,10 @@ namespace lili {
 
 struct LineComponent
 {
-    Vec4 tint = { 1.0f,
-                  1.0f,
-                  1.0f,
-                  1.0f };      ///< The color tint going over the material.
+    Vec4 color = { 1.0f,
+                   1.0f,
+                   1.0f,
+                   1.0f };     ///< The color tint going over the material.
     Vec2 dxy = { 0.0f, 0.0f }; ///< The distance between start and end pos.
     float thickness = 1.0f;    ///< The default size in pixel of the Rect.
     uint16_t material_id = 0;  ///< The ID of the linked material.
@@ -32,7 +32,8 @@ static_assert(
 );
 
 /// @brief A renderable line.
-class [[deprecated("Use LineComponent with ECS")]] Line : public IRenderable
+class [[deprecated("Use LineComponent and createLine() with ECS")]] Line
+  : public IRenderable
 {
 public:
     /// @brief Default constructor.

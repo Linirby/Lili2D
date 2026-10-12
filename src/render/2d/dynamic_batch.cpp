@@ -53,12 +53,12 @@ DynamicBatch::addRect(
 )
 {
     if (hollow)
-        BatchHelper::appendRect(
-            mesh_data, position, size, scale, rotation, color
-        );
-    else
         BatchHelper::appendHollowRect(
             mesh_data, position, size, scale, rotation, color, thickness
+        );
+    else
+        BatchHelper::appendRect(
+            mesh_data, position, size, scale, rotation, color
         );
     Texture* the_white_pixel = renderer->getTheWhitePixel();
     if (active_texture != the_white_pixel)

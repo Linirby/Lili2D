@@ -16,10 +16,10 @@ namespace lili {
 
 struct CircleComponent
 {
-    Vec4 tint = { 1.0f,
-                  1.0f,
-                  1.0f,
-                  1.0f };     ///< The color tint going over the material.
+    Vec4 color = { 1.0f,
+                   1.0f,
+                   1.0f,
+                   1.0f };    ///< The color tint going over the material.
     float radius = 1.0f;      ///< The radius of the circle.
     float segments = 8.0f;    ///< The number of segments.
     float thickness = 1.0f;   ///< The thickness of the border when hollow.
@@ -28,7 +28,8 @@ struct CircleComponent
 };
 
 /// @brief A renderable circle.
-class [[deprecated("Use CircleComponent with ECS")]] Circle : public IRenderable
+class [[deprecated("Use CircleComponent and createCircle() with ECS")]] Circle
+  : public IRenderable
 {
 public:
     /// @brief Default constructor.

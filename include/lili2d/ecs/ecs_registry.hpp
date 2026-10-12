@@ -39,6 +39,14 @@ public:
 
     /// @brief Gets the vector of all registered entities.
     /// @return Const reference to the vector of all entities.
+    [[nodiscard]] std::vector<Entity>&
+    getEntities() noexcept
+    {
+        return entities;
+    }
+
+    /// @brief Gets the vector of all registered entities.
+    /// @return Const reference to the vector of all entities.
     [[nodiscard]] const std::vector<Entity>&
     getEntities() const noexcept
     {

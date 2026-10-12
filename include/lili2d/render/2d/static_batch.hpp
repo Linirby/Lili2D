@@ -68,7 +68,15 @@ public:
     /// @param rotation The local rotation in degrees.
     /// @param tint The color for the rect vertices.
     void
-    addRect(Vec2 position, Vec2 size, Vec2 scale, float rotation, Vec4 color);
+    addRect(
+        Vec2 position,
+        Vec2 size,
+        Vec2 scale,
+        float rotation,
+        Vec4 color,
+        bool hollow,
+        float thickness
+    );
 
     /// @brief Bakes all added sprites into a GPUMesh in VRAM and clears CPU
     /// staging memory.

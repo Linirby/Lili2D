@@ -31,7 +31,8 @@ static_assert(
 );
 
 /// @brief A renderable rectangle.
-class [[deprecated("Use RectComponent with ECS")]] Rect : public IRenderable
+class [[deprecated("Use RectComponent and createRect() with ECS")]] Rect
+  : public IRenderable
 {
 public:
     /// @brief Default constructor.

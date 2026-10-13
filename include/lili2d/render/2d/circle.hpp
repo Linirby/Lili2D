@@ -21,7 +21,7 @@ struct CircleComponent
                    1.0f,
                    1.0f };    ///< The color tint going over the material.
     float radius = 1.0f;      ///< The radius of the circle.
-    float segments = 8.0f;    ///< The number of segments.
+    size_t segments = 8;      ///< The number of segments.
     float thickness = 1.0f;   ///< The thickness of the border when hollow.
     uint16_t material_id = 0; ///< The ID of the linked material.
     bool hollow = false;      ///< Is the shape hollow?

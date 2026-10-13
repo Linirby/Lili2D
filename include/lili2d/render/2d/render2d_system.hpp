@@ -52,7 +52,6 @@ struct CircleDrawItem
     Vec2 pos;
     float radius;
     size_t segments;
-    Vec2 scale;
     Vec4 color;
     bool hollow;
     float thickness;
@@ -87,6 +86,8 @@ private:
     inline static std::vector<uint32_t> sprite_indices;
     inline static std::vector<RectDrawItem> rects;
     inline static std::vector<uint32_t> rect_indices;
+    inline static std::vector<CircleDrawItem> circles;
+    inline static std::vector<uint32_t> circle_indices;
 
     inline static float current_layer = std::numeric_limits<float>::min();
     inline static RenderLayer current_render_pass = RenderLayer::UNDEFINE;

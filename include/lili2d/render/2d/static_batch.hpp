@@ -66,13 +66,32 @@ public:
     /// @param size The size of the rect.
     /// @param scale The local scale.
     /// @param rotation The local rotation in degrees.
-    /// @param tint The color for the rect vertices.
+    /// @param color The color for the rect vertices.
+    /// @param hollow Boolean to say if the rect should be hollow
+    /// @param thickness The border thickness when hollow
     void
     addRect(
         Vec2 position,
         Vec2 size,
         Vec2 scale,
         float rotation,
+        Vec4 color,
+        bool hollow,
+        float thickness
+    );
+
+    /// @brief Adds a circle to the batch mesh.
+    /// @param center_pos The local position.
+    /// @param radius The radius of the circle.
+    /// @param segments The number of segments that will compose the circle.
+    /// @param color The color of the circle.
+    /// @param hollow Boolean to say if the rect should be hollow
+    /// @param thickness The border thickness when hollow
+    void
+    addCircle(
+        Vec2 center_pos,
+        float radius,
+        float segments,
         Vec4 color,
         bool hollow,
         float thickness

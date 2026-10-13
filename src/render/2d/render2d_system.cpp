@@ -165,6 +165,67 @@ Render2DSystem::renderCircles(
 {
     auto circle_view =
         registry.view<Render2DComponent, TransformComponent, CircleComponent>();
+
+    circles.clear();
+    for (auto&& [entity, render2d, trans, circle] : circle_view) {
+        if (!render2d.is_visible)
+            continue;
+        circles.push_back(
+            CircleDrawItem{ .entity = entity,
+                            .render_pass = render2d.render_pass,
+                            .layer = render2d.layer,
+                            .material_id = circle.material_id,
+                            .pos = trans.pos,
+                            .radius = circle.radius,
+                            .segments = circle.segments,
+                            .color = circle.color,
+                            .hollow = circle.hollow,
+                            .thickness = circle.thickness }
+        );
+    }
+    circle_indices.resize(circles.size());
+    std::iota(circle_indices.begin(), circle_indices.end(), 0);
+    std::sort(
+        circle_indices.begin(),
+        circle_indices.end(),
+        [](uint32_t a, uint32_t b) -> bool {
+            CircleDrawItem item_a = circles[a];
+            CircleDrawItem item_b = circles[b];
+
+            if (item_a.render_pass != item_b.render_pass)
+                return item_a.render_pass < item_b.render_pass;
+            if (item_a.layer != item_b.layer)
+                return item_a.layer < item_b.layer;
+            if (item_a.material_id != item_b.material_id)
+                return item_a.material_id < item_b.material_id;
+            return item_a.entity < item_b.entity;
+        }
+    );
+
+    for (auto idx : circle_indices) {
+        CircleDrawItem item = circles[idx];
+
+        bool should_flush = current_render_pass != item.render_pass ||
+                            current_layer != item.layer ||
+                            current_material_id != item.material_id ||
+                            current_texture != the_white_pixel;
+        if (should_flush) {
+            batch.flush(current_layer, current_render_pass);
+            current_render_pass = item.render_pass;
+            current_layer = item.layer;
+            current_material_id = item.material_id;
+            current_texture = the_white_pixel;
+        }
+        batch.addCircle(
+            item.pos,
+            item.radius,
+            item.segments,
+            item.color,
+            item.hollow,
+            item.thickness
+        );
+    }
+    batch.flush(current_layer, current_render_pass);
 }
 
 void

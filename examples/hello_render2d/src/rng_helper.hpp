@@ -14,7 +14,13 @@ pos();
 lili::Vec2
 size();
 
+float
+radius();
+
 lili::Vec4
 color();
+
+bool
+hollow();
 
 } // namespace rng

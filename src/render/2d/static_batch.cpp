@@ -51,6 +51,30 @@ StaticBatch::addRect(
 }
 
 void
+StaticBatch::addCircle(
+    Vec2 center_pos,
+    float radius,
+    float segments,
+    Vec4 color,
+    bool hollow,
+    float thickness
+)
+{
+    if (hollow)
+        BatchHelper::appendHollowCircle(
+            mesh_data, center_pos, radius, segments, color, thickness
+        );
+    else
+        BatchHelper::appendCircle(
+            mesh_data, center_pos, radius, segments, color
+        );
+
+    Texture* the_white_pixel = renderer->getTheWhitePixel();
+    if (active_texture != the_white_pixel)
+        active_texture = the_white_pixel;
+}
+
+void
 StaticBatch::bake()
 {
     if (mesh_data.vertices.empty())

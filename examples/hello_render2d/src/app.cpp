@@ -1,7 +1,9 @@
 #include "app.hpp"
+#include "lili2d/entities/circle.hpp"
+#include "lili2d/render/2d/text.hpp"
+#include "lili2d/render/gpu/pass_types.hpp"
 #include "rng_helper.hpp"
 
-#include <cstddef>
 #include <lili2d/core/action_map.hpp>
 #include <lili2d/core/event.hpp>
 #include <lili2d/core/keys.hpp>
@@ -34,11 +36,27 @@ App::addRect(
     lili::ECSRegistry& registry,
     lili::Vec2 pos,
     lili::Vec2 size,
-    lili::Vec4 color
+    lili::Vec4 color,
+    bool hollow
+)
+{
+    lili::Entity e = lili::createRect(
+        registry, pos, size, { 1.0f, 1.0f }, 0.0f, color, hollow, 5.0f
+    );
+    spawned.push_back(e);
+}
+
+void
+App::addCircle(
+    lili::ECSRegistry& registry,
+    lili::Vec2 pos,
+    float radius,
+    lili::Vec4 color,
+    bool hollow
 )
 {
     lili::Entity e =
-        lili::createRect(registry, pos, size, { 1.0f, 1.0f }, 0.0f, color);
+        lili::createCircle(registry, pos, radius, 24, color, hollow, 5.0f);
     spawned.push_back(e);
 }
 
@@ -58,10 +76,14 @@ App::onInit()
     lili::ECSRegistry& registry = getECSRegistry();
     lili::Renderer* renderer = getRenderer();
 
-    for (size_t i = 0; i < N_ENTITIES / 2.0f; i++) {
-        addBaguette(registry, renderer, rng::pos());
-        addRect(registry, rng::pos(), rng::size(), rng::color());
-    }
+    instructions_text = lili::Text(
+        renderer,
+        renderer->getDefaultFont(),
+        "Key 1 to 4: Create renderable entity | Backspace: Remove last entity"
+    );
+    instructions_text.setScale(2.0f);
+    instructions_text.setRender(lili::RenderLayer::WORLD2D);
+    instructions_text.setPosition({ 10.0f, 10.0f });
 
     batch = std::make_unique<lili::DynamicBatch>(getRenderer(), nullptr);
 }
@@ -80,7 +102,23 @@ App::onEvent(const lili::Event& event)
             else if (kb_ev.key == lili::Key::NUM_1)
                 addBaguette(registry, renderer, rng::pos());
             else if (kb_ev.key == lili::Key::NUM_2)
-                addRect(registry, rng::pos(), rng::size(), rng::color());
+                addRect(
+                    registry,
+                    rng::pos(),
+                    rng::size(),
+                    rng::color(),
+                    rng::hollow()
+                );
+            else if (kb_ev.key == lili::Key::NUM_3)
+                addCircle(
+                    registry,
+                    rng::pos(),
+                    rng::radius(),
+                    rng::color(),
+                    rng::hollow()
+                );
+            else if (kb_ev.key == lili::Key::NUM_4)
+                ;
             else if (kb_ev.key == lili::Key::BACKSPACE)
                 popLast(registry);
         }
@@ -90,6 +128,7 @@ App::onEvent(const lili::Event& event)
 void
 App::onRender(float alpha)
 {
+    instructions_text.draw();
     lili::Render2DSystem::render(
         getECSRegistry(), *batch, getRenderer()->getTheWhitePixel()
     );

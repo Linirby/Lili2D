@@ -16,7 +16,7 @@ createRect(
     float rotation = 0.0f,
     Vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f },
     bool hollow = false,
-    float thickness = 0.0f,
+    float thickness = 1.0f,
     float layer = 0.0f,
     RenderLayer render_pass = RenderLayer::WORLD2D,
     bool is_visible = true,

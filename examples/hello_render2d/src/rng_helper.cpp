@@ -32,6 +32,15 @@ rng::size()
     return { width(gen), height(gen) };
 }
 
+float
+rng::radius()
+{
+    std::mt19937& gen = rng::gen();
+    std::uniform_real_distribution<float> res(5.0f, 25.0f);
+
+    return res(gen);
+}
+
 lili::Vec4
 rng::color()
 {
@@ -41,4 +50,13 @@ rng::color()
     std::uniform_real_distribution<float> blue(0.0f, 1.0f);
 
     return { red(gen), green(gen), blue(gen), 1.0f };
+}
+
+bool
+rng::hollow()
+{
+    std::mt19937& gen = rng::gen();
+    std::uniform_int_distribution<> res(0, 1);
+
+    return res(gen);
 }

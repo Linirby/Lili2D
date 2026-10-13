@@ -1,5 +1,7 @@
 #include "lili2d/render/2d/batch_helper.hpp"
 #include "lili2d/geometry/vec2.hpp"
+#include "lili2d/render/gpu/gpu_mesh.hpp"
+#include <cstdint>
 
 namespace lili::BatchHelper {
 
@@ -75,8 +77,7 @@ appendRect(
     Vec4 color
 )
 {
-    uint32_t current_vertex_count =
-        static_cast<uint32_t>(mesh_data.vertices.size());
+    uint32_t base_idx = mesh_data.vertices.size();
 
     float cos_r = 1.0f;
     float sin_r = 0.0f;
@@ -119,12 +120,12 @@ appendRect(
         Vec3(tp3.x, tp3.y, 0.0f), Vec2(0.0f, 1.0f), 0.0f, color
     );
 
-    mesh_data.indices.push_back(current_vertex_count + 0);
-    mesh_data.indices.push_back(current_vertex_count + 1);
-    mesh_data.indices.push_back(current_vertex_count + 2);
-    mesh_data.indices.push_back(current_vertex_count + 2);
-    mesh_data.indices.push_back(current_vertex_count + 3);
-    mesh_data.indices.push_back(current_vertex_count + 0);
+    mesh_data.indices.push_back(base_idx + 0);
+    mesh_data.indices.push_back(base_idx + 1);
+    mesh_data.indices.push_back(base_idx + 2);
+    mesh_data.indices.push_back(base_idx + 2);
+    mesh_data.indices.push_back(base_idx + 3);
+    mesh_data.indices.push_back(base_idx + 0);
 }
 
 void
@@ -138,64 +139,66 @@ appendHollowRect(
     float thickness
 )
 {
-    float target_w = size.x * scale.x;
-    float target_h = size.y * scale.y;
-    float w = (target_w >= 1.0f) ? target_w : 1.0f;
-    float h = (target_h >= 1.0f) ? target_h : 1.0f;
-    float tx = std::min(0.5f, thickness / w);
-    float ty = std::min(0.5f, thickness / h);
+    float half_w = (size.x / 2.0f) * scale.x;
+    float half_h = (size.y / 2.0f) * scale.y;
 
-    std::vector<Vertex> vertices;
-    std::vector<uint32_t> indices;
+    if (half_w <= 0.0f || half_h <= 0.0f || thickness <= 0.0f)
+        return;
 
-    auto add_quad = [&](Vec2 quad_topleft, Vec2 quad_size) {
-        uint32_t start_idx = vertices.size();
-        vertices.emplace_back(
-            Vec3(quad_topleft.x, quad_topleft.y, 0.0f),
-            Vec2(quad_topleft.x, quad_topleft.y),
-            0.0f,
-            color
-        );
-        vertices.emplace_back(
-            Vec3(quad_topleft.x + quad_size.x, quad_topleft.y, 0.0f),
-            Vec2(quad_topleft.x + quad_size.x, quad_topleft.y),
-            0.0f,
-            color
-        );
-        vertices.emplace_back(
-            Vec3(quad_topleft.x, quad_topleft.y + quad_size.y, 0.0f),
-            Vec2(quad_topleft.x, quad_topleft.y + quad_size.y),
-            0.0f,
-            color
-        );
-        vertices.emplace_back(
-            Vec3(
-                quad_topleft.x + quad_size.x, quad_topleft.y + quad_size.y, 0.0f
-            ),
-            Vec2(quad_size.x + quad_topleft.x, quad_topleft.y + quad_size.y),
-            0.0f,
-            color
-        );
+    float th_x = std::min(half_w, thickness);
+    float th_y = std::min(half_h, thickness);
+    if (th_x >= half_w || th_y >= half_h) {
+        appendRect(mesh_data, pos, size, scale, rotation, color);
+        return;
+    }
 
-        indices.push_back(start_idx + 0);
-        indices.push_back(start_idx + 1);
-        indices.push_back(start_idx + 2);
-        indices.push_back(start_idx + 2);
-        indices.push_back(start_idx + 1);
-        indices.push_back(start_idx + 3);
+    float cos_r = 1.0f;
+    float sin_r = 0.0f;
+    if (rotation != 0.0f) {
+        float rot_rad = lili::degToRad(rotation);
+        cos_r = std::cos(rot_rad);
+        sin_r = std::sin(rot_rad);
+    }
+
+    auto transform_point = [&](Vec2 p) -> Vec2 {
+        return Vec2(
+            pos.x + p.x * cos_r - p.y * sin_r, pos.y + p.x * sin_r + p.y * cos_r
+        );
     };
 
-    // Top quad (hihi ^^)
-    add_quad({ 0.0f, 0.0f }, { 1.0f, ty });
-    // Bottom quad (0v0)
-    add_quad({ 0.0f, 1.0f - ty }, { 1.0f, ty });
-    // Left quad (<3)
-    add_quad({ 0.0f, ty }, { tx, 1.0f - 2.0f * ty });
-    // Right quad (0> pinguin)
-    add_quad({ 1.0f - tx, ty }, { tx, 1.0f - 2.0f * ty });
+    auto add_quad = [&](Vec2 min_p, Vec2 max_p) {
+        uint32_t base_idx = static_cast<uint32_t>(mesh_data.vertices.size());
 
-    mesh_data.vertices = std::move(vertices);
-    mesh_data.indices = std::move(indices);
+        Vec2 tp0 = transform_point({ min_p.x, min_p.y });
+        Vec2 tp1 = transform_point({ max_p.x, min_p.y });
+        Vec2 tp2 = transform_point({ max_p.x, max_p.y });
+        Vec2 tp3 = transform_point({ min_p.x, max_p.y });
+
+        mesh_data.vertices.emplace_back(
+            Vec3(tp0.x, tp0.y, 0.0f), Vec2(0.0f, 0.0f), 0.0f, color
+        );
+        mesh_data.vertices.emplace_back(
+            Vec3(tp1.x, tp1.y, 0.0f), Vec2(1.0f, 0.0f), 0.0f, color
+        );
+        mesh_data.vertices.emplace_back(
+            Vec3(tp2.x, tp2.y, 0.0f), Vec2(1.0f, 1.0f), 0.0f, color
+        );
+        mesh_data.vertices.emplace_back(
+            Vec3(tp3.x, tp3.y, 0.0f), Vec2(0.0f, 1.0f), 0.0f, color
+        );
+
+        mesh_data.indices.push_back(base_idx + 0);
+        mesh_data.indices.push_back(base_idx + 1);
+        mesh_data.indices.push_back(base_idx + 2);
+        mesh_data.indices.push_back(base_idx + 2);
+        mesh_data.indices.push_back(base_idx + 3);
+        mesh_data.indices.push_back(base_idx + 0);
+    };
+
+    add_quad({ -half_w, -half_h }, { half_w, -half_h + th_y });
+    add_quad({ -half_w, half_h - th_y }, { half_w, half_h });
+    add_quad({ -half_w, -half_h + th_y }, { -half_w + th_x, half_h - th_y });
+    add_quad({ half_w - th_x, -half_h + th_y }, { half_w, half_h - th_y });
 }
 
 void
@@ -207,6 +210,36 @@ appendCircle(
     Vec4 color
 )
 {
+    const float PI = 3.14159265359f;
+
+    int n = (segments >= 3) ? segments : 3;
+    float angle_step = (2.0f * PI) / n;
+    uint32_t base_idx = mesh_data.vertices.size();
+
+    mesh_data.vertices.emplace_back(
+        Vec3(center.x, center.y, 0.0f), Vec2(0.5f, 0.5f), 0.0f, color
+    );
+
+    for (int i = 0; i < n; i++) {
+        float angle = i * angle_step;
+        float cos_a = std::cos(angle);
+        float sin_a = std::sin(angle);
+        mesh_data.vertices.emplace_back(
+            Vec3(center.x + radius * cos_a, center.y + radius * sin_a, 0.0f),
+            Vec2(0.5f + 0.5f * cos_a, 0.5f + 0.5f * sin_a),
+            0.0f,
+            color
+        );
+    }
+
+    for (int i = 1; i <= n; i++) {
+        uint32_t current_idx = i;
+        uint32_t next_idx = (i == n) ? 1 : (i + 1);
+
+        mesh_data.indices.push_back(base_idx);
+        mesh_data.indices.push_back(base_idx + current_idx);
+        mesh_data.indices.push_back(base_idx + next_idx);
+    }
 }
 
 void
@@ -214,11 +247,56 @@ appendHollowCircle(
     MeshData& mesh_data,
     Vec2 center,
     float radius,
-    float thickness,
     float segments,
-    Vec4 color
+    Vec4 color,
+    float thickness
 )
 {
+    const float PI = 3.14159265359f;
+
+    uint32_t base_idx = mesh_data.vertices.size();
+    int n = (segments >= 3) ? segments : 3;
+    float d = (radius + radius >= 1.0f) ? radius + radius : 1.0f;
+    float inner_r = std::max(0.0f, radius - thickness);
+    float angle_step = (2.0f * PI) / n;
+
+    if (inner_r == 0.0f) {
+        appendCircle(mesh_data, center, radius, segments, color);
+        return;
+    }
+
+    for (int i = 0; i < n; i++) {
+        float angle = i * angle_step;
+        float cos_a = std::cos(angle);
+        float sin_a = std::sin(angle);
+        mesh_data.vertices.emplace_back(
+            Vec3(center.x + inner_r * cos_a, center.y + inner_r * sin_a, 0.0f),
+            Vec2(
+                0.5f + inner_r / radius * cos_a, 0.5f + inner_r / radius * sin_a
+            ),
+            0.0f,
+            color
+        );
+        mesh_data.vertices.emplace_back(
+            Vec3(center.x + radius * cos_a, center.y + radius * sin_a, 0.0f),
+            Vec2(0.5f + cos_a, 0.5f + sin_a),
+            0.0f,
+            color
+        );
+
+        uint32_t current_inner = i * 2;
+        uint32_t current_outer = i * 2 + 1;
+        uint32_t next_inner = ((i + 1) % n) * 2;
+        uint32_t next_outer = ((i + 1) % n) * 2 + 1;
+
+        mesh_data.indices.push_back(base_idx + current_inner);
+        mesh_data.indices.push_back(base_idx + current_outer);
+        mesh_data.indices.push_back(base_idx + next_inner);
+
+        mesh_data.indices.push_back(base_idx + next_inner);
+        mesh_data.indices.push_back(base_idx + current_outer);
+        mesh_data.indices.push_back(base_idx + next_outer);
+    }
 }
 
 void

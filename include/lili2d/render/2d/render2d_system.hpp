@@ -63,6 +63,7 @@ struct LineDrawItem
     RenderLayer render_pass;
     float layer;
     uint16_t material_id;
+    Vec2 start_pos;
     Vec2 dxy;
     float thickness;
     Vec4 color;
@@ -88,6 +89,8 @@ private:
     inline static std::vector<uint32_t> rect_indices;
     inline static std::vector<CircleDrawItem> circles;
     inline static std::vector<uint32_t> circle_indices;
+    inline static std::vector<LineDrawItem> lines;
+    inline static std::vector<uint32_t> line_indices;
 
     inline static float current_layer = std::numeric_limits<float>::min();
     inline static RenderLayer current_render_pass = RenderLayer::UNDEFINE;

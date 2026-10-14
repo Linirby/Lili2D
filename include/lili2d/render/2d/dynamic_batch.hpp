@@ -99,6 +99,14 @@ public:
         float thickness
     );
 
+    /// @brief Adds a line to the batch mesh.
+    /// @param start_pos The local start position.
+    /// @param end_pos The local end position.
+    /// @param thickness The border thickness when hollow
+    /// @param color The color of the line.
+    void
+    addLine(Vec2 start_pos, Vec2 end_pos, float thickness, Vec4 color);
+
     /// @brief Submits to the renderer and flushes the batch.
     /// @param layer The layer to flush.
     /// @param render_pass The render pass to flush.

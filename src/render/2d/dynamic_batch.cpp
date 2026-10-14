@@ -91,6 +91,18 @@ DynamicBatch::addCircle(
 }
 
 void
+DynamicBatch::addLine(Vec2 start_pos, Vec2 end_pos, float thickness, Vec4 color)
+{
+    BatchHelper::appendLine(
+        mesh_data, start_pos, end_pos - start_pos, thickness, color
+    );
+
+    Texture* the_white_pixel = renderer->getTheWhitePixel();
+    if (active_texture != the_white_pixel)
+        active_texture = the_white_pixel;
+}
+
+void
 DynamicBatch::flush(float layer, RenderLayer render_pass)
 {
     if (mesh_data.vertices.empty())

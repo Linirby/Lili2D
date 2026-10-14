@@ -57,6 +57,12 @@ appendHollowCircle(
 );
 
 void
-appendLine(MeshData& mesh_data, Vec2 dxy, float thickness, Vec4 color);
+appendLine(
+    MeshData& mesh_data,
+    Vec2 start_pos,
+    Vec2 dxy,
+    float thickness,
+    Vec4 color
+);
 
 } // namespace lili::BatchHelper

@@ -17,11 +17,11 @@ smth else.
 
 ### IN PROGRESS
 
-- OOP to ECS support: Circle.
 - OOP to ECS support: Line.
 
 ### DONE
 
+- OOP to ECS support: Circle.
 - Optimize Render2DSystem with index sorting instead of struct.
 - OOP to ECS support: Rect.
 - Fix FPS loss with Nvidia on Linux when SpriteBatch::flush() is called in gameloop.

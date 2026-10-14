@@ -5,7 +5,6 @@
 #include "lili2d/ecs/ecs_view.hpp"
 #include "lili2d/render/2d/circle.hpp"
 #include "lili2d/render/2d/dynamic_batch.hpp"
-// #include "lili2d/render/2d/line.hpp"
 #include "lili2d/render/2d/line.hpp"
 #include "lili2d/render/2d/rect.hpp"
 #include "lili2d/render/2d/render2d_component.hpp"
@@ -237,6 +236,58 @@ Render2DSystem::renderLines(
 {
     auto line_view =
         registry.view<Render2DComponent, TransformComponent, LineComponent>();
+
+    lines.clear();
+    for (auto&& [entity, render2d, trans, line] : line_view) {
+        if (!render2d.is_visible)
+            continue;
+        lines.push_back(
+            LineDrawItem{ .entity = entity,
+                          .render_pass = render2d.render_pass,
+                          .layer = render2d.layer,
+                          .material_id = line.material_id,
+                          .start_pos = trans.pos,
+                          .dxy = line.dxy,
+                          .thickness = line.thickness,
+                          .color = line.color }
+        );
+    }
+    circle_indices.resize(lines.size());
+    std::iota(circle_indices.begin(), circle_indices.end(), 0);
+    std::sort(
+        circle_indices.begin(),
+        circle_indices.end(),
+        [](uint32_t a, uint32_t b) -> bool {
+            LineDrawItem item_a = lines[a];
+            LineDrawItem item_b = lines[b];
+
+            if (item_a.render_pass != item_b.render_pass)
+                return item_a.render_pass < item_b.render_pass;
+            if (item_a.layer != item_b.layer)
+                return item_a.layer < item_b.layer;
+            if (item_a.material_id != item_b.material_id)
+                return item_a.material_id < item_b.material_id;
+            return item_a.entity < item_b.entity;
+        }
+    );
+
+    for (auto idx : circle_indices) {
+        LineDrawItem item = lines[idx];
+
+        bool should_flush = current_render_pass != item.render_pass ||
+                            current_layer != item.layer ||
+                            current_material_id != item.material_id ||
+                            current_texture != the_white_pixel;
+        if (should_flush) {
+            batch.flush(current_layer, current_render_pass);
+            current_render_pass = item.render_pass;
+            current_layer = item.layer;
+            current_material_id = item.material_id;
+            current_texture = the_white_pixel;
+        }
+        batch.addLine(item.start_pos, item.dxy, item.thickness, item.color);
+    }
+    batch.flush(current_layer, current_render_pass);
 }
 
 } // namespace lili

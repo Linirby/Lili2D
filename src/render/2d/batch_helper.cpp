@@ -1,6 +1,8 @@
 #include "lili2d/render/2d/batch_helper.hpp"
 #include "lili2d/geometry/vec2.hpp"
+#include "lili2d/geometry/vec3.hpp"
 #include "lili2d/render/gpu/gpu_mesh.hpp"
+#include <cmath>
 #include <cstdint>
 
 namespace lili::BatchHelper {
@@ -47,16 +49,16 @@ appendSprite(
     Vec2 tp3 = transform_point(p3);
 
     mesh_data.vertices.emplace_back(
-        Vec3(tp0.x, tp0.y, 0.0f), Vec2(slice.u_min, slice.v_min), 0.0f, tint
+        Vec3(tp0.x, tp0.y, 0.0f), Vec2(slice.u_min, slice.v_min), 0, tint
     );
     mesh_data.vertices.emplace_back(
-        Vec3(tp1.x, tp1.y, 0.0f), Vec2(slice.u_max, slice.v_min), 0.0f, tint
+        Vec3(tp1.x, tp1.y, 0.0f), Vec2(slice.u_max, slice.v_min), 0, tint
     );
     mesh_data.vertices.emplace_back(
-        Vec3(tp2.x, tp2.y, 0.0f), Vec2(slice.u_max, slice.v_max), 0.0f, tint
+        Vec3(tp2.x, tp2.y, 0.0f), Vec2(slice.u_max, slice.v_max), 0, tint
     );
     mesh_data.vertices.emplace_back(
-        Vec3(tp3.x, tp3.y, 0.0f), Vec2(slice.u_min, slice.v_max), 0.0f, tint
+        Vec3(tp3.x, tp3.y, 0.0f), Vec2(slice.u_min, slice.v_max), 0, tint
     );
 
     mesh_data.indices.push_back(current_vertex_count + 0);
@@ -108,16 +110,16 @@ appendRect(
     Vec2 tp3 = transform_point(p3);
 
     mesh_data.vertices.emplace_back(
-        Vec3(tp0.x, tp0.y, 0.0f), Vec2(0.0f, 0.0f), 0.0f, color
+        Vec3(tp0.x, tp0.y, 0.0f), Vec2(0.0f, 0.0f), 0, color
     );
     mesh_data.vertices.emplace_back(
-        Vec3(tp1.x, tp1.y, 0.0f), Vec2(1.0f, 0.0f), 0.0f, color
+        Vec3(tp1.x, tp1.y, 0.0f), Vec2(1.0f, 0.0f), 0, color
     );
     mesh_data.vertices.emplace_back(
-        Vec3(tp2.x, tp2.y, 0.0f), Vec2(1.0f, 1.0f), 0.0f, color
+        Vec3(tp2.x, tp2.y, 0.0f), Vec2(1.0f, 1.0f), 0, color
     );
     mesh_data.vertices.emplace_back(
-        Vec3(tp3.x, tp3.y, 0.0f), Vec2(0.0f, 1.0f), 0.0f, color
+        Vec3(tp3.x, tp3.y, 0.0f), Vec2(0.0f, 1.0f), 0, color
     );
 
     mesh_data.indices.push_back(base_idx + 0);
@@ -175,16 +177,16 @@ appendHollowRect(
         Vec2 tp3 = transform_point({ min_p.x, max_p.y });
 
         mesh_data.vertices.emplace_back(
-            Vec3(tp0.x, tp0.y, 0.0f), Vec2(0.0f, 0.0f), 0.0f, color
+            Vec3(tp0.x, tp0.y, 0.0f), Vec2(0.0f, 0.0f), 0, color
         );
         mesh_data.vertices.emplace_back(
-            Vec3(tp1.x, tp1.y, 0.0f), Vec2(1.0f, 0.0f), 0.0f, color
+            Vec3(tp1.x, tp1.y, 0.0f), Vec2(1.0f, 0.0f), 0, color
         );
         mesh_data.vertices.emplace_back(
-            Vec3(tp2.x, tp2.y, 0.0f), Vec2(1.0f, 1.0f), 0.0f, color
+            Vec3(tp2.x, tp2.y, 0.0f), Vec2(1.0f, 1.0f), 0, color
         );
         mesh_data.vertices.emplace_back(
-            Vec3(tp3.x, tp3.y, 0.0f), Vec2(0.0f, 1.0f), 0.0f, color
+            Vec3(tp3.x, tp3.y, 0.0f), Vec2(0.0f, 1.0f), 0, color
         );
 
         mesh_data.indices.push_back(base_idx + 0);
@@ -227,7 +229,7 @@ appendCircle(
         mesh_data.vertices.emplace_back(
             Vec3(center.x + radius * cos_a, center.y + radius * sin_a, 0.0f),
             Vec2(0.5f + 0.5f * cos_a, 0.5f + 0.5f * sin_a),
-            0.0f,
+            0,
             color
         );
     }
@@ -274,13 +276,13 @@ appendHollowCircle(
             Vec2(
                 0.5f + inner_r / radius * cos_a, 0.5f + inner_r / radius * sin_a
             ),
-            0.0f,
+            0,
             color
         );
         mesh_data.vertices.emplace_back(
             Vec3(center.x + radius * cos_a, center.y + radius * sin_a, 0.0f),
             Vec2(0.5f + cos_a, 0.5f + sin_a),
-            0.0f,
+            0,
             color
         );
 
@@ -300,8 +302,54 @@ appendHollowCircle(
 }
 
 void
-appendLine(MeshData& mesh_data, Vec2 dxy, float thickness, Vec4 color)
+appendLine(
+    MeshData& mesh_data,
+    Vec2 start_pos,
+    Vec2 dxy,
+    float thickness,
+    Vec4 color
+)
 {
+    uint32_t base_idx = mesh_data.vertices.size();
+
+    float len = std::sqrt(dxy.x * dxy.x + dxy.y * dxy.y);
+    if (len < 1.0f)
+        return;
+    float half_t = (thickness >= 1.0f) ? thickness * 0.5f : 0.5f;
+    float ox = -half_t * (dxy.y / len);
+    float oy = half_t * (dxy.x / len);
+
+    mesh_data.vertices.emplace_back(
+        Vec3(start_pos.x + ox, start_pos.y + oy, 0.0f),
+        Vec2(0.0f, 0.0f),
+        0,
+        color
+    );
+    mesh_data.vertices.emplace_back(
+        Vec3(start_pos.x + dxy.x + ox, start_pos.y + dxy.y + oy, 0.0f),
+        Vec2(1.0f, 0.0f),
+        0,
+        color
+    );
+    mesh_data.vertices.emplace_back(
+        Vec3(start_pos.x + dxy.x - ox, start_pos.y + dxy.y - oy, 0.0f),
+        Vec2(1.0f, 1.0f),
+        0,
+        color
+    );
+    mesh_data.vertices.emplace_back(
+        Vec3(start_pos.x - ox, start_pos.y - oy, 0.0f),
+        Vec2(0.0f, 1.0f),
+        0,
+        color
+    );
+
+    mesh_data.indices.push_back(base_idx + 0);
+    mesh_data.indices.push_back(base_idx + 1);
+    mesh_data.indices.push_back(base_idx + 2);
+    mesh_data.indices.push_back(base_idx + 2);
+    mesh_data.indices.push_back(base_idx + 3);
+    mesh_data.indices.push_back(base_idx + 0);
 }
 
 } // namespace lili::BatchHelper

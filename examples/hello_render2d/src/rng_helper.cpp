@@ -60,3 +60,12 @@ rng::hollow()
 
     return res(gen);
 }
+
+float
+rng::thickness()
+{
+    std::mt19937& gen = rng::gen();
+    std::uniform_real_distribution<float> res(3.0f, 9.0f);
+
+    return res(gen);
+}

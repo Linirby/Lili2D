@@ -36,7 +36,8 @@ private:
         lili::Vec2 pos,
         lili::Vec2 size,
         lili::Vec4 color,
-        bool hollow
+        bool hollow,
+        float thickness
     );
     void
     addCircle(
@@ -44,7 +45,16 @@ private:
         lili::Vec2 pos,
         float radius,
         lili::Vec4 color,
-        bool hollow
+        bool hollow,
+        float thickness
+    );
+    void
+    addLine(
+        lili::ECSRegistry& registry,
+        lili::Vec2 start_pos,
+        lili::Vec2 end_pos,
+        float thickness,
+        lili::Vec4 color
     );
     void
     popLast(lili::ECSRegistry& registry);

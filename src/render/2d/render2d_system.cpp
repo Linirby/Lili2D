@@ -285,7 +285,12 @@ Render2DSystem::renderLines(
             current_material_id = item.material_id;
             current_texture = the_white_pixel;
         }
-        batch.addLine(item.start_pos, item.dxy, item.thickness, item.color);
+        batch.addLine(
+            item.start_pos,
+            item.start_pos + item.dxy,
+            item.thickness,
+            item.color
+        );
     }
     batch.flush(current_layer, current_render_pass);
 }

@@ -1,5 +1,6 @@
 #include "app.hpp"
 #include "lili2d/entities/circle.hpp"
+#include "lili2d/entities/line.hpp"
 #include "lili2d/render/2d/text.hpp"
 #include "lili2d/render/gpu/pass_types.hpp"
 #include "rng_helper.hpp"
@@ -37,11 +38,12 @@ App::addRect(
     lili::Vec2 pos,
     lili::Vec2 size,
     lili::Vec4 color,
-    bool hollow
+    bool hollow,
+    float thickness
 )
 {
     lili::Entity e = lili::createRect(
-        registry, pos, size, { 1.0f, 1.0f }, 0.0f, color, hollow, 5.0f
+        registry, pos, size, { 1.0f, 1.0f }, 0.0f, color, hollow, thickness
     );
     spawned.push_back(e);
 }
@@ -52,11 +54,26 @@ App::addCircle(
     lili::Vec2 pos,
     float radius,
     lili::Vec4 color,
-    bool hollow
+    bool hollow,
+    float thickness
 )
 {
     lili::Entity e =
-        lili::createCircle(registry, pos, radius, 24, color, hollow, 5.0f);
+        lili::createCircle(registry, pos, radius, 24, color, hollow, thickness);
+    spawned.push_back(e);
+}
+
+void
+App::addLine(
+    lili::ECSRegistry& registry,
+    lili::Vec2 start_pos,
+    lili::Vec2 end_pos,
+    float thickness,
+    lili::Vec4 color
+)
+{
+    lili::Entity e =
+        lili::createLine(registry, start_pos, end_pos, thickness, color);
     spawned.push_back(e);
 }
 
@@ -107,7 +124,8 @@ App::onEvent(const lili::Event& event)
                     rng::pos(),
                     rng::size(),
                     rng::color(),
-                    rng::hollow()
+                    rng::hollow(),
+                    rng::thickness()
                 );
             else if (kb_ev.key == lili::Key::NUM_3)
                 addCircle(
@@ -115,10 +133,17 @@ App::onEvent(const lili::Event& event)
                     rng::pos(),
                     rng::radius(),
                     rng::color(),
-                    rng::hollow()
+                    rng::hollow(),
+                    rng::thickness()
                 );
             else if (kb_ev.key == lili::Key::NUM_4)
-                ;
+                addLine(
+                    registry,
+                    rng::pos(),
+                    rng::pos(),
+                    rng::thickness(),
+                    rng::color()
+                );
             else if (kb_ev.key == lili::Key::BACKSPACE)
                 popLast(registry);
         }

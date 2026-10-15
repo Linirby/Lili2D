@@ -1,5 +1,6 @@
 add_library(lili_entities OBJECT
     circle.cpp
+    line.cpp
     rect.cpp
     sprite.cpp
 )

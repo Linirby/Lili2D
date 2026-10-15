@@ -23,4 +23,7 @@ color();
 bool
 hollow();
 
+float
+thickness();
+
 } // namespace rng

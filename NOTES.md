@@ -16,10 +16,13 @@ smth else.
 
 ### IN PROGRESS
 
-- Hide Render2DSystem in Game class.
+- Refactor different DrawItem in one struct for the Render2DSystem
+- Find a way to support anchor and pivot in new ECS architecture
+- Update all example with hidden render system and new shapes and sprite support.
 
 ### DONE
 
+- Hide Render2DSystem in Game class.
 - OOP to ECS support: Line.
 - OOP to ECS support: Circle.
 - Optimize Render2DSystem with index sorting instead of struct.

@@ -1,7 +1,7 @@
 #pragma once
 
+#include "lili2d/ecs/entity.hpp"
 #include <lili2d/lili2d.hpp>
-#include <memory>
 
 class App : public lili::Game
 {
@@ -14,9 +14,9 @@ private:
     lili::Vec2 cam_pos;
     float camera_zoom;
 
-    lili::Rect red_rect;
-    lili::Rect green_rect;
-    lili::Rect blue_rect;
+    lili::Entity red_rect;
+    lili::Entity green_rect;
+    lili::Entity blue_rect;
 
     lili::Text text_cam_pos;
     lili::Text text_controls;

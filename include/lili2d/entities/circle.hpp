@@ -4,7 +4,6 @@
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/geometry/vec4.hpp"
 #include "lili2d/render/gpu/pass_types.hpp"
-#include <cstddef>
 
 namespace lili {
 
@@ -13,7 +12,7 @@ createCircle(
     ECSRegistry& registry,
     Vec2 pos,
     float radius,
-    size_t segments = 24,
+    uint32_t segments = 24,
     Vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f },
     bool hollow = false,
     float thickness = 1.0f,

@@ -9,80 +9,122 @@
 #include "lili2d/render/2d/rect.hpp"
 #include "lili2d/render/2d/render2d_component.hpp"
 #include "lili2d/render/2d/sprite.hpp"
+#include "lili2d/render/common/atlas_map.hpp"
 #include "lili2d/render/gpu/texture.hpp"
 #include <algorithm>
-#include <cstddef>
 #include <cstdint>
 #include <numeric>
 
 namespace lili {
 
 void
-Render2DSystem::renderSprites(ECSRegistry& registry, DynamicBatch& batch)
+Render2DSystem::render(
+    ECSRegistry& registry,
+    DynamicBatch& batch,
+    Texture* the_white_pixel
+)
 {
-    auto view =
-        registry.view<Render2DComponent, TransformComponent, SpriteComponent>();
+    items.clear();
+    pushSprites(registry, batch);
+    pushRects(registry, batch, the_white_pixel);
+    pushCircles(registry, batch, the_white_pixel);
+    pushLines(registry, batch, the_white_pixel);
 
-    sprites.clear();
-    for (auto&& [entity, render2d, trans, sprite] : view) {
-        if (!render2d.is_visible)
-            continue;
-        sprites.push_back(
-            SpriteDrawItem{ .entity = entity,
-                            .render_pass = render2d.render_pass,
-                            .layer = render2d.layer,
-                            .material_id = sprite.material_id,
-                            .slice = sprite.slice,
-                            .pos = trans.pos,
-                            .scale = trans.scale,
-                            .rotation = trans.rotation,
-                            .tint = sprite.tint }
-        );
-    }
-    sprite_indices.resize(sprites.size());
-    std::iota(sprite_indices.begin(), sprite_indices.end(), 0);
-    std::sort(
-        sprite_indices.begin(),
-        sprite_indices.end(),
-        [](size_t a, size_t b) -> bool {
-            const SpriteDrawItem& item_a = sprites[a];
-            const SpriteDrawItem& item_b = sprites[b];
+    if (!items.empty()) {
+        item_indices.resize(items.size());
+        std::iota(item_indices.begin(), item_indices.end(), 0);
+        std::sort(item_indices.begin(), item_indices.end(), compareIndex);
 
-            if (item_a.render_pass != item_b.render_pass)
-                return item_a.render_pass < item_b.render_pass;
-            if (item_a.layer != item_b.layer)
-                return item_a.layer < item_b.layer;
-            if (item_a.material_id != item_b.material_id)
-                return item_a.material_id < item_b.material_id;
-            if (item_a.slice.texture != item_b.slice.texture)
-                return item_a.slice.texture < item_b.slice.texture;
-            return item_a.entity < item_b.entity;
+        for (uint32_t idx : item_indices) {
+            DrawItem item = items[idx];
+            if (shouldFlush(item)) {
+                batch.flush(current_layer, current_render_pass);
+                current_render_pass = item.render_pass;
+                current_layer = item.layer;
+                current_material_id = item.material_id;
+                current_texture = item.texture;
+            }
+
+            if (item.type == DrawType::SPRITE)
+                batch.addSprite(
+                    SliceUV{ .texture = item.texture,
+                             .u_min = item.nature.sprite.u_min,
+                             .v_min = item.nature.sprite.v_min,
+                             .u_max = item.nature.sprite.u_max,
+                             .v_max = item.nature.sprite.v_max,
+                             .width = item.nature.sprite.size.x,
+                             .height = item.nature.sprite.size.y },
+                    item.pos,
+                    item.nature.sprite.scale,
+                    item.rotation,
+                    item.color
+                );
+            else if (item.type == DrawType::RECT)
+                batch.addRect(
+                    item.pos,
+                    item.nature.rect.size,
+                    item.nature.rect.scale,
+                    item.rotation,
+                    item.color,
+                    item.nature.rect.hollow,
+                    item.nature.rect.thickness
+                );
+            else if (item.type == DrawType::CIRCLE)
+                batch.addCircle(
+                    item.pos,
+                    item.nature.circle.radius,
+                    item.nature.circle.segments,
+                    item.color,
+                    item.nature.circle.hollow,
+                    item.nature.circle.thickness
+                );
+            else if (item.type == DrawType::LINE)
+                batch.addLine(
+                    item.pos,
+                    item.pos + item.nature.line.dxy,
+                    item.nature.line.thickness,
+                    item.color
+                );
         }
-    );
-
-    for (uint32_t idx : sprite_indices) {
-        SpriteDrawItem item = sprites[idx];
-
-        bool should_flush = current_render_pass != item.render_pass ||
-                            current_layer != item.layer ||
-                            current_material_id != item.material_id ||
-                            current_texture != item.slice.texture;
-        if (should_flush) {
-            batch.flush(current_layer, current_render_pass);
-            current_render_pass = item.render_pass;
-            current_layer = item.layer;
-            current_material_id = item.material_id;
-            current_texture = item.slice.texture;
-        }
-        batch.addSprite(
-            item.slice, item.pos, item.scale, item.rotation, item.tint
-        );
     }
     batch.flush(current_layer, current_render_pass);
 }
 
 void
-Render2DSystem::renderRects(
+Render2DSystem::pushSprites(ECSRegistry& registry, DynamicBatch& batch)
+{
+    auto view =
+        registry.view<Render2DComponent, TransformComponent, SpriteComponent>();
+
+    for (auto&& [entity, render2d, trans, sprite] : view) {
+        if (!render2d.is_visible)
+            continue;
+        items.push_back(
+            DrawItem{
+                .texture = sprite.slice.texture,
+                .color = sprite.tint,
+                .pos = trans.pos,
+                .layer = render2d.layer,
+                .rotation = trans.rotation,
+                .entity = entity,
+                .material_id = sprite.material_id,
+                .render_pass = render2d.render_pass,
+
+                .type = DrawType::SPRITE,
+                .nature{ .sprite{
+                    .size = { sprite.slice.width, sprite.slice.height },
+                    .scale = trans.scale,
+                    .u_min = sprite.slice.u_min,
+                    .v_min = sprite.slice.v_min,
+                    .u_max = sprite.slice.u_max,
+                    .v_max = sprite.slice.v_max } },
+            }
+        );
+    }
+}
+
+void
+Render2DSystem::pushRects(
     ECSRegistry& registry,
     DynamicBatch& batch,
     Texture* the_white_pixel
@@ -91,72 +133,32 @@ Render2DSystem::renderRects(
     auto rect_view =
         registry.view<Render2DComponent, TransformComponent, RectComponent>();
 
-    rects.clear();
     for (auto&& [entity, render2d, trans, rect] : rect_view) {
         if (!render2d.is_visible)
             continue;
-        rects.push_back(
-            RectDrawItem{ .entity = entity,
-                          .render_pass = render2d.render_pass,
-                          .layer = render2d.layer,
-                          .material_id = rect.material_id,
-                          .pos = trans.pos,
-                          .size = rect.size,
-                          .scale = trans.scale,
-                          .rotation = trans.rotation,
-                          .color = rect.color,
-                          .hollow = rect.hollow,
-                          .thickness = rect.thickness }
+        items.push_back(
+            DrawItem{
+                .texture = the_white_pixel,
+                .color = rect.color,
+                .pos = trans.pos,
+                .layer = render2d.layer,
+                .rotation = trans.rotation,
+                .entity = entity,
+                .material_id = rect.material_id,
+                .render_pass = render2d.render_pass,
+
+                .type = DrawType::RECT,
+                .nature{ .rect{ .size = rect.size,
+                                .scale = trans.scale,
+                                .thickness = rect.thickness,
+                                .hollow = rect.hollow } },
+            }
         );
     }
-    rect_indices.resize(rects.size());
-    std::iota(rect_indices.begin(), rect_indices.end(), 0);
-    std::sort(
-        rect_indices.begin(),
-        rect_indices.end(),
-        [](uint32_t a, uint32_t b) -> bool {
-            RectDrawItem item_a = rects[a];
-            RectDrawItem item_b = rects[b];
-
-            if (item_a.render_pass != item_b.render_pass)
-                return item_a.render_pass < item_b.render_pass;
-            if (item_a.layer != item_b.layer)
-                return item_a.layer < item_b.layer;
-            if (item_a.material_id != item_b.material_id)
-                return item_a.material_id < item_b.material_id;
-            return item_a.entity < item_b.entity;
-        }
-    );
-
-    for (auto idx : rect_indices) {
-        RectDrawItem item = rects[idx];
-
-        bool should_flush = current_render_pass != item.render_pass ||
-                            current_layer != item.layer ||
-                            current_material_id != item.material_id ||
-                            current_texture != the_white_pixel;
-        if (should_flush) {
-            batch.flush(current_layer, current_render_pass);
-            current_render_pass = item.render_pass;
-            current_layer = item.layer;
-            current_material_id = item.material_id;
-            current_texture = the_white_pixel;
-        }
-        batch.addRect(
-            item.pos,
-            item.size,
-            item.scale,
-            item.rotation,
-            item.color,
-            item.hollow,
-            item.thickness
-        );
-    }
-    batch.flush(current_layer, current_render_pass);
 }
 
 void
-Render2DSystem::renderCircles(
+Render2DSystem::pushCircles(
     ECSRegistry& registry,
     DynamicBatch& batch,
     Texture* the_white_pixel
@@ -165,70 +167,32 @@ Render2DSystem::renderCircles(
     auto circle_view =
         registry.view<Render2DComponent, TransformComponent, CircleComponent>();
 
-    circles.clear();
     for (auto&& [entity, render2d, trans, circle] : circle_view) {
         if (!render2d.is_visible)
             continue;
-        circles.push_back(
-            CircleDrawItem{ .entity = entity,
-                            .render_pass = render2d.render_pass,
-                            .layer = render2d.layer,
-                            .material_id = circle.material_id,
-                            .pos = trans.pos,
-                            .radius = circle.radius,
-                            .segments = circle.segments,
-                            .color = circle.color,
-                            .hollow = circle.hollow,
-                            .thickness = circle.thickness }
+        items.push_back(
+            DrawItem{
+                .texture = the_white_pixel,
+                .color = circle.color,
+                .pos = trans.pos,
+                .layer = render2d.layer,
+                .rotation = trans.rotation,
+                .entity = entity,
+                .material_id = circle.material_id,
+                .render_pass = render2d.render_pass,
+
+                .type = DrawType::CIRCLE,
+                .nature{ .circle{ .radius = circle.radius,
+                                  .thickness = circle.thickness,
+                                  .segments = circle.segments,
+                                  .hollow = circle.hollow } },
+            }
         );
     }
-    circle_indices.resize(circles.size());
-    std::iota(circle_indices.begin(), circle_indices.end(), 0);
-    std::sort(
-        circle_indices.begin(),
-        circle_indices.end(),
-        [](uint32_t a, uint32_t b) -> bool {
-            CircleDrawItem item_a = circles[a];
-            CircleDrawItem item_b = circles[b];
-
-            if (item_a.render_pass != item_b.render_pass)
-                return item_a.render_pass < item_b.render_pass;
-            if (item_a.layer != item_b.layer)
-                return item_a.layer < item_b.layer;
-            if (item_a.material_id != item_b.material_id)
-                return item_a.material_id < item_b.material_id;
-            return item_a.entity < item_b.entity;
-        }
-    );
-
-    for (auto idx : circle_indices) {
-        CircleDrawItem item = circles[idx];
-
-        bool should_flush = current_render_pass != item.render_pass ||
-                            current_layer != item.layer ||
-                            current_material_id != item.material_id ||
-                            current_texture != the_white_pixel;
-        if (should_flush) {
-            batch.flush(current_layer, current_render_pass);
-            current_render_pass = item.render_pass;
-            current_layer = item.layer;
-            current_material_id = item.material_id;
-            current_texture = the_white_pixel;
-        }
-        batch.addCircle(
-            item.pos,
-            item.radius,
-            item.segments,
-            item.color,
-            item.hollow,
-            item.thickness
-        );
-    }
-    batch.flush(current_layer, current_render_pass);
 }
 
 void
-Render2DSystem::renderLines(
+Render2DSystem::pushLines(
     ECSRegistry& registry,
     DynamicBatch& batch,
     Texture* the_white_pixel
@@ -237,62 +201,26 @@ Render2DSystem::renderLines(
     auto line_view =
         registry.view<Render2DComponent, TransformComponent, LineComponent>();
 
-    lines.clear();
     for (auto&& [entity, render2d, trans, line] : line_view) {
         if (!render2d.is_visible)
             continue;
-        lines.push_back(
-            LineDrawItem{ .entity = entity,
-                          .render_pass = render2d.render_pass,
-                          .layer = render2d.layer,
-                          .material_id = line.material_id,
-                          .start_pos = trans.pos,
-                          .dxy = line.dxy,
-                          .thickness = line.thickness,
-                          .color = line.color }
+        items.push_back(
+            DrawItem{
+                .texture = the_white_pixel,
+                .color = line.color,
+                .pos = trans.pos,
+                .layer = render2d.layer,
+                .rotation = trans.rotation,
+                .entity = entity,
+                .material_id = line.material_id,
+                .render_pass = render2d.render_pass,
+
+                .type = DrawType::LINE,
+                .nature{
+                    .line{ .dxy = line.dxy, .thickness = line.thickness } },
+            }
         );
     }
-    circle_indices.resize(lines.size());
-    std::iota(circle_indices.begin(), circle_indices.end(), 0);
-    std::sort(
-        circle_indices.begin(),
-        circle_indices.end(),
-        [](uint32_t a, uint32_t b) -> bool {
-            LineDrawItem item_a = lines[a];
-            LineDrawItem item_b = lines[b];
-
-            if (item_a.render_pass != item_b.render_pass)
-                return item_a.render_pass < item_b.render_pass;
-            if (item_a.layer != item_b.layer)
-                return item_a.layer < item_b.layer;
-            if (item_a.material_id != item_b.material_id)
-                return item_a.material_id < item_b.material_id;
-            return item_a.entity < item_b.entity;
-        }
-    );
-
-    for (auto idx : circle_indices) {
-        LineDrawItem item = lines[idx];
-
-        bool should_flush = current_render_pass != item.render_pass ||
-                            current_layer != item.layer ||
-                            current_material_id != item.material_id ||
-                            current_texture != the_white_pixel;
-        if (should_flush) {
-            batch.flush(current_layer, current_render_pass);
-            current_render_pass = item.render_pass;
-            current_layer = item.layer;
-            current_material_id = item.material_id;
-            current_texture = the_white_pixel;
-        }
-        batch.addLine(
-            item.start_pos,
-            item.start_pos + item.dxy,
-            item.thickness,
-            item.color
-        );
-    }
-    batch.flush(current_layer, current_render_pass);
 }
 
 } // namespace lili

@@ -100,7 +100,7 @@ App::onInit()
         "Key 1 to 4: Create renderable entity | Backspace: Remove last entity"
     );
     instructions_text.setScale(2.0f);
-    instructions_text.setRender(lili::RenderLayer::WORLD2D);
+    instructions_text.setRender(lili::RenderLayer::UI);
     instructions_text.setPosition({ 10.0f, 10.0f });
 }
 

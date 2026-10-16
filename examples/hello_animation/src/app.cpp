@@ -1,4 +1,6 @@
 #include "app.hpp"
+#include "lili2d/core/game.hpp"
+#include "lili2d/core/keys.hpp"
 
 App::App()
   : lili::Game("hello_animation - Lili2D", 400, 400)
@@ -27,10 +29,10 @@ void
 App::onEvent(const lili::Event& event)
 {
     lili::Game::onEvent(event);
+
     if (event.type() == lili::EventType::KEYBOARD) {
         lili::KeyboardEvent kb = event.keyboard();
-        if (kb.action == lili::KeyAction::PRESSED &&
-            kb.key == lili::Key::ESCAPE)
+        if (event.keyJustPressed(kb) && kb.key == lili::Key::ESCAPE)
             shutdown();
     }
 }
@@ -38,12 +40,15 @@ App::onEvent(const lili::Event& event)
 void
 App::onUpdate(float dt)
 {
+    lili::Game::onUpdate(dt);
+
     head_sprite.update(dt);
 }
 
 void
 App::onRender(float alpha)
 {
-    (void)alpha;
+    lili::Game::onRender(alpha);
+
     head_sprite.draw();
 }

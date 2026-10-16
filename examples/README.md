@@ -34,3 +34,8 @@ Or build all examples at once from this folder:
 ./build_all.sh
 ```
 
+Or run all examples sequentially for testing (advances to next when window closes):
+
+```sh
+./run_all.sh
+```

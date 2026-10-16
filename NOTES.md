@@ -7,7 +7,6 @@ smth else.
 
 ### TODO
 
-- Fix Render2DSystem ordering between different draw item types.
 - OOP to ECS support: Text.
 - OOP to ECS support: AnimatedSprite.
 - OOP to ECS support: Tilemap & ChunkBatch.
@@ -16,12 +15,12 @@ smth else.
 
 ### IN PROGRESS
 
-- Refactor different DrawItem in one struct for the Render2DSystem
 - Find a way to support anchor and pivot in new ECS architecture
 - Update all example with hidden render system and new shapes and sprite support.
 
 ### DONE
 
+- Refactor different DrawItem in one struct for the Render2DSystem
 - Hide Render2DSystem in Game class.
 - OOP to ECS support: Line.
 - OOP to ECS support: Circle.

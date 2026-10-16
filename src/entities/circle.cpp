@@ -5,6 +5,7 @@
 #include "lili2d/render/2d/circle.hpp"
 #include "lili2d/render/2d/render2d_component.hpp"
 #include <cstddef>
+#include <cstdint>
 
 namespace lili {
 
@@ -13,7 +14,7 @@ createCircle(
     ECSRegistry& registry,
     Vec2 pos,
     float radius,
-    size_t segments,
+    uint32_t segments,
     Vec4 color,
     bool hollow,
     float thickness,

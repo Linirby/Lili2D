@@ -1,4 +1,6 @@
 #include "app.hpp"
+#include "lili2d/core/game.hpp"
+#include "lili2d/core/window.hpp"
 #include "lili2d/entities/circle.hpp"
 #include "lili2d/entities/line.hpp"
 #include "lili2d/render/2d/text.hpp"
@@ -16,7 +18,6 @@
 #include <lili2d/geometry/vec4.hpp>
 #include <lili2d/render/2d/render2d_system.hpp>
 #include <lili2d/render/renderer.hpp>
-#include <memory>
 #include <vector>
 
 void
@@ -101,15 +102,16 @@ App::onInit()
     instructions_text.setScale(2.0f);
     instructions_text.setRender(lili::RenderLayer::WORLD2D);
     instructions_text.setPosition({ 10.0f, 10.0f });
-
-    batch = std::make_unique<lili::DynamicBatch>(getRenderer(), nullptr);
 }
 
 void
 App::onEvent(const lili::Event& event)
 {
+    lili::Game::onEvent(event);
+
     lili::ECSRegistry& registry = getECSRegistry();
     lili::Renderer* renderer = getRenderer();
+    lili::Vec2 window_size = getWindow()->getSize();
 
     if (event.type() == lili::EventType::KEYBOARD) {
         lili::KeyboardEvent kb_ev = event.keyboard();
@@ -117,11 +119,11 @@ App::onEvent(const lili::Event& event)
             if (kb_ev.key == lili::Key::ESCAPE)
                 shutdown();
             else if (kb_ev.key == lili::Key::NUM_1)
-                addBaguette(registry, renderer, rng::pos());
+                addBaguette(registry, renderer, rng::pos(window_size));
             else if (kb_ev.key == lili::Key::NUM_2)
                 addRect(
                     registry,
-                    rng::pos(),
+                    rng::pos(window_size),
                     rng::size(),
                     rng::color(),
                     rng::hollow(),
@@ -130,7 +132,7 @@ App::onEvent(const lili::Event& event)
             else if (kb_ev.key == lili::Key::NUM_3)
                 addCircle(
                     registry,
-                    rng::pos(),
+                    rng::pos(window_size),
                     rng::radius(),
                     rng::color(),
                     rng::hollow(),
@@ -139,8 +141,8 @@ App::onEvent(const lili::Event& event)
             else if (kb_ev.key == lili::Key::NUM_4)
                 addLine(
                     registry,
-                    rng::pos(),
-                    rng::pos(),
+                    rng::pos(window_size),
+                    rng::pos(window_size),
                     rng::thickness(),
                     rng::color()
                 );
@@ -153,8 +155,9 @@ App::onEvent(const lili::Event& event)
 void
 App::onRender(float alpha)
 {
+    // entities created are rendered with Game default class
+    // if Render2DComponent.is_visible == true
+    lili::Game::onRender(alpha);
+
     instructions_text.draw();
-    lili::Render2DSystem::render(
-        getECSRegistry(), *batch, getRenderer()->getTheWhitePixel()
-    );
 }

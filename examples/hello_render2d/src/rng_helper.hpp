@@ -9,7 +9,7 @@ std::mt19937&
 gen();
 
 lili::Vec2
-pos();
+pos(lili::Vec2 screen_size);
 
 lili::Vec2
 size();

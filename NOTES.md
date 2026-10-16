@@ -7,7 +7,6 @@ smth else.
 
 ### TODO
 
-- Hide Render2DSystem in Game class.
 - Fix Render2DSystem ordering between different draw item types.
 - OOP to ECS support: Text.
 - OOP to ECS support: AnimatedSprite.
@@ -17,10 +16,11 @@ smth else.
 
 ### IN PROGRESS
 
-- OOP to ECS support: Line.
+- Hide Render2DSystem in Game class.
 
 ### DONE
 
+- OOP to ECS support: Line.
 - OOP to ECS support: Circle.
 - Optimize Render2DSystem with index sorting instead of struct.
 - OOP to ECS support: Rect.

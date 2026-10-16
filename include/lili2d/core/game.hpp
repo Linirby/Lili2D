@@ -9,6 +9,7 @@
 #include "lili2d/core/thread_pool.hpp"
 #include "lili2d/core/window.hpp"
 #include "lili2d/ecs/ecs_registry.hpp"
+#include "lili2d/render/2d/dynamic_batch.hpp"
 #include "lili2d/render/renderer.hpp"
 
 namespace lili {
@@ -94,6 +95,14 @@ public:
         return thread_pool.get();
     }
 
+    /// @brief Gets the global dynamic batch.
+    /// @return Pointer to the batch.
+    [[nodiscard]] inline DynamicBatch*
+    getDynamicBatch() const noexcept
+    {
+        return dynamic_batch.get();
+    }
+
     /// @brief Gets the active engine configuration.
     /// @return Reference to the active configuration.
     [[nodiscard]] inline const EngineConfig&
@@ -166,9 +175,7 @@ public:
     /// @brief Called once per frame to render the game.
     /// @param alpha Interpolation factor between fixed updates.
     virtual void
-    onRender([[maybe_unused]] float alpha)
-    {
-    }
+    onRender([[maybe_unused]] float alpha);
 
     /// @brief Called once when the game loop exits.
     virtual void
@@ -187,6 +194,7 @@ private:
     std::unique_ptr<Window> window;
     std::unique_ptr<Renderer> renderer;
     std::unique_ptr<ThreadPool> thread_pool;
+    std::unique_ptr<DynamicBatch> dynamic_batch;
     EngineConfig engine_config;
     Clock clock;
     ECSRegistry ecs_registry;

@@ -4,7 +4,6 @@
 #include "lili2d/ecs/entity.hpp"
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/geometry/vec4.hpp"
-#include "lili2d/render/2d/dynamic_batch.hpp"
 #include "lili2d/render/2d/text.hpp"
 #include <lili2d/core/event.hpp>
 #include <lili2d/core/game.hpp>
@@ -16,10 +15,10 @@ public:
     App()
       : lili::Game("hello_render2d - Lili2D", 1000, 800)
     {
+        getWindow()->setResizable(true);
     }
 
 private:
-    std::unique_ptr<lili::DynamicBatch> batch;
     std::vector<lili::Entity> spawned;
 
     lili::Text instructions_text;

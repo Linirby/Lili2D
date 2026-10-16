@@ -6,6 +6,7 @@
 #include "lili2d/core/keys.hpp"
 #include "lili2d/core/thread_pool.hpp"
 #include "lili2d/core/window.hpp"
+#include "lili2d/render/2d/render2d_system.hpp"
 #include "lili2d/render/renderer.hpp"
 
 namespace lili {
@@ -35,6 +36,8 @@ Game::Game(
     clock.setMaxFps(engine_config.max_fps);
     config.updateMaxFps(engine_config.max_fps);
     thread_pool = std::make_unique<ThreadPool>(engine_config);
+    dynamic_batch =
+        std::make_unique<lili::DynamicBatch>(getRenderer(), nullptr);
 }
 
 Game::~Game()
@@ -114,6 +117,14 @@ Game::onEvent(const Event& event)
             conf.setWindowFullscreen(this, !conf.isWindowFullscreen());
         }
     }
+}
+
+void
+Game::onRender(float alpha)
+{
+    Render2DSystem::render(
+        ecs_registry, *dynamic_batch, renderer->getTheWhitePixel()
+    );
 }
 
 } // namespace lili

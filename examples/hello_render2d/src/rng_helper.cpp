@@ -13,11 +13,11 @@ rng::gen()
 }
 
 lili::Vec2
-rng::pos()
+rng::pos(lili::Vec2 screen_size)
 {
     std::mt19937& gen = rng::gen();
-    std::uniform_real_distribution<float> posX(0.0f, 800.0f);
-    std::uniform_real_distribution<float> posY(0.0f, 600.0f);
+    std::uniform_real_distribution<float> posX(0.0f, screen_size.x);
+    std::uniform_real_distribution<float> posY(0.0f, screen_size.y);
 
     return { posX(gen), posY(gen) };
 }

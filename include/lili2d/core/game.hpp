@@ -161,9 +161,7 @@ public:
     /// @brief Called once per frame for game logic updates.
     /// @param dt Delta time since the last frame.
     virtual void
-    onUpdate([[maybe_unused]] float dt)
-    {
-    }
+    onUpdate([[maybe_unused]] float dt);
 
     /// @brief Called at a fixed rate for physics updates.
     /// @param dt Fixed delta time.

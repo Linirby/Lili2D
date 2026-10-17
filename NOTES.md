@@ -15,11 +15,11 @@ smth else.
 
 ### IN PROGRESS
 
-- Find a way to support anchor and pivot in new ECS architecture
 - Update all example with hidden render system and new shapes and sprite support.
 
 ### DONE
 
+- Find a way to support anchor and pivot in new ECS architecture
 - Refactor different DrawItem in one struct for the Render2DSystem
 - Hide Render2DSystem in Game class.
 - OOP to ECS support: Line.

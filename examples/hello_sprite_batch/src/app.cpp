@@ -84,6 +84,8 @@ App::App()
     text_infos = lili::Text(renderer, font, "WASD: move | IK: zoom/dezoom");
     text_infos.setRender(lili::RenderLayer::UI);
     text_infos.setPosition({ 10.0f, 10.0f });
+    text_infos.setAnchor(lili::Anchor::TOP);
+    text_infos.setPivot(lili::Pivot::TOP);
     text_infos.setScale(3.0f);
 }
 

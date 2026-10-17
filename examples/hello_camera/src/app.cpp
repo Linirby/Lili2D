@@ -1,9 +1,12 @@
 #include "app.hpp"
 #include "lili2d/core/game.hpp"
 #include "lili2d/ecs/ecs_registry.hpp"
+#include "lili2d/entities/circle.hpp"
 #include "lili2d/entities/rect.hpp"
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/geometry/vec4.hpp"
+#include "lili2d/render/2d/ui_layout.hpp"
+#include "lili2d/render/gpu/pass_types.hpp"
 
 App::App()
   : lili::Game("hello_camera - Lili2D", 600, 400)
@@ -18,16 +21,23 @@ App::App()
     camera_zoom = camera.getZoom();
     renderer->setCamera(&camera);
 
-    camera_center = lili::Circle(
-        renderer,
-        lili::CircleShape(lili::Vec2(0.0f, 0.0f), 5.0f, 16),
-        lili::Vec4(1.0f, 1.0f, 1.0f, 0.5f)
-    );
-    camera_center.setRender(lili::RenderLayer::UI);
-    camera_center.setAnchor(lili::Anchor::CENTER);
-    camera_center.setPivot(lili::Pivot::CENTER);
-
     lili::ECSRegistry& registry = getECSRegistry();
+    camera_center = lili::createCircle(
+        registry,
+        lili::Vec2(0.0f, 0.0f),             // pos
+        5.0f,                               // radius
+        16,                                 // segments
+        lili::Vec4(1.0f, 1.0f, 1.0f, 0.5f), // color
+        false,                              // hollow
+        1.0f,                               // thickness (hollow)
+        0.0f,                               // layer
+        lili::RenderLayer::UI               // render pass
+    );
+    lili::UILayoutComponent layout{};
+    layout.anchor = lili::Anchor::CENTER;
+    layout.pivot = lili::Pivot::CENTER;
+    registry.emplaceComponent<lili::UILayoutComponent>(camera_center, layout);
+
     red_rect = lili::createRect(
         registry,
         lili::Vec2(250.0f, 200.0f),        // pos
@@ -131,7 +141,6 @@ App::onRender(float alpha)
 {
     lili::Game::onRender(alpha);
 
-    camera_center.draw();
     text_cam_pos.draw();
     text_controls.draw();
 }

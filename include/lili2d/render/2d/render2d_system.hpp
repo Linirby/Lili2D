@@ -80,6 +80,7 @@ struct DrawItem
     Texture* texture;        ///< The texture
     Vec4 color;              ///< The color/tint
     Vec2 pos;                ///< The position
+    Vec2 size;               ///< The size
     float layer;             ///< The layer/depth
     float rotation;          ///< The rotation
     Entity entity;           ///< The entity (the ID)
@@ -91,7 +92,6 @@ struct DrawItem
     {
         struct Sprite
         {
-            Vec2 size;   ///< The size
             Vec2 scale;  ///< The scale
             float u_min; ///< The minimum U of the UV
             float v_min; ///< The minimum V of the UV
@@ -100,7 +100,6 @@ struct DrawItem
         } sprite;        ///< The sprite struct
         struct
         {
-            Vec2 size;       ///< The size
             Vec2 scale;      ///< The scale
             float thickness; ///< The thickness (when hollow)
             bool hollow;     ///< The hollow indicator (true/false)

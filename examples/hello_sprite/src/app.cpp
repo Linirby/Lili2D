@@ -1,8 +1,10 @@
 #include "app.hpp"
+#include "lili2d/core/game.hpp"
 #include "lili2d/ecs/ecs_registry.hpp"
 #include "lili2d/entities/sprite.hpp"
 #include "lili2d/geometry/vec2.hpp"
-#include "lili2d/render/2d/render2d_system.hpp"
+#include "lili2d/render/2d/ui_layout.hpp"
+#include "lili2d/render/2d/ui_layout_system.hpp"
 #include "lili2d/render/renderer.hpp"
 #include <memory>
 
@@ -18,6 +20,10 @@ App::onInit()
     cat_img = lili::createSprite(
         registry, renderer, "baguette.jpg", pos, scale, rotation
     );
+    lili::UILayoutComponent layout{};
+    layout.anchor = lili::Anchor::CENTER;
+    layout.pivot = lili::Pivot::CENTER;
+    registry.emplaceComponent<lili::UILayoutComponent>(cat_img, layout);
 
     batch = std::make_unique<lili::DynamicBatch>(renderer, nullptr);
 }
@@ -33,9 +39,13 @@ App::onEvent(const lili::Event& event)
 }
 
 void
+App::onUpdate(float dt)
+{
+    lili::UILayoutSystem::update(getECSRegistry(), getWindow()->getSize());
+}
+
+void
 App::onRender([[maybe_unused]] float alpha)
 {
-    lili::Render2DSystem::render(
-        getECSRegistry(), *batch, getRenderer()->getTheWhitePixel()
-    );
+    lili::Game::onRender(alpha);
 }

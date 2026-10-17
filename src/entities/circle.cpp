@@ -4,7 +4,6 @@
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/render/2d/circle.hpp"
 #include "lili2d/render/2d/render2d_component.hpp"
-#include <cstddef>
 #include <cstdint>
 
 namespace lili {
@@ -31,9 +30,10 @@ createCircle(
     };
     registry.emplaceComponent<TransformComponent>(entity, transform);
 
-    Render2DComponent render2d{ .layer = layer,
-                                .render_pass = render_pass,
-                                .is_visible = is_visible };
+    Render2DComponent render2d{ .size = { radius * 2, radius * 2 },
+                                .layer = layer,
+                                .is_visible = is_visible,
+                                .render_pass = render_pass };
     registry.emplaceComponent<Render2DComponent>(entity, render2d);
 
     CircleComponent circle{ .color = color,

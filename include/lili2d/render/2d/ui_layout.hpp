@@ -2,11 +2,12 @@
 
 #include "lili2d/geometry/mat3x3.hpp"
 #include "lili2d/geometry/vec2.hpp"
+#include <cstdint>
 
 namespace lili {
 
 /// @brief Defines UI anchor alignment points relative to the viewport.
-enum class Anchor
+enum class Anchor : uint8_t
 {
     TOP_LEFT,     ///< Top-left corner of the viewport.
     TOP,          ///< Top-center of the viewport.
@@ -22,7 +23,7 @@ enum class Anchor
 
 /// @brief Defines UI pivot alignment points relative to the element's bounding
 /// box.
-enum class Pivot
+enum class Pivot : uint8_t
 {
     TOP_LEFT,     ///< Top-left corner of the element.
     TOP,          ///< Top-center of the element.
@@ -40,6 +41,7 @@ enum class Pivot
 /// @param anchor Target anchor enum.
 /// @param custom Custom anchor vector used when anchor is Anchor::CUSTOM.
 /// @return Normalized 2D vector [0, 1].
+[[deprecated("Replaced by internal method in UILayoutSystem")]]
 [[nodiscard]] constexpr inline Vec2
 anchorToVector(Anchor anchor, Vec2 custom = {}) noexcept
 {
@@ -72,20 +74,31 @@ anchorToVector(Anchor anchor, Vec2 custom = {}) noexcept
 /// @param pivot Target pivot enum.
 /// @param custom Custom pivot vector used when pivot is Pivot::CUSTOM.
 /// @return Normalized 2D vector [0, 1].
+[[deprecated("Replaced by internal method in UILayoutSystem")]]
 [[nodiscard]] constexpr inline Vec2
 pivotToVector(Pivot pivot, Vec2 custom = {}) noexcept
 {
     return anchorToVector(static_cast<Anchor>(pivot), custom);
 }
 
-/// @brief Layout configuration for anchoring and positioning UI elements.
-struct UILayout
+struct UILayoutComponent
 {
-    Anchor anchor = Anchor::TOP_LEFT; ///< Anchor alignment point.
-    Pivot pivot = Pivot::TOP_LEFT;    ///< Pivot alignment point.
-    Vec2 offset = {};                 ///< Pixel offset from anchor.
-    Vec2 custom_anchor = {}; ///< Custom anchor vector (when Anchor::CUSTOM).
-    Vec2 custom_pivot = {};  ///< Custom pivot vector (when Pivot::CUSTOM).
+    Vec2 size;
+    Vec2 offset;
+    Vec2 custom_anchor;
+    Vec2 custom_pivot;
+    Anchor anchor = Anchor::CENTER;
+    Pivot pivot = Pivot::CENTER;
+};
+
+/// @brief Layout configuration for anchoring and positioning UI elements.
+struct [[deprecated("Use UILayoutComponent with ECS")]] UILayout
+{
+    Anchor anchor = Anchor::CENTER; ///< Anchor alignment point.
+    Pivot pivot = Pivot::CENTER;    ///< Pivot alignment point.
+    Vec2 offset = {};               ///< Pixel offset from anchor.
+    Vec2 custom_anchor = {};        ///< Custom anchor (when Anchor::CUSTOM).
+    Vec2 custom_pivot = {};         ///< Custom pivot (when Pivot::CUSTOM).
 
     constexpr UILayout() noexcept = default;
 

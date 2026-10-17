@@ -10,6 +10,7 @@ add_library(lili_render OBJECT
     2d/static_batch.cpp
     2d/text.cpp
     2d/ui_layout.cpp
+    2d/ui_layout_system.cpp
     common/animation.cpp
     common/animation_player.cpp
     common/animation_registry.cpp

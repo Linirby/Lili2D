@@ -10,7 +10,7 @@ public:
 
 private:
     lili::Camera camera;
-    lili::Circle camera_center;
+    lili::Entity camera_center;
     lili::Vec2 cam_pos;
     float camera_zoom;
 

@@ -7,6 +7,7 @@
 #include "lili2d/core/thread_pool.hpp"
 #include "lili2d/core/window.hpp"
 #include "lili2d/render/2d/render2d_system.hpp"
+#include "lili2d/render/2d/ui_layout_system.hpp"
 #include "lili2d/render/renderer.hpp"
 
 namespace lili {
@@ -117,6 +118,12 @@ Game::onEvent(const Event& event)
             conf.setWindowFullscreen(this, !conf.isWindowFullscreen());
         }
     }
+}
+
+void
+Game::onUpdate(float dt)
+{
+    UILayoutSystem::update(ecs_registry, window->getSize());
 }
 
 void

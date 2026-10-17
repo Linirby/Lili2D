@@ -4,6 +4,7 @@
 #include "lili2d/entities/circle.hpp"
 #include "lili2d/entities/line.hpp"
 #include "lili2d/render/2d/text.hpp"
+#include "lili2d/render/2d/ui_layout.hpp"
 #include "lili2d/render/gpu/pass_types.hpp"
 #include "rng_helper.hpp"
 
@@ -91,7 +92,6 @@ App::popLast(lili::ECSRegistry& registry)
 void
 App::onInit()
 {
-    lili::ECSRegistry& registry = getECSRegistry();
     lili::Renderer* renderer = getRenderer();
 
     instructions_text = lili::Text(
@@ -101,7 +101,9 @@ App::onInit()
     );
     instructions_text.setScale(2.0f);
     instructions_text.setRender(lili::RenderLayer::UI);
-    instructions_text.setPosition({ 10.0f, 10.0f });
+    instructions_text.setAnchor(lili::Anchor::TOP);
+    instructions_text.setPivot(lili::Pivot::TOP);
+    instructions_text.setPosition({ 0.0f, 10.0f });
 }
 
 void

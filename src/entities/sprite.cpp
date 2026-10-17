@@ -26,21 +26,25 @@ createSprite(
 )
 {
     Entity entity = registry.createEntity();
+    AssetManager& assets = AssetManager::get();
+    Texture* texture = assets.loadTexture(img_path, renderer->getDevice());
+    if (!texture)
+        throw std::runtime_error("Failed to load texture " + img_path);
 
     TransformComponent transform{
         .pos = pos, .prev_pos = pos, .scale = scale, .rotation = rotation
     };
     registry.emplaceComponent<TransformComponent>(entity, transform);
 
-    Render2DComponent render2d{ .layer = layer,
-                                .render_pass = render_pass,
-                                .is_visible = is_visible };
+    Render2DComponent render2d{
+        .size =
+            Vec2(texture->getWidth() * scale.x, texture->getHeight() * scale.y),
+        .layer = layer,
+        .is_visible = is_visible,
+        .render_pass = render_pass
+    };
     registry.emplaceComponent<Render2DComponent>(entity, render2d);
 
-    AssetManager& assets = AssetManager::get();
-    Texture* texture = assets.loadTexture(img_path, renderer->getDevice());
-    if (!texture)
-        throw std::runtime_error("Failed to load texture " + img_path);
     SpriteComponent sprite{
         .slice = { texture,
                    0.0f,
@@ -78,9 +82,11 @@ createSprite(
     };
     registry.emplaceComponent<TransformComponent>(entity, transform);
 
-    Render2DComponent render2d{ .layer = layer,
-                                .render_pass = render_pass,
-                                .is_visible = is_visible };
+    Render2DComponent render2d{ .size = { sliceUV.width * scale.x,
+                                          sliceUV.height * scale.y },
+                                .layer = layer,
+                                .is_visible = is_visible,
+                                .render_pass = render_pass };
     registry.emplaceComponent<Render2DComponent>(entity, render2d);
 
     SpriteComponent sprite{ .slice = sliceUV,

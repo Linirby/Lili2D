@@ -4,6 +4,7 @@
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/render/2d/line.hpp"
 #include "lili2d/render/2d/render2d_component.hpp"
+#include <cstdlib>
 
 namespace lili {
 
@@ -28,9 +29,11 @@ createLine(
                                   .rotation = 0.0f };
     registry.emplaceComponent<TransformComponent>(entity, transform);
 
-    Render2DComponent render2d{ .layer = layer,
-                                .render_pass = render_pass,
-                                .is_visible = is_visible };
+    Render2DComponent render2d{ .size = { std::abs(end_pos.x - start_pos.x),
+                                          std::abs(end_pos.y - start_pos.y) },
+                                .layer = layer,
+                                .is_visible = is_visible,
+                                .render_pass = render_pass };
     registry.emplaceComponent<Render2DComponent>(entity, render2d);
 
     LineComponent line{ .color = color,

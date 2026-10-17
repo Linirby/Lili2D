@@ -6,9 +6,10 @@ namespace lili {
 
 struct Render2DComponent
 {
+    Vec2 size;
     float layer = 0.0f;
-    RenderLayer render_pass = RenderLayer::WORLD2D;
     bool is_visible = true;
+    RenderLayer render_pass = RenderLayer::WORLD2D;
 };
 
 static_assert(

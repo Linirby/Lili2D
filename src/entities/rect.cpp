@@ -3,7 +3,6 @@
 #include "lili2d/ecs/entity.hpp"
 #include "lili2d/render/2d/rect.hpp"
 #include "lili2d/render/2d/render2d_component.hpp"
-#include "lili2d/render/2d/sprite.hpp"
 
 namespace lili {
 
@@ -30,9 +29,10 @@ createRect(
     };
     registry.emplaceComponent<TransformComponent>(entity, transform);
 
-    Render2DComponent render2d{ .layer = layer,
-                                .render_pass = render_pass,
-                                .is_visible = is_visible };
+    Render2DComponent render2d{ .size = { size.x * scale.x, size.y * scale.y },
+                                .layer = layer,
+                                .is_visible = is_visible,
+                                .render_pass = render_pass };
     registry.emplaceComponent<Render2DComponent>(entity, render2d);
 
     RectComponent rect{ .color = color,

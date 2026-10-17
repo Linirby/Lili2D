@@ -52,8 +52,8 @@ Render2DSystem::render(
                              .v_min = item.nature.sprite.v_min,
                              .u_max = item.nature.sprite.u_max,
                              .v_max = item.nature.sprite.v_max,
-                             .width = item.nature.sprite.size.x,
-                             .height = item.nature.sprite.size.y },
+                             .width = item.size.x,
+                             .height = item.size.y },
                     item.pos,
                     item.nature.sprite.scale,
                     item.rotation,
@@ -62,7 +62,7 @@ Render2DSystem::render(
             else if (item.type == DrawType::RECT)
                 batch.addRect(
                     item.pos,
-                    item.nature.rect.size,
+                    item.size,
                     item.nature.rect.scale,
                     item.rotation,
                     item.color,
@@ -104,6 +104,7 @@ Render2DSystem::pushSprites(ECSRegistry& registry, DynamicBatch& batch)
                 .texture = sprite.slice.texture,
                 .color = sprite.tint,
                 .pos = trans.pos,
+                .size = render2d.size,
                 .layer = render2d.layer,
                 .rotation = trans.rotation,
                 .entity = entity,
@@ -111,13 +112,11 @@ Render2DSystem::pushSprites(ECSRegistry& registry, DynamicBatch& batch)
                 .render_pass = render2d.render_pass,
 
                 .type = DrawType::SPRITE,
-                .nature{ .sprite{
-                    .size = { sprite.slice.width, sprite.slice.height },
-                    .scale = trans.scale,
-                    .u_min = sprite.slice.u_min,
-                    .v_min = sprite.slice.v_min,
-                    .u_max = sprite.slice.u_max,
-                    .v_max = sprite.slice.v_max } },
+                .nature{ .sprite{ .scale = trans.scale,
+                                  .u_min = sprite.slice.u_min,
+                                  .v_min = sprite.slice.v_min,
+                                  .u_max = sprite.slice.u_max,
+                                  .v_max = sprite.slice.v_max } },
             }
         );
     }
@@ -141,6 +140,7 @@ Render2DSystem::pushRects(
                 .texture = the_white_pixel,
                 .color = rect.color,
                 .pos = trans.pos,
+                .size = render2d.size,
                 .layer = render2d.layer,
                 .rotation = trans.rotation,
                 .entity = entity,
@@ -148,8 +148,7 @@ Render2DSystem::pushRects(
                 .render_pass = render2d.render_pass,
 
                 .type = DrawType::RECT,
-                .nature{ .rect{ .size = rect.size,
-                                .scale = trans.scale,
+                .nature{ .rect{ .scale = trans.scale,
                                 .thickness = rect.thickness,
                                 .hollow = rect.hollow } },
             }

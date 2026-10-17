@@ -81,8 +81,7 @@ createSprite(
     };
     registry.emplaceComponent<TransformComponent>(entity, transform);
 
-    Render2DComponent render2d{ .size = { sliceUV.width * scale.x,
-                                          sliceUV.height * scale.y },
+    Render2DComponent render2d{ .size = { sliceUV.width, sliceUV.height },
                                 .layer = layer,
                                 .is_visible = is_visible,
                                 .render_pass = render_pass };

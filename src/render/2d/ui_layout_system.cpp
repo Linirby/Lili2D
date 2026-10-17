@@ -16,7 +16,8 @@ UILayoutSystem::update(ECSRegistry& registry, Vec2 viewport_size)
     for (auto&& [entity, layout, render2d, trans] : view) {
         Vec2 obj_size = (layout.size != Vec2{ 0.0f, 0.0f })
                             ? layout.size
-                            : Vec2{ render2d.size.x, render2d.size.y };
+                            : Vec2{ render2d.size.x * trans.scale.x,
+                                    render2d.size.y * trans.scale.y };
         Vec2 topleft = getScreenPosition(layout, obj_size, viewport_size);
         trans.pos = topleft + obj_size * 0.5f;
     }

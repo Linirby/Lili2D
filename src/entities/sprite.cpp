@@ -31,31 +31,30 @@ createSprite(
     if (!texture)
         throw std::runtime_error("Failed to load texture " + img_path);
 
-    TransformComponent transform{
-        .pos = pos, .prev_pos = pos, .scale = scale, .rotation = rotation
-    };
+    TransformComponent transform{};
+    transform.pos = pos;
+    transform.prev_pos = pos;
+    transform.scale = scale;
+    transform.rotation = rotation;
     registry.emplaceComponent<TransformComponent>(entity, transform);
 
-    Render2DComponent render2d{
-        .size =
-            Vec2(texture->getWidth() * scale.x, texture->getHeight() * scale.y),
-        .layer = layer,
-        .is_visible = is_visible,
-        .render_pass = render_pass
-    };
+    Render2DComponent render2d{};
+    render2d.size = Vec2(texture->getWidth(), texture->getHeight());
+    render2d.layer = layer;
+    render2d.is_visible = is_visible;
+    render2d.render_pass = render_pass;
     registry.emplaceComponent<Render2DComponent>(entity, render2d);
 
-    SpriteComponent sprite{
-        .slice = { texture,
-                   0.0f,
-                   0.0f,
-                   1.0f,
-                   1.0f,
-                   static_cast<float>(texture->getWidth()),
-                   static_cast<float>(texture->getHeight()) },
-        .material_id = material_id,
-        .tint = color_tint
-    };
+    SpriteComponent sprite{};
+    sprite.slice = { texture,
+                     0.0f,
+                     0.0f,
+                     1.0f,
+                     1.0f,
+                     static_cast<float>(texture->getWidth()),
+                     static_cast<float>(texture->getHeight()) };
+    sprite.material_id = material_id;
+    sprite.tint = color_tint;
     registry.emplaceComponent<SpriteComponent>(entity, sprite);
 
     return entity;

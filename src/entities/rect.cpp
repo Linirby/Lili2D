@@ -29,7 +29,7 @@ createRect(
     };
     registry.emplaceComponent<TransformComponent>(entity, transform);
 
-    Render2DComponent render2d{ .size = { size.x * scale.x, size.y * scale.y },
+    Render2DComponent render2d{ .size = { size.x, size.y },
                                 .layer = layer,
                                 .is_visible = is_visible,
                                 .render_pass = render_pass };

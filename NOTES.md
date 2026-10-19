@@ -15,10 +15,11 @@ smth else.
 
 ### IN PROGRESS
 
-### DONE
-
+- Fix engine-wide systems for multithreading use
 - Update all examples with hidden render system and new shapes and sprite
   support + clean them
+
+### DONE
 
 - Find a way to support anchor and pivot in new ECS architecture
 - Refactor different DrawItem in one struct for the Render2DSystem

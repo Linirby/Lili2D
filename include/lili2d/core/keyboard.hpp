@@ -1,5 +1,6 @@
 #pragma once
 
+#include "lili2d/core/keys.hpp"
 #include <SDL3/SDL_scancode.h>
 
 using Scancode = SDL_Scancode;
@@ -18,27 +19,32 @@ public:
     /// @param key The scancode of the key to check.
     /// @return True if the key is held, false otherwise.
     [[nodiscard]] inline bool
-    held(Scancode key) const noexcept
+    held(Key key) const noexcept
     {
-        return key < SDL_SCANCODE_COUNT && current[key];
+        SDL_Scancode sdl_scancode = static_cast<SDL_Scancode>(key);
+        return sdl_scancode < SDL_SCANCODE_COUNT && current[sdl_scancode];
     }
 
     /// @brief Checks if a key was pressed down in the current frame.
     /// @param key The scancode of the key to check.
     /// @return True if the key was just pressed, false otherwise.
     [[nodiscard]] inline bool
-    justPressed(Scancode key) const noexcept
+    justPressed(Key key) const noexcept
     {
-        return key < SDL_SCANCODE_COUNT && current[key] && !previous[key];
+        SDL_Scancode sdl_scancode = static_cast<SDL_Scancode>(key);
+        return sdl_scancode < SDL_SCANCODE_COUNT && current[sdl_scancode] &&
+               !previous[sdl_scancode];
     }
 
     /// @brief Checks if a key was released in the current frame.
     /// @param key The scancode of the key to check.
     /// @return True if the key was just released, false otherwise.
     [[nodiscard]] inline bool
-    justReleased(Scancode key) const noexcept
+    justReleased(Key key) const noexcept
     {
-        return key < SDL_SCANCODE_COUNT && !current[key] && previous[key];
+        SDL_Scancode sdl_scancode = static_cast<SDL_Scancode>(key);
+        return sdl_scancode < SDL_SCANCODE_COUNT && !current[sdl_scancode] &&
+               previous[sdl_scancode];
     }
 
 private:

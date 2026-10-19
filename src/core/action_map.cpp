@@ -169,7 +169,7 @@ ActionMap::isHeld(std::string_view action) const noexcept
         return false;
 
     for (Key key : it->second.keys)
-        if (keyboard.held(static_cast<Scancode>(key)))
+        if (keyboard.held(key))
             return true;
     for (MouseButton btn : it->second.mouse_buttons)
         if (mouse.held(btn))
@@ -185,7 +185,7 @@ ActionMap::isJustPressed(std::string_view action) const noexcept
         return false;
 
     for (Key key : it->second.keys)
-        if (keyboard.justPressed(static_cast<Scancode>(key)))
+        if (keyboard.justPressed(key))
             return true;
     for (MouseButton btn : it->second.mouse_buttons)
         if (mouse.justPressed(btn))
@@ -201,7 +201,7 @@ ActionMap::isJustReleased(std::string_view action) const noexcept
         return false;
 
     for (Key key : it->second.keys)
-        if (keyboard.justReleased(static_cast<Scancode>(key)))
+        if (keyboard.justReleased(key))
             return true;
     for (MouseButton btn : it->second.mouse_buttons)
         if (mouse.justReleased(btn))

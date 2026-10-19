@@ -1,5 +1,6 @@
 #include "lili2d/core/game.hpp"
 
+#include "lili2d/core/action_map.hpp"
 #include "lili2d/core/asset_manager.hpp"
 #include "lili2d/core/event.hpp"
 #include "lili2d/core/game_config.hpp"
@@ -123,6 +124,7 @@ Game::onEvent(const Event& event)
 void
 Game::onUpdate(float dt)
 {
+    ActionMap::get().update();
     UILayoutSystem::update(ecs_registry, window->getSize());
 }
 

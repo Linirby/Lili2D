@@ -6,6 +6,7 @@
 
 #include "lili2d/core.hpp"
 #include "lili2d/ecs.hpp"
+#include "lili2d/entities.hpp"
 #include "lili2d/geometry.hpp"
 #include "lili2d/physics.hpp"
 #include "lili2d/render.hpp"

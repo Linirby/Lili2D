@@ -15,9 +15,10 @@ smth else.
 
 ### IN PROGRESS
 
-- Update all example with hidden render system and new shapes and sprite support.
-
 ### DONE
+
+- Update all examples with hidden render system and new shapes and sprite
+  support + clean them
 
 - Find a way to support anchor and pivot in new ECS architecture
 - Refactor different DrawItem in one struct for the Render2DSystem

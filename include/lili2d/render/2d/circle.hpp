@@ -1,9 +1,5 @@
 #pragma once
 
-#include <algorithm>
-#include <cstdint>
-#include <memory>
-
 #include "lili2d/geometry/shapes2d.hpp"
 #include "lili2d/geometry/utils.hpp"
 #include "lili2d/geometry/vec2.hpp"
@@ -12,21 +8,10 @@
 #include "lili2d/render/common/renderable.hpp"
 #include "lili2d/render/gpu/gpu_mesh.hpp"
 #include "lili2d/render/renderer.hpp"
+#include <algorithm>
+#include <memory>
 
 namespace lili {
-
-struct CircleComponent
-{
-    Vec4 color = { 1.0f,
-                   1.0f,
-                   1.0f,
-                   1.0f };    ///< The color tint going over the material.
-    float radius = 1.0f;      ///< The radius of the circle.
-    uint32_t segments = 8;    ///< The number of segments.
-    float thickness = 1.0f;   ///< The thickness of the border when hollow.
-    uint16_t material_id = 0; ///< The ID of the linked material.
-    bool hollow = false;      ///< Is the shape hollow?
-};
 
 /// @brief A renderable circle.
 class [[deprecated("Use CircleComponent and createCircle() with ECS")]] Circle

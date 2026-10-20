@@ -130,14 +130,6 @@ public:
     );
 
 private:
-    // inline static std::vector<SpriteDrawItem> sprites;
-    // inline static std::vector<uint32_t> sprite_indices;
-    // inline static std::vector<RectDrawItem> rects;
-    // inline static std::vector<uint32_t> rect_indices;
-    // inline static std::vector<CircleDrawItem> circles;
-    // inline static std::vector<uint32_t> circle_indices;
-    // inline static std::vector<LineDrawItem> lines;
-    // inline static std::vector<uint32_t> line_indices;
     inline static std::vector<DrawItem> items;
     inline static std::vector<uint32_t> item_indices;
 
@@ -147,25 +139,13 @@ private:
     inline static Texture* current_texture = nullptr;
 
     static void
-    pushSprites(ECSRegistry& registry, DynamicBatch& batch);
+    pushSprites(ECSRegistry& registry);
     static void
-    pushRects(
-        ECSRegistry& registry,
-        DynamicBatch& batch,
-        Texture* the_white_pixel
-    );
+    pushRects(ECSRegistry& registry, Texture* the_white_pixel);
     static void
-    pushCircles(
-        ECSRegistry& registry,
-        DynamicBatch& batch,
-        Texture* the_white_pixel
-    );
+    pushCircles(ECSRegistry& registry, Texture* the_white_pixel);
     static void
-    pushLines(
-        ECSRegistry& registry,
-        DynamicBatch& batch,
-        Texture* the_white_pixel
-    );
+    pushLines(ECSRegistry& registry, Texture* the_white_pixel);
 
     static bool
     compareIndex(uint32_t idx_a, uint32_t idx_b)

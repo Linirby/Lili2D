@@ -1,4 +1,5 @@
 #include "app.hpp"
+#include "lili2d/core/keys.hpp"
 #include "lili2d/render/gpu/pass_types.hpp"
 #include <memory>
 
@@ -107,18 +108,18 @@ App::onUpdate(float dt)
     keyboard.update();
     lili::Vec2 velocity(0.0f, 0.0f);
 
-    if (keyboard.held(SDL_SCANCODE_W))
+    if (keyboard.held(lili::Key::W))
         velocity.y -= 1.0f;
-    if (keyboard.held(SDL_SCANCODE_S))
+    if (keyboard.held(lili::Key::S))
         velocity.y += 1.0f;
-    if (keyboard.held(SDL_SCANCODE_A))
+    if (keyboard.held(lili::Key::A))
         velocity.x -= 1.0f;
-    if (keyboard.held(SDL_SCANCODE_D))
+    if (keyboard.held(lili::Key::D))
         velocity.x += 1.0f;
 
-    if (keyboard.held(SDL_SCANCODE_I))
+    if (keyboard.held(lili::Key::I))
         camera.setZoom(camera.getZoom() + dt);
-    if (keyboard.held(SDL_SCANCODE_K))
+    if (keyboard.held(lili::Key::K))
         camera.setZoom(camera.getZoom() - dt);
 
     lili::Animation* target_anim = current_anim;

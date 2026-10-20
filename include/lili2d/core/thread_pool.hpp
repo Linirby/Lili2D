@@ -3,6 +3,7 @@
 #include <SDL3/SDL_gpu.h>
 
 #include <condition_variable>
+#include <cstddef>
 #include <functional>
 #include <mutex>
 #include <queue>
@@ -86,6 +87,14 @@ public:
     getProfile() const noexcept
     {
         return profile;
+    }
+
+    /// @brief Returns the number of worker threads in the pool.
+    /// @return Number of active worker threads.
+    [[nodiscard]] inline size_t
+    getThreadCount() const noexcept
+    {
+        return threads.size();
     }
 
 private:

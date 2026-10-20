@@ -1,4 +1,5 @@
 #include "app.hpp"
+#include "lili2d/core/keys.hpp"
 
 #include <SDL3/SDL_scancode.h>
 
@@ -41,15 +42,15 @@ void
 App::onUpdate(float dt)
 {
     keyboard.update();
-    if (keyboard.held(SDL_SCANCODE_LEFT)) {
+    if (keyboard.held(lili::Key::LEFT)) {
         letter_spacing -= speed_change * dt;
         welcome_text.setSpacing(letter_spacing);
     }
-    if (keyboard.held(SDL_SCANCODE_RIGHT)) {
+    if (keyboard.held(lili::Key::RIGHT)) {
         letter_spacing += speed_change * dt;
         welcome_text.setSpacing(letter_spacing);
     }
-    if (keyboard.held(SDL_SCANCODE_R)) {
+    if (keyboard.held(lili::Key::R)) {
         text_rotation += 5.0f * speed_change * dt;
         welcome_text.setRotation(text_rotation);
     }

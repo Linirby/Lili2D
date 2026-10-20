@@ -1,18 +1,19 @@
 #include "lili2d/render/2d/render2d_system.hpp"
 
-#include "lili2d/core/transform.hpp"
+#include "lili2d/components/circle.hpp"
+#include "lili2d/components/line.hpp"
+#include "lili2d/components/rect.hpp"
+#include "lili2d/components/render2d.hpp"
+#include "lili2d/components/sprite.hpp"
+#include "lili2d/components/transform.hpp"
 #include "lili2d/ecs/ecs_registry.hpp"
 #include "lili2d/ecs/ecs_view.hpp"
-#include "lili2d/render/2d/circle.hpp"
 #include "lili2d/render/2d/dynamic_batch.hpp"
-#include "lili2d/render/2d/line.hpp"
-#include "lili2d/render/2d/rect.hpp"
-#include "lili2d/render/2d/render2d_component.hpp"
-#include "lili2d/render/2d/sprite.hpp"
 #include "lili2d/render/common/atlas_map.hpp"
 #include "lili2d/render/gpu/texture.hpp"
 #include <algorithm>
 #include <cstdint>
+#include <limits>
 #include <numeric>
 
 namespace lili {
@@ -25,10 +26,23 @@ Render2DSystem::render(
 )
 {
     items.clear();
-    pushSprites(registry, batch);
-    pushRects(registry, batch, the_white_pixel);
-    pushCircles(registry, batch, the_white_pixel);
-    pushLines(registry, batch, the_white_pixel);
+
+    size_t max_items = registry.getPool<SpriteComponent>().size() +
+                       registry.getPool<RectComponent>().size() +
+                       registry.getPool<CircleComponent>().size() +
+                       registry.getPool<LineComponent>().size();
+    if (items.capacity() < max_items)
+        items.reserve(max_items);
+
+    pushSprites(registry);
+    pushRects(registry, the_white_pixel);
+    pushCircles(registry, the_white_pixel);
+    pushLines(registry, the_white_pixel);
+
+    current_layer = std::numeric_limits<float>::min();
+    current_render_pass = RenderLayer::UNDEFINE;
+    current_material_id = 0;
+    current_texture = nullptr;
 
     if (!items.empty()) {
         item_indices.resize(items.size());
@@ -36,7 +50,7 @@ Render2DSystem::render(
         std::sort(item_indices.begin(), item_indices.end(), compareIndex);
 
         for (uint32_t idx : item_indices) {
-            DrawItem item = items[idx];
+            const DrawItem& item = items[idx];
             if (shouldFlush(item)) {
                 batch.flush(current_layer, current_render_pass);
                 current_render_pass = item.render_pass;
@@ -91,24 +105,27 @@ Render2DSystem::render(
 }
 
 void
-Render2DSystem::pushSprites(ECSRegistry& registry, DynamicBatch& batch)
+Render2DSystem::pushSprites(ECSRegistry& registry)
 {
     auto view =
         registry.view<Render2DComponent, TransformComponent, SpriteComponent>();
 
-    for (auto&& [entity, render2d, trans, sprite] : view) {
+    view.each([](Entity entity,
+                 Render2DComponent& render2d,
+                 TransformComponent& trans,
+                 SpriteComponent& sprite) {
         if (!render2d.is_visible)
-            continue;
+            return;
         items.push_back(
             DrawItem{
                 .texture = sprite.slice.texture,
-                .color = sprite.tint,
+                .color = render2d.color,
                 .pos = trans.pos,
                 .size = render2d.size,
                 .layer = render2d.layer,
                 .rotation = trans.rotation,
                 .entity = entity,
-                .material_id = sprite.material_id,
+                .material_id = render2d.material_id,
                 .render_pass = render2d.render_pass,
 
                 .type = DrawType::SPRITE,
@@ -119,32 +136,33 @@ Render2DSystem::pushSprites(ECSRegistry& registry, DynamicBatch& batch)
                                   .v_max = sprite.slice.v_max } },
             }
         );
-    }
+    });
 }
 
 void
-Render2DSystem::pushRects(
-    ECSRegistry& registry,
-    DynamicBatch& batch,
-    Texture* the_white_pixel
-)
+Render2DSystem::pushRects(ECSRegistry& registry, Texture* the_white_pixel)
 {
     auto rect_view =
         registry.view<Render2DComponent, TransformComponent, RectComponent>();
 
-    for (auto&& [entity, render2d, trans, rect] : rect_view) {
+    rect_view.each([the_white_pixel](
+                       Entity entity,
+                       Render2DComponent& render2d,
+                       TransformComponent& trans,
+                       RectComponent& rect
+                   ) {
         if (!render2d.is_visible)
-            continue;
+            return;
         items.push_back(
             DrawItem{
                 .texture = the_white_pixel,
-                .color = rect.color,
+                .color = render2d.color,
                 .pos = trans.pos,
                 .size = render2d.size,
                 .layer = render2d.layer,
                 .rotation = trans.rotation,
                 .entity = entity,
-                .material_id = rect.material_id,
+                .material_id = render2d.material_id,
                 .render_pass = render2d.render_pass,
 
                 .type = DrawType::RECT,
@@ -153,31 +171,32 @@ Render2DSystem::pushRects(
                                 .hollow = rect.hollow } },
             }
         );
-    }
+    });
 }
 
 void
-Render2DSystem::pushCircles(
-    ECSRegistry& registry,
-    DynamicBatch& batch,
-    Texture* the_white_pixel
-)
+Render2DSystem::pushCircles(ECSRegistry& registry, Texture* the_white_pixel)
 {
     auto circle_view =
         registry.view<Render2DComponent, TransformComponent, CircleComponent>();
 
-    for (auto&& [entity, render2d, trans, circle] : circle_view) {
+    circle_view.each([the_white_pixel](
+                         Entity entity,
+                         Render2DComponent& render2d,
+                         TransformComponent& trans,
+                         CircleComponent& circle
+                     ) {
         if (!render2d.is_visible)
-            continue;
+            return;
         items.push_back(
             DrawItem{
                 .texture = the_white_pixel,
-                .color = circle.color,
+                .color = render2d.color,
                 .pos = trans.pos,
                 .layer = render2d.layer,
                 .rotation = trans.rotation,
                 .entity = entity,
-                .material_id = circle.material_id,
+                .material_id = render2d.material_id,
                 .render_pass = render2d.render_pass,
 
                 .type = DrawType::CIRCLE,
@@ -187,31 +206,32 @@ Render2DSystem::pushCircles(
                                   .hollow = circle.hollow } },
             }
         );
-    }
+    });
 }
 
 void
-Render2DSystem::pushLines(
-    ECSRegistry& registry,
-    DynamicBatch& batch,
-    Texture* the_white_pixel
-)
+Render2DSystem::pushLines(ECSRegistry& registry, Texture* the_white_pixel)
 {
     auto line_view =
         registry.view<Render2DComponent, TransformComponent, LineComponent>();
 
-    for (auto&& [entity, render2d, trans, line] : line_view) {
+    line_view.each([the_white_pixel](
+                       Entity entity,
+                       Render2DComponent& render2d,
+                       TransformComponent& trans,
+                       LineComponent& line
+                   ) {
         if (!render2d.is_visible)
-            continue;
+            return;
         items.push_back(
             DrawItem{
                 .texture = the_white_pixel,
-                .color = line.color,
+                .color = render2d.color,
                 .pos = trans.pos,
                 .layer = render2d.layer,
                 .rotation = trans.rotation,
                 .entity = entity,
-                .material_id = line.material_id,
+                .material_id = render2d.material_id,
                 .render_pass = render2d.render_pass,
 
                 .type = DrawType::LINE,
@@ -219,7 +239,7 @@ Render2DSystem::pushLines(
                     .line{ .dxy = line.dxy, .thickness = line.thickness } },
             }
         );
-    }
+    });
 }
 
 } // namespace lili

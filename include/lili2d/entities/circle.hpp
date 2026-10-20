@@ -7,6 +7,23 @@
 
 namespace lili {
 
+/// @brief Creates a 2D Circle (Geometry) entity.
+/// @note Attached components:
+/// - `TransformComponent` (`pos`, `prev_pos`, `scale`, `rotation`)
+/// - `Render2DComponent` (`color`, `size`, `layer`, `material_id`, `render_pass`, `is_visible`)
+/// - `CircleComponent` (`radius`, `segments`, `thickness`, `hollow`)
+/// @param registry The ECS registry.
+/// @param pos Center position in pixels.
+/// @param radius Circle radius in pixels (stored in `CircleComponent::radius`).
+/// @param segments Number of polygon segments.
+/// @param color RGBA color.
+/// @param hollow True for outline only, false for filled.
+/// @param thickness Outline thickness when hollow.
+/// @param layer Z-ordering depth layer.
+/// @param render_pass Target render pass (`WORLD2D` or `UI`).
+/// @param is_visible Initial visibility flag.
+/// @param material_id Linked material ID.
+/// @return The created Entity.
 [[nodiscard]] Entity
 createCircle(
     ECSRegistry& registry,

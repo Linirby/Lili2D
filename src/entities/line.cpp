@@ -1,9 +1,9 @@
 #include "lili2d/entities/line.hpp"
-#include "lili2d/core/transform.hpp"
+#include "lili2d/components/line.hpp"
+#include "lili2d/components/render2d.hpp"
+#include "lili2d/components/transform.hpp"
 #include "lili2d/ecs/entity.hpp"
 #include "lili2d/geometry/vec2.hpp"
-#include "lili2d/render/2d/line.hpp"
-#include "lili2d/render/2d/render2d_component.hpp"
 #include <cstdlib>
 
 namespace lili {
@@ -29,17 +29,16 @@ createLine(
                                   .rotation = 0.0f };
     registry.emplaceComponent<TransformComponent>(entity, transform);
 
-    Render2DComponent render2d{ .size = { std::abs(end_pos.x - start_pos.x),
+    Render2DComponent render2d{ .color = color,
+                                .size = { std::abs(end_pos.x - start_pos.x),
                                           std::abs(end_pos.y - start_pos.y) },
                                 .layer = layer,
-                                .is_visible = is_visible,
-                                .render_pass = render_pass };
+                                .material_id = material_id,
+                                .render_pass = render_pass,
+                                .is_visible = is_visible };
     registry.emplaceComponent<Render2DComponent>(entity, render2d);
 
-    LineComponent line{ .color = color,
-                        .dxy = end_pos - start_pos,
-                        .thickness = thickness,
-                        .material_id = material_id };
+    LineComponent line{ .dxy = end_pos - start_pos, .thickness = thickness };
     registry.emplaceComponent<LineComponent>(entity, line);
     return entity;
 }

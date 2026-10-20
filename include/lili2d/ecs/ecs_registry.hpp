@@ -3,6 +3,8 @@
 #include <cassert>
 #include <cstdint>
 #include <memory>
+#include <type_traits>
+#include <utility>
 #include <vector>
 
 #include "lili2d/ecs/component_pool.hpp"
@@ -84,6 +86,25 @@ public:
         return getPool<T>().emplace(entity, std::forward<Args>(args)...);
     }
 
+    /// @brief Emplaces one or more components on the entity using type
+    /// deduction.
+    /// @tparam Comps The component types (deduced automatically).
+    /// @param entity The entity to add the components to.
+    /// @param comps The component instances to add.
+    template<typename... Comps>
+    void
+    addComponents(Entity entity, Comps&&... comps)
+    {
+        static_assert(
+            sizeof...(Comps) > 0,
+            "addComponents requires at least one component"
+        );
+        (emplaceComponent<std::decay_t<Comps>>(
+             entity, std::forward<Comps>(comps)
+         ),
+         ...);
+    }
+
     /// @brief Removes a component from the specified entity.
     /// @tparam T The component type to remove.
     /// @param entity The entity.
@@ -118,7 +139,10 @@ public:
     hasComponent(Entity entity) const
     {
         assert(isValid(entity) && "Cannot query component from invalid entity");
-        return const_cast<ECSRegistry*>(this)->getPool<T>().has(entity);
+        uint32_t type_id = getComponentTypeID<T>();
+        if (type_id >= component_pools.size() || !component_pools[type_id])
+            return false;
+        return component_pools[type_id]->has(entity);
     }
 
     /// @brief Get the view of entities with their gived components.

@@ -20,10 +20,11 @@ App::onInit()
     cat_img = lili::createSprite(
         registry, renderer, "baguette.jpg", pos, scale, rotation
     );
-    lili::UILayoutComponent layout{};
-    layout.anchor = lili::Anchor::CENTER;
-    layout.pivot = lili::Pivot::CENTER;
-    registry.emplaceComponent<lili::UILayoutComponent>(cat_img, layout);
+    registry.addComponents(
+        cat_img,
+        lili::UILayoutComponent{ .anchor = lili::Anchor::CENTER,
+                                 .pivot = lili::Pivot::CENTER }
+    );
 
     batch = std::make_unique<lili::DynamicBatch>(renderer, nullptr);
 }

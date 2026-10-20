@@ -4,6 +4,7 @@
 /// @brief Main include header for the Lili2D engine. Aggregates all major
 /// engine subsystems and forward declarations.
 
+#include "lili2d/components.hpp"
 #include "lili2d/core.hpp"
 #include "lili2d/ecs.hpp"
 #include "lili2d/entities.hpp"

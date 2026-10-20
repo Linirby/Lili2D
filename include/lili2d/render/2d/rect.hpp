@@ -1,7 +1,5 @@
 #pragma once
 
-#include <memory>
-
 #include "lili2d/geometry/shapes2d.hpp"
 #include "lili2d/geometry/utils.hpp"
 #include "lili2d/geometry/vec2.hpp"
@@ -10,25 +8,9 @@
 #include "lili2d/render/common/renderable.hpp"
 #include "lili2d/render/gpu/gpu_mesh.hpp"
 #include "lili2d/render/renderer.hpp"
+#include <memory>
 
 namespace lili {
-
-struct RectComponent
-{
-    Vec4 color = { 1.0f,
-                   1.0f,
-                   1.0f,
-                   1.0f };      ///< The color tint going over the material.
-    Vec2 size = { 1.0f, 1.0f }; ///< The default size in pixel of the Rect.
-    float thickness = 1.0f;     ///< The thickness of the border when hollow.
-    uint16_t material_id = 0;   ///< The ID of the linked material.
-    bool hollow = false;        ///< Is the shape hollow?
-};
-
-static_assert(
-    std::is_trivially_copyable_v<RectComponent>,
-    "RectComponent must be trivially copyable"
-);
 
 /// @brief A renderable rectangle.
 class [[deprecated("Use RectComponent and createRect() with ECS")]] Rect

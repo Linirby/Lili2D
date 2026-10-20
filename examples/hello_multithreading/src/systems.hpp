@@ -6,7 +6,9 @@
 
 namespace systems {
 
-class MovementSystem : public lili::System<PositionComponent>
+class MovementSystem
+  : public lili::
+        System<PositionComponent, VelocityComponent, RenderComponent>
 {
 public:
     MovementSystem(float window_w, float window_h);
@@ -16,6 +18,8 @@ public:
         lili::ECSRegistry& registry,
         lili::Entity entity,
         PositionComponent& pos,
+        VelocityComponent& vel,
+        RenderComponent& render,
         float dt
     ) override;
 

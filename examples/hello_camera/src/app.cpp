@@ -33,10 +33,11 @@ App::App()
         0.0f,                               // layer
         lili::RenderLayer::UI               // render pass
     );
-    lili::UILayoutComponent layout{};
-    layout.anchor = lili::Anchor::CENTER;
-    layout.pivot = lili::Pivot::CENTER;
-    registry.emplaceComponent<lili::UILayoutComponent>(camera_center, layout);
+    registry.addComponents(
+        camera_center,
+        lili::UILayoutComponent{ .anchor = lili::Anchor::CENTER,
+                                 .pivot = lili::Pivot::CENTER }
+    );
 
     red_rect = lili::createRect(
         registry,

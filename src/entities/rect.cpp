@@ -1,8 +1,8 @@
 #include "lili2d/entities/rect.hpp"
-#include "lili2d/core/transform.hpp"
+#include "lili2d/components/rect.hpp"
+#include "lili2d/components/render2d.hpp"
+#include "lili2d/components/transform.hpp"
 #include "lili2d/ecs/entity.hpp"
-#include "lili2d/render/2d/rect.hpp"
-#include "lili2d/render/2d/render2d_component.hpp"
 
 namespace lili {
 
@@ -29,17 +29,15 @@ createRect(
     };
     registry.emplaceComponent<TransformComponent>(entity, transform);
 
-    Render2DComponent render2d{ .size = { size.x, size.y },
+    Render2DComponent render2d{ .color = color,
+                                .size = { size.x, size.y },
                                 .layer = layer,
-                                .is_visible = is_visible,
-                                .render_pass = render_pass };
+                                .material_id = material_id,
+                                .render_pass = render_pass,
+                                .is_visible = is_visible };
     registry.emplaceComponent<Render2DComponent>(entity, render2d);
 
-    RectComponent rect{ .color = color,
-                        .size = size,
-                        .thickness = thickness,
-                        .material_id = material_id,
-                        .hollow = hollow };
+    RectComponent rect{ .thickness = thickness, .hollow = hollow };
     registry.emplaceComponent<RectComponent>(entity, rect);
 
     return entity;

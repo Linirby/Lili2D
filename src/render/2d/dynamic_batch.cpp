@@ -94,7 +94,7 @@ void
 DynamicBatch::addLine(Vec2 start_pos, Vec2 end_pos, float thickness, Vec4 color)
 {
     BatchHelper::appendLine(
-        mesh_data, start_pos, start_pos - end_pos, thickness, color
+        mesh_data, start_pos, end_pos - start_pos, thickness, color
     );
 
     Texture* the_white_pixel = renderer->getTheWhitePixel();

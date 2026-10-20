@@ -1,8 +1,8 @@
 #include "lili2d/entities/sprite.hpp"
+#include "lili2d/components/render2d.hpp"
+#include "lili2d/components/sprite.hpp"
+#include "lili2d/components/transform.hpp"
 #include "lili2d/core/asset_manager.hpp"
-#include "lili2d/core/transform.hpp"
-#include "lili2d/render/2d/render2d_component.hpp"
-#include "lili2d/render/2d/sprite.hpp"
 #include "lili2d/render/common/atlas_map.hpp"
 #include "lili2d/render/gpu/texture.hpp"
 #include "lili2d/render/renderer.hpp"
@@ -31,30 +31,29 @@ createSprite(
     if (!texture)
         throw std::runtime_error("Failed to load texture " + img_path);
 
-    TransformComponent transform{};
-    transform.pos = pos;
-    transform.prev_pos = pos;
-    transform.scale = scale;
-    transform.rotation = rotation;
+    TransformComponent transform{
+        .pos = pos, .prev_pos = pos, .scale = scale, .rotation = rotation
+    };
     registry.emplaceComponent<TransformComponent>(entity, transform);
 
-    Render2DComponent render2d{};
-    render2d.size = Vec2(texture->getWidth(), texture->getHeight());
-    render2d.layer = layer;
-    render2d.is_visible = is_visible;
-    render2d.render_pass = render_pass;
+    Render2DComponent render2d{
+        .color = color_tint,
+        .size = Vec2(texture->getWidth(), texture->getHeight()),
+        .layer = layer,
+        .material_id = material_id,
+        .render_pass = render_pass,
+        .is_visible = is_visible
+    };
     registry.emplaceComponent<Render2DComponent>(entity, render2d);
 
-    SpriteComponent sprite{};
-    sprite.slice = { texture,
-                     0.0f,
-                     0.0f,
-                     1.0f,
-                     1.0f,
-                     static_cast<float>(texture->getWidth()),
-                     static_cast<float>(texture->getHeight()) };
-    sprite.material_id = material_id;
-    sprite.tint = color_tint;
+    SpriteComponent sprite{ .slice = {
+                                texture,
+                                0.0f,
+                                0.0f,
+                                1.0f,
+                                1.0f,
+                                static_cast<float>(texture->getWidth()),
+                                static_cast<float>(texture->getHeight()) } };
     registry.emplaceComponent<SpriteComponent>(entity, sprite);
 
     return entity;
@@ -81,15 +80,15 @@ createSprite(
     };
     registry.emplaceComponent<TransformComponent>(entity, transform);
 
-    Render2DComponent render2d{ .size = { sliceUV.width, sliceUV.height },
+    Render2DComponent render2d{ .color = color_tint,
+                                .size = { sliceUV.width, sliceUV.height },
                                 .layer = layer,
-                                .is_visible = is_visible,
-                                .render_pass = render_pass };
+                                .material_id = material_id,
+                                .render_pass = render_pass,
+                                .is_visible = is_visible };
     registry.emplaceComponent<Render2DComponent>(entity, render2d);
 
-    SpriteComponent sprite{ .slice = sliceUV,
-                            .material_id = material_id,
-                            .tint = color_tint };
+    SpriteComponent sprite{ .slice = sliceUV };
     registry.emplaceComponent<SpriteComponent>(entity, sprite);
 
     return entity;

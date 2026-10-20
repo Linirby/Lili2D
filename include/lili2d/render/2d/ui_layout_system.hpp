@@ -1,18 +1,52 @@
 #pragma once
 
+#include "lili2d/components/render2d.hpp"
+#include "lili2d/components/transform.hpp"
+#include "lili2d/components/ui_layout.hpp"
+#include "lili2d/core/thread_pool.hpp"
 #include "lili2d/ecs/ecs_registry.hpp"
+#include "lili2d/ecs/system.hpp"
 #include "lili2d/geometry/vec2.hpp"
-#include "lili2d/render/2d/ui_layout.hpp"
 
 namespace lili {
 
+/// @brief System that computes screen-space positions for entities with
+/// UILayoutComponent.
 class UILayoutSystem
+  : public System<UILayoutComponent, Render2DComponent, TransformComponent>
 {
 public:
+    explicit UILayoutSystem(Vec2 viewport_size = {}) noexcept
+      : viewport_size(viewport_size)
+    {
+    }
+
+    inline void
+    setViewportSize(Vec2 size) noexcept
+    {
+        viewport_size = size;
+    }
+
+    void
+    updateEntity(
+        ECSRegistry& registry,
+        Entity entity,
+        UILayoutComponent& layout,
+        Render2DComponent& render2d,
+        TransformComponent& trans,
+        float dt
+    ) override;
+
     static void
-    update(ECSRegistry& registry, Vec2 viewport_size);
+    update(
+        ECSRegistry& registry,
+        Vec2 viewport_size,
+        ThreadPool* thread_pool = nullptr
+    );
 
 private:
+    Vec2 viewport_size;
+
     [[nodiscard]] static constexpr inline Vec2
     anchorToVector(Anchor anchor, Vec2 custom = {}) noexcept
     {

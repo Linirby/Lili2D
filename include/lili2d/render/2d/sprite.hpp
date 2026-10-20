@@ -1,10 +1,5 @@
 #pragma once
 
-#include <cstdint>
-#include <memory>
-#include <string>
-#include <type_traits>
-
 #include "lili2d/geometry/utils.hpp"
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/geometry/vec4.hpp"
@@ -13,24 +8,10 @@
 #include "lili2d/render/common/renderable.hpp"
 #include "lili2d/render/gpu/texture.hpp"
 #include "lili2d/render/renderer.hpp"
+#include <memory>
+#include <string>
 
 namespace lili {
-
-// @brief Component to represents a Sprite.
-struct SpriteComponent
-{
-    SliceUV slice;            ///< The SliceUV containing the texture.
-    uint16_t material_id = 0; ///< The ID of the linked material.
-    Vec4 tint = { 1.0f,
-                  1.0f,
-                  1.0f,
-                  1.0f }; ///< The color tint going over the material.
-};
-
-static_assert(
-    std::is_trivially_copyable_v<SpriteComponent>,
-    "SpriteComponent must be trivially copyable"
-);
 
 /// @brief Represents a renderable 2D sprite.
 class [[deprecated("Use SpriteComponent with ECS")]] Sprite : public IRenderable

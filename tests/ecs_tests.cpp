@@ -41,7 +41,6 @@ TEST_CASE("ECS Registry - Entity Lifecycle", "[ecs][entity]")
     CHECK_FALSE(registry.isValid(e1));
     CHECK(registry.isValid(e2));
 
-    // Recycled entity ID with incremented version/generation
     Entity e3 = registry.createEntity();
     CHECK(registry.isValid(e3));
     CHECK(getEntityID(e3) == 0);
@@ -114,7 +113,6 @@ TEST_CASE("ECS Component Pool - Contiguous Iteration", "[ecs][pool]")
     }
     CHECK(sum_x == 6.0f);
 
-    // Remove middle component to verify swap-and-pop integrity
     registry.removeComponent<Position>(e2);
     CHECK(pool.size() == 2);
     CHECK(registry.hasComponent<Position>(e1));
@@ -132,12 +130,10 @@ TEST_CASE("ECS CommandBuffer - Deferred Operations", "[ecs][command_buffer]")
     cmd.emplaceComponent<Position>(e, 100.0f, 200.0f);
     cmd.emplaceComponent<Name>(e, "Hero");
 
-    // Before play, registry component does not exist
     CHECK_FALSE(registry.hasComponent<Position>(e));
 
     cmd.play(registry);
 
-    // After play, components are emplaced
     CHECK(registry.hasComponent<Position>(e));
     CHECK(registry.getComponent<Position>(e).x == 100.0f);
     CHECK(registry.hasComponent<Name>(e));
@@ -258,7 +254,6 @@ TEST_CASE("ECS View - Multi-Component Iteration", "[ecs][view]")
         CHECK(registry.getComponent<Position>(e1).y == 22.0f);
         CHECK(registry.getComponent<Position>(e4).x == 55.0f);
         CHECK(registry.getComponent<Position>(e4).y == 66.0f);
-        // e2 has no Velocity, so its Position was not modified
         CHECK(registry.getComponent<Position>(e2).x == 3.0f);
         CHECK(registry.getComponent<Position>(e2).y == 4.0f);
     }
@@ -290,5 +285,48 @@ TEST_CASE("ECS View - Multi-Component Iteration", "[ecs][view]")
             count++;
         }
         CHECK(count == 2);
+    }
+}
+
+TEST_CASE("ECS System<...Components> and addComponents", "[ecs][system]")
+{
+    class TestMoveSystem : public System<Position, Velocity>
+    {
+    public:
+        TestMoveSystem() { parallel_threshold = 4; }
+
+        void
+        updateEntity(
+            [[maybe_unused]] ECSRegistry& registry,
+            [[maybe_unused]] Entity entity,
+            Position& pos,
+            Velocity& vel,
+            float dt
+        ) override
+        {
+            pos.x += vel.vx * dt;
+            pos.y += vel.vy * dt;
+        }
+    };
+
+    ECSRegistry registry;
+    for (int i = 0; i < 10; ++i) {
+        Entity e = registry.createEntity();
+        registry.addComponents(
+            e, Position{ 1.0f * i, 2.0f * i }, Velocity{ 10.0f, 20.0f }
+        );
+    }
+    Entity static_entity = registry.createEntity();
+    registry.addComponents(static_entity, Position{ 99.0f, 99.0f });
+
+    TestMoveSystem sys;
+    ThreadPool pool(EngineConfig{ .profile = PerformanceProfile::CORRECT });
+    sys.run(registry, 0.5f, &pool);
+
+    CHECK(registry.getComponent<Position>(static_entity).x == 99.0f);
+    for (auto [e, pos, vel] : registry.view<Position, Velocity>()) {
+        uint32_t id = getEntityID(e);
+        CHECK(pos.x == 1.0f * id + 5.0f);
+        CHECK(pos.y == 2.0f * id + 10.0f);
     }
 }

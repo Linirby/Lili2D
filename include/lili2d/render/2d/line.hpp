@@ -1,9 +1,5 @@
 #pragma once
 
-#include <cmath>
-#include <memory>
-#include <type_traits>
-
 #include "lili2d/geometry/shapes2d.hpp"
 #include "lili2d/geometry/utils.hpp"
 #include "lili2d/geometry/vec2.hpp"
@@ -12,24 +8,10 @@
 #include "lili2d/render/common/renderable.hpp"
 #include "lili2d/render/gpu/gpu_mesh.hpp"
 #include "lili2d/render/renderer.hpp"
+#include <cmath>
+#include <memory>
 
 namespace lili {
-
-struct LineComponent
-{
-    Vec4 color = { 1.0f,
-                   1.0f,
-                   1.0f,
-                   1.0f };     ///< The color tint going over the material.
-    Vec2 dxy = { 0.0f, 0.0f }; ///< The distance between start and end pos.
-    float thickness = 1.0f;    ///< The default size in pixel of the Rect.
-    uint16_t material_id = 0;  ///< The ID of the linked material.
-};
-
-static_assert(
-    std::is_trivially_copyable_v<LineComponent>,
-    "LineComponent must be trivially copyable"
-);
 
 /// @brief A renderable line.
 class [[deprecated("Use LineComponent and createLine() with ECS")]] Line

@@ -1,41 +1,10 @@
 #pragma once
 
+#include "lili2d/components/ui_layout.hpp"
 #include "lili2d/geometry/mat3x3.hpp"
 #include "lili2d/geometry/vec2.hpp"
-#include <cstdint>
 
 namespace lili {
-
-/// @brief Defines UI anchor alignment points relative to the viewport.
-enum class Anchor : uint8_t
-{
-    TOP_LEFT,     ///< Top-left corner of the viewport.
-    TOP,          ///< Top-center of the viewport.
-    TOP_RIGHT,    ///< Top-right corner of the viewport.
-    LEFT,         ///< Middle-left of the viewport.
-    CENTER,       ///< Center of the viewport.
-    RIGHT,        ///< Middle-right of the viewport.
-    BOTTOM_LEFT,  ///< Bottom-left corner of the viewport.
-    BOTTOM,       ///< Bottom-center of the viewport.
-    BOTTOM_RIGHT, ///< Bottom-right corner of the viewport.
-    CUSTOM        ///< Custom normalized anchor coordinates [0, 1].
-};
-
-/// @brief Defines UI pivot alignment points relative to the element's bounding
-/// box.
-enum class Pivot : uint8_t
-{
-    TOP_LEFT,     ///< Top-left corner of the element.
-    TOP,          ///< Top-center of the element.
-    TOP_RIGHT,    ///< Top-right corner of the element.
-    LEFT,         ///< Middle-left of the element.
-    CENTER,       ///< Center of the element.
-    RIGHT,        ///< Middle-right of the element.
-    BOTTOM_LEFT,  ///< Bottom-left corner of the element.
-    BOTTOM,       ///< Bottom-center of the element.
-    BOTTOM_RIGHT, ///< Bottom-right corner of the element.
-    CUSTOM        ///< Custom normalized pivot coordinates [0, 1].
-};
 
 /// @brief Converts an Anchor enum value to a normalized 2D vector coordinate.
 /// @param anchor Target anchor enum.
@@ -80,16 +49,6 @@ pivotToVector(Pivot pivot, Vec2 custom = {}) noexcept
 {
     return anchorToVector(static_cast<Anchor>(pivot), custom);
 }
-
-struct UILayoutComponent
-{
-    Vec2 size;
-    Vec2 offset;
-    Vec2 custom_anchor;
-    Vec2 custom_pivot;
-    Anchor anchor = Anchor::CENTER;
-    Pivot pivot = Pivot::CENTER;
-};
 
 /// @brief Layout configuration for anchoring and positioning UI elements.
 struct [[deprecated("Use UILayoutComponent with ECS")]] UILayout

@@ -1,9 +1,9 @@
 #include "lili2d/entities/circle.hpp"
-#include "lili2d/core/transform.hpp"
+#include "lili2d/components/circle.hpp"
+#include "lili2d/components/render2d.hpp"
+#include "lili2d/components/transform.hpp"
 #include "lili2d/ecs/entity.hpp"
 #include "lili2d/geometry/vec2.hpp"
-#include "lili2d/render/2d/circle.hpp"
-#include "lili2d/render/2d/render2d_component.hpp"
 #include <cstdint>
 
 namespace lili {
@@ -30,20 +30,20 @@ createCircle(
     };
     registry.emplaceComponent<TransformComponent>(entity, transform);
 
-    Render2DComponent render2d{ .size = { radius * 2, radius * 2 },
+    Render2DComponent render2d{ .color = color,
+                                .size = { radius * 2.0f, radius * 2.0f },
                                 .layer = layer,
-                                .is_visible = is_visible,
-                                .render_pass = render_pass };
+                                .material_id = material_id,
+                                .render_pass = render_pass,
+                                .is_visible = is_visible };
     registry.emplaceComponent<Render2DComponent>(entity, render2d);
 
-    CircleComponent circle{ .color = color,
-                            .radius = radius,
+    CircleComponent circle{ .radius = radius,
                             .segments = segments,
                             .thickness = thickness,
-                            .material_id = material_id,
                             .hollow = hollow };
     registry.emplaceComponent<CircleComponent>(entity, circle);
     return entity;
 }
 
-}
+} // namespace lili

@@ -1,4 +1,5 @@
 #include "app.hpp"
+#include "lili2d/core/keys.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -93,21 +94,21 @@ App::onUpdate(float dt)
     keyboard.update();
     lili::Vec2 vel(0.0f, 0.0f);
 
-    if (keyboard.held(SDL_SCANCODE_W))
+    if (keyboard.held(lili::Key::W))
         vel.y = -1.0f;
-    if (keyboard.held(SDL_SCANCODE_S))
+    if (keyboard.held(lili::Key::S))
         vel.y = 1.0f;
-    if (keyboard.held(SDL_SCANCODE_A))
+    if (keyboard.held(lili::Key::A))
         vel.x = -1.0f;
-    if (keyboard.held(SDL_SCANCODE_D))
+    if (keyboard.held(lili::Key::D))
         vel.x = 1.0f;
 
     lili::Vec2 camera_pos = camera.getPosition();
     camera.setPosition(camera_pos + (vel * 100.0f * dt));
 
-    if (keyboard.held(SDL_SCANCODE_I))
+    if (keyboard.held(lili::Key::I))
         camera.setZoom(camera.getZoom() + dt);
-    if (keyboard.held(SDL_SCANCODE_K))
+    if (keyboard.held(lili::Key::K))
         camera.setZoom(std::max(0.01f, camera.getZoom() - dt));
 }
 

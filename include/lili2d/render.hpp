@@ -10,7 +10,6 @@
 #include "lili2d/render/2d/dynamic_batch.hpp"
 #include "lili2d/render/2d/line.hpp"
 #include "lili2d/render/2d/rect.hpp"
-#include "lili2d/render/2d/render2d_component.hpp"
 #include "lili2d/render/2d/render2d_system.hpp"
 #include "lili2d/render/2d/sprite.hpp"
 #include "lili2d/render/2d/static_batch.hpp"

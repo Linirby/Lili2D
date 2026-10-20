@@ -1,6 +1,5 @@
 #pragma once
 
-#include "lili2d/ecs/entity.hpp"
 #include <lili2d/lili2d.hpp>
 
 class App : public lili::Game

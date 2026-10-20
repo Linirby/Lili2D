@@ -1,12 +1,6 @@
 #pragma once
 
-#include "lili2d/ecs/ecs_registry.hpp"
-#include "lili2d/ecs/entity.hpp"
-#include "lili2d/geometry/vec2.hpp"
-#include "lili2d/geometry/vec4.hpp"
-#include "lili2d/render/2d/text.hpp"
-#include <lili2d/core/event.hpp>
-#include <lili2d/core/game.hpp>
+#include <lili2d/lili2d.hpp>
 #include <vector>
 
 class App : public lili::Game

@@ -1,17 +1,17 @@
 #include "game.hpp"
 
+#include "components.hpp"
+#include "entities.hpp"
+#include "systems.hpp"
 #include <iostream>
 #include <lili2d/core/asset_manager.hpp>
 #include <lili2d/core/event.hpp>
 #include <lili2d/core/window.hpp>
-#include <lili2d/render/2d/dynamic_batch.hpp>
 #include <lili2d/render/renderer.hpp>
 #include <memory>
 #include <random>
 
-#include "components.hpp"
-#include "entities.hpp"
-#include "systems.hpp"
+using namespace lili;
 
 namespace {
 std::mt19937&
@@ -24,25 +24,23 @@ getRng()
 } // namespace
 
 App::App()
-  : lili::Game("hello_ecs - Lili2D", 800, 600)
+  : Game("hello_ecs - Lili2D", 800, 600)
 {
     setTps(20.0f);
-    lili::Window* window = getWindow();
-    lili::Renderer* renderer = getRenderer();
+    Window* window = getWindow();
+    Renderer* renderer = getRenderer();
 
     window->setResizable(true);
 
-    camera = lili::Camera();
+    camera = Camera();
     camera.setPosition(
         { window->getWidth() / 2.0f, window->getHeight() / 2.0f }
     );
     renderer->setCamera(&camera);
 
-    circle_texture = lili::Assets::loadTexture(
-        "circle_tex", "circle.png", renderer->getDevice()
-    );
-    dynamic_batch =
-        std::make_unique<lili::DynamicBatch>(renderer, circle_texture);
+    circle_texture =
+        Assets::loadTexture("circle_tex", "circle.png", renderer->getDevice());
+    dynamic_batch = std::make_unique<DynamicBatch>(renderer, circle_texture);
     for (int i = 0; i < N_ENTITIES; ++i)
         spawnRandomBall();
 
@@ -53,19 +51,20 @@ App::App()
 }
 
 void
-App::onEvent(const lili::Event& event)
+App::onEvent(const Event& event)
 {
-    lili::Game::onEvent(event);
-    if (event.type() == lili::EventType::KEYBOARD) {
-        lili::KeyboardEvent kb = event.keyboard();
-        if (kb.action == lili::KeyAction::PRESSED) {
-            if (kb.key == lili::Key::ESCAPE)
+    Game::onEvent(event);
+
+    if (event.type() == EventType::KEYBOARD) {
+        KeyboardEvent kb = event.keyboard();
+        if (kb.action == KeyAction::PRESSED) {
+            if (kb.key == Key::ESCAPE)
                 shutdown();
-            else if (kb.key == lili::Key::SPACE)
+            else if (kb.key == Key::SPACE)
                 spawnRandomBall();
-            else if (kb.key == lili::Key::BACKSPACE)
+            else if (kb.key == Key::BACKSPACE)
                 destroyRandomBall();
-            else if (kb.key == lili::Key::T)
+            else if (kb.key == Key::T)
                 toggleRandomBallVelocity();
             std::cout << "Total entities: " << spawned_entities.size() << "\n";
         }
@@ -75,7 +74,9 @@ App::onEvent(const lili::Event& event)
 void
 App::onUpdate(float dt)
 {
-    lili::Window* window = getWindow();
+    Game::onUpdate(dt);
+
+    Window* window = getWindow();
     camera.setPosition(
         { window->getWidth() / 2.0f, window->getHeight() / 2.0f }
     );
@@ -90,7 +91,8 @@ App::onUpdate(float dt)
 void
 App::onRender(float alpha)
 {
-    (void)alpha;
+    Game::onRender(alpha);
+
     systems::renderEntities(ecs_registry, *dynamic_batch);
 }
 
@@ -98,7 +100,7 @@ void
 App::spawnRandomBall()
 {
     auto& gen = getRng();
-    lili::Window* window = getWindow();
+    Window* window = getWindow();
     std::uniform_real_distribution<float> disX(
         50.0f, static_cast<float>(window->getWidth()) - 50.0f
     );
@@ -109,16 +111,16 @@ App::spawnRandomBall()
     std::uniform_real_distribution<float> disRadius(10.0f, 30.0f);
     std::uniform_real_distribution<float> disColor(0.2f, 1.0f);
 
-    lili::Vec2 pos(disX(gen), disY(gen));
-    lili::Vec2 vel(disVel(gen), disVel(gen));
+    Vec2 pos(disX(gen), disY(gen));
+    Vec2 vel(disVel(gen), disVel(gen));
     float radius = disRadius(gen);
-    lili::Vec4 color(disColor(gen), disColor(gen), disColor(gen), 1.0f);
+    Vec4 color(disColor(gen), disColor(gen), disColor(gen), 1.0f);
 
-    lili::Entity ent = entities::spawnBall(
+    Entity ent = entities::spawnBall(
         ecs_registry,
         pos,
         vel,
-        lili::SliceUV(circle_texture, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f),
+        SliceUV(circle_texture, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f),
         color,
         radius
     );
@@ -134,7 +136,7 @@ App::destroyRandomBall()
     auto& gen = getRng();
     std::uniform_int_distribution<size_t> dis(0, spawned_entities.size() - 1);
     size_t index = dis(gen);
-    lili::Entity ent = spawned_entities[index];
+    Entity ent = spawned_entities[index];
 
     ecs_registry.destroyEntity(ent);
     spawned_entities.erase(spawned_entities.begin() + index);
@@ -149,14 +151,14 @@ App::toggleRandomBallVelocity()
     auto& gen = getRng();
     std::uniform_int_distribution<size_t> dis(0, spawned_entities.size() - 1);
     size_t index = dis(gen);
-    lili::Entity ent = spawned_entities[index];
+    Entity ent = spawned_entities[index];
 
     if (ecs_registry.hasComponent<VelocityComponent>(ent)) {
         ecs_registry.removeComponent<VelocityComponent>(ent);
     } else {
         std::uniform_real_distribution<float> disVel(-200.0f, 200.0f);
         ecs_registry.emplaceComponent<VelocityComponent>(
-            ent, lili::Vec2(disVel(gen), disVel(gen))
+            ent, Vec2(disVel(gen), disVel(gen))
         );
     }
 }

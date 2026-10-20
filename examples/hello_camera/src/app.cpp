@@ -1,105 +1,93 @@
 #include "app.hpp"
-#include "lili2d/core/game.hpp"
-#include "lili2d/ecs/ecs_registry.hpp"
-#include "lili2d/entities/circle.hpp"
-#include "lili2d/entities/rect.hpp"
-#include "lili2d/geometry/vec2.hpp"
-#include "lili2d/geometry/vec4.hpp"
-#include "lili2d/render/2d/ui_layout.hpp"
-#include "lili2d/render/gpu/pass_types.hpp"
+
+using namespace lili;
 
 App::App()
-  : lili::Game("hello_camera - Lili2D", 600, 400)
+  : Game("hello_camera - Lili2D", 600, 400)
 {
     setTps(20.0f);
-    lili::Renderer* renderer = getRenderer();
     getWindow()->setResizable(true);
 
-    camera = lili::Camera();
+    Renderer* renderer = getRenderer();
+
     cam_pos = { 250.0f, 250.0f };
-    camera.setPosition(cam_pos);
     camera_zoom = camera.getZoom();
+    camera.setPosition(cam_pos);
     renderer->setCamera(&camera);
 
-    lili::ECSRegistry& registry = getECSRegistry();
-    camera_center = lili::createCircle(
+    ECSRegistry& registry = getECSRegistry();
+    camera_center = createCircle(
         registry,
-        lili::Vec2(0.0f, 0.0f),             // pos
-        5.0f,                               // radius
-        16,                                 // segments
-        lili::Vec4(1.0f, 1.0f, 1.0f, 0.5f), // color
-        false,                              // hollow
-        1.0f,                               // thickness (hollow)
-        0.0f,                               // layer
-        lili::RenderLayer::UI               // render pass
+        { .color = Vec4(1.0f, 1.0f, 1.0f, 0.5f),
+          .pos = Vec2(0.0f, 0.0f),
+          .radius = 5.0f,
+          .render_pass = RenderLayer::UI }
     );
     registry.addComponents(
         camera_center,
-        lili::UILayoutComponent{ .anchor = lili::Anchor::CENTER,
-                                 .pivot = lili::Pivot::CENTER }
+        UILayoutComponent{ .anchor = Anchor::CENTER, .pivot = Pivot::CENTER }
     );
 
-    red_rect = lili::createRect(
+    red_rect = createRect(
         registry,
-        lili::Vec2(250.0f, 200.0f),        // pos
-        lili::Vec2(100.0f, 50.0f),         // size
-        lili::Vec2(1.0f, 1.0f),            // scale
-        0.0f,                              // rotation
-        lili::Vec4(1.0f, 0.0f, 0.0f, 1.0f) // color
+        { .color = Vec4(1.0f, 0.0f, 0.0f, 1.0f),
+          .pos = Vec2(250.0f, 200.0f),
+          .size = Vec2(100.0f, 50.0f),
+          .scale = Vec2(1.0f, 1.0f),
+          .rotation = 0.0f }
     );
-    green_rect = lili::createRect(
+    green_rect = createRect(
         registry,
-        lili::Vec2(100.0f, 100.0f),        // pos
-        lili::Vec2(75.0f, 75.0f),          // size
-        lili::Vec2(1.0f, 1.0f),            // scale
-        0.0f,                              // rotation
-        lili::Vec4(0.0f, 1.0f, 0.0f, 1.0f) // color
+        { .color = Vec4(0.0f, 1.0f, 0.0f, 1.0f),
+          .pos = Vec2(100.0f, 100.0f),
+          .size = Vec2(75.0f, 75.0f),
+          .scale = Vec2(1.0f, 1.0f),
+          .rotation = 0.0f }
     );
-    blue_rect = lili::createRect(
+    blue_rect = createRect(
         registry,
-        lili::Vec2(400.0f, 250.0f),        // pos
-        lili::Vec2(50.0f, 200.0f),         // size
-        lili::Vec2(1.0f, 1.0f),            // scale
-        0.0f,                              // rotation
-        lili::Vec4(0.0f, 0.0f, 1.0f, 1.0f) // color
+        { .color = Vec4(0.0f, 0.0f, 1.0f, 1.0f),
+          .pos = Vec2(400.0f, 250.0f),
+          .size = Vec2(50.0f, 200.0f),
+          .scale = Vec2(1.0f, 1.0f),
+          .rotation = 0.0f }
     );
 
-    lili::BitmapFont* font =
-        lili::Assets::loadFont("lili_font", renderer, "lili_font.png", 16, 6);
-    text_cam_pos = lili::Text(renderer, font, "");
+    BitmapFont* font =
+        Assets::loadFont("lili_font", renderer, "lili_font.png", 16, 6);
+    text_cam_pos = Text(renderer, font, "");
     text_cam_pos.setScale(2.0f);
     text_cam_pos.setOffset({ 0.0f, 10.0f });
-    text_cam_pos.setRender(lili::RenderLayer::UI);
-    text_cam_pos.setAnchor(lili::Anchor::TOP);
-    text_cam_pos.setPivot(lili::Pivot::TOP);
+    text_cam_pos.setRender(RenderLayer::UI);
+    text_cam_pos.setAnchor(Anchor::TOP);
+    text_cam_pos.setPivot(Pivot::TOP);
 
-    text_controls = lili::Text(
+    text_controls = Text(
         renderer, font, "IJKL/WASD = move the camera | ZX/LMB RMB = zoom/dezoom"
     );
     text_controls.setScale(1.6f);
     text_controls.setOffset({ 0.0f, 32.0f });
-    text_controls.setRender(lili::RenderLayer::UI);
-    text_controls.setAnchor(lili::Anchor::TOP);
-    text_controls.setPivot(lili::Pivot::TOP);
+    text_controls.setRender(RenderLayer::UI);
+    text_controls.setAnchor(Anchor::TOP);
+    text_controls.setPivot(Pivot::TOP);
 
-    lili::ActionMap& action_map = lili::ActionMap::get();
-    action_map.add("Up", { lili::Key::I, lili::Key::W, lili::Key::UP });
-    action_map.add("Down", { lili::Key::K, lili::Key::S, lili::Key::DOWN });
-    action_map.add("Left", { lili::Key::J, lili::Key::A, lili::Key::LEFT });
-    action_map.add("Right", { lili::Key::L, lili::Key::D, lili::Key::RIGHT });
-    action_map.add("Zoom", { lili::Key::Z }, { lili::MouseButton::LEFT });
-    action_map.add("Dezoom", { lili::Key::X }, { lili::MouseButton::RIGHT });
+    ActionMap& action_map = ActionMap::get();
+    action_map.add("Up", { Key::I, Key::W, Key::UP });
+    action_map.add("Down", { Key::K, Key::S, Key::DOWN });
+    action_map.add("Left", { Key::J, Key::A, Key::LEFT });
+    action_map.add("Right", { Key::L, Key::D, Key::RIGHT });
+    action_map.add("Zoom", { Key::Z }, { MouseButton::LEFT });
+    action_map.add("Dezoom", { Key::X }, { MouseButton::RIGHT });
 }
 
 void
-App::onEvent(const lili::Event& event)
+App::onEvent(const Event& event)
 {
-    lili::Game::onEvent(event);
+    Game::onEvent(event);
 
-    if (event.type() == lili::EventType::KEYBOARD) {
-        lili::KeyboardEvent kb = event.keyboard();
-        if (kb.action == lili::KeyAction::PRESSED &&
-            kb.key == lili::Key::ESCAPE)
+    if (event.type() == EventType::KEYBOARD) {
+        KeyboardEvent kb = event.keyboard();
+        if (kb.action == KeyAction::PRESSED && kb.key == Key::ESCAPE)
             shutdown();
     }
 }
@@ -107,12 +95,12 @@ App::onEvent(const lili::Event& event)
 void
 App::onUpdate(float dt)
 {
-    lili::Game::onUpdate(dt);
+    Game::onUpdate(dt);
 
-    lili::ActionMap& action_map = lili::ActionMap::get();
+    ActionMap& action_map = ActionMap::get();
     action_map.update();
 
-    lili::Vec2 dir{};
+    Vec2 dir{};
     if (action_map.isHeld("Up"))
         dir.y -= 1.0f;
     if (action_map.isHeld("Down"))
@@ -140,7 +128,7 @@ App::onUpdate(float dt)
 void
 App::onRender(float alpha)
 {
-    lili::Game::onRender(alpha);
+    Game::onRender(alpha);
 
     text_cam_pos.draw();
     text_controls.draw();

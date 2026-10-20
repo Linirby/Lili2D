@@ -1,20 +1,16 @@
 #include "systems.hpp"
 
+#include "components.hpp"
 #include <lili2d/ecs/ecs_view.hpp>
 #include <lili2d/ecs/entity.hpp>
+#include <lili2d/render/gpu/pass_types.hpp>
 
-#include "components.hpp"
-#include "lili2d/render/gpu/pass_types.hpp"
+using namespace lili;
 
 namespace systems {
 
 void
-updateMovement(
-    lili::ECSRegistry& registry,
-    float dt,
-    float window_w,
-    float window_h
-)
+updateMovement(ECSRegistry& registry, float dt, float window_w, float window_h)
 {
     auto view =
         registry.view<PositionComponent, VelocityComponent, RenderComponent>();
@@ -40,7 +36,7 @@ updateMovement(
 }
 
 void
-renderEntities(lili::ECSRegistry& registry, lili::DynamicBatch& batch)
+renderEntities(ECSRegistry& registry, DynamicBatch& batch)
 {
     batch.begin();
 
@@ -55,7 +51,7 @@ renderEntities(lili::ECSRegistry& registry, lili::DynamicBatch& batch)
             render.color
         );
 
-    batch.flush(0.0f, lili::RenderLayer::WORLD2D);
+    batch.flush(0.0f, RenderLayer::WORLD2D);
 }
 
 } // namespace systems

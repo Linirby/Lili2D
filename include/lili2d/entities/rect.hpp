@@ -4,41 +4,40 @@
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/geometry/vec4.hpp"
 #include "lili2d/render/gpu/pass_types.hpp"
+#include <type_traits>
 
 namespace lili {
+
+struct RectParameters
+{
+    Vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
+    Vec2 pos = { 0.0f, 0.0f };
+    Vec2 size = { 10.0f, 10.0f };
+    Vec2 scale = { 1.0f, 1.0f };
+    float rotation = 0.0f;
+    float thickness = 1.0f;
+    float layer = 0.0f;
+    uint16_t material_id = 0;
+    bool hollow = false;
+    bool is_visible = true;
+    RenderLayer render_pass = RenderLayer::WORLD2D;
+};
+
+static_assert(
+    std::is_trivially_copyable_v<RectParameters>,
+    "RectParameters must be tryvially copyable."
+);
 
 /// @brief Creates a 2D Rectangle (Quad) entity.
 /// @note Attached components:
 /// - `TransformComponent` (`pos`, `prev_pos`, `scale`, `rotation`)
-/// - `Render2DComponent` (`color`, `size`, `layer`, `material_id`, `render_pass`, `is_visible`)
+/// - `Render2DComponent` (`color`, `size`, `layer`, `material_id`,
+/// `render_pass`, `is_visible`)
 /// - `RectComponent` (`thickness`, `hollow`)
 /// @param registry The ECS registry.
-/// @param pos Center position in pixels.
-/// @param size Width and height in pixels (stored in `Render2DComponent::size`).
-/// @param scale Scale factor in X and Y.
-/// @param rotation Rotation in degrees.
-/// @param color RGBA color.
-/// @param hollow True for outline only, false for filled.
-/// @param thickness Outline thickness when hollow.
-/// @param layer Z-ordering depth layer.
-/// @param render_pass Target render pass (`WORLD2D` or `UI`).
-/// @param is_visible Initial visibility flag.
-/// @param material_id Linked material ID.
+/// @param params The parameters of the rect.
 /// @return The created Entity.
 [[nodiscard]] Entity
-createRect(
-    ECSRegistry& registry,
-    Vec2 pos,
-    Vec2 size,
-    Vec2 scale = { 1.0f, 1.0f },
-    float rotation = 0.0f,
-    Vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f },
-    bool hollow = false,
-    float thickness = 1.0f,
-    float layer = 0.0f,
-    RenderLayer render_pass = RenderLayer::WORLD2D,
-    bool is_visible = true,
-    uint16_t material_id = 0
-);
+createRect(ECSRegistry& registry, const RectParameters& params);
 
 } // namespace lili

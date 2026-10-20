@@ -3,36 +3,38 @@
 #include "main_menu.hpp"
 #include "yet_again_menu.hpp"
 
-AnotherScene::AnotherScene(lili::Renderer* renderer)
-  : lili::Scene("AnotherMenu", renderer)
+using namespace lili;
+
+AnotherScene::AnotherScene(Renderer* renderer)
+  : Scene("AnotherMenu", renderer)
 {
-    lili::BitmapFont* font =
-        lili::Assets::loadFont("lili_font", renderer, "lili_font.png", 16, 6);
+    BitmapFont* font =
+        Assets::loadFont("lili_font", renderer, "lili_font.png", 16, 6);
 
-    text = lili::Text(renderer, font, "AnotherMenu Scene");
+    text = Text(renderer, font, "AnotherMenu Scene");
     text.setScale(3.0f);
-    text.setRender(lili::RenderLayer::UI);
-    text.setAnchor(lili::Anchor::CENTER);
-    text.setPivot(lili::Pivot::BOTTOM);
+    text.setRender(RenderLayer::UI);
+    text.setAnchor(Anchor::CENTER);
+    text.setPivot(Pivot::BOTTOM);
 
-    info_text = lili::Text(renderer, font, "J and L to change");
+    info_text = Text(renderer, font, "J and L to change");
     info_text.setScale(2.0f);
-    info_text.setRender(lili::RenderLayer::UI);
-    info_text.setAnchor(lili::Anchor::CENTER);
-    info_text.setPivot(lili::Pivot::TOP);
+    info_text.setRender(RenderLayer::UI);
+    info_text.setAnchor(Anchor::CENTER);
+    info_text.setPivot(Pivot::TOP);
 }
 
 void
-AnotherScene::handleEvents(const lili::Event& event)
+AnotherScene::handleEvents(const Event& event)
 {
-    if (event.type() == lili::EventType::KEYBOARD) {
-        lili::KeyboardEvent kb = event.keyboard();
-        if (kb.action == lili::KeyAction::PRESSED && !kb.repeat) {
-            if (kb.key == lili::Key::ESCAPE)
+    if (event.type() == EventType::KEYBOARD) {
+        KeyboardEvent kb = event.keyboard();
+        if (kb.action == KeyAction::PRESSED && !kb.repeat) {
+            if (kb.key == Key::ESCAPE)
                 manager->pop();
-            else if (kb.key == lili::Key::L)
+            else if (kb.key == Key::L)
                 manager->changeScene(std::make_unique<YetAgainScene>(renderer));
-            else if (kb.key == lili::Key::J)
+            else if (kb.key == Key::J)
                 manager->changeScene(std::make_unique<MainScene>(renderer));
         }
     }

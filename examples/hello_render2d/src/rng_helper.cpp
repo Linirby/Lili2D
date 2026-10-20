@@ -1,8 +1,6 @@
 #include "rng_helper.hpp"
 
-#include "lili2d/geometry/vec2.hpp"
-#include "lili2d/geometry/vec4.hpp"
-#include <random>
+using namespace lili;
 
 std::mt19937&
 rng::gen()
@@ -12,8 +10,8 @@ rng::gen()
     return gen;
 }
 
-lili::Vec2
-rng::pos(lili::Vec2 screen_size)
+Vec2
+rng::pos(Vec2 screen_size)
 {
     std::mt19937& gen = rng::gen();
     std::uniform_real_distribution<float> posX(0.0f, screen_size.x);
@@ -22,7 +20,7 @@ rng::pos(lili::Vec2 screen_size)
     return { posX(gen), posY(gen) };
 }
 
-lili::Vec2
+Vec2
 rng::size()
 {
     std::mt19937& gen = rng::gen();
@@ -41,7 +39,7 @@ rng::radius()
     return res(gen);
 }
 
-lili::Vec4
+Vec4
 rng::color()
 {
     std::mt19937& gen = rng::gen();

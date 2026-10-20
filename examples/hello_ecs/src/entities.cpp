@@ -2,19 +2,21 @@
 
 #include "components.hpp"
 
+using namespace lili;
+
 namespace entities {
 
-lili::Entity
+Entity
 spawnBall(
-    lili::ECSRegistry& registry,
-    lili::Vec2 pos,
-    lili::Vec2 vel,
-    const lili::SliceUV& slice,
-    lili::Vec4 color,
+    ECSRegistry& registry,
+    Vec2 pos,
+    Vec2 vel,
+    const SliceUV& slice,
+    Vec4 color,
     float radius
 )
 {
-    lili::Entity entity = registry.createEntity();
+    Entity entity = registry.createEntity();
     registry.emplaceComponent<PositionComponent>(entity, pos);
     registry.emplaceComponent<VelocityComponent>(entity, vel);
     registry.emplaceComponent<RenderComponent>(entity, slice, color, radius);

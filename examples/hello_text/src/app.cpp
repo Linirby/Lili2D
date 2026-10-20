@@ -1,25 +1,24 @@
 #include "app.hpp"
-#include "lili2d/core/keys.hpp"
 
-#include <SDL3/SDL_scancode.h>
+using namespace lili;
 
 App::App()
-  : lili::Game("hello_text - Lili2D", 625, 300)
+  : Game("hello_text - Lili2D", 625, 300)
 {
     getWindow()->setResizable(true);
-    lili::Renderer* renderer = getRenderer();
+    Renderer* renderer = getRenderer();
 
-    lili::BitmapFont* font_example =
-        lili::Assets::loadFont("lili_font", renderer, "lili_font.png", 16, 6);
+    BitmapFont* font_example =
+        Assets::loadFont("lili_font", renderer, "lili_font.png", 16, 6);
 
-    welcome_text = lili::Text(renderer, font_example, "Welcome to Lili2D");
+    welcome_text = Text(renderer, font_example, "Welcome to Lili2D");
     welcome_text.setScale(3.0f);
     welcome_text.setSpacing(letter_spacing);
-    welcome_text.setRender(lili::RenderLayer::UI);
-    welcome_text.setAnchor(lili::Anchor::CENTER);
-    welcome_text.setPivot(lili::Pivot::CENTER);
+    welcome_text.setRender(RenderLayer::UI);
+    welcome_text.setAnchor(Anchor::CENTER);
+    welcome_text.setPivot(Pivot::CENTER);
 
-    info_text = lili::Text(
+    info_text = Text(
         renderer, font_example, "<- & ->: change letter spacing | R: rotate"
     );
     info_text.setScale(3.0f);
@@ -27,13 +26,12 @@ App::App()
 }
 
 void
-App::onEvent(const lili::Event& event)
+App::onEvent(const Event& event)
 {
-    lili::Game::onEvent(event);
-    if (event.type() == lili::EventType::KEYBOARD) {
-        lili::KeyboardEvent kb = event.keyboard();
-        if (kb.action == lili::KeyAction::PRESSED &&
-            kb.key == lili::Key::ESCAPE)
+    Game::onEvent(event);
+    if (event.type() == EventType::KEYBOARD) {
+        KeyboardEvent kb = event.keyboard();
+        if (kb.action == KeyAction::PRESSED && kb.key == Key::ESCAPE)
             shutdown();
     }
 }
@@ -42,15 +40,15 @@ void
 App::onUpdate(float dt)
 {
     keyboard.update();
-    if (keyboard.held(lili::Key::LEFT)) {
+    if (keyboard.held(Key::LEFT)) {
         letter_spacing -= speed_change * dt;
         welcome_text.setSpacing(letter_spacing);
     }
-    if (keyboard.held(lili::Key::RIGHT)) {
+    if (keyboard.held(Key::RIGHT)) {
         letter_spacing += speed_change * dt;
         welcome_text.setSpacing(letter_spacing);
     }
-    if (keyboard.held(lili::Key::R)) {
+    if (keyboard.held(Key::R)) {
         text_rotation += 5.0f * speed_change * dt;
         welcome_text.setRotation(text_rotation);
     }

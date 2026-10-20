@@ -1,51 +1,49 @@
 #include "app.hpp"
-#include "lili2d/core/keys.hpp"
-#include "lili2d/render/gpu/pass_types.hpp"
-#include <memory>
+
+using namespace lili;
 
 App::App()
-  : lili::Game("hello_sprite_batch - Lili2D", 768, 640)
+  : Game("hello_sprite_batch - Lili2D", 768, 640)
 {
     const float TILE_SIZE = 16.0f;
-    lili::Renderer* renderer = getRenderer();
+    Renderer* renderer = getRenderer();
 
     setTps(20.0f);
     camera.setZoom(4.0f);
     renderer->setCamera(&camera);
 
-    env_atlas = lili::Assets::loadAtlas(
+    env_atlas = Assets::loadAtlas(
         "assets/environment.png", renderer, "assets/environment.png", 4, 2
     );
-    char_atlas = lili::Assets::loadAtlas(
+    char_atlas = Assets::loadAtlas(
         "assets/player.png", renderer, "assets/player.png", 4, 5
     );
 
     static_batch =
-        std::make_unique<lili::StaticBatch>(renderer, env_atlas->getTexture());
-    dynamic_batch = std::make_unique<lili::DynamicBatch>(
-        renderer, char_atlas->getTexture()
-    );
+        std::make_unique<StaticBatch>(renderer, env_atlas->getTexture());
+    dynamic_batch =
+        std::make_unique<DynamicBatch>(renderer, char_atlas->getTexture());
 
-    anim_idle = lili::Animation(char_atlas->getSliceUVs(0, 4));
-    anim_run_right = lili::Animation(char_atlas->getSliceUVs(4, 4));
-    anim_run_left = lili::Animation(char_atlas->getSliceUVs(8, 4));
-    anim_run_top = lili::Animation(char_atlas->getSliceUVs(12, 4));
-    anim_run_bottom = lili::Animation(char_atlas->getSliceUVs(16, 4));
+    anim_idle = Animation(char_atlas->getSliceUVs(0, 4));
+    anim_run_right = Animation(char_atlas->getSliceUVs(4, 4));
+    anim_run_left = Animation(char_atlas->getSliceUVs(8, 4));
+    anim_run_top = Animation(char_atlas->getSliceUVs(12, 4));
+    anim_run_bottom = Animation(char_atlas->getSliceUVs(16, 4));
 
-    lili::SliceUV slice_floor = env_atlas->getSliceUV(0);
-    lili::SliceUV slice_dark_floor = env_atlas->getSliceUV(1);
-    lili::SliceUV slice_wall = env_atlas->getSliceUV(2);
-    lili::SliceUV slice_corner_tl = env_atlas->getSliceUV(4);
-    lili::SliceUV slice_corner_tr = env_atlas->getSliceUV(5);
-    lili::SliceUV slice_corner_bl = env_atlas->getSliceUV(6);
-    lili::SliceUV slice_corner_br = env_atlas->getSliceUV(7);
+    SliceUV slice_floor = env_atlas->getSliceUV(0);
+    SliceUV slice_dark_floor = env_atlas->getSliceUV(1);
+    SliceUV slice_wall = env_atlas->getSliceUV(2);
+    SliceUV slice_corner_tl = env_atlas->getSliceUV(4);
+    SliceUV slice_corner_tr = env_atlas->getSliceUV(5);
+    SliceUV slice_corner_bl = env_atlas->getSliceUV(6);
+    SliceUV slice_corner_br = env_atlas->getSliceUV(7);
 
     int map_width = 100;
     int map_height = 80;
 
     for (int y = 0; y < map_height; ++y) {
         for (int x = 0; x < map_width; ++x) {
-            lili::SliceUV slice;
+            SliceUV slice;
             if (x == 0 && y == 0)
                 slice = slice_corner_tl;
             else if (x == map_width - 1 && y == 0)
@@ -69,35 +67,33 @@ App::App()
         }
     }
     static_batch->begin();
-    lili::Vec2 scale = { 1.0f, 1.0f };
+    Vec2 scale = { 1.0f, 1.0f };
     float rotation = 0.0f;
-    lili::Vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
+    Vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
     for (auto item : tiles_draw_data)
         static_batch->addSprite(item.slice, item.pos, scale, rotation, color);
     static_batch->bake();
 
     current_anim = &anim_idle;
-    player.anim_player = lili::AnimationPlayer(current_anim);
+    player.anim_player = AnimationPlayer(current_anim);
 
-    lili::BitmapFont* font = lili::Assets::loadFont(
-        "lili_font", renderer, "assets/lili_font.png", 16, 6
-    );
-    text_infos = lili::Text(renderer, font, "WASD: move | IK: zoom/dezoom");
-    text_infos.setRender(lili::RenderLayer::UI);
+    BitmapFont* font =
+        Assets::loadFont("lili_font", renderer, "assets/lili_font.png", 16, 6);
+    text_infos = Text(renderer, font, "WASD: move | IK: zoom/dezoom");
+    text_infos.setRender(RenderLayer::UI);
     text_infos.setPosition({ 10.0f, 10.0f });
-    text_infos.setAnchor(lili::Anchor::TOP);
-    text_infos.setPivot(lili::Pivot::TOP);
+    text_infos.setAnchor(Anchor::TOP);
+    text_infos.setPivot(Pivot::TOP);
     text_infos.setScale(3.0f);
 }
 
 void
-App::onEvent(const lili::Event& event)
+App::onEvent(const Event& event)
 {
-    lili::Game::onEvent(event);
-    if (event.type() == lili::EventType::KEYBOARD) {
-        lili::KeyboardEvent kb = event.keyboard();
-        if (kb.action == lili::KeyAction::PRESSED &&
-            kb.key == lili::Key::ESCAPE)
+    Game::onEvent(event);
+    if (event.type() == EventType::KEYBOARD) {
+        KeyboardEvent kb = event.keyboard();
+        if (kb.action == KeyAction::PRESSED && kb.key == Key::ESCAPE)
             shutdown();
     }
 }
@@ -106,23 +102,23 @@ void
 App::onUpdate(float dt)
 {
     keyboard.update();
-    lili::Vec2 velocity(0.0f, 0.0f);
+    Vec2 velocity(0.0f, 0.0f);
 
-    if (keyboard.held(lili::Key::W))
+    if (keyboard.held(Key::W))
         velocity.y -= 1.0f;
-    if (keyboard.held(lili::Key::S))
+    if (keyboard.held(Key::S))
         velocity.y += 1.0f;
-    if (keyboard.held(lili::Key::A))
+    if (keyboard.held(Key::A))
         velocity.x -= 1.0f;
-    if (keyboard.held(lili::Key::D))
+    if (keyboard.held(Key::D))
         velocity.x += 1.0f;
 
-    if (keyboard.held(lili::Key::I))
+    if (keyboard.held(Key::I))
         camera.setZoom(camera.getZoom() + dt);
-    if (keyboard.held(lili::Key::K))
+    if (keyboard.held(Key::K))
         camera.setZoom(camera.getZoom() - dt);
 
-    lili::Animation* target_anim = current_anim;
+    Animation* target_anim = current_anim;
 
     if (velocity.x != 0.0f || velocity.y != 0.0f) {
         float speed = 80.0f;
@@ -152,7 +148,7 @@ App::onUpdate(float dt)
 void
 App::onRender([[maybe_unused]] float alpha)
 {
-    static_batch->draw(0.0f, lili::RenderLayer::WORLD2D);
+    static_batch->draw(0.0f, RenderLayer::WORLD2D);
 
     dynamic_batch->begin();
     dynamic_batch->addSprite(
@@ -162,7 +158,7 @@ App::onRender([[maybe_unused]] float alpha)
         0.0f,
         { 1.0f, 1.0f, 1.0f, 1.0f }
     );
-    dynamic_batch->flush(1.0f, lili::RenderLayer::WORLD2D);
+    dynamic_batch->flush(1.0f, RenderLayer::WORLD2D);
 
     text_infos.draw();
 }

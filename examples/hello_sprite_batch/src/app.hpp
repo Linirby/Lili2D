@@ -1,7 +1,5 @@
 #pragma once
 
-#include "lili2d/geometry/vec2.hpp"
-#include "lili2d/render/common/atlas_map.hpp"
 #include <lili2d/lili2d.hpp>
 #include <memory>
 #include <vector>

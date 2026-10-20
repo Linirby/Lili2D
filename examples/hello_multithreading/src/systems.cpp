@@ -1,6 +1,6 @@
 #include "systems.hpp"
 
-#include "components.hpp"
+using namespace lili;
 
 namespace systems {
 
@@ -13,8 +13,8 @@ MovementSystem::MovementSystem(float window_w, float window_h)
 
 void
 MovementSystem::updateEntity(
-    [[maybe_unused]] lili::ECSRegistry& registry,
-    [[maybe_unused]] lili::Entity entity,
+    [[maybe_unused]] ECSRegistry& registry,
+    [[maybe_unused]] Entity entity,
     PositionComponent& pos,
     VelocityComponent& vel,
     RenderComponent& render,

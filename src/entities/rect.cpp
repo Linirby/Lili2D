@@ -7,37 +7,26 @@
 namespace lili {
 
 [[nodiscard]] Entity
-createRect(
-    ECSRegistry& registry,
-    Vec2 pos,
-    Vec2 size,
-    Vec2 scale,
-    float rotation,
-    Vec4 color,
-    bool hollow,
-    float thickness,
-    float layer,
-    RenderLayer render_pass,
-    bool is_visible,
-    uint16_t material_id
-)
+createRect(ECSRegistry& registry, const RectParameters& params)
 {
     Entity entity = registry.createEntity();
 
-    TransformComponent transform{
-        .pos = pos, .prev_pos = pos, .scale = scale, .rotation = rotation
-    };
+    TransformComponent transform{ .pos = params.pos,
+                                  .prev_pos = params.pos,
+                                  .scale = params.scale,
+                                  .rotation = params.rotation };
     registry.emplaceComponent<TransformComponent>(entity, transform);
 
-    Render2DComponent render2d{ .color = color,
-                                .size = { size.x, size.y },
-                                .layer = layer,
-                                .material_id = material_id,
-                                .render_pass = render_pass,
-                                .is_visible = is_visible };
+    Render2DComponent render2d{ .color = params.color,
+                                .size = { params.size.x, params.size.y },
+                                .layer = params.layer,
+                                .material_id = params.material_id,
+                                .render_pass = params.render_pass,
+                                .is_visible = params.is_visible };
     registry.emplaceComponent<Render2DComponent>(entity, render2d);
 
-    RectComponent rect{ .thickness = thickness, .hollow = hollow };
+    RectComponent rect{ .thickness = params.thickness,
+                        .hollow = params.hollow };
     registry.emplaceComponent<RectComponent>(entity, rect);
 
     return entity;

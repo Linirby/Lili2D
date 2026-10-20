@@ -15,34 +15,28 @@ createSprite(
     ECSRegistry& registry,
     Renderer* renderer,
     const std::string& img_path,
-    Vec2 pos,
-    Vec2 scale,
-    float rotation,
-    Vec4 color_tint,
-    float layer,
-    RenderLayer render_pass,
-    bool is_visible,
-    uint16_t material_id
+    SpriteParameters params
 )
 {
     Entity entity = registry.createEntity();
     AssetManager& assets = AssetManager::get();
     Texture* texture = assets.loadTexture(img_path, renderer->getDevice());
     if (!texture)
-        throw std::runtime_error("Failed to load texture " + img_path);
+        throw std::runtime_error("Failed to load texture \"" + img_path + "\"");
 
-    TransformComponent transform{
-        .pos = pos, .prev_pos = pos, .scale = scale, .rotation = rotation
-    };
+    TransformComponent transform{ .pos = params.pos,
+                                  .prev_pos = params.pos,
+                                  .scale = params.scale,
+                                  .rotation = params.rotation };
     registry.emplaceComponent<TransformComponent>(entity, transform);
 
     Render2DComponent render2d{
-        .color = color_tint,
+        .color = params.color_tint,
         .size = Vec2(texture->getWidth(), texture->getHeight()),
-        .layer = layer,
-        .material_id = material_id,
-        .render_pass = render_pass,
-        .is_visible = is_visible
+        .layer = params.layer,
+        .material_id = params.material_id,
+        .render_pass = params.render_pass,
+        .is_visible = params.is_visible
     };
     registry.emplaceComponent<Render2DComponent>(entity, render2d);
 
@@ -63,29 +57,23 @@ createSprite(
 createSprite(
     ECSRegistry& registry,
     const SliceUV& sliceUV,
-    Vec2 pos,
-    Vec2 scale,
-    float rotation,
-    Vec4 color_tint,
-    float layer,
-    RenderLayer render_pass,
-    bool is_visible,
-    uint16_t material_id
+    SpriteParameters params
 )
 {
     Entity entity = registry.createEntity();
 
-    TransformComponent transform{
-        .pos = pos, .prev_pos = pos, .scale = scale, .rotation = rotation
-    };
+    TransformComponent transform{ .pos = params.pos,
+                                  .prev_pos = params.pos,
+                                  .scale = params.scale,
+                                  .rotation = params.rotation };
     registry.emplaceComponent<TransformComponent>(entity, transform);
 
-    Render2DComponent render2d{ .color = color_tint,
+    Render2DComponent render2d{ .color = params.color_tint,
                                 .size = { sliceUV.width, sliceUV.height },
-                                .layer = layer,
-                                .material_id = material_id,
-                                .render_pass = render_pass,
-                                .is_visible = is_visible };
+                                .layer = params.layer,
+                                .material_id = params.material_id,
+                                .render_pass = params.render_pass,
+                                .is_visible = params.is_visible };
     registry.emplaceComponent<Render2DComponent>(entity, render2d);
 
     SpriteComponent sprite{ .slice = sliceUV };

@@ -9,36 +9,29 @@
 namespace lili {
 
 [[nodiscard]] Entity
-createLine(
-    ECSRegistry& registry,
-    Vec2 start_pos,
-    Vec2 end_pos,
-    float thickness,
-    Vec4 color,
-    float layer,
-    RenderLayer render_pass,
-    bool is_visible,
-    uint16_t material_id
-)
+createLine(ECSRegistry& registry, const LineParameters& params)
 {
     Entity entity = registry.createEntity();
 
-    TransformComponent transform{ .pos = start_pos,
-                                  .prev_pos = start_pos,
+    TransformComponent transform{ .pos = params.start_pos,
+                                  .prev_pos = params.start_pos,
                                   .scale = { 1.0f, 1.0f },
                                   .rotation = 0.0f };
     registry.emplaceComponent<TransformComponent>(entity, transform);
 
-    Render2DComponent render2d{ .color = color,
-                                .size = { std::abs(end_pos.x - start_pos.x),
-                                          std::abs(end_pos.y - start_pos.y) },
-                                .layer = layer,
-                                .material_id = material_id,
-                                .render_pass = render_pass,
-                                .is_visible = is_visible };
+    Render2DComponent render2d{
+        .color = params.color,
+        .size = { std::abs(params.end_pos.x - params.start_pos.x),
+                  std::abs(params.end_pos.y - params.start_pos.y) },
+        .layer = params.layer,
+        .material_id = params.material_id,
+        .render_pass = params.render_pass,
+        .is_visible = params.is_visible
+    };
     registry.emplaceComponent<Render2DComponent>(entity, render2d);
 
-    LineComponent line{ .dxy = end_pos - start_pos, .thickness = thickness };
+    LineComponent line{ .dxy = params.end_pos - params.start_pos,
+                        .thickness = params.thickness };
     registry.emplaceComponent<LineComponent>(entity, line);
     return entity;
 }

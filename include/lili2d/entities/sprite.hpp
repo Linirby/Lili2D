@@ -13,66 +13,57 @@ namespace lili {
 
 class Renderer;
 
+struct SpriteParameters
+{
+    Vec4 color_tint = { 1.0f, 1.0f, 1.0f, 1.0f };
+    Vec2 pos = { 0.0f, 0.0f };
+    Vec2 scale = { 1.0f, 1.0f };
+    float rotation = 0.0f;
+    float layer = 0.0f;
+    uint16_t material_id = 0;
+    bool is_visible = true;
+    RenderLayer render_pass = RenderLayer::WORLD2D;
+};
+
+static_assert(
+    std::is_trivially_copyable_v<SpriteParameters>,
+    "SpriteParameters must be tryvially copyable."
+);
+
 /// @brief Creates a 2D Sprite entity from an image file path.
 /// @note Attached components:
 /// - `TransformComponent` (`pos`, `prev_pos`, `scale`, `rotation`)
-/// - `Render2DComponent` (`color`, `size`, `layer`, `material_id`, `render_pass`, `is_visible`)
+/// - `Render2DComponent` (`color`, `size`, `layer`, `material_id`,
+/// `render_pass`, `is_visible`)
 /// - `SpriteComponent` (`slice`)
 /// @param registry The ECS registry.
 /// @param renderer Pointer to the Renderer.
 /// @param img_path Path to the texture image file.
-/// @param pos World or screen position in pixels.
-/// @param scale Scale factor in X and Y.
-/// @param rotation Rotation in degrees.
-/// @param color_tint RGBA color tint.
-/// @param layer Z-ordering depth layer.
-/// @param render_pass Target render pass (`WORLD2D` or `UI`).
-/// @param is_visible Initial visibility flag.
-/// @param material_id Linked material ID.
+/// @param params The parameters of the sprite.
 /// @return The created Entity.
 [[nodiscard]] Entity
 createSprite(
     ECSRegistry& registry,
     Renderer* renderer,
     const std::string& img_path,
-    Vec2 pos,
-    Vec2 scale = { 1.0f, 1.0f },
-    float rotation = 0.0f,
-    Vec4 color_tint = { 1.0f, 1.0f, 1.0f, 1.0f },
-    float layer = 0.0f,
-    RenderLayer render_pass = RenderLayer::WORLD2D,
-    bool is_visible = true,
-    uint16_t material_id = 0
+    SpriteParameters params
 );
 
 /// @brief Creates a 2D Sprite entity from an existing UV slice.
 /// @note Attached components:
 /// - `TransformComponent` (`pos`, `prev_pos`, `scale`, `rotation`)
-/// - `Render2DComponent` (`color`, `size`, `layer`, `material_id`, `render_pass`, `is_visible`)
+/// - `Render2DComponent` (`color`, `size`, `layer`, `material_id`,
+/// `render_pass`, `is_visible`)
 /// - `SpriteComponent` (`slice`)
 /// @param registry The ECS registry.
 /// @param sliceUV The UV slice and texture pointer.
-/// @param pos World or screen position in pixels.
-/// @param scale Scale factor in X and Y.
-/// @param rotation Rotation in degrees.
-/// @param color_tint RGBA color tint.
-/// @param layer Z-ordering depth layer.
-/// @param render_pass Target render pass (`WORLD2D` or `UI`).
-/// @param is_visible Initial visibility flag.
-/// @param material_id Linked material ID.
+/// @param params The parameters of the sprite.
 /// @return The created Entity.
 [[nodiscard]] Entity
 createSprite(
     ECSRegistry& registry,
     const SliceUV& sliceUV,
-    Vec2 pos,
-    Vec2 scale = { 1.0f, 1.0f },
-    float rotation = 0.0f,
-    Vec4 color_tint = { 1.0f, 1.0f, 1.0f, 1.0f },
-    float layer = 0.0f,
-    RenderLayer render_pass = RenderLayer::WORLD2D,
-    bool is_visible = true,
-    uint16_t material_id = 0
+    SpriteParameters params
 );
 
 } // namespace lili

@@ -1,89 +1,90 @@
 #include "app.hpp"
-#include "lili2d/core/game.hpp"
-#include "lili2d/core/window.hpp"
-#include "lili2d/entities/circle.hpp"
-#include "lili2d/entities/line.hpp"
-#include "lili2d/render/2d/text.hpp"
-#include "lili2d/render/2d/ui_layout.hpp"
-#include "lili2d/render/gpu/pass_types.hpp"
+
 #include "rng_helper.hpp"
 
-#include <lili2d/core/action_map.hpp>
-#include <lili2d/core/event.hpp>
-#include <lili2d/core/keys.hpp>
-#include <lili2d/ecs/ecs_registry.hpp>
-#include <lili2d/ecs/entity.hpp>
-#include <lili2d/entities/rect.hpp>
-#include <lili2d/entities/sprite.hpp>
-#include <lili2d/geometry/vec2.hpp>
-#include <lili2d/geometry/vec4.hpp>
-#include <lili2d/render/2d/render2d_system.hpp>
-#include <lili2d/render/renderer.hpp>
-#include <vector>
+using namespace lili;
 
 void
-App::addBaguette(
-    lili::ECSRegistry& registry,
-    lili::Renderer* renderer,
-    lili::Vec2 pos
-)
+App::addBaguette(ECSRegistry& registry, Renderer* renderer, Vec2 pos)
 {
-    lili::Entity e = lili::createSprite(
-        registry, renderer, "baguette.jpg", pos, { 0.5f, 0.5f }
+    Entity e = createSprite(
+        registry,
+        renderer,
+        "baguette.jpg",
+        { .pos = pos, .scale = Vec2(0.5f, 0.5f) }
     );
     spawned.push_back(e);
 }
 
 void
 App::addRect(
-    lili::ECSRegistry& registry,
-    lili::Vec2 pos,
-    lili::Vec2 size,
-    lili::Vec4 color,
+    ECSRegistry& registry,
+    Vec2 pos,
+    Vec2 size,
+    Vec4 color,
     bool hollow,
     float thickness
 )
 {
-    lili::Entity e = lili::createRect(
-        registry, pos, size, { 1.0f, 1.0f }, 0.0f, color, hollow, thickness
+    Entity e = createRect(
+        registry,
+        { .color = color,
+          .pos = pos,
+          .size = size,
+          .scale = { 1.0f, 1.0f },
+          .rotation = 0.0f,
+          .thickness = thickness,
+          .hollow = hollow }
     );
     spawned.push_back(e);
 }
 
 void
 App::addCircle(
-    lili::ECSRegistry& registry,
-    lili::Vec2 pos,
+    ECSRegistry& registry,
+    Vec2 pos,
     float radius,
-    lili::Vec4 color,
+    Vec4 color,
     bool hollow,
     float thickness
 )
 {
-    lili::Entity e =
-        lili::createCircle(registry, pos, radius, 24, color, hollow, thickness);
+    Entity e = createCircle(
+        registry,
+        { .color = color,
+          .pos = pos,
+          .radius = radius,
+          .thickness = thickness,
+          .segments = 16,
+          .hollow = hollow }
+    );
     spawned.push_back(e);
 }
 
 void
 App::addLine(
-    lili::ECSRegistry& registry,
-    lili::Vec2 start_pos,
-    lili::Vec2 end_pos,
+    ECSRegistry& registry,
+    Vec2 start_pos,
+    Vec2 end_pos,
     float thickness,
-    lili::Vec4 color
+    Vec4 color
 )
 {
-    lili::Entity e =
-        lili::createLine(registry, start_pos, end_pos, thickness, color);
+    Entity e = createLine(
+        registry,
+        { .color = color,
+          .start_pos = start_pos,
+          .end_pos = end_pos,
+          .thickness = thickness }
+    );
     spawned.push_back(e);
 }
 
 void
-App::popLast(lili::ECSRegistry& registry)
+App::popLast(ECSRegistry& registry)
 {
     if (!spawned.empty()) {
-        lili::Entity last = spawned.back();
+        Entity last = spawned.back();
         spawned.pop_back();
         registry.destroyEntity(last);
     }
@@ -92,37 +93,37 @@ App::popLast(lili::ECSRegistry& registry)
 void
 App::onInit()
 {
-    lili::Renderer* renderer = getRenderer();
+    Renderer* renderer = getRenderer();
 
-    instructions_text = lili::Text(
+    instructions_text = Text(
         renderer,
         renderer->getDefaultFont(),
         "Key 1 to 4: Create renderable entity | Backspace: Remove last entity"
     );
     instructions_text.setScale(2.0f);
-    instructions_text.setRender(lili::RenderLayer::UI);
-    instructions_text.setAnchor(lili::Anchor::TOP);
-    instructions_text.setPivot(lili::Pivot::TOP);
+    instructions_text.setRender(RenderLayer::UI);
+    instructions_text.setAnchor(Anchor::TOP);
+    instructions_text.setPivot(Pivot::TOP);
     instructions_text.setPosition({ 0.0f, 10.0f });
 }
 
 void
-App::onEvent(const lili::Event& event)
+App::onEvent(const Event& event)
 {
-    lili::Game::onEvent(event);
+    Game::onEvent(event);
 
-    lili::ECSRegistry& registry = getECSRegistry();
-    lili::Renderer* renderer = getRenderer();
-    lili::Vec2 window_size = getWindow()->getSize();
+    ECSRegistry& registry = getECSRegistry();
+    Renderer* renderer = getRenderer();
+    Vec2 window_size = getWindow()->getSize();
 
-    if (event.type() == lili::EventType::KEYBOARD) {
-        lili::KeyboardEvent kb_ev = event.keyboard();
+    if (event.type() == EventType::KEYBOARD) {
+        KeyboardEvent kb_ev = event.keyboard();
         if (event.keyJustPressed(kb_ev)) {
-            if (kb_ev.key == lili::Key::ESCAPE)
+            if (kb_ev.key == Key::ESCAPE)
                 shutdown();
-            else if (kb_ev.key == lili::Key::NUM_1)
+            else if (kb_ev.key == Key::NUM_1)
                 addBaguette(registry, renderer, rng::pos(window_size));
-            else if (kb_ev.key == lili::Key::NUM_2)
+            else if (kb_ev.key == Key::NUM_2)
                 addRect(
                     registry,
                     rng::pos(window_size),
@@ -131,7 +132,7 @@ App::onEvent(const lili::Event& event)
                     rng::hollow(),
                     rng::thickness()
                 );
-            else if (kb_ev.key == lili::Key::NUM_3)
+            else if (kb_ev.key == Key::NUM_3)
                 addCircle(
                     registry,
                     rng::pos(window_size),
@@ -140,7 +141,7 @@ App::onEvent(const lili::Event& event)
                     rng::hollow(),
                     rng::thickness()
                 );
-            else if (kb_ev.key == lili::Key::NUM_4)
+            else if (kb_ev.key == Key::NUM_4)
                 addLine(
                     registry,
                     rng::pos(window_size),
@@ -148,7 +149,7 @@ App::onEvent(const lili::Event& event)
                     rng::thickness(),
                     rng::color()
                 );
-            else if (kb_ev.key == lili::Key::BACKSPACE)
+            else if (kb_ev.key == Key::BACKSPACE)
                 popLast(registry);
         }
     }
@@ -157,9 +158,7 @@ App::onEvent(const lili::Event& event)
 void
 App::onRender(float alpha)
 {
-    // entities created are rendered with Game default class
-    // if Render2DComponent.is_visible == true
-    lili::Game::onRender(alpha);
+    Game::onRender(alpha);
 
     instructions_text.draw();
 }

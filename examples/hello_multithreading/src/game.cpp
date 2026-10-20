@@ -1,13 +1,11 @@
 #include "game.hpp"
 
-#include <SDL3/SDL_keycode.h>
-
+#include "components.hpp"
+#include "systems.hpp"
 #include <iostream>
 #include <random>
 
-#include "components.hpp"
-#include "lili2d/render/gpu/pass_types.hpp"
-#include "systems.hpp"
+using namespace lili;
 
 namespace {
 std::mt19937&
@@ -20,7 +18,7 @@ getRng()
 } // namespace
 
 App::App()
-  : lili::Game("hello_multithreading - Lili2D", 800, 600)
+  : Game("hello_multithreading - Lili2D", 800, 600)
 {
     setTps(60.0f);
 }
@@ -28,20 +26,18 @@ App::App()
 void
 App::onInit()
 {
-    lili::Window* window = getWindow();
-    lili::Renderer* renderer = getRenderer();
+    Window* window = getWindow();
+    Renderer* renderer = getRenderer();
 
-    camera = lili::Camera();
+    camera = Camera();
     camera.setPosition(
         { window->getWidth() / 2.0f, window->getHeight() / 2.0f }
     );
     renderer->setCamera(&camera);
 
-    circle_texture = lili::Assets::loadTexture(
-        "circle_tex", "circle.png", renderer->getDevice()
-    );
-    dynamic_batch =
-        std::make_unique<lili::DynamicBatch>(renderer, circle_texture);
+    circle_texture =
+        Assets::loadTexture("circle_tex", "circle.png", renderer->getDevice());
+    dynamic_batch = std::make_unique<DynamicBatch>(renderer, circle_texture);
 
     movement_system = std::make_unique<systems::MovementSystem>(
         static_cast<float>(window->getWidth()),
@@ -58,19 +54,19 @@ App::onInit()
 }
 
 void
-App::onEvent(const lili::Event& event)
+App::onEvent(const Event& event)
 {
-    lili::Game::onEvent(event);
-    if (event.type() == lili::EventType::KEYBOARD) {
-        lili::KeyboardEvent kb = event.keyboard();
-        if (kb.action == lili::KeyAction::PRESSED) {
-            if (kb.key == lili::Key::ESCAPE)
+    Game::onEvent(event);
+    if (event.type() == EventType::KEYBOARD) {
+        KeyboardEvent kb = event.keyboard();
+        if (kb.action == KeyAction::PRESSED) {
+            if (kb.key == Key::ESCAPE)
                 shutdown();
-            else if (kb.key == lili::Key::SPACE)
+            else if (kb.key == Key::SPACE)
                 spawnRandomBall();
-            else if (kb.key == lili::Key::BACKSPACE)
+            else if (kb.key == Key::BACKSPACE)
                 destroyRandomBall();
-            else if (kb.key == lili::Key::M)
+            else if (kb.key == Key::M)
                 toggleMultithreading();
             std::cout << "Total entities: " << spawned_entities.size() << "\n";
         }
@@ -95,7 +91,7 @@ App::onRender(float alpha)
     const auto& positions = pos_pool.getComponents();
 
     for (size_t i = 0; i < entities.size(); ++i) {
-        lili::Entity entity = entities[i];
+        Entity entity = entities[i];
         if (ecs_registry.hasComponent<RenderComponent>(entity)) {
             const auto& pos = positions[i];
             auto& render = ecs_registry.getComponent<RenderComponent>(entity);
@@ -110,14 +106,14 @@ App::onRender(float alpha)
         }
     }
 
-    dynamic_batch->flush(0.0f, lili::RenderLayer::WORLD2D);
+    dynamic_batch->flush(0.0f, RenderLayer::WORLD2D);
 }
 
 void
 App::spawnRandomBall()
 {
     auto& gen = getRng();
-    lili::Window* window = getWindow();
+    Window* window = getWindow();
     std::uniform_real_distribution<float> disX(
         50.0f, static_cast<float>(window->getWidth()) - 50.0f
     );
@@ -128,17 +124,17 @@ App::spawnRandomBall()
     std::uniform_real_distribution<float> disRadius(5.0f, 15.0f);
     std::uniform_real_distribution<float> disColor(0.2f, 1.0f);
 
-    lili::Vec2 pos(disX(gen), disY(gen));
-    lili::Vec2 vel(disVel(gen), disVel(gen));
+    Vec2 pos(disX(gen), disY(gen));
+    Vec2 vel(disVel(gen), disVel(gen));
     float radius = disRadius(gen);
-    lili::Vec4 color(disColor(gen), disColor(gen), disColor(gen), 1.0f);
+    Vec4 color(disColor(gen), disColor(gen), disColor(gen), 1.0f);
 
-    lili::Entity ent = ecs_registry.createEntity();
+    Entity ent = ecs_registry.createEntity();
     ecs_registry.emplaceComponent<PositionComponent>(ent, pos);
     ecs_registry.emplaceComponent<VelocityComponent>(ent, vel);
     ecs_registry.emplaceComponent<RenderComponent>(
         ent,
-        lili::SliceUV(circle_texture, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f),
+        SliceUV(circle_texture, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f),
         color,
         radius
     );
@@ -154,7 +150,7 @@ App::destroyRandomBall()
     auto& gen = getRng();
     std::uniform_int_distribution<size_t> dis(0, spawned_entities.size() - 1);
     size_t index = dis(gen);
-    lili::Entity ent = spawned_entities[index];
+    Entity ent = spawned_entities[index];
 
     ecs_registry.destroyEntity(ent);
     spawned_entities.erase(spawned_entities.begin() + index);
@@ -163,14 +159,14 @@ App::destroyRandomBall()
 void
 App::toggleMultithreading()
 {
-    lili::EngineConfig current = getConfig();
-    if (current.profile == lili::PerformanceProfile::YES) {
-        current.profile = lili::PerformanceProfile::CORRECT;
+    EngineConfig current = getConfig();
+    if (current.profile == PerformanceProfile::YES) {
+        current.profile = PerformanceProfile::CORRECT;
         configure(current);
         std::cout << ">> Switch to Profile: CORRECT"
                      " (Multithreaded ECS + Mailbox present)\n";
     } else {
-        current.profile = lili::PerformanceProfile::YES;
+        current.profile = PerformanceProfile::YES;
         current.potato_present_mode = SDL_GPU_PRESENTMODE_VSYNC;
         configure(current);
         std::cout << ">> Switch to Profile: YES"

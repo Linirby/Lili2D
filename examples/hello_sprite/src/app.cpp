@@ -1,40 +1,37 @@
 #include "app.hpp"
-#include "lili2d/core/game.hpp"
-#include "lili2d/ecs/ecs_registry.hpp"
-#include "lili2d/entities/sprite.hpp"
-#include "lili2d/geometry/vec2.hpp"
-#include "lili2d/render/2d/ui_layout.hpp"
-#include "lili2d/render/2d/ui_layout_system.hpp"
-#include "lili2d/render/renderer.hpp"
-#include <memory>
+
+using namespace lili;
 
 void
 App::onInit()
 {
-    lili::ECSRegistry& registry = getECSRegistry();
-    lili::Renderer* renderer = getRenderer();
+    ECSRegistry& registry = getECSRegistry();
+    Renderer* renderer = getRenderer();
 
-    lili::Vec2 pos = { 400.0f, 400.0f };
-    lili::Vec2 scale = { 0.5f, 0.5f };
-    float rotation = 45.0f;
-    cat_img = lili::createSprite(
-        registry, renderer, "baguette.jpg", pos, scale, rotation
+    cat_img = createSprite(
+        registry,
+        renderer,
+        "baguette.jpg",
+        { .pos = Vec2(400.0f, 400.0f),
+          .scale = Vec2(0.5f, 0.5f),
+          .rotation = 45.0f }
     );
     registry.addComponents(
         cat_img,
-        lili::UILayoutComponent{ .anchor = lili::Anchor::CENTER,
-                                 .pivot = lili::Pivot::CENTER }
+        UILayoutComponent{ .anchor = Anchor::CENTER, .pivot = Pivot::CENTER }
     );
 
-    batch = std::make_unique<lili::DynamicBatch>(renderer, nullptr);
+    batch = std::make_unique<DynamicBatch>(renderer, nullptr);
 }
 
 void
-App::onEvent(const lili::Event& event)
+App::onEvent(const Event& event)
 {
-    if (event.type() == lili::EventType::KEYBOARD) {
-        lili::KeyboardEvent kb = event.keyboard();
-        if (event.keyJustPressed(kb) && kb.key == lili::Key::ESCAPE)
+    Game::onEvent(event);
+
+    if (event.type() == EventType::KEYBOARD) {
+        KeyboardEvent kb = event.keyboard();
+        if (event.keyJustPressed(kb) && kb.key == Key::ESCAPE)
             shutdown();
     }
 }
@@ -42,11 +39,11 @@ App::onEvent(const lili::Event& event)
 void
 App::onUpdate(float dt)
 {
-    lili::UILayoutSystem::update(getECSRegistry(), getWindow()->getSize());
+    UILayoutSystem::update(getECSRegistry(), getWindow()->getSize());
 }
 
 void
-App::onRender([[maybe_unused]] float alpha)
+App::onRender(float alpha)
 {
-    lili::Game::onRender(alpha);
+    Game::onRender(alpha);
 }

@@ -1,14 +1,13 @@
 #pragma once
 
 #include "components.hpp"
-#include "lili2d/core/thread_pool.hpp"
-#include "lili2d/ecs.hpp"
+#include <lili2d/core/thread_pool.hpp>
+#include <lili2d/ecs.hpp>
 
 namespace systems {
 
 class MovementSystem
-  : public lili::
-        System<PositionComponent, VelocityComponent, RenderComponent>
+  : public lili::System<PositionComponent, VelocityComponent, RenderComponent>
 {
 public:
     MovementSystem(float window_w, float window_h);

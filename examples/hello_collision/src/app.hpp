@@ -1,5 +1,6 @@
 #pragma once
 
+#include "cursor.hpp"
 #include <lili2d/lili2d.hpp>
 
 class App : public lili::Game
@@ -8,23 +9,16 @@ public:
     App();
 
 private:
-    enum class ShapeMode
-    {
-        Rect,
-        Circle,
-        Line
-    };
-    ShapeMode active_shape = ShapeMode::Rect;
+    ShapeMode active_shape = ShapeMode::RECT;
 
-    lili::Rect cursor_rect;
-    lili::Circle cursor_circle;
-    lili::Line cursor_line;
-    lili::Rect random_rect;
+    lili::Entity cursor_rect;
+    lili::Entity cursor_circle;
+    lili::Entity cursor_line;
+    lili::Entity random_rect;
+    lili::Entity line_debug_box;
 
     void
     onEvent(const lili::Event& event) override;
     void
     onUpdate(float dt) override;
-    void
-    onRender(float alpha) override;
 };

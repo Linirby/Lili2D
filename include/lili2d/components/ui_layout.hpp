@@ -40,12 +40,19 @@ enum class Pivot : uint8_t
 /// @brief Component for anchoring and aligning an entity in viewport/UI space.
 struct UILayoutComponent
 {
-    Vec2 size = { 0.0f, 0.0f };          ///< Optional size override (if {0,0}, uses entity's shape/render2d size).
-    Vec2 offset = { 0.0f, 0.0f };        ///< Pixel offset from anchor point.
-    Vec2 custom_anchor = { 0.0f, 0.0f }; ///< Normalized custom anchor [0, 1] when anchor == Anchor::CUSTOM.
-    Vec2 custom_pivot = { 0.0f, 0.0f };  ///< Normalized custom pivot [0, 1] when pivot == Pivot::CUSTOM.
-    Anchor anchor = Anchor::CENTER;      ///< Viewport anchor alignment.
-    Pivot pivot = Pivot::CENTER;         ///< Element pivot alignment.
+    Vec2 size = { 0.0f, 0.0f };   ///< Optional size override (if {0,0}, uses
+                                  ///< entity's shape/render2d size).
+    Vec2 offset = { 0.0f, 0.0f }; ///< Pixel offset from anchor point.
+    Vec2 custom_anchor = {
+        0.0f,
+        0.0f
+    }; ///< Normalized custom anchor [0, 1] when anchor == Anchor::CUSTOM.
+    Vec2 custom_pivot = {
+        0.0f,
+        0.0f
+    }; ///< Normalized custom pivot [0, 1] when pivot == Pivot::CUSTOM.
+    Anchor anchor = Anchor::CENTER; ///< Viewport anchor alignment.
+    Pivot pivot = Pivot::CENTER;    ///< Element pivot alignment.
 };
 
 static_assert(

@@ -13,60 +13,6 @@
 
 namespace lili {
 
-// struct SpriteDrawItem
-// {
-//     Entity entity;
-//     RenderLayer render_pass;
-//     float layer;
-//     uint16_t material_id;
-//     SliceUV slice;
-//     Vec2 pos;
-//     Vec2 scale;
-//     float rotation;
-//     Vec4 tint;
-// };
-
-// struct RectDrawItem
-// {
-//     Entity entity;
-//     RenderLayer render_pass;
-//     float layer;
-//     uint16_t material_id;
-//     Vec2 pos;
-//     Vec2 size;
-//     Vec2 scale;
-//     float rotation;
-//     Vec4 color;
-//     bool hollow;
-//     float thickness;
-// };
-
-// struct CircleDrawItem
-// {
-//     Entity entity;
-//     RenderLayer render_pass;
-//     float layer;
-//     uint16_t material_id;
-//     Vec2 pos;
-//     float radius;
-//     size_t segments;
-//     Vec4 color;
-//     bool hollow;
-//     float thickness;
-// };
-
-// struct LineDrawItem
-// {
-//     Entity entity;
-//     RenderLayer render_pass;
-//     float layer;
-//     uint16_t material_id;
-//     Vec2 start_pos;
-//     Vec2 dxy;
-//     float thickness;
-//     Vec4 color;
-// };
-
 enum class DrawType : uint8_t
 {
     SPRITE,

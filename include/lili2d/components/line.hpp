@@ -10,8 +10,9 @@ namespace lili {
 /// `Render2DComponent::color` for its line color.
 struct LineComponent
 {
-    Vec2 dxy = { 0.0f, 0.0f }; ///< Offset vector (end_pos - start_pos) in pixels.
-    float thickness = 1.0f;    ///< Line thickness in pixels.
+    Vec2 dxy = { 0.0f,
+                 0.0f };    ///< Offset vector (end_pos - start_pos) in pixels.
+    float thickness = 1.0f; ///< Line thickness in pixels.
 };
 
 static_assert(

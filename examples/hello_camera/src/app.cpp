@@ -9,19 +9,21 @@ App::App()
     getWindow()->setResizable(true);
 
     Renderer* renderer = getRenderer();
+    ECSRegistry& registry = getECSRegistry();
 
     cam_pos = { 250.0f, 250.0f };
     camera_zoom = camera.getZoom();
     camera.setPosition(cam_pos);
     renderer->setCamera(&camera);
 
-    ECSRegistry& registry = getECSRegistry();
     camera_center = createCircle(
         registry,
-        { .color = Vec4(1.0f, 1.0f, 1.0f, 0.5f),
-          .pos = Vec2(0.0f, 0.0f),
-          .radius = 5.0f,
-          .render_pass = RenderLayer::UI }
+        {
+            .color = Vec4(1.0f, 1.0f, 1.0f, 0.5f),
+            .pos = Vec2(0.0f, 0.0f),
+            .radius = 5.0f,
+            .render_pass = RenderLayer::UI,
+        }
     );
     registry.addComponents(
         camera_center,
@@ -30,31 +32,36 @@ App::App()
 
     red_rect = createRect(
         registry,
-        { .color = Vec4(1.0f, 0.0f, 0.0f, 1.0f),
-          .pos = Vec2(250.0f, 200.0f),
-          .size = Vec2(100.0f, 50.0f),
-          .scale = Vec2(1.0f, 1.0f),
-          .rotation = 0.0f }
+        {
+            .color = Vec4(1.0f, 0.0f, 0.0f, 1.0f),
+            .pos = Vec2(250.0f, 200.0f),
+            .size = Vec2(100.0f, 50.0f),
+            .scale = Vec2(1.0f, 1.0f),
+            .rotation = 0.0f,
+        }
     );
     green_rect = createRect(
         registry,
-        { .color = Vec4(0.0f, 1.0f, 0.0f, 1.0f),
-          .pos = Vec2(100.0f, 100.0f),
-          .size = Vec2(75.0f, 75.0f),
-          .scale = Vec2(1.0f, 1.0f),
-          .rotation = 0.0f }
+        {
+            .color = Vec4(0.0f, 1.0f, 0.0f, 1.0f),
+            .pos = Vec2(100.0f, 100.0f),
+            .size = Vec2(75.0f, 75.0f),
+            .scale = Vec2(1.0f, 1.0f),
+            .rotation = 0.0f,
+        }
     );
     blue_rect = createRect(
         registry,
-        { .color = Vec4(0.0f, 0.0f, 1.0f, 1.0f),
-          .pos = Vec2(400.0f, 250.0f),
-          .size = Vec2(50.0f, 200.0f),
-          .scale = Vec2(1.0f, 1.0f),
-          .rotation = 0.0f }
+        {
+            .color = Vec4(0.0f, 0.0f, 1.0f, 1.0f),
+            .pos = Vec2(400.0f, 250.0f),
+            .size = Vec2(50.0f, 200.0f),
+            .scale = Vec2(1.0f, 1.0f),
+            .rotation = 0.0f,
+        }
     );
 
-    BitmapFont* font =
-        Assets::loadFont("lili_font", renderer, "lili_font.png", 16, 6);
+    BitmapFont* font = renderer->getDefaultFont();
     text_cam_pos = Text(renderer, font, "");
     text_cam_pos.setScale(2.0f);
     text_cam_pos.setOffset({ 0.0f, 10.0f });

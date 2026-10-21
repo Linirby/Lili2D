@@ -171,9 +171,11 @@ public:
     /// @brief Executes a callback across worker threads when entity count
     /// exceeds parallel_threshold, or sequentially otherwise.
     /// @tparam Func Callable accepting (Entity, Components&...).
-    /// @param thread_pool Pointer to ThreadPool (if nullptr, runs sequentially).
+    /// @param thread_pool Pointer to ThreadPool (if nullptr, runs
+    /// sequentially).
     /// @param fn The callback to invoke per entity.
-    /// @param parallel_threshold Minimum lead pool size to trigger parallel run.
+    /// @param parallel_threshold Minimum lead pool size to trigger parallel
+    /// run.
     template<typename Func>
     void
     parallelEach(

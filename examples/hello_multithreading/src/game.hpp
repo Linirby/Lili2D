@@ -1,13 +1,16 @@
 #pragma once
 
 #include <lili2d/lili2d.hpp>
-#include <memory>
 #include <vector>
 
 class App : public lili::Game
 {
 public:
-    App();
+    App()
+      : Game("hello_multithreading - Lili2D", 800, 600)
+    {
+        setTps(60.0f);
+    }
     ~App() override = default;
 
     void
@@ -16,8 +19,6 @@ public:
     onEvent(const lili::Event& event) override;
     void
     onUpdate(float dt) override;
-    void
-    onRender(float alpha) override;
 
 private:
     void
@@ -29,11 +30,5 @@ private:
 
     static constexpr int N_ENTITIES = 10000;
 
-    lili::ECSRegistry ecs_registry;
     std::vector<lili::Entity> spawned_entities;
-    lili::Camera camera;
-
-    lili::Texture* circle_texture = nullptr;
-    std::unique_ptr<lili::DynamicBatch> dynamic_batch;
-    std::unique_ptr<lili::SystemBase> movement_system;
 };

@@ -25,6 +25,7 @@ Render2DSystem::render(
     Texture* the_white_pixel
 )
 {
+    batch.begin();
     items.clear();
 
     size_t max_items = registry.getPool<SpriteComponent>().size() +
@@ -52,7 +53,9 @@ Render2DSystem::render(
         for (uint32_t idx : item_indices) {
             const DrawItem& item = items[idx];
             if (shouldFlush(item)) {
-                batch.flush(current_layer, current_render_pass);
+                batch.flush(
+                    current_layer, current_render_pass, current_material_id
+                );
                 current_render_pass = item.render_pass;
                 current_layer = item.layer;
                 current_material_id = item.material_id;
@@ -101,7 +104,7 @@ Render2DSystem::render(
                 );
         }
     }
-    batch.flush(current_layer, current_render_pass);
+    batch.flush(current_layer, current_render_pass, current_material_id);
 }
 
 void

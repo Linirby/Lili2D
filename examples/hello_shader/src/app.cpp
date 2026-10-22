@@ -1,4 +1,14 @@
 #include "app.hpp"
+#include <lili2d/components/render2d.hpp>
+#include <lili2d/components/ui_layout.hpp>
+#include <lili2d/core/asset_manager.hpp>
+#include <lili2d/core/game.hpp>
+#include <lili2d/ecs/ecs_registry.hpp>
+#include <lili2d/entities/rect.hpp>
+#include <lili2d/geometry/vec2.hpp>
+#include <lili2d/render/common/material.hpp>
+#include <lili2d/render/common/material_registry.hpp>
+#include <lili2d/render/gpu/pass_types.hpp>
 
 using namespace lili;
 
@@ -7,6 +17,7 @@ App::App()
 {
     Assets::setHotReloadEnabled(true);
     Renderer* renderer = getRenderer();
+    ECSRegistry& ecs_reg = getECSRegistry();
 
     Shader* rect_shader = Assets::loadShader(
         "rect_shader",
@@ -15,16 +26,23 @@ App::App()
         renderer->getDevice()
     );
     rect_pipeline.reset(renderer->createMainGraphicsPipeline(rect_shader));
-    rect = Rect(
-        renderer,
-        RectShape(0.0f, 0.0f, 400.0f, 400.0f),
-        Vec4(1.0f, 1.0f, 1.0f, 1.0f)
+
+    Material custom_rect_mat =
+        Material(renderer->getTheWhitePixel(), rect_pipeline.get());
+    MaterialRegistry& mat_reg = MaterialRegistry::get();
+    mat_reg.registerMaterial("custom:rect", custom_rect_mat);
+
+    rect = createRect(
+        ecs_reg,
+        {
+            .color = Vec4(1.0f, 1.0f, 1.0f, 1.0f),
+            .pos = Vec2(0.0f, 0.0f),
+            .size = Vec2(400.0f, 400.0f),
+            .material_id = mat_reg.getMaterialID("custom:rect"),
+            .render_pass = lili::RenderLayer::UI,
+        }
     );
-    rect.getMaterial()->pipeline = rect_pipeline.get();
-    rect.setRender(RenderLayer::UI);
-    rect.setAnchor(Anchor::CENTER);
-    rect.setPivot(Pivot::CENTER);
-    rect.setOffset({ 0.0f, 0.0f });
+    ecs_reg.addComponents(rect, UILayoutComponent{});
 
     Shader* text_shader = Assets::loadShader(
         "text_shader",
@@ -50,29 +68,39 @@ App::App()
     text_info.setScale(3.0f);
     text_info.setRender(RenderLayer::UI);
 
-    toggle_custom_shaders = true;
+    use_custom_shaders = true;
+}
+
+void
+App::toggleCustomShaders()
+{
+    ECSRegistry& ecs_reg = getECSRegistry();
+    MaterialRegistry& mat_reg = MaterialRegistry::get();
+
+    use_custom_shaders = !use_custom_shaders;
+    auto& render2d = ecs_reg.getComponent<Render2DComponent>(rect);
+    if (use_custom_shaders) {
+        render2d.material_id = mat_reg.getMaterialID("custom:rect");
+    } else {
+        render2d.material_id = mat_reg.getMaterialID("core:none");
+    }
+    text.getMaterial()->pipeline =
+        use_custom_shaders ? text_pipeline.get() : nullptr;
+    text.setText(use_custom_shaders ? "Yay, shaders :D" : "Oh, no shaders :(");
 }
 
 void
 App::onEvent(const Event& event)
 {
     Game::onEvent(event);
+
     if (event.type() == EventType::KEYBOARD) {
         KeyboardEvent kb = event.keyboard();
         if (kb.action == KeyAction::PRESSED && !kb.repeat) {
-            if (kb.key == Key::ESCAPE) {
+            if (kb.key == Key::ESCAPE)
                 shutdown();
-            } else if (kb.key == Key::SPACE) {
-                toggle_custom_shaders = !toggle_custom_shaders;
-                rect.getMaterial()->pipeline =
-                    toggle_custom_shaders ? rect_pipeline.get() : nullptr;
-                text.getMaterial()->pipeline =
-                    toggle_custom_shaders ? text_pipeline.get() : nullptr;
-                text.setText(
-                    toggle_custom_shaders ? "Yay, shaders :D"
-                                          : "Oh, no shaders :("
-                );
-            }
+            else if (kb.key == Key::SPACE)
+                toggleCustomShaders();
         }
     }
 }
@@ -80,27 +108,27 @@ App::onEvent(const Event& event)
 void
 App::onUpdate(float dt)
 {
-    (void)dt;
-    clock.update();
+    Game::onUpdate(dt);
+
+    Material& mat = MaterialRegistry::get().getMaterial("custom:rect");
+    mat.setVertexUniforms(
+        RectUB{ .time = getClock().getTime(),
+                .amplitude = 40.0f,
+                .frequency = 20.0f,
+                .speed = 6.0f }
+    );
 }
 
 void
 App::onRender(float alpha)
 {
-    (void)alpha;
-    if (toggle_custom_shaders) {
+    Game::onRender(alpha);
+
+    if (use_custom_shaders)
         text.getMaterial()->setVertexUniforms(
             TextUB{ .speed = 2.0f, .time = clock.getTime() }
         );
-        rect.getMaterial()->setVertexUniforms(
-            RectUB{ .time = clock.getTime(),
-                    .amplitude = 0.2f,
-                    .frequency = 30.0f,
-                    .speed = 5.0f }
-        );
-    }
 
     text.draw();
     text_info.draw();
-    rect.draw();
 }

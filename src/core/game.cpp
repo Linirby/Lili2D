@@ -126,6 +126,8 @@ Game::onUpdate(float dt)
 {
     ActionMap::get().update();
     UILayoutSystem::update(ecs_registry, window->getSize(), thread_pool.get());
+
+    clock.update();
 }
 
 void

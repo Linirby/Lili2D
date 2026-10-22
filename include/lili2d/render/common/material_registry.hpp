@@ -58,6 +58,14 @@ public:
     {
         return getAsset(key);
     }
+    /// @brief Gets a material by key.
+    /// @param key The material key.
+    /// @return Reference to the material.
+    [[nodiscard]] inline Material&
+    getMaterial(std::string_view key)
+    {
+        return getAsset(key);
+    }
     /// @brief Gets a material by 16-bit ID.
     /// @param material_id The material ID.
     /// @return Reference to the material.
@@ -66,11 +74,27 @@ public:
     {
         return getAsset(material_id);
     }
+    /// @brief Gets a material by 16-bit ID.
+    /// @param material_id The material ID.
+    /// @return Reference to the material.
+    [[nodiscard]] inline Material&
+    getMaterial(uint16_t material_id)
+    {
+        return getAsset(material_id);
+    }
     /// @brief Gets a material by 8-bit ID.
     /// @param material_id The material ID.
     /// @return Reference to the material.
     [[nodiscard]] inline const Material&
     getMaterial(uint8_t material_id) const
+    {
+        return getAsset(static_cast<uint16_t>(material_id));
+    }
+    /// @brief Gets a material by 8-bit ID.
+    /// @param material_id The material ID.
+    /// @return Reference to the material.
+    [[nodiscard]] inline Material&
+    getMaterial(uint8_t material_id)
     {
         return getAsset(static_cast<uint16_t>(material_id));
     }

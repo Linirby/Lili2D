@@ -12,6 +12,18 @@ App::App()
 }
 
 void
+App::onEvent(const Event& event)
+{
+    Game::onEvent(event);
+    if (event.type() == EventType::KEYBOARD) {
+        KeyboardEvent kb = event.keyboard();
+        if (kb.action == KeyAction::PRESSED && kb.key == Key::ESCAPE)
+            shutdown();
+    }
+    scene_manager.handleEvents(event);
+}
+
+void
 App::onUpdate(float dt)
 {
     if (!scene_manager.empty())
@@ -22,16 +34,4 @@ void
 App::onRender(float alpha)
 {
     scene_manager.render(alpha);
-}
-
-void
-App::onEvent(const Event& event)
-{
-    Game::onEvent(event);
-    if (event.type() == EventType::KEYBOARD) {
-        KeyboardEvent kb = event.keyboard();
-        if (kb.action == KeyAction::PRESSED && kb.key == Key::ESCAPE)
-            shutdown();
-    }
-    scene_manager.handleEvents(event);
 }

@@ -55,9 +55,8 @@ App::onUpdate(float dt)
 }
 
 void
-App::onRender(float alpha)
+App::onRender([[maybe_unused]] float alpha)
 {
-    (void)alpha;
     welcome_text.draw();
     info_text.draw();
 }

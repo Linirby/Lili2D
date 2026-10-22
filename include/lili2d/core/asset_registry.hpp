@@ -120,6 +120,15 @@ public:
         return this->getAsset(getAssetID(key));
     }
 
+    /// @brief Gets a const reference to the asset with the given key.
+    /// @param key The key of the asset.
+    /// @return Const reference to the asset.
+    [[nodiscard]] T&
+    getAsset(std::string_view key)
+    {
+        return this->getAsset(getAssetID(key));
+    }
+
     /// @brief Gets a mutable reference to the asset with the given ID.
     /// @param key The ID of the asset.
     /// @return Mutable reference to the asset.

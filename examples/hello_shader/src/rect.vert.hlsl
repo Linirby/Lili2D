@@ -1,18 +1,21 @@
-struct VSInput {
+struct VSInput
+{
     float3 in_pos : POSITION;
     float2 in_uv : TEXCOORD0;
     float in_material_id : TEXCOORD1;
     float4 in_color : COLOR0;
 };
 
-struct VSOutput {
+struct VSOutput
+{
     float4 pos : SV_Position;
     float2 uv : TEXCOORD0;
     nointerpolation uint material_id : TEXCOORD1;
     float4 color : COLOR0;
 };
 
-cbuffer UniformBlock : register(b0, space1) {
+cbuffer UniformBlock : register(b0, space1)
+{
     float3x3 u_matrix;
     float4 color_tint;
     float4 uv_bounds;
@@ -21,7 +24,8 @@ cbuffer UniformBlock : register(b0, space1) {
     float2 padding;
 };
 
-cbuffer RectUB : register(b1, space1) {
+cbuffer RectUB : register(b1, space1)
+{
     float custom_time;
     float amplitude;
     float frequency;
@@ -29,10 +33,11 @@ cbuffer RectUB : register(b1, space1) {
 };
 
 VSOutput
-main(VSInput input) {
+main(VSInput input)
+{
     VSOutput output;
     float wave_offset =
-        sin(custom_time * speed + input.in_pos.y * frequency) * amplitude;
+        sin(custom_time * speed + input.in_uv.y * frequency) * amplitude;
 
     float3 pos2d =
         mul(u_matrix,

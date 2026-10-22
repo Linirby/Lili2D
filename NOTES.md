@@ -15,14 +15,14 @@ smth else.
 
 ### IN PROGRESS
 
-- Render2DSystem::shouldFlush() -> pass by const reference (const DrawItem&) to
-  avoid copying the ~80-byte DrawItem by value every check.
-- Fix engine-wide systems for multithreading use
 - Update all examples with hidden render system and new shapes and sprite
   support + clean them
+- Fix engine-wide systems for multithreading use
 
 ### DONE
 
+- Render2DSystem::shouldFlush() -> pass by const reference (const DrawItem&) to
+  avoid copying the ~80-byte DrawItem by value every check.
 - Find a way to support anchor and pivot in new ECS architecture
 - Refactor different DrawItem in one struct for the Render2DSystem
 - Hide Render2DSystem in Game class.

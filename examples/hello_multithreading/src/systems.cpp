@@ -1,12 +1,13 @@
 #include "systems.hpp"
+#include <lili2d/components/render2d.hpp>
+#include <lili2d/components/transform.hpp>
+#include <lili2d/geometry/vec2.hpp>
 
 using namespace lili;
 
-namespace systems {
-
-MovementSystem::MovementSystem(float window_w, float window_h)
-  : window_w(window_w)
-  , window_h(window_h)
+MovementSystem::MovementSystem(Vec2 window_size)
+  : window_w(window_size.x)
+  , window_h(window_size.y)
 {
     parallel_threshold = 500;
 }
@@ -15,29 +16,27 @@ void
 MovementSystem::updateEntity(
     [[maybe_unused]] ECSRegistry& registry,
     [[maybe_unused]] Entity entity,
-    PositionComponent& pos,
+    TransformComponent& trans,
     VelocityComponent& vel,
-    RenderComponent& render,
+    Render2DComponent& render2d,
     float dt
 )
 {
-    pos.value += vel.value * dt;
+    trans.pos += vel.value * dt;
 
-    if (pos.value.x - render.radius < 0.0f) {
-        pos.value.x = render.radius;
+    if (trans.pos.x - render2d.size.x * 0.5f < 0.0f) {
+        trans.pos.x = render2d.size.x * 0.5f;
         vel.value.x = -vel.value.x;
-    } else if (pos.value.x + render.radius > window_w) {
-        pos.value.x = window_w - render.radius;
+    } else if (trans.pos.x + render2d.size.x * 0.5f > window_w) {
+        trans.pos.x = window_w - render2d.size.x * 0.5f;
         vel.value.x = -vel.value.x;
     }
 
-    if (pos.value.y - render.radius < 0.0f) {
-        pos.value.y = render.radius;
+    if (trans.pos.y - render2d.size.y * 0.5f < 0.0f) {
+        trans.pos.y = render2d.size.y * 0.5f;
         vel.value.y = -vel.value.y;
-    } else if (pos.value.y + render.radius > window_h) {
-        pos.value.y = window_h - render.radius;
+    } else if (trans.pos.y + render2d.size.y * 0.5f > window_h) {
+        trans.pos.y = window_h - render2d.size.y * 0.5f;
         vel.value.y = -vel.value.y;
     }
 }
-
-} // namespace systems

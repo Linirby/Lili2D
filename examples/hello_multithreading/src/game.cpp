@@ -3,6 +3,8 @@
 #include "components.hpp"
 #include "systems.hpp"
 #include <iostream>
+#include <lili2d/ecs/ecs_registry.hpp>
+#include <lili2d/entities/sprite.hpp>
 #include <random>
 
 using namespace lili;
@@ -19,33 +21,9 @@ getRng()
 
 } // namespace
 
-App::App()
-  : Game("hello_multithreading - Lili2D", 800, 600)
-{
-    setTps(60.0f);
-}
-
 void
 App::onInit()
 {
-    Window* window = getWindow();
-    Renderer* renderer = getRenderer();
-
-    camera = Camera();
-    camera.setPosition(
-        { window->getWidth() / 2.0f, window->getHeight() / 2.0f }
-    );
-    renderer->setCamera(&camera);
-
-    circle_texture =
-        Assets::loadTexture("circle_tex", "circle.png", renderer->getDevice());
-    dynamic_batch = std::make_unique<DynamicBatch>(renderer, circle_texture);
-
-    movement_system = std::make_unique<systems::MovementSystem>(
-        static_cast<float>(window->getWidth()),
-        static_cast<float>(window->getHeight())
-    );
-
     for (int i = 0; i < N_ENTITIES; ++i)
         spawnRandomBall();
 
@@ -78,37 +56,8 @@ App::onEvent(const Event& event)
 void
 App::onUpdate(float dt)
 {
-    movement_system->run(ecs_registry, dt, getThreadPool());
-}
-
-void
-App::onRender(float alpha)
-{
-    Game::onRender(alpha);
-
-    dynamic_batch->begin();
-
-    auto& pos_pool = ecs_registry.getPool<PositionComponent>();
-    const auto& entities = pos_pool.getEntities();
-    const auto& positions = pos_pool.getComponents();
-
-    for (size_t i = 0; i < entities.size(); ++i) {
-        Entity entity = entities[i];
-        if (ecs_registry.hasComponent<RenderComponent>(entity)) {
-            const auto& pos = positions[i];
-            auto& render = ecs_registry.getComponent<RenderComponent>(entity);
-
-            dynamic_batch->addSprite(
-                render.slice,
-                pos.value,
-                { render.radius * 2.0f, render.radius * 2.0f },
-                0.0f,
-                render.color
-            );
-        }
-    }
-
-    dynamic_batch->flush(0.0f, RenderLayer::WORLD2D);
+    Vec2 window_size = getWindow()->getSize();
+    MovementSystem::update(getECSRegistry(), window_size, dt, getThreadPool());
 }
 
 void
@@ -123,23 +72,22 @@ App::spawnRandomBall()
         50.0f, static_cast<float>(window->getHeight()) - 50.0f
     );
     std::uniform_real_distribution<float> disVel(-200.0f, 200.0f);
-    std::uniform_real_distribution<float> disRadius(5.0f, 15.0f);
+    std::uniform_real_distribution<float> disScale(0.4f, 1.2f);
     std::uniform_real_distribution<float> disColor(0.2f, 1.0f);
 
     Vec2 pos(disX(gen), disY(gen));
     Vec2 vel(disVel(gen), disVel(gen));
-    float radius = disRadius(gen);
+    float scale = disScale(gen);
     Vec4 color(disColor(gen), disColor(gen), disColor(gen), 1.0f);
 
-    Entity ent = ecs_registry.createEntity();
-    ecs_registry.emplaceComponent<PositionComponent>(ent, pos);
-    ecs_registry.emplaceComponent<VelocityComponent>(ent, vel);
-    ecs_registry.emplaceComponent<RenderComponent>(
-        ent,
-        SliceUV(circle_texture, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f),
-        color,
-        radius
+    ECSRegistry& registry = getECSRegistry();
+    Entity ent = createSprite(
+        registry,
+        getRenderer(),
+        "circle.png",
+        { .color = color, .pos = pos, .scale = { scale, scale } }
     );
+    registry.emplaceComponent<VelocityComponent>(ent, vel);
     spawned_entities.push_back(ent);
 }
 
@@ -154,7 +102,7 @@ App::destroyRandomBall()
     size_t index = dis(gen);
     Entity ent = spawned_entities[index];
 
-    ecs_registry.destroyEntity(ent);
+    getECSRegistry().destroyEntity(ent);
     spawned_entities.erase(spawned_entities.begin() + index);
 }
 

@@ -6,6 +6,7 @@
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/render/2d/batch_helper.hpp"
 #include "lili2d/render/common/material.hpp"
+#include "lili2d/render/common/material_registry.hpp"
 #include "lili2d/render/common/model.hpp"
 #include "lili2d/render/gpu/gpu_mesh.hpp"
 #include "lili2d/render/gpu/pass_types.hpp"
@@ -103,7 +104,7 @@ DynamicBatch::addLine(Vec2 start_pos, Vec2 end_pos, float thickness, Vec4 color)
 }
 
 void
-DynamicBatch::flush(float layer, RenderLayer render_pass)
+DynamicBatch::flush(float layer, RenderLayer render_pass, uint16_t material_id)
 {
     if (mesh_data.vertices.empty())
         return;
@@ -117,7 +118,14 @@ DynamicBatch::flush(float layer, RenderLayer render_pass)
         );
     BatchItem& current_item = batch_pool[pool_idx++];
     current_item.mesh->update(mesh_data, renderer->getCurrentCommandBuffer());
-    current_item.material.albedoMap = active_texture;
+
+    MaterialRegistry& mat_reg = MaterialRegistry::get();
+    if (material_id < mat_reg.assetCount())
+        current_item.material = mat_reg.getMaterial(material_id);
+    else
+        current_item.material = Material();
+    if (active_texture)
+        current_item.material.albedoMap = active_texture;
 
     renderer->submit(
         Model(current_item.mesh.get(), &current_item.material),

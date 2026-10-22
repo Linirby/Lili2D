@@ -41,9 +41,8 @@ AnotherScene::handleEvents(const Event& event)
 }
 
 void
-AnotherScene::render(float alpha)
+AnotherScene::render([[maybe_unused]] float alpha)
 {
-    (void)alpha;
     text.draw();
     info_text.draw();
 }

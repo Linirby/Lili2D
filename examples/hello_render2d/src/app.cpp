@@ -31,7 +31,7 @@ App::addRect(
         { .color = color,
           .pos = pos,
           .size = size,
-          .scale = { 1.0f, 1.0f },
+          .scale = Vec2(1.0f, 1.0f),
           .rotation = 0.0f,
           .thickness = thickness,
           .hollow = hollow }

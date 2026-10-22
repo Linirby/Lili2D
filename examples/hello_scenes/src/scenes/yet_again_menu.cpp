@@ -41,9 +41,8 @@ YetAgainScene::handleEvents(const Event& event)
 }
 
 void
-YetAgainScene::render(float alpha)
+YetAgainScene::render([[maybe_unused]] float alpha)
 {
-    (void)alpha;
     text.draw();
     info_text.draw();
 }

@@ -1,8 +1,10 @@
 #include "app.hpp"
 
+#include <format>
 #include <lili2d/core/action_map.hpp>
 #include <lili2d/entities/circle.hpp>
 #include <lili2d/entities/rect.hpp>
+#include <string>
 
 using namespace lili;
 
@@ -129,8 +131,11 @@ App::onUpdate(float dt)
     camera.setZoom(camera_zoom);
 
     text_cam_pos.setText(
-        "Camera Position: (X=" + std::to_string(static_cast<int>(cam_pos.x)) +
-        ", Y=" + std::to_string(static_cast<int>(cam_pos.y)) + ")"
+        std::format(
+            "Camera Position: (X={}, Y={})",
+            static_cast<int>(cam_pos.x),
+            static_cast<int>(cam_pos.x)
+        )
     );
 }
 

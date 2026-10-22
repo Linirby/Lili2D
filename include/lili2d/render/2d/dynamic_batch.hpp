@@ -110,8 +110,9 @@ public:
     /// @brief Submits to the renderer and flushes the batch.
     /// @param layer The layer to flush.
     /// @param render_pass The render pass to flush.
+    /// @param material_id The material ID to look up in MaterialRegistry.
     void
-    flush(float layer, RenderLayer render_pass);
+    flush(float layer, RenderLayer render_pass, uint16_t material_id = 0);
 
 private:
     Renderer* renderer = nullptr;

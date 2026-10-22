@@ -15,7 +15,7 @@ class Renderer;
 
 struct SpriteParameters
 {
-    Vec4 color_tint = { 1.0f, 1.0f, 1.0f, 1.0f };
+    Vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
     Vec2 pos = { 0.0f, 0.0f };
     Vec2 scale = { 1.0f, 1.0f };
     float rotation = 0.0f;

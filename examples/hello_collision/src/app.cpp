@@ -1,5 +1,10 @@
 #include "app.hpp"
 
+#include <lili2d/core/action_map.hpp>
+#include <lili2d/entities/circle.hpp>
+#include <lili2d/entities/line.hpp>
+#include <lili2d/entities/rect.hpp>
+
 using namespace lili;
 
 App::App()

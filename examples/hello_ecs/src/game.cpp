@@ -4,16 +4,13 @@
 #include "entities.hpp"
 #include "systems.hpp"
 #include <iostream>
-#include <lili2d/core/asset_manager.hpp>
-#include <lili2d/core/event.hpp>
-#include <lili2d/core/window.hpp>
-#include <lili2d/render/renderer.hpp>
-#include <memory>
+#include <lili2d/ecs/ecs_registry.hpp>
 #include <random>
 
 using namespace lili;
 
 namespace {
+
 std::mt19937&
 getRng()
 {
@@ -21,15 +18,16 @@ getRng()
     static std::mt19937 gen(rd());
     return gen;
 }
+
 } // namespace
 
 App::App()
   : Game("hello_ecs - Lili2D", 800, 600)
 {
-    setTps(20.0f);
     Window* window = getWindow();
     Renderer* renderer = getRenderer();
 
+    setTps(20.0f);
     window->setResizable(true);
 
     camera = Camera();
@@ -38,9 +36,6 @@ App::App()
     );
     renderer->setCamera(&camera);
 
-    circle_texture =
-        Assets::loadTexture("circle_tex", "circle.png", renderer->getDevice());
-    dynamic_batch = std::make_unique<DynamicBatch>(renderer, circle_texture);
     for (int i = 0; i < N_ENTITIES; ++i)
         spawnRandomBall();
 
@@ -81,7 +76,7 @@ App::onUpdate(float dt)
         { window->getWidth() / 2.0f, window->getHeight() / 2.0f }
     );
     systems::updateMovement(
-        ecs_registry,
+        getECSRegistry(),
         dt,
         static_cast<float>(window->getWidth()),
         static_cast<float>(window->getHeight())
@@ -92,8 +87,6 @@ void
 App::onRender(float alpha)
 {
     Game::onRender(alpha);
-
-    systems::renderEntities(ecs_registry, *dynamic_batch);
 }
 
 void
@@ -108,21 +101,16 @@ App::spawnRandomBall()
         50.0f, static_cast<float>(window->getHeight()) - 50.0f
     );
     std::uniform_real_distribution<float> disVel(-200.0f, 200.0f);
-    std::uniform_real_distribution<float> disRadius(10.0f, 30.0f);
+    std::uniform_real_distribution<float> disScale(0.5f, 1.5f);
     std::uniform_real_distribution<float> disColor(0.2f, 1.0f);
 
     Vec2 pos(disX(gen), disY(gen));
     Vec2 vel(disVel(gen), disVel(gen));
-    float radius = disRadius(gen);
+    float scale = disScale(gen);
     Vec4 color(disColor(gen), disColor(gen), disColor(gen), 1.0f);
 
     Entity ent = entities::spawnBall(
-        ecs_registry,
-        pos,
-        vel,
-        SliceUV(circle_texture, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f),
-        color,
-        radius
+        getECSRegistry(), getRenderer(), pos, vel, color, scale
     );
     spawned_entities.push_back(ent);
 }
@@ -138,7 +126,7 @@ App::destroyRandomBall()
     size_t index = dis(gen);
     Entity ent = spawned_entities[index];
 
-    ecs_registry.destroyEntity(ent);
+    getECSRegistry().destroyEntity(ent);
     spawned_entities.erase(spawned_entities.begin() + index);
 }
 
@@ -153,11 +141,12 @@ App::toggleRandomBallVelocity()
     size_t index = dis(gen);
     Entity ent = spawned_entities[index];
 
-    if (ecs_registry.hasComponent<VelocityComponent>(ent)) {
-        ecs_registry.removeComponent<VelocityComponent>(ent);
-    } else {
+    ECSRegistry& registry = getECSRegistry();
+    if (registry.hasComponent<VelocityComponent>(ent))
+        registry.removeComponent<VelocityComponent>(ent);
+    else {
         std::uniform_real_distribution<float> disVel(-200.0f, 200.0f);
-        ecs_registry.emplaceComponent<VelocityComponent>(
+        registry.emplaceComponent<VelocityComponent>(
             ent, Vec2(disVel(gen), disVel(gen))
         );
     }

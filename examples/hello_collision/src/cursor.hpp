@@ -1,6 +1,9 @@
 #pragma once
 
-#include <lili2d/lili2d.hpp>
+#include <lili2d/components/render2d.hpp>
+#include <lili2d/components/transform.hpp>
+#include <lili2d/ecs/system.hpp>
+#include <lili2d/physics/aabb_collider.hpp>
 
 enum class ShapeMode : uint8_t
 {

@@ -1,6 +1,7 @@
 #pragma once
 
-#include <lili2d/lili2d.hpp>
+#include <lili2d/core/game.hpp>
+#include <lili2d/render/2d/text.hpp>
 
 class App : public lili::Game
 {

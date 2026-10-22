@@ -15,6 +15,8 @@ smth else.
 
 ### IN PROGRESS
 
+- Render2DSystem::shouldFlush() -> pass by const reference (const DrawItem&) to
+  avoid copying the ~80-byte DrawItem by value every check.
 - Fix engine-wide systems for multithreading use
 - Update all examples with hidden render system and new shapes and sprite
   support + clean them
@@ -37,3 +39,7 @@ smth else.
 
 - GPUMesh::transferToGpu() -> replace every frame allocation, by a persistent buffer
   for the transfer buffer.
+- DynamicBatch -> reserve vertex and index buffer capacity before appending batch
+  items.
+- BatchHelper::appendCircle() -> optimize circle rendering (precomputed unit circle
+  LUT or SDF quad shader instead of recalculating 24 cos/sin per circle every frame).

@@ -1,5 +1,9 @@
 #include "app.hpp"
 
+#include <lili2d/core/action_map.hpp>
+#include <lili2d/entities/circle.hpp>
+#include <lili2d/entities/rect.hpp>
+
 using namespace lili;
 
 App::App()
@@ -105,8 +109,6 @@ App::onUpdate(float dt)
     Game::onUpdate(dt);
 
     ActionMap& action_map = ActionMap::get();
-    action_map.update();
-
     Vec2 dir{};
     if (action_map.isHeld("Up"))
         dir.y -= 1.0f;

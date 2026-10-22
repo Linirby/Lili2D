@@ -1,6 +1,8 @@
 #include "entities.hpp"
 
 #include "components.hpp"
+#include <lili2d/entities/sprite.hpp>
+#include <lili2d/render/renderer.hpp>
 
 using namespace lili;
 
@@ -9,17 +11,24 @@ namespace entities {
 Entity
 spawnBall(
     ECSRegistry& registry,
+    Renderer* renderer,
     Vec2 pos,
     Vec2 vel,
-    const SliceUV& slice,
     Vec4 color,
-    float radius
+    float scale
 )
 {
-    Entity entity = registry.createEntity();
-    registry.emplaceComponent<PositionComponent>(entity, pos);
-    registry.emplaceComponent<VelocityComponent>(entity, vel);
-    registry.emplaceComponent<RenderComponent>(entity, slice, color, radius);
+    Entity entity = createSprite(
+        registry,
+        renderer,
+        "circle.png",
+        SpriteParameters{
+            .color = color,
+            .pos = pos,
+            .scale = { scale, scale },
+        }
+    );
+    registry.addComponents(entity, VelocityComponent{ .value = vel });
     return entity;
 }
 

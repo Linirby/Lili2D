@@ -12,7 +12,5 @@ updateMovement(
     float window_w,
     float window_h
 );
-void
-renderEntities(lili::ECSRegistry& registry, lili::DynamicBatch& batch);
 
 } // namespace systems

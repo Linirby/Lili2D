@@ -105,13 +105,13 @@ private:
             return item_a.layer < item_b.layer;
         if (item_a.material_id != item_b.material_id)
             return item_a.material_id < item_b.material_id;
-        if (item_a.texture != item_b.texture)
-            return item_a.texture < item_b.texture;
-        return item_a.entity < item_b.entity;
+        if (item_a.entity != item_b.entity)
+            return item_a.entity < item_b.entity;
+        return item_a.texture < item_b.texture;
     }
 
     static bool
-    shouldFlush(DrawItem item)
+    shouldFlush(const DrawItem& item)
     {
         return current_render_pass != item.render_pass ||
                current_layer != item.layer ||

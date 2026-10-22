@@ -1,5 +1,11 @@
 #include "cursor.hpp"
 
+#include <lili2d/components/circle.hpp>
+#include <lili2d/components/line.hpp>
+#include <lili2d/components/rect.hpp>
+#include <lili2d/core/action_map.hpp>
+#include <lili2d/physics/circle_collider.hpp>
+
 using namespace lili;
 
 void

@@ -31,7 +31,7 @@ createSprite(
     registry.emplaceComponent<TransformComponent>(entity, transform);
 
     Render2DComponent render2d{
-        .color = params.color_tint,
+        .color = params.color,
         .size = Vec2(texture->getWidth(), texture->getHeight()),
         .layer = params.layer,
         .material_id = params.material_id,
@@ -68,7 +68,7 @@ createSprite(
                                   .rotation = params.rotation };
     registry.emplaceComponent<TransformComponent>(entity, transform);
 
-    Render2DComponent render2d{ .color = params.color_tint,
+    Render2DComponent render2d{ .color = params.color,
                                 .size = { sliceUV.width, sliceUV.height },
                                 .layer = params.layer,
                                 .material_id = params.material_id,

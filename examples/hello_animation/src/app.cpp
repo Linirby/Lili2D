@@ -1,5 +1,7 @@
 #include "app.hpp"
 
+#include <lili2d/core/asset_manager.hpp>
+
 using namespace lili;
 
 App::App()

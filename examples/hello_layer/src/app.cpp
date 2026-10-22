@@ -1,5 +1,10 @@
 #include "app.hpp"
 
+#include <lili2d/components/render2d.hpp>
+#include <lili2d/ecs/ecs_registry.hpp>
+#include <lili2d/entities/rect.hpp>
+#include <lili2d/entities/sprite.hpp>
+#include <lili2d/geometry/vec2.hpp>
 #include <string>
 
 using namespace lili;
@@ -7,35 +12,45 @@ using namespace lili;
 App::App()
   : Game("hello_layer - Lili2D", 1024, 576)
 {
+    ECSRegistry& registry = getECSRegistry();
     Renderer* renderer = getRenderer();
     Window* window = getWindow();
 
-    Texture* tex1 =
-        Assets::loadTexture("layer_1", "layer_1.png", renderer->getDevice());
-    Texture* tex2 =
-        Assets::loadTexture("layer_2", "layer_2.png", renderer->getDevice());
-    Texture* tex3 =
-        Assets::loadTexture("layer_3", "layer_3.png", renderer->getDevice());
-
-    layer_1 = Sprite(renderer, tex1);
-    layer_1.setLayer(1.0f);
-    layer_1.setSize(window->getSize());
-
-    layer_2 = Sprite(renderer, tex2);
-    layer_2.setLayer(0.0f);
-    layer_2.setSize(window->getSize());
-
-    layer_3 = Sprite(renderer, tex3);
-    layer_3.setLayer(-1.0f);
-    layer_3.setSize(window->getSize());
-
-    red_square = Rect(
-        renderer,
-        RectShape(100.0f, 350.0f, 64.0f, 96.0f),
-        Vec4(1.0f, 0.0f, 0.0f, 1.0f)
-    );
     red_square_layer = 1;
-    red_square.setLayer(static_cast<float>(red_square_layer));
+    red_square = createRect(
+        registry,
+        {
+            .color = Vec4(1.0f, 0.0f, 0.0f, 1.0f),
+            .pos = Vec2(100.0f, 400.0f),
+            .size = Vec2(64.0f, 96.0f),
+            .layer = static_cast<float>(red_square_layer),
+        }
+    );
+
+    Vec2 window_size = window->getSize();
+    layer_1 = createSprite(
+        registry,
+        renderer,
+        "layer_1.png",
+        { .pos = window_size * 0.5, .layer = 1.0f }
+    );
+    registry.getComponent<Render2DComponent>(layer_1).size = window->getSize();
+
+    layer_2 = createSprite(
+        registry,
+        renderer,
+        "layer_2.png",
+        { .pos = window_size * 0.5, .layer = 0.0f }
+    );
+    registry.getComponent<Render2DComponent>(layer_2).size = window->getSize();
+
+    layer_3 = createSprite(
+        registry,
+        renderer,
+        "layer_3.png",
+        { .pos = window_size * 0.5, .layer = -1.0f }
+    );
+    registry.getComponent<Render2DComponent>(layer_3).size = window->getSize();
 
     BitmapFont* font =
         Assets::loadFont("lili_font", renderer, "lili_font.png", 16, 6);
@@ -60,20 +75,26 @@ App::onEvent(const Event& event)
 {
     Game::onEvent(event);
 
+    ECSRegistry& registry = getECSRegistry();
+
     if (event.type() == EventType::KEYBOARD) {
         KeyboardEvent kb = event.keyboard();
         if (kb.action == KeyAction::PRESSED && !kb.repeat) {
-            if (kb.key == Key::ESCAPE) {
+            if (kb.key == Key::ESCAPE)
                 shutdown();
-            } else if (kb.key == Key::I) {
+            else if (kb.key == Key::I) {
                 red_square_layer += 1;
-                red_square.setLayer(static_cast<float>(red_square_layer));
+                registry.getComponent<Render2DComponent>(red_square).layer =
+                    red_square_layer;
+
                 text_current_layer.setText(
                     "Current layer: " + std::to_string(red_square_layer)
                 );
             } else if (kb.key == Key::K) {
                 red_square_layer -= 1;
-                red_square.setLayer(static_cast<float>(red_square_layer));
+                registry.getComponent<Render2DComponent>(red_square).layer =
+                    red_square_layer;
+
                 text_current_layer.setText(
                     "Current layer: " + std::to_string(red_square_layer)
                 );
@@ -86,12 +107,6 @@ void
 App::onRender(float alpha)
 {
     Game::onRender(alpha);
-
-    red_square.draw();
-
-    layer_1.draw();
-    layer_2.draw();
-    layer_3.draw();
 
     text_current_layer.draw();
     text_control_info.draw();

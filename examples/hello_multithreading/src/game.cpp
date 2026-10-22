@@ -8,6 +8,7 @@
 using namespace lili;
 
 namespace {
+
 std::mt19937&
 getRng()
 {
@@ -15,6 +16,7 @@ getRng()
     static std::mt19937 gen(rd());
     return gen;
 }
+
 } // namespace
 
 App::App()
@@ -82,7 +84,7 @@ App::onUpdate(float dt)
 void
 App::onRender(float alpha)
 {
-    (void)alpha;
+    Game::onRender(alpha);
 
     dynamic_batch->begin();
 

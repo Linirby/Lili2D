@@ -352,4 +352,15 @@ appendLine(
     mesh_data.indices.push_back(base_idx + 0);
 }
 
+void
+appendText(
+    MeshData& mesh_data,
+    Vec2 pos,
+    uint32_t length,
+    float spacing,
+    Vec4 color
+)
+{
+}
+
 } // namespace lili::BatchHelper

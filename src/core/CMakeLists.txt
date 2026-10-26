@@ -9,6 +9,7 @@ add_library(lili_core OBJECT
     mouse.cpp
     scene.cpp
     scene_manager.cpp
+    string_arena.cpp
     thread_pool.cpp
     window.cpp
 )

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <cstdint>
 #include <deque>
 #include <vector>
 
@@ -106,6 +107,21 @@ public:
     /// @param color The color of the line.
     void
     addLine(Vec2 start_pos, Vec2 end_pos, float thickness, Vec4 color);
+
+    /// @brief Adds a line to the batch mesh.
+    /// @param pos The local position.
+    /// @param offset The offset in StringArena vector<char>.
+    /// @param length The length of the text.
+    /// @param spacing The spacing between letters.
+    /// @param color The color of the line.
+    void
+    addText(
+        Vec2 pos,
+        uint32_t offset,
+        uint32_t length,
+        float spacing,
+        Vec4 color
+    );
 
     /// @brief Submits to the renderer and flushes the batch.
     /// @param layer The layer to flush.

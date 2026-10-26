@@ -7,6 +7,7 @@
 #include <utility>
 #include <vector>
 
+#include "lili2d/core/string_arena.hpp"
 #include "lili2d/ecs/component_pool.hpp"
 #include "lili2d/ecs/entity.hpp"
 
@@ -150,12 +151,30 @@ public:
     /// @return An ECSView with entities and their respective components.
     template<typename... Components>
     [[nodiscard]] ECSView<Components...>
-    view()
+    view() noexcept
     {
         return ECSView<Components...>(*this);
     }
 
+    /// @brief Get the reference to the StringArena
+    /// @return A reference to the string StringArena
+    [[nodiscard]] StringArena&
+    getStringArena() noexcept
+    {
+        return string_arena;
+    }
+
+    /// @brief Get the constant reference to the StringArena
+    /// @return A constant reference to the StringArena
+    [[nodiscard]] const StringArena&
+    getStringArena() const noexcept
+    {
+        return string_arena;
+    }
+
 private:
+    StringArena string_arena;
+
     std::vector<std::unique_ptr<IComponentPool>> component_pools;
     std::vector<Entity> entities;
     std::vector<uint32_t> free_ids;

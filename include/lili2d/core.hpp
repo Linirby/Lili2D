@@ -20,8 +20,9 @@
 #include "lili2d/core/scene.hpp"            // IWYU pragma: export
 #include "lili2d/core/scene_manager.hpp"    // IWYU pragma: export
 #include "lili2d/core/sdl_deleters.hpp"     // IWYU pragma: export
+#include "lili2d/core/string_arena.hpp"     // IWYU pragma: export
+#include "lili2d/core/string_hash.hpp"      // IWYU pragma: export
 #include "lili2d/core/thread_pool.hpp"      // IWYU pragma: export
 #include "lili2d/core/timer.hpp"            // IWYU pragma: export
 #include "lili2d/core/timer_manager.hpp"    // IWYU pragma: export
-#include "lili2d/core/transform.hpp"        // IWYU pragma: export
 #include "lili2d/core/window.hpp"           // IWYU pragma: export

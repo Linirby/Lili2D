@@ -3,6 +3,7 @@
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/render/common/atlas_map.hpp"
 #include "lili2d/render/gpu/gpu_mesh.hpp"
+#include <cstdint>
 
 namespace lili::BatchHelper {
 
@@ -62,6 +63,15 @@ appendLine(
     Vec2 start_pos,
     Vec2 dxy,
     float thickness,
+    Vec4 color
+);
+
+void
+appendText(
+    MeshData& mesh_data,
+    Vec2 pos,
+    uint32_t length,
+    float spacing,
     Vec4 color
 );
 

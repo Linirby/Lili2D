@@ -9,6 +9,7 @@
 #include <thread>
 #include <type_traits>
 
+#include "lili2d/components/transform.hpp"
 #include "lili2d/core.hpp"
 #include "lili2d/ecs.hpp"
 

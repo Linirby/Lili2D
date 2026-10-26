@@ -1,9 +1,11 @@
 #include "lili2d/render/2d/dynamic_batch.hpp"
 
+#include <cstdint>
 #include <memory>
 
 #include "lili2d/geometry/mat3x3.hpp"
 #include "lili2d/geometry/vec2.hpp"
+#include "lili2d/geometry/vec4.hpp"
 #include "lili2d/render/2d/batch_helper.hpp"
 #include "lili2d/render/common/material.hpp"
 #include "lili2d/render/common/material_registry.hpp"
@@ -101,6 +103,17 @@ DynamicBatch::addLine(Vec2 start_pos, Vec2 end_pos, float thickness, Vec4 color)
     Texture* the_white_pixel = renderer->getTheWhitePixel();
     if (active_texture != the_white_pixel)
         active_texture = the_white_pixel;
+}
+
+void
+DynamicBatch::addText(
+    Vec2 pos,
+    uint32_t offset,
+    uint32_t length,
+    float spacing,
+    Vec4 color
+)
+{
 }
 
 void

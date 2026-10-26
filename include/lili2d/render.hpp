@@ -6,6 +6,7 @@
 
 #include "lili2d/render/2d/animated_sprite.hpp"  // IWYU pragma: export
 #include "lili2d/render/2d/batch_helper.hpp"     // IWYU pragma: export
+#include "lili2d/render/2d/bitmap_font.hpp"      // IWYU pragma: export
 #include "lili2d/render/2d/circle.hpp"           // IWYU pragma: export
 #include "lili2d/render/2d/dynamic_batch.hpp"    // IWYU pragma: export
 #include "lili2d/render/2d/line.hpp"             // IWYU pragma: export

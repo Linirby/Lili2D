@@ -4,11 +4,13 @@
 #include "lili2d/ecs/entity.hpp"
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/geometry/vec4.hpp"
+#include "lili2d/render/2d/bitmap_font.hpp"
 #include "lili2d/render/2d/dynamic_batch.hpp"
 #include "lili2d/render/gpu/pass_types.hpp"
 #include "lili2d/render/gpu/texture.hpp"
 #include <cstdint>
 #include <limits>
+#include <type_traits>
 #include <vector>
 
 namespace lili {
@@ -18,7 +20,8 @@ enum class DrawType : uint8_t
     SPRITE,
     RECT,
     CIRCLE,
-    LINE
+    LINE,
+    TEXT
 };
 
 struct DrawItem
@@ -43,27 +46,39 @@ struct DrawItem
             float v_min; ///< The minimum V of the UV
             float u_max; ///< The maximum U of the UV
             float v_max; ///< The maximum V of the UV
-        } sprite;        ///< The sprite struct
-        struct
+        } sprite;
+        struct Rect
         {
             Vec2 scale;      ///< The scale
             float thickness; ///< The thickness (when hollow)
             bool hollow;     ///< The hollow indicator (true/false)
-        } rect;              ///< The rect struct
-        struct
+        } rect;
+        struct Circle
         {
             float radius;      ///< The radius
             float thickness;   ///< The thickness (when hollow)
             uint32_t segments; ///< The segments (how detailed the circle is?)
             bool hollow;       ///< The hollow indicator (true/false)
-        } circle;              ///< The circle struct
-        struct
+        } circle;
+        struct Line
         {
-            Vec2 dxy;        ///< The distance X/Y of the end from the start.
+            Vec2 dxy;        ///< The distance X/Y of the end from the start
             float thickness; ///< The thickness
-        } line;              ///< The line struct
+        } line;
+        struct Text
+        {
+            BitmapFont* font; ///< The font
+            uint32_t offset;  ///< The offset in StringArena vector<char>
+            uint32_t length;  ///< The length of the string (eg. "cat" = 3)
+            float spacing;    ///< The spacing between letters
+        } text;
     } nature;
 };
+
+static_assert(
+    std::is_trivially_copyable_v<DrawItem>,
+    "DrawItem must be trivially copyable."
+);
 
 class Render2DSystem
 {
@@ -92,6 +107,8 @@ private:
     pushCircles(ECSRegistry& registry, Texture* the_white_pixel);
     static void
     pushLines(ECSRegistry& registry, Texture* the_white_pixel);
+    static void
+    pushTexts(ECSRegistry& registry, BitmapFont* font);
 
     static bool
     compareIndex(uint32_t idx_a, uint32_t idx_b)

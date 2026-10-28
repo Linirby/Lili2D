@@ -9,11 +9,11 @@ namespace lili {
 
 struct TextComponent
 {
-    BitmapFont* font = nullptr;
-    Vec2 glyph_size = {};
-    float spacing = 1.0f;
-    uint32_t offset = 0; ///< Start index in StringArena
-    uint32_t length = 0; ///< Current string lenght (excluding '\0')
+    BitmapFont* font = nullptr; ///< Font :P
+    Vec2 glyph_size = {};       ///< Size of a glyph
+    float spacing = 1.0f;       ///< Spacing between letters
+    uint32_t offset = 0;        ///< Start index in StringArena
+    uint32_t length = 0;        ///< Current string lenght (excluding '\0')
 };
 
 static_assert(

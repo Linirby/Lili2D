@@ -3,6 +3,7 @@ add_library(lili_entities OBJECT
     line.cpp
     rect.cpp
     sprite.cpp
+    text.cpp
 )
 add_library(lili::entities ALIAS lili_entities)
 

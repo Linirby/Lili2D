@@ -1,9 +1,12 @@
 #include "lili2d/render/2d/batch_helper.hpp"
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/geometry/vec3.hpp"
+#include "lili2d/geometry/vec4.hpp"
+#include "lili2d/render/2d/bitmap_font.hpp"
 #include "lili2d/render/gpu/gpu_mesh.hpp"
 #include <cmath>
 #include <cstdint>
+#include <string_view>
 
 namespace lili::BatchHelper {
 
@@ -355,12 +358,107 @@ appendLine(
 void
 appendText(
     MeshData& mesh_data,
+    BitmapFont* font,
+    std::string_view text,
     Vec2 pos,
-    uint32_t length,
+    Vec2 scale,
+    float rotation,
     float spacing,
     Vec4 color
 )
 {
+    if (!font || text.empty())
+        return;
+
+    const float glyph_w = font->getGlyphW() * scale.x;
+    const float glyph_h = font->getGlyphH() * scale.y;
+    const float scaled_spacing = spacing * scale.x;
+
+    // 1. Calculate overall text bounding box for centering
+    float max_line_w = 0.0f;
+    float cur_line_w = 0.0f;
+    float line_count = 1.0f;
+
+    for (size_t i = 0; i < text.size(); ++i) {
+        char c = text[i];
+        if (c == '\n') {
+            line_count += 1.0f;
+            cur_line_w = 0.0f;
+        } else {
+            cur_line_w += glyph_w;
+            if (i + 1 < text.size() && text[i + 1] != '\n')
+                cur_line_w += scaled_spacing;
+            if (cur_line_w > max_line_w)
+                max_line_w = cur_line_w;
+        }
+    }
+
+    const float total_w = max_line_w;
+    const float total_h = line_count * glyph_h;
+    const float half_w = total_w * 0.5f;
+    const float half_h = total_h * 0.5f;
+
+    float cos_r = 1.0f;
+    float sin_r = 0.0f;
+    if (rotation != 0.0f) {
+        float rot_rad = lili::degToRad(rotation);
+        cos_r = std::cos(rot_rad);
+        sin_r = std::sin(rot_rad);
+    }
+
+    auto transform_point = [&](Vec2 p) -> Vec2 {
+        return Vec2(
+            pos.x + p.x * cos_r - p.y * sin_r, pos.y + p.x * sin_r + p.y * cos_r
+        );
+    };
+
+    float start_x = -half_w;
+    float cur_x = start_x;
+    float cur_y = -half_h;
+
+    for (char c : text) {
+        if (c == '\n') {
+            cur_x = start_x;
+            cur_y += glyph_h;
+            continue;
+        }
+
+        GlyphUV uv = font->glyphUv(c);
+
+        Vec2 p0{ cur_x, cur_y };
+        Vec2 p1{ cur_x + glyph_w, cur_y };
+        Vec2 p2{ cur_x + glyph_w, cur_y + glyph_h };
+        Vec2 p3{ cur_x, cur_y + glyph_h };
+
+        Vec2 tp0 = transform_point(p0);
+        Vec2 tp1 = transform_point(p1);
+        Vec2 tp2 = transform_point(p2);
+        Vec2 tp3 = transform_point(p3);
+
+        uint32_t base_idx = static_cast<uint32_t>(mesh_data.vertices.size());
+
+        mesh_data.vertices.emplace_back(
+            Vec3(tp0.x, tp0.y, 0.0f), Vec2(uv.u0, uv.v0), 0.0f, color
+        );
+        mesh_data.vertices.emplace_back(
+            Vec3(tp1.x, tp1.y, 0.0f), Vec2(uv.u1, uv.v0), 0.0f, color
+        );
+        mesh_data.vertices.emplace_back(
+            Vec3(tp2.x, tp2.y, 0.0f), Vec2(uv.u1, uv.v1), 0.0f, color
+        );
+        mesh_data.vertices.emplace_back(
+            Vec3(tp3.x, tp3.y, 0.0f), Vec2(uv.u0, uv.v1), 0.0f, color
+        );
+
+        mesh_data.indices.push_back(base_idx + 0);
+        mesh_data.indices.push_back(base_idx + 1);
+        mesh_data.indices.push_back(base_idx + 2);
+        mesh_data.indices.push_back(base_idx + 2);
+        mesh_data.indices.push_back(base_idx + 3);
+        mesh_data.indices.push_back(base_idx + 0);
+
+        cur_x += glyph_w + scaled_spacing;
+    }
 }
 
 } // namespace lili::BatchHelper

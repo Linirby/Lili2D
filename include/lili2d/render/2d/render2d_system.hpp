@@ -68,6 +68,7 @@ struct DrawItem
         struct Text
         {
             BitmapFont* font; ///< The font
+            Vec2 scale;       ///< The scale
             uint32_t offset;  ///< The offset in StringArena vector<char>
             uint32_t length;  ///< The length of the string (eg. "cat" = 3)
             float spacing;    ///< The spacing between letters
@@ -108,7 +109,7 @@ private:
     static void
     pushLines(ECSRegistry& registry, Texture* the_white_pixel);
     static void
-    pushTexts(ECSRegistry& registry, BitmapFont* font);
+    pushTexts(ECSRegistry& registry);
 
     static bool
     compareIndex(uint32_t idx_a, uint32_t idx_b)

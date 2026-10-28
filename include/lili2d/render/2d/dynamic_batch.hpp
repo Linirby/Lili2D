@@ -108,17 +108,21 @@ public:
     void
     addLine(Vec2 start_pos, Vec2 end_pos, float thickness, Vec4 color);
 
-    /// @brief Adds a line to the batch mesh.
-    /// @param pos The local position.
-    /// @param offset The offset in StringArena vector<char>.
-    /// @param length The length of the text.
+    /// @brief Adds text to the batch mesh.
+    /// @param font The font.
+    /// @param text The text.
+    /// @param pos The center position.
+    /// @param scale The local scale.
+    /// @param rotation The local rotation in degrees.
     /// @param spacing The spacing between letters.
-    /// @param color The color of the line.
+    /// @param color The color of the text.
     void
     addText(
+        BitmapFont* font,
+        std::string_view text,
         Vec2 pos,
-        uint32_t offset,
-        uint32_t length,
+        Vec2 scale,
+        float rotation,
         float spacing,
         Vec4 color
     );

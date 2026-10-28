@@ -2,11 +2,13 @@
 
 #include <cstdint>
 #include <memory>
+#include <string_view>
 
 #include "lili2d/geometry/mat3x3.hpp"
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/geometry/vec4.hpp"
 #include "lili2d/render/2d/batch_helper.hpp"
+#include "lili2d/render/2d/bitmap_font.hpp"
 #include "lili2d/render/common/material.hpp"
 #include "lili2d/render/common/material_registry.hpp"
 #include "lili2d/render/common/model.hpp"
@@ -107,13 +109,22 @@ DynamicBatch::addLine(Vec2 start_pos, Vec2 end_pos, float thickness, Vec4 color)
 
 void
 DynamicBatch::addText(
+    BitmapFont* font,
+    std::string_view text,
     Vec2 pos,
-    uint32_t offset,
-    uint32_t length,
+    Vec2 scale,
+    float rotation,
     float spacing,
     Vec4 color
 )
 {
+    BatchHelper::appendText(
+        mesh_data, font, text, pos, scale, rotation, spacing, color
+    );
+
+    Texture* font_texture = font->getTexture();
+    if (active_texture != font_texture)
+        active_texture = font_texture;
 }
 
 void

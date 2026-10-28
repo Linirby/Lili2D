@@ -7,6 +7,7 @@
 #include "lili2d/components/sprite.hpp"
 #include "lili2d/components/text.hpp"
 #include "lili2d/components/transform.hpp"
+#include "lili2d/core/string_arena.hpp"
 #include "lili2d/ecs/ecs_registry.hpp"
 #include "lili2d/ecs/ecs_view.hpp"
 #include "lili2d/ecs/entity.hpp"
@@ -18,6 +19,7 @@
 #include <cstdint>
 #include <limits>
 #include <numeric>
+#include <string_view>
 
 namespace lili {
 
@@ -42,6 +44,7 @@ Render2DSystem::render(
     pushRects(registry, the_white_pixel);
     pushCircles(registry, the_white_pixel);
     pushLines(registry, the_white_pixel);
+    pushTexts(registry);
 
     current_layer = std::numeric_limits<float>::min();
     current_render_pass = RenderLayer::UNDEFINE;
@@ -107,14 +110,21 @@ Render2DSystem::render(
                     item.nature.line.thickness,
                     item.color
                 );
-            else if (item.type == DrawType::TEXT)
+            else if (item.type == DrawType::TEXT) {
+                const StringArena& string_arena = registry.getStringArena();
+                std::string_view text_string_view = string_arena.getStringView(
+                    item.nature.text.offset, item.nature.text.length
+                );
                 batch.addText(
+                    item.nature.text.font,
+                    text_string_view,
                     item.pos,
-                    item.nature.text.offset,
-                    item.nature.text.length,
+                    item.nature.text.scale,
+                    item.rotation,
                     item.nature.text.spacing,
                     item.color
                 );
+            }
         }
     }
     batch.flush(current_layer, current_render_pass, current_material_id);
@@ -275,24 +285,23 @@ Render2DSystem::pushLines(ECSRegistry& registry, Texture* the_white_pixel)
 }
 
 void
-Render2DSystem::pushTexts(ECSRegistry& registry, BitmapFont* font)
+Render2DSystem::pushTexts(ECSRegistry& registry)
 {
     auto text_view =
         registry.view<Render2DComponent, TransformComponent, TextComponent>();
 
-    text_view.each([font](
-                       Entity entity,
-                       Render2DComponent& render2d,
-                       TransformComponent& trans,
-                       TextComponent& text
-                   ) {
-        if (!render2d.is_visible)
+    text_view.each([](Entity entity,
+                      Render2DComponent& render2d,
+                      TransformComponent& trans,
+                      TextComponent& text) {
+        if (!render2d.is_visible || !text.font)
             return;
         items.push_back(
             DrawItem{
-                .texture = font->getTexture(),
+                .texture = text.font->getTexture(),
                 .color = render2d.color,
                 .pos = trans.pos,
+                .size = render2d.size,
                 .layer = render2d.layer,
                 .rotation = trans.rotation,
                 .entity = entity,
@@ -302,7 +311,8 @@ Render2DSystem::pushTexts(ECSRegistry& registry, BitmapFont* font)
                 .type = DrawType::TEXT,
                 .nature{
                     .text{
-                        .font = font,
+                        .font = text.font,
+                        .scale = trans.scale,
                         .offset = text.offset,
                         .length = text.length,
                         .spacing = text.spacing,

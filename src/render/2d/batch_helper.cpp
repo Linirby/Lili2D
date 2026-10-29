@@ -10,6 +10,19 @@
 
 namespace lili::BatchHelper {
 
+namespace {
+
+[[nodiscard]] inline constexpr Vec2
+rotateAndTranslate(Vec2 local, Vec2 origin, float cos_r, float sin_r) noexcept
+{
+    return Vec2(
+        origin.x + local.x * cos_r - local.y * sin_r,
+        origin.y + local.x * sin_r + local.y * cos_r
+    );
+}
+
+} // namespace
+
 void
 appendSprite(
     MeshData& mesh_data,
@@ -35,21 +48,10 @@ appendSprite(
     float half_w = (slice.width / 2.0f) * scale.x;
     float half_h = (slice.height / 2.0f) * scale.y;
 
-    Vec2 p0{ -half_w, -half_h };
-    Vec2 p1{ half_w, -half_h };
-    Vec2 p2{ half_w, half_h };
-    Vec2 p3{ -half_w, half_h };
-
-    auto transform_point = [&](Vec2 p) -> Vec2 {
-        return Vec2(
-            pos.x + p.x * cos_r - p.y * sin_r, pos.y + p.x * sin_r + p.y * cos_r
-        );
-    };
-
-    Vec2 tp0 = transform_point(p0);
-    Vec2 tp1 = transform_point(p1);
-    Vec2 tp2 = transform_point(p2);
-    Vec2 tp3 = transform_point(p3);
+    Vec2 tp0 = rotateAndTranslate({ -half_w, -half_h }, pos, cos_r, sin_r);
+    Vec2 tp1 = rotateAndTranslate({ half_w, -half_h }, pos, cos_r, sin_r);
+    Vec2 tp2 = rotateAndTranslate({ half_w, half_h }, pos, cos_r, sin_r);
+    Vec2 tp3 = rotateAndTranslate({ -half_w, half_h }, pos, cos_r, sin_r);
 
     mesh_data.vertices.emplace_back(
         Vec3(tp0.x, tp0.y, 0.0f), Vec2(slice.u_min, slice.v_min), 0, tint
@@ -96,21 +98,10 @@ appendRect(
     float half_w = (size.x / 2.0f) * scale.x;
     float half_h = (size.y / 2.0f) * scale.y;
 
-    Vec2 p0{ -half_w, -half_h };
-    Vec2 p1{ half_w, -half_h };
-    Vec2 p2{ half_w, half_h };
-    Vec2 p3{ -half_w, half_h };
-
-    auto transform_point = [&](Vec2 p) -> Vec2 {
-        return Vec2(
-            pos.x + p.x * cos_r - p.y * sin_r, pos.y + p.x * sin_r + p.y * cos_r
-        );
-    };
-
-    Vec2 tp0 = transform_point(p0);
-    Vec2 tp1 = transform_point(p1);
-    Vec2 tp2 = transform_point(p2);
-    Vec2 tp3 = transform_point(p3);
+    Vec2 tp0 = rotateAndTranslate({ -half_w, -half_h }, pos, cos_r, sin_r);
+    Vec2 tp1 = rotateAndTranslate({ half_w, -half_h }, pos, cos_r, sin_r);
+    Vec2 tp2 = rotateAndTranslate({ half_w, half_h }, pos, cos_r, sin_r);
+    Vec2 tp3 = rotateAndTranslate({ -half_w, half_h }, pos, cos_r, sin_r);
 
     mesh_data.vertices.emplace_back(
         Vec3(tp0.x, tp0.y, 0.0f), Vec2(0.0f, 0.0f), 0, color
@@ -165,19 +156,13 @@ appendHollowRect(
         sin_r = std::sin(rot_rad);
     }
 
-    auto transform_point = [&](Vec2 p) -> Vec2 {
-        return Vec2(
-            pos.x + p.x * cos_r - p.y * sin_r, pos.y + p.x * sin_r + p.y * cos_r
-        );
-    };
-
     auto add_quad = [&](Vec2 min_p, Vec2 max_p) {
         uint32_t base_idx = static_cast<uint32_t>(mesh_data.vertices.size());
 
-        Vec2 tp0 = transform_point({ min_p.x, min_p.y });
-        Vec2 tp1 = transform_point({ max_p.x, min_p.y });
-        Vec2 tp2 = transform_point({ max_p.x, max_p.y });
-        Vec2 tp3 = transform_point({ min_p.x, max_p.y });
+        Vec2 tp0 = rotateAndTranslate({ min_p.x, min_p.y }, pos, cos_r, sin_r);
+        Vec2 tp1 = rotateAndTranslate({ max_p.x, min_p.y }, pos, cos_r, sin_r);
+        Vec2 tp2 = rotateAndTranslate({ max_p.x, max_p.y }, pos, cos_r, sin_r);
+        Vec2 tp3 = rotateAndTranslate({ min_p.x, max_p.y }, pos, cos_r, sin_r);
 
         mesh_data.vertices.emplace_back(
             Vec3(tp0.x, tp0.y, 0.0f), Vec2(0.0f, 0.0f), 0, color
@@ -372,31 +357,27 @@ appendText(
 
     const float glyph_w = font->getGlyphW() * scale.x;
     const float glyph_h = font->getGlyphH() * scale.y;
-    const float scaled_spacing = spacing * scale.x;
+    const float advance = glyph_w + spacing * scale.x;
+    const float abs_advance = std::abs(advance);
 
-    // 1. Calculate overall text bounding box for centering
-    float max_line_w = 0.0f;
-    float cur_line_w = 0.0f;
+    float max_w = 0.0f;
     float line_count = 1.0f;
+    size_t line_chars = 0;
 
-    for (size_t i = 0; i < text.size(); ++i) {
-        char c = text[i];
+    for (char c : text) {
         if (c == '\n') {
             line_count += 1.0f;
-            cur_line_w = 0.0f;
+            line_chars = 0;
         } else {
-            cur_line_w += glyph_w;
-            if (i + 1 < text.size() && text[i + 1] != '\n')
-                cur_line_w += scaled_spacing;
-            if (cur_line_w > max_line_w)
-                max_line_w = cur_line_w;
+            ++line_chars;
+            float w = glyph_w + (line_chars - 1) * abs_advance;
+            if (w > max_w)
+                max_w = w;
         }
     }
 
-    const float total_w = max_line_w;
-    const float total_h = line_count * glyph_h;
-    const float half_w = total_w * 0.5f;
-    const float half_h = total_h * 0.5f;
+    const float half_w = max_w * 0.5f;
+    const float half_h = (line_count * glyph_h) * 0.5f;
 
     float cos_r = 1.0f;
     float sin_r = 0.0f;
@@ -406,13 +387,7 @@ appendText(
         sin_r = std::sin(rot_rad);
     }
 
-    auto transform_point = [&](Vec2 p) -> Vec2 {
-        return Vec2(
-            pos.x + p.x * cos_r - p.y * sin_r, pos.y + p.x * sin_r + p.y * cos_r
-        );
-    };
-
-    float start_x = -half_w;
+    const float start_x = (advance >= 0.0f) ? -half_w : (half_w - glyph_w);
     float cur_x = start_x;
     float cur_y = -half_h;
 
@@ -425,15 +400,14 @@ appendText(
 
         GlyphUV uv = font->glyphUv(c);
 
-        Vec2 p0{ cur_x, cur_y };
-        Vec2 p1{ cur_x + glyph_w, cur_y };
-        Vec2 p2{ cur_x + glyph_w, cur_y + glyph_h };
-        Vec2 p3{ cur_x, cur_y + glyph_h };
-
-        Vec2 tp0 = transform_point(p0);
-        Vec2 tp1 = transform_point(p1);
-        Vec2 tp2 = transform_point(p2);
-        Vec2 tp3 = transform_point(p3);
+        Vec2 tp0 = rotateAndTranslate({ cur_x, cur_y }, pos, cos_r, sin_r);
+        Vec2 tp1 =
+            rotateAndTranslate({ cur_x + glyph_w, cur_y }, pos, cos_r, sin_r);
+        Vec2 tp2 = rotateAndTranslate(
+            { cur_x + glyph_w, cur_y + glyph_h }, pos, cos_r, sin_r
+        );
+        Vec2 tp3 =
+            rotateAndTranslate({ cur_x, cur_y + glyph_h }, pos, cos_r, sin_r);
 
         uint32_t base_idx = static_cast<uint32_t>(mesh_data.vertices.size());
 
@@ -457,7 +431,7 @@ appendText(
         mesh_data.indices.push_back(base_idx + 3);
         mesh_data.indices.push_back(base_idx + 0);
 
-        cur_x += glyph_w + scaled_spacing;
+        cur_x += advance;
     }
 }
 

@@ -5,6 +5,7 @@
 #include "lili2d/ecs/ecs_registry.hpp"
 #include "lili2d/ecs/entity.hpp"
 #include "lili2d/render/2d/bitmap_font.hpp"
+#include <cmath>
 #include <cstdint>
 #include <string_view>
 
@@ -18,26 +19,28 @@ calculateTextSize(BitmapFont* font, std::string_view text, float spacing)
     if (!font || text.empty())
         return { 0.0f, 0.0f };
 
-    float glyph_w = static_cast<float>(font->getGlyphW());
-    float glyph_h = static_cast<float>(font->getGlyphH());
-    float max_w = 0.0f;
-    float current_w = 0.0f;
-    float lines = 1.0f;
+    const float glyph_w = static_cast<float>(font->getGlyphW());
+    const float glyph_h = static_cast<float>(font->getGlyphH());
+    const float advance = glyph_w + spacing;
+    const float abs_advance = std::abs(advance);
 
-    for (size_t i = 0; i < text.size(); ++i) {
-        char c = text[i];
+    float max_w = 0.0f;
+    float line_count = 1.0f;
+    size_t line_chars = 0;
+
+    for (char c : text) {
         if (c == '\n') {
-            lines += 1.0f;
-            current_w = 0.0f;
+            line_count += 1.0f;
+            line_chars = 0;
         } else {
-            current_w += glyph_w;
-            if (i + 1 < text.size() && text[i + 1] != '\n')
-                current_w += spacing;
-            if (current_w > max_w)
-                max_w = current_w;
+            ++line_chars;
+            float w = glyph_w + static_cast<float>(line_chars - 1) * abs_advance;
+            if (w > max_w)
+                max_w = w;
         }
     }
-    return { max_w, lines * glyph_h };
+
+    return { max_w, line_count * glyph_h };
 }
 
 } // namespace

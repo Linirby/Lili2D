@@ -13,7 +13,7 @@
 using namespace lili;
 
 App::App()
-  : Game("hello_text - Lili2D", 625, 300)
+  : Game("hello_text - Lili2D", 800, 400)
 {
     getWindow()->setResizable(true);
     Renderer* renderer = getRenderer();

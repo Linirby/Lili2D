@@ -7,14 +7,12 @@ smth else.
 
 ### TODO
 
-- OOP to ECS support: AnimatedSprite.
 - OOP to ECS support: Tilemap & ChunkBatch.
 - Keep global ECSRegistry in Game but add scene-dependent ECSRegistry.
 
 ### IN PROGRESS
 
-- OOP to ECS support: Text.
-  - append and render mesh (batch helper + dyn batch + render2d sys)
+- OOP to ECS support: AnimatedSprite.
 
 ## KEEP FOR LATER
 

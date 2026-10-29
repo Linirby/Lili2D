@@ -1,25 +1,17 @@
 #pragma once
 
+#include "lili2d/components/circle.hpp"
+#include "lili2d/components/render2d.hpp"
+#include "lili2d/components/transform.hpp"
 #include "lili2d/ecs/ecs_registry.hpp"
-#include "lili2d/geometry/vec2.hpp"
-#include "lili2d/geometry/vec4.hpp"
-#include "lili2d/render/gpu/pass_types.hpp"
-#include <cstdint>
 
 namespace lili {
 
 struct CircleParameters
 {
-    Vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
-    Vec2 pos = { 0.0f, 0.0f };
-    float radius = 10.0f;
-    float thickness = 1.0f;
-    float layer = 0.0f;
-    uint32_t segments = 16;
-    uint16_t material_id = 0;
-    bool hollow = false;
-    bool is_visible = true;
-    RenderLayer render_pass = RenderLayer::WORLD2D;
+    TransformComponent transform{};
+    Render2DComponent render2d{};
+    CircleComponent circle{};
 };
 
 static_assert(

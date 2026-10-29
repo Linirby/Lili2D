@@ -51,12 +51,19 @@ App::addCircle(
 {
     Entity e = createCircle(
         registry,
-        { .color = color,
-          .pos = pos,
-          .radius = radius,
-          .thickness = thickness,
-          .segments = 16,
-          .hollow = hollow }
+        {
+            .transform{
+                .pos = pos,
+            },
+            .render2d{
+                .color = color,
+            },
+            .circle{
+                .radius = radius,
+                .thickness = thickness,
+                .hollow = hollow,
+            },
+        }
     );
     spawned.push_back(e);
 }

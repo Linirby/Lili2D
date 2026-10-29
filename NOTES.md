@@ -12,6 +12,8 @@ smth else.
 
 ### IN PROGRESS
 
+- Update Parameters to create entities, to have a clearer vision on which
+  components entities have.
 - OOP to ECS support: AnimatedSprite.
 
 ## KEEP FOR LATER

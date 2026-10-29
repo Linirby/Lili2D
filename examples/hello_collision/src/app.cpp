@@ -4,6 +4,8 @@
 #include <lili2d/entities/circle.hpp>
 #include <lili2d/entities/line.hpp>
 #include <lili2d/entities/rect.hpp>
+#include <lili2d/geometry/vec2.hpp>
+#include <lili2d/geometry/vec4.hpp>
 
 using namespace lili;
 
@@ -25,10 +27,16 @@ App::App()
     cursor_circle = createCircle(
         registry,
         {
-            .color = Vec4(0.0f, 0.0f, 1.0f, 1.0f),
-            .pos = Vec2(0.0f, 0.0f),
-            .radius = 30.0f,
-            .segments = 16,
+            .transform{
+                .pos = Vec2(0.0f, 0.0f),
+            },
+            .render2d{
+                .color = Vec4(0.0f, 0.0f, 1.0f, 1.0f),
+            },
+            .circle{
+                .radius = 30.0f,
+                .segments = 16,
+            },
         }
     );
     registry.addComponents(cursor_circle, CursorComponent{ ShapeMode::CIRCLE });

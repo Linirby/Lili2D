@@ -11,25 +11,15 @@ createCircle(ECSRegistry& registry, const CircleParameters& params)
 {
     Entity entity = registry.createEntity();
 
-    TransformComponent transform{ .pos = params.pos,
-                                  .prev_pos = params.pos,
-                                  .scale = { 1.0f, 1.0f },
-                                  .rotation = 0.0f };
+    TransformComponent transform = params.transform;
     registry.emplaceComponent<TransformComponent>(entity, transform);
 
-    Render2DComponent render2d{ .color = params.color,
-                                .size = { params.radius * 2.0f,
-                                          params.radius * 2.0f },
-                                .layer = params.layer,
-                                .material_id = params.material_id,
-                                .render_pass = params.render_pass,
-                                .is_visible = params.is_visible };
+    Render2DComponent render2d = params.render2d;
+    render2d.size = { params.circle.radius * 2.0f,
+                      params.circle.radius * 2.0f };
     registry.emplaceComponent<Render2DComponent>(entity, render2d);
 
-    CircleComponent circle{ .radius = params.radius,
-                            .segments = params.segments,
-                            .thickness = params.thickness,
-                            .hollow = params.hollow };
+    CircleComponent circle = params.circle;
     registry.emplaceComponent<CircleComponent>(entity, circle);
     return entity;
 }

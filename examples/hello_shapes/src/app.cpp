@@ -7,6 +7,7 @@
 #include <lili2d/entities/line.hpp>
 #include <lili2d/entities/rect.hpp>
 #include <lili2d/geometry/vec2.hpp>
+#include <lili2d/geometry/vec4.hpp>
 
 using namespace lili;
 
@@ -47,21 +48,33 @@ App::App()
     clean_circle = createCircle(
         registry,
         {
-            .color = Vec4(0.0f, 0.0f, 1.0f, 1.0f),
-            .pos = Vec2(250.0f, 125.0f),
-            .radius = 50.0f,
-            .thickness = 2.0f,
-            .segments = 24,
+            .transform{
+                .pos = Vec2(250.0f, 250.0f),
+            },
+            .render2d{
+                .color = Vec4(0.0f, 0.0f, 1.0f, 1.0f),
+            },
+            .circle{
+                .radius = 50.0f,
+                .segments = 24,
+                .thickness = 2.0f,
+            },
         }
     );
     low_poly_circle = createCircle(
         registry,
         {
-            .color = Vec4(0.0f, 0.0f, 1.0f, 1.0f),
-            .pos = Vec2(400.0f, 125.0f),
-            .radius = 50.0f,
-            .thickness = 2.0f,
-            .segments = 8,
+            .transform{
+                .pos = Vec2(400.0f, 125.0f),
+            },
+            .render2d{
+                .color = Vec4(0.0f, 0.0f, 1.0f, 1.0f),
+            },
+            .circle{
+                .radius = 50.0f,
+                .segments = 8,
+                .thickness = 2.0f,
+            },
         }
     );
 

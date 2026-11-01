@@ -1,32 +1,20 @@
 #pragma once
 
+#include "lili2d/components/rect.hpp"
+#include "lili2d/components/render2d.hpp"
+#include "lili2d/components/transform.hpp"
 #include "lili2d/ecs/ecs_registry.hpp"
-#include "lili2d/geometry/vec2.hpp"
-#include "lili2d/geometry/vec4.hpp"
-#include "lili2d/render/gpu/pass_types.hpp"
-#include <type_traits>
 
 namespace lili {
 
 struct RectParameters
 {
-    Vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
-    Vec2 pos = { 0.0f, 0.0f };
-    Vec2 size = { 10.0f, 10.0f };
-    Vec2 scale = { 1.0f, 1.0f };
-    float rotation = 0.0f;
-    float thickness = 1.0f;
-    float layer = 0.0f;
-    uint16_t material_id = 0;
-    bool hollow = false;
-    bool is_visible = true;
-    RenderLayer render_pass = RenderLayer::WORLD2D;
+    TransformComponent transform{};
+    Render2DComponent render2d = Render2DComponent{
+        .size = { 10.0f, 10.0f },
+    };
+    RectComponent rect{};
 };
-
-static_assert(
-    std::is_trivially_copyable_v<RectParameters>,
-    "RectParameters must be tryvially copyable."
-);
 
 /// @brief Creates a 2D Rectangle (Quad) entity.
 /// @note Attached components:

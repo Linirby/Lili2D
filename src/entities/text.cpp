@@ -1,7 +1,6 @@
 #include "lili2d/entities/text.hpp"
 #include "lili2d/components/render2d.hpp"
 #include "lili2d/components/text.hpp"
-#include "lili2d/components/transform.hpp"
 #include "lili2d/ecs/ecs_registry.hpp"
 #include "lili2d/ecs/entity.hpp"
 #include "lili2d/render/2d/bitmap_font.hpp"
@@ -34,7 +33,8 @@ calculateTextSize(BitmapFont* font, std::string_view text, float spacing)
             line_chars = 0;
         } else {
             ++line_chars;
-            float w = glyph_w + static_cast<float>(line_chars - 1) * abs_advance;
+            float w =
+                glyph_w + static_cast<float>(line_chars - 1) * abs_advance;
             if (w > max_w)
                 max_w = w;
         }
@@ -46,45 +46,22 @@ calculateTextSize(BitmapFont* font, std::string_view text, float spacing)
 } // namespace
 
 Entity
-createText(
-    ECSRegistry& registry,
-    BitmapFont* font,
-    const TextParameters& params
-)
+createText(ECSRegistry& registry, const TextParameters& params)
 {
     Entity entity = registry.createEntity();
 
-    uint32_t offset = registry.getStringArena().append(params.text);
-    uint32_t length = static_cast<uint32_t>(params.text.size());
+    Render2DComponent render2d = params.render2d;
+    render2d.size = calculateTextSize(
+        params.text.font, params.content, params.text.spacing
+    );
 
-    Vec2 glyph_size = font ? font->getGlyphSize() : Vec2{ 0.0f, 0.0f };
-    Vec2 text_size = calculateTextSize(font, params.text, params.spacing);
+    TextComponent text = params.text;
+    text.glyph_size = params.text.font ? params.text.font->getGlyphSize()
+                                       : Vec2{ 0.0f, 0.0f };
+    text.offset = registry.getStringArena().append(params.content);
+    text.length = static_cast<uint32_t>(params.content.size());
 
-    TransformComponent trans{
-        .pos = params.pos,
-        .prev_pos = params.pos,
-        .scale = params.scale,
-        .rotation = params.rotation,
-    };
-
-    Render2DComponent render2d{
-        .color = params.color,
-        .size = text_size,
-        .layer = params.layer,
-        .material_id = params.material_id,
-        .render_pass = params.render_pass,
-        .is_visible = params.is_visible,
-    };
-
-    TextComponent text{
-        .font = font,
-        .glyph_size = glyph_size,
-        .spacing = params.spacing,
-        .offset = offset,
-        .length = length,
-    };
-
-    registry.addComponents(entity, render2d, trans, text);
+    registry.addComponents(entity, params.transform, render2d, text);
     return entity;
 }
 

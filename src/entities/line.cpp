@@ -13,26 +13,19 @@ createLine(ECSRegistry& registry, const LineParameters& params)
 {
     Entity entity = registry.createEntity();
 
-    TransformComponent transform{ .pos = params.start_pos,
-                                  .prev_pos = params.start_pos,
-                                  .scale = { 1.0f, 1.0f },
-                                  .rotation = 0.0f };
-    registry.emplaceComponent<TransformComponent>(entity, transform);
-
-    Render2DComponent render2d{
-        .color = params.color,
-        .size = { std::abs(params.end_pos.x - params.start_pos.x),
-                  std::abs(params.end_pos.y - params.start_pos.y) },
-        .layer = params.layer,
-        .material_id = params.material_id,
-        .render_pass = params.render_pass,
-        .is_visible = params.is_visible
+    Render2DComponent render2d = params.render2d;
+    render2d.size = Vec2{
+        std::abs(params.line.dxy.x),
+        std::abs(params.line.dxy.y),
     };
-    registry.emplaceComponent<Render2DComponent>(entity, render2d);
 
-    LineComponent line{ .dxy = params.end_pos - params.start_pos,
-                        .thickness = params.thickness };
-    registry.emplaceComponent<LineComponent>(entity, line);
+    LineComponent line = params.line;
+    line.dxy = Vec2{
+        params.line.dxy.x * params.transform.scale.x,
+        params.line.dxy.y * params.transform.scale.y,
+    };
+
+    registry.addComponents(entity, params.transform, render2d, line);
     return entity;
 }
 

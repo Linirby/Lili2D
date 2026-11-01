@@ -2,25 +2,13 @@
 
 #include <memory>
 #include <string>
-#include <vector>
 
 #include "lili2d/geometry/point2.hpp"
+#include "lili2d/render/common/slice_uv.hpp"
 #include "lili2d/render/gpu/texture.hpp"
 #include "lili2d/render/renderer.hpp"
 
 namespace lili {
-
-/// @brief Represents a slice of a texture with UV coordinates.
-struct SliceUV
-{
-    Texture* texture = nullptr; ///< The texture.
-    float u_min = 0.0f;         ///< Minimum U coordinate.
-    float v_min = 0.0f;         ///< Minimum V coordinate.
-    float u_max = 1.0f;         ///< Maximum U coordinate.
-    float v_max = 1.0f;         ///< Maximum V coordinate.
-    float width = 0.0f;         ///< Frame width.
-    float height = 0.0f;        ///< Frame height.
-};
 
 /// @brief Represents an atlas texture map that can be sliced into frames.
 class AtlasMap

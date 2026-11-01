@@ -1,6 +1,6 @@
 #pragma once
 
-#include "lili2d/render/common/atlas_map.hpp"
+#include "lili2d/render/common/slice_uv.hpp"
 #include <type_traits>
 
 namespace lili {

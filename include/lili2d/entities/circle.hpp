@@ -14,13 +14,8 @@ struct CircleParameters
     CircleComponent circle{};
 };
 
-static_assert(
-    std::is_trivially_copyable_v<CircleParameters>,
-    "CircleParameters must be tryvially copyable."
-);
-
 /// @brief Creates a 2D Circle (Geometry) entity.
-/// Attached components:
+/// @note Attached components:
 /// - `TransformComponent` (`pos`, `prev_pos`, `scale`, `rotation`)
 /// - `Render2DComponent` (`color`, `size`, `layer`, `material_id`,
 /// `render_pass`, `is_visible`)

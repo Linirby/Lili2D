@@ -1,12 +1,11 @@
 #pragma once
 
+#include "lili2d/components/render2d.hpp"
+#include "lili2d/components/sprite.hpp"
+#include "lili2d/components/transform.hpp"
 #include "lili2d/ecs/ecs_registry.hpp"
 #include "lili2d/ecs/entity.hpp"
-#include "lili2d/geometry/vec2.hpp"
-#include "lili2d/geometry/vec4.hpp"
-#include "lili2d/render/common/atlas_map.hpp"
-#include "lili2d/render/gpu/pass_types.hpp"
-#include <cstdint>
+#include "lili2d/render/common/slice_uv.hpp"
 #include <string>
 
 namespace lili {
@@ -15,14 +14,9 @@ class Renderer;
 
 struct SpriteParameters
 {
-    Vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
-    Vec2 pos = { 0.0f, 0.0f };
-    Vec2 scale = { 1.0f, 1.0f };
-    float rotation = 0.0f;
-    float layer = 0.0f;
-    uint16_t material_id = 0;
-    bool is_visible = true;
-    RenderLayer render_pass = RenderLayer::WORLD2D;
+    TransformComponent transform{};
+    Render2DComponent render2d{};
+    SpriteComponent sprite{};
 };
 
 static_assert(

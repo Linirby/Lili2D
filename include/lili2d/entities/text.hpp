@@ -1,34 +1,21 @@
 #pragma once
 
+#include "lili2d/components/render2d.hpp"
+#include "lili2d/components/text.hpp"
+#include "lili2d/components/transform.hpp"
 #include "lili2d/ecs/ecs_registry.hpp"
 #include "lili2d/ecs/entity.hpp"
-#include "lili2d/geometry/vec2.hpp"
-#include "lili2d/geometry/vec4.hpp"
-#include "lili2d/render/2d/bitmap_font.hpp"
-#include "lili2d/render/gpu/pass_types.hpp"
 #include <string_view>
-#include <type_traits>
 
 namespace lili {
 
 struct TextParameters
 {
-    std::string_view text = "";
-    Vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
-    Vec2 pos = { 0.0f, 0.0f };
-    Vec2 scale = { 1.0f, 1.0f };
-    float rotation = 0.0f;
-    float layer = 0.0f;
-    float spacing = 1.0f;
-    uint16_t material_id = 0;
-    bool is_visible = true;
-    RenderLayer render_pass = RenderLayer::WORLD2D;
+    std::string_view content = "";
+    TransformComponent transform{};
+    Render2DComponent render2d{};
+    TextComponent text{};
 };
-
-static_assert(
-    std::is_trivially_copyable_v<TextParameters>,
-    "TextParameters must be trivially copyable."
-);
 
 /// @brief Creates a 2D Text entity using a BitmapFont and StringArena.
 /// @note Attached components:
@@ -40,10 +27,6 @@ static_assert(
 /// @param params The parameters of the text entity.
 /// @return The created Entity.
 [[nodiscard]] Entity
-createText(
-    ECSRegistry& registry,
-    BitmapFont* font,
-    const TextParameters& params
-);
+createText(ECSRegistry& registry, const TextParameters& params);
 
 } // namespace lili

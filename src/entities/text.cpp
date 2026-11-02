@@ -46,20 +46,23 @@ calculateTextSize(BitmapFont* font, std::string_view text, float spacing)
 } // namespace
 
 Entity
-createText(ECSRegistry& registry, const TextParameters& params)
+createText(
+    ECSRegistry& registry,
+    std::string_view content,
+    const TextParameters& params
+)
 {
     Entity entity = registry.createEntity();
 
     Render2DComponent render2d = params.render2d;
-    render2d.size = calculateTextSize(
-        params.text.font, params.content, params.text.spacing
-    );
+    render2d.size =
+        calculateTextSize(params.text.font, content, params.text.spacing);
 
     TextComponent text = params.text;
     text.glyph_size = params.text.font ? params.text.font->getGlyphSize()
                                        : Vec2{ 0.0f, 0.0f };
-    text.offset = registry.getStringArena().append(params.content);
-    text.length = static_cast<uint32_t>(params.content.size());
+    text.offset = registry.getStringArena().append(content);
+    text.length = static_cast<uint32_t>(content.size());
 
     registry.addComponents(entity, params.transform, render2d, text);
     return entity;

@@ -11,7 +11,6 @@ namespace lili {
 
 struct TextParameters
 {
-    std::string_view content = "";
     TransformComponent transform{};
     Render2DComponent render2d{};
     TextComponent text{};
@@ -27,6 +26,10 @@ struct TextParameters
 /// @param params The parameters of the text entity.
 /// @return The created Entity.
 [[nodiscard]] Entity
-createText(ECSRegistry& registry, const TextParameters& params);
+createText(
+    ECSRegistry& registry,
+    std::string_view content,
+    const TextParameters& params = {}
+);
 
 } // namespace lili

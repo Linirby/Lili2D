@@ -85,7 +85,15 @@ App::spawnRandomBall()
         registry,
         getRenderer(),
         "circle.png",
-        { .color = color, .pos = pos, .scale = { scale, scale } }
+        {
+            .transform{
+                .pos = pos,
+                .scale = { scale, scale },
+            },
+            .render2d{
+                .color = color,
+            },
+        }
     );
     registry.emplaceComponent<VelocityComponent>(ent, vel);
     spawned_entities.push_back(ent);

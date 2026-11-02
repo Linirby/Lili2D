@@ -35,11 +35,11 @@ App::App()
     rect = createRect(
         ecs_reg,
         {
-            .color = Vec4(1.0f, 1.0f, 1.0f, 1.0f),
-            .pos = Vec2(0.0f, 0.0f),
-            .size = Vec2(400.0f, 400.0f),
-            .material_id = mat_reg.getMaterialID("custom:rect"),
-            .render_pass = lili::RenderLayer::UI,
+            .render2d{
+                .size = Vec2(400.0f, 400.0f),
+                .material_id = mat_reg.getMaterialID("custom:rect"),
+                .render_pass = lili::RenderLayer::UI,
+            },
         }
     );
     ecs_reg.addComponents(rect, UILayoutComponent{});

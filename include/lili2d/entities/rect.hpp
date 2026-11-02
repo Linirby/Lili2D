@@ -10,9 +10,7 @@ namespace lili {
 struct RectParameters
 {
     TransformComponent transform{};
-    Render2DComponent render2d = Render2DComponent{
-        .size = { 10.0f, 10.0f },
-    };
+    Render2DComponent render2d{};
     RectComponent rect{};
 };
 
@@ -26,6 +24,6 @@ struct RectParameters
 /// @param params The parameters of the rect.
 /// @return The created Entity.
 [[nodiscard]] Entity
-createRect(ECSRegistry& registry, const RectParameters& params);
+createRect(ECSRegistry& registry, const RectParameters& params = {});
 
 } // namespace lili

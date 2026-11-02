@@ -24,6 +24,6 @@ struct LineParameters
 /// @param params The parameters of the line.
 /// @return The created Entity.
 [[nodiscard]] Entity
-createLine(ECSRegistry& registry, const LineParameters& params);
+createLine(ECSRegistry& registry, const LineParameters& params = {});
 
 } // namespace lili

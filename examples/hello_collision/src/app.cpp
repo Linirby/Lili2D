@@ -17,9 +17,10 @@ App::App()
     cursor_rect = createRect(
         registry,
         {
-            .color = Vec4(0.0f, 0.0f, 1.0f, 1.0f),
-            .pos = Vec2(0.0f, 0.0f),
-            .size = Vec2(75.0f, 75.0f),
+            .render2d{
+                .color = Vec4(0.0f, 0.0f, 1.0f, 1.0f),
+                .size = Vec2(75.0f, 75.0f),
+            },
         }
     );
     registry.addComponents(cursor_rect, CursorComponent{ ShapeMode::RECT });
@@ -27,15 +28,11 @@ App::App()
     cursor_circle = createCircle(
         registry,
         {
-            .transform{
-                .pos = Vec2(0.0f, 0.0f),
-            },
             .render2d{
                 .color = Vec4(0.0f, 0.0f, 1.0f, 1.0f),
             },
             .circle{
                 .radius = 30.0f,
-                .segments = 16,
             },
         }
     );
@@ -44,10 +41,12 @@ App::App()
     cursor_line = createLine(
         registry,
         {
-            .color = Vec4(0.0f, 0.0f, 1.0f, 1.0f),
-            .start_pos = Vec2(0.0f, 0.0f),
-            .end_pos = Vec2(0.0f, 0.0f),
-            .thickness = 3.0f,
+            .render2d{
+                .color = Vec4(0.0f, 0.0f, 1.0f, 1.0f),
+            },
+            .line{
+                .thickness = 3.0f,
+            },
         }
     );
     registry.addComponents(cursor_line, CursorComponent{ ShapeMode::LINE });
@@ -55,22 +54,27 @@ App::App()
     random_rect = createRect(
         registry,
         {
-            .color = Vec4(1.0f, 0.0f, 0.0f, 1.0f),
-            .pos = Vec2(400.0f, 400.0f),
-            .size = Vec2(100.0f, 100.0f),
-            .layer = -1.0f,
+            .transform{
+                .pos = Vec2(400.0f, 400.0f),
+            },
+            .render2d{
+                .color = Vec4(1.0f, 0.0f, 0.0f, 1.0f),
+                .size = Vec2(100.0f, 100.0f),
+                .layer = -1.0f,
+            },
         }
     );
 
     line_debug_box = createRect(
         registry,
         {
-            .color = Vec4(0.0f, 1.0f, 0.0f, 1.0f),
-            .pos = Vec2(0.0f, 0.0f),
-            .size = Vec2(0.0f, 0.0f),
-            .thickness = 1.0f,
-            .hollow = true,
-            .is_visible = false,
+            .render2d{
+                .color = Vec4(0.0f, 1.0f, 0.0f, 1.0f),
+                .is_visible = false,
+            },
+            .rect{
+                .hollow = true,
+            },
         }
     );
 

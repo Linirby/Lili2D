@@ -20,10 +20,14 @@ App::App()
     red_square = createRect(
         registry,
         {
-            .color = Vec4(1.0f, 0.0f, 0.0f, 1.0f),
-            .pos = Vec2(100.0f, 400.0f),
-            .size = Vec2(64.0f, 96.0f),
-            .layer = static_cast<float>(red_square_layer),
+            .transform{
+                .pos = Vec2(100.0f, 400.0f),
+            },
+            .render2d{
+                .color = Vec4(1.0f, 0.0f, 0.0f, 1.0f),
+                .size = Vec2(64.0f, 96.0f),
+                .layer = static_cast<float>(red_square_layer),
+            },
         }
     );
 
@@ -32,7 +36,14 @@ App::App()
         registry,
         renderer,
         "layer_1.png",
-        { .pos = window_size * 0.5, .layer = 1.0f }
+        {
+            .transform{
+                .pos = window_size * 0.5,
+            },
+            .render2d{
+                .layer = 1.0f,
+            },
+        }
     );
     registry.getComponent<Render2DComponent>(layer_1).size = window->getSize();
 
@@ -40,7 +51,14 @@ App::App()
         registry,
         renderer,
         "layer_2.png",
-        { .pos = window_size * 0.5, .layer = 0.0f }
+        {
+            .transform{
+                .pos = window_size * 0.5,
+            },
+            .render2d{
+                .layer = 0.0f,
+            },
+        }
     );
     registry.getComponent<Render2DComponent>(layer_2).size = window->getSize();
 
@@ -48,7 +66,14 @@ App::App()
         registry,
         renderer,
         "layer_3.png",
-        { .pos = window_size * 0.5, .layer = -1.0f }
+        {
+            .transform{
+                .pos = window_size * 0.5,
+            },
+            .render2d{
+                .layer = -1.0f,
+            },
+        }
     );
     registry.getComponent<Render2DComponent>(layer_3).size = window->getSize();
 

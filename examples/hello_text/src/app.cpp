@@ -26,13 +26,19 @@ App::App()
     text_rotation = 0.0f;
     welcome_text = createText(
         registry,
-        font_example,
-        TextParameters{
-            .text = "Welcome to Lili2d!",
-            .scale = Vec2(3.0f, 3.0f),
-            .rotation = text_rotation,
-            .spacing = letter_spacing,
-            .render_pass = lili::RenderLayer::UI,
+        {
+            .content = "Welcome to Lili2d!",
+            .transform{
+                .scale = Vec2(3.0f, 3.0f),
+                .rotation = text_rotation,
+            },
+            .render2d{
+                .render_pass = lili::RenderLayer::UI,
+            },
+            .text{
+                .font = font_example,
+                .spacing = letter_spacing,
+            },
         }
     );
     registry.addComponents(welcome_text, UILayoutComponent{});

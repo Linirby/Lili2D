@@ -24,6 +24,6 @@ struct CircleParameters
 /// @param params The parameters for the circle.
 /// @return The created Entity.
 [[nodiscard]] Entity
-createCircle(ECSRegistry& registry, const CircleParameters& params);
+createCircle(ECSRegistry& registry, const CircleParameters& params = {});
 
 } // namespace lili

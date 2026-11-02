@@ -22,10 +22,14 @@ spawnBall(
         registry,
         renderer,
         "circle.png",
-        SpriteParameters{
-            .color = color,
-            .pos = pos,
-            .scale = { scale, scale },
+        {
+            .transform{
+                .pos = pos,
+                .scale = { scale, scale },
+            },
+            .render2d{
+                .color = color,
+            },
         }
     );
     registry.addComponents(entity, VelocityComponent{ .value = vel });

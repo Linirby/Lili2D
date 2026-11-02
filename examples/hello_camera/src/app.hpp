@@ -18,13 +18,13 @@ private:
     lili::Entity green_rect;
     lili::Entity blue_rect;
 
-    lili::Text text_cam_pos;
-    lili::Text text_controls;
+    lili::Entity text_cam_pos;
+    lili::Entity text_controls;
+
+    static constexpr size_t MAX_CAM_TEXT_LENGTH = 64;
 
     void
     onEvent(const lili::Event& event) override;
     void
     onUpdate(float dt) override;
-    void
-    onRender(float alpha) override;
 };

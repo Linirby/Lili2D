@@ -40,7 +40,7 @@ createSprite(
     ECSRegistry& registry,
     Renderer* renderer,
     const std::string& img_path,
-    SpriteParameters params
+    SpriteParameters params = {}
 );
 
 /// @brief Creates a 2D Sprite entity from an existing UV slice.
@@ -57,7 +57,7 @@ createSprite(
 createSprite(
     ECSRegistry& registry,
     const SliceUV& sliceUV,
-    SpriteParameters params
+    SpriteParameters params = {}
 );
 
 } // namespace lili

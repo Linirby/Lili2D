@@ -19,29 +19,47 @@ App::App()
     thin_line = createLine(
         registry,
         {
-            .color = Vec4(0.0f, 1.0f, 0.0f, 1.0f),
-            .start_pos = Vec2(50.0f, 50.0f),
-            .end_pos = Vec2(100.0f, 300.0f),
-            .thickness = 1.0f,
+            .transform{
+                .pos = Vec2(50.0f, 50.0f),
+            },
+            .render2d{
+                .color = Vec4(0.0f, 1.0f, 0.0f, 1.0f),
+            },
+            .line{
+                .dxy = Vec2(50.0f, 250.0f),
+            },
         }
     );
     large_line = createLine(
         registry,
         {
-            .color = Vec4(0.0f, 1.0f, 0.0f, 1.0f),
-            .start_pos = { 100.0f, 50.0f },
-            .end_pos = { 150.0f, 300.0f },
-            .thickness = 5.0f,
+            .transform{
+                .pos = Vec2(100.0f, 50.0f),
+            },
+            .render2d{
+                .color = Vec4(0.0f, 1.0f, 0.0f, 1.0f),
+            },
+            .line{
+                .dxy = Vec2(50.0f, 250.0f),
+                .thickness = 5.0f,
+            },
         }
     );
 
     rect = createRect(
         registry,
         {
-            .color = Vec4(1.0f, 0.0f, 0.0f, 1.0f),
-            .pos = Vec2(325.0f, 225.0f),
-            .size = Vec2(100.0f, 50.0f),
-            .thickness = 2.0f,
+            .transform{
+                .pos = Vec2(325.0f, 225.0f),
+            },
+            .render2d{
+
+                .color = Vec4(1.0f, 0.0f, 0.0f, 1.0f),
+                .size = Vec2(100.0f, 50.0f),
+            },
+            .rect{
+                .thickness = 2.0f,
+            },
         }
     );
 
@@ -49,7 +67,7 @@ App::App()
         registry,
         {
             .transform{
-                .pos = Vec2(250.0f, 250.0f),
+                .pos = Vec2(250.0f, 125.0f),
             },
             .render2d{
                 .color = Vec4(0.0f, 0.0f, 1.0f, 1.0f),

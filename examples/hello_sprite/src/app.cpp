@@ -13,9 +13,11 @@ App::onInit()
         renderer,
         "baguette.jpg",
         {
-            .pos = Vec2(400.0f, 400.0f),
-            .scale = Vec2(0.5f, 0.5f),
-            .rotation = 45.0f,
+            .transform{
+                .pos = Vec2(400.0f, 400.0f),
+                .scale = Vec2(0.5f, 0.5f),
+                .rotation = 45.0f,
+            },
         }
     );
     registry.addComponents(

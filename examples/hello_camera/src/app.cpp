@@ -7,6 +7,7 @@
 #include <lili2d/core/action_map.hpp>
 #include <lili2d/entities/circle.hpp>
 #include <lili2d/entities/rect.hpp>
+#include <lili2d/entities/text.hpp>
 #include <lili2d/geometry/vec2.hpp>
 #include <lili2d/geometry/vec4.hpp>
 #include <lili2d/render/gpu/pass_types.hpp>
@@ -51,50 +52,76 @@ App::App()
     red_rect = createRect(
         registry,
         {
-            .color = Vec4(1.0f, 0.0f, 0.0f, 1.0f),
-            .pos = Vec2(250.0f, 200.0f),
-            .size = Vec2(100.0f, 50.0f),
-            .scale = Vec2(1.0f, 1.0f),
-            .rotation = 0.0f,
+            .transform{
+                .pos = Vec2(250.0f, 200.0f),
+            },
+            .render2d{
+                .color = Vec4(1.0f, 0.0f, 0.0f, 1.0f),
+                .size = Vec2(100.0f, 50.0f),
+            },
         }
     );
     green_rect = createRect(
         registry,
         {
-            .color = Vec4(0.0f, 1.0f, 0.0f, 1.0f),
-            .pos = Vec2(100.0f, 100.0f),
-            .size = Vec2(75.0f, 75.0f),
-            .scale = Vec2(1.0f, 1.0f),
-            .rotation = 0.0f,
+            .transform{
+                .pos = Vec2(100.0f, 100.0f),
+            },
+            .render2d{
+                .color = Vec4(0.0f, 1.0f, 0.0f, 1.0f),
+                .size = Vec2(75.0f, 75.0f),
+            },
         }
     );
     blue_rect = createRect(
         registry,
         {
-            .color = Vec4(0.0f, 0.0f, 1.0f, 1.0f),
-            .pos = Vec2(400.0f, 250.0f),
-            .size = Vec2(50.0f, 200.0f),
-            .scale = Vec2(1.0f, 1.0f),
-            .rotation = 0.0f,
+            .transform{
+                .pos = Vec2(400.0f, 250.0f),
+            },
+            .render2d{
+                .color = Vec4(0.0f, 0.0f, 1.0f, 1.0f),
+                .size = Vec2(50.0f, 200.0f),
+            },
         }
     );
 
     BitmapFont* font = renderer->getDefaultFont();
-    text_cam_pos = Text(renderer, font, "");
-    text_cam_pos.setScale(2.0f);
-    text_cam_pos.setOffset({ 0.0f, 10.0f });
-    text_cam_pos.setRender(RenderLayer::UI);
-    text_cam_pos.setAnchor(Anchor::TOP);
-    text_cam_pos.setPivot(Pivot::TOP);
-
-    text_controls = Text(
-        renderer, font, "IJKL/WASD = move the camera | ZX/LMB RMB = zoom/dezoom"
+    text_cam_pos = createText(
+        registry,
+        std::string("", MAX_CAM_TEXT_LENGTH),
+        {
+            .transform{ .scale = Vec2(2.0f, 2.0f) },
+            .render2d{ .render_pass = lili::RenderLayer::UI },
+            .text{ .font = font },
+        }
     );
-    text_controls.setScale(1.6f);
-    text_controls.setOffset({ 0.0f, 32.0f });
-    text_controls.setRender(RenderLayer::UI);
-    text_controls.setAnchor(Anchor::TOP);
-    text_controls.setPivot(Pivot::TOP);
+    registry.addComponents(
+        text_cam_pos,
+        UILayoutComponent{
+            .offset = Vec2(0.0f, 10.0f),
+            .anchor = lili::Anchor::TOP,
+            .pivot = lili::Pivot::TOP,
+        }
+    );
+
+    text_controls = createText(
+        registry,
+        "IJKL/WASD = move the camera | ZX/LMB RMB = zoom/dezoom",
+        {
+            .transform{ .scale = Vec2(1.6f, 1.6f) },
+            .render2d{ .render_pass = lili::RenderLayer::UI },
+            .text{ .font = font },
+        }
+    );
+    registry.addComponents(
+        text_controls,
+        UILayoutComponent{
+            .offset = Vec2(0.0f, 32.0f),
+            .anchor = lili::Anchor::TOP,
+            .pivot = lili::Pivot::TOP,
+        }
+    );
 
     ActionMap& action_map = ActionMap::get();
     action_map.add("Up", { Key::I, Key::W, Key::UP });
@@ -142,20 +169,18 @@ App::onUpdate(float dt)
         camera_zoom -= 2.0f * dt;
     camera.setZoom(camera_zoom);
 
-    text_cam_pos.setText(
-        std::format(
-            "Camera Position: (X={}, Y={})",
-            static_cast<int>(cam_pos.x),
-            static_cast<int>(cam_pos.x)
-        )
+    ECSRegistry& ecs_reg = getECSRegistry();
+    auto& text_comp = ecs_reg.getComponent<TextComponent>(text_cam_pos);
+    std::vector<char>& content = ecs_reg.getStringArena().getContent();
+
+    auto [out, count] = std::format_to_n(
+        content.data() + text_comp.offset,
+        MAX_CAM_TEXT_LENGTH,
+        "Camera Position: (X={}, Y={})",
+        static_cast<int>(cam_pos.x),
+        static_cast<int>(cam_pos.y)
     );
-}
-
-void
-App::onRender(float alpha)
-{
-    Game::onRender(alpha);
-
-    text_cam_pos.draw();
-    text_controls.draw();
+    text_comp.length =
+        static_cast<uint32_t>(out - (content.data() + text_comp.offset));
+    content[text_comp.offset + text_comp.length] = '\0';
 }

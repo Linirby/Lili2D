@@ -11,7 +11,12 @@ App::addBaguette(ECSRegistry& registry, Renderer* renderer, Vec2 pos)
         registry,
         renderer,
         "baguette.jpg",
-        { .pos = pos, .scale = Vec2(0.5f, 0.5f) }
+        {
+            .transform{
+                .pos = pos,
+                .scale = Vec2(0.5f, 0.5f),
+            },
+        }
     );
     spawned.push_back(e);
 }
@@ -28,13 +33,19 @@ App::addRect(
 {
     Entity e = createRect(
         registry,
-        { .color = color,
-          .pos = pos,
-          .size = size,
-          .scale = Vec2(1.0f, 1.0f),
-          .rotation = 0.0f,
-          .thickness = thickness,
-          .hollow = hollow }
+        {
+            .transform{
+                .pos = pos,
+            },
+            .render2d{
+                .color = color,
+                .size = size,
+            },
+            .rect{
+                .thickness = thickness,
+                .hollow = hollow,
+            },
+        }
     );
     spawned.push_back(e);
 }
@@ -79,10 +90,18 @@ App::addLine(
 {
     Entity e = createLine(
         registry,
-        { .color = color,
-          .start_pos = start_pos,
-          .end_pos = end_pos,
-          .thickness = thickness }
+        {
+            .transform{
+                .pos = start_pos,
+            },
+            .render2d{
+                .color = color,
+            },
+            .line{
+                .dxy = end_pos - start_pos,
+                .thickness = thickness,
+            },
+        }
     );
     spawned.push_back(e);
 }

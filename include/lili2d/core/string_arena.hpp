@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <format>
 #include <string_view>
 #include <vector>
 
@@ -23,6 +24,37 @@ public:
     /// @return The offset of where the text is add.
     uint32_t
     append(std::string_view text);
+
+    /// @brief Formats a string directly into a pre-allocated slot in the arena.
+    /// @param offset The starting index in the arena.
+    /// @param max_capacity Maximum number of characters to write (excluding
+    /// '\0').
+    /// @param fmt The std::format format string.
+    /// @param args Arguments to format.
+    /// @return Number of characters written.
+    template<typename... Args>
+    uint32_t
+    formatAt(
+        uint32_t offset,
+        uint32_t max_capacity,
+        std::format_string<Args...> fmt,
+        Args&&... args
+    )
+    {
+        if (offset >= content.size())
+            return 0;
+
+        uint32_t available = static_cast<uint32_t>(content.size() - 1 - offset);
+        uint32_t limit = std::min(max_capacity, available);
+
+        auto [out, count] = std::format_to_n(
+            content.data() + offset, limit, fmt, std::forward<Args>(args)...
+        );
+
+        uint32_t len = static_cast<uint32_t>(out - (content.data() + offset));
+        content[offset + len] = '\0';
+        return len;
+    }
 
     void
     free(uint32_t offset, uint32_t length)

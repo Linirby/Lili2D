@@ -26,8 +26,8 @@ App::App()
     text_rotation = 0.0f;
     welcome_text = createText(
         registry,
+        "Welcome to Lili2d!",
         {
-            .content = "Welcome to Lili2d!",
             .transform{
                 .scale = Vec2(3.0f, 3.0f),
                 .rotation = text_rotation,

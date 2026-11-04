@@ -5,6 +5,7 @@
 #include <lili2d/components/render2d.hpp>
 #include <lili2d/components/transform.hpp>
 #include <lili2d/core/action_map.hpp>
+#include <lili2d/core/string_arena.hpp>
 #include <lili2d/entities/circle.hpp>
 #include <lili2d/entities/rect.hpp>
 #include <lili2d/entities/text.hpp>
@@ -89,7 +90,7 @@ App::App()
     BitmapFont* font = renderer->getDefaultFont();
     text_cam_pos = createText(
         registry,
-        std::string("", MAX_CAM_TEXT_LENGTH),
+        std::string(MAX_CAM_TEXT_LENGTH, ' '),
         {
             .transform{ .scale = Vec2(2.0f, 2.0f) },
             .render2d{ .render_pass = lili::RenderLayer::UI },
@@ -170,17 +171,14 @@ App::onUpdate(float dt)
     camera.setZoom(camera_zoom);
 
     ECSRegistry& ecs_reg = getECSRegistry();
+    StringArena& string_arena = ecs_reg.getStringArena();
     auto& text_comp = ecs_reg.getComponent<TextComponent>(text_cam_pos);
-    std::vector<char>& content = ecs_reg.getStringArena().getContent();
 
-    auto [out, count] = std::format_to_n(
-        content.data() + text_comp.offset,
+    text_comp.length = string_arena.formatAt(
+        text_comp.offset,
         MAX_CAM_TEXT_LENGTH,
-        "Camera Position: (X={}, Y={})",
-        static_cast<int>(cam_pos.x),
-        static_cast<int>(cam_pos.y)
+        "Camera Position: (X={:.1f}, Y={:.1f})",
+        cam_pos.x,
+        cam_pos.y
     );
-    text_comp.length =
-        static_cast<uint32_t>(out - (content.data() + text_comp.offset));
-    content[text_comp.offset + text_comp.length] = '\0';
 }

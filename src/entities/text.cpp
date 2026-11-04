@@ -10,41 +10,6 @@
 
 namespace lili {
 
-namespace {
-
-[[nodiscard]] Vec2
-calculateTextSize(BitmapFont* font, std::string_view text, float spacing)
-{
-    if (!font || text.empty())
-        return { 0.0f, 0.0f };
-
-    const float glyph_w = static_cast<float>(font->getGlyphW());
-    const float glyph_h = static_cast<float>(font->getGlyphH());
-    const float advance = glyph_w + spacing;
-    const float abs_advance = std::abs(advance);
-
-    float max_w = 0.0f;
-    float line_count = 1.0f;
-    size_t line_chars = 0;
-
-    for (char c : text) {
-        if (c == '\n') {
-            line_count += 1.0f;
-            line_chars = 0;
-        } else {
-            ++line_chars;
-            float w =
-                glyph_w + static_cast<float>(line_chars - 1) * abs_advance;
-            if (w > max_w)
-                max_w = w;
-        }
-    }
-
-    return { max_w, line_count * glyph_h };
-}
-
-} // namespace
-
 Entity
 createText(
     ECSRegistry& registry,
@@ -56,7 +21,9 @@ createText(
 
     Render2DComponent render2d = params.render2d;
     render2d.size =
-        calculateTextSize(params.text.font, content, params.text.spacing);
+        params.text.font
+            ? params.text.font->calculateTextSize(content, params.text.spacing)
+            : Vec2{ 0.0f, 0.0f };
 
     TextComponent text = params.text;
     text.glyph_size = params.text.font ? params.text.font->getGlyphSize()

@@ -2,6 +2,7 @@
 
 #include "cursor.hpp"
 #include <lili2d/core/game.hpp>
+#include <lili2d/ecs/entity.hpp>
 
 class App : public lili::Game
 {
@@ -16,6 +17,8 @@ private:
     lili::Entity cursor_line;
     lili::Entity random_rect;
     lili::Entity line_debug_box;
+
+    lili::Entity instruction_text;
 
     void
     onEvent(const lili::Event& event) override;

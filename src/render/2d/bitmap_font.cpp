@@ -1,4 +1,5 @@
 #include "lili2d/render/2d/bitmap_font.hpp"
+#include <cmath>
 
 namespace lili {
 
@@ -85,6 +86,37 @@ BitmapFont::glyphUv(char c) const noexcept
     float v1 = (CURRENT_Y + 1) * DELTA_V - eps_v;
 
     return GlyphUV(u0, v0, u1, v1);
+}
+
+Vec2
+BitmapFont::calculateTextSize(std::string_view text, float spacing)
+    const noexcept
+{
+    if (text.empty())
+        return { 0.0f, 0.0f };
+
+    const float g_w = static_cast<float>(glyph_w);
+    const float g_h = static_cast<float>(glyph_h);
+    const float advance = g_w + spacing;
+    const float abs_advance = std::abs(advance);
+
+    float max_w = 0.0f;
+    float line_count = 1.0f;
+    size_t line_chars = 0;
+
+    for (char c : text) {
+        if (c == '\n') {
+            line_count += 1.0f;
+            line_chars = 0;
+        } else {
+            ++line_chars;
+            float w = g_w + static_cast<float>(line_chars - 1) * abs_advance;
+            if (w > max_w)
+                max_w = w;
+        }
+    }
+
+    return { max_w, line_count * g_h };
 }
 
 } // namespace lili

@@ -87,14 +87,12 @@ App::App()
         }
     );
 
-    BitmapFont* font = renderer->getDefaultFont();
     text_cam_pos = createText(
         registry,
         std::string(MAX_CAM_TEXT_LENGTH, ' '),
         {
             .transform{ .scale = Vec2(2.0f, 2.0f) },
             .render2d{ .render_pass = lili::RenderLayer::UI },
-            .text{ .font = font },
         }
     );
     registry.addComponents(
@@ -112,7 +110,6 @@ App::App()
         {
             .transform{ .scale = Vec2(1.6f, 1.6f) },
             .render2d{ .render_pass = lili::RenderLayer::UI },
-            .text{ .font = font },
         }
     );
     registry.addComponents(
@@ -171,10 +168,9 @@ App::onUpdate(float dt)
     camera.setZoom(camera_zoom);
 
     ECSRegistry& ecs_reg = getECSRegistry();
-    StringArena& string_arena = ecs_reg.getStringArena();
     auto& text_comp = ecs_reg.getComponent<TextComponent>(text_cam_pos);
 
-    text_comp.length = string_arena.formatAt(
+    text_comp.length = ecs_reg.getStringArena().formatAt(
         text_comp.offset,
         MAX_CAM_TEXT_LENGTH,
         "Camera Position: (X={:.1f}, Y={:.1f})",

@@ -13,7 +13,6 @@
 #include "lili2d/ecs/entity.hpp"
 #include "lili2d/render/2d/bitmap_font.hpp"
 #include "lili2d/render/2d/dynamic_batch.hpp"
-#include "lili2d/render/common/atlas_map.hpp"
 #include "lili2d/render/gpu/texture.hpp"
 #include <algorithm>
 #include <cstdint>
@@ -27,7 +26,8 @@ void
 Render2DSystem::render(
     ECSRegistry& registry,
     DynamicBatch& batch,
-    Texture* the_white_pixel
+    Texture* the_white_pixel,
+    BitmapFont* default_font
 )
 {
     batch.begin();
@@ -44,7 +44,7 @@ Render2DSystem::render(
     pushRects(registry, the_white_pixel);
     pushCircles(registry, the_white_pixel);
     pushLines(registry, the_white_pixel);
-    pushTexts(registry);
+    pushTexts(registry, default_font);
 
     current_layer = std::numeric_limits<float>::min();
     current_render_pass = RenderLayer::UNDEFINE;
@@ -285,17 +285,24 @@ Render2DSystem::pushLines(ECSRegistry& registry, Texture* the_white_pixel)
 }
 
 void
-Render2DSystem::pushTexts(ECSRegistry& registry)
+Render2DSystem::pushTexts(ECSRegistry& registry, BitmapFont* default_font)
 {
     auto text_view =
         registry.view<Render2DComponent, TransformComponent, TextComponent>();
 
-    text_view.each([](Entity entity,
-                      Render2DComponent& render2d,
-                      TransformComponent& trans,
-                      TextComponent& text) {
-        if (!render2d.is_visible || !text.font)
+    text_view.each([default_font](
+                       Entity entity,
+                       Render2DComponent& render2d,
+                       TransformComponent& trans,
+                       TextComponent& text
+                   ) {
+        if (!render2d.is_visible)
             return;
+        if (!text.font) {
+            text.font = default_font;
+            if (text.font)
+                text.glyph_size = text.font->getGlyphSize();
+        }
         items.push_back(
             DrawItem{
                 .texture = text.font->getTexture(),

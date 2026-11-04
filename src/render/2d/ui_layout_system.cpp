@@ -2,6 +2,7 @@
 #include "lili2d/components/circle.hpp"
 #include "lili2d/components/line.hpp"
 #include "lili2d/components/render2d.hpp"
+#include "lili2d/components/text.hpp"
 #include "lili2d/components/transform.hpp"
 #include "lili2d/components/ui_layout.hpp"
 #include "lili2d/geometry/vec2.hpp"
@@ -26,6 +27,20 @@ UILayoutSystem::updateEntity(
     } else if (registry.hasComponent<LineComponent>(entity)) {
         Vec2 dxy = registry.getComponent<LineComponent>(entity).dxy;
         base_size = { std::abs(dxy.x), std::abs(dxy.y) };
+    } else if (registry.hasComponent<TextComponent>(entity)) {
+        auto& text = registry.getComponent<TextComponent>(entity);
+        if (!text.font) {
+            text.font = default_font;
+            if (text.font)
+                text.glyph_size = text.font->getGlyphSize();
+        }
+        if (text.font) {
+            std::string_view str = registry.getStringArena().getStringView(
+                text.offset, text.length
+            );
+            base_size = text.font->calculateTextSize(str, text.spacing);
+            render2d.size = base_size;
+        }
     }
 
     Vec2 obj_size =
@@ -40,12 +55,14 @@ void
 UILayoutSystem::update(
     ECSRegistry& registry,
     Vec2 viewport_size,
-    ThreadPool* thread_pool
+    ThreadPool* thread_pool,
+    BitmapFont* default_font
 )
 {
     (void)registry.getPool<CircleComponent>();
     (void)registry.getPool<LineComponent>();
-    UILayoutSystem sys(viewport_size);
+    (void)registry.getPool<TextComponent>();
+    UILayoutSystem sys(viewport_size, default_font);
     sys.run(registry, 0.0f, thread_pool);
 }
 

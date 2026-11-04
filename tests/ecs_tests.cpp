@@ -3,7 +3,11 @@
 #include <string>
 #include <vector>
 
+#include "lili2d/components/render2d.hpp"
+#include "lili2d/components/transform.hpp"
+#include "lili2d/components/ui_layout.hpp"
 #include "lili2d/ecs.hpp"
+#include "lili2d/render/2d/ui_layout_system.hpp"
 
 using namespace lili;
 
@@ -329,4 +333,43 @@ TEST_CASE("ECS System<...Components> and addComponents", "[ecs][system]")
         CHECK(pos.x == 1.0f * id + 5.0f);
         CHECK(pos.y == 2.0f * id + 10.0f);
     }
+}
+
+TEST_CASE("UILayoutSystem - Pivot and Anchor calculations", "[ecs][ui_layout]")
+{
+    ECSRegistry registry;
+    Entity e = registry.createEntity();
+    registry.addComponents(
+        e,
+        TransformComponent{ .scale = { 2.0f, 2.0f } },
+        Render2DComponent{ .size = { 100.0f, 50.0f } },
+        UILayoutComponent{
+            .anchor = Anchor::BOTTOM_RIGHT,
+            .pivot = Pivot::BOTTOM_RIGHT,
+        }
+    );
+
+    UILayoutSystem::update(registry, Vec2{ 800.0f, 600.0f });
+
+    auto& trans = registry.getComponent<TransformComponent>(e);
+    // obj_size = 100 * 2 = 200, 50 * 2 = 100
+    // anchor = 800, 600
+    // pivot_point = 200, 100
+    // topleft = 800 - 200 = 600, 600 - 100 = 500
+    // trans.pos = topleft + obj_size * 0.5f = 600 + 100 = 700, 500 + 50 = 550
+    CHECK(trans.pos.x == 700.0f);
+    CHECK(trans.pos.y == 550.0f);
+
+    registry.getComponent<UILayoutComponent>(e).pivot = Pivot::TOP_LEFT;
+    registry.getComponent<UILayoutComponent>(e).anchor = Anchor::TOP_LEFT;
+    registry.getComponent<UILayoutComponent>(e).offset = { 10.0f, 20.0f };
+
+    UILayoutSystem::update(registry, Vec2{ 800.0f, 600.0f });
+    // obj_size = 200, 100
+    // anchor = 0, 0
+    // pivot_point = 0, 0
+    // topleft = 10, 20
+    // trans.pos = 10 + 100 = 110, 20 + 50 = 70
+    CHECK(trans.pos.x == 110.0f);
+    CHECK(trans.pos.y == 70.0f);
 }

@@ -125,7 +125,12 @@ void
 Game::onUpdate(float dt)
 {
     ActionMap::get().update();
-    UILayoutSystem::update(ecs_registry, window->getSize(), thread_pool.get());
+    UILayoutSystem::update(
+        ecs_registry,
+        window->getSize(),
+        thread_pool.get(),
+        renderer->getDefaultFont()
+    );
 
     clock.update();
 }
@@ -134,7 +139,10 @@ void
 Game::onRender(float alpha)
 {
     Render2DSystem::render(
-        ecs_registry, *dynamic_batch, renderer->getTheWhitePixel()
+        ecs_registry,
+        *dynamic_batch,
+        renderer->getTheWhitePixel(),
+        renderer->getDefaultFont()
     );
 }
 

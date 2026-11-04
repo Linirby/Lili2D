@@ -88,7 +88,8 @@ public:
     render(
         ECSRegistry& registry,
         DynamicBatch& batch,
-        Texture* the_white_pixel
+        Texture* the_white_pixel,
+        BitmapFont* default_font
     );
 
 private:
@@ -109,7 +110,7 @@ private:
     static void
     pushLines(ECSRegistry& registry, Texture* the_white_pixel);
     static void
-    pushTexts(ECSRegistry& registry);
+    pushTexts(ECSRegistry& registry, BitmapFont* default_font);
 
     static bool
     compareIndex(uint32_t idx_a, uint32_t idx_b)

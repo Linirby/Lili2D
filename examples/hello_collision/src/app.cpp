@@ -1,11 +1,14 @@
 #include "app.hpp"
 
+#include <lili2d/components/ui_layout.hpp>
 #include <lili2d/core/action_map.hpp>
 #include <lili2d/entities/circle.hpp>
 #include <lili2d/entities/line.hpp>
 #include <lili2d/entities/rect.hpp>
+#include <lili2d/entities/text.hpp>
 #include <lili2d/geometry/vec2.hpp>
 #include <lili2d/geometry/vec4.hpp>
+#include <lili2d/render/gpu/pass_types.hpp>
 
 using namespace lili;
 
@@ -75,6 +78,26 @@ App::App()
             .rect{
                 .hollow = true,
             },
+        }
+    );
+
+    instruction_text = createText(
+        registry,
+        "KEYS:\n"
+        "- rect: 1\n"
+        "- circle: 2\n"
+        "- line: 3",
+        {
+            .transform{ .scale = { 3.0f, 3.0f } },
+            .render2d{ .render_pass = lili::RenderLayer::UI },
+        }
+    );
+    registry.addComponents(
+        instruction_text,
+        UILayoutComponent{
+            .offset = { -10.0f, -10.0f },
+            .anchor = lili::Anchor::BOTTOM_RIGHT,
+            .pivot = lili::Pivot::BOTTOM_RIGHT,
         }
     );
 

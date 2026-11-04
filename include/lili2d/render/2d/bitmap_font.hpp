@@ -3,6 +3,7 @@
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/render/gpu/texture.hpp"
 #include "lili2d/render/renderer.hpp"
+#include <string_view>
 
 namespace lili {
 
@@ -101,6 +102,16 @@ public:
     /// @return The UV coordinates.
     [[nodiscard]] GlyphUV
     glyphUv(char c) const noexcept;
+
+    /// @brief Calculates the bounding box size of the given text in pixels.
+    /// @param text The text to measure.
+    /// @param spacing Additional letter spacing.
+    /// @return The Vec2 (.x = width, .y = height).
+    [[nodiscard]] Vec2
+    calculateTextSize(
+        std::string_view text,
+        float spacing = 1.0f
+    ) const noexcept;
 
 private:
     std::unique_ptr<Texture> texture = nullptr;

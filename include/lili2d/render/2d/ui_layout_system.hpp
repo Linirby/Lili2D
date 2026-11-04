@@ -10,14 +10,20 @@
 
 namespace lili {
 
+class BitmapFont;
+
 /// @brief System that computes screen-space positions for entities with
 /// UILayoutComponent.
 class UILayoutSystem
   : public System<UILayoutComponent, Render2DComponent, TransformComponent>
 {
 public:
-    explicit UILayoutSystem(Vec2 viewport_size = {}) noexcept
+    explicit UILayoutSystem(
+        Vec2 viewport_size = {},
+        BitmapFont* default_font = nullptr
+    ) noexcept
       : viewport_size(viewport_size)
+      , default_font(default_font)
     {
     }
 
@@ -25,6 +31,12 @@ public:
     setViewportSize(Vec2 size) noexcept
     {
         viewport_size = size;
+    }
+
+    inline void
+    setDefaultFont(BitmapFont* font) noexcept
+    {
+        default_font = font;
     }
 
     void
@@ -41,11 +53,13 @@ public:
     update(
         ECSRegistry& registry,
         Vec2 viewport_size,
-        ThreadPool* thread_pool = nullptr
+        ThreadPool* thread_pool = nullptr,
+        BitmapFont* default_font = nullptr
     );
 
 private:
     Vec2 viewport_size;
+    BitmapFont* default_font = nullptr;
 
     [[nodiscard]] static constexpr inline Vec2
     anchorToVector(Anchor anchor, Vec2 custom = {}) noexcept

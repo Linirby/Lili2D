@@ -1,10 +1,14 @@
 #include "app.hpp"
 
 #include <lili2d/components/render2d.hpp>
+#include <lili2d/components/text.hpp>
+#include <lili2d/components/ui_layout.hpp>
+#include <lili2d/core/string_arena.hpp>
 #include <lili2d/ecs/ecs_registry.hpp>
 #include <lili2d/entities/rect.hpp>
 #include <lili2d/entities/sprite.hpp>
 #include <lili2d/geometry/vec2.hpp>
+#include <lili2d/render/gpu/pass_types.hpp>
 #include <string>
 
 using namespace lili;
@@ -77,22 +81,39 @@ App::App()
     );
     registry.getComponent<Render2DComponent>(layer_3).size = window->getSize();
 
-    BitmapFont* font =
-        Assets::loadFont("lili_font", renderer, "lili_font.png", 16, 6);
-    text_current_layer = Text(renderer, font, "Current layer: 1");
-    text_current_layer.setScale(2.0f);
-    text_current_layer.setRender(RenderLayer::UI);
-    text_current_layer.setAnchor(Anchor::BOTTOM_LEFT);
-    text_current_layer.setPivot(Pivot::BOTTOM_LEFT);
-    text_current_layer.setOffset({ 10.0f, -32.0f });
+    text_current_layer = createText(
+        registry,
+        std::string(MAX_LAYER_TEXT_LENGTH, ' '),
+        {
+            .transform{ .scale = { 2.0f, 2.0f } },
+            .render2d{ .render_pass = lili::RenderLayer::UI },
+        }
+    );
+    registry.addComponents(
+        text_current_layer,
+        UILayoutComponent{
+            .offset = { 10.0f, -32.0f },
+            .anchor = lili::Anchor::BOTTOM_LEFT,
+            .pivot = lili::Pivot::BOTTOM_LEFT,
+        }
+    );
 
-    text_control_info =
-        Text(renderer, font, "I/K: Increase/decrease red rect layer");
-    text_control_info.setScale(2.0f);
-    text_control_info.setRender(RenderLayer::UI);
-    text_control_info.setAnchor(Anchor::BOTTOM_LEFT);
-    text_control_info.setPivot(Pivot::BOTTOM_LEFT);
-    text_control_info.setOffset({ 10.0f, -10.0f });
+    text_control_info = createText(
+        registry,
+        "I/K: Increase/decrease red rect layer",
+        {
+            .transform{ .scale = { 2.0f, 2.0f } },
+            .render2d{ .render_pass = lili::RenderLayer::UI },
+        }
+    );
+    registry.addComponents(
+        text_control_info,
+        UILayoutComponent{
+            .offset = { 10.0f, -10.0f },
+            .anchor = lili::Anchor::BOTTOM_LEFT,
+            .pivot = lili::Pivot::BOTTOM_LEFT,
+        }
+    );
 }
 
 void
@@ -101,6 +122,7 @@ App::onEvent(const Event& event)
     Game::onEvent(event);
 
     ECSRegistry& registry = getECSRegistry();
+    StringArena& string_arena = registry.getStringArena();
 
     if (event.type() == EventType::KEYBOARD) {
         KeyboardEvent kb = event.keyboard();
@@ -112,27 +134,28 @@ App::onEvent(const Event& event)
                 registry.getComponent<Render2DComponent>(red_square).layer =
                     red_square_layer;
 
-                text_current_layer.setText(
-                    "Current layer: " + std::to_string(red_square_layer)
+                TextComponent& text_comp =
+                    registry.getComponent<TextComponent>(text_current_layer);
+                string_arena.formatAt(
+                    text_comp,
+                    MAX_LAYER_TEXT_LENGTH,
+                    "Current layer: {}",
+                    red_square_layer
                 );
             } else if (kb.key == Key::K) {
                 red_square_layer -= 1;
                 registry.getComponent<Render2DComponent>(red_square).layer =
                     red_square_layer;
 
-                text_current_layer.setText(
-                    "Current layer: " + std::to_string(red_square_layer)
+                TextComponent& text_comp =
+                    registry.getComponent<TextComponent>(text_current_layer);
+                string_arena.formatAt(
+                    text_comp,
+                    MAX_LAYER_TEXT_LENGTH,
+                    "Current layer: {}",
+                    red_square_layer
                 );
             }
         }
     }
-}
-
-void
-App::onRender(float alpha)
-{
-    Game::onRender(alpha);
-
-    text_current_layer.draw();
-    text_control_info.draw();
 }

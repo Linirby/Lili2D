@@ -106,7 +106,7 @@ App::App()
 
     text_controls = createText(
         registry,
-        "IJKL/WASD = move the camera | ZX/LMB RMB = zoom/dezoom",
+        "WASD = move the camera | IK/LMB RMB = zoom/dezoom",
         {
             .transform{ .scale = Vec2(1.6f, 1.6f) },
             .render2d{ .render_pass = lili::RenderLayer::UI },
@@ -122,12 +122,12 @@ App::App()
     );
 
     ActionMap& action_map = ActionMap::get();
-    action_map.add("Up", { Key::I, Key::W, Key::UP });
-    action_map.add("Down", { Key::K, Key::S, Key::DOWN });
-    action_map.add("Left", { Key::J, Key::A, Key::LEFT });
-    action_map.add("Right", { Key::L, Key::D, Key::RIGHT });
-    action_map.add("Zoom", { Key::Z }, { MouseButton::LEFT });
-    action_map.add("Dezoom", { Key::X }, { MouseButton::RIGHT });
+    action_map.add("Up", { Key::W, Key::UP });
+    action_map.add("Down", { Key::S, Key::DOWN });
+    action_map.add("Left", { Key::A, Key::LEFT });
+    action_map.add("Right", { Key::D, Key::RIGHT });
+    action_map.add("Zoom", { Key::I }, { MouseButton::LEFT });
+    action_map.add("Dezoom", { Key::K }, { MouseButton::RIGHT });
 }
 
 void
@@ -170,8 +170,8 @@ App::onUpdate(float dt)
     ECSRegistry& ecs_reg = getECSRegistry();
     auto& text_comp = ecs_reg.getComponent<TextComponent>(text_cam_pos);
 
-    text_comp.length = ecs_reg.getStringArena().formatAt(
-        text_comp.offset,
+    ecs_reg.getStringArena().formatAt(
+        text_comp,
         MAX_CAM_TEXT_LENGTH,
         "Camera Position: (X={:.1f}, Y={:.1f})",
         cam_pos.x,

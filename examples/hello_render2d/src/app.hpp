@@ -1,5 +1,6 @@
 #pragma once
 
+#include <lili2d/ecs/entity.hpp>
 #include <lili2d/lili2d.hpp>
 #include <vector>
 
@@ -14,8 +15,7 @@ public:
 
 private:
     std::vector<lili::Entity> spawned;
-
-    lili::Text instructions_text;
+    lili::Entity instructions_text;
 
     void
     addBaguette(
@@ -56,6 +56,4 @@ private:
     onInit() override;
     void
     onEvent(const lili::Event& event) override;
-    void
-    onRender(float alpha) override;
 };

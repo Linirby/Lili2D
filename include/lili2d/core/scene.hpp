@@ -1,9 +1,10 @@
 #pragma once
 
+#include <memory>
 #include <string>
 
 #include "lili2d/core/event.hpp"
-#include "lili2d/render/renderer.hpp"
+#include "lili2d/ecs/ecs_registry.hpp"
 
 namespace lili {
 
@@ -17,7 +18,11 @@ public:
     /// @brief Constructs a Scene with a name and renderer pointer.
     /// @param name Name of the scene.
     /// @param renderer Pointer to Renderer.
-    explicit Scene(const std::string& name, Renderer* renderer);
+    explicit Scene(const std::string& name)
+      : name(name)
+    {
+        ecs_registry = std::make_unique<ECSRegistry>();
+    }
     /// @brief Virtual destructor.
     virtual ~Scene() = default;
     /// @brief Deleted copy constructor.
@@ -92,6 +97,13 @@ public:
     {
         return name;
     }
+    /// @brief Gets the ecs registry of the scene.
+    /// @return The ecs registry,
+    [[nodiscard]] inline ECSRegistry*
+    getECSRegistry() const noexcept
+    {
+        return ecs_registry.get();
+    }
     /// @brief Gets the parent scene manager.
     /// @return The manager.
     [[nodiscard]] inline SceneManager*
@@ -99,19 +111,13 @@ public:
     {
         return manager;
     }
-    /// @brief Gets the renderer.
-    /// @return Pointer to Renderer.
-    [[nodiscard]] inline Renderer*
-    getRenderer() const noexcept
-    {
-        return renderer;
-    }
 
 protected:
     /// @brief Name identifier of the scene.
     std::string name;
-    /// @brief Pointer to Renderer instance.
-    Renderer* renderer = nullptr;
+    /// @brief The registry for scene's ECS
+    std::unique_ptr<ECSRegistry> ecs_registry;
+
     /// @brief Pointer to managing SceneManager.
     SceneManager* manager = nullptr;
 };

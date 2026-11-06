@@ -1,6 +1,10 @@
 #include "app.hpp"
 
 #include "rng_helper.hpp"
+#include <lili2d/components/ui_layout.hpp>
+#include <lili2d/ecs/ecs_registry.hpp>
+#include <lili2d/entities/text.hpp>
+#include <lili2d/render/gpu/pass_types.hpp>
 
 using namespace lili;
 
@@ -119,18 +123,23 @@ App::popLast(ECSRegistry& registry)
 void
 App::onInit()
 {
-    Renderer* renderer = getRenderer();
-
-    instructions_text = Text(
-        renderer,
-        renderer->getDefaultFont(),
-        "Key 1 to 4: Create renderable entity | Backspace: Remove last entity"
+    ECSRegistry& ecs_reg = getECSRegistry();
+    instructions_text = createText(
+        ecs_reg,
+        "Key 1 to 4: Create renderable entity | Backspace: Remove last entity",
+        {
+            .transform{ .scale = { 2.0f, 2.0f } },
+            .render2d{ .render_pass = lili::RenderLayer::UI },
+        }
     );
-    instructions_text.setScale(2.0f);
-    instructions_text.setRender(RenderLayer::UI);
-    instructions_text.setAnchor(Anchor::TOP);
-    instructions_text.setPivot(Pivot::TOP);
-    instructions_text.setPosition({ 0.0f, 10.0f });
+    ecs_reg.addComponents(
+        instructions_text,
+        UILayoutComponent{
+            .offset = { 0.0f, 10.0f },
+            .anchor = lili::Anchor::TOP,
+            .pivot = lili::Pivot::TOP,
+        }
+    );
 }
 
 void
@@ -179,12 +188,4 @@ App::onEvent(const Event& event)
                 popLast(registry);
         }
     }
-}
-
-void
-App::onRender(float alpha)
-{
-    Game::onRender(alpha);
-
-    instructions_text.draw();
 }

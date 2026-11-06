@@ -2,26 +2,50 @@
 
 #include "main_menu.hpp"
 #include "yet_again_menu.hpp"
+#include <lili2d/components/ui_layout.hpp>
+#include <lili2d/core/scene_manager.hpp>
+#include <lili2d/ecs/ecs_registry.hpp>
+#include <lili2d/entities/text.hpp>
+#include <lili2d/render/gpu/pass_types.hpp>
 
 using namespace lili;
 
-AnotherScene::AnotherScene(Renderer* renderer)
-  : Scene("AnotherMenu", renderer)
+AnotherScene::AnotherScene()
+  : Scene("AnotherMenu")
 {
-    BitmapFont* font =
-        Assets::loadFont("lili_font", renderer, "lili_font.png", 16, 6);
+    ECSRegistry& ecs_reg = *getECSRegistry();
 
-    text = Text(renderer, font, "AnotherMenu Scene");
-    text.setScale(3.0f);
-    text.setRender(RenderLayer::UI);
-    text.setAnchor(Anchor::CENTER);
-    text.setPivot(Pivot::BOTTOM);
+    text = createText(
+        ecs_reg,
+        "AnotherMenu Scene",
+        {
+            .transform{ .scale{ 3.0f, 3.0f } },
+            .render2d{ .render_pass = lili::RenderLayer::UI },
+        }
+    );
+    ecs_reg.addComponents(
+        text,
+        UILayoutComponent{
+            .anchor = lili::Anchor::CENTER,
+            .pivot = lili::Pivot::BOTTOM,
+        }
+    );
 
-    info_text = Text(renderer, font, "J and L to change");
-    info_text.setScale(2.0f);
-    info_text.setRender(RenderLayer::UI);
-    info_text.setAnchor(Anchor::CENTER);
-    info_text.setPivot(Pivot::TOP);
+    info_text = createText(
+        ecs_reg,
+        "J and L to change",
+        {
+            .transform{ .scale{ 2.0f, 2.0f } },
+            .render2d{ .render_pass = lili::RenderLayer::UI },
+        }
+    );
+    ecs_reg.addComponents(
+        info_text,
+        UILayoutComponent{
+            .anchor = lili::Anchor::CENTER,
+            .pivot = lili::Pivot::TOP,
+        }
+    );
 }
 
 void
@@ -33,16 +57,9 @@ AnotherScene::handleEvents(const Event& event)
             if (kb.key == Key::ESCAPE)
                 manager->pop();
             else if (kb.key == Key::L)
-                manager->changeScene(std::make_unique<YetAgainScene>(renderer));
+                manager->changeScene(std::make_unique<YetAgainScene>());
             else if (kb.key == Key::J)
-                manager->changeScene(std::make_unique<MainScene>(renderer));
+                manager->changeScene(std::make_unique<MainScene>());
         }
     }
-}
-
-void
-AnotherScene::render([[maybe_unused]] float alpha)
-{
-    text.draw();
-    info_text.draw();
 }

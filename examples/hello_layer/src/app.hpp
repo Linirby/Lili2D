@@ -16,11 +16,10 @@ private:
     lili::Entity layer_2;
     lili::Entity layer_3;
 
-    lili::Text text_current_layer;
-    lili::Text text_control_info;
+    const int MAX_LAYER_TEXT_LENGTH = 64;
+    lili::Entity text_current_layer;
+    lili::Entity text_control_info;
 
     void
     onEvent(const lili::Event& event) override;
-    void
-    onRender(float alpha) override;
 };

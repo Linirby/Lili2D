@@ -7,7 +7,6 @@ add_library(lili_core OBJECT
     game_config.cpp
     keyboard.cpp
     mouse.cpp
-    scene.cpp
     scene_manager.cpp
     string_arena.cpp
     thread_pool.cpp

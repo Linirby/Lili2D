@@ -1,6 +1,7 @@
 #include "app.hpp"
 
 #include "scenes/main_menu.hpp"
+#include <lili2d/core/scene_manager.hpp>
 
 using namespace lili;
 
@@ -8,7 +9,7 @@ App::App()
   : Game("hello_scenes - Lili2D", 800, 800)
 {
     setTps(20.0f);
-    scene_manager.push(std::make_unique<MainScene>(getRenderer()));
+    getSceneManager()->push(std::make_unique<MainScene>());
 }
 
 void
@@ -20,18 +21,10 @@ App::onEvent(const Event& event)
         if (kb.action == KeyAction::PRESSED && kb.key == Key::ESCAPE)
             shutdown();
     }
-    scene_manager.handleEvents(event);
 }
 
 void
 App::onUpdate(float dt)
 {
-    if (!scene_manager.empty())
-        scene_manager.update(dt);
-}
-
-void
-App::onRender(float alpha)
-{
-    scene_manager.render(alpha);
+    Game::onUpdate(dt);
 }

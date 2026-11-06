@@ -5,11 +5,14 @@
 #include "lili2d/core/event.hpp"
 #include "lili2d/core/game_config.hpp"
 #include "lili2d/core/keys.hpp"
+#include "lili2d/core/scene_manager.hpp"
 #include "lili2d/core/thread_pool.hpp"
 #include "lili2d/core/window.hpp"
+#include "lili2d/ecs/ecs_registry.hpp"
 #include "lili2d/render/2d/render2d_system.hpp"
 #include "lili2d/render/2d/ui_layout_system.hpp"
 #include "lili2d/render/renderer.hpp"
+#include <memory>
 
 namespace lili {
 
@@ -40,6 +43,8 @@ Game::Game(
     thread_pool = std::make_unique<ThreadPool>(engine_config);
     dynamic_batch =
         std::make_unique<lili::DynamicBatch>(getRenderer(), nullptr);
+    ecs_registry = std::make_unique<ECSRegistry>();
+    scene_manager = std::make_unique<SceneManager>();
 }
 
 Game::~Game()
@@ -95,6 +100,9 @@ Game::configure(const EngineConfig& new_config)
 void
 Game::onEvent(const Event& event)
 {
+    if (!scene_manager->empty())
+        scene_manager->handleEvents(event);
+
     if (event.type() == lili::EventType::WINDOW) {
         lili::GameConfig& conf = lili::GameConfig::get();
         lili::WindowEvent win_event = event.window();
@@ -124,9 +132,24 @@ Game::onEvent(const Event& event)
 void
 Game::onUpdate(float dt)
 {
+    if (!scene_manager->empty())
+        scene_manager->update(dt);
+
     ActionMap::get().update();
+
+    if (auto* scene = scene_manager->current()) {
+        if (auto* scene_registry = scene->getECSRegistry()) {
+            UILayoutSystem::update(
+                *scene_registry,
+                window->getSize(),
+                thread_pool.get(),
+                renderer->getDefaultFont()
+            );
+        }
+    }
+
     UILayoutSystem::update(
-        ecs_registry,
+        *ecs_registry,
         window->getSize(),
         thread_pool.get(),
         renderer->getDefaultFont()
@@ -136,10 +159,31 @@ Game::onUpdate(float dt)
 }
 
 void
+Game::onFixedUpdate([[maybe_unused]] float dt)
+{
+    if (!scene_manager->empty())
+        scene_manager->fixedUpdate(dt);
+}
+
+void
 Game::onRender(float alpha)
 {
+    if (!scene_manager->empty())
+        scene_manager->render(alpha);
+
+    if (auto* scene = scene_manager->current()) {
+        if (auto* scene_registry = scene->getECSRegistry()) {
+            Render2DSystem::render(
+                *scene_registry,
+                *dynamic_batch,
+                renderer->getTheWhitePixel(),
+                renderer->getDefaultFont()
+            );
+        }
+    }
+
     Render2DSystem::render(
-        ecs_registry,
+        *ecs_registry,
         *dynamic_batch,
         renderer->getTheWhitePixel(),
         renderer->getDefaultFont()

@@ -6,6 +6,7 @@
 
 #include "lili2d/core/clock.hpp"
 #include "lili2d/core/event.hpp"
+#include "lili2d/core/scene_manager.hpp"
 #include "lili2d/core/thread_pool.hpp"
 #include "lili2d/core/window.hpp"
 #include "lili2d/ecs/ecs_registry.hpp"
@@ -122,13 +123,25 @@ public:
     [[nodiscard]] inline ECSRegistry&
     getECSRegistry() noexcept
     {
-        return ecs_registry;
+        return *ecs_registry;
     }
 
     [[nodiscard]] inline const ECSRegistry&
     getECSRegistry() const noexcept
     {
-        return ecs_registry;
+        return *ecs_registry;
+    }
+
+    [[nodiscard]] inline ECSRegistry*
+    getECSRegsitry() const noexcept
+    {
+        return ecs_registry.get();
+    }
+
+    [[nodiscard]] inline SceneManager*
+    getSceneManager() const noexcept
+    {
+        return scene_manager.get();
     }
 
     /// @brief Gets the TPS used in the game clock.
@@ -166,9 +179,7 @@ public:
     /// @brief Called at a fixed rate for physics updates.
     /// @param dt Fixed delta time.
     virtual void
-    onFixedUpdate([[maybe_unused]] float dt)
-    {
-    }
+    onFixedUpdate([[maybe_unused]] float dt);
 
     /// @brief Called once per frame to render the game.
     /// @param alpha Interpolation factor between fixed updates.
@@ -193,9 +204,10 @@ private:
     std::unique_ptr<Renderer> renderer;
     std::unique_ptr<ThreadPool> thread_pool;
     std::unique_ptr<DynamicBatch> dynamic_batch;
+    std::unique_ptr<ECSRegistry> ecs_registry;
+    std::unique_ptr<SceneManager> scene_manager;
     EngineConfig engine_config;
     Clock clock;
-    ECSRegistry ecs_registry;
     bool running = false;
 };
 

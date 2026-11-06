@@ -1,5 +1,6 @@
 #pragma once
 
+#include "lili2d/components/text.hpp"
 #include <cstdint>
 #include <format>
 #include <string_view>
@@ -26,34 +27,40 @@ public:
     append(std::string_view text);
 
     /// @brief Formats a string directly into a pre-allocated slot in the arena.
+    /// @note The number of characters written is the new length of the text.
     /// @param offset The starting index in the arena.
-    /// @param max_capacity Maximum number of characters to write (excluding
-    /// '\0').
+    /// @param max_capacity Max number of characters to write (excluding '\0').
     /// @param fmt The std::format format string.
     /// @param args Arguments to format.
-    /// @return Number of characters written.
     template<typename... Args>
-    uint32_t
+    void
     formatAt(
-        uint32_t offset,
+        TextComponent& comp,
         uint32_t max_capacity,
         std::format_string<Args...> fmt,
         Args&&... args
     )
     {
-        if (offset >= content.size())
-            return 0;
+        if (comp.offset >= content.size()) {
+            comp.length = 0;
+            return;
+        }
 
-        uint32_t available = static_cast<uint32_t>(content.size() - 1 - offset);
+        uint32_t available =
+            static_cast<uint32_t>(content.size() - 1 - comp.offset);
         uint32_t limit = std::min(max_capacity, available);
 
         auto [out, count] = std::format_to_n(
-            content.data() + offset, limit, fmt, std::forward<Args>(args)...
+            content.data() + comp.offset,
+            limit,
+            fmt,
+            std::forward<Args>(args)...
         );
 
-        uint32_t len = static_cast<uint32_t>(out - (content.data() + offset));
-        content[offset + len] = '\0';
-        return len;
+        uint32_t len =
+            static_cast<uint32_t>(out - (content.data() + comp.offset));
+        content[comp.offset + len] = '\0';
+        comp.length = len;
     }
 
     void

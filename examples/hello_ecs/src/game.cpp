@@ -84,12 +84,6 @@ App::onUpdate(float dt)
 }
 
 void
-App::onRender(float alpha)
-{
-    Game::onRender(alpha);
-}
-
-void
 App::spawnRandomBall()
 {
     auto& gen = getRng();

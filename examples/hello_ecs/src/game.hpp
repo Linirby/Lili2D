@@ -17,8 +17,6 @@ private:
     onEvent(const lili::Event& event) override;
     void
     onUpdate(float dt) override;
-    void
-    onRender(float alpha) override;
 
     void
     spawnRandomBall();

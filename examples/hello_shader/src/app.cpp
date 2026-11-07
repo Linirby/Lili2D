@@ -1,14 +1,20 @@
 #include "app.hpp"
+
+#include <cstdint>
 #include <lili2d/components/render2d.hpp>
+#include <lili2d/components/text.hpp>
 #include <lili2d/components/ui_layout.hpp>
 #include <lili2d/core/asset_manager.hpp>
 #include <lili2d/core/game.hpp>
+#include <lili2d/core/string_arena.hpp>
 #include <lili2d/ecs/ecs_registry.hpp>
 #include <lili2d/entities/rect.hpp>
+#include <lili2d/entities/text.hpp>
 #include <lili2d/geometry/vec2.hpp>
 #include <lili2d/render/common/material.hpp>
 #include <lili2d/render/common/material_registry.hpp>
 #include <lili2d/render/gpu/pass_types.hpp>
+#include <string_view>
 
 using namespace lili;
 
@@ -18,6 +24,7 @@ App::App()
     Assets::setHotReloadEnabled(true);
     Renderer* renderer = getRenderer();
     ECSRegistry& ecs_reg = getECSRegistry();
+    MaterialRegistry& mat_reg = MaterialRegistry::get();
 
     Shader* rect_shader = Assets::loadShader(
         "rect_shader",
@@ -26,10 +33,8 @@ App::App()
         renderer->getDevice()
     );
     rect_pipeline.reset(renderer->createMainGraphicsPipeline(rect_shader));
-
     Material custom_rect_mat =
         Material(renderer->getTheWhitePixel(), rect_pipeline.get());
-    MaterialRegistry& mat_reg = MaterialRegistry::get();
     mat_reg.registerMaterial("custom:rect", custom_rect_mat);
 
     rect = createRect(
@@ -51,22 +56,49 @@ App::App()
         renderer->getDevice()
     );
     text_pipeline.reset(renderer->createMainGraphicsPipeline(text_shader));
-    BitmapFont* default_font = renderer->getDefaultFont();
-    text = Text(renderer, default_font, "Yay, shaders :D");
-    text.setPosition(Vec2(250.0f, 75.0f));
-    text.setScale(3.0f);
-    text.getMaterial()->pipeline = text_pipeline.get();
-    text.setAnchor(Anchor::TOP);
-    text.setPivot(Pivot::TOP);
-    text.setOffset({ 0.0f, 30.0f });
-    text.setRender(RenderLayer::UI);
+    Material custom_text_mat =
+        Material(renderer->getTheWhitePixel(), text_pipeline.get());
+    mat_reg.registerMaterial("custom:text", custom_text_mat);
 
-    text_info = Text(renderer, default_font, "SPACE: toggle custom shaders");
-    text_info.setAnchor(Anchor::BOTTOM);
-    text_info.setPivot(Pivot::BOTTOM);
-    text_info.setOffset({ 0.0f, -30.0f });
-    text_info.setScale(3.0f);
-    text_info.setRender(RenderLayer::UI);
+    text = createText(
+        ecs_reg,
+        "Yay, shaders :D",
+        {
+            .transform{
+                .pos = Vec2(250.0f, 75.0f),
+                .scale = Vec2(3.0f, 3.0f),
+            },
+            .render2d = {
+                .material_id = mat_reg.getMaterialID("custom:text"),
+                .render_pass = lili::RenderLayer::UI,
+            },
+        }
+    );
+    ecs_reg.addComponents(
+        text,
+        UILayoutComponent{
+            .offset = Vec2(0.0f, 30.0f),
+            .anchor = lili::Anchor::TOP,
+            .pivot = lili::Pivot::TOP,
+        }
+    );
+
+    text_info = createText(
+        ecs_reg,
+        "SPACE: toggle custom shaders",
+        {
+            .transform{ .scale = Vec2(3.0f, 3.0f) },
+            .render2d{ .render_pass = lili::RenderLayer::UI },
+        }
+    );
+    ecs_reg.addComponents(
+        text_info,
+        UILayoutComponent{
+            .offset = Vec2(0.0f, -30.0f),
+            .anchor = lili::Anchor::BOTTOM,
+            .pivot = lili::Pivot::BOTTOM,
+        }
+    );
 
     use_custom_shaders = true;
 }
@@ -75,18 +107,28 @@ void
 App::toggleCustomShaders()
 {
     ECSRegistry& ecs_reg = getECSRegistry();
+    StringArena& string_arena = ecs_reg.getStringArena();
     MaterialRegistry& mat_reg = MaterialRegistry::get();
 
     use_custom_shaders = !use_custom_shaders;
-    auto& render2d = ecs_reg.getComponent<Render2DComponent>(rect);
+
+    auto& rect_render2d = ecs_reg.getComponent<Render2DComponent>(rect);
+    auto& text_render2d = ecs_reg.getComponent<Render2DComponent>(text);
+
+    std::string_view new_text =
+        use_custom_shaders ? "Yay, shaders :D" : "Oh, no shaders :(";
+
     if (use_custom_shaders) {
-        render2d.material_id = mat_reg.getMaterialID("custom:rect");
+        rect_render2d.material_id = mat_reg.getMaterialID("custom:rect");
+        text_render2d.material_id = mat_reg.getMaterialID("custom:text");
     } else {
-        render2d.material_id = mat_reg.getMaterialID("core:none");
+        rect_render2d.material_id = mat_reg.getMaterialID("core:none");
+        text_render2d.material_id = mat_reg.getMaterialID("core:none");
     }
-    text.getMaterial()->pipeline =
-        use_custom_shaders ? text_pipeline.get() : nullptr;
-    text.setText(use_custom_shaders ? "Yay, shaders :D" : "Oh, no shaders :(");
+
+    auto& text_comp = ecs_reg.getComponent<TextComponent>(text);
+    string_arena.free(text_comp);
+    string_arena.append(new_text, text_comp);
 }
 
 void
@@ -110,12 +152,22 @@ App::onUpdate(float dt)
 {
     Game::onUpdate(dt);
 
-    Material& mat = MaterialRegistry::get().getMaterial("custom:rect");
-    mat.setVertexUniforms(
-        RectUB{ .time = getClock().getTime(),
-                .amplitude = 40.0f,
-                .frequency = 20.0f,
-                .speed = 6.0f }
+    Material& rect_mat = MaterialRegistry::get().getMaterial("custom:rect");
+    rect_mat.setVertexUniforms(
+        RectUB{
+            .time = getClock().getTime(),
+            .amplitude = 40.0f,
+            .frequency = 20.0f,
+            .speed = 6.0f,
+        }
+    );
+
+    Material& text_mat = MaterialRegistry::get().getMaterial("custom:text");
+    text_mat.setVertexUniforms(
+        TextUB{
+            .speed = 2.0f,
+            .time = getClock().getTime(),
+        }
     );
 }
 
@@ -123,12 +175,4 @@ void
 App::onRender(float alpha)
 {
     Game::onRender(alpha);
-
-    if (use_custom_shaders)
-        text.getMaterial()->setVertexUniforms(
-            TextUB{ .speed = 2.0f, .time = clock.getTime() }
-        );
-
-    text.draw();
-    text_info.draw();
 }

@@ -1,8 +1,10 @@
 #pragma once
 
+#include <lili2d/core/clock.hpp>
+#include <lili2d/core/event.hpp>
 #include <lili2d/core/game.hpp>
 #include <lili2d/ecs/entity.hpp>
-#include <lili2d/render/2d/text.hpp>
+#include <lili2d/render/gpu/main_graphics_pipeline.hpp>
 #include <memory>
 
 struct RectUB
@@ -31,8 +33,8 @@ private:
     lili::Entity rect;
 
     std::unique_ptr<lili::MainGraphicsPipeline> text_pipeline;
-    lili::Text text;
-    lili::Text text_info;
+    lili::Entity text;
+    lili::Entity text_info;
 
     bool use_custom_shaders;
 

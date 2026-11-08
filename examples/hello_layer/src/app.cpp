@@ -77,10 +77,11 @@ App::App()
 
     text_current_layer = createText(
         registry,
-        std::string(MAX_LAYER_TEXT_LENGTH, ' '),
+        "",
         {
             .transform{ .scale = { 2.0f, 2.0f } },
             .render2d{ .render_pass = lili::RenderLayer::UI },
+            .text{ .capacity = 32 },
         }
     );
     registry.addComponents(
@@ -144,6 +145,6 @@ App::onUpdate([[maybe_unused]] float dt)
     TextComponent& text_comp =
         ecs_reg.getComponent<TextComponent>(text_current_layer);
     ecs_reg.getStringArena().formatAt(
-        text_comp, MAX_LAYER_TEXT_LENGTH, "Current layer: {}", red_square_layer
+        text_comp, "Current layer: {}", red_square_layer
     );
 }

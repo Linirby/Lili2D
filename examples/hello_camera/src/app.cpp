@@ -80,10 +80,11 @@ App::App()
 
     text_cam_pos = createText(
         registry,
-        std::string(MAX_CAM_TEXT_LENGTH, ' '),
+        "",
         {
             .transform{ .scale = Vec2(2.0f, 2.0f) },
             .render2d{ .render_pass = lili::RenderLayer::UI },
+            .text{ .capacity = 64 },
         }
     );
     registry.addComponents(
@@ -162,10 +163,6 @@ App::onUpdate(float dt)
     auto& text_comp = ecs_reg.getComponent<TextComponent>(text_cam_pos);
 
     ecs_reg.getStringArena().formatAt(
-        text_comp,
-        MAX_CAM_TEXT_LENGTH,
-        "Camera Position: (X={:.1f}, Y={:.1f})",
-        cam_pos.x,
-        cam_pos.y
+        text_comp, "Camera Position: (X={:.1f}, Y={:.1f})", cam_pos.x, cam_pos.y
     );
 }

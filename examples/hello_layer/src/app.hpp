@@ -15,7 +15,6 @@ private:
     lili::Entity layer_2;
     lili::Entity layer_3;
 
-    const int MAX_LAYER_TEXT_LENGTH = 64;
     lili::Entity text_current_layer;
     lili::Entity text_control_info;
 

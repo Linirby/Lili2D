@@ -18,37 +18,21 @@ struct FreeSpace
 class StringArena
 {
 public:
-    /// @brief Insert a text to the content of the StringArena at a specific
-    /// offset with a specific length
-    /// @param text The string you want to add.
-    /// @param offset The offset where you start insertion.
-    /// @param length The length of the insertion.
-    void
-    insert(std::string_view text, uint32_t offset, uint32_t length);
-    /// @brief Insert a text to the content of the StringArena at a specific
-    /// offset with a specific length
-    /// @param text The string you want to add.
-    /// @param offset The offset where you start insertion.
-    /// @param length The length of the insertion.
-    void
-    insert(std::string_view text, TextComponent comp)
-    {
-        insert(text, comp.offset, comp.length);
-    }
-
     /// @brief Append a text to the content of the StringArena.
     /// @param text The string you want to add.
     /// @return the offset of the string in the arena.
     uint32_t
-    append(std::string_view text);
+    append(std::string_view text, uint32_t capacity = 0);
     /// @brief Append a text to the content of the StringArena.
     /// @param text The string you want to add.
-    /// @param comp The TextComponent where offset, length will be stored
+    /// @param comp The TextComponent where offset, length, capacity are stored
     void
     append(std::string_view text, TextComponent& comp)
     {
-        comp.offset = append(text);
+        comp.offset = append(text, comp.capacity);
         comp.length = text.size();
+        if (static_cast<uint32_t>(text.size()) > comp.capacity)
+            comp.capacity = static_cast<uint32_t>(text.size());
     }
 
     /// @brief Formats a string directly into a pre-allocated slot in the arena.
@@ -62,7 +46,7 @@ public:
     uint32_t
     formatAt(
         uint32_t offset,
-        uint32_t max_capacity,
+        uint32_t capacity,
         std::format_string<Args...> fmt,
         Args&&... args
     )
@@ -72,7 +56,7 @@ public:
 
         uint32_t available = static_cast<uint32_t>(content.size() - 1 - offset);
         uint32_t limit =
-            (max_capacity <= 0) ? available : std::min(max_capacity, available);
+            (capacity <= 0) ? available : std::min(capacity, available);
 
         auto [out, count] = std::format_to_n(
             content.data() + offset, limit, fmt, std::forward<Args>(args)...
@@ -92,27 +76,26 @@ public:
     void
     formatAt(
         TextComponent& comp,
-        uint32_t max_capacity,
         std::format_string<Args...> fmt,
         Args&&... args
     )
     {
         comp.length = formatAt(
-            comp.offset, max_capacity, fmt, std::forward<Args>(args)...
+            comp.offset, comp.capacity, fmt, std::forward<Args>(args)...
         );
     }
 
     void
-    free(uint32_t offset, uint32_t length)
+    free(uint32_t offset, uint32_t capacity)
     {
-        if (length > 0)
-            free_spaces.push_back({ offset, length + 1 });
+        if (capacity > 0)
+            free_spaces.push_back({ offset, capacity + 1 });
     }
 
     void
     free(TextComponent comp)
     {
-        free(comp.offset, comp.length);
+        free(comp.offset, comp.capacity);
     }
 
     void

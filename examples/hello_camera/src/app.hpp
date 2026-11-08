@@ -20,8 +20,6 @@ private:
     lili::Entity text_cam_pos;
     lili::Entity text_controls;
 
-    static constexpr size_t MAX_CAM_TEXT_LENGTH = 64;
-
     void
     onEvent(const lili::Event& event) override;
     void

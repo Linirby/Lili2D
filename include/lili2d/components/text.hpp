@@ -14,6 +14,7 @@ struct TextComponent
     float spacing = 1.0f;       ///< Spacing between letters
     uint32_t offset = 0;        ///< Start index in StringArena
     uint32_t length = 0;        ///< Current string lenght (excluding '\0')
+    uint32_t capacity = 0;      ///< Max capacity of the text
 };
 
 static_assert(

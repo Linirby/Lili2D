@@ -26,6 +26,9 @@ createText(
     TextComponent text = params.text;
     text.glyph_size = params.text.font ? params.text.font->getGlyphSize()
                                        : Vec2{ 0.0f, 0.0f };
+    text.capacity = params.text.capacity;
+    if (content.size() > text.capacity)
+        text.capacity = content.size();
     registry.getStringArena().append(content, text);
 
     registry.addComponents(entity, params.transform, render2d, text);

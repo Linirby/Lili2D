@@ -3,12 +3,7 @@
 #include "another_menu.hpp"
 #include "main_menu.hpp"
 #include <lili2d/components/ui_layout.hpp>
-#include <lili2d/core/asset_manager.hpp>
-#include <lili2d/core/scene_manager.hpp>
-#include <lili2d/ecs/ecs_registry.hpp>
 #include <lili2d/entities/text.hpp>
-#include <lili2d/render/2d/bitmap_font.hpp>
-#include <lili2d/render/gpu/pass_types.hpp>
 
 using namespace lili;
 

@@ -1,13 +1,8 @@
 #include "app.hpp"
-#include <lili2d/components/circle.hpp>
-#include <lili2d/components/rect.hpp>
-#include <lili2d/core/game.hpp>
-#include <lili2d/ecs/ecs_registry.hpp>
+
 #include <lili2d/entities/circle.hpp>
 #include <lili2d/entities/line.hpp>
 #include <lili2d/entities/rect.hpp>
-#include <lili2d/geometry/vec2.hpp>
-#include <lili2d/geometry/vec4.hpp>
 
 using namespace lili;
 

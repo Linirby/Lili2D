@@ -1,5 +1,7 @@
 #include "app.hpp"
 
+#include <lili2d/core/asset_manager.hpp>
+
 using namespace lili;
 
 App::App()
@@ -60,9 +62,13 @@ App::App()
                 slice = ((x + y) % 2 == 0) ? slice_dark_floor : slice_floor;
 
             tiles_draw_data.push_back(
-                TileDrawItem{ slice,
-                              { (x + 1.5f - 50.0f) * (TILE_SIZE - 0.1f),
-                                (y + 1.5f - 40.0f) * (TILE_SIZE - 0.1f) } }
+                TileDrawItem{
+                    slice,
+                    {
+                        (x + 1.5f - 50.0f) * (TILE_SIZE - 0.1f),
+                        (y + 1.5f - 40.0f) * (TILE_SIZE - 0.1f),
+                    },
+                }
             );
         }
     }

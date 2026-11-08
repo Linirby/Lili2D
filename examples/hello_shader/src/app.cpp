@@ -1,20 +1,9 @@
 #include "app.hpp"
 
-#include <cstdint>
-#include <lili2d/components/render2d.hpp>
-#include <lili2d/components/text.hpp>
-#include <lili2d/components/ui_layout.hpp>
 #include <lili2d/core/asset_manager.hpp>
-#include <lili2d/core/game.hpp>
-#include <lili2d/core/string_arena.hpp>
-#include <lili2d/ecs/ecs_registry.hpp>
 #include <lili2d/entities/rect.hpp>
 #include <lili2d/entities/text.hpp>
-#include <lili2d/geometry/vec2.hpp>
-#include <lili2d/render/common/material.hpp>
 #include <lili2d/render/common/material_registry.hpp>
-#include <lili2d/render/gpu/pass_types.hpp>
-#include <string_view>
 
 using namespace lili;
 
@@ -169,10 +158,4 @@ App::onUpdate(float dt)
             .time = getClock().getTime(),
         }
     );
-}
-
-void
-App::onRender(float alpha)
-{
-    Game::onRender(alpha);
 }

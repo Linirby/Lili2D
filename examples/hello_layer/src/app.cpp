@@ -1,15 +1,9 @@
 #include "app.hpp"
 
-#include <lili2d/components/render2d.hpp>
-#include <lili2d/components/text.hpp>
-#include <lili2d/components/ui_layout.hpp>
-#include <lili2d/core/string_arena.hpp>
 #include <lili2d/ecs/ecs_registry.hpp>
 #include <lili2d/entities/rect.hpp>
 #include <lili2d/entities/sprite.hpp>
-#include <lili2d/geometry/vec2.hpp>
-#include <lili2d/render/gpu/pass_types.hpp>
-#include <string>
+#include <lili2d/entities/text.hpp>
 
 using namespace lili;
 
@@ -122,7 +116,6 @@ App::onEvent(const Event& event)
     Game::onEvent(event);
 
     ECSRegistry& registry = getECSRegistry();
-    StringArena& string_arena = registry.getStringArena();
 
     if (event.type() == EventType::KEYBOARD) {
         KeyboardEvent kb = event.keyboard();
@@ -133,29 +126,24 @@ App::onEvent(const Event& event)
                 red_square_layer += 1;
                 registry.getComponent<Render2DComponent>(red_square).layer =
                     red_square_layer;
-
-                TextComponent& text_comp =
-                    registry.getComponent<TextComponent>(text_current_layer);
-                string_arena.formatAt(
-                    text_comp,
-                    MAX_LAYER_TEXT_LENGTH,
-                    "Current layer: {}",
-                    red_square_layer
-                );
             } else if (kb.key == Key::K) {
                 red_square_layer -= 1;
                 registry.getComponent<Render2DComponent>(red_square).layer =
                     red_square_layer;
-
-                TextComponent& text_comp =
-                    registry.getComponent<TextComponent>(text_current_layer);
-                string_arena.formatAt(
-                    text_comp,
-                    MAX_LAYER_TEXT_LENGTH,
-                    "Current layer: {}",
-                    red_square_layer
-                );
             }
         }
     }
+}
+
+void
+App::onUpdate([[maybe_unused]] float dt)
+{
+    Game::onUpdate(dt);
+
+    ECSRegistry& ecs_reg = getECSRegistry();
+    TextComponent& text_comp =
+        ecs_reg.getComponent<TextComponent>(text_current_layer);
+    ecs_reg.getStringArena().formatAt(
+        text_comp, MAX_LAYER_TEXT_LENGTH, "Current layer: {}", red_square_layer
+    );
 }

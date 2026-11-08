@@ -1,7 +1,4 @@
 #include "systems.hpp"
-#include <lili2d/components/render2d.hpp>
-#include <lili2d/components/transform.hpp>
-#include <lili2d/geometry/vec2.hpp>
 
 using namespace lili;
 

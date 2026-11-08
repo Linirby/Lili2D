@@ -1,7 +1,6 @@
 #pragma once
 
 #include <lili2d/ecs/ecs_registry.hpp>
-#include <lili2d/render/2d/dynamic_batch.hpp>
 
 namespace systems {
 

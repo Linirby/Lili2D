@@ -3,6 +3,7 @@
 #include <lili2d/geometry/vec2.hpp>
 #include <lili2d/geometry/vec4.hpp>
 #include <random>
+
 namespace rng {
 
 std::mt19937&

@@ -2,12 +2,8 @@
 
 #include "another_menu.hpp"
 #include "yet_again_menu.hpp"
-#include <iostream>
 #include <lili2d/components/ui_layout.hpp>
-#include <lili2d/core/scene_manager.hpp>
-#include <lili2d/ecs/ecs_registry.hpp>
 #include <lili2d/entities/text.hpp>
-#include <lili2d/render/gpu/pass_types.hpp>
 
 using namespace lili;
 
@@ -15,8 +11,6 @@ MainScene::MainScene()
   : Scene("MainMenu")
 {
     ECSRegistry& ecs_reg = *getECSRegistry();
-    if (!getECSRegistry())
-        std::cout << "Watchout! ECS Registry is null!\n";
 
     text = createText(
         ecs_reg,

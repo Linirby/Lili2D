@@ -1,14 +1,10 @@
 #include "app.hpp"
-#include <lili2d/components/text.hpp>
-#include <lili2d/components/transform.hpp>
+
 #include <lili2d/components/ui_layout.hpp>
-#include <lili2d/core/game.hpp>
-#include <lili2d/ecs/ecs_registry.hpp>
+#include <lili2d/core/asset_manager.hpp>
 #include <lili2d/entities/text.hpp>
-#include <lili2d/geometry/vec3.hpp>
-#include <lili2d/geometry/vec4.hpp>
+#include <lili2d/geometry/vec2.hpp>
 #include <lili2d/render/gpu/pass_types.hpp>
-#include <lili2d/render/renderer.hpp>
 
 using namespace lili;
 
@@ -43,11 +39,23 @@ App::App()
     );
     registry.addComponents(welcome_text, UILayoutComponent{});
 
-    info_text = Text(
-        renderer, font_example, "<- & ->: change letter spacing | R: rotate"
+    info_text = createText(
+        registry,
+        "<- & ->: change letter spacing | R: rotate",
+        {
+            .transform{ .scale = Vec2(3.0f, 3.0f) },
+            .render2d{ .render_pass = lili::RenderLayer::UI },
+            .text{ .font = font_example },
+        }
     );
-    info_text.setScale(3.0f);
-    info_text.setPosition({ 10.0f, 10.0f });
+    registry.addComponents(
+        info_text,
+        UILayoutComponent{
+            .offset = Vec2(10.0f, 10.0f),
+            .anchor = lili::Anchor::TOP_LEFT,
+            .pivot = lili::Pivot::TOP_LEFT,
+        }
+    );
 }
 
 void
@@ -86,12 +94,4 @@ App::onUpdate(float dt)
         text_rotation += 5.0f * speed_change * dt;
         trans_comp.rotation = text_rotation;
     }
-}
-
-void
-App::onRender(float alpha)
-{
-    Game::onRender(alpha);
-
-    info_text.draw();
 }

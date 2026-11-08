@@ -17,7 +17,6 @@
 #include "lili2d/core/keys.hpp"             // IWYU pragma: export
 #include "lili2d/core/mouse.hpp"            // IWYU pragma: export
 #include "lili2d/core/resource_manager.hpp" // IWYU pragma: export
-#include "lili2d/core/scene.hpp"            // IWYU pragma: export
 #include "lili2d/core/scene_manager.hpp"    // IWYU pragma: export
 #include "lili2d/core/sdl_deleters.hpp"     // IWYU pragma: export
 #include "lili2d/core/string_arena.hpp"     // IWYU pragma: export

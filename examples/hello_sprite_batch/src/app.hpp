@@ -1,8 +1,11 @@
 #pragma once
 
-#include <lili2d/lili2d.hpp>
-#include <memory>
-#include <vector>
+#include <lili2d/core/game.hpp>
+#include <lili2d/core/keyboard.hpp>
+#include <lili2d/render/2d/static_batch.hpp>
+#include <lili2d/render/2d/text.hpp>
+#include <lili2d/render/common/animation_player.hpp>
+#include <lili2d/render/common/atlas_map.hpp>
 
 struct Character
 {

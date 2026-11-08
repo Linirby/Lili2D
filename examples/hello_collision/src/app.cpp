@@ -1,14 +1,9 @@
 #include "app.hpp"
-
-#include <lili2d/components/ui_layout.hpp>
 #include <lili2d/core/action_map.hpp>
 #include <lili2d/entities/circle.hpp>
 #include <lili2d/entities/line.hpp>
 #include <lili2d/entities/rect.hpp>
 #include <lili2d/entities/text.hpp>
-#include <lili2d/geometry/vec2.hpp>
-#include <lili2d/geometry/vec4.hpp>
-#include <lili2d/render/gpu/pass_types.hpp>
 
 using namespace lili;
 

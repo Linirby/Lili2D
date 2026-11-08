@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lili2d/lili2d.hpp>
+#include <lili2d/geometry/vec2.hpp>
 
 struct VelocityComponent
 {

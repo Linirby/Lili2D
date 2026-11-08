@@ -4,7 +4,6 @@
 #include "entities.hpp"
 #include "systems.hpp"
 #include <iostream>
-#include <lili2d/ecs/ecs_registry.hpp>
 #include <random>
 
 using namespace lili;

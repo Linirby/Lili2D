@@ -1,7 +1,7 @@
 #include "app.hpp"
-
-#include <algorithm>
-#include <cmath>
+#include <lili2d/core/asset_manager.hpp>
+#include <lili2d/entities/text.hpp>
+#include <lili2d/world/tile_registry.hpp>
 
 using namespace lili;
 
@@ -14,8 +14,10 @@ App::App()
 
     camera.setZoom(4.0f);
     camera.setPosition(
-        { static_cast<float>(window->getWidth()),
-          static_cast<float>(window->getHeight()) }
+        {
+            static_cast<float>(window->getWidth()),
+            static_cast<float>(window->getHeight()),
+        }
     );
     renderer->setCamera(&camera);
 
@@ -66,14 +68,27 @@ App::App()
         }
     }
 
-    BitmapFont* font =
-        Assets::loadFont("lili_font", renderer, "assets/lili_font.png", 16, 6);
-    text_infos = Text(renderer, font, "WASD: move | IK: zoom/dezoom");
-    text_infos.setRender(RenderLayer::UI);
-    text_infos.setPosition({ 10.0f, 10.0f });
-    text_infos.setAnchor(Anchor::TOP);
-    text_infos.setPivot(Pivot::TOP);
-    text_infos.setScale(3.0f);
+    ECSRegistry& ecs_reg = getECSRegistry();
+
+    text_infos = createText(
+        ecs_reg,
+        "WASD: move | IK: zoom/dezoom",
+        {
+            .transform{ .scale = Vec2(3.0f, 3.0f) },
+            .render2d{
+                .layer = 10.0f,
+                .render_pass = lili::RenderLayer::UI,
+            },
+        }
+    );
+    ecs_reg.addComponents(
+        text_infos,
+        UILayoutComponent{
+            .offset = Vec2(10.0f, 10.0f),
+            .anchor = lili::Anchor::TOP_LEFT,
+            .pivot = lili::Pivot::TOP_LEFT,
+        }
+    );
 }
 
 void
@@ -90,6 +105,8 @@ App::onEvent(const Event& event)
 void
 App::onUpdate(float dt)
 {
+    Game::onUpdate(dt);
+
     keyboard.update();
     Vec2 vel(0.0f, 0.0f);
 
@@ -114,6 +131,6 @@ App::onUpdate(float dt)
 void
 App::onRender([[maybe_unused]] float alpha)
 {
-    text_infos.draw();
+    Game::onRender(alpha);
     tilemap->draw(getRenderer(), getThreadPool());
 }

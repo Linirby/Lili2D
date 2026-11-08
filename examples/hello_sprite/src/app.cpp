@@ -1,5 +1,7 @@
 #include "app.hpp"
 
+#include <lili2d/entities/sprite.hpp>
+
 using namespace lili;
 
 void

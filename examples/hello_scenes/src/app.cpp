@@ -1,7 +1,6 @@
 #include "app.hpp"
 
 #include "scenes/main_menu.hpp"
-#include <lili2d/core/scene_manager.hpp>
 
 using namespace lili;
 

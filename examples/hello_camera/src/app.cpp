@@ -1,18 +1,9 @@
 #include "app.hpp"
 
-#include <format>
-#include <lili2d/components/circle.hpp>
-#include <lili2d/components/render2d.hpp>
-#include <lili2d/components/transform.hpp>
 #include <lili2d/core/action_map.hpp>
-#include <lili2d/core/string_arena.hpp>
 #include <lili2d/entities/circle.hpp>
 #include <lili2d/entities/rect.hpp>
 #include <lili2d/entities/text.hpp>
-#include <lili2d/geometry/vec2.hpp>
-#include <lili2d/geometry/vec4.hpp>
-#include <lili2d/render/gpu/pass_types.hpp>
-#include <string>
 
 using namespace lili;
 

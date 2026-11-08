@@ -1,11 +1,6 @@
 #pragma once
 
-#include <lili2d/core/clock.hpp>
-#include <lili2d/core/event.hpp>
 #include <lili2d/core/game.hpp>
-#include <lili2d/ecs/entity.hpp>
-#include <lili2d/render/gpu/main_graphics_pipeline.hpp>
-#include <memory>
 
 struct RectUB
 {
@@ -45,6 +40,4 @@ private:
     onEvent(const lili::Event& event) override;
     void
     onUpdate(float dt) override;
-    void
-    onRender(float alpha) override;
 };

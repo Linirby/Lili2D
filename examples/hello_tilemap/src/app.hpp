@@ -1,7 +1,9 @@
 #pragma once
 
-#include <lili2d/lili2d.hpp>
-#include <memory>
+#include <lili2d/core/game.hpp>
+#include <lili2d/core/keyboard.hpp>
+#include <lili2d/render/common/atlas_map.hpp>
+#include <lili2d/world/tilemap.hpp>
 
 class App : public lili::Game
 {
@@ -15,7 +17,7 @@ private:
     lili::AtlasMap* env_atlas = nullptr;
     std::unique_ptr<lili::TileMap> tilemap;
 
-    lili::Text text_infos;
+    lili::Entity text_infos;
 
     void
     onEvent(const lili::Event& event) override;

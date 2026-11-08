@@ -3,7 +3,6 @@
 #include "components.hpp"
 #include "systems.hpp"
 #include <iostream>
-#include <lili2d/ecs/ecs_registry.hpp>
 #include <lili2d/entities/sprite.hpp>
 #include <random>
 

@@ -3,10 +3,7 @@
 #include "components.hpp"
 #include <lili2d/components/render2d.hpp>
 #include <lili2d/components/transform.hpp>
-#include <lili2d/core/thread_pool.hpp>
-#include <lili2d/ecs.hpp>
-#include <lili2d/ecs/ecs_registry.hpp>
-#include <lili2d/geometry/vec2.hpp>
+#include <lili2d/ecs/system.hpp>
 
 class MovementSystem
   : public lili::System<

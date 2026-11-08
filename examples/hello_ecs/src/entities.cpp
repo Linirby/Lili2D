@@ -2,7 +2,6 @@
 
 #include "components.hpp"
 #include <lili2d/entities/sprite.hpp>
-#include <lili2d/render/renderer.hpp>
 
 using namespace lili;
 

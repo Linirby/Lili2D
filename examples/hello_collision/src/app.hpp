@@ -2,7 +2,6 @@
 
 #include "cursor.hpp"
 #include <lili2d/core/game.hpp>
-#include <lili2d/ecs/entity.hpp>
 
 class App : public lili::Game
 {

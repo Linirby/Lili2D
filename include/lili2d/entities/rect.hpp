@@ -16,7 +16,7 @@ struct RectParameters
 
 /// @brief Creates a 2D Rectangle (Quad) entity.
 /// @note Attached components:
-/// - `TransformComponent` (`pos`, `prev_pos`, `scale`, `rotation`)
+/// - `TransformComponent` (`pos`, `scale`, `rotation`)
 /// - `Render2DComponent` (`color`, `size`, `layer`, `material_id`,
 /// `render_pass`, `is_visible`)
 /// - `RectComponent` (`thickness`, `hollow`)

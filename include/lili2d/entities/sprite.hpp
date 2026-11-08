@@ -29,7 +29,7 @@ static_assert(
 /// - `TransformComponent` (`pos`, `prev_pos`, `scale`, `rotation`)
 /// - `Render2DComponent` (`color`, `size`, `layer`, `material_id`,
 /// `render_pass`, `is_visible`)
-/// - `SpriteComponent` (`slice`)
+/// - `SpriteComponent` (managed automatically)
 /// @param registry The ECS registry.
 /// @param renderer Pointer to the Renderer.
 /// @param img_path Path to the texture image file.
@@ -45,10 +45,10 @@ createSprite(
 
 /// @brief Creates a 2D Sprite entity from an existing UV slice.
 /// @note Attached components:
-/// - `TransformComponent` (`pos`, `prev_pos`, `scale`, `rotation`)
+/// - `TransformComponent` (`pos`, `scale`, `rotation`)
 /// - `Render2DComponent` (`color`, `size`, `layer`, `material_id`,
 /// `render_pass`, `is_visible`)
-/// - `SpriteComponent` (`slice`)
+/// - `SpriteComponent` (managed automatically)
 /// @param registry The ECS registry.
 /// @param sliceUV The UV slice and texture pointer.
 /// @param params The parameters of the sprite.

@@ -1,8 +1,7 @@
 #pragma once
 
+#include "lili2d/render/common/slice_uv.hpp"
 #include <vector>
-
-#include "lili2d/render/common/atlas_map.hpp"
 
 namespace lili {
 

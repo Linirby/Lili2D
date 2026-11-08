@@ -1,8 +1,5 @@
 #pragma once
 
-#include <cstdint>
-#include <string_view>
-
 #include "lili2d/render/common/animation.hpp"
 
 namespace lili {

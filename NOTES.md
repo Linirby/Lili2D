@@ -8,16 +8,14 @@ smth else.
 ### TODO
 
 - OOP to ECS support: Tilemap & ChunkBatch.
-- Keep global ECSRegistry in Game but add scene-dependent ECSRegistry.
 
 ### IN PROGRESS
 
-- Update Parameters to create entities, to have a clearer vision on which
-  components entities have.
 - OOP to ECS support: AnimatedSprite.
 
 ## KEEP FOR LATER
 
+- Simplify process to create an Animation (now: load atlas -> slice -> register)
 - GPUMesh::transferToGpu() -> replace every frame allocation, by a persistent buffer
   for the transfer buffer.
 - DynamicBatch -> reserve vertex and index buffer capacity before appending batch

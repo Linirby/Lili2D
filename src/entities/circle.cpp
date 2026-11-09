@@ -11,13 +11,16 @@ createCircle(ECSRegistry& registry, const CircleParameters& params)
 {
     Entity entity = registry.createEntity();
 
+    TransformComponent transform = params.transform;
+    transform.prev_pos = params.transform.pos;
+
     Render2DComponent render2d = params.render2d;
     render2d.size = Vec2{
         params.circle.radius * 2.0f,
         params.circle.radius * 2.0f,
     };
 
-    registry.addComponents(entity, params.transform, render2d, params.circle);
+    registry.addComponents(entity, transform, render2d, params.circle);
     return entity;
 }
 

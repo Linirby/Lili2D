@@ -8,9 +8,10 @@ createRect(ECSRegistry& registry, const RectParameters& params)
 {
     Entity entity = registry.createEntity();
 
-    registry.addComponents(
-        entity, params.transform, params.render2d, params.rect
-    );
+    TransformComponent transform = params.transform;
+    transform.prev_pos = params.transform.pos;
+
+    registry.addComponents(entity, transform, params.render2d, params.rect);
     return entity;
 }
 

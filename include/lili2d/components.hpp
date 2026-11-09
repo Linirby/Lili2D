@@ -3,6 +3,7 @@
 /// @file components.hpp
 /// @brief Aggregates all built-in ECS components of the Lili2D engine.
 
+#include "lili2d/components/animation.hpp" // IWYU pragma: export
 #include "lili2d/components/circle.hpp"    // IWYU pragma: export
 #include "lili2d/components/line.hpp"      // IWYU pragma: export
 #include "lili2d/components/rect.hpp"      // IWYU pragma: export

@@ -13,6 +13,9 @@ createLine(ECSRegistry& registry, const LineParameters& params)
 {
     Entity entity = registry.createEntity();
 
+    TransformComponent transform = params.transform;
+    transform.prev_pos = params.transform.pos;
+
     Render2DComponent render2d = params.render2d;
     render2d.size = Vec2{
         std::abs(params.line.dxy.x),
@@ -21,11 +24,11 @@ createLine(ECSRegistry& registry, const LineParameters& params)
 
     LineComponent line = params.line;
     line.dxy = Vec2{
-        params.line.dxy.x * params.transform.scale.x,
-        params.line.dxy.y * params.transform.scale.y,
+        params.line.dxy.x,
+        params.line.dxy.y,
     };
 
-    registry.addComponents(entity, params.transform, render2d, line);
+    registry.addComponents(entity, transform, render2d, line);
     return entity;
 }
 

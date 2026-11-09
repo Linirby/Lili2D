@@ -1,4 +1,5 @@
 add_library(lili_entities OBJECT
+    animated_sprite.cpp
     circle.cpp
     line.cpp
     rect.cpp

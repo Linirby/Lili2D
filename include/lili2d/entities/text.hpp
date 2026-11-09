@@ -19,7 +19,7 @@ struct TextParameters
 /// @brief Creates a 2D Text entity using a BitmapFont and StringArena.
 /// @note Attached components:
 /// - `TransformComponent` (`pos`, `scale`, `rotation`)
-/// - `Render2DComponent` (`color`, `size`, `layer`, `material_id`,
+/// - `Render2DComponent` (`color`, `layer`, `material_id`,
 /// `render_pass`, `is_visible`)
 /// - `TextComponent` (`font`, `spacing`)
 /// @param registry The ECS registry.

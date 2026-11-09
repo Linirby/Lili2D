@@ -17,6 +17,9 @@ createText(
 {
     Entity entity = registry.createEntity();
 
+    TransformComponent transform = params.transform;
+    transform.prev_pos = params.transform.pos;
+
     Render2DComponent render2d = params.render2d;
     render2d.size =
         params.text.font
@@ -31,7 +34,7 @@ createText(
         text.capacity = content.size();
     registry.getStringArena().append(content, text);
 
-    registry.addComponents(entity, params.transform, render2d, text);
+    registry.addComponents(entity, transform, render2d, text);
     return entity;
 }
 

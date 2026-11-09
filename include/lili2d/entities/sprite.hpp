@@ -26,8 +26,8 @@ static_assert(
 
 /// @brief Creates a 2D Sprite entity from an image file path.
 /// @note Attached components:
-/// - `TransformComponent` (`pos`, `prev_pos`, `scale`, `rotation`)
-/// - `Render2DComponent` (`color`, `size`, `layer`, `material_id`,
+/// - `TransformComponent` (`pos`, `scale`, `rotation`)
+/// - `Render2DComponent` (`color`, `layer`, `material_id`,
 /// `render_pass`, `is_visible`)
 /// - `SpriteComponent` (managed automatically)
 /// @param registry The ECS registry.

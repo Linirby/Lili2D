@@ -5,7 +5,8 @@
 namespace lili {
 
 /// @brief A lightweight player to track animation state over time.
-class AnimationPlayer
+class [[deprecated("Use AnimationComponent, with the new AnimationSystem")]]
+AnimationPlayer
 {
 public:
     /// @brief Default constructor.

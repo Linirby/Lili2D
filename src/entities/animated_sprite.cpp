@@ -6,6 +6,8 @@
 #include "lili2d/ecs/entity.hpp"
 #include "lili2d/render/common/animation_registry.hpp"
 #include "lili2d/render/common/slice_uv.hpp"
+#include <cstdint>
+#include <stdexcept>
 
 namespace lili {
 
@@ -20,20 +22,29 @@ createAnimatedSprite(
 
     Entity entity = registry.createEntity();
 
-    SliceUV slice = anim_reg.getAnimation(anim_key).getFrame(
-        params.animation.current_frame
-    );
+    const Animation& anim = anim_reg.getAnimation(anim_key);
+    if (anim.frameCount() == 0)
+        throw std::runtime_error(
+            "You can't create an AnimatedSprite if the animation has 0 frame"
+        );
+
+    uint32_t frame = params.animation.current_frame < anim.frameCount()
+                         ? params.animation.current_frame
+                         : 0;
+    SliceUV slice = anim.getFrame(frame);
 
     TransformComponent transform = params.transform;
     transform.prev_pos = params.transform.pos;
 
     Render2DComponent render2d = params.render2d;
-    render2d.size = { slice.width, slice.height };
+    if (render2d.size == Vec2(0.0f, 0.0f))
+        render2d.size = { slice.width, slice.height };
 
     SpriteComponent sprite = params.sprite;
     sprite.slice = slice;
 
     AnimationComponent animation = params.animation;
+    animation.current_frame = frame;
     animation.animation_id = anim_reg.getAnimationId(anim_key);
     animation.frame_timer = 0.0f;
 

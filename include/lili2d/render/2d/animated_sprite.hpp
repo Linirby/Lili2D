@@ -14,7 +14,10 @@
 namespace lili {
 
 /// @brief A renderable 2D sprite driven by an Animation.
-class AnimatedSprite : public IRenderable
+class [[deprecated(
+    "Use AnimationComponent with SpriteComponent or use "
+    "createAnimatedSprite() with ECS"
+)]] AnimatedSprite : public IRenderable
 {
 public:
     /// @brief Default constructor.

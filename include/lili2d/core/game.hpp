@@ -209,6 +209,11 @@ private:
     EngineConfig engine_config;
     Clock clock;
     bool running = false;
+
+    void
+    updateSystems(ECSRegistry& ecs_registry, float dt);
+    void
+    renderSystems(ECSRegistry& ecs_registry, float alpha);
 };
 
 } // namespace lili

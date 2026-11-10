@@ -6,10 +6,9 @@
 - **`hello_camera`**: Camera viewports, zoom, and render layers (`WORLD2D` vs `UI`).
 - **`hello_layer`**: Render layer sorting and draw order.
 - **`hello_scenes`**: Scene stack management and transitions.
-- **`hello_animation`**: Sprite sheet animation (`AtlasMap`, `AnimationPlayer`).
+- **`hello_animation`**: Sprite sheet animation (`AtlasMap`, `AnimationComponent`).
 - **`hello_shader`**: Custom SPIR-V vertex and fragment shaders.
 - **`hello_collision`**: Collision checks (`AABB2`, `CircleCollider`).
-- **`hello_sprite_batch`**: Batch rendering sprites in a single draw call.
 - **`hello_tilemap`**: Tilemap chunks with frustum culling.
 - **`hello_ecs`**: Entity Component System queries.
 - **`hello_multithreading`**: Task scheduling via `ThreadPool`.

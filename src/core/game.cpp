@@ -11,6 +11,7 @@
 #include "lili2d/ecs/ecs_registry.hpp"
 #include "lili2d/render/2d/render2d_system.hpp"
 #include "lili2d/render/2d/ui_layout_system.hpp"
+#include "lili2d/render/common/animation_system.hpp"
 #include "lili2d/render/renderer.hpp"
 #include <memory>
 
@@ -130,6 +131,18 @@ Game::onEvent(const Event& event)
 }
 
 void
+Game::updateSystems(ECSRegistry& ecs_registry, float dt)
+{
+    UILayoutSystem::update(
+        ecs_registry,
+        window->getSize(),
+        thread_pool.get(),
+        renderer->getDefaultFont()
+    );
+    AnimationSystem::update(ecs_registry, dt, thread_pool.get());
+}
+
+void
 Game::onUpdate(float dt)
 {
     if (!scene_manager->empty())
@@ -137,23 +150,11 @@ Game::onUpdate(float dt)
 
     ActionMap::get().update();
 
-    if (auto* scene = scene_manager->current()) {
-        if (auto* scene_registry = scene->getECSRegistry()) {
-            UILayoutSystem::update(
-                *scene_registry,
-                window->getSize(),
-                thread_pool.get(),
-                renderer->getDefaultFont()
-            );
-        }
-    }
+    if (auto* scene = scene_manager->current())
+        if (auto* scene_ecs_reg = scene->getECSRegistry())
+            updateSystems(*scene_ecs_reg, dt);
 
-    UILayoutSystem::update(
-        *ecs_registry,
-        window->getSize(),
-        thread_pool.get(),
-        renderer->getDefaultFont()
-    );
+    updateSystems(*ecs_registry, dt);
 
     clock.update();
 }
@@ -166,28 +167,27 @@ Game::onFixedUpdate([[maybe_unused]] float dt)
 }
 
 void
+Game::renderSystems(ECSRegistry& ecs_registry, [[maybe_unused]] float alpha)
+{
+    Render2DSystem::render(
+        ecs_registry,
+        *dynamic_batch,
+        renderer->getTheWhitePixel(),
+        renderer->getDefaultFont()
+    );
+}
+
+void
 Game::onRender(float alpha)
 {
     if (!scene_manager->empty())
         scene_manager->render(alpha);
 
-    if (auto* scene = scene_manager->current()) {
-        if (auto* scene_registry = scene->getECSRegistry()) {
-            Render2DSystem::render(
-                *scene_registry,
-                *dynamic_batch,
-                renderer->getTheWhitePixel(),
-                renderer->getDefaultFont()
-            );
-        }
-    }
+    if (auto* scene = scene_manager->current())
+        if (auto* scene_registry = scene->getECSRegistry())
+            renderSystems(*scene_registry, alpha);
 
-    Render2DSystem::render(
-        *ecs_registry,
-        *dynamic_batch,
-        renderer->getTheWhitePixel(),
-        renderer->getDefaultFont()
-    );
+    renderSystems(*ecs_registry, alpha);
 }
 
 } // namespace lili

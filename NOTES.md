@@ -11,8 +11,6 @@ smth else.
 
 ### IN PROGRESS
 
-- OOP to ECS support: AnimatedSprite.
-
 ## KEEP FOR LATER
 
 - Simplify process to create an Animation (now: load atlas -> slice -> register)

@@ -43,10 +43,12 @@ UILayoutSystem::updateEntity(
         }
     }
 
-    Vec2 obj_size =
-        (layout.size != Vec2{ 0.0f, 0.0f })
-            ? layout.size
-            : Vec2{ base_size.x * trans.scale.x, base_size.y * trans.scale.y };
+    Vec2 obj_size = layout.size;
+    if (obj_size == Vec2{ 0.0f, 0.0f })
+        obj_size = Vec2{
+            base_size.x * trans.scale.x,
+            base_size.y * trans.scale.y,
+        };
     Vec2 topleft = getScreenPosition(layout, obj_size, viewport_size);
     trans.pos = topleft + obj_size * 0.5f;
 }
@@ -62,7 +64,7 @@ UILayoutSystem::update(
     (void)registry.getPool<CircleComponent>();
     (void)registry.getPool<LineComponent>();
     (void)registry.getPool<TextComponent>();
-    UILayoutSystem sys(viewport_size, default_font);
+    auto sys = UILayoutSystem(viewport_size, default_font);
     sys.run(registry, 0.0f, thread_pool);
 }
 

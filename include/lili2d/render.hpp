@@ -21,6 +21,7 @@
 #include "lili2d/render/common/animation.hpp"          // IWYU pragma: export
 #include "lili2d/render/common/animation_player.hpp"   // IWYU pragma: export
 #include "lili2d/render/common/animation_registry.hpp" // IWYU pragma: export
+#include "lili2d/render/common/animation_system.hpp"   // IWYU pragma: export
 #include "lili2d/render/common/atlas_map.hpp"          // IWYU pragma: export
 #include "lili2d/render/common/camera.hpp"             // IWYU pragma: export
 #include "lili2d/render/common/material.hpp"           // IWYU pragma: export

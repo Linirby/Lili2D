@@ -10,15 +10,10 @@ public:
     App();
 
 private:
-    lili::AnimatedSprite head_sprite_old;
     lili::Entity head_sprite;
 
     void
     onInit() override;
     void
     onEvent(const lili::Event& event) override;
-    void
-    onUpdate(float dt) override;
-    void
-    onRender(float alpha) override;
 };

@@ -2,7 +2,6 @@
 
 #include <lili2d/core/asset_manager.hpp>
 #include <lili2d/entities/animated_sprite.hpp>
-#include <lili2d/render/common/animation.hpp>
 #include <lili2d/render/common/animation_registry.hpp>
 
 using namespace lili;
@@ -29,20 +28,13 @@ App::onInit()
         "head", Animation(head_atlas->getSliceUVs(0, 8))
     );
 
-    head_sprite_old = AnimatedSprite(renderer, anim_reg.getAnimation("head"));
-    head_sprite_old.setScale({ 15.0f, 15.0f });
-    head_sprite_old.setFrameSpeed(0.2f);
-    head_sprite_old.setRender(RenderLayer::UI);
-    head_sprite_old.setAnchor(Anchor::BOTTOM);
-    head_sprite_old.setPivot(Pivot::BOTTOM);
-
     head_sprite = createAnimatedSprite(
         ecs_reg,
         "head",
         {
             .transform{ .scale = Vec2(15.0f, 15.0f) },
             .render2d{ .render_pass = lili::RenderLayer::UI },
-            .animation{ .frame_time = 0.2f },
+            .animation{ .frame_time = 0.15f },
         }
     );
     ecs_reg.addComponents(
@@ -64,20 +56,4 @@ App::onEvent(const Event& event)
         if (event.keyJustPressed(kb) && kb.key == Key::ESCAPE)
             shutdown();
     }
-}
-
-void
-App::onUpdate(float dt)
-{
-    Game::onUpdate(dt);
-
-    head_sprite_old.update(dt);
-}
-
-void
-App::onRender(float alpha)
-{
-    Game::onRender(alpha);
-
-    // head_sprite_old.draw();
 }

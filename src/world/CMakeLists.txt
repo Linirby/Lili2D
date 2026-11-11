@@ -1,8 +1,5 @@
 add_library(lili_world OBJECT
-    chunk.cpp
-    chunk_batch.cpp
     tile_registry.cpp
-    tilemap.cpp
 )
 add_library(lili::world ALIAS lili_world)
 

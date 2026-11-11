@@ -1,17 +1,17 @@
 # Examples
 
+- **`hello_animation`**: Sprite sheet animation (`AtlasMap`, `AnimationComponent`).
+- **`hello_camera`**: Camera viewports, zoom, and render layers (`WORLD2D` vs `UI`).
+- **`hello_collision`**: Collision checks (`AABB2`, `CircleCollider`).
+- **`hello_ecs`**: Entity Component System queries.
+- **`hello_layer`**: Render layer sorting and draw order.
+- **`hello_multithreading`**: Task scheduling via `ThreadPool`.
+- **`hello_render2d`**: Show the use of the hidden `Render2DSystem` in `Game` class.
+- **`hello_scenes`**: Scene stack management and transitions.
+- **`hello_shader`**: Custom SPIR-V vertex and fragment shaders.
 - **`hello_shapes`**: Basic 2D shapes (`Line`, `Rect`, `Circle`).
 - **`hello_sprite`**: Texture loading and 2D sprite transforms.
 - **`hello_text`**: Bitmap fonts and text alignment.
-- **`hello_camera`**: Camera viewports, zoom, and render layers (`WORLD2D` vs `UI`).
-- **`hello_layer`**: Render layer sorting and draw order.
-- **`hello_scenes`**: Scene stack management and transitions.
-- **`hello_animation`**: Sprite sheet animation (`AtlasMap`, `AnimationComponent`).
-- **`hello_shader`**: Custom SPIR-V vertex and fragment shaders.
-- **`hello_collision`**: Collision checks (`AABB2`, `CircleCollider`).
-- **`hello_tilemap`**: Tilemap chunks with frustum culling.
-- **`hello_ecs`**: Entity Component System queries.
-- **`hello_multithreading`**: Task scheduling via `ThreadPool`.
 
 ## Build and Run
 

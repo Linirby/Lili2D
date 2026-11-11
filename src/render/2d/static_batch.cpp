@@ -95,7 +95,9 @@ StaticBatch::bake(const MeshData& data)
         return;
 
     if (!mesh)
-        mesh = std::make_unique<GPUMesh>(renderer->getDevice(), data);
+        mesh = std::make_unique<GPUMesh>(
+            renderer->getDevice(), data, renderer->getCurrentCommandBuffer()
+        );
     else
         mesh->update(data, renderer->getCurrentCommandBuffer());
     material.albedoMap = active_texture;

@@ -7,12 +7,12 @@ smth else.
 
 ### TODO
 
-- Make Tilemaps easier to use (auto draw and update in Scenes and Game + createTilemap() method in scene).
-
 ### IN PROGRESS
 
 ## KEEP FOR LATER
 
+- Build new TileMap2D system, the last was based on an old 3d project, and it was
+  spaghetti code.
 - Simplify process to create an Animation (now: load atlas -> slice -> register)
 - GPUMesh::transferToGpu() -> replace every frame allocation, by a persistent buffer
   for the transfer buffer.

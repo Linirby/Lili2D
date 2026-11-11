@@ -1,26 +1,17 @@
 add_library(lili_render OBJECT
-    2d/animated_sprite.cpp
     2d/batch_helper.cpp
     2d/bitmap_font.cpp
-    2d/circle.cpp
-    2d/line.cpp
-    2d/rect.cpp
     2d/render2d_system.cpp
     2d/dynamic_batch.cpp
-    2d/sprite.cpp
     2d/static_batch.cpp
-    2d/text.cpp
-    2d/ui_layout.cpp
     2d/ui_layout_system.cpp
     common/animation.cpp
-    common/animation_player.cpp
     common/animation_registry.cpp
     common/animation_system.cpp
     common/atlas_map.cpp
     common/camera.cpp
     common/material.cpp
     common/material_registry.cpp
-    common/renderable.cpp
     common/unit_mesh.cpp
     gpu/gpu_mesh.cpp
     gpu/main_graphics_pipeline.cpp

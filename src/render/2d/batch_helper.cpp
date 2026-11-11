@@ -246,7 +246,6 @@ appendHollowCircle(
 
     uint32_t base_idx = mesh_data.vertices.size();
     int n = (segments >= 3) ? segments : 3;
-    float d = (radius + radius >= 1.0f) ? radius + radius : 1.0f;
     float inner_r = std::max(0.0f, radius - thickness);
     float angle_step = (2.0f * PI) / n;
 

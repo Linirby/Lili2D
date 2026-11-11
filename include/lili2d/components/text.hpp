@@ -7,6 +7,8 @@
 
 namespace lili {
 
+/// @brief Component representing 2D text rendered with a BitmapFont and
+/// StringArena.
 struct TextComponent
 {
     BitmapFont* font = nullptr; ///< Font :P
@@ -19,7 +21,7 @@ struct TextComponent
 
 static_assert(
     std::is_trivially_copyable_v<TextComponent>,
-    "SpriteComponent must be trivially copyable"
+    "TextComponent must be trivially copyable"
 );
 
 } // namespace lili

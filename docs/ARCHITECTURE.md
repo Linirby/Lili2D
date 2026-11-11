@@ -17,9 +17,8 @@ An overview of the core subsystems, memory layouts, and rendering pipeline in Li
 9. [Rendering & GPU Memory](#9-rendering--gpu-memory)
 10. [Custom Shader & Uniform Buffer](#10-custom-shader--uniform-buffer)
 11. [Input Action Mapping](#11-input-action-mapping)
-12. [3D Grid Tilemap & Meshing](#12-3d-grid-tilemap--meshing)
-13. [Animation & Sprite Slicing](#13-animation--sprite-slicing)
-14. [Modern C++ & Guidelines](#14-modern-c--guidelines)
+12. [Animation & Sprite Slicing](#12-animation--sprite-slicing)
+13. [Modern C++ & Guidelines](#13-modern-c--guidelines)
 
 ---
 
@@ -193,30 +192,25 @@ sequenceDiagram
 
 ## 6. UI Layout Engine & Matrix Transform
 
-All rendered 2D objects inherit from `lili::IRenderable`, establishing a unified interface for positions, scales, rotations, materials, and UI layout positioning.
+All rendered 2D entities in Lili2D use `TransformComponent` (`pos`, `scale`, `rotation`), `Render2DComponent` (`size`, `color`, `layer`, `material_id`, `render_pass`, `visible`), and an optional `UILayoutComponent` processed by `lili::UILayoutSystem`.
 
-### UI Pivot & Anchor Normalization
+### UI Pivot & Anchor Normalization (`UILayoutSystem`)
 
-Lili2D positions UI elements using normalized **Anchors** (relative to the screen/viewport) and **Pivots** (relative to the element's bounding box):
+`UILayoutSystem` computes screen-space positions for entities possessing `UILayoutComponent`, `Render2DComponent`, and `TransformComponent` using normalized **Anchors** (relative to the logical viewport) and **Pivots** (relative to the element's bounding box or measured `TextComponent` bounds):
 
 ```cpp
-Vec2 global_pos = (viewport_size * anchor) + offset - (element_size * pivot);
+Vec2 screen_pos = (viewport_size * anchor) + offset - (element_size * pivot);
 ```
 
 ### 3x3 Affine Matrix Transformation (`Mat3`)
 
-Renderables combine translation, pivot offsets, rotation, and scale into a 3x3 transformation matrix:
+Projections and camera views combine translation, rotation, and scale into a 3x3 transformation matrix (`Mat3`):
 
 ```cpp
-Mat3 transform = Mat3::translation(screen_pos) *
+Mat3 transform = Mat3::translate(pos) *
                  Mat3::rotation(rotation_rad) *
-                 Mat3::scale(scale) *
-                 Mat3::translation(-pivot_offset);
+                 Mat3::scale(scale);
 ```
-
-### Inverse-Matrix Point Containment (`containsPoint`)
-
-To test if screen or mouse coordinates hit a transformed element, `containsPoint()` multiplies the point by the inverse transformation matrix, bringing the point into local unrotated space for an exact bounding box check.
 
 ---
 
@@ -258,18 +252,9 @@ Vec2 closest = { std::clamp(circle.center.x, aabb.min.x, aabb.max.x),
 bool hit = (circle.center - closest).lengthSquared() <= (circle.radius * circle.radius);
 ```
 
-### Zero-Allocation Primitive & Debug Visualization
+### Debug & Primitive Visualization via ECS
 
-Colliders do not render themselves directly. Instead, colliders expose a `.getShape()` method that returns geometric primitives (`RectShape`, `CircleShape`), which can be submitted directly to the `Renderer`'s cached shape drawing API (`drawRect`, `drawCircle`, `drawLine`):
-
-```cpp
-// Prototyping / debug visualization using cached shape rendering:
-renderer->drawRect(aabb.getShape(), debug_color, /*hollow=*/true);
-renderer->drawCircle(circle_collider.getShape(), debug_color, /*hollow=*/true);
-renderer->drawLine(start, end, debug_color, thickness);
-```
-
-The `Renderer` uses an internal `ShapesCache` (PIMPL) retaining shared primitives and materials keyed by color and fill mode. This avoids heap allocations during frame steps and allows rapid game prototyping without creating texture assets.
+Colliders expose a `.getShape()` method returning geometric primitives (`RectShape`, `CircleShape`), which can be visualized or synchronized with ECS primitive entities (`RectComponent`, `CircleComponent`, `LineComponent`) created via `createRect`, `createCircle`, and `createLine`.
 
 ---
 
@@ -277,26 +262,19 @@ The `Renderer` uses an internal `ShapesCache` (PIMPL) retaining shared primitive
 
 Lili2D relies on SDL3's `SDL_GPU` for direct modern graphics execution (Vulkan, Direct3D 12, Metal).
 
-### Camera Viewport Frustum Culling
+### Unified 2D Sorting & Batching (`Render2DSystem`, `DynamicBatch`, `StaticBatch`)
 
-Before submitting tilemap geometry to GPU command buffers, the `TileMap` culls all chunks lying outside the active `Camera` viewport bounds calculated via inverse camera zoom/translation matrices. Chunks outside camera AABB boundaries skip mesh updates and draw submissions entirely.
+To minimize GPU state changes and draw calls, `Render2DSystem` collects all visible 2D ECS entities (`SpriteComponent`, `RectComponent`, `CircleComponent`, `LineComponent`, `TextComponent`) into a flat, trivially copyable `DrawItem` array and sorts indices by:
+1. `render_pass` (`PIXEL_WORLD2D`, `WORLD2D`, `UI`)
+2. `layer` (Z-depth)
+3. `material_id` (`MaterialRegistry`)
+4. `entity` & `texture`
 
-### Texture Batching (`SpriteBatch`)
+Sorted items are appended via `BatchHelper` into a `DynamicBatch`, merging sprites, primitives, and bitmap text sharing the same render state into a single GPU vertex/index buffer upload and draw call. For static geometry (such as level backgrounds or chunk meshes), `StaticBatch` bakes vertices once into persistent VRAM (`GPUMesh`).
 
-To prevent bottlenecks caused by repetitive GPU draw calls, Lili2D groups sprites sharing identical texture bindings and render passes into a `SpriteBatch`. Sprite vertices and indices are merged into single dynamic buffers and rendered in a single draw call.
+### Zero-Allocation Text Storage (`StringArena`)
 
-### Dynamic Rebuild Budgeting
-
-Rebuilding hundreds of chunks in a single frame during camera movement can saturate command buffers. Lili2D enforces a chunk rebuild budget of **8 chunks per frame tick**:
-
-```cpp
-if (chunk.dirty && rebuilds_this_frame < 8) {
-    rebuilds_this_frame++;
-    chunk.rebuildBatches(renderer, thread_pool, chunk_pos, tile_size);
-}
-```
-
-Excess dirty chunks are deferred and progressively updated across subsequent frames.
+To keep `TextComponent` trivially copyable and cache-friendly inside ECS pools without heap-allocating `std::string` per entity, `ECSRegistry` owns a contiguous `StringArena` (`std::vector<char>`) with free-list block reuse (`FreeSpace`). `TextComponent` stores only a `uint32_t offset` and `uint32_t length` into the arena.
 
 ### GPU Idle Synchronization & Deleter Protections
 
@@ -319,15 +297,18 @@ graph LR
     GPUComp --> Backend[Vulkan / D3D12 / Metal GPU Shader]
 ```
 
-### Direct Uniform Push Architecture
+### Direct Uniform Push & `MaterialRegistry`
 
-Lili2D utilizes SDL3 GPU's uniform push model rather than allocating persistent descriptor uniform buffers per draw call:
+Lili2D utilizes SDL3 GPU's uniform push model rather than allocating persistent descriptor uniform buffers per draw call, managed centrally via `lili::MaterialRegistry`:
 * **Vertex Slot 0 (Engine Uniforms)**: MVP matrix (3x4 columns), tint color (`Vec4`), UV bounds (`Vec4`), render layer, and elapsed engine time.
-* **Vertex Slot 1 & Fragment Slot 0 (Custom User Uniforms)**: Arbitrary user-defined structs pushed directly into the command buffer stream via `material.setVertexUniforms(data)` and `material.setFragmentUniforms(data)`.
+* **Vertex Slot 1 & Fragment Slot 0 (Custom User Uniforms)**: Arbitrary user-defined structs pushed into the command buffer stream via `Material::setVertexUniforms(data)` and `Material::setFragmentUniforms(data)`. Entities reference materials by lightweight `uint16_t material_id` handles stored on `Render2DComponent`.
 
 ```cpp
 struct WaveUniforms { float time, amplitude, frequency, speed; };
-rect.getMaterial()->setVertexUniforms(WaveUniforms{ clock.getTime(), 0.2f, 30.0f, 5.0f });
+uint16_t mat_id = MaterialRegistry::get().createMaterial("wave", pipeline);
+MaterialRegistry::get().getMaterial(mat_id)->setFragmentUniforms(
+    WaveUniforms{ clock.getTime(), 0.2f, 30.0f, 5.0f }
+);
 ```
 
 ---
@@ -350,28 +331,9 @@ The action map processes input transitions per frame, allowing systems to query:
 
 ---
 
-## 12. 3D Grid Tilemap & Meshing
+## 12. Animation & Sprite Slicing
 
-Lili2D's world tilemap system (`lili::TileMap`) is architected for expansive grid-based environments using 3D chunk spatial partitioning (`Point3(chunkX, chunkY, layerZ)`).
-
-```mermaid
-graph TD
-    WorldPos[World Tile Coord Point3] --> Hash[getChunkCoord / getLocalCoord]
-    Hash --> Chunk[Target Chunk in std::map]
-    Chunk --> Batch[Asynchronous Batch Mesh Generation]
-    Batch --> TP[ThreadPool Worker Tasks]
-    TP --> GPUMesh[Baked Dynamic GPUMesh Buffers]
-```
-
-### Chunk Features
-* **Spatial Partitioning**: Coordinates are mapped into fixed chunks (e.g. 16x16 tiles) indexed by `Point3`.
-* **Layer Depth & Collision**: `checkCollision(AABB3)` queries solid tile IDs directly within local chunk coordinates, testing bounding box overlaps without inspecting air tiles.
-
----
-
-## 13. Animation & Sprite Slicing
-
-Lili2D handles 2D sprite animations through an `AtlasMap`, an `AnimationRegistry`, and an `AnimationPlayer`.
+Lili2D handles 2D sprite animations through `AtlasMap`, `AnimationRegistry`, `AnimationComponent`, and `AnimationSystem`.
 
 ### Sub-Texture UV Slicing (`AtlasMap`)
 
@@ -383,14 +345,14 @@ Vec2 uv_min = { static_cast<float>(col) / cols, static_cast<float>(row) / rows }
 Vec2 uv_max = { static_cast<float>(col + 1) / cols, static_cast<float>(row + 1) / rows };
 ```
 
-### Playback & Event Hooks (`AnimationPlayer`)
+### ECS Animation Playback (`AnimationComponent` & `AnimationSystem`)
 
-* **Normalized Frame Accumulation**: `AnimationPlayer` accumulates delta time against `frame_duration`, advancing the active frame index and wrapping with `LoopMode` (`Loop`, `Once`, `PingPong`).
-* **Frame Callbacks**: Custom events (footstep SFX, attack hitboxes, projectile spawning) can be hooked to specific animation frame indices via `onFrame(frame_idx, callback)`.
+* **Registry-Backed Clips**: `Animation` clips store a sequence of `SliceUV` frames and a `frame_duration`, registered in `AnimationRegistry` with a `uint16_t` ID.
+* **Data-Oriented Playback**: `AnimationSystem` iterates over entities with `AnimationComponent` and `SpriteComponent`, advancing `timer` by `dt * speed`, updating `current_frame` (supporting looping and one-shot playback), and writing the active frame's `u_min`, `v_min`, `u_max`, `v_max` directly into `SpriteComponent`.
 
 ---
 
-## 14. Modern C++ & Guidelines
+## 13. Modern C++ & Guidelines
 
 Lili2D adheres to modern C++20 practices across all engine subsystems, focusing on zero static initialization overhead and cache-friendly data structures.
 

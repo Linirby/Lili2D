@@ -9,11 +9,12 @@
 
 namespace lili {
 
+/// @brief Parameters used to initialize a text entity.
 struct TextParameters
 {
-    TransformComponent transform{};
-    Render2DComponent render2d{};
-    TextComponent text{};
+    TransformComponent transform{}; ///< Transform component.
+    Render2DComponent render2d{};   ///< Render2D component.
+    TextComponent text{};           ///< Text component.
 };
 
 /// @brief Creates a 2D Text entity using a BitmapFont and StringArena.
@@ -23,6 +24,7 @@ struct TextParameters
 /// `render_pass`, `is_visible`)
 /// - `TextComponent` (`font`, `spacing`)
 /// @param registry The ECS registry.
+/// @param content Initial text string content to store in the StringArena.
 /// @param params The parameters of the text entity.
 /// @return The created Entity.
 [[nodiscard]] Entity

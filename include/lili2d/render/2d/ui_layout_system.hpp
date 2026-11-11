@@ -18,6 +18,10 @@ class UILayoutSystem
   : public System<UILayoutComponent, Render2DComponent, TransformComponent>
 {
 public:
+    /// @brief Constructs a UILayoutSystem.
+    /// @param viewport_size The current logical viewport size.
+    /// @param default_font Fallback font used when measuring TextComponent
+    /// bounds.
     explicit UILayoutSystem(
         Vec2 viewport_size = {},
         BitmapFont* default_font = nullptr
@@ -27,18 +31,29 @@ public:
     {
     }
 
+    /// @brief Sets the viewport size used for anchor calculations.
+    /// @param size The viewport width and height.
     inline void
     setViewportSize(Vec2 size) noexcept
     {
         viewport_size = size;
     }
 
+    /// @brief Sets the default font used when measuring TextComponent bounds.
+    /// @param font Pointer to the fallback BitmapFont.
     inline void
     setDefaultFont(BitmapFont* font) noexcept
     {
         default_font = font;
     }
 
+    /// @brief Recomputes the screen position of a single UI entity if dirty.
+    /// @param registry The ECS registry.
+    /// @param entity The entity being updated.
+    /// @param layout The entity's UILayoutComponent.
+    /// @param render2d The entity's Render2DComponent.
+    /// @param trans The entity's TransformComponent.
+    /// @param dt Delta time (unused).
     void
     updateEntity(
         ECSRegistry& registry,
@@ -49,6 +64,12 @@ public:
         float dt
     ) override;
 
+    /// @brief Updates all entities with UILayoutComponent, Render2DComponent,
+    /// and TransformComponent.
+    /// @param registry The ECS registry.
+    /// @param viewport_size The current logical viewport dimensions.
+    /// @param thread_pool Optional thread pool for parallel execution.
+    /// @param default_font Optional fallback font for text measurement.
     static void
     update(
         ECSRegistry& registry,

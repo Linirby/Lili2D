@@ -1,6 +1,7 @@
 #include "app.hpp"
 
 #include "rng_helper.hpp"
+#include <lili2d/components/ui_layout.hpp>
 #include <lili2d/entities/circle.hpp>
 #include <lili2d/entities/line.hpp>
 #include <lili2d/entities/rect.hpp>

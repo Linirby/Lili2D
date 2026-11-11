@@ -13,9 +13,8 @@ class SceneManager;
 class Scene
 {
 public:
-    /// @brief Constructs a Scene with a name and renderer pointer.
+    /// @brief Constructs a Scene with a name.
     /// @param name Name of the scene.
-    /// @param renderer Pointer to Renderer.
     explicit Scene(const std::string& name)
       : name(name)
     {

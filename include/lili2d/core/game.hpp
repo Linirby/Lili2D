@@ -120,24 +120,32 @@ public:
         return clock;
     }
 
+    /// @brief Gets a mutable reference to the global ECS registry.
+    /// @return Reference to the ECSRegistry.
     [[nodiscard]] inline ECSRegistry&
     getECSRegistry() noexcept
     {
         return *ecs_registry;
     }
 
+    /// @brief Gets a const reference to the global ECS registry.
+    /// @return Const reference to the ECSRegistry.
     [[nodiscard]] inline const ECSRegistry&
     getECSRegistry() const noexcept
     {
         return *ecs_registry;
     }
 
+    /// @brief Gets a pointer to the global ECS registry.
+    /// @return Pointer to the ECSRegistry.
     [[nodiscard]] inline ECSRegistry*
     getECSRegsitry() const noexcept
     {
         return ecs_registry.get();
     }
 
+    /// @brief Gets the scene manager.
+    /// @return Pointer to the SceneManager.
     [[nodiscard]] inline SceneManager*
     getSceneManager() const noexcept
     {

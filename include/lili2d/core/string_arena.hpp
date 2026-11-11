@@ -9,17 +9,20 @@
 
 namespace lili {
 
+/// @brief Represents a freed contiguous block in the StringArena.
 struct FreeSpace
 {
-    uint32_t offset;
-    uint32_t length;
+    uint32_t offset; ///< Starting character index in the arena.
+    uint32_t length; ///< Length of the free block in bytes.
 };
 
+/// @brief Contiguous character arena for zero-allocation ECS text storage.
 class StringArena
 {
 public:
     /// @brief Append a text to the content of the StringArena.
     /// @param text The string you want to add.
+    /// @param capacity Optional pre-allocated capacity (0 = text.size()).
     /// @return the offset of the string in the arena.
     uint32_t
     append(std::string_view text, uint32_t capacity = 0);
@@ -38,7 +41,7 @@ public:
     /// @brief Formats a string directly into a pre-allocated slot in the arena.
     /// @note The number of characters written is the new length of the text.
     /// @param offset The starting index in the arena.
-    /// @param max_capacity Max number of characters to write (excluding '\0').
+    /// @param capacity Max number of characters to write (excluding '\0').
     /// @param fmt The std::format format string.
     /// @param args Arguments to format.
     /// @return The length of the formatted.
@@ -68,8 +71,7 @@ public:
     }
     /// @brief Formats a string directly into a pre-allocated slot in the arena.
     /// @note The number of characters written is the new length of the text.
-    /// @param offset The starting index in the arena.
-    /// @param max_capacity Max number of characters to write (excluding '\0').
+    /// @param comp The TextComponent whose slot will be formatted in-place.
     /// @param fmt The std::format format string.
     /// @param args Arguments to format.
     template<typename... Args>
@@ -85,6 +87,9 @@ public:
         );
     }
 
+    /// @brief Marks a slice in the arena as free for future reuse.
+    /// @param offset Starting index in the arena.
+    /// @param capacity Allocated capacity (excluding null terminator).
     void
     free(uint32_t offset, uint32_t capacity)
     {
@@ -92,12 +97,17 @@ public:
             free_spaces.push_back({ offset, capacity + 1 });
     }
 
+    /// @brief Marks the slice used by a TextComponent as free for future reuse.
+    /// @param comp The TextComponent whose slice will be freed.
     void
     free(TextComponent comp)
     {
         free(comp.offset, comp.capacity);
     }
 
+    /// @brief Reserves capacity for the character buffer and free-space list.
+    /// @param char_capacity Number of characters to reserve.
+    /// @param free_capacity Number of free space entries to reserve.
     void
     reserve(uint32_t char_capacity, uint32_t free_capacity = 32)
     {
@@ -105,6 +115,10 @@ public:
         free_spaces.reserve(free_capacity);
     }
 
+    /// @brief Gets a string_view into the arena at the given offset and length.
+    /// @param offset Starting index in the arena.
+    /// @param length String length in characters.
+    /// @return A string_view of the slice, or empty if out of bounds.
     [[nodiscard]] std::string_view
     getStringView(uint32_t offset, uint32_t length) const noexcept
     {
@@ -113,18 +127,25 @@ public:
         return std::string_view(content.data() + offset, length);
     }
 
+    /// @brief Gets a string_view for the text referenced by a TextComponent.
+    /// @param comp The TextComponent referencing the slice.
+    /// @return A string_view of the component's text.
     [[nodiscard]] std::string_view
     getStringView(TextComponent comp) const noexcept
     {
         return getStringView(comp.offset, comp.length);
     }
 
+    /// @brief Gets a const reference to the underlying character vector.
+    /// @return Const reference to the character buffer.
     [[nodiscard]] const std::vector<char>&
     getContent() const noexcept
     {
         return content;
     }
 
+    /// @brief Gets a mutable reference to the underlying character vector.
+    /// @return Mutable reference to the character buffer.
     [[nodiscard]] std::vector<char>&
     getContent() noexcept
     {

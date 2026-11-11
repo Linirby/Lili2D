@@ -12,11 +12,12 @@ namespace lili {
 
 class Renderer;
 
+/// @brief Parameters used to initialize a sprite entity.
 struct SpriteParameters
 {
-    TransformComponent transform{};
-    Render2DComponent render2d{};
-    SpriteComponent sprite{};
+    TransformComponent transform{}; ///< Transform component.
+    Render2DComponent render2d{};   ///< Render2D component.
+    SpriteComponent sprite{};       ///< Sprite component.
 };
 
 static_assert(

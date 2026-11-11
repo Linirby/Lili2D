@@ -5,7 +5,6 @@
 
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/render/common/material.hpp"
-#include "lili2d/render/common/renderable.hpp"
 #include "lili2d/render/common/slice_uv.hpp"
 #include "lili2d/render/gpu/gpu_mesh.hpp"
 #include "lili2d/render/gpu/pass_types.hpp"

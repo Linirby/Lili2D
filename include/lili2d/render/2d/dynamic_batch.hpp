@@ -8,7 +8,6 @@
 #include "lili2d/core/batch_item.hpp"
 #include "lili2d/geometry/vec2.hpp"
 #include "lili2d/geometry/vec4.hpp"
-#include "lili2d/render/common/renderable.hpp"
 #include "lili2d/render/common/slice_uv.hpp"
 #include "lili2d/render/gpu/gpu_mesh.hpp"
 #include "lili2d/render/gpu/texture.hpp"

@@ -1,5 +1,6 @@
 #include "app.hpp"
 
+#include <lili2d/components/ui_layout.hpp>
 #include <lili2d/core/action_map.hpp>
 #include <lili2d/entities/circle.hpp>
 #include <lili2d/entities/rect.hpp>

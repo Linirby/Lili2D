@@ -20,14 +20,14 @@ I created this project to learn modern engine architecture and have a fast, clea
 
 ## Features
 
-- **SDL_GPU Renderer**: Hardware-accelerated 2D rendering with texture batching (`SpriteBatch`) and shape drawing (rectangles, circles, lines).
-- **Entity Component System (ECS)**: Contiguous component pools with multi-component queries (`ECSView`) and a deferred command buffer.
+- **SDL_GPU Renderer**: Hardware-accelerated 2D rendering with automatic sorting and batching (`Render2DSystem`, `DynamicBatch`, `StaticBatch`) for sprites, primitives (rectangles, circles, lines), and bitmap text.
+- **Entity Component System (ECS)**: Contiguous sparse-set component pools with multi-component queries (`ECSView`), entity prefabs (`createSprite`, `createRect`, `createCircle`, `createLine`, `createText`, `createAnimatedSprite`), and a deferred command buffer.
+- **Zero-Allocation Text & Materials**: Contiguous `StringArena` for text components and ID-based `MaterialRegistry` for custom shaders and uniform buffers.
 - **Fixed Timestep**: Deterministic 60 TPS update loop with frame interpolation.
 - **Asset Management**: Automatic caching for textures and shaders, with file hot-reloading (`Assets`).
-- **UI Anchors & Pivots**: Simple 2D layout helpers for screen positioning and virtual resolution scaling.
-- **Multithreading**: C++20 thread pool with priority queues (`HIGH`, `NORMAL`, `LOW`).
+- **UI Anchors & Pivots**: Declarative `UILayoutComponent` and `UILayoutSystem` for screen positioning and virtual resolution scaling.
+- **Multithreading**: C++20 thread pool with priority queues (`HIGH`, `NORMAL`, `LOW`) and parallel ECS system execution.
 - **Collisions**: Fast 2D AABB and circle collision checks.
-- **Tilemaps**: Chunk-based tile rendering with viewport frustum culling.
 
 ## Prerequisites
 
@@ -52,7 +52,7 @@ ctest --test-dir build --output-on-failure
 
 ## Quick Start
 
-Here is a minimal example setting up a window, loading a sprite, and drawing shapes:
+Here is a minimal example setting up a window, spawning a sprite with UI anchoring, and creating shapes via the ECS:
 
 ```cpp
 #include <lili2d/lili2d.hpp>
@@ -70,35 +70,45 @@ public:
             "cat", "assets/textures/cat.png", getRenderer()->getDevice()
         );
 
-        // Create a sprite with UI anchor & pivot positioning
-        sprite = lili::Sprite(getRenderer(), cat_tex);
-        sprite.setAnchor(lili::Anchor::CENTER);
-        sprite.setPivot(lili::Pivot::CENTER);
-        sprite.setOffset({ 0.0f, -50.0f });
+        auto& registry = getECSRegistry();
 
-        // Create a vector shape
-        circle = lili::Circle(
-            getRenderer(),
-            lili::CircleShape({ 400.0f, 600.0f }, 60.0f, 32),
-            lili::Vec4(0.2f, 0.6f, 1.0f, 1.0f)
+        // Create a sprite entity with UI anchor & pivot positioning
+        lili::Entity sprite = lili::createSprite(registry, cat_tex);
+        registry.addComponent<lili::UILayoutComponent>(
+            sprite,
+            lili::UILayoutComponent{
+                .anchor = lili::Anchor::CENTER,
+                .pivot = lili::Pivot::CENTER,
+                .offset = { 0.0f, -50.0f }
+            }
         );
+
+        // Create a filled circle entity
+        lili::createCircle(
+            registry,
+            { .position = { 400.0f, 600.0f },
+              .radius = 60.0f,
+              .color = { 0.2f, 0.6f, 1.0f, 1.0f },
+              .segments = 32 }
+        );
+
+        // Create a hollow rectangle entity
+        lili::createRect(
+            registry,
+            { .position = { 50.0f, 50.0f },
+              .size = { 120.0f, 40.0f },
+              .color = { 1.0f, 0.5f, 0.0f, 1.0f },
+              .hollow = true }
+        );
+    }
+
+    void onUpdate(float dt) override {
+        (void)dt;
     }
 
     void onRender(float alpha) override {
         (void)alpha;
-        sprite.draw();
-        circle.draw();
-
-        // Direct primitive drawing
-        getRenderer()->drawRect(
-            lili::RectShape({ 50.0f, 50.0f }, { 120.0f, 40.0f }),
-            lili::Vec4(1.0f, 0.5f, 0.0f, 1.0f), /*hollow=*/true
-        );
     }
-
-private:
-    lili::Sprite sprite;
-    lili::Circle circle;
 };
 
 int main() {
@@ -110,7 +120,7 @@ int main() {
 
 ## Examples
 
-Check out the [`examples/`](examples/) directory for standalone demo projects covering shapes, sprites, animations, custom shaders, ECS, and tilemaps.
+Check out the [`examples/`](examples/) directory for standalone demo projects covering shapes, sprites, animations, custom shaders, and ECS.
 
 ## Documentation
 

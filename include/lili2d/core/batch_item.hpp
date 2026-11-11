@@ -5,10 +5,11 @@
 
 namespace lili {
 
+/// @brief Represents a pooled GPU mesh and material pair for batched rendering.
 struct BatchItem
 {
-    std::unique_ptr<GPUMesh> mesh;
-    Material material;
+    std::unique_ptr<GPUMesh> mesh; ///< Owned GPU mesh buffer.
+    Material material;             ///< Material bound to this batch item.
 };
 
 } // namespace lili

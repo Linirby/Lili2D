@@ -21,10 +21,10 @@ struct MeshData
 /// @brief Contains the data used to transfer a MeshData to the GPU
 struct TransferData
 {
-    const void* v_data = nullptr;
-    const void* i_data = nullptr;
-    uint32_t v_size = 0; ///< Size of vertices.
-    uint32_t i_size = 0; ///< Size of indices.
+    const void* v_data = nullptr; ///< Pointer to vertex buffer data.
+    const void* i_data = nullptr; ///< Pointer to index buffer data.
+    uint32_t v_size = 0;          ///< Size of vertices in bytes.
+    uint32_t i_size = 0;          ///< Size of indices in bytes.
 };
 
 /// @brief Represents a mesh stored on the GPU.
@@ -34,6 +34,8 @@ public:
     /// @brief Constructs a GPU mesh from CPU data.
     /// @param device The SDL GPU device.
     /// @param mesh The CPU mesh data.
+    /// @param cmd Optional active command buffer to record the transfer pass
+    /// on.
     explicit GPUMesh(
         SDL_GPUDevice* device,
         const MeshData& mesh,
@@ -81,6 +83,8 @@ public:
 
     /// @brief Updates the mesh data.
     /// @param mesh The new CPU mesh data.
+    /// @param cmd Optional active command buffer to record the transfer pass
+    /// on.
     void
     update(const MeshData& mesh, SDL_GPUCommandBuffer* cmd = nullptr);
 

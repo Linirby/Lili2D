@@ -7,11 +7,12 @@
 
 namespace lili {
 
+/// @brief Parameters used to initialize a line entity.
 struct LineParameters
 {
-    TransformComponent transform{};
-    Render2DComponent render2d{};
-    LineComponent line{};
+    TransformComponent transform{}; ///< Transform component.
+    Render2DComponent render2d{};   ///< Render2D component.
+    LineComponent line{};           ///< Line component.
 };
 
 /// @brief Creates a 2D Line (Geometry) entity.

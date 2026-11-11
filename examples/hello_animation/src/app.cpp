@@ -1,5 +1,6 @@
 #include "app.hpp"
 
+#include <lili2d/components/ui_layout.hpp>
 #include <lili2d/core/asset_manager.hpp>
 #include <lili2d/entities/animated_sprite.hpp>
 #include <lili2d/render/common/animation_registry.hpp>

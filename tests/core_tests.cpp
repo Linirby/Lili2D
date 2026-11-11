@@ -507,7 +507,7 @@ TEST_CASE("TransformComponent - ECS Integration", "[core][transform][ecs]")
     }
 }
 
-#include "lili2d/render/2d/text.hpp"
+#include "lili2d/render/2d/bitmap_font.hpp"
 #include "lili2d/render/default_font.hpp"
 
 TEST_CASE("Default Font Asset Integrity", "[render][font]")
@@ -527,6 +527,4 @@ TEST_CASE("Default Font Asset Integrity", "[render][font]")
 
     static_assert(std::is_nothrow_move_constructible_v<BitmapFont>);
     static_assert(std::is_nothrow_move_assignable_v<BitmapFont>);
-    static_assert(std::is_nothrow_move_constructible_v<Text>);
-    static_assert(std::is_nothrow_move_assignable_v<Text>);
 }

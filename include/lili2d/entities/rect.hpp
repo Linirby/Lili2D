@@ -7,11 +7,12 @@
 
 namespace lili {
 
+/// @brief Parameters used to initialize a rectangle entity.
 struct RectParameters
 {
-    TransformComponent transform{};
-    Render2DComponent render2d{};
-    RectComponent rect{};
+    TransformComponent transform{}; ///< Transform component.
+    Render2DComponent render2d{};   ///< Render2D component.
+    RectComponent rect{};           ///< Rect component.
 };
 
 /// @brief Creates a 2D Rectangle (Quad) entity.

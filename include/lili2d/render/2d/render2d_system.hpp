@@ -15,15 +15,18 @@
 
 namespace lili {
 
+/// @brief Identifies the kind of 2D primitive stored in a DrawItem.
 enum class DrawType : uint8_t
 {
-    SPRITE,
-    RECT,
-    CIRCLE,
-    LINE,
-    TEXT
+    SPRITE, ///< Textured quad sprite.
+    RECT,   ///< Filled or hollow rectangle.
+    CIRCLE, ///< Filled or hollow circle.
+    LINE,   ///< Line segment.
+    TEXT    ///< Bitmap font text.
 };
 
+/// @brief Flattened, trivially copyable render command used for sorting and
+/// batching 2D entities.
 struct DrawItem
 {
     Texture* texture;        ///< The texture
@@ -37,8 +40,10 @@ struct DrawItem
     RenderLayer render_pass; ///< The render pass (WORLD2D / UI / ...)
     DrawType type;           ///< The type of the item
 
+    /// @brief Type-specific payload union for the draw item.
     union Nature
     {
+        /// @brief Payload for DrawType::SPRITE.
         struct Sprite
         {
             Vec2 scale;  ///< The scale
@@ -46,25 +51,29 @@ struct DrawItem
             float v_min; ///< The minimum V of the UV
             float u_max; ///< The maximum U of the UV
             float v_max; ///< The maximum V of the UV
-        } sprite;
+        } sprite;        ///< Sprite payload.
+        /// @brief Payload for DrawType::RECT.
         struct Rect
         {
             Vec2 scale;      ///< The scale
             float thickness; ///< The thickness (when hollow)
             bool hollow;     ///< The hollow indicator (true/false)
-        } rect;
+        } rect;              ///< Rectangle payload.
+        /// @brief Payload for DrawType::CIRCLE.
         struct Circle
         {
             float radius;      ///< The radius
             float thickness;   ///< The thickness (when hollow)
             uint32_t segments; ///< The segments (how detailed the circle is?)
             bool hollow;       ///< The hollow indicator (true/false)
-        } circle;
+        } circle;              ///< Circle payload.
+        /// @brief Payload for DrawType::LINE.
         struct Line
         {
             Vec2 dxy;        ///< The distance X/Y of the end from the start
             float thickness; ///< The thickness
-        } line;
+        } line;              ///< Line payload.
+        /// @brief Payload for DrawType::TEXT.
         struct Text
         {
             BitmapFont* font; ///< The font
@@ -72,8 +81,8 @@ struct DrawItem
             uint32_t offset;  ///< The offset in StringArena vector<char>
             uint32_t length;  ///< The length of the string (eg. "cat" = 3)
             float spacing;    ///< The spacing between letters
-        } text;
-    } nature;
+        } text;               ///< Text payload.
+    } nature;                 ///< Active primitive payload.
 };
 
 static_assert(
@@ -81,9 +90,17 @@ static_assert(
     "DrawItem must be trivially copyable."
 );
 
+/// @brief ECS system that collects, sorts, and batches all visible 2D entities.
 class Render2DSystem
 {
 public:
+    /// @brief Gathers all visible 2D entities from the registry, sorts them by
+    /// render state, and submits batched geometry.
+    /// @param registry The ECS registry containing 2D entities.
+    /// @param batch The dynamic batch used to accumulate and flush geometry.
+    /// @param the_white_pixel Fallback 1x1 white texture for untextured shapes.
+    /// @param default_font Fallback bitmap font for text components without an
+    /// explicit font.
     static void
     render(
         ECSRegistry& registry,

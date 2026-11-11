@@ -24,6 +24,9 @@ struct StringHash
     }
 };
 
+/// @brief Heterogeneous unordered_map keyed by std::string with transparent
+/// std::string_view lookup.
+/// @tparam T Value type stored in the map.
 template<typename T>
 using StringMap =
     std::unordered_map<std::string, T, StringHash, std::equal_to<>>;

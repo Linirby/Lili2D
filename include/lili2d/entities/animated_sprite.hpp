@@ -8,12 +8,13 @@
 
 namespace lili {
 
+/// @brief Parameters used to initialize an animated sprite entity.
 struct AnimatedSpriteParameters
 {
-    TransformComponent transform{};
-    Render2DComponent render2d{};
-    SpriteComponent sprite{};
-    AnimationComponent animation{};
+    TransformComponent transform{}; ///< Transform component.
+    Render2DComponent render2d{};   ///< Render2D component.
+    SpriteComponent sprite{};       ///< Sprite component.
+    AnimationComponent animation{}; ///< Animation component.
 };
 
 /// @brief Creates a 2D Sprite entity with an Animation.

@@ -1,5 +1,6 @@
 #include "app.hpp"
 
+#include <lili2d/components/ui_layout.hpp>
 #include <lili2d/ecs/ecs_registry.hpp>
 #include <lili2d/entities/rect.hpp>
 #include <lili2d/entities/sprite.hpp>

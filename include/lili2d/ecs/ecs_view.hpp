@@ -15,19 +15,35 @@
 
 namespace lili {
 
+/// @brief Multi-component view for iterating over entities possessing a set of
+/// components.
+/// @tparam Components The component types to query.
 template<typename... Components>
 class ECSView
 {
 public:
+    /// @brief Forward iterator over entities matching the ECSView query.
     class Iterator
     {
     public:
+        /// @brief Iterator category tag.
         using iterator_category = std::forward_iterator_tag;
+        /// @brief Difference type.
         using difference_type = std::ptrdiff_t;
+        /// @brief Value type yielded by dereferencing (`std::tuple<Entity,
+        /// Components&...>`).
         using value_type = std::tuple<Entity, Components&...>;
+        /// @brief Pointer type.
         using pointer = void;
+        /// @brief Reference type.
         using reference = value_type;
 
+        /// @brief Constructs an ECSView iterator.
+        /// @param pool_ptrs Tuple of pointers to the queried component pools.
+        /// @param lead_pool Pointer to the smallest component pool driving
+        /// iteration.
+        /// @param index Current index in the lead pool.
+        /// @param max_size Total number of elements in the lead pool.
         Iterator(
             std::tuple<ComponentPool<Components>*...> pool_ptrs,
             const IComponentPool* lead_pool,
@@ -43,6 +59,9 @@ public:
             find_valid();
         }
 
+        /// @brief Dereferences the iterator to return the current entity and
+        /// its components.
+        /// @return Tuple of `(Entity, Components&...)`.
         [[nodiscard]] reference
         operator*() const
         {
@@ -61,6 +80,8 @@ public:
             );
         }
 
+        /// @brief Pre-increment operator advancing to the next matching entity.
+        /// @return Reference to this iterator.
         Iterator&
         operator++()
         {
@@ -69,6 +90,9 @@ public:
             return *this;
         }
 
+        /// @brief Post-increment operator advancing to the next matching
+        /// entity.
+        /// @return Copy of the iterator before incrementing.
         Iterator
         operator++(int)
         {
@@ -77,12 +101,18 @@ public:
             return tmp;
         }
 
+        /// @brief Equality comparison operator.
+        /// @param other Iterator to compare against.
+        /// @return True if both iterators point to the same index.
         [[nodiscard]] bool
         operator==(const Iterator& other) const noexcept
         {
             return index == other.index;
         }
 
+        /// @brief Inequality comparison operator.
+        /// @param other Iterator to compare against.
+        /// @return True if iterators point to different indices.
         [[nodiscard]] bool
         operator!=(const Iterator& other) const noexcept
         {
@@ -119,6 +149,8 @@ public:
         }
     };
 
+    /// @brief Constructs an ECSView for the given registry.
+    /// @param registry The ECSRegistry to query.
     explicit ECSView(ECSRegistry& registry)
       : pool_ptrs(&registry.getPool<Components>()...)
     {
@@ -134,6 +166,8 @@ public:
         );
     }
 
+    /// @brief Gets an iterator to the first matching entity.
+    /// @return Iterator positioned at the first valid entity, or `end()`.
     [[nodiscard]] Iterator
     begin() const
     {
@@ -142,6 +176,8 @@ public:
         return Iterator(pool_ptrs, lead_pool, 0, lead_pool->size());
     }
 
+    /// @brief Gets the past-the-end sentinel iterator.
+    /// @return End iterator.
     [[nodiscard]] Iterator
     end() const
     {
@@ -149,6 +185,8 @@ public:
         return Iterator(pool_ptrs, lead_pool, end_idx, end_idx);
     }
 
+    /// @brief Checks if no entities match the view query.
+    /// @return True if empty, false otherwise.
     [[nodiscard]] bool
     empty() const noexcept
     {

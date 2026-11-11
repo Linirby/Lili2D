@@ -24,4 +24,5 @@ target_include_directories(lili_core
 
 target_link_libraries(lili_core PUBLIC
     SDL3::SDL3
+    SDL3_shadercross::SDL3_shadercross
 )

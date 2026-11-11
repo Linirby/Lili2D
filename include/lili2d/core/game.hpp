@@ -136,14 +136,6 @@ public:
         return *ecs_registry;
     }
 
-    /// @brief Gets a pointer to the global ECS registry.
-    /// @return Pointer to the ECSRegistry.
-    [[nodiscard]] inline ECSRegistry*
-    getECSRegsitry() const noexcept
-    {
-        return ecs_registry.get();
-    }
-
     /// @brief Gets the scene manager.
     /// @return Pointer to the SceneManager.
     [[nodiscard]] inline SceneManager*

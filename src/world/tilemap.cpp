@@ -1,6 +1,7 @@
 #include "lili2d/world/tilemap.hpp"
 
 #include "lili2d/render/common/camera.hpp"
+#include "lili2d/render/gpu/pass_types.hpp"
 #include "lili2d/render/renderer.hpp"
 #include "lili2d/world/tile_registry.hpp"
 
@@ -86,7 +87,9 @@ TileMap::draw(Renderer* renderer, ThreadPool* thread_pool)
             chunk.rebuildBatches(renderer, thread_pool, chunk_pos, tile_size);
         }
         for (auto& batch_pair : chunk.batches)
-            batch_pair.second->draw();
+            batch_pair.second->draw(
+                static_cast<float>(batch_pair.first.z), RenderLayer::WORLD2D
+            );
     }
 }
 

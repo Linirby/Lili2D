@@ -1,8 +1,9 @@
 #pragma once
 
 #include "lili2d/core/batch_item.hpp"
-#include "lili2d/render/common/atlas_map.hpp"
+#include "lili2d/render/common/slice_uv.hpp"
 #include "lili2d/render/gpu/gpu_mesh.hpp"
+#include "lili2d/render/renderer.hpp"
 #include <deque>
 
 namespace lili {
@@ -71,15 +72,6 @@ public:
         if (!batch_pool.empty() && batch_pool[0].mesh)
             batch_pool[0].mesh->update(mesh_data);
     }
-    static void
-    appendToMesh(
-        MeshData& mesh_data,
-        const SliceUV& slice,
-        Vec2 position,
-        Vec2 scale = { 1.0f, 1.0f },
-        float rotation = 0.0f,
-        Vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f }
-    );
 
 private:
     Renderer* renderer = nullptr;

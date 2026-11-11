@@ -1,5 +1,7 @@
 #include "lili2d/render/2d/static_batch.hpp"
 #include "lili2d/render/2d/batch_helper.hpp"
+#include "lili2d/render/gpu/gpu_mesh.hpp"
+#include <memory>
 
 namespace lili {
 
@@ -87,19 +89,16 @@ StaticBatch::addLine(Vec2 start_pos, Vec2 end_pos, float thickness, Vec4 color)
 }
 
 void
-StaticBatch::bake()
+StaticBatch::bake(const MeshData& data)
 {
-    if (mesh_data.vertices.empty())
+    if (data.vertices.empty())
         return;
 
     if (!mesh)
-        mesh = std::make_unique<GPUMesh>(renderer->getDevice(), mesh_data);
+        mesh = std::make_unique<GPUMesh>(renderer->getDevice(), data);
     else
-        mesh->update(mesh_data, renderer->getCurrentCommandBuffer());
+        mesh->update(data, renderer->getCurrentCommandBuffer());
     material.albedoMap = active_texture;
-
-    mesh_data.vertices.clear();
-    mesh_data.indices.clear();
 }
 
 void

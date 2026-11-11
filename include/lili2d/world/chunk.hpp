@@ -8,9 +8,9 @@
 #include "lili2d/core/thread_pool.hpp"
 #include "lili2d/geometry/point3.hpp"
 #include "lili2d/geometry/vec2.hpp"
+#include "lili2d/render/2d/static_batch.hpp"
 #include "lili2d/render/gpu/texture.hpp"
 #include "lili2d/render/renderer.hpp"
-#include "lili2d/world/chunk_batch.hpp"
 
 namespace lili {
 
@@ -57,6 +57,9 @@ struct ChunkMeshData
     std::vector<BatchMeshData> batches; ///< List of batch mesh data.
 };
 
+using BatchMap =
+    std::unordered_map<BatchKey, std::unique_ptr<StaticBatch>, BatchKeyHash>;
+
 /// @brief Represents a block of tiles in the world.
 struct Chunk
 {
@@ -71,9 +74,7 @@ struct Chunk
     /// @brief Future tracking async mesh generation task.
     mutable std::future<ChunkMeshData> rebuild_future;
     /// @brief Map of batch keys to sprite batch rendering objects.
-    mutable std::
-        unordered_map<BatchKey, std::unique_ptr<ChunkBatch>, BatchKeyHash>
-            batches;
+    mutable BatchMap batches;
 
     /// @brief Default constructor.
     Chunk();
@@ -107,12 +108,12 @@ struct Chunk
     /// @param tile_size The size of a single tile.
     /// @param chunk_tiles A copy of the tile vector to prevent data races.
     /// @return The generated CPU-side mesh data.
-    ChunkMeshData
+    static ChunkMeshData
     generateMeshData(
         Point3 chunk_pos,
         Vec2 tile_size,
         const std::vector<uint16_t>& chunk_tiles
-    ) const;
+    );
 
     /// @brief Main thread function to upload generated mesh data to the GPU.
     /// @param renderer The renderer.

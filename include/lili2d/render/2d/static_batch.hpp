@@ -4,9 +4,9 @@
 #include <vector>
 
 #include "lili2d/geometry/vec2.hpp"
-#include "lili2d/render/common/atlas_map.hpp"
 #include "lili2d/render/common/material.hpp"
 #include "lili2d/render/common/renderable.hpp"
+#include "lili2d/render/common/slice_uv.hpp"
 #include "lili2d/render/gpu/gpu_mesh.hpp"
 #include "lili2d/render/gpu/pass_types.hpp"
 #include "lili2d/render/gpu/texture.hpp"
@@ -105,10 +105,19 @@ public:
     void
     addLine(Vec2 start_pos, Vec2 end_pos, float thickness, Vec4 color);
 
-    /// @brief Bakes all added sprites into a GPUMesh in VRAM and clears CPU
+    /// @brief Bakes gived data into a GPUMesh in VRAM.
+    /// @param data The mesh data you want to bake.
+    void
+    bake(const MeshData& data);
+    /// @brief Bakes all added objects into a GPUMesh in VRAM and clears CPU
     /// staging memory.
     void
-    bake();
+    bake()
+    {
+        bake(mesh_data);
+        mesh_data.vertices.clear();
+        mesh_data.indices.clear();
+    }
 
     /// @brief Submits the already baked GPUMesh to the renderer.
     /// @param layer Draw layer depth for sorting.

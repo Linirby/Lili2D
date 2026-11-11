@@ -7,7 +7,7 @@ smth else.
 
 ### TODO
 
-- OOP to ECS support: Tilemap & ChunkBatch.
+- Make Tilemaps easier to use (auto draw and update in Scenes and Game + createTilemap() method in scene).
 
 ### IN PROGRESS
 

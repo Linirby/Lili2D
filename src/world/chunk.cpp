@@ -3,8 +3,9 @@
 #include <chrono>
 
 #include "lili2d/core/thread_pool.hpp"
+#include "lili2d/render/2d/batch_helper.hpp"
+#include "lili2d/render/2d/static_batch.hpp"
 #include "lili2d/render/renderer.hpp"
-#include "lili2d/world/chunk_batch.hpp"
 #include "lili2d/world/tile_registry.hpp"
 
 namespace lili {
@@ -19,7 +20,7 @@ Chunk::generateMeshData(
     Point3 chunk_pos,
     Vec2 tile_size,
     const std::vector<uint16_t>& chunk_tiles
-) const
+)
 {
     ChunkMeshData chunk_mesh;
     TileRegistry& registry = TileRegistry::get();
@@ -40,7 +41,14 @@ Chunk::generateMeshData(
                 int world_y = chunk_pos.y * SIZE + y;
                 Vec2 pos(world_x * tile_size.x, world_y * tile_size.y);
 
-                ChunkBatch::appendToMesh(temp_meshes[key], tile.slice, pos);
+                BatchHelper::appendSprite(
+                    temp_meshes[key],
+                    tile.slice,
+                    pos,
+                    { 1.0f, 1.0f },
+                    0.0f,
+                    { 1.0f, 1.0f, 1.0f, 1.0f }
+                );
             }
         }
     }
@@ -60,11 +68,9 @@ Chunk::uploadMeshData(Renderer* renderer, ChunkMeshData&& mesh_data) const
 
     for (auto& batch_data : mesh_data.batches) {
         const BatchKey& key = batch_data.key;
-        if (!batches.contains(key)) {
-            batches[key] = std::make_unique<ChunkBatch>(renderer, key.texture);
-            batches[key]->setLayer(static_cast<float>(key.z));
-        }
-        batches[key]->setMeshData(std::move(batch_data.mesh_data));
+        if (!batches.contains(key))
+            batches[key] = std::make_unique<StaticBatch>(renderer, key.texture);
+        batches[key]->bake(batch_data.mesh_data);
     }
 }
 
@@ -84,7 +90,7 @@ Chunk::rebuildBatches(
             auto promise = std::make_shared<std::promise<ChunkMeshData>>();
             rebuild_future = promise->get_future();
             thread_pool->enqueue(
-                [this, chunk_pos, tile_size, tiles_copy = tiles, promise]() {
+                [chunk_pos, tile_size, tiles_copy = tiles, promise]() {
                     try {
                         promise->set_value(
                             generateMeshData(chunk_pos, tile_size, tiles_copy)
@@ -98,7 +104,7 @@ Chunk::rebuildBatches(
         } else
             rebuild_future = std::async(
                 std::launch::async,
-                [this, chunk_pos, tile_size, tiles_copy = tiles]() {
+                [chunk_pos, tile_size, tiles_copy = tiles]() {
                     return generateMeshData(chunk_pos, tile_size, tiles_copy);
                 }
             );

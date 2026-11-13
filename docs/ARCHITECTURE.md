@@ -255,7 +255,7 @@ bool hit = (circle.center - closest).lengthSquared() <= (circle.radius * circle.
 
 ### Debug & Primitive Visualization via ECS
 
-Colliders expose a `.getShape()` method returning geometric primitives (`RectShape`, `CircleShape`), which can be visualized or synchronized with ECS primitive entities (`cRect`, `CircleComponent`, `LineComponent`) created via `createRect`, `createCircle`, and `createLine`.
+Colliders expose a `.getShape()` method returning geometric primitives (`RectShape`, `CircleShape`), which can be visualized or synchronized with ECS primitive entities (`cRect`, `cCircle`, `cLine`) created via `createRect`, `createCircle`, and `createLine`.
 
 ---
 
@@ -265,7 +265,7 @@ Lili2D relies on SDL3's `SDL_GPU` for direct modern graphics execution (Vulkan, 
 
 ### Unified 2D Sorting & Batching (`Render2DSystem`, `DynamicBatch`, `StaticBatch`)
 
-To minimize GPU state changes and draw calls, `Render2DSystem` collects all visible 2D ECS entities (`cSprite`, `cRect`, `CircleComponent`, `LineComponent`, `cText`) into a flat, trivially copyable `DrawItem` array and sorts indices by:
+To minimize GPU state changes and draw calls, `Render2DSystem` collects all visible 2D ECS entities (`cSprite`, `cRect`, `cCircle`, `cLine`, `cText`) into a flat, trivially copyable `DrawItem` array and sorts indices by:
 
 1. `render_pass` (`PIXEL_WORLD2D`, `WORLD2D`, `UI`)
 2. `layer` (Z-depth)
@@ -338,7 +338,7 @@ The action map processes input transitions per frame, allowing systems to query:
 
 ## 12. Animation & Sprite Slicing
 
-Lili2D handles 2D sprite animations through `AtlasMap`, `AnimationRegistry`, `AnimationComponent`, and `AnimationSystem`.
+Lili2D handles 2D sprite animations through `AtlasMap`, `AnimationRegistry`, `cAnimation`, and `AnimationSystem`.
 
 ### Sub-Texture UV Slicing (`AtlasMap`)
 
@@ -350,10 +350,10 @@ Vec2 uv_min = { static_cast<float>(col) / cols, static_cast<float>(row) / rows }
 Vec2 uv_max = { static_cast<float>(col + 1) / cols, static_cast<float>(row + 1) / rows };
 ```
 
-### ECS Animation Playback (`AnimationComponent` & `AnimationSystem`)
+### ECS Animation Playback (`cAnimation` & `AnimationSystem`)
 
 - **Registry-Backed Clips**: `Animation` clips store a sequence of `SliceUV` frames and a `frame_duration`, registered in `AnimationRegistry` with a `uint16_t` ID.
-- **Data-Oriented Playback**: `AnimationSystem` iterates over entities with `AnimationComponent` and `cSprite`, advancing `timer` by `dt * speed`, updating `current_frame` (supporting looping and one-shot playback), and writing the active frame's `u_min`, `v_min`, `u_max`, `v_max` directly into `cSprite`.
+- **Data-Oriented Playback**: `AnimationSystem` iterates over entities with `cAnimation` and `cSprite`, advancing `timer` by `dt * speed`, updating `current_frame` (supporting looping and one-shot playback), and writing the active frame's `u_min`, `v_min`, `u_max`, `v_max` directly into `cSprite`.
 
 ---
 

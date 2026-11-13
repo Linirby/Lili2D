@@ -1,11 +1,6 @@
 build/
-*.spv
-*_spv.hpp
-lili_cpp_norm/
-build_release/
 .obsidian/
 Lili2D-linux-x86_64.tar.gz
-build_docker/
 Lili2D-linux-x86_64/
 .cache/
 docs/html/

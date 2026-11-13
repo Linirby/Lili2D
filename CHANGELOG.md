@@ -12,6 +12,7 @@ Lili2D has transitioned from an inheritance-based OOP rendering model (`IRendera
 
 - **Automatic Rendering**: Entities with 2D components (`cSprite`, `cRect`, `cCircle`, `cLine`, `cText`) are automatically collected, state-sorted, and batched every frame by `Render2DSystem` inside `Game` / `Scene`. Manual `.draw()` calls in `onRender()` are no longer needed.
 - **Trivially Copyable Components**: All 2D components are lightweight POD structs stored in contiguous `ComponentPool<T>` arrays.
+- **Component Naming Convention (`XComponent` -> `cX`)**: All ECS components have been renamed from the `XComponent` suffix convention to a `cX` prefix convention, where `X` is the component name (e.g. `TransformComponent` -> `cTransform`, `Render2DComponent` -> `cRender2D`, `SpriteComponent` -> `cSprite`, `AnimationComponent` -> `cAnimation`, `UILayoutComponent` -> `cUILayout`, etc.).
 
 ---
 
@@ -23,15 +24,15 @@ Lili2D has transitioned from an inheritance-based OOP rendering model (`IRendera
 | `lili::Sprite`                                        | `cSprite` + `cRender2D` + `cTransform`                | `lili::createSprite(...)`                                 |
 | `lili::AnimatedSprite`                                | `cAnimation` + `cSprite` + `cRender2D` + `cTransform` | `lili::createAnimatedSprite(...)` + `AnimationSystem`     |
 | `lili::Rect`                                          | `cRect` + `cRender2D` + `cTransform`                  | `lili::createRect(...)`                                   |
-| `lili::Circle`                                        | `CircleComponent` + `cRender2D` + `cTransform`        | `lili::createCircle(...)`                                 |
-| `lili::Line`                                          | `LineComponent` + `cRender2D` + `cTransform`          | `lili::createLine(...)`                                   |
+| `lili::Circle`                                        | `cCircle` + `cRender2D` + `cTransform`                | `lili::createCircle(...)`                                 |
+| `lili::Line`                                          | `cLine` + `cRender2D` + `cTransform`                  | `lili::createLine(...)`                                   |
 | `lili::Text`                                          | `cText` + `cRender2D` + `cTransform`                  | `lili::createText(...)` + `ECSRegistry::getStringArena()` |
 | `lili::UILayout`                                      | `cUILayout`                                           | `UILayoutSystem`                                          |
-| `lili::AnimationPlayer`                               | `AnimationComponent`                                  | `AnimationSystem` + `AnimationRegistry`                   |
+| `lili::AnimationPlayer`                               | `cAnimation`                                          | `AnimationSystem` + `AnimationRegistry`                   |
 | `lili::SpriteBatch`                                   | `DynamicBatch` / `StaticBatch`                        | `Render2DSystem` / `BatchHelper`                          |
 | `Renderer::drawRect` / `drawDebugRect`                | `cRect`                                               | `lili::createRect(...)`                                   |
-| `Renderer::drawCircle` / `drawDebugCircle`            | `CircleComponent`                                     | `lili::createCircle(...)`                                 |
-| `Renderer::drawLine`                                  | `LineComponent`                                       | `lili::createLine(...)`                                   |
+| `Renderer::drawCircle` / `drawDebugCircle`            | `cCircle`                                             | `lili::createCircle(...)`                                 |
+| `Renderer::drawLine`                                  | `cLine`                                               | `lili::createLine(...)`                                   |
 | `Renderer::drawText` / `drawTextId` / `drawDebugText` | `cText`                                               | `lili::createText(...)`                                   |
 | `IRenderable::getMaterial()`                          | `cRender2D::material_id`                              | `MaterialRegistry::get()`                                 |
 

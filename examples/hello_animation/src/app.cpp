@@ -40,7 +40,7 @@ App::onInit()
     );
     ecs_reg.addComponents(
         head_sprite,
-        UILayoutComponent{
+        cUILayout{
             .anchor = lili::Anchor::BOTTOM,
             .pivot = lili::Pivot::BOTTOM,
         }

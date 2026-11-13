@@ -12,9 +12,7 @@ namespace systems {
 void
 updateMovement(ECSRegistry& registry, float dt, float window_w, float window_h)
 {
-    auto view =
-        registry
-            .view<TransformComponent, VelocityComponent, Render2DComponent>();
+    auto view = registry.view<cTransform, VelocityComponent, cRender2D>();
     for (auto&& [entity, trans, vel, render2d] : view) {
         trans.pos += vel.value * dt;
 

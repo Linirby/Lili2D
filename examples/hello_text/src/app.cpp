@@ -37,7 +37,7 @@ App::App()
             },
         }
     );
-    registry.addComponents(welcome_text, UILayoutComponent{});
+    registry.addComponents(welcome_text, cUILayout{});
 
     info_text = createText(
         registry,
@@ -50,7 +50,7 @@ App::App()
     );
     registry.addComponents(
         info_text,
-        UILayoutComponent{
+        cUILayout{
             .offset = Vec2(10.0f, 10.0f),
             .anchor = lili::Anchor::TOP_LEFT,
             .pivot = lili::Pivot::TOP_LEFT,
@@ -76,10 +76,8 @@ App::onUpdate(float dt)
     Game::onUpdate(dt);
     ECSRegistry& registry = getECSRegistry();
 
-    TextComponent& text_comp =
-        registry.getComponent<TextComponent>(welcome_text);
-    TransformComponent& trans_comp =
-        registry.getComponent<TransformComponent>(welcome_text);
+    cText& text_comp = registry.getComponent<cText>(welcome_text);
+    cTransform& trans_comp = registry.getComponent<cTransform>(welcome_text);
 
     keyboard.update();
     if (keyboard.held(Key::LEFT)) {

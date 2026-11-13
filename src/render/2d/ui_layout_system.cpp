@@ -14,21 +14,21 @@ void
 UILayoutSystem::updateEntity(
     ECSRegistry& registry,
     Entity entity,
-    UILayoutComponent& layout,
-    Render2DComponent& render2d,
-    TransformComponent& trans,
+    cUILayout& layout,
+    cRender2D& render2d,
+    cTransform& trans,
     [[maybe_unused]] float dt
 )
 {
     Vec2 base_size = render2d.size;
-    if (registry.hasComponent<CircleComponent>(entity)) {
-        float d = registry.getComponent<CircleComponent>(entity).radius * 2.0f;
+    if (registry.hasComponent<cCircle>(entity)) {
+        float d = registry.getComponent<cCircle>(entity).radius * 2.0f;
         base_size = { d, d };
-    } else if (registry.hasComponent<LineComponent>(entity)) {
-        Vec2 dxy = registry.getComponent<LineComponent>(entity).dxy;
+    } else if (registry.hasComponent<cLine>(entity)) {
+        Vec2 dxy = registry.getComponent<cLine>(entity).dxy;
         base_size = { std::abs(dxy.x), std::abs(dxy.y) };
-    } else if (registry.hasComponent<TextComponent>(entity)) {
-        auto& text = registry.getComponent<TextComponent>(entity);
+    } else if (registry.hasComponent<cText>(entity)) {
+        auto& text = registry.getComponent<cText>(entity);
         if (!text.font) {
             text.font = default_font;
             if (text.font)
@@ -61,16 +61,16 @@ UILayoutSystem::update(
     BitmapFont* default_font
 )
 {
-    (void)registry.getPool<CircleComponent>();
-    (void)registry.getPool<LineComponent>();
-    (void)registry.getPool<TextComponent>();
+    (void)registry.getPool<cCircle>();
+    (void)registry.getPool<cLine>();
+    (void)registry.getPool<cText>();
     auto sys = UILayoutSystem(viewport_size, default_font);
     sys.run(registry, 0.0f, thread_pool);
 }
 
 Vec2
 UILayoutSystem::getScreenPosition(
-    UILayoutComponent layout,
+    cUILayout layout,
     Vec2 obj_size,
     Vec2 viewport_size
 )

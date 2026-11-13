@@ -32,20 +32,18 @@ CursorSystem::update(
 
     AABB2 target_aabb{};
     if (registry.isValid(target_rect)) {
-        const auto& trans =
-            registry.getComponent<TransformComponent>(target_rect);
-        const auto& render2d =
-            registry.getComponent<Render2DComponent>(target_rect);
+        const auto& trans = registry.getComponent<cTransform>(target_rect);
+        const auto& render2d = registry.getComponent<cRender2D>(target_rect);
         target_aabb = AABB2(trans.pos - render2d.size * 0.5f, render2d.size);
     }
 
     if (active_shape != ShapeMode::LINE && registry.isValid(debug_box)) {
-        registry.getComponent<Render2DComponent>(debug_box).is_visible = false;
+        registry.getComponent<cRender2D>(debug_box).is_visible = false;
     }
 
-    (void)registry.getPool<CircleComponent>();
-    (void)registry.getPool<LineComponent>();
-    (void)registry.getPool<RectComponent>();
+    (void)registry.getPool<cCircle>();
+    (void)registry.getPool<cLine>();
+    (void)registry.getPool<cRect>();
 
     CursorSystem sys(active_shape, mouse_pos, target_aabb, debug_box);
     sys.run(registry, dt, thread_pool);
@@ -56,8 +54,8 @@ CursorSystem::updateEntity(
     ECSRegistry& registry,
     Entity entity,
     CursorComponent& cursor,
-    TransformComponent& trans,
-    Render2DComponent& render2d,
+    cTransform& trans,
+    cRender2D& render2d,
     [[maybe_unused]] float dt
 )
 {
@@ -81,9 +79,8 @@ CursorSystem::updateEntity(
         }
         case ShapeMode::CIRCLE: {
             trans.pos = mouse_pos;
-            if (registry.hasComponent<CircleComponent>(entity)) {
-                const auto& circle =
-                    registry.getComponent<CircleComponent>(entity);
+            if (registry.hasComponent<cCircle>(entity)) {
+                const auto& circle = registry.getComponent<cCircle>(entity);
                 CircleCollider collider(trans.pos, circle.radius);
                 hit = collider.intersect(target_aabb);
             }
@@ -91,8 +88,8 @@ CursorSystem::updateEntity(
         }
         case ShapeMode::LINE: {
             trans.pos = Vec2(0.0f, 0.0f);
-            if (registry.hasComponent<LineComponent>(entity)) {
-                auto& line = registry.getComponent<LineComponent>(entity);
+            if (registry.hasComponent<cLine>(entity)) {
+                auto& line = registry.getComponent<cLine>(entity);
                 line.dxy = mouse_pos;
 
                 LineShape shape(trans.pos, trans.pos + line.dxy);
@@ -100,13 +97,10 @@ CursorSystem::updateEntity(
                 hit = line_box.intersect(target_aabb);
 
                 if (registry.isValid(line_debug_box)) {
-                    auto& box_trans = registry.getComponent<TransformComponent>(
-                        line_debug_box
-                    );
+                    auto& box_trans =
+                        registry.getComponent<cTransform>(line_debug_box);
                     auto& box_render2d =
-                        registry.getComponent<Render2DComponent>(
-                            line_debug_box
-                        );
+                        registry.getComponent<cRender2D>(line_debug_box);
                     box_trans.pos = (line_box.min + line_box.max) * 0.5f;
                     box_render2d.size = line_box.max - line_box.min;
                     box_render2d.is_visible = true;

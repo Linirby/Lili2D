@@ -28,9 +28,9 @@ public:
     append(std::string_view text, uint32_t capacity = 0);
     /// @brief Append a text to the content of the StringArena.
     /// @param text The string you want to add.
-    /// @param comp The TextComponent where offset, length, capacity are stored
+    /// @param comp The cText where offset, length, capacity are stored
     void
-    append(std::string_view text, TextComponent& comp)
+    append(std::string_view text, cText& comp)
     {
         comp.offset = append(text, comp.capacity);
         comp.length = text.size();
@@ -71,16 +71,12 @@ public:
     }
     /// @brief Formats a string directly into a pre-allocated slot in the arena.
     /// @note The number of characters written is the new length of the text.
-    /// @param comp The TextComponent whose slot will be formatted in-place.
+    /// @param comp The cText whose slot will be formatted in-place.
     /// @param fmt The std::format format string.
     /// @param args Arguments to format.
     template<typename... Args>
     void
-    formatAt(
-        TextComponent& comp,
-        std::format_string<Args...> fmt,
-        Args&&... args
-    )
+    formatAt(cText& comp, std::format_string<Args...> fmt, Args&&... args)
     {
         comp.length = formatAt(
             comp.offset, comp.capacity, fmt, std::forward<Args>(args)...
@@ -97,10 +93,10 @@ public:
             free_spaces.push_back({ offset, capacity + 1 });
     }
 
-    /// @brief Marks the slice used by a TextComponent as free for future reuse.
-    /// @param comp The TextComponent whose slice will be freed.
+    /// @brief Marks the slice used by a cText as free for future reuse.
+    /// @param comp The cText whose slice will be freed.
     void
-    free(TextComponent comp)
+    free(cText comp)
     {
         free(comp.offset, comp.capacity);
     }
@@ -127,11 +123,11 @@ public:
         return std::string_view(content.data() + offset, length);
     }
 
-    /// @brief Gets a string_view for the text referenced by a TextComponent.
-    /// @param comp The TextComponent referencing the slice.
+    /// @brief Gets a string_view for the text referenced by a cText.
+    /// @param comp The cText referencing the slice.
     /// @return A string_view of the component's text.
     [[nodiscard]] std::string_view
-    getStringView(TextComponent comp) const noexcept
+    getStringView(cText comp) const noexcept
     {
         return getStringView(comp.offset, comp.length);
     }

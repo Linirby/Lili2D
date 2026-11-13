@@ -13,16 +13,16 @@ createLine(ECSRegistry& registry, const LineParameters& params)
 {
     Entity entity = registry.createEntity();
 
-    TransformComponent transform = params.transform;
+    cTransform transform = params.transform;
     transform.prev_pos = params.transform.pos;
 
-    Render2DComponent render2d = params.render2d;
+    cRender2D render2d = params.render2d;
     render2d.size = Vec2{
         std::abs(params.line.dxy.x),
         std::abs(params.line.dxy.y),
     };
 
-    LineComponent line = params.line;
+    cLine line = params.line;
     line.dxy = Vec2{
         params.line.dxy.x,
         params.line.dxy.y,

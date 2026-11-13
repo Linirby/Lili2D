@@ -100,9 +100,9 @@ App::toggleHollow()
     hollow_active = !hollow_active;
 
     ECSRegistry& reg = getECSRegistry();
-    reg.getComponent<RectComponent>(rect).hollow = hollow_active;
-    reg.getComponent<CircleComponent>(clean_circle).hollow = hollow_active;
-    reg.getComponent<CircleComponent>(low_poly_circle).hollow = hollow_active;
+    reg.getComponent<cRect>(rect).hollow = hollow_active;
+    reg.getComponent<cCircle>(clean_circle).hollow = hollow_active;
+    reg.getComponent<cCircle>(low_poly_circle).hollow = hollow_active;
 }
 
 void

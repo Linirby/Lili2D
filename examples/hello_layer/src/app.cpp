@@ -44,7 +44,7 @@ App::App()
             },
         }
     );
-    registry.getComponent<Render2DComponent>(layer_1).size = window->getSize();
+    registry.getComponent<cRender2D>(layer_1).size = window->getSize();
 
     layer_2 = createSprite(
         registry,
@@ -59,7 +59,7 @@ App::App()
             },
         }
     );
-    registry.getComponent<Render2DComponent>(layer_2).size = window->getSize();
+    registry.getComponent<cRender2D>(layer_2).size = window->getSize();
 
     layer_3 = createSprite(
         registry,
@@ -74,7 +74,7 @@ App::App()
             },
         }
     );
-    registry.getComponent<Render2DComponent>(layer_3).size = window->getSize();
+    registry.getComponent<cRender2D>(layer_3).size = window->getSize();
 
     text_current_layer = createText(
         registry,
@@ -87,7 +87,7 @@ App::App()
     );
     registry.addComponents(
         text_current_layer,
-        UILayoutComponent{
+        cUILayout{
             .offset = { 10.0f, -32.0f },
             .anchor = lili::Anchor::BOTTOM_LEFT,
             .pivot = lili::Pivot::BOTTOM_LEFT,
@@ -104,7 +104,7 @@ App::App()
     );
     registry.addComponents(
         text_control_info,
-        UILayoutComponent{
+        cUILayout{
             .offset = { 10.0f, -10.0f },
             .anchor = lili::Anchor::BOTTOM_LEFT,
             .pivot = lili::Pivot::BOTTOM_LEFT,
@@ -126,11 +126,11 @@ App::onEvent(const Event& event)
                 shutdown();
             else if (kb.key == Key::I) {
                 red_square_layer += 1;
-                registry.getComponent<Render2DComponent>(red_square).layer =
+                registry.getComponent<cRender2D>(red_square).layer =
                     red_square_layer;
             } else if (kb.key == Key::K) {
                 red_square_layer -= 1;
-                registry.getComponent<Render2DComponent>(red_square).layer =
+                registry.getComponent<cRender2D>(red_square).layer =
                     red_square_layer;
             }
         }
@@ -143,8 +143,7 @@ App::onUpdate([[maybe_unused]] float dt)
     Game::onUpdate(dt);
 
     ECSRegistry& ecs_reg = getECSRegistry();
-    TextComponent& text_comp =
-        ecs_reg.getComponent<TextComponent>(text_current_layer);
+    cText& text_comp = ecs_reg.getComponent<cText>(text_current_layer);
     ecs_reg.getStringArena().formatAt(
         text_comp, "Current layer: {}", red_square_layer
     );

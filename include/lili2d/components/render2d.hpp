@@ -10,7 +10,7 @@ namespace lili {
 
 /// @brief Component holding shared 2D rendering properties (color, quad size,
 /// layer, material, render pass, and visibility).
-struct Render2DComponent
+struct cRender2D
 {
     Vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f }; ///< Color or tint RGBA.
     Vec2 size = {
@@ -25,8 +25,8 @@ struct Render2DComponent
 };
 
 static_assert(
-    std::is_trivially_copyable_v<Render2DComponent>,
-    "Render2DComponent must be trivially copyable"
+    std::is_trivially_copyable_v<cRender2D>,
+    "cRender2D must be trivially copyable"
 );
 
 } // namespace lili

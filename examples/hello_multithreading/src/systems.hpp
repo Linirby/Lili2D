@@ -6,10 +6,7 @@
 #include <lili2d/ecs/system.hpp>
 
 class MovementSystem
-  : public lili::System<
-        lili::TransformComponent,
-        VelocityComponent,
-        lili::Render2DComponent>
+  : public lili::System<lili::cTransform, VelocityComponent, lili::cRender2D>
 {
 public:
     static void
@@ -30,9 +27,9 @@ public:
     updateEntity(
         lili::ECSRegistry& registry,
         lili::Entity entity,
-        lili::TransformComponent& trans,
+        lili::cTransform& trans,
         VelocityComponent& vel,
-        lili::Render2DComponent& render2d,
+        lili::cRender2D& render2d,
         float dt
     ) override;
 

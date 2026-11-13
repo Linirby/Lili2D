@@ -38,7 +38,7 @@ enum class Pivot : uint8_t
 };
 
 /// @brief Component for anchoring and aligning an entity in viewport/UI space.
-struct UILayoutComponent
+struct cUILayout
 {
     Vec2 size = { 0.0f, 0.0f };   ///< Optional size override (if {0,0}, uses
                                   ///< entity's shape/render2d size).
@@ -56,8 +56,8 @@ struct UILayoutComponent
 };
 
 static_assert(
-    std::is_trivially_copyable_v<UILayoutComponent>,
-    "UILayoutComponent must be trivially copyable"
+    std::is_trivially_copyable_v<cUILayout>,
+    "cUILayout must be trivially copyable"
 );
 
 } // namespace lili

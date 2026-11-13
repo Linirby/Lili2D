@@ -6,7 +6,7 @@
 namespace lili {
 
 /// @brief Component representing 2D position, scale, and rotation in the world.
-struct TransformComponent
+struct cTransform
 {
     Vec2 pos = { 0.0f, 0.0f };   ///< Position X, Y in pixels.
     Vec2 prev_pos = pos;         ///< Previous position used for interpolation.
@@ -15,8 +15,8 @@ struct TransformComponent
 };
 
 static_assert(
-    std::is_trivially_copyable_v<TransformComponent>,
-    "TransformComponent must be trivially copyable"
+    std::is_trivially_copyable_v<cTransform>,
+    "cTransform must be trivially copyable"
 );
 
 } // namespace lili

@@ -347,17 +347,17 @@ TEST_CASE("Type Traits and Move Guarantees", "[core][traits]")
     static_assert(std::is_nothrow_move_constructible_v<Window>);
     static_assert(std::is_nothrow_move_assignable_v<Window>);
 
-    static_assert(std::is_standard_layout_v<TransformComponent>);
-    static_assert(std::is_trivially_copyable_v<TransformComponent>);
-    static_assert(std::is_nothrow_move_constructible_v<TransformComponent>);
-    static_assert(std::is_nothrow_move_assignable_v<TransformComponent>);
+    static_assert(std::is_standard_layout_v<cTransform>);
+    static_assert(std::is_trivially_copyable_v<cTransform>);
+    static_assert(std::is_nothrow_move_constructible_v<cTransform>);
+    static_assert(std::is_nothrow_move_assignable_v<cTransform>);
 
     CHECK(true);
 }
 
-TEST_CASE("TransformComponent - Default Values", "[core][transform]")
+TEST_CASE("cTransform - Default Values", "[core][transform]")
 {
-    TransformComponent transform;
+    cTransform transform;
 
     CHECK(transform.pos == Vec2(0.0f, 0.0f));
     CHECK(transform.prev_pos == Vec2(0.0f, 0.0f));
@@ -366,14 +366,14 @@ TEST_CASE("TransformComponent - Default Values", "[core][transform]")
     CHECK(transform.rotation == 0.0f);
 }
 
-TEST_CASE("TransformComponent - Custom Initialization", "[core][transform]")
+TEST_CASE("cTransform - Custom Initialization", "[core][transform]")
 {
     SECTION("Aggregate initialization with all fields")
     {
-        TransformComponent transform{ .pos = { 10.0f, 20.0f },
-                                      .prev_pos = { 5.0f, 15.0f },
-                                      .scale = { 2.0f, 0.5f },
-                                      .rotation = 1.57f };
+        cTransform transform{ .pos = { 10.0f, 20.0f },
+                              .prev_pos = { 5.0f, 15.0f },
+                              .scale = { 2.0f, 0.5f },
+                              .rotation = 1.57f };
 
         CHECK(transform.pos == Vec2(10.0f, 20.0f));
         CHECK(transform.prev_pos == Vec2(5.0f, 15.0f));
@@ -383,7 +383,7 @@ TEST_CASE("TransformComponent - Custom Initialization", "[core][transform]")
 
     SECTION("Partial designated initialization with pos")
     {
-        TransformComponent transform{ .pos = { 42.0f, 84.0f } };
+        cTransform transform{ .pos = { 42.0f, 84.0f } };
 
         CHECK(transform.pos == Vec2(42.0f, 84.0f));
         CHECK(transform.prev_pos == Vec2(42.0f, 84.0f));
@@ -392,12 +392,9 @@ TEST_CASE("TransformComponent - Custom Initialization", "[core][transform]")
     }
 }
 
-TEST_CASE(
-    "TransformComponent - Position and Interpolation",
-    "[core][transform]"
-)
+TEST_CASE("cTransform - Position and Interpolation", "[core][transform]")
 {
-    TransformComponent transform;
+    cTransform transform;
     transform.pos = { 10.0f, 20.0f };
     transform.prev_pos = { 0.0f, 0.0f };
 
@@ -431,45 +428,42 @@ TEST_CASE(
     }
 }
 
-TEST_CASE(
-    "TransformComponent - Memory Layout and Type Traits",
-    "[core][transform]"
-)
+TEST_CASE("cTransform - Memory Layout and Type Traits", "[core][transform]")
 {
-    static_assert(sizeof(TransformComponent) == 28);
-    static_assert(alignof(TransformComponent) == 4);
+    static_assert(sizeof(cTransform) == 28);
+    static_assert(alignof(cTransform) == 4);
 
-    static_assert(std::is_standard_layout_v<TransformComponent>);
-    static_assert(std::is_trivially_copyable_v<TransformComponent>);
-    static_assert(std::is_default_constructible_v<TransformComponent>);
-    static_assert(std::is_nothrow_copy_constructible_v<TransformComponent>);
-    static_assert(std::is_nothrow_move_constructible_v<TransformComponent>);
-    static_assert(std::is_nothrow_copy_assignable_v<TransformComponent>);
-    static_assert(std::is_nothrow_move_assignable_v<TransformComponent>);
+    static_assert(std::is_standard_layout_v<cTransform>);
+    static_assert(std::is_trivially_copyable_v<cTransform>);
+    static_assert(std::is_default_constructible_v<cTransform>);
+    static_assert(std::is_nothrow_copy_constructible_v<cTransform>);
+    static_assert(std::is_nothrow_move_constructible_v<cTransform>);
+    static_assert(std::is_nothrow_copy_assignable_v<cTransform>);
+    static_assert(std::is_nothrow_move_assignable_v<cTransform>);
 
-    CHECK(offsetof(TransformComponent, pos) == 0);
-    CHECK(offsetof(TransformComponent, prev_pos) == 8);
-    CHECK(offsetof(TransformComponent, scale) == 16);
-    CHECK(offsetof(TransformComponent, rotation) == 24);
+    CHECK(offsetof(cTransform, pos) == 0);
+    CHECK(offsetof(cTransform, prev_pos) == 8);
+    CHECK(offsetof(cTransform, scale) == 16);
+    CHECK(offsetof(cTransform, rotation) == 24);
 }
 
-TEST_CASE("TransformComponent - ECS Integration", "[core][transform][ecs]")
+TEST_CASE("cTransform - ECS Integration", "[core][transform][ecs]")
 {
     ECSRegistry registry;
     Entity entity = registry.createEntity();
 
     SECTION("Emplace and retrieve")
     {
-        registry.emplaceComponent<TransformComponent>(
+        registry.emplaceComponent<cTransform>(
             entity,
-            TransformComponent{ .pos = { 100.0f, 50.0f },
-                                .prev_pos = { 100.0f, 50.0f },
-                                .scale = { 2.0f, 2.0f },
-                                .rotation = 0.785f }
+            cTransform{ .pos = { 100.0f, 50.0f },
+                        .prev_pos = { 100.0f, 50.0f },
+                        .scale = { 2.0f, 2.0f },
+                        .rotation = 0.785f }
         );
 
-        REQUIRE(registry.hasComponent<TransformComponent>(entity));
-        auto& t = registry.getComponent<TransformComponent>(entity);
+        REQUIRE(registry.hasComponent<cTransform>(entity));
+        auto& t = registry.getComponent<cTransform>(entity);
         CHECK(t.pos == Vec2(100.0f, 50.0f));
         CHECK(t.prev_pos == Vec2(100.0f, 50.0f));
         CHECK(t.scale == Vec2(2.0f, 2.0f));
@@ -481,29 +475,23 @@ TEST_CASE("TransformComponent - ECS Integration", "[core][transform][ecs]")
         Entity e1 = registry.createEntity();
         Entity e2 = registry.createEntity();
 
-        registry.emplaceComponent<TransformComponent>(
-            e1, TransformComponent{ .pos = { 1.0f, 2.0f } }
+        registry.emplaceComponent<cTransform>(
+            e1, cTransform{ .pos = { 1.0f, 2.0f } }
         );
-        registry.emplaceComponent<TransformComponent>(
-            e2, TransformComponent{ .pos = { 3.0f, 4.0f } }
+        registry.emplaceComponent<cTransform>(
+            e2, cTransform{ .pos = { 3.0f, 4.0f } }
         );
 
         int count = 0;
-        for (auto [e, transform] : registry.view<TransformComponent>()) {
+        for (auto [e, transform] : registry.view<cTransform>()) {
             (void)e;
             transform.pos *= 2.0f;
             ++count;
         }
 
         CHECK(count == 2);
-        CHECK(
-            registry.getComponent<TransformComponent>(e1).pos ==
-            Vec2(2.0f, 4.0f)
-        );
-        CHECK(
-            registry.getComponent<TransformComponent>(e2).pos ==
-            Vec2(6.0f, 8.0f)
-        );
+        CHECK(registry.getComponent<cTransform>(e1).pos == Vec2(2.0f, 4.0f));
+        CHECK(registry.getComponent<cTransform>(e2).pos == Vec2(6.0f, 8.0f));
     }
 }
 

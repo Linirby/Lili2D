@@ -10,8 +10,8 @@ void
 AnimationSystem::updateEntity(
     [[maybe_unused]] ECSRegistry& registry,
     [[maybe_unused]] Entity entity,
-    lili::AnimationComponent& anim_comp,
-    lili::SpriteComponent& sprite_comp,
+    lili::cAnimation& anim_comp,
+    lili::cSprite& sprite_comp,
     float dt
 )
 {

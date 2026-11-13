@@ -13,14 +13,13 @@ namespace lili {
 class BitmapFont;
 
 /// @brief System that computes screen-space positions for entities with
-/// UILayoutComponent.
-class UILayoutSystem
-  : public System<UILayoutComponent, Render2DComponent, TransformComponent>
+/// cUILayout.
+class UILayoutSystem : public System<cUILayout, cRender2D, cTransform>
 {
 public:
     /// @brief Constructs a UILayoutSystem.
     /// @param viewport_size The current logical viewport size.
-    /// @param default_font Fallback font used when measuring TextComponent
+    /// @param default_font Fallback font used when measuring cText
     /// bounds.
     explicit UILayoutSystem(
         Vec2 viewport_size = {},
@@ -39,7 +38,7 @@ public:
         viewport_size = size;
     }
 
-    /// @brief Sets the default font used when measuring TextComponent bounds.
+    /// @brief Sets the default font used when measuring cText bounds.
     /// @param font Pointer to the fallback BitmapFont.
     inline void
     setDefaultFont(BitmapFont* font) noexcept
@@ -50,22 +49,22 @@ public:
     /// @brief Recomputes the screen position of a single UI entity if dirty.
     /// @param registry The ECS registry.
     /// @param entity The entity being updated.
-    /// @param layout The entity's UILayoutComponent.
-    /// @param render2d The entity's Render2DComponent.
-    /// @param trans The entity's TransformComponent.
+    /// @param layout The entity's cUILayout.
+    /// @param render2d The entity's cRender2D.
+    /// @param trans The entity's cTransform.
     /// @param dt Delta time (unused).
     void
     updateEntity(
         ECSRegistry& registry,
         Entity entity,
-        UILayoutComponent& layout,
-        Render2DComponent& render2d,
-        TransformComponent& trans,
+        cUILayout& layout,
+        cRender2D& render2d,
+        cTransform& trans,
         float dt
     ) override;
 
-    /// @brief Updates all entities with UILayoutComponent, Render2DComponent,
-    /// and TransformComponent.
+    /// @brief Updates all entities with cUILayout, cRender2D,
+    /// and cTransform.
     /// @param registry The ECS registry.
     /// @param viewport_size The current logical viewport dimensions.
     /// @param thread_pool Optional thread pool for parallel execution.
@@ -117,11 +116,7 @@ private:
     }
 
     [[nodiscard]] static Vec2
-    getScreenPosition(
-        UILayoutComponent layout,
-        Vec2 obj_size,
-        Vec2 viewport_size
-    );
+    getScreenPosition(cUILayout layout, Vec2 obj_size, Vec2 viewport_size);
 };
 
 } // namespace lili

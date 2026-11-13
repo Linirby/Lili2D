@@ -24,8 +24,7 @@ App::onInit()
         }
     );
     registry.addComponents(
-        cat_img,
-        UILayoutComponent{ .anchor = Anchor::CENTER, .pivot = Pivot::CENTER }
+        cat_img, cUILayout{ .anchor = Anchor::CENTER, .pivot = Pivot::CENTER }
     );
 }
 

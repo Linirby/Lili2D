@@ -10,17 +10,17 @@ namespace lili {
 /// @brief Parameters used to initialize a rectangle entity.
 struct RectParameters
 {
-    TransformComponent transform{}; ///< Transform component.
-    Render2DComponent render2d{};   ///< Render2D component.
-    RectComponent rect{};           ///< Rect component.
+    cTransform transform{}; ///< Transform component.
+    cRender2D render2d{};   ///< Render2D component.
+    cRect rect{};           ///< Rect component.
 };
 
 /// @brief Creates a 2D Rectangle (Quad) entity.
 /// @note Attached components:
-/// - `TransformComponent` (`pos`, `scale`, `rotation`)
-/// - `Render2DComponent` (`color`, `size`, `layer`, `material_id`,
+/// - `cTransform` (`pos`, `scale`, `rotation`)
+/// - `cRender2D` (`color`, `size`, `layer`, `material_id`,
 /// `render_pass`, `is_visible`)
-/// - `RectComponent` (`thickness`, `hollow`)
+/// - `cRect` (`thickness`, `hollow`)
 /// @param registry The ECS registry.
 /// @param params The parameters of the rect.
 /// @return The created Entity.

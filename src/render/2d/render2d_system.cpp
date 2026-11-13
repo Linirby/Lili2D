@@ -33,10 +33,9 @@ Render2DSystem::render(
     batch.begin();
     items.clear();
 
-    size_t max_items = registry.getPool<SpriteComponent>().size() +
-                       registry.getPool<RectComponent>().size() +
-                       registry.getPool<CircleComponent>().size() +
-                       registry.getPool<LineComponent>().size();
+    size_t max_items =
+        registry.getPool<cSprite>().size() + registry.getPool<cRect>().size() +
+        registry.getPool<cCircle>().size() + registry.getPool<cLine>().size();
     if (items.capacity() < max_items)
         items.reserve(max_items);
 
@@ -133,13 +132,12 @@ Render2DSystem::render(
 void
 Render2DSystem::pushSprites(ECSRegistry& registry)
 {
-    auto view =
-        registry.view<Render2DComponent, TransformComponent, SpriteComponent>();
+    auto view = registry.view<cRender2D, cTransform, cSprite>();
 
     view.each([](Entity entity,
-                 Render2DComponent& render2d,
-                 TransformComponent& trans,
-                 SpriteComponent& sprite) {
+                 cRender2D& render2d,
+                 cTransform& trans,
+                 cSprite& sprite) {
         if (!render2d.is_visible)
             return;
         items.push_back(
@@ -172,53 +170,50 @@ Render2DSystem::pushSprites(ECSRegistry& registry)
 void
 Render2DSystem::pushRects(ECSRegistry& registry, Texture* the_white_pixel)
 {
-    auto rect_view =
-        registry.view<Render2DComponent, TransformComponent, RectComponent>();
+    auto rect_view = registry.view<cRender2D, cTransform, cRect>();
 
-    rect_view.each([the_white_pixel](
-                       Entity entity,
-                       Render2DComponent& render2d,
-                       TransformComponent& trans,
-                       RectComponent& rect
-                   ) {
-        if (!render2d.is_visible)
-            return;
-        items.push_back(
-            DrawItem{
-                .texture = the_white_pixel,
-                .color = render2d.color,
-                .pos = trans.pos,
-                .size = render2d.size,
-                .layer = render2d.layer,
-                .rotation = trans.rotation,
-                .entity = entity,
-                .material_id = render2d.material_id,
-                .render_pass = render2d.render_pass,
+    rect_view.each(
+        [the_white_pixel](
+            Entity entity, cRender2D& render2d, cTransform& trans, cRect& rect
+        ) {
+            if (!render2d.is_visible)
+                return;
+            items.push_back(
+                DrawItem{
+                    .texture = the_white_pixel,
+                    .color = render2d.color,
+                    .pos = trans.pos,
+                    .size = render2d.size,
+                    .layer = render2d.layer,
+                    .rotation = trans.rotation,
+                    .entity = entity,
+                    .material_id = render2d.material_id,
+                    .render_pass = render2d.render_pass,
 
-                .type = DrawType::RECT,
-                .nature{
-                    .rect{
-                        .scale = trans.scale,
-                        .thickness = rect.thickness,
-                        .hollow = rect.hollow,
+                    .type = DrawType::RECT,
+                    .nature{
+                        .rect{
+                            .scale = trans.scale,
+                            .thickness = rect.thickness,
+                            .hollow = rect.hollow,
+                        },
                     },
-                },
-            }
-        );
-    });
+                }
+            );
+        }
+    );
 }
 
 void
 Render2DSystem::pushCircles(ECSRegistry& registry, Texture* the_white_pixel)
 {
-    auto circle_view =
-        registry.view<Render2DComponent, TransformComponent, CircleComponent>();
+    auto circle_view = registry.view<cRender2D, cTransform, cCircle>();
 
     circle_view.each([the_white_pixel](
                          Entity entity,
-                         Render2DComponent& render2d,
-                         TransformComponent& trans,
-                         CircleComponent& circle
+                         cRender2D& render2d,
+                         cTransform& trans,
+                         cCircle& circle
                      ) {
         if (!render2d.is_visible)
             return;
@@ -251,85 +246,81 @@ Render2DSystem::pushCircles(ECSRegistry& registry, Texture* the_white_pixel)
 void
 Render2DSystem::pushLines(ECSRegistry& registry, Texture* the_white_pixel)
 {
-    auto line_view =
-        registry.view<Render2DComponent, TransformComponent, LineComponent>();
+    auto line_view = registry.view<cRender2D, cTransform, cLine>();
 
-    line_view.each([the_white_pixel](
-                       Entity entity,
-                       Render2DComponent& render2d,
-                       TransformComponent& trans,
-                       LineComponent& line
-                   ) {
-        if (!render2d.is_visible)
-            return;
-        items.push_back(
-            DrawItem{
-                .texture = the_white_pixel,
-                .color = render2d.color,
-                .pos = trans.pos,
-                .size = render2d.size,
-                .layer = render2d.layer,
-                .rotation = trans.rotation,
-                .entity = entity,
-                .material_id = render2d.material_id,
-                .render_pass = render2d.render_pass,
+    line_view.each(
+        [the_white_pixel](
+            Entity entity, cRender2D& render2d, cTransform& trans, cLine& line
+        ) {
+            if (!render2d.is_visible)
+                return;
+            items.push_back(
+                DrawItem{
+                    .texture = the_white_pixel,
+                    .color = render2d.color,
+                    .pos = trans.pos,
+                    .size = render2d.size,
+                    .layer = render2d.layer,
+                    .rotation = trans.rotation,
+                    .entity = entity,
+                    .material_id = render2d.material_id,
+                    .render_pass = render2d.render_pass,
 
-                .type = DrawType::LINE,
-                .nature{
-                    .line{
-                        .dxy = line.dxy,
-                        .thickness = line.thickness,
+                    .type = DrawType::LINE,
+                    .nature{
+                        .line{
+                            .dxy = line.dxy,
+                            .thickness = line.thickness,
+                        },
                     },
-                },
-            }
-        );
-    });
+                }
+            );
+        }
+    );
 }
 
 void
 Render2DSystem::pushTexts(ECSRegistry& registry, BitmapFont* default_font)
 {
-    auto text_view =
-        registry.view<Render2DComponent, TransformComponent, TextComponent>();
+    auto text_view = registry.view<cRender2D, cTransform, cText>();
 
-    text_view.each([default_font](
-                       Entity entity,
-                       Render2DComponent& render2d,
-                       TransformComponent& trans,
-                       TextComponent& text
-                   ) {
-        if (!render2d.is_visible)
-            return;
-        if (!text.font) {
-            text.font = default_font;
-            if (text.font)
-                text.glyph_size = text.font->getGlyphSize();
-        }
-        items.push_back(
-            DrawItem{
-                .texture = text.font->getTexture(),
-                .color = render2d.color,
-                .pos = trans.pos,
-                .size = render2d.size,
-                .layer = render2d.layer,
-                .rotation = trans.rotation,
-                .entity = entity,
-                .material_id = render2d.material_id,
-                .render_pass = render2d.render_pass,
-
-                .type = DrawType::TEXT,
-                .nature{
-                    .text{
-                        .font = text.font,
-                        .scale = trans.scale,
-                        .offset = text.offset,
-                        .length = text.length,
-                        .spacing = text.spacing,
-                    },
-                },
+    text_view.each(
+        [default_font](
+            Entity entity, cRender2D& render2d, cTransform& trans, cText& text
+        ) {
+            if (!render2d.is_visible)
+                return;
+            if (!text.font) {
+                text.font = default_font;
+                if (text.font)
+                    text.glyph_size = text.font->getGlyphSize();
             }
-        );
-    });
+            items.push_back(
+                DrawItem{
+                    .texture = text.font->getTexture(),
+                    .color = render2d.color,
+                    .pos = trans.pos,
+                    .size = render2d.size,
+                    .layer = render2d.layer,
+                    .rotation = trans.rotation,
+                    .entity = entity,
+                    .material_id = render2d.material_id,
+                    .render_pass = render2d.render_pass,
+
+                    .type = DrawType::TEXT,
+                    .nature{
+                        .text{
+                            .font = text.font,
+                            .scale = trans.scale,
+                            .offset = text.offset,
+                            .length = text.length,
+                            .spacing = text.spacing,
+                        },
+                    },
+                }
+            );
+        }
+    );
 }
 
 } // namespace lili

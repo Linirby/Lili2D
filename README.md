@@ -25,7 +25,7 @@ I created this project to learn modern engine architecture and have a fast, clea
 - **Zero-Allocation Text & Materials**: Contiguous `StringArena` for text components and ID-based `MaterialRegistry` for custom shaders and uniform buffers.
 - **Fixed Timestep**: Deterministic 60 TPS update loop with frame interpolation.
 - **Asset Management**: Automatic caching for textures and shaders, with file hot-reloading (`Assets`).
-- **UI Anchors & Pivots**: Declarative `UILayoutComponent` and `UILayoutSystem` for screen positioning and virtual resolution scaling.
+- **UI Anchors & Pivots**: Declarative `cUILayout` and `UILayoutSystem` for screen positioning and virtual resolution scaling.
 - **Multithreading**: C++20 thread pool with priority queues (`HIGH`, `NORMAL`, `LOW`) and parallel ECS system execution.
 - **Collisions**: Fast 2D AABB and circle collision checks.
 
@@ -74,9 +74,9 @@ public:
 
         // Create a sprite entity with UI anchor & pivot positioning
         lili::Entity sprite = lili::createSprite(registry, cat_tex);
-        registry.addComponent<lili::UILayoutComponent>(
+        registry.addComponent<lili::cUILayout>(
             sprite,
-            lili::UILayoutComponent{
+            lili::cUILayout{
                 .anchor = lili::Anchor::CENTER,
                 .pivot = lili::Pivot::CENTER,
                 .offset = { 0.0f, -50.0f }

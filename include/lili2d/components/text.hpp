@@ -9,7 +9,7 @@ namespace lili {
 
 /// @brief Component representing 2D text rendered with a BitmapFont and
 /// StringArena.
-struct TextComponent
+struct cText
 {
     BitmapFont* font = nullptr; ///< Font :P
     Vec2 glyph_size = {};       ///< Size of a glyph
@@ -20,8 +20,8 @@ struct TextComponent
 };
 
 static_assert(
-    std::is_trivially_copyable_v<TextComponent>,
-    "TextComponent must be trivially copyable"
+    std::is_trivially_copyable_v<cText>,
+    "cText must be trivially copyable"
 );
 
 } // namespace lili

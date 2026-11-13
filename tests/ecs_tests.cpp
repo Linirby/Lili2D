@@ -341,9 +341,9 @@ TEST_CASE("UILayoutSystem - Pivot and Anchor calculations", "[ecs][ui_layout]")
     Entity e = registry.createEntity();
     registry.addComponents(
         e,
-        TransformComponent{ .scale = { 2.0f, 2.0f } },
-        Render2DComponent{ .size = { 100.0f, 50.0f } },
-        UILayoutComponent{
+        cTransform{ .scale = { 2.0f, 2.0f } },
+        cRender2D{ .size = { 100.0f, 50.0f } },
+        cUILayout{
             .anchor = Anchor::BOTTOM_RIGHT,
             .pivot = Pivot::BOTTOM_RIGHT,
         }
@@ -351,7 +351,7 @@ TEST_CASE("UILayoutSystem - Pivot and Anchor calculations", "[ecs][ui_layout]")
 
     UILayoutSystem::update(registry, Vec2{ 800.0f, 600.0f });
 
-    auto& trans = registry.getComponent<TransformComponent>(e);
+    auto& trans = registry.getComponent<cTransform>(e);
     // obj_size = 100 * 2 = 200, 50 * 2 = 100
     // anchor = 800, 600
     // pivot_point = 200, 100
@@ -360,9 +360,9 @@ TEST_CASE("UILayoutSystem - Pivot and Anchor calculations", "[ecs][ui_layout]")
     CHECK(trans.pos.x == 700.0f);
     CHECK(trans.pos.y == 550.0f);
 
-    registry.getComponent<UILayoutComponent>(e).pivot = Pivot::TOP_LEFT;
-    registry.getComponent<UILayoutComponent>(e).anchor = Anchor::TOP_LEFT;
-    registry.getComponent<UILayoutComponent>(e).offset = { 10.0f, 20.0f };
+    registry.getComponent<cUILayout>(e).pivot = Pivot::TOP_LEFT;
+    registry.getComponent<cUILayout>(e).anchor = Anchor::TOP_LEFT;
+    registry.getComponent<cUILayout>(e).offset = { 10.0f, 20.0f };
 
     UILayoutSystem::update(registry, Vec2{ 800.0f, 600.0f });
     // obj_size = 200, 100

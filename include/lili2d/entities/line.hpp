@@ -10,17 +10,17 @@ namespace lili {
 /// @brief Parameters used to initialize a line entity.
 struct LineParameters
 {
-    TransformComponent transform{}; ///< Transform component.
-    Render2DComponent render2d{};   ///< Render2D component.
-    LineComponent line{};           ///< Line component.
+    cTransform transform{}; ///< Transform component.
+    cRender2D render2d{};   ///< Render2D component.
+    cLine line{};           ///< Line component.
 };
 
 /// @brief Creates a 2D Line (Geometry) entity.
 /// @note Attached components:
-/// - `TransformComponent` (`pos`, `scale`, `rotation`)
-/// - `Render2DComponent` (`color`, `layer`, `material_id`,
+/// - `cTransform` (`pos`, `scale`, `rotation`)
+/// - `cRender2D` (`color`, `layer`, `material_id`,
 /// `render_pass`, `is_visible`)
-/// - `LineComponent` (`dxy`, `thickness`)
+/// - `cLine` (`dxy`, `thickness`)
 /// @param registry The ECS registry.
 /// @param params The parameters of the line.
 /// @return The created Entity.

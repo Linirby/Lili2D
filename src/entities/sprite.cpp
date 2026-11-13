@@ -23,16 +23,16 @@ createSprite(
     if (!texture)
         throw std::runtime_error("Failed to load texture \"" + img_path + "\"");
 
-    TransformComponent transform = params.transform;
+    cTransform transform = params.transform;
     transform.prev_pos = params.transform.pos;
 
-    Render2DComponent render2d = params.render2d;
+    cRender2D render2d = params.render2d;
     render2d.size = Vec2{
         static_cast<float>(texture->getWidth()),
         static_cast<float>(texture->getHeight()),
     };
 
-    SpriteComponent sprite = params.sprite;
+    cSprite sprite = params.sprite;
     sprite.slice = SliceUV{
         .texture = texture,
         .width = static_cast<float>(texture->getWidth()),
@@ -52,13 +52,13 @@ createSprite(
 {
     Entity entity = registry.createEntity();
 
-    Render2DComponent render2d = params.render2d;
+    cRender2D render2d = params.render2d;
     render2d.size = Vec2{
         sliceUV.width,
         sliceUV.height,
     };
 
-    SpriteComponent sprite = params.sprite;
+    cSprite sprite = params.sprite;
     sprite.slice = sliceUV;
 
     registry.addComponents(entity, params.transform, render2d, sprite);

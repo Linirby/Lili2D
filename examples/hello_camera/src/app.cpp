@@ -39,7 +39,7 @@ App::App()
     );
     registry.addComponents(
         camera_center,
-        UILayoutComponent{ .anchor = Anchor::CENTER, .pivot = Pivot::CENTER }
+        cUILayout{ .anchor = Anchor::CENTER, .pivot = Pivot::CENTER }
     );
 
     red_rect = createRect(
@@ -90,7 +90,7 @@ App::App()
     );
     registry.addComponents(
         text_cam_pos,
-        UILayoutComponent{
+        cUILayout{
             .offset = Vec2(0.0f, 10.0f),
             .anchor = lili::Anchor::TOP,
             .pivot = lili::Pivot::TOP,
@@ -107,7 +107,7 @@ App::App()
     );
     registry.addComponents(
         text_controls,
-        UILayoutComponent{
+        cUILayout{
             .offset = Vec2(0.0f, 32.0f),
             .anchor = lili::Anchor::TOP,
             .pivot = lili::Pivot::TOP,
@@ -161,7 +161,7 @@ App::onUpdate(float dt)
     camera.setZoom(camera_zoom);
 
     ECSRegistry& ecs_reg = getECSRegistry();
-    auto& text_comp = ecs_reg.getComponent<TextComponent>(text_cam_pos);
+    auto& text_comp = ecs_reg.getComponent<cText>(text_cam_pos);
 
     ecs_reg.getStringArena().formatAt(
         text_comp, "Camera Position: (X={:.1f}, Y={:.1f})", cam_pos.x, cam_pos.y

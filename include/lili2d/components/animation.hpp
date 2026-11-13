@@ -6,7 +6,7 @@
 namespace lili {
 
 /// @brief Component storing playback state and registry ID for a 2D animation.
-struct AnimationComponent
+struct cAnimation
 {
     float frame_time = 0.1f;    ///< Duration of each frame in seconds.
     float frame_timer = 0.0f;   ///< Elapsed time on the current frame.
@@ -16,7 +16,7 @@ struct AnimationComponent
 };
 
 static_assert(
-    std::is_trivially_copyable_v<AnimationComponent>,
+    std::is_trivially_copyable_v<cAnimation>,
     "AnimationComponent must be trivially copyable"
 );
 

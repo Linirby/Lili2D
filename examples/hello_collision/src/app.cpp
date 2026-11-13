@@ -90,7 +90,7 @@ App::App()
     );
     registry.addComponents(
         instruction_text,
-        UILayoutComponent{
+        cUILayout{
             .offset = { -10.0f, -10.0f },
             .anchor = lili::Anchor::BOTTOM_RIGHT,
             .pivot = lili::Pivot::BOTTOM_RIGHT,

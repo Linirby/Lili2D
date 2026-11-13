@@ -17,16 +17,16 @@ createText(
 {
     Entity entity = registry.createEntity();
 
-    TransformComponent transform = params.transform;
+    cTransform transform = params.transform;
     transform.prev_pos = params.transform.pos;
 
-    Render2DComponent render2d = params.render2d;
+    cRender2D render2d = params.render2d;
     render2d.size =
         params.text.font
             ? params.text.font->calculateTextSize(content, params.text.spacing)
             : Vec2(0.0f, 0.0f);
 
-    TextComponent text = params.text;
+    cText text = params.text;
     text.glyph_size = params.text.font ? params.text.font->getGlyphSize()
                                        : Vec2{ 0.0f, 0.0f };
     text.capacity = params.text.capacity;

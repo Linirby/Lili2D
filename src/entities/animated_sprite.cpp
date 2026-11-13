@@ -33,17 +33,17 @@ createAnimatedSprite(
                          : 0;
     SliceUV slice = anim.getFrame(frame);
 
-    TransformComponent transform = params.transform;
+    cTransform transform = params.transform;
     transform.prev_pos = params.transform.pos;
 
-    Render2DComponent render2d = params.render2d;
+    cRender2D render2d = params.render2d;
     if (render2d.size == Vec2(0.0f, 0.0f))
         render2d.size = { slice.width, slice.height };
 
-    SpriteComponent sprite = params.sprite;
+    cSprite sprite = params.sprite;
     sprite.slice = slice;
 
-    AnimationComponent animation = params.animation;
+    cAnimation animation = params.animation;
     animation.current_frame = frame;
     animation.animation_id = anim_reg.getAnimationId(anim_key);
     animation.frame_timer = 0.0f;

@@ -37,7 +37,7 @@ App::App()
             },
         }
     );
-    ecs_reg.addComponents(rect, UILayoutComponent{});
+    ecs_reg.addComponents(rect, cUILayout{});
 
     Shader* text_shader = Assets::loadShader(
         "text_shader",
@@ -66,7 +66,7 @@ App::App()
     );
     ecs_reg.addComponents(
         text,
-        UILayoutComponent{
+        cUILayout{
             .offset = Vec2(0.0f, 30.0f),
             .anchor = lili::Anchor::TOP,
             .pivot = lili::Pivot::TOP,
@@ -83,7 +83,7 @@ App::App()
     );
     ecs_reg.addComponents(
         text_info,
-        UILayoutComponent{
+        cUILayout{
             .offset = Vec2(0.0f, -30.0f),
             .anchor = lili::Anchor::BOTTOM,
             .pivot = lili::Pivot::BOTTOM,
@@ -102,8 +102,8 @@ App::toggleCustomShaders()
 
     use_custom_shaders = !use_custom_shaders;
 
-    auto& rect_render2d = ecs_reg.getComponent<Render2DComponent>(rect);
-    auto& text_render2d = ecs_reg.getComponent<Render2DComponent>(text);
+    auto& rect_render2d = ecs_reg.getComponent<cRender2D>(rect);
+    auto& text_render2d = ecs_reg.getComponent<cRender2D>(text);
 
     std::string_view new_text =
         use_custom_shaders ? "Yay, shaders :D" : "Oh, no shaders :(";
@@ -116,7 +116,7 @@ App::toggleCustomShaders()
         text_render2d.material_id = mat_reg.getMaterialID("core:none");
     }
 
-    auto& text_comp = ecs_reg.getComponent<TextComponent>(text);
+    auto& text_comp = ecs_reg.getComponent<cText>(text);
     string_arena.free(text_comp);
     string_arena.append(new_text, text_comp);
 }

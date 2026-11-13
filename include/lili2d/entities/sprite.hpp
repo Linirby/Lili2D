@@ -15,9 +15,9 @@ class Renderer;
 /// @brief Parameters used to initialize a sprite entity.
 struct SpriteParameters
 {
-    TransformComponent transform{}; ///< Transform component.
-    Render2DComponent render2d{};   ///< Render2D component.
-    SpriteComponent sprite{};       ///< Sprite component.
+    cTransform transform{}; ///< Transform component.
+    cRender2D render2d{};   ///< Render2D component.
+    cSprite sprite{};       ///< Sprite component.
 };
 
 static_assert(
@@ -27,10 +27,10 @@ static_assert(
 
 /// @brief Creates a 2D Sprite entity from an image file path.
 /// @note Attached components:
-/// - `TransformComponent` (`pos`, `scale`, `rotation`)
-/// - `Render2DComponent` (`color`, `layer`, `material_id`,
+/// - `cTransform` (`pos`, `scale`, `rotation`)
+/// - `cRender2D` (`color`, `layer`, `material_id`,
 /// `render_pass`, `is_visible`)
-/// - `SpriteComponent` (managed automatically)
+/// - `cSprite` (managed automatically)
 /// @param registry The ECS registry.
 /// @param renderer Pointer to the Renderer.
 /// @param img_path Path to the texture image file.
@@ -46,10 +46,10 @@ createSprite(
 
 /// @brief Creates a 2D Sprite entity from an existing UV slice.
 /// @note Attached components:
-/// - `TransformComponent` (`pos`, `scale`, `rotation`)
-/// - `Render2DComponent` (`color`, `size`, `layer`, `material_id`,
+/// - `cTransform` (`pos`, `scale`, `rotation`)
+/// - `cRender2D` (`color`, `size`, `layer`, `material_id`,
 /// `render_pass`, `is_visible`)
-/// - `SpriteComponent` (managed automatically)
+/// - `cSprite` (managed automatically)
 /// @param registry The ECS registry.
 /// @param sliceUV The UV slice and texture pointer.
 /// @param params The parameters of the sprite.

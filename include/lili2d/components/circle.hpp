@@ -6,8 +6,8 @@
 namespace lili {
 
 /// @brief Geometry component representing a 2D circle.
-/// @note Uses `Render2DComponent::color` for its fill/outline color.
-struct CircleComponent
+/// @note Uses `cRender2D::color` for its fill/outline color.
+struct cCircle
 {
     float radius = 10.0f;   ///< Circle radius in pixels.
     uint32_t segments = 16; ///< Number of polygon segments.
@@ -16,8 +16,8 @@ struct CircleComponent
 };
 
 static_assert(
-    std::is_trivially_copyable_v<CircleComponent>,
-    "CircleComponent must be trivially copyable"
+    std::is_trivially_copyable_v<cCircle>,
+    "cCircle must be trivially copyable"
 );
 
 } // namespace lili

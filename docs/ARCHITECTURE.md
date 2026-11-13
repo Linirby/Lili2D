@@ -44,8 +44,8 @@ graph TD
 
 ### Core Architecture Highlights
 
-* **RAII & Encapsulated Subsystems**: Low-level subsystem lifecycles (`Window`, `Renderer`, `ThreadPool`, `SceneManager`) are owned by `Game` and accessed through getter methods.
-* **Runtime Config (`GameConfig`)**: Manages window modes (fullscreen, borderless, resizable, relative mouse) and keeps them synchronized with the active `Game` instance.
+- **RAII & Encapsulated Subsystems**: Low-level subsystem lifecycles (`Window`, `Renderer`, `ThreadPool`, `SceneManager`) are owned by `Game` and accessed through getter methods.
+- **Runtime Config (`GameConfig`)**: Manages window modes (fullscreen, borderless, resizable, relative mouse) and keeps them synchronized with the active `Game` instance.
 
 ---
 
@@ -111,7 +111,7 @@ graph TD
 
 ### Iteration & Component Access
 
-* **Zero-Copy Access (`operator*`)**: Returns `std::tuple<Entity, Components&...>`. The lead component is fetched via direct O(1) index `lead_pool->getComponents()[index]`, while secondary pools use sparse lookups.
+- **Zero-Copy Access (`operator*`)**: Returns `std::tuple<Entity, Components&...>`. The lead component is fetched via direct O(1) index `lead_pool->getComponents()[index]`, while secondary pools use sparse lookups.
 
 ```cpp
 // In-place mutation over contiguous component memory with structured bindings
@@ -123,6 +123,7 @@ for (auto&& [entity, pos, vel, render] : registry.view<Position, Velocity, Rende
 ### Thread-Safe Command Buffer
 
 Modifying ECS state (spawning/destroying entities, attaching components) during multithreaded execution creates data races. Lili2D provides `lili::CommandBuffer`:
+
 1. Worker threads query components concurrently and enqueue mutations to thread-safe queues.
 2. At frame tick completion, the main thread flushes `CommandBuffer` into `ECSRegistry`, guaranteeing lock-free system updates.
 
@@ -140,7 +141,7 @@ graph TD
     Facade --> FntMgr["ResourceManager (BitmapFont)"]
     Facade --> AtlMgr["ResourceManager (AtlasMap)"]
     Facade --> CustMgr["Custom User Managers (ResourceManager (T))"]
-    
+
     TexMgr --> HR["Hot-Reload File Watcher (std::filesystem)"]
     ShdMgr --> HR
     FntMgr --> HR
@@ -150,9 +151,9 @@ graph TD
 
 ### Key Design Patterns
 
-* **Polymorphic Base Interface (`IResourceManager`)**: Enables uniform lifecycle management, scope unloading, and hot-reload polling across different asset types.
-* **Scoped Memory Isolation (`unloadScope`)**: Resources are assigned scope tags (e.g. `"global"`, `"main_menu"`, `"level_01"`). Calling `Assets::unloadScope("level_01")` prevents memory leaks during scene transitions.
-* **Extensible Type Registry**: Custom user asset types `T` can be registered dynamically via `Assets::getManager<T>()`, granting them full caching, scope control, and hot-reloading capabilities.
+- **Polymorphic Base Interface (`IResourceManager`)**: Enables uniform lifecycle management, scope unloading, and hot-reload polling across different asset types.
+- **Scoped Memory Isolation (`unloadScope`)**: Resources are assigned scope tags (e.g. `"global"`, `"main_menu"`, `"level_01"`). Calling `Assets::unloadScope("level_01")` prevents memory leaks during scene transitions.
+- **Extensible Type Registry**: Custom user asset types `T` can be registered dynamically via `Assets::getManager<T>()`, granting them full caching, scope control, and hot-reloading capabilities.
 
 ---
 
@@ -192,11 +193,11 @@ sequenceDiagram
 
 ## 6. UI Layout Engine & Matrix Transform
 
-All rendered 2D entities in Lili2D use `TransformComponent` (`pos`, `scale`, `rotation`), `Render2DComponent` (`size`, `color`, `layer`, `material_id`, `render_pass`, `visible`), and an optional `UILayoutComponent` processed by `lili::UILayoutSystem`.
+All rendered 2D entities in Lili2D use `cTransform` (`pos`, `scale`, `rotation`), `cRender2D` (`size`, `color`, `layer`, `material_id`, `render_pass`, `visible`), and an optional `cUILayout` processed by `lili::UILayoutSystem`.
 
 ### UI Pivot & Anchor Normalization (`UILayoutSystem`)
 
-`UILayoutSystem` computes screen-space positions for entities possessing `UILayoutComponent`, `Render2DComponent`, and `TransformComponent` using normalized **Anchors** (relative to the logical viewport) and **Pivots** (relative to the element's bounding box or measured `TextComponent` bounds):
+`UILayoutSystem` computes screen-space positions for entities possessing `cUILayout`, `cRender2D`, and `cTransform` using normalized **Anchors** (relative to the logical viewport) and **Pivots** (relative to the element's bounding box or measured `cText` bounds):
 
 ```cpp
 Vec2 screen_pos = (viewport_size * anchor) + offset - (element_size * pivot);
@@ -242,8 +243,8 @@ Lili2D provides lightweight spatial primitive colliders for 2D gameplay physics,
 
 ### Collision Primitives & Math
 
-* **`AABB2` / `AABB3`**: Axis-Aligned Bounding Boxes with `min` and `max` vectors for broad-phase bounding hierarchies and hitboxes.
-* **`CircleCollider`**: Precise circle-to-circle, circle-to-box, and circle-to-line segment collision solver.
+- **`AABB2` / `AABB3`**: Axis-Aligned Bounding Boxes with `min` and `max` vectors for broad-phase bounding hierarchies and hitboxes.
+- **`CircleCollider`**: Precise circle-to-circle, circle-to-box, and circle-to-line segment collision solver.
 
 ```cpp
 // Circle-to-AABB clamp narrow-phase intersection
@@ -254,7 +255,7 @@ bool hit = (circle.center - closest).lengthSquared() <= (circle.radius * circle.
 
 ### Debug & Primitive Visualization via ECS
 
-Colliders expose a `.getShape()` method returning geometric primitives (`RectShape`, `CircleShape`), which can be visualized or synchronized with ECS primitive entities (`RectComponent`, `CircleComponent`, `LineComponent`) created via `createRect`, `createCircle`, and `createLine`.
+Colliders expose a `.getShape()` method returning geometric primitives (`RectShape`, `CircleShape`), which can be visualized or synchronized with ECS primitive entities (`cRect`, `CircleComponent`, `LineComponent`) created via `createRect`, `createCircle`, and `createLine`.
 
 ---
 
@@ -264,7 +265,8 @@ Lili2D relies on SDL3's `SDL_GPU` for direct modern graphics execution (Vulkan, 
 
 ### Unified 2D Sorting & Batching (`Render2DSystem`, `DynamicBatch`, `StaticBatch`)
 
-To minimize GPU state changes and draw calls, `Render2DSystem` collects all visible 2D ECS entities (`SpriteComponent`, `RectComponent`, `CircleComponent`, `LineComponent`, `TextComponent`) into a flat, trivially copyable `DrawItem` array and sorts indices by:
+To minimize GPU state changes and draw calls, `Render2DSystem` collects all visible 2D ECS entities (`cSprite`, `cRect`, `CircleComponent`, `LineComponent`, `cText`) into a flat, trivially copyable `DrawItem` array and sorts indices by:
+
 1. `render_pass` (`PIXEL_WORLD2D`, `WORLD2D`, `UI`)
 2. `layer` (Z-depth)
 3. `material_id` (`MaterialRegistry`)
@@ -274,13 +276,14 @@ Sorted items are appended via `BatchHelper` into a `DynamicBatch`, merging sprit
 
 ### Zero-Allocation Text Storage (`StringArena`)
 
-To keep `TextComponent` trivially copyable and cache-friendly inside ECS pools without heap-allocating `std::string` per entity, `ECSRegistry` owns a contiguous `StringArena` (`std::vector<char>`) with free-list block reuse (`FreeSpace`). `TextComponent` stores only a `uint32_t offset` and `uint32_t length` into the arena.
+To keep `cText` trivially copyable and cache-friendly inside ECS pools without heap-allocating `std::string` per entity, `ECSRegistry` owns a contiguous `StringArena` (`std::vector<char>`) with free-list block reuse (`FreeSpace`). `cText` stores only a `uint32_t offset` and `uint32_t length` into the arena.
 
 ### GPU Idle Synchronization & Deleter Protections
 
 To eliminate hardware race conditions and Vulkan descriptor validation errors during resource reloads or scene teardowns:
-* **RAII GPU Deleters**: Device-dependent deleters (`SDLGPUTextureDeleter`, `SDLGPUBufferDeleter`, etc.) call `SDL_WaitForGPUIdle(device)` before releasing GPU memory.
-* **Defensive Render Pass Validation**: `MainRenderPass::render()` verifies vertex/index buffers and textures are non-null before binding, skipping incomplete assets gracefully during hot-reloads.
+
+- **RAII GPU Deleters**: Device-dependent deleters (`SDLGPUTextureDeleter`, `SDLGPUBufferDeleter`, etc.) call `SDL_WaitForGPUIdle(device)` before releasing GPU memory.
+- **Defensive Render Pass Validation**: `MainRenderPass::render()` verifies vertex/index buffers and textures are non-null before binding, skipping incomplete assets gracefully during hot-reloads.
 
 ---
 
@@ -300,8 +303,9 @@ graph LR
 ### Direct Uniform Push & `MaterialRegistry`
 
 Lili2D utilizes SDL3 GPU's uniform push model rather than allocating persistent descriptor uniform buffers per draw call, managed centrally via `lili::MaterialRegistry`:
-* **Vertex Slot 0 (Engine Uniforms)**: MVP matrix (3x4 columns), tint color (`Vec4`), UV bounds (`Vec4`), render layer, and elapsed engine time.
-* **Vertex Slot 1 & Fragment Slot 0 (Custom User Uniforms)**: Arbitrary user-defined structs pushed into the command buffer stream via `Material::setVertexUniforms(data)` and `Material::setFragmentUniforms(data)`. Entities reference materials by lightweight `uint16_t material_id` handles stored on `Render2DComponent`.
+
+- **Vertex Slot 0 (Engine Uniforms)**: MVP matrix (3x4 columns), tint color (`Vec4`), UV bounds (`Vec4`), render layer, and elapsed engine time.
+- **Vertex Slot 1 & Fragment Slot 0 (Custom User Uniforms)**: Arbitrary user-defined structs pushed into the command buffer stream via `Material::setVertexUniforms(data)` and `Material::setFragmentUniforms(data)`. Entities reference materials by lightweight `uint16_t material_id` handles stored on `cRender2D`.
 
 ```cpp
 struct WaveUniforms { float time, amplitude, frequency, speed; };
@@ -325,9 +329,10 @@ ActionMap::get().add("Shoot", {}, { MouseButton::LEFT });
 ### Input State Queries
 
 The action map processes input transitions per frame, allowing systems to query:
-* `isHeld("MoveRight")`: Returns `true` continuously while any assigned physical key/button is depressed.
-* `isJustPressed("Jump")`: Returns `true` strictly on the exact frame the action was activated.
-* `isJustReleased("Shoot")`: Returns `true` strictly on the frame the action was released.
+
+- `isHeld("MoveRight")`: Returns `true` continuously while any assigned physical key/button is depressed.
+- `isJustPressed("Jump")`: Returns `true` strictly on the exact frame the action was activated.
+- `isJustReleased("Shoot")`: Returns `true` strictly on the frame the action was released.
 
 ---
 
@@ -347,8 +352,8 @@ Vec2 uv_max = { static_cast<float>(col + 1) / cols, static_cast<float>(row + 1) 
 
 ### ECS Animation Playback (`AnimationComponent` & `AnimationSystem`)
 
-* **Registry-Backed Clips**: `Animation` clips store a sequence of `SliceUV` frames and a `frame_duration`, registered in `AnimationRegistry` with a `uint16_t` ID.
-* **Data-Oriented Playback**: `AnimationSystem` iterates over entities with `AnimationComponent` and `SpriteComponent`, advancing `timer` by `dt * speed`, updating `current_frame` (supporting looping and one-shot playback), and writing the active frame's `u_min`, `v_min`, `u_max`, `v_max` directly into `SpriteComponent`.
+- **Registry-Backed Clips**: `Animation` clips store a sequence of `SliceUV` frames and a `frame_duration`, registered in `AnimationRegistry` with a `uint16_t` ID.
+- **Data-Oriented Playback**: `AnimationSystem` iterates over entities with `AnimationComponent` and `cSprite`, advancing `timer` by `dt * speed`, updating `current_frame` (supporting looping and one-shot playback), and writing the active frame's `u_min`, `v_min`, `u_max`, `v_max` directly into `cSprite`.
 
 ---
 
@@ -358,11 +363,11 @@ Lili2D adheres to modern C++20 practices across all engine subsystems, focusing 
 
 ### Guidelines Overview
 
-* **Pass-by-Value (<= 16B PODs)**: Small types (`Vec2`, `Vec3`, `Vec4`, `Point2/3`, `RectShape`, `CircleShape`, `Entity`) are passed by value to avoid pointer indirection and keep values in CPU registers.
-* **Targeted Header Inlining**: Hot per-frame math functions, geometry utilities, and fast property accessors are inlined in headers. Heavy subsystems remain separated in `.cpp` files to keep compile times fast.
-* **`constexpr` Constructors**: Primitives (`VecN`, `PointN`, `RectShape`, `CircleShape`, `CircleCollider`) and `Clock` use `constexpr` constructors for compile-time validation and static constant baking.
-* **`[[nodiscard]]` Safety Enforcement**: Input queries (`Keyboard::justPressed`), time stepping (`Clock::step()`), and math transforms use `[[nodiscard]]` to prevent ignored results.
-* **`noexcept` Move Semantics**: Resource holders (`GPUMesh`, `Shader`, `Texture`, `Window`, `Pipeline`) provide `noexcept` move operations, enabling efficient vector reallocations.
+- **Pass-by-Value (<= 16B PODs)**: Small types (`Vec2`, `Vec3`, `Vec4`, `Point2/3`, `RectShape`, `CircleShape`, `Entity`) are passed by value to avoid pointer indirection and keep values in CPU registers.
+- **Targeted Header Inlining**: Hot per-frame math functions, geometry utilities, and fast property accessors are inlined in headers. Heavy subsystems remain separated in `.cpp` files to keep compile times fast.
+- **`constexpr` Constructors**: Primitives (`VecN`, `PointN`, `RectShape`, `CircleShape`, `CircleCollider`) and `Clock` use `constexpr` constructors for compile-time validation and static constant baking.
+- **`[[nodiscard]]` Safety Enforcement**: Input queries (`Keyboard::justPressed`), time stepping (`Clock::step()`), and math transforms use `[[nodiscard]]` to prevent ignored results.
+- **`noexcept` Move Semantics**: Resource holders (`GPUMesh`, `Shader`, `Texture`, `Window`, `Pipeline`) provide `noexcept` move operations, enabling efficient vector reallocations.
 
 ### Concrete Code Contracts
 

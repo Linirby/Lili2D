@@ -6,9 +6,9 @@
 namespace lili {
 
 /// @brief Geometry component representing a 2D line segment.
-/// @note Starts at `TransformComponent::pos` and ends at `pos + dxy`. Uses
-/// `Render2DComponent::color` for its line color.
-struct LineComponent
+/// @note Starts at `cTransform::pos` and ends at `pos + dxy`. Uses
+/// `cRender2D::color` for its line color.
+struct cLine
 {
     Vec2 dxy = {
         0.0f,
@@ -18,8 +18,8 @@ struct LineComponent
 };
 
 static_assert(
-    std::is_trivially_copyable_v<LineComponent>,
-    "LineComponent must be trivially copyable"
+    std::is_trivially_copyable_v<cLine>,
+    "cLine must be trivially copyable"
 );
 
 } // namespace lili

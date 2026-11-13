@@ -136,7 +136,7 @@ App::onInit()
     );
     ecs_reg.addComponents(
         instructions_text,
-        UILayoutComponent{
+        cUILayout{
             .offset = { 0.0f, 10.0f },
             .anchor = lili::Anchor::TOP,
             .pivot = lili::Pivot::TOP,

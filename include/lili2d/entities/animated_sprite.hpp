@@ -11,18 +11,18 @@ namespace lili {
 /// @brief Parameters used to initialize an animated sprite entity.
 struct AnimatedSpriteParameters
 {
-    TransformComponent transform{}; ///< Transform component.
-    Render2DComponent render2d{};   ///< Render2D component.
-    SpriteComponent sprite{};       ///< Sprite component.
-    AnimationComponent animation{}; ///< Animation component.
+    cTransform transform{}; ///< Transform component.
+    cRender2D render2d{};   ///< Render2D component.
+    cSprite sprite{};       ///< Sprite component.
+    cAnimation animation{}; ///< Animation component.
 };
 
 /// @brief Creates a 2D Sprite entity with an Animation.
 /// @note Attached components:
-/// - `TransformComponent` (`pos`, `scale`, `rotation`)
-/// - `Render2DComponent` (`color`, `layer`, `material_id`,
+/// - `cTransform` (`pos`, `scale`, `rotation`)
+/// - `cRender2D` (`color`, `layer`, `material_id`,
 /// `render_pass`, `is_visible`)
-/// - `SpriteComponent` (managed automatically)
+/// - `cSprite` (managed automatically)
 /// - `AnimationComponent` (`frame_time`, `current_frame`)
 /// @param registry The ECS registry.
 /// @param anim_key Key to the registered Animation.

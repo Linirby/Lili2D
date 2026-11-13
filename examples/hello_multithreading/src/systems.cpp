@@ -13,9 +13,9 @@ void
 MovementSystem::updateEntity(
     [[maybe_unused]] ECSRegistry& registry,
     [[maybe_unused]] Entity entity,
-    TransformComponent& trans,
+    cTransform& trans,
     VelocityComponent& vel,
-    Render2DComponent& render2d,
+    cRender2D& render2d,
     float dt
 )
 {

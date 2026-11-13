@@ -10,17 +10,17 @@ namespace lili {
 /// @brief Parameters to create a Circle
 struct CircleParameters
 {
-    TransformComponent transform{}; ///< Transform component
-    Render2DComponent render2d{};   ///< Render2D component
-    CircleComponent circle{};       ///< Circle component
+    cTransform transform{}; ///< Transform component
+    cRender2D render2d{};   ///< Render2D component
+    cCircle circle{};       ///< Circle component
 };
 
 /// @brief Creates a 2D Circle (Geometry) entity.
 /// @note Attached components:
-/// - `TransformComponent` (`pos`, `scale`, `rotation`)
-/// - `Render2DComponent` (`color`, `layer`, `material_id`,
+/// - `cTransform` (`pos`, `scale`, `rotation`)
+/// - `cRender2D` (`color`, `layer`, `material_id`,
 /// `render_pass`, `is_visible`)
-/// - `CircleComponent` (`radius`, `segments`, `thickness`, `hollow`)
+/// - `cCircle` (`radius`, `segments`, `thickness`, `hollow`)
 /// @param registry The ECS registry.
 /// @param params The parameters for the circle.
 /// @return The created Entity.

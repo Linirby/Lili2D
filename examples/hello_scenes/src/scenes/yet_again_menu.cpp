@@ -22,7 +22,7 @@ YetAgainScene::YetAgainScene()
     );
     ecs_reg.addComponents(
         text,
-        UILayoutComponent{
+        cUILayout{
             .anchor = lili::Anchor::CENTER,
             .pivot = lili::Pivot::BOTTOM,
         }
@@ -38,7 +38,7 @@ YetAgainScene::YetAgainScene()
     );
     ecs_reg.addComponents(
         info_text,
-        UILayoutComponent{
+        cUILayout{
             .anchor = lili::Anchor::CENTER,
             .pivot = lili::Pivot::TOP,
         }

@@ -7,8 +7,8 @@
 namespace lili {
 
 /// @brief ECS system that advances sprite animations and updates UV coordinates
-/// on SpriteComponent.
-class AnimationSystem : public System<AnimationComponent, SpriteComponent>
+/// on cSprite.
+class AnimationSystem : public System<cAnimation, cSprite>
 {
 public:
     /// @brief Default constructor.
@@ -19,19 +19,19 @@ public:
     /// @param registry The ECS registry.
     /// @param entity The entity being updated.
     /// @param anim_comp The entity's AnimationComponent.
-    /// @param sprite_comp The entity's SpriteComponent.
+    /// @param sprite_comp The entity's cSprite.
     /// @param dt The frame delta time in seconds.
     void
     updateEntity(
         ECSRegistry& registry,
         Entity entity,
-        lili::AnimationComponent& anim_comp,
-        lili::SpriteComponent& sprite_comp,
+        lili::cAnimation& anim_comp,
+        lili::cSprite& sprite_comp,
         float dt
     ) override;
 
     /// @brief Updates all entities that have both AnimationComponent and
-    /// SpriteComponent.
+    /// cSprite.
     /// @param registry The ECS registry.
     /// @param dt The frame delta time in seconds.
     /// @param thread_pool Optional thread pool for parallel execution.

@@ -17,10 +17,7 @@ struct CursorComponent
 };
 
 class CursorSystem
-  : public lili::System<
-        CursorComponent,
-        lili::TransformComponent,
-        lili::Render2DComponent>
+  : public lili::System<CursorComponent, lili::cTransform, lili::cRender2D>
 {
 public:
     static void
@@ -51,8 +48,8 @@ public:
         lili::ECSRegistry& registry,
         lili::Entity entity,
         CursorComponent& cursor,
-        lili::TransformComponent& trans,
-        lili::Render2DComponent& render2d,
+        lili::cTransform& trans,
+        lili::cRender2D& render2d,
         float dt
     ) override;
 

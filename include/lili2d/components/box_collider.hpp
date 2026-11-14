@@ -7,8 +7,9 @@ namespace lili {
 /// @brief Physics component that represents a Box collider
 struct cBoxCollider
 {
-    Vec2 offset; ///< Offset from the entity position (Transform)
-    Vec2 size;   ///< Size of the box
+    Vec2 offset;          ///< Offset from the entity position (Transform)
+    Vec2 size;            ///< Size of the box
+    bool physical = true; ///< True stops entities, False acts as a trigger zone
 };
 
 static_assert(
